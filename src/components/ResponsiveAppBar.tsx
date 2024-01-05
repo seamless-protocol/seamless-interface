@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import logo from "/logo-seamless.svg";
-import ConnectWalletButton from "./ConnectWalletButton";
+import ConnectWalletButton from "./connect-wallet/ConnectWalletButton";
 
 const pages = [
   "Dashboard",
