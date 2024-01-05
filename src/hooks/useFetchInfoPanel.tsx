@@ -1,6 +1,6 @@
 import { formatUnits } from "viem";
-import { useSeamlessContractRead } from "./useSeamlessContractRead";
 import { useAccount } from "wagmi";
+import { useSeamlessContractRead } from "./useSeamlessContractRead";
 
 function useFetchTotalBorrows() {
   const account = useAccount();

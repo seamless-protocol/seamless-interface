@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import logo from "/logo-seamless.svg";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 const pages = [
   "Dashboard",
@@ -71,7 +71,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ mr: "-20px" }}>
-            <ConnectButton showBalance={false} accountStatus="address" />
+            <ConnectWalletButton />
           </Box>
         </Toolbar>
       </Container>

@@ -1,4 +1,4 @@
-import { useChainId, useContractRead } from "wagmi";
+import { useChainId, useReadContract } from "wagmi";
 import { getContractInfo } from "../utils/helpers";
 
 export function useSeamlessContractRead({
@@ -21,5 +21,5 @@ export function useSeamlessContractRead({
     args,
   };
 
-  return useContractRead(params);
+  return useReadContract(params);
 }
