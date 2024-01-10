@@ -1,23 +1,35 @@
 import { formatUnits } from "viem";
-import { useAccount } from "wagmi";
-import { useSeamlessContractRead } from "./useSeamlessContractRead";
-
-function useFetchTotalBorrows() {
-  const account = useAccount();
-
-  const { data: balance } = useSeamlessContractRead({
-    contractName: "Seam",
-    functionName: "balanceOf",
-    args: [account.address] as never[],
-  });
-
-  return formatUnits((balance || 0) as unknown as bigint, 18);
-}
+import { useSeamlessContractReads } from "./useSeamlessContractReads";
+import { formatOnTwoDecimals } from "../utils/helpers";
 
 export const useFetchInfoPanel = () => {
-  const balance = useFetchTotalBorrows();
+  const { data: results } = useSeamlessContractReads([
+    {
+      contractName: "LoopStrategy",
+      functionName: "equityUSD",
+      args: [] as never[],
+    },
+    {
+      contractName: "LoopStrategy",
+      functionName: "collateral",
+      args: [] as never[],
+    },
+    {
+      contractName: "LoopStrategy",
+      functionName: "debt",
+      args: [] as never[],
+    },
+  ]);
 
   return {
-    totalBorrows: balance,
+    equity: formatOnTwoDecimals(
+      formatUnits((results?.[0].result || 0) as unknown as bigint, 8)
+    ),
+    collateral: formatOnTwoDecimals(
+      formatUnits((results?.[1].result || 0) as unknown as bigint, 8)
+    ),
+    debt: formatOnTwoDecimals(
+      formatUnits((results?.[2].result || 0) as unknown as bigint, 8)
+    ),
   };
 };
