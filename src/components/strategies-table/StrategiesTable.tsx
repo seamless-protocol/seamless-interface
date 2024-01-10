@@ -14,7 +14,7 @@ import TextCell from "./table-cells/TextCell";
 import NumericCell from "./table-cells/NumericCell";
 import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
-function Strategies() {
+function StrategiesTable() {
   const { targetMultiple, maxMultiple, userEquity, userEquityUSD } =
     useFetchStrategyInfo();
 
@@ -57,4 +57,4 @@ function Strategies() {
   );
 }
 
-export default Strategies;
+export default StrategiesTable;

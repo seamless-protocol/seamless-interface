@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import Strategies from "./strategies-panel/Strategies";
+import StrategiesTable from "./strategies-table/StrategiesTable";
 
 function ILMMarketInfo() {
   return (
@@ -45,7 +45,7 @@ function ILMMarketInfo() {
           Loop your position to multiply your size
         </Typography>
       </Box>
-      <Strategies />
+      <StrategiesTable />
     </Container>
   );
 }
