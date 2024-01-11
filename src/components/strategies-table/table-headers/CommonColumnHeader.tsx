@@ -1,6 +1,11 @@
 import { TableCell, Typography } from "@mui/material";
 
-function CommonColumnHeader({ label, sx }: { label: string; sx?: any }) {
+interface CommonColumnHeaderProps {
+  label: string;
+  sx?: any;
+}
+
+function CommonColumnHeader({ label, sx }: CommonColumnHeaderProps) {
   return (
     <TableCell sx={sx}>
       <Typography

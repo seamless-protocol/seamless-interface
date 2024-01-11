@@ -1,10 +1,19 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { config } from "../config/wagmi/config";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, http, createConfig } from "wagmi";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { injected, metaMask, safe } from "wagmi/connectors";
+import { base } from "wagmi/chains";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import MarketPage from "./components/pages/MarketPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DetailsPage from "./components/pages/DetailsPage";
+
+const config = createConfig({
+  chains: [base],
+  connectors: [injected(), metaMask(), safe()],
+  transports: {
+    [base.id]: http(),
+  },
+});
 
 const queryClient = new QueryClient();
 

@@ -1,6 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-function InfoPanelBox({ label, value }: { label: string; value: string }) {
+interface InfoPanelBoxProps {
+  label: string;
+  value: string;
+}
+
+function InfoPanelBox({ label, value }: InfoPanelBoxProps) {
   return (
     <Box sx={{ marginRight: "20px" }}>
       <Typography
