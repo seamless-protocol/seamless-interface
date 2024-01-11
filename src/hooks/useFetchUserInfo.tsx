@@ -1,26 +1,34 @@
-import { useAccount } from "wagmi";
-import { useSeamlessContractReads } from "./useSeamlessContractReads";
-import { CBETH_ADDRESS } from "../utils/constants";
+import { useAccount, useReadContracts } from "wagmi";
 import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import {
+  aaveOracleAbi,
+  aaveOracleAddress,
+  cbEthAbi,
+  cbEthAddress,
+} from "../generated";
 
 function fetchAccountCbEthBalance(account: any) {
-  const { data: results } = useSeamlessContractReads([
-    {
-      contractName: "cbETH",
-      functionName: "balanceOf",
-      args: [account?.address] as never[],
-    },
-    {
-      contractName: "AaveOracle",
-      functionName: "getAssetPrice",
-      args: [CBETH_ADDRESS] as never[],
-    },
-  ]);
+  const { data: results } = useReadContracts({
+    contracts: [
+      {
+        address: cbEthAddress,
+        abi: cbEthAbi,
+        functionName: "balanceOf",
+        args: [account?.address],
+      },
+      {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [cbEthAddress],
+      },
+    ],
+  });
 
   let cbEthBalance, cbEthBalanceUSD;
-  if (results && account) {
-    cbEthBalance = formatToNumber(results![0].result as any as string, 18);
-    const cbEthPrice = formatToNumber(results![1].result as any as string, 8);
+  if (results) {
+    cbEthBalance = formatToNumber(results[0].result, 18);
+    const cbEthPrice = formatToNumber(results[1].result, 8);
     cbEthBalanceUSD = cbEthBalance * cbEthPrice;
   }
 

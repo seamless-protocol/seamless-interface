@@ -1,19 +1,10 @@
 import { formatUnits } from "viem";
-import contractsInfo from "../../config/addresses/deployed-contracts.json";
 
-export function getContractInfo(contractName: string): {
-  address: string;
-  abi: any[];
-} {
-  return contractsInfo[contractName];
-}
-
-export function formatToNumber(value: string, decimals: number) {
-  if (!value) {
-    return 0;
-  }
-
-  return Number(formatUnits(value as unknown as bigint, decimals));
+export function formatToNumber(
+  value: string | bigint | undefined,
+  decimals: number
+) {
+  return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
 export function formatOnTwoDecimals(

@@ -1,66 +1,57 @@
-import { useAccount } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
-import { useSeamlessContractReads } from "./useSeamlessContractReads";
-
-interface CollateralRatioTargets {
-  target: string;
-  maxForRebalance: string;
-}
+import { loopStrategyAbi, loopStrategyAddress } from "../generated";
 
 function useFetchStrategyInfoForAccount(account: any) {
   let targetMultiple, maxMultiple, userEquity, userEquityUSD;
   if (account) {
-    const { data: results } = useSeamlessContractReads([
-      {
-        contractName: "LoopStrategy",
-        functionName: "getCollateralRatioTargets",
-        args: [] as never[],
-      },
-      {
-        contractName: "LoopStrategy",
-        functionName: "balanceOf",
-        args: [account.address] as never[],
-      },
-      {
-        contractName: "LoopStrategy",
-        functionName: "totalSupply",
-        args: [] as never[],
-      },
-      {
-        contractName: "LoopStrategy",
-        functionName: "equity",
-        args: [] as never[],
-      },
-      {
-        contractName: "LoopStrategy",
-        functionName: "equityUSD",
-        args: [] as never[],
-      },
-    ]);
+    const { data: results } = useReadContracts({
+      contracts: [
+        {
+          address: loopStrategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "getCollateralRatioTargets",
+        },
+        {
+          address: loopStrategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "balanceOf",
+          args: [account.address],
+        },
+        {
+          address: loopStrategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "totalSupply",
+        },
+        {
+          address: loopStrategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "equity",
+        },
+        {
+          address: loopStrategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "equityUSD",
+        },
+      ],
+    });
 
     if (results) {
-      const collateralRatioTargets = results![0]
-        .result as unknown as CollateralRatioTargets;
-      const targetRatio = formatToNumber(collateralRatioTargets.target, 8);
+      const collateralRatioTargets = results[0].result;
+      const targetRatio = formatToNumber(collateralRatioTargets?.target, 8);
       targetMultiple = targetRatio / (targetRatio - 1);
 
       const maxRatio = formatToNumber(
-        collateralRatioTargets.maxForRebalance,
+        collateralRatioTargets?.maxForRebalance,
         8
       );
       maxMultiple = maxRatio / (maxRatio - 1);
 
-      const isBalanceOfQuerySuccessful = results![1].status !== "failure";
-      const userShares = isBalanceOfQuerySuccessful
-        ? formatToNumber(results![1].result as any as string, 18)
-        : 0;
-      const totalShares = formatToNumber(
-        results![2].result as any as string,
-        18
-      );
+      const userShares = formatToNumber(results[1].result, 18);
+      const totalShares = formatToNumber(results[2].result, 18);
 
-      const equity = formatToNumber(results![3].result as any as string, 18);
-      const equityUSD = formatToNumber(results![4].result as any as string, 8);
+      const equity = formatToNumber(results[3].result, 18);
+      const equityUSD = formatToNumber(results[4].result, 8);
 
       userEquity = equity * (userShares / totalShares);
       userEquityUSD = equityUSD * (userShares / totalShares);
@@ -83,7 +74,7 @@ export const useFetchStrategyAndUserInfo = () => {
   return {
     targetMultiple: targetMultiple?.toString(),
     maxMultiple: maxMultiple?.toString(),
-    userEquity: formatOnTwoDecimals(userEquity as number),
-    userEquityUSD: formatOnTwoDecimals(userEquityUSD as number),
+    userEquity: formatOnTwoDecimals(userEquity),
+    userEquityUSD: formatOnTwoDecimals(userEquityUSD),
   };
 };

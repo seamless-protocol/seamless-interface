@@ -1,18 +1,17 @@
-import { useSeamlessContractReads } from "./useSeamlessContractReads";
 import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
-import { CBETH_ADDRESS } from "../utils/constants";
+import {
+  aaveOracleAbi,
+  aaveOracleAddress,
+  cbEthAddress,
+  loopStrategyAbi,
+  loopStrategyAddress,
+} from "../generated";
+import { useReadContracts } from "wagmi";
 
-interface CollateralRatioTargets {
-  target: string;
-  maxForRebalance: string;
-}
-
-function fetchTargetMultiple(results: any) {
+function fetchTargetMultiple(target: bigint | undefined) {
   let targetMultiple;
-  if (results) {
-    const collateralRatioTargets = results![0]
-      .result as unknown as CollateralRatioTargets;
-    const targetRatio = formatToNumber(collateralRatioTargets.target, 8);
+  if (target) {
+    const targetRatio = formatToNumber(target, 8);
     targetMultiple = targetRatio / (targetRatio - 1);
   }
 
@@ -20,24 +19,27 @@ function fetchTargetMultiple(results: any) {
 }
 
 export const useFetchStrategyInfoHeader = () => {
-  const { data: results } = useSeamlessContractReads([
-    {
-      contractName: "LoopStrategy",
-      functionName: "getCollateralRatioTargets",
-      args: [] as never[],
-    },
-    {
-      contractName: "AaveOracle",
-      functionName: "getAssetPrice",
-      args: [CBETH_ADDRESS] as never[],
-    },
-  ]);
+  const { data: results } = useReadContracts({
+    contracts: [
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "getCollateralRatioTargets",
+      },
+      {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [cbEthAddress],
+      },
+    ],
+  });
 
-  const targetMultiple = fetchTargetMultiple(results);
-  const oraclePrice = formatToNumber(
-    results ? (results![1].result as any as string) : "0",
-    8
-  );
+  let targetMultiple, oraclePrice;
+  if (results) {
+    targetMultiple = fetchTargetMultiple(results[0].result?.target);
+    oraclePrice = formatToNumber(results[1].result, 8);
+  }
 
   return {
     targetMultiple: formatOnTwoDecimals(targetMultiple),
