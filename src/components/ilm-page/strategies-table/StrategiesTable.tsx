@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useFetchStrategyInfo } from "../../hooks/useFetchStrategyInfo";
+import { useFetchStrategyAndUserInfo } from "../../../hooks/useFetchStrategyAndUserInfo";
 import AssetColumnHeader from "./table-headers/AssetColumnHeader";
 import CommonColumnHeader from "./table-headers/CommonColumnHeader";
 import AssetCell from "./table-cells/AssetCell";
@@ -16,7 +16,7 @@ import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
 function StrategiesTable() {
   const { targetMultiple, maxMultiple, userEquity, userEquityUSD } =
-    useFetchStrategyInfo();
+    useFetchStrategyAndUserInfo();
 
   return (
     <TableContainer

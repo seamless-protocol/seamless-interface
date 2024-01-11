@@ -9,10 +9,16 @@ export function getContractInfo(contractName: string): {
 }
 
 export function formatToNumber(value: string, decimals: number) {
+  if (!value) {
+    return 0;
+  }
+
   return Number(formatUnits(value as unknown as bigint, decimals));
 }
 
-export function formatOnTwoDecimals(input: string | number): string {
+export function formatOnTwoDecimals(
+  input: string | number | undefined
+): string {
   if (!input) {
     return "0.00";
   }

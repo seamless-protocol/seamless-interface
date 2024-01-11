@@ -1,8 +1,12 @@
+import StrategyDetails from "../details-page/strategy-details/StrategyDetails";
+import StrategyInfoHeader from "../details-page/strategy-info-header/StrategyInfoHeader";
+
 function DetailsPage() {
   return (
-    <div>
-      <h1>Details Page</h1>
-    </div>
+    <>
+      <StrategyInfoHeader />
+      <StrategyDetails />
+    </>
   );
 }
 

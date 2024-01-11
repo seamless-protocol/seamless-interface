@@ -1,13 +1,18 @@
 import { Box, Typography } from "@mui/material";
 
-function InfoPanelBox({ label, value }: { label: string; value: string }) {
+interface HeaderInfoBoxProps {
+  label: string;
+  value: string;
+}
+
+function HeaderInfoBox({ label, value }: HeaderInfoBoxProps) {
   return (
-    <Box sx={{ marginRight: "20px" }}>
+    <Box sx={{ marginRight: "40px" }}>
       <Typography
         sx={{
           color: "#C0C0C0",
           fontFamily: "Verdana",
-          fontSize: "1.1rem",
+          fontSize: "0.9rem",
         }}
       >
         {label}
@@ -15,15 +20,15 @@ function InfoPanelBox({ label, value }: { label: string; value: string }) {
       <Typography
         sx={{
           fontWeight: 900,
-          fontSize: "1.5rem",
+          fontSize: "1.1rem",
           fontFamily: "Verdana",
           color: "#FFFFEF",
         }}
       >
-        ${value}
+        {value}
       </Typography>
     </Box>
   );
 }
 
-export default InfoPanelBox;
+export default HeaderInfoBox;
