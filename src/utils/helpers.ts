@@ -14,7 +14,14 @@ const formatter = Intl.NumberFormat("en", {
 });
 
 export function formatOnTwoDecimals(
-  input: string | number | undefined
+  input: number | bigint | undefined
 ): string {
-  return formatter.format(parseFloat((input || "0").toString()));
+  return formatter.format(input || 0);
+}
+
+export function formatBigIntOnTwoDecimals(
+  input: bigint | undefined,
+  decimals: number
+): string {
+  return formatter.format(formatToNumber(input, decimals));
 }

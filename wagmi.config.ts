@@ -1,11 +1,11 @@
 import { defineConfig } from "@wagmi/cli";
-import { react } from "@wagmi/cli/plugins";
 import { erc20Abi } from "viem";
-import { AaveOracleAbi } from "./abis/AaveOracle";
 import { LoopStrategyAbi } from "./abis/LoopStrategy";
+import { AaveOracleAbi } from "./abis/AaveOracle";
+import { react } from "@wagmi/cli/plugins";
 
 export default defineConfig({
-  out: "src/generated.ts",
+  out: "src/generated/generated.ts",
   contracts: [
     {
       name: "Seam",
