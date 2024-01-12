@@ -1,23 +1,31 @@
-import { formatUnits } from "viem";
-import { useAccount } from "wagmi";
-import { useSeamlessContractRead } from "./useSeamlessContractRead";
-
-function useFetchTotalBorrows() {
-  const account = useAccount();
-
-  const { data: balance } = useSeamlessContractRead({
-    contractName: "Seam",
-    functionName: "balanceOf",
-    args: [account.address] as never[],
-  });
-
-  return formatUnits((balance || 0) as unknown as bigint, 18);
-}
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
+import { useReadContracts } from "wagmi";
+import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
 export const useFetchInfoPanel = () => {
-  const balance = useFetchTotalBorrows();
+  const { data: results } = useReadContracts({
+    contracts: [
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "collateral",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "debt",
+      },
+    ],
+  });
 
   return {
-    totalBorrows: balance,
+    equity: formatBigIntOnTwoDecimals(results?.[0].result, 8),
+    collateral: formatBigIntOnTwoDecimals(results?.[1].result, 8),
+    debt: formatBigIntOnTwoDecimals(results?.[2].result, 8),
   };
 };
