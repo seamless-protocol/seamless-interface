@@ -14,7 +14,7 @@ function StrategyDetailsContainer({ children }: StrategyDetailsContainerProps) {
         flexDirection: "row",
         justifyContent: "center",
         marginTop: "-40px",
-        width: "90%",
+        width: "97%",
       }}
     >
       {children}

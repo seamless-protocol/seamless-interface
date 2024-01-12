@@ -16,6 +16,8 @@ function UserInfoContainer({ children }: UserInfoContainerProps) {
         paddingLeft: "20px",
         paddingRight: "20px",
         paddingTop: "15px",
+        paddingBottom: "25px",
+        height: "100%",
       }}
     >
       {children}
