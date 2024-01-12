@@ -1,9 +1,16 @@
 import { useAccount, useReadContracts } from "wagmi";
 import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
-import { loopStrategyAbi, loopStrategyAddress } from "../generated";
+import {
+  aaveOracleAbi,
+  aaveOracleAddress,
+  cbEthAbi,
+  cbEthAddress,
+  loopStrategyAbi,
+  loopStrategyAddress,
+} from "../generated";
 
 function useFetchStrategyInfoForAccount(account: any) {
-  let targetMultiple, maxMultiple, userEquity, userEquityUSD;
+  let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
   if (account) {
     const { data: results } = useReadContracts({
       contracts: [
@@ -33,6 +40,18 @@ function useFetchStrategyInfoForAccount(account: any) {
           abi: loopStrategyAbi,
           functionName: "equityUSD",
         },
+        {
+          address: cbEthAddress,
+          abi: cbEthAbi,
+          functionName: "balanceOf",
+          args: [account.address],
+        },
+        {
+          address: aaveOracleAddress,
+          abi: aaveOracleAbi,
+          functionName: "getAssetPrice",
+          args: [cbEthAddress],
+        },
       ],
     });
 
@@ -40,12 +59,6 @@ function useFetchStrategyInfoForAccount(account: any) {
       const collateralRatioTargets = results[0].result;
       const targetRatio = formatToNumber(collateralRatioTargets?.target, 8);
       targetMultiple = targetRatio / (targetRatio - 1);
-
-      const maxRatio = formatToNumber(
-        collateralRatioTargets?.maxForRebalance,
-        8
-      );
-      maxMultiple = maxRatio / (maxRatio - 1);
 
       const userShares = formatToNumber(results[1].result, 18);
       const totalShares = formatToNumber(results[2].result, 18);
@@ -55,26 +68,36 @@ function useFetchStrategyInfoForAccount(account: any) {
 
       userEquity = equity * (userShares / totalShares);
       userEquityUSD = equityUSD * (userShares / totalShares);
+
+      userBalance = formatToNumber(results[5].result, 18);
+      userBalanceUSD = userBalance * formatToNumber(results[6].result, 8);
     }
   }
 
   return {
     targetMultiple,
-    maxMultiple,
     userEquity,
     userEquityUSD,
+    userBalance,
+    userBalanceUSD,
   };
 }
 
 export const useFetchStrategyAndUserInfo = () => {
   const account = useAccount();
-  const { targetMultiple, maxMultiple, userEquity, userEquityUSD } =
-    useFetchStrategyInfoForAccount(account);
+  const {
+    targetMultiple,
+    userEquity,
+    userEquityUSD,
+    userBalance,
+    userBalanceUSD,
+  } = useFetchStrategyInfoForAccount(account);
 
   return {
-    targetMultiple: targetMultiple?.toString(),
-    maxMultiple: maxMultiple?.toString(),
+    targetMultiple: formatOnTwoDecimals(targetMultiple),
     userEquity: formatOnTwoDecimals(userEquity),
     userEquityUSD: formatOnTwoDecimals(userEquityUSD),
+    userBalance: formatOnTwoDecimals(userBalance),
+    userBalanceUSD: formatOnTwoDecimals(userBalanceUSD),
   };
 };
