@@ -1,7 +1,12 @@
 import { Button, TableCell } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function ButtonLinkCell({ label, route }: { label: string; route: string }) {
+interface ButtonLinkCellProps {
+  label: string;
+  route: string;
+}
+
+function ButtonLinkCell({ label, route }: ButtonLinkCellProps) {
   return (
     <TableCell align="center">
       <Link to={route}>

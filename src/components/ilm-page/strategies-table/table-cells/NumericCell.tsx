@@ -1,12 +1,11 @@
-import { TableCell, Typography } from "@mui/material";
+import { CircularProgress, TableCell, Typography } from "@mui/material";
 
-function NumericCell({
-  primaryNumber,
-  secondaryNumber,
-}: {
+interface NumericCellProps {
   primaryNumber?: string;
   secondaryNumber?: string;
-}) {
+}
+
+function NumericCell({ primaryNumber, secondaryNumber }: NumericCellProps) {
   return (
     <TableCell>
       <Typography
@@ -18,7 +17,7 @@ function NumericCell({
           marginBottom: "3px",
         }}
       >
-        {primaryNumber || 0}
+        {primaryNumber || <CircularProgress />}
       </Typography>
       {secondaryNumber && (
         <Typography
@@ -28,7 +27,7 @@ function NumericCell({
             textAlign: "center",
           }}
         >
-          {secondaryNumber || 0}
+          {secondaryNumber || <CircularProgress />}
         </Typography>
       )}
     </TableCell>

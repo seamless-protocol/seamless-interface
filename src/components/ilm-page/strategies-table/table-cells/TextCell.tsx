@@ -1,6 +1,10 @@
 import { TableCell, Typography } from "@mui/material";
 
-function TextCell({ text }: { text: string }) {
+interface TextCellProps {
+  text: string;
+}
+
+function TextCell({ text }: TextCellProps) {
   return (
     <TableCell>
       <Typography

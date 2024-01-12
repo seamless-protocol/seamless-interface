@@ -1,14 +1,12 @@
 import { Box, Stack, TableCell, Typography } from "@mui/material";
 
-function AssetCell({
-  name,
-  symbol,
-  image,
-}: {
+interface AssetCellProps {
   name: string;
   symbol: string;
   image: string;
-}) {
+}
+
+function AssetCell({ name, symbol, image }: AssetCellProps) {
   return (
     <TableCell>
       <Stack
