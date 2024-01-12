@@ -1,11 +1,9 @@
 import { Button, Stack, Typography } from "@mui/material";
+import { useFetchWithdrawInfo } from "../../../../hooks/useFetchWithdrawInfo";
 
-interface WithdrawRowProps {
-  walletBalance: string;
-  walletBalanceUSD: string;
-}
+function WithdrawRow() {
+  const { userEquity, userEquityUSD } = useFetchWithdrawInfo();
 
-function WithdrawRow({ walletBalance, walletBalanceUSD }: WithdrawRowProps) {
   return (
     <Stack
       direction="row"
@@ -32,7 +30,7 @@ function WithdrawRow({ walletBalance, walletBalanceUSD }: WithdrawRowProps) {
             color: "#000000",
           }}
         >
-          {walletBalance}cbETH
+          {userEquity}cbETH
         </Typography>
         <Typography
           sx={{
@@ -41,7 +39,7 @@ function WithdrawRow({ walletBalance, walletBalanceUSD }: WithdrawRowProps) {
             color: "#000000",
           }}
         >
-          ${walletBalanceUSD}
+          ${userEquityUSD}
         </Typography>
       </Stack>
       <Button

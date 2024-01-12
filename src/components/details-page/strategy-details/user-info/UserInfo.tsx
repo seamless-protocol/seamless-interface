@@ -25,10 +25,7 @@ function UserInfo() {
         variant="fullWidth"
         sx={{ marginTop: "20px", marginBottom: "20px" }}
       />
-      <WithdrawRow
-        walletBalance={cbEthBalance}
-        walletBalanceUSD={cbEthBalanceUSD}
-      />
+      <WithdrawRow />
     </UserInfoContainer>
   );
 }
