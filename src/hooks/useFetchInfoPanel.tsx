@@ -1,4 +1,4 @@
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { useReadContracts } from "wagmi";
 import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
@@ -24,8 +24,8 @@ export const useFetchInfoPanel = () => {
   });
 
   return {
-    equity: formatOnTwoDecimals(formatToNumber(results?.[0].result, 8)),
-    collateral: formatOnTwoDecimals(formatToNumber(results?.[1].result, 8)),
-    debt: formatOnTwoDecimals(formatToNumber(results?.[2].result, 8)),
+    equity: formatBigIntOnTwoDecimals(results?.[0].result, 8),
+    collateral: formatBigIntOnTwoDecimals(results?.[1].result, 8),
+    debt: formatBigIntOnTwoDecimals(results?.[2].result, 8),
   };
 };

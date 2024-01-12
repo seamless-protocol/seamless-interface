@@ -1051,7 +1051,7 @@ export const loopStrategyAbi = [
 ] as const
 
 export const loopStrategyAddress =
-  '0x7EF82A438DeB8eD6c9c533cA8348383331bd6a59' as const
+  '0x20361754A07610af88D1Df54e7c8eC0Ba459A8d8' as const
 
 export const loopStrategyConfig = {
   address: loopStrategyAddress,

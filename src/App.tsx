@@ -11,7 +11,7 @@ const config = createConfig({
   chains: [base],
   connectors: [injected(), metaMask(), safe()],
   transports: {
-    [base.id]: http(),
+    [base.id]: http(import.meta.env.VITE_BASE_RPC_URL),
   },
 });
 
