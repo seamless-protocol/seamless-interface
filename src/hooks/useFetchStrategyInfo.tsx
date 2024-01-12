@@ -1,78 +1,77 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
-import { formatBigIntOnTwoDecimals } from "../utils/helpers";
-import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
-import { ONE_USD } from "../utils/constants";
+import { useReadContracts } from "wagmi";
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+} from "../utils/helpers";
+import {
+  aaveOracleAbi,
+  aaveOracleAddress,
+  cbEthAddress,
+  loopStrategyAbi,
+  loopStrategyAddress,
+} from "../generated/generated";
+import { ONE_ETHER, ONE_USD } from "../utils/constants";
 
-function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
-  let targetMultiple, maxMultiple, userEquity, userEquityUSD;
-  if (account && account.address) {
-    const { data: results } = useReadContracts({
-      contracts: [
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "getCollateralRatioTargets",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "balanceOf",
-          args: [account.address],
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "totalSupply",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equity",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equityUSD",
-        },
-      ],
-    });
+export const useFetchStrategyInfo = () => {
+  const { data: results } = useReadContracts({
+    contracts: [
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "getCollateralRatioTargets",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "collateral",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equity",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+      },
+      {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [cbEthAddress],
+      },
+    ],
+  });
 
-    if (results) {
-      const collateralRatioTargets = results[0].result;
-      const targetRatio = BigInt(collateralRatioTargets?.target || 0);
-      targetMultiple = (targetRatio * ONE_USD) / (targetRatio - ONE_USD);
+  let collateral,
+    collateralUSD,
+    equity,
+    equityUSD,
+    currentMultiple,
+    targetMultiple;
 
-      const maxRatio = BigInt(collateralRatioTargets?.maxForRebalance || 0);
-      maxMultiple = (maxRatio * ONE_USD) / (maxRatio - ONE_USD);
+  if (results) {
+    const collateralRatioTargets = results[0].result;
+    const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+    targetMultiple = convertRatioToMultiple(targetRatio);
 
-      const userShares = BigInt(results[1].result || 0);
-      const totalShares = BigInt(results[2].result || ONE_USD);
+    collateralUSD = BigInt(results[1].result || 0);
+    const collateralAssetPrice = BigInt(results[4].result || 0);
+    collateral = (collateralUSD * ONE_ETHER) / collateralAssetPrice;
 
-      const equity = results[3].result || BigInt(0);
-      const equityUSD = results[4].result || BigInt(0);
+    equity = BigInt(results[2].result || 0);
+    equityUSD = BigInt(results[3].result || 0);
 
-      userEquity = (equity * userShares) / totalShares;
-      userEquityUSD = (equityUSD * userShares) / totalShares;
-    }
+    currentMultiple = (collateralUSD * ONE_USD) / equityUSD;
   }
 
   return {
-    targetMultiple,
-    maxMultiple,
-    userEquity,
-    userEquityUSD,
-  };
-}
-
-export const useFetchStrategyInfo = () => {
-  const account = useAccount();
-  const { targetMultiple, maxMultiple, userEquity, userEquityUSD } =
-    useFetchStrategyInfoForAccount(account);
-
-  return {
+    collateral: formatBigIntOnTwoDecimals(collateral, 18),
+    collateralUSD: formatBigIntOnTwoDecimals(collateralUSD, 8),
+    equity: formatBigIntOnTwoDecimals(equity, 18),
+    equityUSD: formatBigIntOnTwoDecimals(equityUSD, 8),
+    currentMultiple: formatBigIntOnTwoDecimals(currentMultiple, 8),
     targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
-    maxMultiple: formatBigIntOnTwoDecimals(maxMultiple, 8),
-    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
-    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
   };
 };

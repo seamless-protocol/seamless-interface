@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
-import { useFetchInfoPanel } from "../../hooks/useFetchInfoPanel";
 import InfoPanelBox from "./InfoPanelBox";
+import { useFetchInfoPanel } from "../../hooks/useFetchInfoPanel";
 
 function InfoPanel() {
   const { equity, collateral, debt } = useFetchInfoPanel();

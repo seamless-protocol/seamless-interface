@@ -1,10 +1,11 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
-import { loopStrategyAbi, loopStrategyAddress } from "../generated";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
+import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
+import { ONE_USD } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: any) {
   let targetMultiple, maxMultiple, userEquity, userEquityUSD;
-  if (account) {
+  if (account && account.address) {
     const { data: results } = useReadContracts({
       contracts: [
         {
@@ -38,23 +39,20 @@ function useFetchStrategyInfoForAccount(account: any) {
 
     if (results) {
       const collateralRatioTargets = results[0].result;
-      const targetRatio = formatToNumber(collateralRatioTargets?.target, 8);
-      targetMultiple = targetRatio / (targetRatio - 1);
+      const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+      targetMultiple = (targetRatio * ONE_USD) / (targetRatio - ONE_USD);
 
-      const maxRatio = formatToNumber(
-        collateralRatioTargets?.maxForRebalance,
-        8
-      );
-      maxMultiple = maxRatio / (maxRatio - 1);
+      const maxRatio = BigInt(collateralRatioTargets?.maxForRebalance || 0);
+      maxMultiple = (maxRatio * ONE_USD) / (maxRatio - ONE_USD);
 
-      const userShares = formatToNumber(results[1].result, 18);
-      const totalShares = formatToNumber(results[2].result, 18);
+      const userShares = BigInt(results[1].result || 0);
+      const totalShares = BigInt(results[2].result || ONE_USD);
 
-      const equity = formatToNumber(results[3].result, 18);
-      const equityUSD = formatToNumber(results[4].result, 8);
+      const equity = results[3].result || BigInt(0);
+      const equityUSD = results[4].result || BigInt(0);
 
-      userEquity = equity * (userShares / totalShares);
-      userEquityUSD = equityUSD * (userShares / totalShares);
+      userEquity = (equity * userShares) / totalShares;
+      userEquityUSD = (equityUSD * userShares) / totalShares;
     }
   }
 
@@ -72,9 +70,9 @@ export const useFetchStrategyAndUserInfo = () => {
     useFetchStrategyInfoForAccount(account);
 
   return {
-    targetMultiple: targetMultiple?.toString(),
-    maxMultiple: maxMultiple?.toString(),
-    userEquity: formatOnTwoDecimals(userEquity),
-    userEquityUSD: formatOnTwoDecimals(userEquityUSD),
+    targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
+    maxMultiple: formatBigIntOnTwoDecimals(maxMultiple, 8),
+    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
+    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
   };
 };
