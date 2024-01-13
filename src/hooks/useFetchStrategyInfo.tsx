@@ -1,12 +1,16 @@
 import { useReadContracts } from "wagmi";
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+} from "../utils/helpers";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
   cbEthAddress,
   loopStrategyAbi,
   loopStrategyAddress,
-} from "../generated";
+} from "../generated/generated";
+import { ONE_ETHER, ONE_USD } from "../utils/constants";
 
 export const useFetchStrategyInfo = () => {
   const { data: results } = useReadContracts({
@@ -49,25 +53,25 @@ export const useFetchStrategyInfo = () => {
 
   if (results) {
     const collateralRatioTargets = results[0].result;
-    const targetRatio = formatToNumber(collateralRatioTargets?.target, 8);
-    targetMultiple = targetRatio / (targetRatio - 1);
+    const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+    targetMultiple = convertRatioToMultiple(targetRatio);
 
-    collateralUSD = formatToNumber(results[1].result, 8);
-    const collateralAssetPrice = formatToNumber(results[4].result, 8);
-    collateral = collateralUSD / collateralAssetPrice;
+    collateralUSD = BigInt(results[1].result || 0);
+    const collateralAssetPrice = BigInt(results[4].result || 0);
+    collateral = (collateralUSD * ONE_ETHER) / collateralAssetPrice;
 
-    equity = formatToNumber(results[2].result, 18);
-    equityUSD = formatToNumber(results[3].result, 8);
+    equity = BigInt(results[2].result || 0);
+    equityUSD = BigInt(results[3].result || 0);
 
-    currentMultiple = collateralUSD / equityUSD;
+    currentMultiple = (collateralUSD * ONE_USD) / equityUSD;
   }
 
   return {
-    collateral: formatOnTwoDecimals(collateral),
-    collateralUSD: formatOnTwoDecimals(collateralUSD),
-    equity: formatOnTwoDecimals(equity),
-    equityUSD: formatOnTwoDecimals(equityUSD),
-    currentMultiple: formatOnTwoDecimals(currentMultiple),
-    targetMultiple: formatOnTwoDecimals(targetMultiple),
+    collateral: formatBigIntOnTwoDecimals(collateral, 18),
+    collateralUSD: formatBigIntOnTwoDecimals(collateralUSD, 8),
+    equity: formatBigIntOnTwoDecimals(equity, 18),
+    equityUSD: formatBigIntOnTwoDecimals(equityUSD, 8),
+    currentMultiple: formatBigIntOnTwoDecimals(currentMultiple, 8),
+    targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
   };
 };

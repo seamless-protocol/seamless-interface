@@ -1,5 +1,10 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+  formatOnTwoDecimals,
+  formatToNumber,
+} from "../utils/helpers";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -57,20 +62,20 @@ function useFetchStrategyInfoForAccount(account: any) {
 
     if (results) {
       const collateralRatioTargets = results[0].result;
-      const targetRatio = formatToNumber(collateralRatioTargets?.target, 8);
-      targetMultiple = targetRatio / (targetRatio - 1);
+      const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+      targetMultiple = convertRatioToMultiple(targetRatio);
 
-      const userShares = formatToNumber(results[1].result, 18);
-      const totalShares = formatToNumber(results[2].result, 18);
+      const userShares = BigInt(results[1].result || 0);
+      const totalShares = BigInt(results[2].result || 0);
 
-      const equity = formatToNumber(results[3].result, 18);
-      const equityUSD = formatToNumber(results[4].result, 8);
+      const equity = BigInt(results[3].result || 0);
+      const equityUSD = BigInt(results[4].result || 0);
 
       userEquity = equity * (userShares / totalShares);
       userEquityUSD = equityUSD * (userShares / totalShares);
 
-      userBalance = formatToNumber(results[5].result, 18);
-      userBalanceUSD = userBalance * formatToNumber(results[6].result, 8);
+      userBalance = BigInt(results[5].result || 0);
+      userBalanceUSD = userBalance * BigInt(results[6].result || 0);
     }
   }
 
@@ -94,10 +99,10 @@ export const useFetchStrategyAndUserInfo = () => {
   } = useFetchStrategyInfoForAccount(account);
 
   return {
-    targetMultiple: formatOnTwoDecimals(targetMultiple),
-    userEquity: formatOnTwoDecimals(userEquity),
-    userEquityUSD: formatOnTwoDecimals(userEquityUSD),
-    userBalance: formatOnTwoDecimals(userBalance),
-    userBalanceUSD: formatOnTwoDecimals(userBalanceUSD),
+    targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
+    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
+    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
+    userBalance: formatBigIntOnTwoDecimals(userBalance, 18),
+    userBalanceUSD: formatBigIntOnTwoDecimals(userBalanceUSD, 8),
   };
 };

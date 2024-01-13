@@ -1,11 +1,12 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
   cbEthAbi,
   cbEthAddress,
-} from "../generated";
+} from "../generated/generated";
+import { ONE_ETHER } from "../utils/constants";
 
 function fetchAccountCbEthBalance(account: any) {
   const { data: results } = useReadContracts({
@@ -27,9 +28,10 @@ function fetchAccountCbEthBalance(account: any) {
 
   let cbEthBalance, cbEthBalanceUSD;
   if (results) {
-    cbEthBalance = formatToNumber(results[0].result, 18);
-    const cbEthPrice = formatToNumber(results[1].result, 8);
-    cbEthBalanceUSD = cbEthBalance * cbEthPrice;
+    const cbEthPrice = BigInt(results[1].result || 0);
+
+    cbEthBalance = BigInt(results[0].result || 0);
+    cbEthBalanceUSD = (cbEthBalance * cbEthPrice) / ONE_ETHER;
   }
 
   return {
@@ -43,7 +45,7 @@ export const useFetchUserInfo = () => {
   const { cbEthBalance, cbEthBalanceUSD } = fetchAccountCbEthBalance(account);
 
   return {
-    cbEthBalance: formatOnTwoDecimals(cbEthBalance),
-    cbEthBalanceUSD: formatOnTwoDecimals(cbEthBalanceUSD),
+    cbEthBalance: formatBigIntOnTwoDecimals(cbEthBalance, 18),
+    cbEthBalanceUSD: formatBigIntOnTwoDecimals(cbEthBalanceUSD, 8),
   };
 };

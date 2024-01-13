@@ -1,6 +1,6 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { loopStrategyAbi, loopStrategyAddress } from "../generated";
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
+import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
 function useFetchUserEquity(account: any) {
   let userEquity, userEquityUSD;
@@ -32,11 +32,11 @@ function useFetchUserEquity(account: any) {
     });
 
     if (results) {
-      const userShares = formatToNumber(results[0].result, 18);
-      const totalShares = formatToNumber(results[1].result, 18);
+      const userShares = BigInt(results[0].result || 0);
+      const totalShares = BigInt(results[1].result || 1n);
 
-      const equity = formatToNumber(results[2].result, 18);
-      const equityUSD = formatToNumber(results[3].result, 8);
+      const equity = BigInt(results[2].result || 0n);
+      const equityUSD = BigInt(results[3].result || 0n);
 
       userEquity = equity * (userShares / totalShares);
       userEquityUSD = equityUSD * (userShares / totalShares);
@@ -54,7 +54,7 @@ export const useFetchWithdrawInfo = () => {
   const { userEquity, userEquityUSD } = useFetchUserEquity(account);
 
   return {
-    userEquity: formatOnTwoDecimals(userEquity),
-    userEquityUSD: formatOnTwoDecimals(userEquityUSD),
+    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
+    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
   };
 };

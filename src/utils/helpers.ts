@@ -1,4 +1,5 @@
 import { formatUnits } from "viem";
+import { ONE_USD } from "./constants";
 
 export function formatToNumber(
   value: string | bigint | undefined,
@@ -14,7 +15,19 @@ const formatter = Intl.NumberFormat("en", {
 });
 
 export function formatOnTwoDecimals(
-  input: string | number | undefined
+  input: number | bigint | undefined
 ): string {
-  return formatter.format(parseFloat((input || "0").toString()));
+  return formatter.format(input || 0);
+}
+
+export function formatBigIntOnTwoDecimals(
+  input: bigint | undefined,
+  decimals: number
+): string {
+  return formatter.format(formatToNumber(input, decimals));
+}
+
+export function convertRatioToMultiple(ratio: bigint | undefined) {
+  ratio = ratio || 0n;
+  return (ratio * ONE_USD) / (ratio - ONE_USD);
 }
