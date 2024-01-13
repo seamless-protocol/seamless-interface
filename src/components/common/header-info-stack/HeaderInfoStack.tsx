@@ -1,17 +1,19 @@
 import { Container } from "@mui/material";
 import HeaderInfoBox from "./HeaderInfoBox";
+import LoadingComponent from "../LoadingComponent";
 
 interface HeaderInfoStackProps {
+  isLoading: boolean;
   values: [
     {
       label: string;
       value: string;
-    }
+    },
   ];
   sx?: any;
 }
 
-function HeaderInfoStack({ values, sx }: HeaderInfoStackProps) {
+function HeaderInfoStack({ isLoading, values, sx }: HeaderInfoStackProps) {
   return (
     <Container
       sx={{
@@ -22,7 +24,11 @@ function HeaderInfoStack({ values, sx }: HeaderInfoStackProps) {
       }}
     >
       {values.map((value) => (
-        <HeaderInfoBox label={value.label} value={value.value} />
+        <HeaderInfoBox
+          isLoading={isLoading}
+          label={value.label}
+          value={value.value}
+        />
       ))}
     </Container>
   );

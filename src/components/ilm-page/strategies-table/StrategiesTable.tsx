@@ -14,6 +14,7 @@ import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
 function StrategiesTable() {
   const {
+    isLoading,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -48,13 +49,18 @@ function StrategiesTable() {
               symbol="cbETH"
               image="cbeth.svg"
             />
-            <NumericCell primaryNumber={`${targetMultiple}x`} />
-            <NumericCell primaryNumber="6.57%" />
             <NumericCell
+              isLoading={isLoading}
+              primaryNumber={`${targetMultiple}x`}
+            />
+            <NumericCell isLoading={false} primaryNumber="6.57%" />
+            <NumericCell
+              isLoading={isLoading}
               primaryNumber={userBalance}
               secondaryNumber={`$${userBalanceUSD}`}
             />
             <NumericCell
+              isLoading={isLoading}
               primaryNumber={userEquity}
               secondaryNumber={`$${userEquityUSD}`}
             />

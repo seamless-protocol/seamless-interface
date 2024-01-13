@@ -9,7 +9,7 @@ import {
 import { ONE_ETHER } from "../utils/constants";
 
 function fetchAccountCbEthBalance(account: any) {
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: cbEthAddress,
@@ -35,6 +35,7 @@ function fetchAccountCbEthBalance(account: any) {
   }
 
   return {
+    isLoading,
     cbEthBalance,
     cbEthBalanceUSD,
   };
@@ -42,9 +43,11 @@ function fetchAccountCbEthBalance(account: any) {
 
 export const useFetchUserInfo = () => {
   const account = useAccount();
-  const { cbEthBalance, cbEthBalanceUSD } = fetchAccountCbEthBalance(account);
+  const { isLoading, cbEthBalance, cbEthBalanceUSD } =
+    fetchAccountCbEthBalance(account);
 
   return {
+    isLoading,
     cbEthBalance: formatBigIntOnTwoDecimals(cbEthBalance, 18),
     cbEthBalanceUSD: formatBigIntOnTwoDecimals(cbEthBalanceUSD, 8),
   };

@@ -1,11 +1,17 @@
 import { Button, Stack, Typography } from "@mui/material";
+import LoadingComponent from "../../../common/LoadingComponent";
 
 interface DepositRowProps {
+  isLoading?: boolean;
   walletBalance: string;
   walletBalanceUSD: string;
 }
 
-function DepositRow({ walletBalance, walletBalanceUSD }: DepositRowProps) {
+function DepositRow({
+  isLoading,
+  walletBalance,
+  walletBalanceUSD,
+}: DepositRowProps) {
   return (
     <Stack
       direction="row"
@@ -25,25 +31,31 @@ function DepositRow({ walletBalance, walletBalanceUSD }: DepositRowProps) {
         >
           Available to deposit
         </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.8rem",
-            fontWeight: 600,
-            color: "#000000",
-          }}
-        >
-          {walletBalance}cbETH
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.7rem",
-            color: "#000000",
-          }}
-        >
-          ${walletBalanceUSD}
-        </Typography>
+        {isLoading ? (
+          <LoadingComponent size="1.5rem" />
+        ) : (
+          <>
+            <Typography
+              sx={{
+                fontFamily: "Verdana",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                color: "#000000",
+              }}
+            >
+              {walletBalance}cbETH
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Verdana",
+                fontSize: "0.7rem",
+                color: "#000000",
+              }}
+            >
+              ${walletBalanceUSD}
+            </Typography>
+          </>
+        )}
       </Stack>
       <Button
         variant="contained"

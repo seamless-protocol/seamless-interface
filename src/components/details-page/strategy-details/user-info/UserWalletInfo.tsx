@@ -1,11 +1,13 @@
 import { Stack, Typography } from "@mui/material";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import LoadingComponent from "../../../common/LoadingComponent";
 
 interface UserWalletInfoProps {
+  isLoading?: boolean;
   walletBalance: string;
 }
 
-function UserWalletInfo({ walletBalance }: UserWalletInfoProps) {
+function UserWalletInfo({ isLoading, walletBalance }: UserWalletInfoProps) {
   return (
     <Stack
       direction="row"
@@ -36,16 +38,20 @@ function UserWalletInfo({ walletBalance }: UserWalletInfoProps) {
         >
           Wallet balance
         </Typography>
-        <Typography
-          sx={{
-            fontWeight: 600,
-            fontSize: "0.8rem",
-            fontFamily: "Verdana",
-            color: "#000000",
-          }}
-        >
-          {walletBalance}
-        </Typography>
+        {isLoading ? (
+          <LoadingComponent size="1.2rem" />
+        ) : (
+          <Typography
+            sx={{
+              fontWeight: 600,
+              fontSize: "0.8rem",
+              fontFamily: "Verdana",
+              color: "#000000",
+            }}
+          >
+            {walletBalance}
+          </Typography>
+        )}
       </Stack>
     </Stack>
   );

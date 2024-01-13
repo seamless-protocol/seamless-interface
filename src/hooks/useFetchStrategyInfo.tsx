@@ -13,7 +13,7 @@ import {
 import { ONE_ETHER, ONE_USD } from "../utils/constants";
 
 export const useFetchStrategyInfo = () => {
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
@@ -67,6 +67,7 @@ export const useFetchStrategyInfo = () => {
   }
 
   return {
+    isLoading,
     collateral: formatBigIntOnTwoDecimals(collateral, 18),
     collateralUSD: formatBigIntOnTwoDecimals(collateralUSD, 8),
     equity: formatBigIntOnTwoDecimals(equity, 18),

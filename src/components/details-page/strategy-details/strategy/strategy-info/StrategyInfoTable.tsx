@@ -4,6 +4,7 @@ import { useFetchStrategyInfo } from "../../../../../hooks/useFetchStrategyInfo"
 
 function StrategyInfoTable() {
   const {
+    isLoading,
     collateral,
     collateralUSD,
     equity,
@@ -24,20 +25,24 @@ function StrategyInfoTable() {
       }}
     >
       <StrategyInfoTableBox
+        isLoading={isLoading}
         label={"Total market value"}
         primaryValue={collateral}
         secondaryValue={collateralUSD}
       />
       <StrategyInfoTableBox
+        isLoading={isLoading}
         label={"Total supplied"}
         primaryValue={equity}
         secondaryValue={equityUSD}
       />
       <StrategyInfoTableBox
+        isLoading={isLoading}
         label={"Current multiple"}
         primaryValue={currentMultiple}
       />
       <StrategyInfoTableBox
+        isLoading={isLoading}
         label={"Target multiple"}
         primaryValue={targetMultiple}
       />

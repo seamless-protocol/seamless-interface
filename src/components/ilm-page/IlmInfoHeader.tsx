@@ -1,9 +1,10 @@
 import { Container, Stack, Typography } from "@mui/material";
 import HeaderContainer from "../common/HeaderContainer";
 import { useFetchIlmHeaderInfo } from "../../hooks/useFetchIlmHeaderInfo";
+import LoadingComponent from "../common/LoadingComponent";
 
 function IlmInfoHeader() {
-  const { collateralUSD } = useFetchIlmHeaderInfo();
+  const { isLoading, collateralUSD } = useFetchIlmHeaderInfo();
 
   return (
     <HeaderContainer>
@@ -40,17 +41,21 @@ function IlmInfoHeader() {
             </Typography>
           </Stack>
 
-          <Stack direction={"column"}>
-            <Typography variant="h6" sx={{ color: "#DC91C1" }}>
-              Total market size
-            </Typography>
-            <Typography
-              variant="h5"
-              sx={{ color: "white", fontWeight: "bold" }}
-            >
-              ${collateralUSD}
-            </Typography>
-          </Stack>
+          {isLoading ? (
+            <LoadingComponent />
+          ) : (
+            <Stack direction={"column"}>
+              <Typography variant="h6" sx={{ color: "#DC91C1" }}>
+                Total market size
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{ color: "white", fontWeight: "bold" }}
+              >
+                ${collateralUSD}
+              </Typography>
+            </Stack>
+          )}
         </Stack>
       </Container>
     </HeaderContainer>
