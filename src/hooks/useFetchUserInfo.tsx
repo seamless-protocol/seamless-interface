@@ -1,4 +1,4 @@
-import { useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import {
   aaveOracleAbi,
@@ -8,7 +8,14 @@ import {
 } from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
 
-function fetchAccountCbEthBalance(account: any) {
+function fetchAccountCbEthBalance(account: UseAccountReturnType) {
+  if (!account || !account.address) {
+    return {
+      cbEthBalance: 0n,
+      cbEthBalanceUSD: 0n,
+    };
+  }
+
   const { data: results } = useReadContracts({
     contracts: [
       {

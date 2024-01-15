@@ -1,4 +1,4 @@
-import { useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import {
   convertRatioToMultiple,
   formatBigIntOnTwoDecimals,
@@ -12,7 +12,7 @@ import {
   loopStrategyAddress,
 } from "../generated";
 
-function useFetchStrategyInfoForAccount(account: any) {
+function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
   if (account) {
     const { data: results } = useReadContracts({

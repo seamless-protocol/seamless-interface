@@ -1,18 +1,17 @@
 import { SxProps, TableCell, Typography } from "@mui/material";
 
-interface CommonColumnHeaderProps {
+interface AssetColumnHeaderProps {
   label: string;
   sx?: SxProps;
 }
 
-function CommonColumnHeader({ label, sx }: CommonColumnHeaderProps) {
+function AssetColumnHeader({ label, sx }: AssetColumnHeaderProps) {
   return (
     <TableCell sx={sx}>
       <Typography
         sx={{
           fontFamily: "Verdana",
           fontSize: "15px",
-          textAlign: "center",
         }}
       >
         {label}
@@ -21,4 +20,4 @@ function CommonColumnHeader({ label, sx }: CommonColumnHeaderProps) {
   );
 }
 
-export default CommonColumnHeader;
+export default AssetColumnHeader;

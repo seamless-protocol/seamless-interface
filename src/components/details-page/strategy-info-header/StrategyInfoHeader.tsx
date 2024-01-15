@@ -12,13 +12,11 @@ function StrategyInfoHeader() {
       <Container sx={{ display: "flex" }}>
         <AssetBox />
         <HeaderInfoStack
-          values={
-            [
-              { label: "Target multiple", value: `${targetMultiple}x` },
-              { label: "APY estimate", value: `3.97%` },
-              { label: "Oracle price", value: oraclePrice },
-            ] as any
-          }
+          values={[
+            { label: "Target multiple", value: `${targetMultiple}x` },
+            { label: "APY estimate", value: `3.97%` },
+            { label: "Oracle price", value: oraclePrice },
+          ]}
           sx={{ marginLeft: "20px" }}
         />
       </Container>

@@ -1,7 +1,8 @@
 import { Container } from "@mui/material";
+import { ReactNode } from "react";
 
 interface StrategyContainerProps {
-  children: any;
+  children: ReactNode;
 }
 
 function StrategyContainer({ children }: StrategyContainerProps) {
