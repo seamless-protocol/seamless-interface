@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import StrategiesTable from "./strategies-table/StrategiesTable";
 
 function IlmMarketInfo() {
