@@ -13,68 +13,76 @@ import {
 } from "../generated";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
+  if (!account || !account.address) {
+    return {
+      targetMultiple: 0n,
+      userEquity: 0n,
+      userEquityUSD: 0n,
+      userBalance: 0n,
+      userBalanceUSD: 0n,
+    };
+  }
+
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  if (account) {
-    const { data: results } = useReadContracts({
-      contracts: [
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "getCollateralRatioTargets",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "balanceOf",
-          args: [account.address],
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "totalSupply",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equity",
-        },
-        {
-          address: loopStrategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equityUSD",
-        },
-        {
-          address: cbEthAddress,
-          abi: cbEthAbi,
-          functionName: "balanceOf",
-          args: [account.address],
-        },
-        {
-          address: aaveOracleAddress,
-          abi: aaveOracleAbi,
-          functionName: "getAssetPrice",
-          args: [cbEthAddress],
-        },
-      ],
-    });
+  const { data: results } = useReadContracts({
+    contracts: [
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "getCollateralRatioTargets",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "balanceOf",
+        args: [account.address],
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "totalSupply",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equity",
+      },
+      {
+        address: loopStrategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+      },
+      {
+        address: cbEthAddress,
+        abi: cbEthAbi,
+        functionName: "balanceOf",
+        args: [account.address],
+      },
+      {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [cbEthAddress],
+      },
+    ],
+  });
 
-    if (results) {
-      const collateralRatioTargets = results[0].result;
-      const targetRatio = BigInt(collateralRatioTargets?.target || 0);
-      targetMultiple = convertRatioToMultiple(targetRatio);
+  if (results) {
+    const collateralRatioTargets = results[0].result;
+    const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+    targetMultiple = convertRatioToMultiple(targetRatio);
 
-      const userShares = BigInt(results[1].result || 0);
-      const totalShares = BigInt(results[2].result || 0);
+    const userShares = BigInt(results[1].result || 0);
+    const totalShares = BigInt(results[2].result || 0);
 
-      const equity = BigInt(results[3].result || 0);
-      const equityUSD = BigInt(results[4].result || 0);
+    const equity = BigInt(results[3].result || 0);
+    const equityUSD = BigInt(results[4].result || 0);
 
-      userEquity = equity * (userShares / totalShares);
-      userEquityUSD = equityUSD * (userShares / totalShares);
+    userEquity = equity * (userShares / totalShares);
+    userEquityUSD = equityUSD * (userShares / totalShares);
 
-      userBalance = BigInt(results[5].result || 0);
-      userBalanceUSD = userBalance * BigInt(results[6].result || 0);
-    }
+    userBalance = BigInt(results[5].result || 0);
+    userBalanceUSD = userBalance * BigInt(results[6].result || 0);
   }
 
   return {
