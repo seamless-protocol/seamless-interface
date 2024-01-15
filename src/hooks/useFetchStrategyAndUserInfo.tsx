@@ -2,8 +2,6 @@ import { useAccount, useReadContracts } from "wagmi";
 import {
   convertRatioToMultiple,
   formatBigIntOnTwoDecimals,
-  formatOnTwoDecimals,
-  formatToNumber,
 } from "../utils/helpers";
 import {
   aaveOracleAbi,
