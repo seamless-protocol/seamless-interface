@@ -2,6 +2,7 @@ import { defineConfig } from "@wagmi/cli";
 import { erc20Abi } from "viem";
 import { LoopStrategyAbi } from "./abis/LoopStrategy";
 import { AaveOracleAbi } from "./abis/AaveOracle";
+import { react } from "@wagmi/cli/plugins";
 
 export default defineConfig({
   out: "src/generated/generated.ts",
@@ -27,5 +28,5 @@ export default defineConfig({
       abi: AaveOracleAbi,
     },
   ],
-  plugins: [],
+  plugins: [react()],
 });

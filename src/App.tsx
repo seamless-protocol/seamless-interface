@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import MarketPage from "./components/pages/MarketPage";
 import DetailsPage from "./components/pages/DetailsPage";
+import IlmPage from "./components/pages/IlmPage";
 
 const config = createConfig({
   chains: [base],
@@ -24,7 +24,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ResponsiveAppBar />
           <Routes>
-            <Route path="/" element={<MarketPage />} />
+            <Route path="/" element={<IlmPage />} />
             <Route path="/details" element={<DetailsPage />} />
           </Routes>
         </QueryClientProvider>

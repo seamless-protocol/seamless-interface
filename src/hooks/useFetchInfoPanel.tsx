@@ -1,5 +1,5 @@
-import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { useReadContracts } from "wagmi";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
 export const useFetchInfoPanel = () => {

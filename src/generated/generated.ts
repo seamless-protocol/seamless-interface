@@ -1,3 +1,10 @@
+import {
+  createUseReadContract,
+  createUseWriteContract,
+  createUseSimulateContract,
+  createUseWatchContractEvent,
+} from 'wagmi/codegen'
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AaveOracle
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1268,3 +1275,1307 @@ export const cbEthAddress =
   '0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22' as const
 
 export const cbEthConfig = { address: cbEthAddress, abi: cbEthAbi } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// React
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__
+ */
+export const useReadAaveOracle = /*#__PURE__*/ createUseReadContract({
+  abi: aaveOracleAbi,
+  address: aaveOracleAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
+ */
+export const useReadAaveOracleAddressesProvider =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'ADDRESSES_PROVIDER',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"BASE_CURRENCY"`
+ */
+export const useReadAaveOracleBaseCurrency =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'BASE_CURRENCY',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"BASE_CURRENCY_UNIT"`
+ */
+export const useReadAaveOracleBaseCurrencyUnit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'BASE_CURRENCY_UNIT',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getAssetPrice"`
+ */
+export const useReadAaveOracleGetAssetPrice =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'getAssetPrice',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getAssetsPrices"`
+ */
+export const useReadAaveOracleGetAssetsPrices =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'getAssetsPrices',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getFallbackOracle"`
+ */
+export const useReadAaveOracleGetFallbackOracle =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'getFallbackOracle',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getSourceOfAsset"`
+ */
+export const useReadAaveOracleGetSourceOfAsset =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'getSourceOfAsset',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__
+ */
+export const useWriteAaveOracle = /*#__PURE__*/ createUseWriteContract({
+  abi: aaveOracleAbi,
+  address: aaveOracleAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setAssetSources"`
+ */
+export const useWriteAaveOracleSetAssetSources =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'setAssetSources',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setFallbackOracle"`
+ */
+export const useWriteAaveOracleSetFallbackOracle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'setFallbackOracle',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__
+ */
+export const useSimulateAaveOracle = /*#__PURE__*/ createUseSimulateContract({
+  abi: aaveOracleAbi,
+  address: aaveOracleAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setAssetSources"`
+ */
+export const useSimulateAaveOracleSetAssetSources =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'setAssetSources',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setFallbackOracle"`
+ */
+export const useSimulateAaveOracleSetFallbackOracle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    functionName: 'setFallbackOracle',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__
+ */
+export const useWatchAaveOracleEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"AssetSourceUpdated"`
+ */
+export const useWatchAaveOracleAssetSourceUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    eventName: 'AssetSourceUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"BaseCurrencySet"`
+ */
+export const useWatchAaveOracleBaseCurrencySetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    eventName: 'BaseCurrencySet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"FallbackOracleUpdated"`
+ */
+export const useWatchAaveOracleFallbackOracleUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aaveOracleAbi,
+    address: aaveOracleAddress,
+    eventName: 'FallbackOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__
+ */
+export const useReadLoopStrategy = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
+ */
+export const useReadLoopStrategyDefaultAdminRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"MANAGER_ROLE"`
+ */
+export const useReadLoopStrategyManagerRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'MANAGER_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"PAUSER_ROLE"`
+ */
+export const useReadLoopStrategyPauserRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'PAUSER_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"UPGRADER_ROLE"`
+ */
+export const useReadLoopStrategyUpgraderRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'UPGRADER_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
+ */
+export const useReadLoopStrategyUpgradeInterfaceVersion =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadLoopStrategyAllowance = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'allowance',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"asset"`
+ */
+export const useReadLoopStrategyAsset = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'asset',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'balanceOf',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateral"`
+ */
+export const useReadLoopStrategyCollateral =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'collateral',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const useReadLoopStrategyConvertToAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'convertToAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"convertToShares"`
+ */
+export const useReadLoopStrategyConvertToShares =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'convertToShares',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"currentCollateralRatio"`
+ */
+export const useReadLoopStrategyCurrentCollateralRatio =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'currentCollateralRatio',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debt"`
+ */
+export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'debt',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadLoopStrategyDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"equity"`
+ */
+export const useReadLoopStrategyEquity = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'equity',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"equityUSD"`
+ */
+export const useReadLoopStrategyEquityUsd = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'equityUSD',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getCollateralRatioTargets"`
+ */
+export const useReadLoopStrategyGetCollateralRatioTargets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'getCollateralRatioTargets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRoleAdmin"`
+ */
+export const useReadLoopStrategyGetRoleAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'getRoleAdmin',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"hasRole"`
+ */
+export const useReadLoopStrategyHasRole = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'hasRole',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const useReadLoopStrategyMaxDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'maxDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxMint"`
+ */
+export const useReadLoopStrategyMaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const useReadLoopStrategyMaxRedeem = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'maxRedeem',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const useReadLoopStrategyMaxWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'maxWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"mint"`
+ */
+export const useReadLoopStrategyMint = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadLoopStrategyName = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadLoopStrategyPaused = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const useReadLoopStrategyPreviewDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'previewDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewMint"`
+ */
+export const useReadLoopStrategyPreviewMint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'previewMint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const useReadLoopStrategyPreviewRedeem =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'previewRedeem',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const useReadLoopStrategyPreviewWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'previewWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const useReadLoopStrategyProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'proxiableUUID',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalanceNeeded"`
+ */
+export const useReadLoopStrategyRebalanceNeeded =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'rebalanceNeeded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"supportsInterface"`
+ */
+export const useReadLoopStrategySupportsInterface =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'supportsInterface',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadLoopStrategySymbol = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"totalAssets"`
+ */
+export const useReadLoopStrategyTotalAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'totalAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadLoopStrategyTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'totalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useReadLoopStrategyWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__
+ */
+export const useWriteLoopStrategy = /*#__PURE__*/ createUseWriteContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"LoopStrategy_init"`
+ */
+export const useWriteLoopStrategyLoopStrategyInit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'LoopStrategy_init',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteLoopStrategyApprove = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'approve',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteLoopStrategyDeposit = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'deposit',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useWriteLoopStrategyGrantRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"pause"`
+ */
+export const useWriteLoopStrategyPause = /*#__PURE__*/ createUseWriteContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalance"`
+ */
+export const useWriteLoopStrategyRebalance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'rebalance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteLoopStrategyRedeem = /*#__PURE__*/ createUseWriteContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useWriteLoopStrategyRenounceRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useWriteLoopStrategyRevokeRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setCollateralRatioTargets"`
+ */
+export const useWriteLoopStrategySetCollateralRatioTargets =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'setCollateralRatioTargets',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setInterestRateMode"`
+ */
+export const useWriteLoopStrategySetInterestRateMode =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'setInterestRateMode',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteLoopStrategyTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteLoopStrategyTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useWriteLoopStrategyUnpause = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'unpause',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useWriteLoopStrategyUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__
+ */
+export const useSimulateLoopStrategy = /*#__PURE__*/ createUseSimulateContract({
+  abi: loopStrategyAbi,
+  address: loopStrategyAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"LoopStrategy_init"`
+ */
+export const useSimulateLoopStrategyLoopStrategyInit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'LoopStrategy_init',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateLoopStrategyApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateLoopStrategyDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useSimulateLoopStrategyGrantRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"pause"`
+ */
+export const useSimulateLoopStrategyPause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'pause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalance"`
+ */
+export const useSimulateLoopStrategyRebalance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'rebalance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateLoopStrategyRedeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useSimulateLoopStrategyRenounceRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useSimulateLoopStrategyRevokeRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setCollateralRatioTargets"`
+ */
+export const useSimulateLoopStrategySetCollateralRatioTargets =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'setCollateralRatioTargets',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setInterestRateMode"`
+ */
+export const useSimulateLoopStrategySetInterestRateMode =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'setInterestRateMode',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateLoopStrategyTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateLoopStrategyTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useSimulateLoopStrategyUnpause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'unpause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useSimulateLoopStrategyUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__
+ */
+export const useWatchLoopStrategyEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchLoopStrategyApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Deposit"`
+ */
+export const useWatchLoopStrategyDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Deposit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchLoopStrategyInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchLoopStrategyPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleAdminChanged"`
+ */
+export const useWatchLoopStrategyRoleAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'RoleAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleGranted"`
+ */
+export const useWatchLoopStrategyRoleGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'RoleGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleRevoked"`
+ */
+export const useWatchLoopStrategyRoleRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'RoleRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchLoopStrategyTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchLoopStrategyUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchLoopStrategyUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Withdraw"`
+ */
+export const useWatchLoopStrategyWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    address: loopStrategyAddress,
+    eventName: 'Withdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__
+ */
+export const useReadSeam = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadSeamAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadSeamBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadSeamDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadSeamName = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadSeamSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadSeamTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link seamAbi}__
+ */
+export const useWriteSeam = /*#__PURE__*/ createUseWriteContract({
+  abi: seamAbi,
+  address: seamAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteSeamApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteSeamTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteSeamTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link seamAbi}__
+ */
+export const useSimulateSeam = /*#__PURE__*/ createUseSimulateContract({
+  abi: seamAbi,
+  address: seamAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateSeamApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateSeamTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: seamAbi,
+  address: seamAddress,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link seamAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateSeamTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: seamAbi,
+    address: seamAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link seamAbi}__
+ */
+export const useWatchSeamEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: seamAbi,
+  address: seamAddress,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link seamAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchSeamApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: seamAbi,
+    address: seamAddress,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link seamAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchSeamTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: seamAbi,
+    address: seamAddress,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__
+ */
+export const useReadCbEth = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadCbEthAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadCbEthBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadCbEthDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadCbEthName = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadCbEthSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadCbEthTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbEthAbi}__
+ */
+export const useWriteCbEth = /*#__PURE__*/ createUseWriteContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteCbEthApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteCbEthTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteCbEthTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbEthAbi}__
+ */
+export const useSimulateCbEth = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateCbEthApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateCbEthTransfer = /*#__PURE__*/ createUseSimulateContract(
+  { abi: cbEthAbi, address: cbEthAddress, functionName: 'transfer' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbEthAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateCbEthTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cbEthAbi,
+    address: cbEthAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbEthAbi}__
+ */
+export const useWatchCbEthEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: cbEthAbi,
+  address: cbEthAddress,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbEthAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchCbEthApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cbEthAbi,
+    address: cbEthAddress,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbEthAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchCbEthTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cbEthAbi,
+    address: cbEthAddress,
+    eventName: 'Transfer',
+  })

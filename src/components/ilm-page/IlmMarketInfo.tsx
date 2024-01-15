@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
 import StrategiesTable from "./strategies-table/StrategiesTable";
 
-function ILMMarketInfo() {
+function IlmMarketInfo() {
   return (
     <Container
       disableGutters
@@ -50,4 +50,4 @@ function ILMMarketInfo() {
   );
 }
 
-export default ILMMarketInfo;
+export default IlmMarketInfo;
