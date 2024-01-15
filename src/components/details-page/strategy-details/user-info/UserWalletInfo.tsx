@@ -38,6 +38,7 @@ function UserWalletInfo({ isLoading, walletBalance }: UserWalletInfoProps) {
         >
           Wallet balance
         </Typography>
+
         {isLoading ? (
           <LoadingComponent size="1.2rem" />
         ) : (

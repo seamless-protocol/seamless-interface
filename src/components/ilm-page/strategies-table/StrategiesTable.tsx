@@ -6,10 +6,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { useFetchStrategyAndUserInfo } from "../../../hooks/useFetchStrategyAndUserInfo";
-import CommonColumnHeader from "./table-headers/CommonColumnHeader";
+import CommonColumnHeader from "./CommonColumnHeader";
 import AssetCell from "./table-cells/AssetCell";
 import TextCell from "./table-cells/TextCell";
-import NumericCell from "./table-cells/NumericCell";
+import NumericCell from "./table-cells/NumericCell/NumericCell";
 import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
 function StrategiesTable() {
@@ -25,8 +25,16 @@ function StrategiesTable() {
   return (
     <TableContainer
       sx={{
-        width: "100%",
-        borderCollapse: "collapse",
+        marginLeft: "auto",
+        marginRight: "auto",
+        maxWidth: "lg",
+        backgroundColor: "#FFFFFF",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: "5px",
+        marginTop: "-20px",
+        position: "relative",
+        containerSize: "100%",
       }}
     >
       <Table>

@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import StrategyInfoTable from "./StrategyInfoTable";
+import StrategyInfoTable from "./strategy-into-table/StrategyInfoTable";
 
 interface StrategyInfoProps {
   sx?: any;
