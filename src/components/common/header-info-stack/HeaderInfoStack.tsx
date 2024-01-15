@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 import HeaderInfoBox from "./HeaderInfoBox";
-import LoadingComponent from "../LoadingComponent";
 
 interface HeaderInfoStackProps {
   isLoading: boolean;
