@@ -1,8 +1,8 @@
-import { TableCell, Typography } from "@mui/material";
+import { SxProps, TableCell, Typography } from "@mui/material";
 
 interface CommonColumnHeaderProps {
   label: string;
-  sx?: any;
+  sx?: SxProps;
 }
 
 function CommonColumnHeader({ label, sx }: CommonColumnHeaderProps) {

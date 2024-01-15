@@ -1,8 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, SxProps, Typography } from "@mui/material";
 import StrategyInfoTable from "./StrategyInfoTable";
 
 interface StrategyInfoProps {
-  sx?: any;
+  sx?: SxProps;
 }
 
 function StrategyInfo({ sx }: StrategyInfoProps) {

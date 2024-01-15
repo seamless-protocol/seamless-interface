@@ -1,8 +1,9 @@
 import { useAccount, useReadContracts } from "wagmi";
 import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
+import { GetAccountReturnType } from "wagmi/lib/hooks/useAccount";
 
-function useFetchUserEquity(account: any) {
+function useFetchUserEquity(account: GetAccountReturnType) {
   let userEquity, userEquityUSD;
   if (account) {
     const { data: results } = useReadContracts({

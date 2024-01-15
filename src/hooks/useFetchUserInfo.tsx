@@ -6,9 +6,10 @@ import {
   cbEthAbi,
   cbEthAddress,
 } from "../generated/generated";
+import { GetAccountReturnType } from "wagmi/lib/hooks/useAccount";
 import { ONE_ETHER } from "../utils/constants";
 
-function fetchAccountCbEthBalance(account: any) {
+function fetchAccountCbEthBalance(account: GetAccountReturnType) {
   const { data: results } = useReadContracts({
     contracts: [
       {

@@ -8,13 +8,11 @@ function IlmInfoHeader() {
   return (
     <HeaderContainer>
       <HeaderInfoStack
-        values={
-          [
-            { label: "Equity", value: `${equity}` },
-            { label: "Collateral", value: `${collateral}` },
-            { label: "Debt", value: `$${debt}` },
-          ] as any
-        }
+        values={[
+          { label: "Equity", value: `${equity}` },
+          { label: "Collateral", value: `${collateral}` },
+          { label: "Debt", value: `$${debt}` },
+        ]}
       ></HeaderInfoStack>
     </HeaderContainer>
   );
