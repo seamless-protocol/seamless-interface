@@ -37,8 +37,8 @@ function useFetchUserEquity(account: UseAccountReturnType) {
     const equity = BigInt(results[2].result || 0n);
     const equityUSD = BigInt(results[3].result || 0n);
 
-    userEquity = equity * (userShares / totalShares);
-    userEquityUSD = equityUSD * (userShares / totalShares);
+    userEquity = (equity * userShares) / totalShares;
+    userEquityUSD = (equityUSD * userShares) / totalShares;
   }
 
   return {
