@@ -1,8 +1,8 @@
-import { useAccount, useReadContracts } from "wagmi";
 import {
   convertRatioToMultiple,
   formatBigIntOnTwoDecimals,
 } from "../utils/helpers";
+import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -13,9 +13,8 @@ import {
 } from "../generated";
 import { ONE_ETHER } from "../utils/constants";
 
-function useFetchStrategyInfoForAccount(account: any) {
+function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  // if (account) {
   const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
@@ -27,7 +26,7 @@ function useFetchStrategyInfoForAccount(account: any) {
         address: loopStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: loopStrategyAddress,
@@ -48,7 +47,7 @@ function useFetchStrategyInfoForAccount(account: any) {
         address: cbEthAddress,
         abi: cbEthAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: aaveOracleAddress,
@@ -58,7 +57,6 @@ function useFetchStrategyInfoForAccount(account: any) {
       },
     ],
   });
-  console.log("isLoading", isLoading);
 
   if (results) {
     const collateralRatioTargets = results[0].result;
@@ -76,7 +74,6 @@ function useFetchStrategyInfoForAccount(account: any) {
 
     userBalance = BigInt(results[5].result || 0);
     userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
-    // }
   }
 
   return {
@@ -99,7 +96,6 @@ export const useFetchStrategyAndUserInfo = () => {
     userBalance,
     userBalanceUSD,
   } = useFetchStrategyInfoForAccount(account);
-  console.log("isLoading", isLoading);
 
   return {
     isLoading,

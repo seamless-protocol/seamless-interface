@@ -1,7 +1,8 @@
 import { Container } from "@mui/material";
+import { ReactNode } from "react";
 
 interface HeaderContainerProps {
-  children: any;
+  children: ReactNode;
 }
 
 function HeaderContainer({ children }: HeaderContainerProps) {
