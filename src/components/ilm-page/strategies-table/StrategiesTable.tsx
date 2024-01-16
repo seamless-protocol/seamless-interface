@@ -1,13 +1,11 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
 import { useFetchStrategyAndUserInfo } from "../../../hooks/useFetchStrategyAndUserInfo";
-import AssetColumnHeader from "./table-headers/AssetColumnHeader";
 import CommonColumnHeader from "./table-headers/CommonColumnHeader";
 import AssetCell from "./table-cells/AssetCell";
 import TextCell from "./table-cells/TextCell";
@@ -15,13 +13,17 @@ import NumericCell from "./table-cells/NumericCell";
 import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
 function StrategiesTable() {
-  const { targetMultiple, maxMultiple, userEquity, userEquityUSD } =
-    useFetchStrategyAndUserInfo();
+  const {
+    targetMultiple,
+    userEquity,
+    userEquityUSD,
+    userBalance,
+    userBalanceUSD,
+  } = useFetchStrategyAndUserInfo();
 
   return (
     <TableContainer
       sx={{
-        marginTop: "50px",
         width: "100%",
         borderCollapse: "collapse",
       }}
@@ -29,25 +31,32 @@ function StrategiesTable() {
       <Table>
         <TableHead>
           <TableRow>
-            <AssetColumnHeader label="Deposit asset" sx={{ width: "180px" }} />
-            <CommonColumnHeader label="Description" sx={{ width: "150px" }} />
+            <CommonColumnHeader label="Strategy name" sx={{ width: "140px" }} />
+            <CommonColumnHeader label="Deposit asset" sx={{ width: "250px" }} />
             <CommonColumnHeader label="Target multiple" />
-            <CommonColumnHeader label="Max multiple" />
             <CommonColumnHeader label="Loop APY" />
+            <CommonColumnHeader label="Available to deposit" />
             <CommonColumnHeader label="Your position" />
-            <TableCell></TableCell>
+            <CommonColumnHeader label="" />
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <AssetCell name="Coinbase ETH" symbol="cbETH" image="cbeth.svg" />
-            <TextCell text="cbETH/ETH strategy description" />
-            <NumericCell primaryNumber={targetMultiple} />
-            <NumericCell primaryNumber={maxMultiple} />
+            <TextCell text="cbETH Booster" />
+            <AssetCell
+              name="Coinbase Staked Ether"
+              symbol="cbETH"
+              image="cbeth.svg"
+            />
+            <NumericCell primaryNumber={`${targetMultiple}x`} />
             <NumericCell primaryNumber="6.57%" />
             <NumericCell
+              primaryNumber={userBalance}
+              secondaryNumber={`$${userBalanceUSD}`}
+            />
+            <NumericCell
               primaryNumber={userEquity}
-              secondaryNumber={userEquityUSD}
+              secondaryNumber={`$${userEquityUSD}`}
             />
             <ButtonLinkCell label="Details" route="/details" />
           </TableRow>

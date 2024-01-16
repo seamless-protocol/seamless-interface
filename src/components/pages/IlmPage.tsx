@@ -1,5 +1,5 @@
 import IlmMarketInfo from "../ilm-page/IlmMarketInfo";
-import IlmInfoHeader from "../ilm-page/IlmInfoHeader";
+import IlmInfoHeader from "../ilm-page/ilm-header/IlmInfoHeader";
 
 function IlmPage() {
   return (

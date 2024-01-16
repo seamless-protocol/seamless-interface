@@ -8,10 +8,11 @@ function TextCell({ text }: TextCellProps) {
   return (
     <TableCell>
       <Typography
+        variant={"subtitle1"}
         sx={{
           fontFamily: "Verdana",
-          fontSize: "13px",
           textAlign: "center",
+          fontWeight: "bold",
         }}
       >
         {text}
