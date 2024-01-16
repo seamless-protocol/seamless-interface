@@ -1,5 +1,4 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -7,6 +6,7 @@ import {
   cbEthAddress,
 } from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
+import { formatToNumber } from "../utils/helpers";
 
 function fetchAccountCbEthBalance(account: any) {
   const { data: results, isLoading } = useReadContracts({
@@ -48,7 +48,7 @@ export const useFetchUserInfo = () => {
 
   return {
     isLoading,
-    cbEthBalance: formatBigIntOnTwoDecimals(cbEthBalance, 18),
-    cbEthBalanceUSD: formatBigIntOnTwoDecimals(cbEthBalanceUSD, 8),
+    cbEthBalance: formatToNumber(cbEthBalance, 18),
+    cbEthBalanceUSD: formatToNumber(cbEthBalanceUSD, 8),
   };
 };

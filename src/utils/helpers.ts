@@ -20,6 +20,12 @@ export function formatOnTwoDecimals(
   return formatter.format(input || 0);
 }
 
+export function formatFromTwoDecimals(
+  input: string | bigint | undefined
+): string {
+  return formatter.format(formatToNumber(input, 2));
+}
+
 export function formatBigIntOnTwoDecimals(
   input: bigint | undefined,
   decimals: number

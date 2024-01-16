@@ -10,12 +10,11 @@ import {
   cbEthAddress,
   loopStrategyAbi,
   loopStrategyAddress,
-} from "../generated";
+} from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: any) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  // if (account) {
   const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
@@ -58,7 +57,6 @@ function useFetchStrategyInfoForAccount(account: any) {
       },
     ],
   });
-  console.log("isLoading", isLoading);
 
   if (results) {
     const collateralRatioTargets = results[0].result;
@@ -66,7 +64,7 @@ function useFetchStrategyInfoForAccount(account: any) {
     targetMultiple = convertRatioToMultiple(targetRatio);
 
     const userShares = BigInt(results[1].result || 0);
-    const totalShares = BigInt(results[2].result || 0);
+    const totalShares = BigInt(results[2].result || 1);
 
     const equity = BigInt(results[3].result || 0);
     const equityUSD = BigInt(results[4].result || 0);
@@ -76,7 +74,6 @@ function useFetchStrategyInfoForAccount(account: any) {
 
     userBalance = BigInt(results[5].result || 0);
     userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
-    // }
   }
 
   return {
@@ -99,7 +96,6 @@ export const useFetchStrategyAndUserInfo = () => {
     userBalance,
     userBalanceUSD,
   } = useFetchStrategyInfoForAccount(account);
-  console.log("isLoading", isLoading);
 
   return {
     isLoading,

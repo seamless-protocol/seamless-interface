@@ -1,10 +1,14 @@
 import { Button, Stack } from "@mui/material";
 import WalletDataBox from "./wallet-data-box/WalletDataBox";
+import { useState } from "react";
+import { Modal } from "../../../modal/Modal";
+import DepositModal from "../../../modal/deposit-modal/DepositModal";
+import { formatOnTwoDecimals } from "../../../../utils/helpers";
 
 interface DepositRowProps {
   isLoading?: boolean;
-  walletBalance: string;
-  walletBalanceUSD: string;
+  walletBalance: number;
+  walletBalanceUSD: number;
 }
 
 function DepositRow({
@@ -12,6 +16,8 @@ function DepositRow({
   walletBalance,
   walletBalanceUSD,
 }: DepositRowProps) {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <Stack
       direction="row"
@@ -24,8 +30,8 @@ function DepositRow({
       <WalletDataBox
         isLoading={isLoading}
         label="Available to deposit"
-        walletBalance={walletBalance}
-        walletBalanceUSD={walletBalanceUSD}
+        walletBalance={formatOnTwoDecimals(walletBalance)}
+        walletBalanceUSD={formatOnTwoDecimals(walletBalanceUSD)}
       />
 
       <Button
@@ -39,9 +45,19 @@ function DepositRow({
             backgroundColor: "#0DA8EB",
           },
         }}
+        onClick={() => setShowModal(true)}
       >
         Deposit
       </Button>
+
+      {showModal ? (
+        <Modal>
+          <DepositModal
+            walletBalance={walletBalance}
+            walletBalanceUSD={walletBalanceUSD}
+          />
+        </Modal>
+      ) : null}
     </Stack>
   );
 }
