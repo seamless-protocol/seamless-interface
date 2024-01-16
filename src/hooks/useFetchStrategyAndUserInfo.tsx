@@ -1,9 +1,5 @@
 import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import {
-  convertRatioToMultiple,
-  formatBigIntOnTwoDecimals,
-} from "../utils/helpers";
-import {
   aaveOracleAbi,
   aaveOracleAddress,
   cbEthAbi,
@@ -11,19 +7,15 @@ import {
   loopStrategyAbi,
   loopStrategyAddress,
 } from "../generated";
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+} from "../utils/helpers";
+import { ONE_ETHER } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
-  if (!account || !account.address) {
-    return {
-      targetMultiple: 0n,
-      userEquity: 0n,
-      userEquityUSD: 0n,
-      userBalance: 0n,
-      userBalanceUSD: 0n,
-    };
-  }
-
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
+
   const { data: results } = useReadContracts({
     contracts: [
       {
@@ -35,7 +27,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
         address: loopStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: loopStrategyAddress,
@@ -56,7 +48,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
         address: cbEthAddress,
         abi: cbEthAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: aaveOracleAddress,
@@ -82,7 +74,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
     userEquityUSD = equityUSD * (userShares / totalShares);
 
     userBalance = BigInt(results[5].result || 0);
-    userBalanceUSD = userBalance * BigInt(results[6].result || 0);
+    userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
   }
 
   return {

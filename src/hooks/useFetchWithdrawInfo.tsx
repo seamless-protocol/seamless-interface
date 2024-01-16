@@ -3,13 +3,6 @@ import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
 function useFetchUserEquity(account: UseAccountReturnType) {
-  if (!account || !account.address) {
-    return {
-      userEquity: 0n,
-      userEquityUSD: 0n,
-    };
-  }
-
   let userEquity, userEquityUSD;
   const { data: results } = useReadContracts({
     contracts: [
@@ -17,7 +10,7 @@ function useFetchUserEquity(account: UseAccountReturnType) {
         address: loopStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: loopStrategyAddress,

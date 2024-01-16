@@ -9,20 +9,14 @@ import {
 import { ONE_ETHER } from "../utils/constants";
 
 function fetchAccountCbEthBalance(account: UseAccountReturnType) {
-  if (!account || !account.address) {
-    return {
-      cbEthBalance: 0n,
-      cbEthBalanceUSD: 0n,
-    };
-  }
-
+  let cbEthBalance, cbEthBalanceUSD;
   const { data: results } = useReadContracts({
     contracts: [
       {
         address: cbEthAddress,
         abi: cbEthAbi,
         functionName: "balanceOf",
-        args: [account?.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: aaveOracleAddress,
@@ -33,10 +27,8 @@ function fetchAccountCbEthBalance(account: UseAccountReturnType) {
     ],
   });
 
-  let cbEthBalance, cbEthBalanceUSD;
   if (results) {
     const cbEthPrice = BigInt(results[1].result || 0);
-
     cbEthBalance = BigInt(results[0].result || 0);
     cbEthBalanceUSD = (cbEthBalance * cbEthPrice) / ONE_ETHER;
   }
