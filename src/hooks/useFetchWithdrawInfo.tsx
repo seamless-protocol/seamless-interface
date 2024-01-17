@@ -4,7 +4,7 @@ import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
 function useFetchUserEquity(account: UseAccountReturnType) {
   let userEquity, userEquityUSD;
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
@@ -42,6 +42,7 @@ function useFetchUserEquity(account: UseAccountReturnType) {
   }
 
   return {
+    isLoading,
     userEquity,
     userEquityUSD,
   };
@@ -49,9 +50,10 @@ function useFetchUserEquity(account: UseAccountReturnType) {
 
 export const useFetchWithdrawInfo = () => {
   const account = useAccount();
-  const { userEquity, userEquityUSD } = useFetchUserEquity(account);
+  const { isLoading, userEquity, userEquityUSD } = useFetchUserEquity(account);
 
   return {
+    isLoading,
     userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
     userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
   };

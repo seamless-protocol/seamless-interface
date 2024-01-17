@@ -1,8 +1,9 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useFetchWithdrawInfo } from "../../../../hooks/useFetchWithdrawInfo";
+import WalletDataBox from "./wallet-data-box/WalletDataBox";
 
 function WithdrawRow() {
-  const { userEquity, userEquityUSD } = useFetchWithdrawInfo();
+  const { isLoading, userEquity, userEquityUSD } = useFetchWithdrawInfo();
 
   return (
     <Stack
@@ -12,36 +13,13 @@ function WithdrawRow() {
         alignItems: "center",
       }}
     >
-      <Stack>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.7rem",
-            color: "#000000",
-          }}
-        >
-          Available to withdraw
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.8rem",
-            fontWeight: 600,
-            color: "#000000",
-          }}
-        >
-          {userEquity}cbETH
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.7rem",
-            color: "#000000",
-          }}
-        >
-          ${userEquityUSD}
-        </Typography>
-      </Stack>
+      <WalletDataBox
+        isLoading={isLoading}
+        label="Available to withdraw"
+        walletBalance={userEquity}
+        walletBalanceUSD={userEquityUSD}
+      />
+
       <Button
         variant="contained"
         disableRipple

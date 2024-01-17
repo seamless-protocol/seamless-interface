@@ -6,14 +6,15 @@ import {
   TableRow,
 } from "@mui/material";
 import { useFetchStrategyAndUserInfo } from "../../../hooks/useFetchStrategyAndUserInfo";
-import CommonColumnHeader from "./table-headers/CommonColumnHeader";
+import CommonColumnHeader from "./CommonColumnHeader";
 import AssetCell from "./table-cells/AssetCell";
 import TextCell from "./table-cells/TextCell";
-import NumericCell from "./table-cells/NumericCell";
+import NumericCell from "./table-cells/NumericCell/NumericCell";
 import ButtonLinkCell from "./table-cells/ButtonLinkCell";
 
 function StrategiesTable() {
   const {
+    isLoading,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -24,8 +25,16 @@ function StrategiesTable() {
   return (
     <TableContainer
       sx={{
-        width: "100%",
-        borderCollapse: "collapse",
+        marginLeft: "auto",
+        marginRight: "auto",
+        maxWidth: "lg",
+        backgroundColor: "#FFFFFF",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: "5px",
+        marginTop: "-20px",
+        position: "relative",
+        containerSize: "100%",
       }}
     >
       <Table>
@@ -48,13 +57,18 @@ function StrategiesTable() {
               symbol="cbETH"
               image="cbeth.svg"
             />
-            <NumericCell primaryNumber={`${targetMultiple}x`} />
-            <NumericCell primaryNumber="6.57%" />
             <NumericCell
+              isLoading={isLoading}
+              primaryNumber={`${targetMultiple}x`}
+            />
+            <NumericCell isLoading={false} primaryNumber="6.57%" />
+            <NumericCell
+              isLoading={isLoading}
               primaryNumber={userBalance}
               secondaryNumber={`$${userBalanceUSD}`}
             />
             <NumericCell
+              isLoading={isLoading}
               primaryNumber={userEquity}
               secondaryNumber={`$${userEquityUSD}`}
             />

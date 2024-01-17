@@ -7,17 +7,18 @@ import { useFetchUserInfo } from "../../../../hooks/useFetchUserInfo";
 import WithdrawRow from "./WithdrawRow";
 
 function UserInfo() {
-  const { cbEthBalance, cbEthBalanceUSD } = useFetchUserInfo();
+  const { isLoading, cbEthBalance, cbEthBalanceUSD } = useFetchUserInfo();
 
   return (
     <UserInfoContainer>
       <UserInfoHeader />
-      <UserWalletInfo walletBalance={cbEthBalance} />
+      <UserWalletInfo isLoading={isLoading} walletBalance={cbEthBalance} />
       <Divider
         variant="fullWidth"
         sx={{ marginTop: "40px", marginBottom: "20px" }}
       />
       <DepositRow
+        isLoading={isLoading}
         walletBalance={cbEthBalance}
         walletBalanceUSD={cbEthBalanceUSD}
       />

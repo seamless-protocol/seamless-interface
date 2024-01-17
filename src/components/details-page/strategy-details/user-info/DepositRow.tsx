@@ -1,11 +1,17 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack } from "@mui/material";
+import WalletDataBox from "./wallet-data-box/WalletDataBox";
 
 interface DepositRowProps {
+  isLoading?: boolean;
   walletBalance: string;
   walletBalanceUSD: string;
 }
 
-function DepositRow({ walletBalance, walletBalanceUSD }: DepositRowProps) {
+function DepositRow({
+  isLoading,
+  walletBalance,
+  walletBalanceUSD,
+}: DepositRowProps) {
   return (
     <Stack
       direction="row"
@@ -15,36 +21,13 @@ function DepositRow({ walletBalance, walletBalanceUSD }: DepositRowProps) {
         alignItems: "center",
       }}
     >
-      <Stack>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.7rem",
-            color: "#000000",
-          }}
-        >
-          Available to deposit
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.8rem",
-            fontWeight: 600,
-            color: "#000000",
-          }}
-        >
-          {walletBalance}cbETH
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Verdana",
-            fontSize: "0.7rem",
-            color: "#000000",
-          }}
-        >
-          ${walletBalanceUSD}
-        </Typography>
-      </Stack>
+      <WalletDataBox
+        isLoading={isLoading}
+        label="Available to deposit"
+        walletBalance={walletBalance}
+        walletBalanceUSD={walletBalanceUSD}
+      />
+
       <Button
         variant="contained"
         disableRipple

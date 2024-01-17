@@ -3,9 +3,9 @@ import { WagmiProvider, http, createConfig } from "wagmi";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
-import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import DetailsPage from "./components/pages/DetailsPage";
-import IlmPage from "./components/pages/IlmPage";
+import ResponsiveAppBar from "./components/navbar/ResponsiveAppBar";
+import DetailsPage from "./components/details-page/DetailsPage";
+import IlmPage from "./components/ilm-page/IlmPage";
 
 const config = createConfig({
   chains: [base],

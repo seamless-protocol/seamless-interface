@@ -12,7 +12,7 @@ import {
 import { useReadContracts } from "wagmi";
 
 export const useFetchStrategyInfoHeader = () => {
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
@@ -30,6 +30,7 @@ export const useFetchStrategyInfoHeader = () => {
   const targetMultiple = convertRatioToMultiple(results?.[0].result?.target);
 
   return {
+    isLoading,
     targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
     oraclePrice: formatBigIntOnTwoDecimals(results?.[1].result, 8),
   };

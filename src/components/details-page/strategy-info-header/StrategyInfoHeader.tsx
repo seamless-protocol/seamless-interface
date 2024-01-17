@@ -5,13 +5,15 @@ import AssetBox from "./AssetBox";
 import { useFetchStrategyInfoHeader } from "../../../hooks/useFetchStrategyInfoHeader";
 
 function StrategyInfoHeader() {
-  const { targetMultiple, oraclePrice } = useFetchStrategyInfoHeader();
+  const { isLoading, targetMultiple, oraclePrice } =
+    useFetchStrategyInfoHeader();
 
   return (
     <HeaderContainer>
       <Container sx={{ display: "flex" }}>
         <AssetBox />
         <HeaderInfoStack
+          isLoading={isLoading}
           values={[
             { label: "Target multiple", value: `${targetMultiple}x` },
             { label: "APY estimate", value: `3.97%` },

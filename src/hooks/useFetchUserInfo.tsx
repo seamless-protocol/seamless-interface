@@ -10,7 +10,7 @@ import { ONE_ETHER } from "../utils/constants";
 
 function fetchAccountCbEthBalance(account: UseAccountReturnType) {
   let cbEthBalance, cbEthBalanceUSD;
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: cbEthAddress,
@@ -34,6 +34,7 @@ function fetchAccountCbEthBalance(account: UseAccountReturnType) {
   }
 
   return {
+    isLoading,
     cbEthBalance,
     cbEthBalanceUSD,
   };
@@ -41,9 +42,11 @@ function fetchAccountCbEthBalance(account: UseAccountReturnType) {
 
 export const useFetchUserInfo = () => {
   const account = useAccount();
-  const { cbEthBalance, cbEthBalanceUSD } = fetchAccountCbEthBalance(account);
+  const { isLoading, cbEthBalance, cbEthBalanceUSD } =
+    fetchAccountCbEthBalance(account);
 
   return {
+    isLoading,
     cbEthBalance: formatBigIntOnTwoDecimals(cbEthBalance, 18),
     cbEthBalanceUSD: formatBigIntOnTwoDecimals(cbEthBalanceUSD, 8),
   };

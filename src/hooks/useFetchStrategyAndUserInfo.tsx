@@ -1,3 +1,7 @@
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+} from "../utils/helpers";
 import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import {
   aaveOracleAbi,
@@ -7,16 +11,11 @@ import {
   loopStrategyAbi,
   loopStrategyAddress,
 } from "../generated";
-import {
-  convertRatioToMultiple,
-  formatBigIntOnTwoDecimals,
-} from "../utils/helpers";
 import { ONE_ETHER } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-
-  const { data: results } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
@@ -78,6 +77,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   }
 
   return {
+    isLoading,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -89,6 +89,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
 export const useFetchStrategyAndUserInfo = () => {
   const account = useAccount();
   const {
+    isLoading,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -97,6 +98,7 @@ export const useFetchStrategyAndUserInfo = () => {
   } = useFetchStrategyInfoForAccount(account);
 
   return {
+    isLoading,
     targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
     userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
     userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
