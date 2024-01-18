@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import StrategyInfoTableNumericCell from "./StrategyInfoTableNumericCell";
 
-interface StrategyInfoTableBoxProps {
+interface StrategyInfoTableColumnProps {
   isLoading: boolean;
   label: string;
   primaryValue: string;
@@ -13,7 +13,7 @@ function StrategyInfoTableColumn({
   label,
   primaryValue,
   secondaryValue,
-}: StrategyInfoTableBoxProps) {
+}: StrategyInfoTableColumnProps) {
   return (
     <Box
       sx={{

@@ -1,17 +1,16 @@
-import { useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import { loopStrategyAbi, loopStrategyAddress } from "../generated/generated";
 
-function useFetchUserEquity(account: any) {
-  if (!account) return { isLoading: false, userEquity: 0n, userEquityUSD: 0n };
-
+function useFetchUserEquity(account: UseAccountReturnType) {
+  let userEquity, userEquityUSD;
   const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
-        args: [account.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: loopStrategyAddress,
@@ -31,7 +30,6 @@ function useFetchUserEquity(account: any) {
     ],
   });
 
-  let userEquity, userEquityUSD;
   if (results) {
     const userShares = BigInt(results[0].result || 0);
     const totalShares = BigInt(results[1].result || 1n);
@@ -39,8 +37,8 @@ function useFetchUserEquity(account: any) {
     const equity = BigInt(results[2].result || 0n);
     const equityUSD = BigInt(results[3].result || 0n);
 
-    userEquity = equity * (userShares / totalShares);
-    userEquityUSD = equityUSD * (userShares / totalShares);
+    userEquity = (equity * userShares) / totalShares;
+    userEquityUSD = (equityUSD * userShares) / totalShares;
   }
 
   return {

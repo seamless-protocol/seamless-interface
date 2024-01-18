@@ -19,6 +19,7 @@ function HeaderInfoBox({ isLoading, label, value }: HeaderInfoBoxProps) {
       >
         {label}
       </Typography>
+
       {isLoading ? (
         <LoadingComponent size="1.4rem" />
       ) : (

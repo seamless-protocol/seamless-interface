@@ -1,15 +1,15 @@
-import { Container } from "@mui/material";
+import { Container, SxProps } from "@mui/material";
 import HeaderInfoBox from "./HeaderInfoBox";
+
+interface HeaderInfoStackValue {
+  label: string;
+  value: string;
+}
 
 interface HeaderInfoStackProps {
   isLoading: boolean;
-  values: [
-    {
-      label: string;
-      value: string;
-    },
-  ];
-  sx?: any;
+  values: HeaderInfoStackValue[];
+  sx?: SxProps;
 }
 
 function HeaderInfoStack({ isLoading, values, sx }: HeaderInfoStackProps) {

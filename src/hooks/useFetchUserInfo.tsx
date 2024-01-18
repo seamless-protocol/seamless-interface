@@ -1,4 +1,5 @@
-import { useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -6,16 +7,16 @@ import {
   cbEthAddress,
 } from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
-import { formatToNumber } from "../utils/helpers";
 
-function fetchAccountCbEthBalance(account: any) {
+function fetchAccountCbEthBalance(account: UseAccountReturnType) {
+  let cbEthBalance, cbEthBalanceUSD;
   const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: cbEthAddress,
         abi: cbEthAbi,
         functionName: "balanceOf",
-        args: [account?.address],
+        args: [account.address as `0x${string}`],
       },
       {
         address: aaveOracleAddress,
@@ -26,10 +27,8 @@ function fetchAccountCbEthBalance(account: any) {
     ],
   });
 
-  let cbEthBalance, cbEthBalanceUSD;
   if (results) {
     const cbEthPrice = BigInt(results[1].result || 0);
-
     cbEthBalance = BigInt(results[0].result || 0);
     cbEthBalanceUSD = (cbEthBalance * cbEthPrice) / ONE_ETHER;
   }
@@ -48,7 +47,7 @@ export const useFetchUserInfo = () => {
 
   return {
     isLoading,
-    cbEthBalance: formatToNumber(cbEthBalance, 18),
-    cbEthBalanceUSD: formatToNumber(cbEthBalanceUSD, 8),
+    cbEthBalance: formatBigIntOnTwoDecimals(cbEthBalance, 18),
+    cbEthBalanceUSD: formatBigIntOnTwoDecimals(cbEthBalanceUSD, 8),
   };
 };

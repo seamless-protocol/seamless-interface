@@ -3,12 +3,11 @@ import WalletDataBox from "./wallet-data-box/WalletDataBox";
 import { useState } from "react";
 import { Modal } from "../../../modal/Modal";
 import DepositModal from "../../../modal/deposit-modal/DepositModal";
-import { formatOnTwoDecimals } from "../../../../utils/helpers";
 
 interface DepositRowProps {
   isLoading?: boolean;
-  walletBalance: number;
-  walletBalanceUSD: number;
+  walletBalance: string;
+  walletBalanceUSD: string;
 }
 
 function DepositRow({
@@ -30,8 +29,8 @@ function DepositRow({
       <WalletDataBox
         isLoading={isLoading}
         label="Available to deposit"
-        walletBalance={formatOnTwoDecimals(walletBalance)}
-        walletBalanceUSD={formatOnTwoDecimals(walletBalanceUSD)}
+        walletBalance={walletBalance}
+        walletBalanceUSD={walletBalanceUSD}
       />
 
       <Button
@@ -52,10 +51,7 @@ function DepositRow({
 
       {showModal ? (
         <Modal>
-          <DepositModal
-            walletBalance={walletBalance}
-            walletBalanceUSD={walletBalanceUSD}
-          />
+          <DepositModal />
         </Modal>
       ) : null}
     </Stack>

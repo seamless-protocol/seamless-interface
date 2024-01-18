@@ -20,12 +20,6 @@ export function formatOnTwoDecimals(
   return formatter.format(input || 0);
 }
 
-export function formatFromTwoDecimals(
-  input: string | bigint | undefined
-): string {
-  return formatter.format(formatToNumber(input, 2));
-}
-
 export function formatBigIntOnTwoDecimals(
   input: bigint | undefined,
   decimals: number
@@ -33,7 +27,6 @@ export function formatBigIntOnTwoDecimals(
   return formatter.format(formatToNumber(input, decimals));
 }
 
-export function convertRatioToMultiple(ratio: bigint | undefined) {
-  ratio = ratio || 0n;
+export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
 }

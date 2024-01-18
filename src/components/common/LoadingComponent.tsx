@@ -1,8 +1,8 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, SxProps } from "@mui/material";
 
 interface LoadingComponentProps {
   size?: string;
-  sx?: any;
+  sx?: SxProps;
 }
 
 function LoadingComponent({ size, sx }: LoadingComponentProps) {
