@@ -6,7 +6,10 @@ import {
 } from "../generated/generated";
 import { useEffect } from "react";
 
-export const useFetchAssetAllowance = (isApprovalSuccessful: boolean) => {
+export const useFetchAssetAllowance = (
+  isApprovalSuccessful: boolean,
+  isDepositSuccessful: boolean
+) => {
   const queryClient = useQueryClient();
   const account = useAccount();
 
@@ -16,7 +19,7 @@ export const useFetchAssetAllowance = (isApprovalSuccessful: boolean) => {
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey });
-  }, [isApprovalSuccessful, queryClient]);
+  }, [isApprovalSuccessful, isDepositSuccessful, queryClient]);
 
   return { allowance };
 };

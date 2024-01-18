@@ -7,6 +7,6 @@ export const useFetchPreviewDeposit = (amount: number) => {
   });
 
   return {
-    shares: ((shares || 0n) * 80n) / 100n,
+    shares: ((shares || 0n) * 75n) / 100n,
   };
 };

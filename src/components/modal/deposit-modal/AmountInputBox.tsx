@@ -8,7 +8,7 @@ import { parseEther } from "viem";
 import { ONE_ETHER } from "../../../utils/constants";
 
 interface AmountInputBoxProps {
-  walletBalance: bigint | undefined;
+  walletBalance: number;
   amount: number;
   setAmount: (amount: number) => void;
 }
@@ -41,12 +41,15 @@ function AmountInputBox({
         <InputBase
           placeholder="0.00"
           type="number"
+          value={amount || null}
           sx={{
             marginTop: "0.1rem",
-            fontSize: "130%",
+            fontSize: "1.3rem",
           }}
           onChange={(e) => {
-            setAmount(parseFloat(e.target.value || "0"));
+            let value = parseFloat(e.target.value || "0");
+            value = value > walletBalance ? walletBalance : value;
+            setAmount(value);
           }}
         ></InputBase>
 
@@ -59,22 +62,23 @@ function AmountInputBox({
             }}
           ></img>
 
-          <Typography align="right" fontSize={"110%"}>
+          <Typography align="right" fontSize={"1.1rem"}>
             cbETH
           </Typography>
         </Stack>
       </Stack>
 
       <Stack direction={"row"} justifyContent={"space-between"}>
-        <Typography fontSize={"90%"}>
+        <Typography fontSize={"0.9rem"}>
           $
           {formatBigIntOnTwoDecimals(
             (parseEther(amount.toString()) * (cbEthPrice || 0n)) / ONE_ETHER,
             8
           )}
         </Typography>
-        <Typography fontSize={"80%"}>
-          Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
+        <Typography fontSize={"0.8rem"}>
+          Wallet balance{" "}
+          {formatBigIntOnTwoDecimals(parseEther(walletBalance.toString()), 18)}
         </Typography>
       </Stack>
     </Stack>

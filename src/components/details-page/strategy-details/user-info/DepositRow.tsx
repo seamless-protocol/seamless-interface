@@ -51,7 +51,7 @@ function DepositRow({
 
       {showModal ? (
         <Modal>
-          <DepositModal />
+          <DepositModal setShowModal={setShowModal} />
         </Modal>
       ) : null}
     </Stack>
