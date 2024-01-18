@@ -55,7 +55,7 @@ function AmountInputBox({
 
         <Stack direction={"row"} alignItems={"center"} spacing={"0.5rem"}>
           <img
-            src="cbeth.svg"
+            src="src/assets/cbeth.svg"
             alt="Logo"
             style={{
               height: "2rem",

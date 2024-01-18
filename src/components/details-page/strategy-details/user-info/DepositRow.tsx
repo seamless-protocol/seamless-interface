@@ -1,7 +1,6 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Modal, Stack } from "@mui/material";
 import WalletDataBox from "./wallet-data-box/WalletDataBox";
 import { useState } from "react";
-import { Modal } from "../../../modal/Modal";
 import DepositModal from "../../../modal/deposit-modal/DepositModal";
 
 interface DepositRowProps {
@@ -49,11 +48,18 @@ function DepositRow({
         Deposit
       </Button>
 
-      {showModal ? (
-        <Modal>
-          <DepositModal setShowModal={setShowModal} />
-        </Modal>
-      ) : null}
+      <Modal
+        open={showModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <DepositModal setShowModal={setShowModal} />
+      </Modal>
     </Stack>
   );
 }

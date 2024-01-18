@@ -63,7 +63,16 @@ function DepositModal({ setShowModal }: DepositModalProps) {
   }, [isDepositSuccessful]);
 
   return (
-    <Stack spacing={"1rem"} sx={{ padding: "0.4rem" }}>
+    <Stack
+      spacing={"1rem"}
+      maxWidth={"80rem"}
+      sx={{
+        padding: "1rem",
+        background: "white",
+        borderRadius: "0.4rem",
+        width: "30%",
+      }}
+    >
       <Stack
         direction="row"
         alignItems={"center"}
