@@ -24,7 +24,6 @@ interface DepositModalProps {
 function DepositModal({ setShowModal }: DepositModalProps) {
   const account = useAccount();
   const [amount, setAmount] = useState(0);
-  console.log(setShowModal);
 
   const {
     writeContract: deposit,
@@ -56,6 +55,12 @@ function DepositModal({ setShowModal }: DepositModalProps) {
       });
     }
   };
+
+  useEffect(() => {
+    if (isDepositSuccessful) {
+      setAmount(0);
+    }
+  }, [isDepositSuccessful]);
 
   return (
     <Stack spacing={"1rem"} sx={{ padding: "0.4rem" }}>

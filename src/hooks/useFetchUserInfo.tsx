@@ -1,40 +1,29 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount } from "wagmi";
 import { formatBigIntOnTwoDecimals } from "../utils/helpers";
 import {
-  aaveOracleAbi,
-  aaveOracleAddress,
-  cbEthAbi,
   cbEthAddress,
+  useReadAaveOracleGetAssetPrice,
+  useReadCbEthBalanceOf,
 } from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
 
 function fetchAccountCbEthBalance(account: UseAccountReturnType) {
-  let cbEthBalance, cbEthBalanceUSD;
-  const { data: results, isLoading } = useReadContracts({
-    contracts: [
-      {
-        address: cbEthAddress,
-        abi: cbEthAbi,
-        functionName: "balanceOf",
-        args: [account.address as `0x${string}`],
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [cbEthAddress],
-      },
-    ],
-  });
+  const { data: cbEthBalance, isLoading: isLoadingCbEthBalance } =
+    useReadCbEthBalanceOf({
+      args: [account.address as `0x${string}`],
+    });
+  const { data: cbEthPrice, isLoading: isLoadingCbEthPrice } =
+    useReadAaveOracleGetAssetPrice({
+      args: [cbEthAddress],
+    });
 
-  if (results) {
-    const cbEthPrice = BigInt(results[1].result || 0);
-    cbEthBalance = BigInt(results[0].result || 0);
+  let cbEthBalanceUSD;
+  if (cbEthBalance && cbEthPrice) {
     cbEthBalanceUSD = (cbEthBalance * cbEthPrice) / ONE_ETHER;
   }
 
   return {
-    isLoading,
+    isLoading: isLoadingCbEthBalance || isLoadingCbEthPrice,
     cbEthBalance,
     cbEthBalanceUSD,
   };

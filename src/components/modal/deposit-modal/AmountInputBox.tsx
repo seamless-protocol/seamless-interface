@@ -41,7 +41,7 @@ function AmountInputBox({
         <InputBase
           placeholder="0.00"
           type="number"
-          value={amount || null}
+          value={amount || ""}
           sx={{
             marginTop: "0.1rem",
             fontSize: "1.3rem",
