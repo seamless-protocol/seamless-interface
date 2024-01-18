@@ -35,8 +35,3 @@ html, body {
   text-align: center;
   border-radius: 3px;
 }
-
-#modal .buttons button {
-  display: inline-block;
-  margin-right: 15px;
-}
