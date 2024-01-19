@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import { formatToNumber, stringToNumber } from "../../../utils/helpers";
 import {
+  cbEthAddress,
   loopStrategyAddress,
   useWriteCbEthApprove,
   useWriteLoopStrategyDeposit,
@@ -36,13 +37,16 @@ function DepositModal({ setShowModal }: DepositModalProps) {
     isSuccess: isAppovalSuccessful,
   } = useWriteCbEthApprove();
 
-  const { shares } = useFetchPreviewDeposit(stringToNumber(amount));
+  const { shares } = useFetchPreviewDeposit(amount);
   const { allowance } = useFetchAssetAllowance(
+    cbEthAddress,
     isAppovalSuccessful,
     isDepositSuccessful
   );
-  const { balance: cbEthBalance } =
-    useFetchAccountAssetBalance(isDepositSuccessful);
+  const { balance: cbEthBalance } = useFetchAccountAssetBalance(
+    cbEthAddress,
+    isDepositSuccessful
+  );
 
   const handleDeposit = () => {
     if (shares) {
