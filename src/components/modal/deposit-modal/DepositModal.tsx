@@ -3,7 +3,7 @@ import { LoadingButton } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useEffect, useState } from "react";
-import { formatToNumber } from "../../../utils/helpers";
+import { formatToNumber, stringToNumber } from "../../../utils/helpers";
 import {
   loopStrategyAddress,
   useWriteCbEthApprove,
@@ -23,7 +23,7 @@ interface DepositModalProps {
 
 function DepositModal({ setShowModal }: DepositModalProps) {
   const account = useAccount();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0.0");
 
   const {
     writeContract: deposit,
@@ -36,7 +36,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
     isSuccess: isAppovalSuccessful,
   } = useWriteCbEthApprove();
 
-  const { shares } = useFetchPreviewDeposit(amount);
+  const { shares } = useFetchPreviewDeposit(stringToNumber(amount));
   const { allowance } = useFetchAssetAllowance(
     isAppovalSuccessful,
     isDepositSuccessful
@@ -47,18 +47,14 @@ function DepositModal({ setShowModal }: DepositModalProps) {
   const handleDeposit = () => {
     if (shares) {
       deposit({
-        args: [
-          parseEther(amount.toString()),
-          account.address as `0x${string}`,
-          shares,
-        ],
+        args: [parseEther(amount), account.address as `0x${string}`, shares],
       });
     }
   };
 
   useEffect(() => {
     if (isDepositSuccessful) {
-      setAmount(0);
+      setAmount("0.0");
     }
   }, [isDepositSuccessful]);
 
@@ -100,10 +96,10 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isApprovalPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatToNumber(allowance, 18) >= amount}
+        disabled={formatToNumber(allowance, 18) >= stringToNumber(amount)}
         onClick={() =>
           approve({
-            args: [loopStrategyAddress, parseEther(amount.toString())],
+            args: [loopStrategyAddress, parseEther(amount || "0")],
           })
         }
       >
@@ -114,7 +110,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isDepositPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatToNumber(allowance, 18) < amount}
+        disabled={formatToNumber(allowance, 18) < stringToNumber(amount)}
         onClick={handleDeposit}
       >
         Deposit cbETH

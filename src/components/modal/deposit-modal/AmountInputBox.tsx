@@ -1,4 +1,4 @@
-import { InputBase, Stack, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import {
   cbEthAddress,
   useReadAaveOracleGetAssetPrice,
@@ -9,8 +9,8 @@ import { ONE_ETHER } from "../../../utils/constants";
 
 interface AmountInputBoxProps {
   walletBalance: number;
-  amount: number;
-  setAmount: (amount: number) => void;
+  amount: string;
+  setAmount: (amount: string) => void;
 }
 
 function AmountInputBox({
@@ -38,20 +38,27 @@ function AmountInputBox({
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <InputBase
-          placeholder="0.00"
-          type="number"
+        <TextField
+          type="text"
+          variant="standard"
+          placeholder="0.0"
           value={amount || ""}
           sx={{
-            marginTop: "0.1rem",
-            fontSize: "1.3rem",
+            paddingTop: "0.3rem",
+          }}
+          InputProps={{
+            disableUnderline: true,
           }}
           onChange={(e) => {
-            let value = parseFloat(e.target.value || "0");
-            value = value > walletBalance ? walletBalance : value;
+            const valueNum = parseFloat(e.target.value || "0");
+            const value =
+              valueNum > walletBalance
+                ? walletBalance.toString()
+                : e.target.value;
+
             setAmount(value);
           }}
-        ></InputBase>
+        />
 
         <Stack direction={"row"} alignItems={"center"} spacing={"0.5rem"}>
           <img
@@ -61,7 +68,6 @@ function AmountInputBox({
               height: "2rem",
             }}
           ></img>
-
           <Typography align="right" fontSize={"1.1rem"}>
             cbETH
           </Typography>
