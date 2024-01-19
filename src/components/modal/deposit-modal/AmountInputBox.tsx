@@ -39,7 +39,7 @@ function AmountInputBox({
         alignItems={"center"}
       >
         <TextField
-          type="text"
+          type="number"
           variant="standard"
           placeholder="0.0"
           value={amount || ""}

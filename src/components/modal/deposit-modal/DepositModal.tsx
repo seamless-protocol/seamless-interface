@@ -1,7 +1,6 @@
 import { IconButton, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
-
 import { useEffect, useState } from "react";
 import {
   formatBigIntOnTwoDecimals,
@@ -21,6 +20,7 @@ import TransactionDetailsBox from "./TransactionDetailsBox";
 import { useFetchAccountAssetBalance } from "../../../hooks/useFetchAccountAssetBalance";
 import { useFetchAssetAllowance } from "../../../hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../hooks/useFetchPreviewDeposit";
+import { useDebounce } from "@uidotdev/usehooks";
 
 interface DepositModalProps {
   setShowModal: (value: boolean) => void;
@@ -29,6 +29,7 @@ interface DepositModalProps {
 function DepositModal({ setShowModal }: DepositModalProps) {
   const account = useAccount();
   const [amount, setAmount] = useState("0.0");
+  const debouncedAmount = useDebounce(amount, 500);
 
   const {
     writeContract: deposit,
@@ -41,7 +42,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
     isSuccess: isAppovalSuccessful,
   } = useWriteCbEthApprove();
 
-  const { shares } = useFetchPreviewDeposit(amount);
+  const { shares } = useFetchPreviewDeposit(debouncedAmount);
   const { allowance } = useFetchAssetAllowance(
     cbEthAddress,
     isAppovalSuccessful,
