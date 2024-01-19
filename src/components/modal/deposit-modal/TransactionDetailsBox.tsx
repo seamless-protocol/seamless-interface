@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@mui/material";
-import { formatBigIntOnTwoDecimals } from "../../../utils/helpers";
 
 interface TransactionDetailsBoxProps {
   shares: string;
