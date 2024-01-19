@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import { formatBigIntOnTwoDecimals } from "../../../utils/helpers";
 
 interface TransactionDetailsBoxProps {
-  shares: bigint | undefined;
+  shares: string;
 }
 
 function TransactionDetailsBox({ shares }: TransactionDetailsBoxProps) {
@@ -21,9 +21,7 @@ function TransactionDetailsBox({ shares }: TransactionDetailsBoxProps) {
       }}
     >
       <Typography fontSize={"0.9rem"}>Shares to receive</Typography>
-      <Typography fontSize={"0.9rem"}>
-        {formatBigIntOnTwoDecimals(shares, 18)}
-      </Typography>
+      <Typography fontSize={"0.9rem"}>{shares}</Typography>
     </Stack>
   );
 }

@@ -3,7 +3,11 @@ import { LoadingButton } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useEffect, useState } from "react";
-import { formatToNumber, stringToNumber } from "../../../utils/helpers";
+import {
+  formatBigIntOnTwoDecimals,
+  formatToNumber,
+  stringToNumber,
+} from "../../../utils/helpers";
 import {
   cbEthAddress,
   loopStrategyAddress,
@@ -94,7 +98,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         setAmount={setAmount}
       />
 
-      <TransactionDetailsBox shares={shares} />
+      <TransactionDetailsBox shares={formatBigIntOnTwoDecimals(shares, 18)} />
 
       <LoadingButton
         variant="contained"
