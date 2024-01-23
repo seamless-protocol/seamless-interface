@@ -1,9 +1,9 @@
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
 import { useReadLoopStrategyPreviewDeposit } from "../generated/generated";
 
 export const useFetchPreviewDeposit = (amount: string) => {
   const { data: shares } = useReadLoopStrategyPreviewDeposit({
-    args: [parseEther(amount)],
+    args: [parseUnits(amount, 18)],
   });
 
   return {

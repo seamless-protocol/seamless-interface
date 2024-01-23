@@ -63,8 +63,7 @@ export const useFetchStrategyInfo = () => {
     equity = BigInt(results[2].result || 0);
     equityUSD = BigInt(results[3].result || 0);
 
-    const divisor = equity === 0n ? 1n : equity;
-    currentMultiple = (collateralUSD * ONE_USD) / divisor;
+    currentMultiple = equity !== 0n ? (collateral * ONE_USD) / equity : 0n;
   }
 
   return {

@@ -13,7 +13,7 @@ import {
   useWriteCbEthApprove,
   useWriteLoopStrategyDeposit,
 } from "../../../generated/generated";
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import AmountInputBox from "./AmountInputBox";
 import TransactionDetailsBox from "./TransactionDetailsBox";
@@ -56,7 +56,11 @@ function DepositModal({ setShowModal }: DepositModalProps) {
   const handleDeposit = () => {
     if (shares) {
       deposit({
-        args: [parseEther(amount), account.address as `0x${string}`, shares],
+        args: [
+          parseUnits(amount, 18),
+          account.address as `0x${string}`,
+          shares,
+        ],
       });
     }
   };
@@ -94,7 +98,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
       </Stack>
 
       <AmountInputBox
-        walletBalance={formatToNumber(cbEthBalance, 18)}
+        walletBalance={cbEthBalance || 0n}
         amount={amount}
         setAmount={setAmount}
       />
@@ -108,7 +112,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         disabled={formatToNumber(allowance, 18) >= stringToNumber(amount)}
         onClick={() =>
           approve({
-            args: [loopStrategyAddress, parseEther(amount || "0")],
+            args: [loopStrategyAddress, parseUnits(amount || "0", 18)],
           })
         }
       >

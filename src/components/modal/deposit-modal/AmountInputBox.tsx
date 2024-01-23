@@ -4,11 +4,12 @@ import {
   useReadAaveOracleGetAssetPrice,
 } from "../../../generated/generated";
 import { formatBigIntOnTwoDecimals } from "../../../utils/helpers";
-import { parseEther } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { ONE_ETHER } from "../../../utils/constants";
+import cbethImg from "../../../assets/cbeth.svg";
 
 interface AmountInputBoxProps {
-  walletBalance: number;
+  walletBalance: bigint;
   amount: string;
   setAmount: (amount: string) => void;
 }
@@ -50,19 +51,17 @@ function AmountInputBox({
             disableUnderline: true,
           }}
           onChange={(e) => {
-            const valueNum = parseFloat(e.target.value || "0");
+            const valueBigInt = parseUnits(e.target.value || "0", 18);
             const value =
-              valueNum > walletBalance
-                ? walletBalance.toString()
-                : e.target.value;
+              valueBigInt > walletBalance ? walletBalance : valueBigInt;
 
-            setAmount(value);
+            setAmount(formatUnits(value, 18));
           }}
         />
 
         <Stack direction={"row"} alignItems={"center"} spacing={"0.5rem"}>
           <img
-            src="src/assets/cbeth.svg"
+            src={cbethImg}
             alt="Logo"
             style={{
               height: "2rem",
@@ -78,13 +77,12 @@ function AmountInputBox({
         <Typography fontSize={"0.9rem"}>
           $
           {formatBigIntOnTwoDecimals(
-            (parseEther(amount.toString()) * (cbEthPrice || 0n)) / ONE_ETHER,
+            (parseUnits(amount, 18) * (cbEthPrice || 0n)) / ONE_ETHER,
             8
           )}
         </Typography>
         <Typography fontSize={"0.8rem"}>
-          Wallet balance{" "}
-          {formatBigIntOnTwoDecimals(parseEther(walletBalance.toString()), 18)}
+          Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
         </Typography>
       </Stack>
     </Stack>
