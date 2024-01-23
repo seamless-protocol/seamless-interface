@@ -10,7 +10,7 @@ import {
   cbEthAddress,
   loopStrategyAbi,
   loopStrategyAddress,
-} from "../generated";
+} from "../generated/generated";
 import { ONE_ETHER } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
@@ -64,7 +64,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
     targetMultiple = convertRatioToMultiple(targetRatio);
 
     const userShares = BigInt(results[1].result || 0);
-    const totalShares = BigInt(results[2].result || 0);
+    const totalShares = BigInt(results[2].result || 1);
 
     const equity = BigInt(results[3].result || 0);
     const equityUSD = BigInt(results[4].result || 0);

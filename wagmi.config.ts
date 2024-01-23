@@ -14,7 +14,7 @@ export default defineConfig({
     },
     {
       name: "LoopStrategy",
-      address: "0x20361754A07610af88D1Df54e7c8eC0Ba459A8d8",
+      address: "0xbf7163E07Cb778E3D6216d249Bd64fa7c86B6Da2",
       abi: LoopStrategyAbi,
     },
     {

@@ -8,6 +8,10 @@ export function formatToNumber(
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
+export function stringToNumber(value: string | undefined) {
+  return parseFloat(value || "0");
+}
+
 const formatter = Intl.NumberFormat("en", {
   notation: "compact",
   minimumFractionDigits: 2,

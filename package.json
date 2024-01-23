@@ -14,10 +14,12 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.3",
+    "@mui/lab": "^5.0.0-alpha.161",
     "@mui/material": "^5.15.3",
     "@tanstack/react-query": "^5.17.1",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vitejs/plugin-react": "^4.2.1",
     "bignumber.js": "^9.1.2",
     "dotenv": "^16.3.1",
@@ -29,6 +31,7 @@
     "wagmi": "^2.0.3"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@wagmi/cli": "^2.0.3",
