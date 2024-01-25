@@ -6,6 +6,8 @@ import { base } from "wagmi/chains";
 import ResponsiveAppBar from "./components/navbar/ResponsiveAppBar";
 import DetailsPage from "./components/details-page/DetailsPage";
 import IlmPage from "./components/ilm-page/IlmPage";
+import { TestPage } from "./app/pages/test-page/page";
+import { RouterConfig } from "./app/router";
 
 const config = createConfig({
   chains: [base],
@@ -26,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<IlmPage />} />
             <Route path="/details" element={<DetailsPage />} />
+            <Route path={RouterConfig.Routes.test} element={<TestPage />} />
           </Routes>
         </QueryClientProvider>
       </WagmiProvider>
