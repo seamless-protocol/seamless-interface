@@ -1,9 +1,4 @@
-import {
-  convertRatioToMultiple,
-  formatBigIntOnTwoDecimals,
-} from "../utils/helpers";
 import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
-import { ONE_ETHER } from "../utils/constants";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -11,7 +6,12 @@ import {
   cbEthAddress,
   loopStrategyAbi,
   loopStrategyAddress,
-} from "../generated/generated";
+} from "../../../../generated/generated";
+import {
+  convertRatioToMultiple,
+  formatBigIntOnTwoDecimals,
+} from "../../../../utils/helpers";
+import { ONE_ETHER } from "../../../../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
@@ -91,7 +91,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   };
 }
 
-export const useFetchStrategyAndUserInfo = () => {
+export const useFetchViewStrategies = () => {
   const account = useAccount();
   const {
     isLoading,
@@ -106,10 +106,39 @@ export const useFetchStrategyAndUserInfo = () => {
   return {
     isLoading,
     isFetched,
-    targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
-    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
-    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
-    userBalance: formatBigIntOnTwoDecimals(userBalance, 18),
-    userBalanceUSD: formatBigIntOnTwoDecimals(userBalanceUSD, 8),
+    data: [
+      {
+        strategyName: "cbETH Booster",
+        depositAsset: {
+          name: "Coinbase Staked Ether",
+          description: "cbETH",
+        },
+        targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8) + "x",
+        LoopAPY: {
+          value: "6.57",
+          symbol: "%",
+        },
+        availableToDeposit: {
+          tokenAmount: {
+            value: formatBigIntOnTwoDecimals(userBalance, 18),
+            symbol: "",
+          },
+          dollarAmount: {
+            value: formatBigIntOnTwoDecimals(userBalanceUSD, 8),
+            symbol: "$",
+          },
+        },
+        yourPosition: {
+          tokenAmount: {
+            value: formatBigIntOnTwoDecimals(userEquity, 18),
+            symbol: "",
+          },
+          dollarAmount: {
+            value: formatBigIntOnTwoDecimals(userEquityUSD, 8),
+            symbol: "$",
+          },
+        },
+      },
+    ],
   };
 };
