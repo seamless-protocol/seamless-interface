@@ -69,8 +69,8 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
     const equity = BigInt(results[3].result || 0);
     const equityUSD = BigInt(results[4].result || 0);
 
-    userEquity = (equity * userShares) / totalShares;
-    userEquityUSD = (equityUSD * userShares) / totalShares;
+    userEquity = totalShares ? (equity * userShares) / totalShares : 0n;
+    userEquityUSD = totalShares ? (equityUSD * userShares) / totalShares : 0n;
 
     userBalance = BigInt(results[5].result || 0);
     userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
