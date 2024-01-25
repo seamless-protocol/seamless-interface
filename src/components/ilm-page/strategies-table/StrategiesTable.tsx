@@ -11,6 +11,7 @@ import AssetCell from "./table-cells/AssetCell";
 import TextCell from "./table-cells/TextCell";
 import NumericCell from "./table-cells/NumericCell/NumericCell";
 import ButtonLinkCell from "./table-cells/ButtonLinkCell";
+import { useFetchApy } from "../../../hooks/useFetchApy";
 
 function StrategiesTable() {
   const {
@@ -21,6 +22,8 @@ function StrategiesTable() {
     userBalance,
     userBalanceUSD,
   } = useFetchStrategyAndUserInfo();
+
+  useFetchApy();
 
   return (
     <TableContainer

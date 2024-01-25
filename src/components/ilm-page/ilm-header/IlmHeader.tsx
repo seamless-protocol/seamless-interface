@@ -6,7 +6,8 @@ import IlmHeaderTitle from "./IlmHeaderTitle";
 import IlmHeaderStatsBox from "./IlmHeaderStatsBox";
 
 function IlmHeader() {
-  const { isLoading, collateralUSD } = useFetchIlmHeaderInfo();
+  // const { isLoading, collateralUSD } = useFetchIlmHeaderInfo();
+  const isLoading = true;
 
   return (
     <HeaderContainer>

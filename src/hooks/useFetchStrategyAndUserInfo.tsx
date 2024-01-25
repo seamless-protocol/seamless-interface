@@ -87,6 +87,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
 }
 
 export const useFetchStrategyAndUserInfo = () => {
+  /*
   const account = useAccount();
   const {
     isLoading,
@@ -96,6 +97,15 @@ export const useFetchStrategyAndUserInfo = () => {
     userBalance,
     userBalanceUSD,
   } = useFetchStrategyInfoForAccount(account);
+  */
+  return {
+    isLoading: false,
+    targetMultiple: 0,
+    userEquity: 0,
+    userEquityUSD: 0,
+    userBalance: 0,
+    userBalanceUSD: 0,
+  };
 
   return {
     isLoading,
