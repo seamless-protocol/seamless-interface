@@ -1,6 +1,6 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
 import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchStrategyAndUserInfo";
-import { Table } from "./components/Table";
+import { StrategiesTable } from "./components/StrategiesTable";
 
 export const TestPage = () => {
   const displayableViewStrategies = useFetchViewStrategies();
@@ -56,7 +56,7 @@ export const TestPage = () => {
           </div>
         </div>
       </div>
-      <Table {...displayableViewStrategies} />
+      <StrategiesTable {...displayableViewStrategies} />
     </div>
   );
 };
