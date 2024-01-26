@@ -1,4 +1,4 @@
-import { formatOnTwoDecimals, formatToNumber } from "../utils/helpers";
+import { formatOnTwoDecimals, formatUnitsToNumber } from "../utils/helpers";
 import { useReadLoopStrategyCollateral } from "../generated/generated";
 
 export const useFetchIlmHeaderInfo = () => {
@@ -6,6 +6,6 @@ export const useFetchIlmHeaderInfo = () => {
 
   return {
     isLoading,
-    collateralUSD: formatOnTwoDecimals(formatToNumber(collateralUSD, 8)),
+    collateralUSD: formatOnTwoDecimals(formatUnitsToNumber(collateralUSD, 8)),
   };
 };
