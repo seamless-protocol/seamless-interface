@@ -12,12 +12,12 @@ interface Props
 /**
  * `Icon` Component
  *
- * The `Icon` component is a wrapper around Next.js's `Image` component that provides a simplified interface for displaying icons.
+ * The `Icon` component is a wrapper around html's `img` component.
  *
  * ## Default Styles
  * By default, the component has the following styles:
- * - Width set to `16` units.
- * - Height set to `16` units.
+ * - Width set to `32` units.
+ * - Height set to `32` units.
  *
  * ## Overriding Default Styles
  * Any props passed to the component (including `className`) will override the default styles.

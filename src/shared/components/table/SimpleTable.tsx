@@ -26,6 +26,47 @@ interface GenericSimpleTableProps {
 const DefaultSettings: Settings = {
   skeletonRowCount: 5,
 };
+/**
+ * `SimpleTable` Component
+ *
+ * The `SimpleTable` component is designed to render tabular data in a clean and simple format. It provides flexibility in its layout and content rendering, making it suitable for a wide range of applications that require tabular representation of data.
+ *
+ * ## Key Features:
+ * - **Loading State**: Supports a loading state that displays a skeleton of rows, indicating data is being fetched.
+ * - **Customizable Columns**: Allows defining columns with options for alignment (left, center, right).
+ * - **Flexible Components**: Supports additional components like a filter section, a custom footer, and a custom body component.
+ * - **Default and Customizable Settings**: Comes with default settings which can be overridden as needed.
+ *
+ * ## Props:
+ * - `isLoading`: Boolean flag to indicate if data is being loaded.
+ * - `columns`: Array of objects defining the columns of the table.
+ * - `bodyComponent`: A React node to be rendered as the table body. Used for custom row rendering.
+ * - `title`: A string to display as the table's title.
+ * - `filterComponent`: A React node for custom filter UI.
+ * - `footerComponent`: A React node for custom footer content.
+ * - `settings`: Object for customizing default settings like the number of skeleton rows.
+ *
+ * ## Usage:
+ * 
+ * ```jsx
+ * <SimpleTable
+ *   isLoading={dataLoading}
+ *   columns={[
+ *     { id: 'name', label: 'Name', align: 'text-left' },
+ *     { id: 'age', label: 'Age', align: 'text-right' }
+ *   ]}
+ *   title="Sample Table"
+ *   filterComponent={<CustomFilter />}
+ *   bodyComponent={<CustomBody />}
+ *   footerComponent={<CustomFooter />}
+ * />
+ * ```
+ *
+ * In this example, `SimpleTable` displays a table with columns 'Name' and 'Age', a custom filter, and a footer. It shows a skeleton loader if `dataLoading` is true.
+ *
+ * @param props Props for the `SimpleTable` component.
+ * @returns The `SimpleTable` component.
+ */
 
 export function SimpleTable({
   isLoading,
