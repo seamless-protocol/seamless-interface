@@ -26,7 +26,7 @@ export const IlmPage = () => {
                       Total market size
                     </Typography>
                     <DisplayMoney
-                      value={data.totalMarketSize.value}
+                      {...data.totalMarketSize}
                       symbolColor="light"
                       loaderSkeleton
                       isLoading={isLoading}
