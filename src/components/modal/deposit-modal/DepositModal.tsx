@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import {
   formatBigIntOnTwoDecimals,
-  formatUnitsToNumber,
+  formatToNumber,
   stringToNumber,
 } from "../../../utils/helpers";
 import {
@@ -109,7 +109,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isApprovalPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatUnitsToNumber(allowance, 18) >= stringToNumber(amount)}
+        disabled={formatToNumber(allowance, 18) >= stringToNumber(amount)}
         onClick={() =>
           approve({
             args: [loopStrategyAddress, parseUnits(amount || "0", 18)],
@@ -123,7 +123,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isDepositPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatUnitsToNumber(allowance, 18) < stringToNumber(amount)}
+        disabled={formatToNumber(allowance, 18) < stringToNumber(amount)}
         onClick={handleDeposit}
       >
         Deposit cbETH

@@ -3,7 +3,6 @@ import {
   formatBigIntOnTwoDecimals,
 } from "../utils/helpers";
 import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
-import { ONE_ETHER } from "../utils/constants";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -12,14 +11,11 @@ import {
   loopStrategyAbi,
   loopStrategyAddress,
 } from "../generated/generated";
+import { ONE_ETHER } from "../utils/constants";
 
 function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  const {
-    data: results,
-    isLoading,
-    isFetched,
-  } = useReadContracts({
+  const { data: results, isLoading } = useReadContracts({
     contracts: [
       {
         address: loopStrategyAddress,
@@ -68,13 +64,13 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
     targetMultiple = convertRatioToMultiple(targetRatio);
 
     const userShares = BigInt(results[1].result || 0);
-    const totalShares = BigInt(results[2].result || 0);
+    const totalShares = BigInt(results[2].result || 1);
 
     const equity = BigInt(results[3].result || 0);
     const equityUSD = BigInt(results[4].result || 0);
 
-    userEquity = totalShares ? (equity * userShares) / totalShares : 0n;
-    userEquityUSD = totalShares ? (equityUSD * userShares) / totalShares : 0n;
+    userEquity = (equity * userShares) / totalShares;
+    userEquityUSD = (equityUSD * userShares) / totalShares;
 
     userBalance = BigInt(results[5].result || 0);
     userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
@@ -82,7 +78,6 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
 
   return {
     isLoading,
-    isFetched,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -95,7 +90,6 @@ export const useFetchStrategyAndUserInfo = () => {
   const account = useAccount();
   const {
     isLoading,
-    isFetched,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -105,7 +99,6 @@ export const useFetchStrategyAndUserInfo = () => {
 
   return {
     isLoading,
-    isFetched,
     targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
     userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
     userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
