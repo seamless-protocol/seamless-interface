@@ -1,11 +1,9 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
 import { StrategiesTable } from "./components/StrategiesTable";
-import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchViewStrategies";
 import { useFetchIlmHeaderInfo } from "../../state/ILMContract/hooks/useFetchIlmPageHeader";
 
 export const IlmPage = () => {
   const { isLoading, data } = useFetchIlmHeaderInfo();
-  const displayableViewStrategies = useFetchViewStrategies();
 
   return (
     <div>
@@ -38,7 +36,7 @@ export const IlmPage = () => {
           </div>
         </div>
       </div>
-      <StrategiesTable {...displayableViewStrategies} />
+      <StrategiesTable />
     </div>
   );
 };
