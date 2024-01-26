@@ -23,7 +23,9 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     return (
       <span
         className={
-          loaderSkeleton ? "skeleton w-full h-full" : "loading loading-spinner"
+          loaderSkeleton
+            ? "skeleton w-full h-full"
+            : "loading loading-spinner flex self-center"
         }
       ></span>
     );

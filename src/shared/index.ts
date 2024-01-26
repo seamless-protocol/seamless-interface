@@ -27,3 +27,10 @@ export * from "./components/display/DisplayTokenAmount/DisplayTokenAmount";
 // Icons //
 // ***** //
 export * from "./components/images/Icon/Icon";
+
+// ***** //
+// Table //
+// ***** //
+export * from "./components/table/SimpleTable/SimpleTable";
+export * from "./components/table/TableCell/TableCell";
+export * from "./components/table/TableRow/TableRow";
