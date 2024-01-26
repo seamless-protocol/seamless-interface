@@ -6,10 +6,12 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
   typography?: TypographyType;
   symbolColor?: TypographyColor;
   loaderSkeleton?: boolean;
+  symbolPosition?: "before" | "after" | undefined;
 }
 
 export const DisplayTokenAmount: React.FC<DisplayTokenAmountProps> = ({
+  symbolPosition = "after",
   ...props
 }) => {
-  return <DisplayValue symbolPosition="after" {...props} />;
+  return <DisplayValue symbolPosition={symbolPosition} {...props} />;
 };
