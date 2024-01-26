@@ -1,8 +1,10 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
 import { StrategiesTable } from "./components/StrategiesTable";
 import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchViewStrategies";
+import { useFetchIlmHeaderInfo } from "../../state/ILMContract/hooks/useFetchIlmPageHeader";
 
 export const IlmPage = () => {
+  const { isLoading, data } = useFetchIlmHeaderInfo();
   const displayableViewStrategies = useFetchViewStrategies();
 
   return (
@@ -24,10 +26,10 @@ export const IlmPage = () => {
                       Total market size
                     </Typography>
                     <DisplayMoney
-                      value="74.65M"
+                      value={data.totalMarketSize.value}
                       symbolColor="light"
                       loaderSkeleton
-                      isLoading
+                      isLoading={isLoading}
                     />
                   </FlexCol>
                 </FlexRow>
