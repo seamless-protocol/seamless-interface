@@ -26,6 +26,7 @@ export const IlmPage = () => {
                       Total market size
                     </Typography>
                     <DisplayMoney
+                      typography="main21"
                       {...data.totalMarketSize}
                       symbolColor="light"
                       loaderSkeleton
