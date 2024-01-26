@@ -13,10 +13,13 @@ export const TestPage = () => {
             <div className="px-14">
               <FlexCol className="gap-4 text-text-primary">
                 <FlexCol>
-                  <Typography type="h1">Base Market</Typography>
+                  <Typography type="h1">Integrated Liquidity Market</Typography>
+                  <Typography type="description" color="light">
+                    Simplify your flow with integrated borrowing strategies
+                  </Typography>
                 </FlexCol>
                 <FlexRow className="gap-8">
-                  <FlexCol>
+                  <FlexCol className="min-h-14">
                     <Typography type="description" color="light">
                       Total market size
                     </Typography>
@@ -25,29 +28,6 @@ export const TestPage = () => {
                       symbolColor="light"
                       loaderSkeleton
                       isLoading
-                    />
-                  </FlexCol>
-
-                  <FlexCol>
-                    <Typography type="description" color="light">
-                      Total available
-                    </Typography>
-                    <DisplayMoney
-                      typography="main21"
-                      value="61.42M"
-                      symbolColor="light"
-                      loaderSkeleton
-                    />
-                  </FlexCol>
-
-                  <FlexCol>
-                    <Typography type="description" color="light">
-                      Total borrows
-                    </Typography>
-                    <DisplayMoney
-                      typography="main21"
-                      value="12.78M"
-                      loaderSkeleton
                     />
                   </FlexCol>
                 </FlexRow>
