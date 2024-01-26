@@ -9,7 +9,8 @@ import {
 } from "../../../../generated/generated";
 import {
   convertRatioToMultiple,
-  formatBigIntOnTwoDecimals,
+  formatToDisplayable,
+  formatUnitsToNumber,
 } from "../../../../utils/helpers";
 import { ONE_ETHER } from "../../../../utils/constants";
 import { Address } from "viem";
@@ -84,11 +85,11 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   return {
     isLoading,
     isFetched,
-    targetMultiple: formatBigIntOnTwoDecimals(targetMultiple, 8),
-    userEquity: formatBigIntOnTwoDecimals(userEquity, 18),
-    userEquityUSD: formatBigIntOnTwoDecimals(userEquityUSD, 8),
-    userBalance: formatBigIntOnTwoDecimals(userBalance, 18),
-    userBalanceUSD: formatBigIntOnTwoDecimals(userBalanceUSD, 8),
+    targetMultiple: formatUnitsToNumber(targetMultiple, 8),
+    userEquity: formatUnitsToNumber(userEquity, 18),
+    userEquityUSD: formatUnitsToNumber(userEquityUSD, 8),
+    userBalance: formatUnitsToNumber(userBalance, 18),
+    userBalanceUSD: formatUnitsToNumber(userBalanceUSD, 8),
   };
 }
 
@@ -114,28 +115,28 @@ export const useFetchViewStrategies = () => {
           name: "Coinbase Staked Ether",
           description: "cbETH",
         },
-        targetMultiple: targetMultiple + "x",
+        targetMultiple: formatToDisplayable(targetMultiple) + "x",
         LoopAPY: {
           value: "6.57",
           symbol: "%",
         },
         availableToDeposit: {
           tokenAmount: {
-            value: userBalance,
+            value: formatToDisplayable(userBalance),
             symbol: "",
           },
           dollarAmount: {
-            value: userBalanceUSD,
+            value: formatToDisplayable(userBalanceUSD),
             symbol: "$",
           },
         },
         yourPosition: {
           tokenAmount: {
-            value: userEquity,
+            value: formatToDisplayable(userEquity),
             symbol: "",
           },
           dollarAmount: {
-            value: userEquityUSD,
+            value: formatToDisplayable(userEquityUSD),
             symbol: "$",
           },
         },

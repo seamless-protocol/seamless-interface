@@ -1,5 +1,5 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
-import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchStrategyAndUserInfo";
+import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchViewStrategies";
 import { Table } from "./components/Table";
 
 export const TestPage = () => {
