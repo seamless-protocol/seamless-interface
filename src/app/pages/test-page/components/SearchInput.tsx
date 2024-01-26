@@ -1,3 +1,5 @@
+// todo: remove/reimplement this
+
 export const SearchInput = () => {
   return (
     <div className="relative">

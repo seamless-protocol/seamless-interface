@@ -58,7 +58,15 @@ const TableBody: React.FC<{
   return (
     <>
       {data?.map((strategy, index) => (
-        <TableRow key={index} hideBorder={index === data.length - 1}>
+        <TableRow
+          rest={{
+            onClick: () => {
+              window.alert("Clicked:" + index);
+            },
+          }}
+          key={index}
+          hideBorder={index === data.length - 1}
+        >
           <TableCell>
             <Typography type="h4">{strategy.strategyName}</Typography>
           </TableCell>
