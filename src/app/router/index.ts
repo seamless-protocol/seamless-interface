@@ -2,6 +2,6 @@ const baseUrl = "";
 
 export const RouterConfig = {
   Routes: {
-    test: `${baseUrl}/test-page`,
+    ilm: `${baseUrl}/`,
   },
 };

@@ -1,8 +1,8 @@
 // ********** //
 // containers //
 // ********** //
-export * from "./components/containers/FlexCol/FlexCol";
-export * from "./components/containers/FlexRow/FlexRow";
+export * from "./components/containers/FlexCol";
+export * from "./components/containers/FlexRow";
 
 // **** //
 // text //
@@ -18,19 +18,19 @@ export * from "./types/Displayable";
 // ******* //
 // display //
 // ******* //
-export * from "./components/display/DisplayMoney/DisplayMoney";
-export * from "./components/display/DisplayValue/DisplayValue";
-export * from "./components/display/DisplayPercentage/DisplayPercentage";
-export * from "./components/display/DisplayTokenAmount/DisplayTokenAmount";
+export * from "./components/display/DisplayMoney";
+export * from "./components/display/DisplayValue";
+export * from "./components/display/DisplayPercentage";
+export * from "./components/display/DisplayTokenAmount";
 
 // ***** //
 // Icons //
 // ***** //
-export * from "./components/images/Icon/Icon";
+export * from "./components/images/Icon";
 
 // ***** //
 // Table //
 // ***** //
-export * from "./components/table/SimpleTable/SimpleTable";
-export * from "./components/table/TableCell/TableCell";
-export * from "./components/table/TableRow/TableRow";
+export * from "./components/table/SimpleTable";
+export * from "./components/table/TableCell";
+export * from "./components/table/TableRow";

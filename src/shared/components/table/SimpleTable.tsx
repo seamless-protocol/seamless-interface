@@ -1,7 +1,7 @@
-import { FlexRow } from "../../containers/FlexRow/FlexRow";
-import { Typography } from "../../text/Typography/Typography";
-import { EmptyTable } from "../EmptyTable/EmptyTable";
-import { TableSkeleton } from "../TableSkeleton/TableSkeleton";
+import { FlexRow } from "../containers/FlexRow";
+import { Typography } from "../text/Typography/Typography";
+import { EmptyTable } from "./EmptyTable";
+import { TableSkeleton } from "./TableSkeleton";
 
 export interface TableLabel {
   id: string;

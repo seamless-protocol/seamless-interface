@@ -1,6 +1,6 @@
-import { DisplayableAmount } from "../../../types/Displayable";
-import { TypographyColor, TypographyType } from "../../text/Typography/mappers";
-import { DisplayValue } from "../DisplayValue/DisplayValue";
+import { DisplayableAmount } from "../../types/Displayable";
+import { TypographyColor, TypographyType } from "../text/Typography/mappers";
+import { DisplayValue } from "./DisplayValue";
 
 export interface DisplayMoneyProps extends DisplayableAmount {
   typography?: TypographyType;

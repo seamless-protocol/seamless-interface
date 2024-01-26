@@ -2,7 +2,7 @@ import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
 import { StrategiesTable } from "./components/StrategiesTable";
 import { useFetchViewStrategies } from "../../state/ILMContract/hooks/useFetchViewStrategies";
 
-export const TestPage = () => {
+export const IlmPage = () => {
   const displayableViewStrategies = useFetchViewStrategies();
 
   return (

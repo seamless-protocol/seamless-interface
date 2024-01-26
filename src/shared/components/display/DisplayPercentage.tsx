@@ -1,6 +1,6 @@
-import { TypographyType } from "../../text/Typography/mappers";
-import { DisplayableAmount } from "../../../types/Displayable";
-import { DisplayValue } from "../DisplayValue/DisplayValue";
+import { TypographyType } from "../text/Typography/mappers";
+import { DisplayableAmount } from "../../types/Displayable";
+import { DisplayValue } from "./DisplayValue";
 
 export interface DisplayPercentageProps extends DisplayableAmount {
   typography?: TypographyType;
