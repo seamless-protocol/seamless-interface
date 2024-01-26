@@ -2,7 +2,6 @@ import {
   DisplayMoney,
   DisplayPercentage,
   DisplayTokenAmount,
-  Displayable,
   FlexRow,
   Icon,
   SimpleTable,
@@ -13,6 +12,7 @@ import {
 import { SearchInput } from "./SearchInput";
 import { TemporaryButton } from "./TemporaryButton";
 import { ViewStrategy } from "../../../state/ILMContract/types/ViewStrategy";
+import { useFetchViewStrategies } from "../../../state/ILMContract/hooks/useFetchViewStrategies";
 
 const columns = [
   { id: "strategyName", label: "Strategy Name" },
@@ -23,12 +23,8 @@ const columns = [
   { id: "yourPosition", label: "Your Position" },
 ];
 
-export const StrategiesTable: React.FC<Displayable<ViewStrategy[]>> = ({
-  data,
-  isFetched,
-  isLoading,
-}) => {
-  //todo: filter data here
+export const StrategiesTable: React.FC = () => {
+  const { isLoading, isFetched, data } = useFetchViewStrategies();
 
   return (
     <div className="mt-[-46px] ">
