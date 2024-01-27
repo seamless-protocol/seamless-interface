@@ -3,9 +3,7 @@ import {
   aaveOracleAbi,
   aaveOracleAddress,
   cbEthAbi,
-  cbEthAddress,
   loopStrategyAbi,
-  loopStrategyAddress,
 } from "../../../generated/generated";
 import {
   convertRatioToMultiple,
@@ -14,8 +12,13 @@ import {
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address } from "viem";
+import { ilmStrategies } from "../../../meta/config";
 
-function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
+function useFetchStrategyInfoForAccount(
+  strategyAddress: Address,
+  underlyingAssetAddress: Address,
+  account: UseAccountReturnType
+) {
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
   const {
     data: results,
@@ -24,33 +27,33 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   } = useReadContracts({
     contracts: [
       {
-        address: loopStrategyAddress,
+        address: strategyAddress,
         abi: loopStrategyAbi,
         functionName: "getCollateralRatioTargets",
       },
       {
-        address: loopStrategyAddress,
+        address: strategyAddress,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
         args: [account.address as Address],
       },
       {
-        address: loopStrategyAddress,
+        address: strategyAddress,
         abi: loopStrategyAbi,
         functionName: "totalSupply",
       },
       {
-        address: loopStrategyAddress,
+        address: strategyAddress,
         abi: loopStrategyAbi,
         functionName: "equity",
       },
       {
-        address: loopStrategyAddress,
+        address: strategyAddress,
         abi: loopStrategyAbi,
         functionName: "equityUSD",
       },
       {
-        address: cbEthAddress,
+        address: underlyingAssetAddress,
         abi: cbEthAbi,
         functionName: "balanceOf",
         args: [account.address as Address],
@@ -59,7 +62,7 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
-        args: [cbEthAddress],
+        args: [underlyingAssetAddress],
       },
     ],
   });
@@ -93,7 +96,9 @@ function useFetchStrategyInfoForAccount(account: UseAccountReturnType) {
   };
 }
 
-export const useFetchViewStrategies = () => {
+export const useFetchViewStrategy = (index: number) => {
+  const strategyConfig = ilmStrategies[index];
+
   const account = useAccount();
   const {
     isLoading,
@@ -103,44 +108,46 @@ export const useFetchViewStrategies = () => {
     userEquityUSD,
     userBalance,
     userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(account);
+  } = useFetchStrategyInfoForAccount(
+    strategyConfig.address,
+    strategyConfig.underlyingAsset.address,
+    account
+  );
 
   return {
     isLoading,
     isFetched,
-    data: [
-      {
-        strategyName: "cbETH Booster",
-        depositAsset: {
-          name: "Coinbase Staked Ether",
-          description: "cbETH",
+    data: {
+      strategyName: strategyConfig.name,
+      depositAsset: {
+        name: strategyConfig.underlyingAsset.name,
+        description: strategyConfig.underlyingAsset.symbol,
+      },
+      targetMultiple: formatToDisplayable(targetMultiple) + "x",
+      LoopAPY: {
+        value: "6.57",
+        symbol: "%",
+      },
+      availableToDeposit: {
+        tokenAmount: {
+          value: formatToDisplayable(userBalance),
+          symbol: "",
         },
-        targetMultiple: formatToDisplayable(targetMultiple) + "x",
-        LoopAPY: {
-          value: "6.57",
-          symbol: "%",
-        },
-        availableToDeposit: {
-          tokenAmount: {
-            value: formatToDisplayable(userBalance),
-            symbol: "",
-          },
-          dollarAmount: {
-            value: formatToDisplayable(userBalanceUSD),
-            symbol: "$",
-          },
-        },
-        yourPosition: {
-          tokenAmount: {
-            value: formatToDisplayable(userEquity),
-            symbol: "",
-          },
-          dollarAmount: {
-            value: formatToDisplayable(userEquityUSD),
-            symbol: "$",
-          },
+        dollarAmount: {
+          value: formatToDisplayable(userBalanceUSD),
+          symbol: "$",
         },
       },
-    ],
+      yourPosition: {
+        tokenAmount: {
+          value: formatToDisplayable(userEquity),
+          symbol: "",
+        },
+        dollarAmount: {
+          value: formatToDisplayable(userEquityUSD),
+          symbol: "$",
+        },
+      },
+    },
   };
 };
