@@ -73,7 +73,7 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
         <div className="flex justify-center items-center w-full">
           <FlexRow className="gap-3">
             <Icon
-              src="/favicon.svg"
+              src={strategy.depositAsset.logo}
               alt={strategy.depositAsset.name || "asset"}
             />
             <div className="text-left">

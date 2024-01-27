@@ -122,6 +122,7 @@ export const useFetchViewStrategy = (index: number) => {
       depositAsset: {
         name: strategyConfig.underlyingAsset.name,
         description: strategyConfig.underlyingAsset.symbol,
+        logo: strategyConfig.underlyingAsset.logo,
       },
       targetMultiple: formatToDisplayable(targetMultiple) + "x",
       LoopAPY: {
