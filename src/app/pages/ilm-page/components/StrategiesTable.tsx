@@ -12,7 +12,7 @@ import {
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
 import { TemporaryButton } from "../../../components/temporary-components/TemporaryButton";
 import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategies";
-import { ilmStrategies } from "../../../meta/config";
+import { ilmStrategies } from "../../../state/LoopStrategy/config/StrategyConfig";
 
 const columns = [
   { id: "strategyName", label: "Strategy Name" },
