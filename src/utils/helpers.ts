@@ -1,7 +1,7 @@
 import { formatUnits } from "viem";
 import { ONE_USD } from "./constants";
 
-export function formatToNumber(
+export function formatUnitsToNumber(
   value: string | bigint | undefined,
   decimals: number
 ) {
@@ -28,7 +28,11 @@ export function formatBigIntOnTwoDecimals(
   input: bigint | undefined,
   decimals: number
 ): string {
-  return formatter.format(formatToNumber(input, decimals));
+  return formatter.format(formatUnitsToNumber(input, decimals));
+}
+
+export function formatToDisplayable(value: number) {
+  return formatter.format(value);
 }
 
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {

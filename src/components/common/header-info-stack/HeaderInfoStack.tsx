@@ -22,8 +22,9 @@ function HeaderInfoStack({ isLoading, values, sx }: HeaderInfoStackProps) {
         alignItems: "center",
       }}
     >
-      {values.map((value) => (
+      {values.map((value, index) => (
         <HeaderInfoBox
+          key={index}
           isLoading={isLoading}
           label={value.label}
           value={value.value}

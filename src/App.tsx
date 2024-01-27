@@ -5,7 +5,8 @@ import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
 import ResponsiveAppBar from "./components/navbar/ResponsiveAppBar";
 import DetailsPage from "./components/details-page/DetailsPage";
-import IlmPage from "./components/ilm-page/IlmPage";
+import { IlmPage } from "./app/pages/ilm-page/page";
+import { RouterConfig } from "./app/router";
 
 const config = createConfig({
   chains: [base],
@@ -24,7 +25,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ResponsiveAppBar />
           <Routes>
-            <Route path="/" element={<IlmPage />} />
+            <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
             <Route path="/details" element={<DetailsPage />} />
           </Routes>
         </QueryClientProvider>

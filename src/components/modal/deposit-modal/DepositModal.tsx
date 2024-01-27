@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import {
   formatBigIntOnTwoDecimals,
-  formatToNumber,
+  formatUnitsToNumber,
   stringToNumber,
 } from "../../../utils/helpers";
 import {
@@ -18,9 +18,9 @@ import { useAccount } from "wagmi";
 import AmountInputBox from "./AmountInputBox";
 import TransactionDetailsBox from "./TransactionDetailsBox";
 import { useFetchAccountAssetBalance } from "../../../hooks/useFetchAccountAssetBalance";
-import { useFetchAssetAllowance } from "../../../hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../hooks/useFetchPreviewDeposit";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useFetchAssetAllowance } from "../../../hooks/useFetchAssetAllowance";
 
 interface DepositModalProps {
   setShowModal: (value: boolean) => void;
@@ -109,7 +109,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isApprovalPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatToNumber(allowance, 18) >= stringToNumber(amount)}
+        disabled={formatUnitsToNumber(allowance, 18) >= stringToNumber(amount)}
         onClick={() =>
           approve({
             args: [loopStrategyAddress, parseUnits(amount || "0", 18)],
@@ -123,7 +123,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         variant="contained"
         loading={isDepositPending}
         sx={{ backgroundColor: "grey", textTransform: "none" }}
-        disabled={formatToNumber(allowance, 18) < stringToNumber(amount)}
+        disabled={formatUnitsToNumber(allowance, 18) < stringToNumber(amount)}
         onClick={handleDeposit}
       >
         Deposit cbETH
