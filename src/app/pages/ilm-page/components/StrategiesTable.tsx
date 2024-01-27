@@ -9,10 +9,10 @@ import {
   TableRow,
   Typography,
 } from "../../../../shared";
-import { SearchInput } from "./SearchInput";
-import { TemporaryButton } from "./TemporaryButton";
-import { ViewStrategy } from "../../../state/ILMContract/types/ViewStrategy";
-import { useFetchViewStrategies } from "../../../state/ILMContract/hooks/useFetchViewStrategies";
+import { SearchInput } from "../../../components/temporary-components/SearchInput";
+import { TemporaryButton } from "../../../components/temporary-components/TemporaryButton";
+import { ViewStrategy } from "../../../state/ILM/types/ViewStrategy";
+import { useFetchViewStrategies } from "../../../state/ILM/hooks/useFetchViewStrategies";
 
 const columns = [
   { id: "strategyName", label: "Strategy Name" },
