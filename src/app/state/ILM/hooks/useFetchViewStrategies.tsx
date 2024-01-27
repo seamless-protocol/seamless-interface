@@ -12,7 +12,7 @@ import {
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address } from "viem";
-import { ilmStrategies } from "../../LoopStrategy/config/StrategyConfig";
+import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 
 function useFetchStrategyInfoForAccount(
   strategyAddress: Address,

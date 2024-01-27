@@ -1,5 +1,5 @@
 import { Button, Stack } from "@mui/material";
-import { useFetchWithdrawInfo } from "../../../../state/LoopStrategy/hooks/useFetchWithdrawInfo";
+import { useFetchWithdrawInfo } from "../../../../state/loop-strategy/hooks/useFetchWithdrawInfo";
 import WalletDataBox from "./wallet-data-box/WalletDataBox";
 
 function WithdrawRow() {

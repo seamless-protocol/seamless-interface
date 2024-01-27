@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import HeaderContainer from "../../../../components/header/HeaderContainer";
 import HeaderInfoStack from "../../../../components/header/header-info-stack/HeaderInfoStack";
 import AssetBox from "./AssetBox";
-import { useFetchStrategyInfoHeader } from "../../../../state/LoopStrategy/hooks/useFetchStrategyInfoHeader";
+import { useFetchStrategyInfoHeader } from "../../../../state/loop-strategy/hooks/useFetchStrategyInfoHeader";
 
 function StrategyInfoHeader() {
   const { isLoading, targetMultiple, oraclePrice } =
