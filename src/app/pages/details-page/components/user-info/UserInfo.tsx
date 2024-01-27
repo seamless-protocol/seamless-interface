@@ -3,7 +3,7 @@ import UserInfoContainer from "./UserInfoContainer";
 import UserInfoHeader from "./UserInfoHeader";
 import UserWalletInfo from "./UserWalletInfo";
 import DepositRow from "./DepositRow";
-import { useFetchUserInfo } from "../../../../state/CbEth/hooks/useFetchUserInfo";
+import { useFetchUserInfo } from "../../../../state/cb-eth/hooks/useFetchUserInfo";
 import WithdrawRow from "./WithdrawRow";
 
 function UserInfo() {
