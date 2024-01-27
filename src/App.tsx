@@ -3,8 +3,8 @@ import { WagmiProvider, http, createConfig } from "wagmi";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
-import ResponsiveAppBar from "./components/navbar/ResponsiveAppBar";
-import DetailsPage from "./components/details-page/DetailsPage";
+import ResponsiveAppBar from "./app/components/navbar/ResponsiveAppBar";
+import DetailsPage from "./app/pages/details-page/page";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 
