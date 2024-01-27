@@ -1,16 +1,5 @@
-import { Address } from "viem";
 import { CBETH_ADDRESS } from "./constants";
-
-export interface StrategyConfig {
-  name: string;
-  address: Address;
-  underlyingAsset: {
-    name: string;
-    symbol: string;
-    address: Address;
-    logo: string;
-  };
-}
+import { StrategyConfig } from "./types";
 
 export const ilmStrategies: StrategyConfig[] = [
   {
