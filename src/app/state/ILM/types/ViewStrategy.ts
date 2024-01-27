@@ -7,6 +7,7 @@ export interface ViewStrategy {
     address?: Address;
     name?: string;
     description?: string;
+    logo?: string;
   };
   targetMultiple?: string;
   LoopAPY?: ValueSymbolPair;
