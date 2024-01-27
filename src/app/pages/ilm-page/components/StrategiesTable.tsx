@@ -11,8 +11,8 @@ import {
 } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
 import { TemporaryButton } from "../../../components/temporary-components/TemporaryButton";
-import { useFetchViewStrategy } from "../../../state/ilm/hooks/useFetchViewStrategies";
-import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategies";
+import { ilmStrategies } from "../../../meta/config";
 
 const columns = [
   { id: "strategyName", label: "Strategy Name" },

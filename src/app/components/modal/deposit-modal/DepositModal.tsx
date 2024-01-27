@@ -18,7 +18,7 @@ import { useAccount } from "wagmi";
 import AmountInputBox from "./AmountInputBox";
 import TransactionDetailsBox from "./TransactionDetailsBox";
 import { useFetchAccountAssetBalance } from "../../../state/common/hooks/useFetchAccountAssetBalance";
-import { useFetchPreviewDeposit } from "../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
+import { useFetchPreviewDeposit } from "../../../state/LoopStrategy/hooks/useFetchPreviewDeposit";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useFetchAssetAllowance } from "../../../state/common/hooks/useFetchAssetAllowance";
 

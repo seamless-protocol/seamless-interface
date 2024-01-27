@@ -1,6 +1,6 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../shared";
 import { StrategiesTable } from "./components/StrategiesTable";
-import { useFetchIlmHeaderInfo } from "../../state/ilm/hooks/useFetchIlmPageHeader";
+import { useFetchIlmHeaderInfo } from "../../state/ILM/hooks/useFetchIlmPageHeader";
 
 export const IlmPage = () => {
   const { isLoading, data } = useFetchIlmHeaderInfo();

@@ -1,6 +1,6 @@
 import { Divider, Stack } from "@mui/material";
 import StrategyInfoTableBox from "./StrategyInfoTableColumn";
-import { useFetchStrategyInfo } from "../../../../../../state/loop-strategy/hooks/useFetchStrategyInfo";
+import { useFetchStrategyInfo } from "../../../../../../state/LoopStrategy/hooks/useFetchStrategyInfo";
 
 function StrategyInfoTable() {
   const {
