@@ -1,15 +1,18 @@
 import { Address } from "viem";
-import { CBETH_ADDRESS } from "../../../meta/constants";
+import { CBETH_ADDRESS, WETH_ADDRESS } from "../../../meta/constants";
+
+interface AssetConfig {
+  name: string;
+  symbol: string;
+  address: Address;
+  logo: string;
+}
 
 export interface StrategyConfig {
   name: string;
   address: Address;
-  underlyingAsset: {
-    name: string;
-    symbol: string;
-    address: Address;
-    logo: string;
-  };
+  underlyingAsset: AssetConfig;
+  debtAsset: AssetConfig;
 }
 
 export const ilmStrategies: StrategyConfig[] = [
@@ -21,6 +24,12 @@ export const ilmStrategies: StrategyConfig[] = [
       symbol: "cbETH",
       address: CBETH_ADDRESS,
       logo: "src/assets/cbeth.svg",
+    },
+    debtAsset: {
+      name: "Ethereum",
+      symbol: "ETH",
+      address: WETH_ADDRESS,
+      logo: "src/assets/eth.svg",
     },
   },
 ];

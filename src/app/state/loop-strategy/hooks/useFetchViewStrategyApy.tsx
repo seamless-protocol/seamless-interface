@@ -9,7 +9,6 @@ import {
   APY_BLOCK_FRAME,
   ONE_ETHER,
   SECONDS_PER_YEAR,
-  WETH_ADDRESS,
 } from "../../../meta/constants";
 import {
   formatToDisplayable,
@@ -66,7 +65,7 @@ export const useFetchShareValue = (
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
-        args: [WETH_ADDRESS],
+        args: [strategyConfig.debtAsset.address],
       },
     ],
     blockNumber,
