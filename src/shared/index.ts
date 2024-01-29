@@ -3,11 +3,17 @@
 // ********** //
 export * from "./components/containers/FlexCol";
 export * from "./components/containers/FlexRow";
+export * from "./components/containers/PageContainer";
 
 // **** //
 // text //
 // **** //
 export * from "./components/text/Typography/Typography";
+
+// ******* //
+// divider //
+// ******* //
+export * from "./components/divider/Divider";
 
 // ***** //
 // types //
@@ -22,6 +28,7 @@ export * from "./components/display/DisplayMoney";
 export * from "./components/display/DisplayValue";
 export * from "./components/display/DisplayPercentage";
 export * from "./components/display/DisplayTokenAmount";
+export * from "./components/display/DisplayText";
 
 // ***** //
 // Icons //
