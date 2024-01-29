@@ -6,6 +6,7 @@ import {
 } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
+  APY_BLOCK_FRAME,
   ONE_ETHER,
   SECONDS_PER_YEAR,
   WETH_ADDRESS,
@@ -28,9 +29,10 @@ function calculateApy(
   const startValueNumber = formatUnitsToNumber(startValue, 18);
   const timeWindowNumber = Number(timeWindow);
   return (
-    (endValueNumber / startValueNumber) **
+    ((endValueNumber / startValueNumber) **
       (SECONDS_PER_YEAR / timeWindowNumber) -
-    1
+      1) *
+    100
   );
 }
 
@@ -103,7 +105,9 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig) => {
     isLoading: isPrevBlockLoading,
     isFetched: isPrevBlockFetched,
   } = useBlock({
-    blockNumber: latestBlockData ? latestBlockData?.number - 1000n : 0n,
+    blockNumber: latestBlockData
+      ? latestBlockData?.number - APY_BLOCK_FRAME
+      : 0n,
   });
 
   const {
@@ -146,8 +150,8 @@ export const useFetchApy = (index: number) => {
     isFetched,
     data: {
       apy: {
-        value: apy ? formatToDisplayable(apy) : apy,
-        symbol: "%",
+        value: apy ? formatToDisplayable(apy) : "—",
+        symbol: apy ? "%" : "",
       },
     },
   };

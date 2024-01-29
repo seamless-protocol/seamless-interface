@@ -14,3 +14,5 @@ export const SEAM_WRAPED_CBETH_ADDRESS =
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
+
+export const APY_BLOCK_FRAME = 50n;
