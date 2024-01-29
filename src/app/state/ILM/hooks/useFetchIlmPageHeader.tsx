@@ -1,7 +1,4 @@
-import {
-  loopStrategyAbi,
-  useReadLoopStrategyCollateral,
-} from "../../../generated/generated";
+import { loopStrategyAbi } from "../../../generated/generated";
 import {
   formatToDisplayable,
   formatUnitsToNumber,
