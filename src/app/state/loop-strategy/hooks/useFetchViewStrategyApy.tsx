@@ -140,7 +140,7 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig) => {
   };
 };
 
-export const useFetchApy = (index: number) => {
+export const useFetchViewStrategyApy = (index: number) => {
   const { apy, isLoading, isFetched } = useFetchStrategyApy(
     ilmStrategies[index]
   );

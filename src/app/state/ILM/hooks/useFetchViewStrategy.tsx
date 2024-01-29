@@ -13,7 +13,7 @@ import {
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address } from "viem";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
-import { useFetchStrategyApy } from "../../loop-strategy/hooks/useFetchApy";
+import { useFetchStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
 
 function useFetchStrategyInfoForAccount(
   strategyAddress: Address,
