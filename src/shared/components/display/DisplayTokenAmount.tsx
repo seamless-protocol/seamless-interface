@@ -26,7 +26,7 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
  * - Inherits all props from `DisplayableAmount`.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <DisplayTokenAmount
  *   value="1000"
@@ -37,7 +37,7 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
  *   isFetched={fetchState}
  * />
  * ```
- * 
+ *
  * In the example above, `DisplayTokenAmount` will display "1000 ETH" with the specified typography and symbol color. If the data is loading, it will show a loader instead.
  *
  * @param props Props for the `DisplayTokenAmount` component.
@@ -45,7 +45,14 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
  */
 export const DisplayTokenAmount: React.FC<DisplayTokenAmountProps> = ({
   symbolPosition = "after",
+  loaderSkeleton = true,
   ...props
 }) => {
-  return <DisplayValue symbolPosition={symbolPosition} {...props} />;
+  return (
+    <DisplayValue
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
+  );
 };
