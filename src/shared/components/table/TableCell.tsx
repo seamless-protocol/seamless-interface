@@ -1,4 +1,3 @@
-
 /**
  * `TableCell` Component
  *
@@ -16,7 +15,7 @@
  * - `rest`: An object containing any additional HTML attributes specific to table cell elements. These are spread onto the `<td>` element.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <tr>
  *   <TableCell className="custom-cell-style">
@@ -42,8 +41,8 @@ export const TableCell: React.FC<{
   >;
 }> = ({ children, className, rest }) => {
   return (
-    <td className={`text-center ${className ? className : ""}`} {...rest}>
+    <div className={`text-center ${className ? className : ""}`} {...rest}>
       {children}
-    </td>
+    </div>
   );
 };

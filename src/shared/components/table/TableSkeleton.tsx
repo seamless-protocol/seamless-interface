@@ -18,7 +18,7 @@ interface TableSkeletonProps {
  * - `colCount`: The number of columns in each skeleton row. Defaults to 6.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <table>
  *   <thead>
@@ -41,18 +41,18 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
   colCount = 6,
 }) => {
   return (
-    <>
+    <div>
       {[...Array(rowCount)].map((_, rowIndex) => (
-        <tr key={rowIndex} className="animate-pulse">
+        <div key={rowIndex} className="flex animate-pulse">
           {[...Array(colCount)].map((_, colIndex) => (
-            <td key={colIndex} className="px-4 py-2">
+            <div key={colIndex} className="flex-1 px-4 py-2">
               <div className="flex w-full justify-center items-center">
-                <div className="flex skeleton w-1/2 h-10"></div>
+                <div className="skeleton w-1/2 h-10"></div>
               </div>
-            </td>
+            </div>
           ))}
-        </tr>
+        </div>
       ))}
-    </>
+    </div>
   );
 };
