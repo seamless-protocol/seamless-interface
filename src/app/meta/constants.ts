@@ -1,5 +1,10 @@
-export const WETH_ADDRESS = "0x4200000000000000000000000000000000000006";
-export const CBETH_ADDRESS = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
+import { Address } from "viem";
+
+export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
+export const WETH_ADDRESS: Address =
+  "0x4200000000000000000000000000000000000006";
+export const CBETH_ADDRESS: Address =
+  "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
 
 //TODO: Change to base mainnet addresses
 export const WRAPED_CBETH_ADDRESS =
