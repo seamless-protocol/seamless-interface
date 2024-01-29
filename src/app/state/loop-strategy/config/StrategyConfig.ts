@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { CBETH_ADDRESS } from "../../../meta/constants";
+import CBETHImage from "/public/cbeth.svg";
 
 export interface StrategyConfig {
   name: string;
@@ -20,7 +21,7 @@ export const ilmStrategies: StrategyConfig[] = [
       name: "Coinbase Staked ETH",
       symbol: "cbETH",
       address: CBETH_ADDRESS,
-      logo: "src/assets/cbeth.svg",
+      logo: CBETHImage,
     },
   },
 ];
