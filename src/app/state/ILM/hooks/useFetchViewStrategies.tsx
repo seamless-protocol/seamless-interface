@@ -13,6 +13,8 @@ import {
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address } from "viem";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
+import { Displayable } from "../../../../shared";
+import { ViewStrategy } from "../types/ViewStrategy";
 
 function useFetchStrategyInfoForAccount(
   strategyAddress: Address,
@@ -96,7 +98,9 @@ function useFetchStrategyInfoForAccount(
   };
 }
 
-export const useFetchViewStrategy = (index: number) => {
+export const useFetchViewStrategy = (
+  index: number
+): Displayable<ViewStrategy> => {
   const strategyConfig = ilmStrategies[index];
 
   const account = useAccount();
