@@ -1,6 +1,8 @@
 import { Address } from "viem";
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
+export const COMPOUNDING_PERIODS_APY = 52;
+
 export const WETH_ADDRESS: Address =
   "0x4200000000000000000000000000000000000006";
 export const CBETH_ADDRESS: Address =

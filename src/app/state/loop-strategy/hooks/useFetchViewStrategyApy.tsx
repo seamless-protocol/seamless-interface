@@ -7,6 +7,7 @@ import {
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   APY_BLOCK_FRAME,
+  COMPOUNDING_PERIODS_APY,
   ONE_ETHER,
   SECONDS_PER_YEAR,
 } from "../../../meta/constants";
@@ -27,11 +28,14 @@ function calculateApy(
   const endValueNumber = formatUnitsToNumber(endValue, 18);
   const startValueNumber = formatUnitsToNumber(startValue, 18);
   const timeWindowNumber = Number(timeWindow);
+
+  const apr =
+    (endValueNumber / startValueNumber) **
+      (1 / (timeWindowNumber / SECONDS_PER_YEAR)) -
+    1;
+
   return (
-    ((endValueNumber / startValueNumber) **
-      (SECONDS_PER_YEAR / timeWindowNumber) -
-      1) *
-    100
+    ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100
   );
 }
 
