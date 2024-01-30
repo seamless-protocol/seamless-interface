@@ -13,7 +13,7 @@ import ilmDiagram from "/public/ilm-diagram.png";
 export const StrategyStatusAndConfiguration = () => {
   const isLoading = true;
   return (
-    <FlexCol className="px-6 py-4 gap-8 max-w-screen-xxsm md:max-w-screen-md">
+    <FlexCol className="px-6 py-4 gap-8">
       <Typography type="h3">Strategy status & configuration</Typography>
       <FlexCol className="gap-10">
         <FlexCol className="md:flex-row gap-4">

@@ -40,7 +40,7 @@ export const IlmDetailsPage = () => {
             </div>
 
             <div
-              className={`w-full mb-24 md:mb-1 lg:w-[432px] text-text-secondary lg:block ${selectedCard === "yourInfo" ? "" : "hidden"}`}
+              className={`w-full mb-24 md:mb-1 lg:w-[500px] text-text-secondary lg:block ${selectedCard === "yourInfo" ? "" : "hidden"}`}
             >
               <Card>
                 <YourInfo />
