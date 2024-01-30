@@ -58,7 +58,7 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
     <>
       <DesktopTableRow
         index={index}
-        hideBorer={index === ilmStrategies.length - 1}
+        hideBorder={index === ilmStrategies.length - 1}
         strategy={strategy}
         isLoading={isLoading || !isFetched}
       />

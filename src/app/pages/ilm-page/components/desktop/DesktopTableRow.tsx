@@ -17,12 +17,12 @@ export const DesktopTableRow: React.FC<{
   index: number;
   strategy?: ViewStrategy;
   isLoading?: boolean;
-  hideBorer?: boolean;
-}> = ({ index, strategy, isLoading, hideBorer }) => {
+  hideBorder?: boolean;
+}> = ({ index, strategy, isLoading, hideBorder }) => {
   return (
     <TableRow
       rest={{ onClick: () => window.alert("Clicked:" + index) }}
-      hideBorder={hideBorer}
+      hideBorder={hideBorder}
       key={index}
       className="hidden md:grid grid-cols-8"
     >
