@@ -6,9 +6,9 @@ import { DesktopTableRow } from "./desktop/DesktopTableRow";
 import { MobileTableRow } from "./mobile/MobileTableRow";
 
 const columnNames = {
-  c_1_strategyName: "Strategy name",
+  c_1_depositAsset: "Deposit Asset",
   c_1_1_empty: "",
-  c_2_depositAsset: "Deposit Asset",
+  c_2_strategyName: "Strategy name",
   c_3_targetMultiple: "Target Multiple",
   c_4_loopAPY: "Loop APY",
   c_5_availableToDeposit: "Available to Deposit",
@@ -52,7 +52,7 @@ const TableBody: React.FC = () => {
 };
 
 const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
-  const { data: strategy, isLoading } = useFetchViewStrategy(index);
+  const { data: strategy, isLoading, isFetched } = useFetchViewStrategy(index);
 
   return (
     <>
@@ -60,10 +60,10 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
         index={index}
         hideBorer={index === ilmStrategies.length - 1}
         strategy={strategy}
-        isLoading={true}
+        isLoading={isLoading || !isFetched}
       />
       <MobileTableRow
-        isLoading={isLoading}
+        isLoading={isLoading || !isFetched}
         columnNames={columnNames}
         strategy={strategy}
       />

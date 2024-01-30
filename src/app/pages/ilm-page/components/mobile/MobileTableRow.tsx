@@ -13,8 +13,8 @@ import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 
 export const MobileTableRow: React.FC<{
   columnNames: {
-    c_1_strategyName: string;
-    c_2_depositAsset: string;
+    c_1_depositAsset: string;
+    c_2_strategyName: string;
     c_3_targetMultiple: string;
     c_4_loopAPY: string;
     c_5_availableToDeposit: string;
@@ -53,7 +53,7 @@ export const MobileTableRow: React.FC<{
           <LocalMobileTableRow>
             <DisplayText
               typography="description"
-              text={columnNames.c_1_strategyName}
+              text={columnNames.c_2_strategyName}
               isLoading={isLoading}
             />
             <DisplayText

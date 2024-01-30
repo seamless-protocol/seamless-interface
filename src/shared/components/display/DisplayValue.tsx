@@ -60,18 +60,15 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbolPosition = "before",
 }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
-    const { width, height } = getTypographySkeletonSize(typography, value);
+    if (loaderSkeleton) {
+      const { width, height } = getTypographySkeletonSize(typography, value);
 
-    return (
-      <span
-        style={{ width, height }}
-        className={
-          loaderSkeleton
-            ? "skeleton"
-            : "loading loading-spinner flex self-center"
-        }
-      ></span>
-    );
+      return (
+        <span style={{ width, height }} className="skeleton mb-[1px]"></span>
+      );
+    } else {
+      return <div className="loading loading-spinner flex self-center"></div>;
+    }
   } else {
     return (
       <Typography

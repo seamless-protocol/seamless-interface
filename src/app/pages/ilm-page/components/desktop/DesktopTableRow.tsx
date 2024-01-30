@@ -4,6 +4,7 @@ import {
   DisplayPercentage,
   DisplayText,
   DisplayTokenAmount,
+  FlexCol,
   FlexRow,
   Icon,
   TableCell,
@@ -25,14 +26,17 @@ export const DesktopTableRow: React.FC<{
       key={index}
       className="hidden md:grid grid-cols-8"
     >
-      <TableCell className="overflow-hidden col-span-2">
-        <FlexRow className="justify-start items-start gap-1 text-start ">
+      <TableCell
+        className="overflow-hidden col-span-2"
+        alignItems="items-start"
+      >
+        <FlexRow className="gap-2 text-start">
           <Icon
             src={strategy?.depositAsset.logo}
             alt={strategy?.depositAsset.name || "asset"}
             isLoading={isLoading}
           />
-          <div>
+          <FlexCol>
             <DisplayText
               typography="h4"
               text={strategy?.depositAsset.name}
@@ -43,7 +47,7 @@ export const DesktopTableRow: React.FC<{
               text={strategy?.depositAsset.description}
               isLoading={isLoading}
             />
-          </div>
+          </FlexCol>
         </FlexRow>
       </TableCell>
       <TableCell>
@@ -53,8 +57,6 @@ export const DesktopTableRow: React.FC<{
           isLoading={isLoading}
         />
       </TableCell>
-
-      {/* MAKE SURE THIS DOESN'T GO OUTSIDE OF TABLECELL */}
 
       <TableCell>
         <DisplayText
