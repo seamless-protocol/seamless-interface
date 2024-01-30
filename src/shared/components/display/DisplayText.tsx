@@ -7,6 +7,7 @@ export interface DisplayTextProps {
   loaderSkeleton?: boolean;
   isLoading?: boolean;
   isFetching?: boolean;
+  skeletonFitParentMaxWidth?: boolean;
 }
 
 export const DisplayText: React.FC<DisplayTextProps> = ({
