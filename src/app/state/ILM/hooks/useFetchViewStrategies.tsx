@@ -16,7 +16,7 @@ import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 
-function useFetchStrategyInfoForAccount(
+export function useFetchStrategyInfoForAccount(
   strategyAddress: Address,
   underlyingAssetAddress: Address,
   account: UseAccountReturnType
