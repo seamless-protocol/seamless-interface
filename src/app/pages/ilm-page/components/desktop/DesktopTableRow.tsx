@@ -4,14 +4,12 @@ import {
   DisplayPercentage,
   DisplayText,
   DisplayTokenAmount,
-  FlexCol,
-  FlexRow,
-  Icon,
   TableCell,
   TableRow,
 } from "../../../../../shared";
 import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 import { TemporaryButton } from "../../../../components/temporary-components/TemporaryButton";
+import { DisplayDepositAsset } from "../DisplayDepositAsset";
 
 export const DesktopTableRow: React.FC<{
   index: number;
@@ -30,25 +28,10 @@ export const DesktopTableRow: React.FC<{
         className="overflow-hidden col-span-2"
         alignItems="items-start"
       >
-        <FlexRow className="gap-2 text-start">
-          <Icon
-            src={strategy?.depositAsset.logo}
-            alt={strategy?.depositAsset.name || "asset"}
-            isLoading={isLoading}
-          />
-          <FlexCol>
-            <DisplayText
-              typography="h4"
-              text={strategy?.depositAsset.name}
-              isLoading={isLoading}
-            />
-            <DisplayText
-              typography="subheader2"
-              text={strategy?.depositAsset.description}
-              isLoading={isLoading}
-            />
-          </FlexCol>
-        </FlexRow>
+        <DisplayDepositAsset
+          depositAsset={strategy?.depositAsset}
+          isLoading={isLoading}
+        />
       </TableCell>
       <TableCell>
         <DisplayText

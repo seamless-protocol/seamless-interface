@@ -24,7 +24,7 @@ const columns = Object.keys(columnNames).map((key) => ({
 export const StrategiesTable: React.FC = () => {
   return (
     <div className="flex flex-col xxl:items-center mt-[-46px]">
-      <Card className="xxl:w-[1440px]">
+      <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
         <div className="pt-4">
           <SimpleTable
             columns={columns}
