@@ -1,3 +1,4 @@
+import { FlexCol } from "../containers/FlexCol";
 import { FlexRow } from "../containers/FlexRow";
 import { Typography } from "../text/Typography/Typography";
 import { EmptyTable } from "./EmptyTable";
@@ -47,7 +48,7 @@ const DefaultSettings: Settings = {
  * - `settings`: Object for customizing default settings like the number of skeleton rows.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <SimpleTable
  *   isLoading={dataLoading}
@@ -68,58 +69,52 @@ const DefaultSettings: Settings = {
  * @returns The `SimpleTable` component.
  */
 
-export function SimpleTable({
+export const SimpleTable = ({
   isLoading,
   columns,
   bodyComponent,
   title,
   filterComponent,
   footerComponent,
-  settings,
-}: GenericSimpleTableProps) {
+  settings = { skeletonRowCount: 5 },
+}: GenericSimpleTableProps) => {
   return (
-    <div>
-      {/* todo: reconsider this, is this actually tableHead component? */}
-      <FlexRow className="p-1 px-6 justify-between">
+    <div className="text-text-secondary">
+      <FlexRow className="p-1 px-6 justify-between ">
         <Typography type="h2" color="secondary">
           {title}
         </Typography>
-        {/* todo: reconsider this, part of tableHead component? */}
         {filterComponent}
       </FlexRow>
-      <div className="mt-4 overflow-x-auto">
-        <table className="min-w-full text-text-secondary">
-          <thead className=" border-b border-b-divider">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.id}
-                  className={`px-4 py-2 text-center text-sm font-medium text-gray-500 ${column.align ? `${column.align}` : ""}`}
-                >
-                  <Typography type="subheader2">{column.label}</Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <TableSkeleton
-                colCount={columns.length}
-                rowCount={
-                  settings
-                    ? settings.skeletonRowCount
-                    : DefaultSettings.skeletonRowCount
-                }
-              />
-            ) : bodyComponent ? (
-              bodyComponent
-            ) : (
-              <EmptyTable />
-            )}
-          </tbody>
-        </table>
+      <div className="mt-4">
+        <FlexRow className="hidden md:flex px-6 pt-4 pb-1 min-w-full  border-b border-b-divider">
+          {columns.map((column) => (
+            <FlexCol
+              key={column.id}
+              className={`flex-1 ${column.align ? `${column.align}` : "text-center"} text-sm font-medium text-gray-500`}
+            >
+              <Typography type="subheader2">{column.label}</Typography>
+            </FlexCol>
+          ))}
+        </FlexRow>
+        <div>
+          {isLoading ? (
+            <TableSkeleton
+              colCount={columns.length}
+              rowCount={
+                settings.skeletonRowCount
+                  ? settings.skeletonRowCount
+                  : DefaultSettings.skeletonRowCount
+              }
+            />
+          ) : bodyComponent ? (
+            bodyComponent
+          ) : (
+            <EmptyTable />
+          )}
+        </div>
       </div>
       {footerComponent && <div className="mt-4">{footerComponent}</div>}
     </div>
   );
-}
+};

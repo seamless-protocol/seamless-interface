@@ -25,7 +25,7 @@ export interface DisplayPercentageProps extends DisplayableAmount {
  * - Inherits all props from `DisplayableAmount`.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <DisplayPercentage
  *   value={percentageValue}
@@ -34,7 +34,7 @@ export interface DisplayPercentageProps extends DisplayableAmount {
  *   isFetched={fetchState}
  * />
  * ```
- * 
+ *
  * In the above example, `DisplayPercentage` will display the value followed by the '%' symbol, in the specified typography. If the data is loading, it will show a loader instead.
  *
  * @param props Props for the `DisplayPercentage` component.
@@ -43,9 +43,15 @@ export interface DisplayPercentageProps extends DisplayableAmount {
 export const DisplayPercentage: React.FC<DisplayPercentageProps> = ({
   symbol = "%",
   symbolPosition = "after",
+  loaderSkeleton = true,
   ...props
 }) => {
   return (
-    <DisplayValue symbol={symbol} symbolPosition={symbolPosition} {...props} />
+    <DisplayValue
+      symbol={symbol}
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
   );
 };

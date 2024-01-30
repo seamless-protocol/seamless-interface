@@ -1,6 +1,7 @@
 import { DisplayableAmount } from "../../types/Displayable";
 import { Typography } from "../text/Typography/Typography";
 import { TypographyType, TypographyColor } from "../text/Typography/mappers";
+import { fontSizes } from "./mapper";
 
 export interface DisplayValueProps extends DisplayableAmount {
   typography?: TypographyType;
@@ -17,7 +18,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  * - **Value Formatting**: Displays the provided `value` with an optional `symbol` before or after the value.
  * - **Loading State**: Supports a loading state, which can be indicated with a spinner or a skeleton loader.
  * - **Custom Typography**: Allows for different typography styles and colors through `typography` and `symbolColor` props.
- * 
+ *
  * ## Props:
  * - `value`: The value to be displayed.
  * - `symbol`: Optional symbol to display alongside the value (e.g., $, %, etc.).
@@ -59,15 +60,15 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbolPosition = "before",
 }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
-    return (
-      <span
-        className={
-          loaderSkeleton
-            ? "skeleton w-full h-full"
-            : "loading loading-spinner flex self-center"
-        }
-      ></span>
-    );
+    if (loaderSkeleton) {
+      const { width, height } = getTypographySkeletonSize(typography, value);
+
+      return (
+        <span style={{ width, height }} className="skeleton mb-[1px]"></span>
+      );
+    } else {
+      return <div className="loading loading-spinner flex self-center"></div>;
+    }
   } else {
     return (
       <Typography
@@ -102,4 +103,31 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       </Typography>
     );
   }
+};
+
+/**
+ * Calculates the width and height for a skeleton loader based on typography type and text value.
+ *
+ * @param {TypographyType} typographyType - The typography style of the text.
+ * @param {string} [value=""] - The text value to determine the width (default is an empty string).
+ * @returns {{ width: string, height: string }} - An object containing the calculated width and height as CSS values.
+ */
+const getTypographySkeletonSize = (
+  typographyType: TypographyType,
+  value = ""
+) => {
+  const fontSize = fontSizes[typographyType] || "1rem";
+  const height = `calc(${fontSize} * 1.5)`;
+
+  const avgCharWidthInRem = 150 / 23 / 16;
+
+  let widthInRem = value.length * avgCharWidthInRem;
+
+  const minWidthMultiplier = 10;
+  if (value.length < 10) {
+    widthInRem = minWidthMultiplier * avgCharWidthInRem;
+  }
+  const width = `calc(${fontSize} * ${widthInRem})`;
+
+  return { width, height };
 };

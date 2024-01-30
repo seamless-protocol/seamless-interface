@@ -28,7 +28,7 @@ export interface DisplayMoneyProps extends DisplayableAmount {
  * - Inherits all props from `DisplayableAmount`.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <DisplayMoney
  *   value={amount}
@@ -39,7 +39,7 @@ export interface DisplayMoneyProps extends DisplayableAmount {
  *   isFetched={fetchState}
  * />
  * ```
- * 
+ *
  * In this example, `DisplayMoney` will display the monetary amount with the Euro symbol '€' preceding it, in the specified typography and symbol color. If the data is still loading, a loader will be displayed instead.
  *
  * @param props Props for the `DisplayMoney` component.
@@ -48,9 +48,15 @@ export interface DisplayMoneyProps extends DisplayableAmount {
 export const DisplayMoney: React.FC<DisplayMoneyProps> = ({
   symbol = "$",
   symbolPosition = "before",
+  loaderSkeleton = true,
   ...props
 }) => {
   return (
-    <DisplayValue symbol={symbol} symbolPosition={symbolPosition} {...props} />
+    <DisplayValue
+      symbol={symbol}
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
   );
 };
