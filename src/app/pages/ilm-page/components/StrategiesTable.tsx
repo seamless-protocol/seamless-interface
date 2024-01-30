@@ -63,6 +63,7 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
         isLoading={isLoading || !isFetched}
       />
       <MobileTableRow
+        index={index}
         isLoading={isLoading || !isFetched}
         columnNames={columnNames}
         strategy={strategy}

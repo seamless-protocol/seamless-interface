@@ -10,6 +10,8 @@ import {
 import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 import { TemporaryButton } from "../../../../components/temporary-components/TemporaryButton";
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
+import { useNavigate } from "react-router-dom";
+import { RouterConfig } from "../../../../router";
 
 export const DesktopTableRow: React.FC<{
   index: number;
@@ -17,9 +19,13 @@ export const DesktopTableRow: React.FC<{
   isLoading?: boolean;
   hideBorder?: boolean;
 }> = ({ index, strategy, isLoading, hideBorder }) => {
+  const navigate = useNavigate();
+
   return (
     <TableRow
-      rest={{ onClick: () => window.alert("Clicked:" + index) }}
+      rest={{
+        onClick: () => navigate(RouterConfig.Builder.ilmDetails(index)),
+      }}
       hideBorder={hideBorder}
       key={index}
       className="hidden md:grid grid-cols-8"
