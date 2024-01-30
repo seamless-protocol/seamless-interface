@@ -1,23 +1,13 @@
+import { ValueSymbolPair } from "../../../../shared";
+
 export interface ViewUserInfo {
   underlyingAssetBalance: {
-    tokenAmount: {
-      value: string;
-      symbol: string;
-    };
-    dollarAmount: {
-      value: string;
-      symbol: string;
-    };
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
   };
 
   strategyBalance: {
-    tokenAmount: {
-      value: string;
-      symbol: string;
-    };
-    dollarAmount: {
-      value: string;
-      symbol: string;
-    };
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
   };
 }

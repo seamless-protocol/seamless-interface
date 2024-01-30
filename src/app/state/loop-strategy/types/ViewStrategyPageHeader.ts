@@ -1,7 +1,6 @@
+import { ValueSymbolPair } from "../../../../shared";
+
 export interface ViewStrategyPageHeader {
   targetMultiple: string;
-  oraclePrice: {
-    value: string;
-    symbol: string;
-  };
+  oraclePrice: ValueSymbolPair;
 }

@@ -1,24 +1,14 @@
+import { ValueSymbolPair } from "../../../../shared";
+
 export interface ViewStrategyInfo {
   currentMultiple: string;
   targetMultiple: string;
   collateral: {
-    tokenAmount: {
-      value: string;
-      symbol: string;
-    };
-    dollarAmount: {
-      value: string;
-      symbol: string;
-    };
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
   };
   equity: {
-    tokenAmount: {
-      value: string;
-      symbol: string;
-    };
-    dollarAmount: {
-      value: string;
-      symbol: string;
-    };
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
   };
 }
