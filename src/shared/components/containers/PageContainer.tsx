@@ -1,5 +1,3 @@
-import { PropsWithChildren } from "react";
-
 /**
  * `PageContainer` Component
  *
@@ -25,6 +23,9 @@ import { PropsWithChildren } from "react";
  * @returns The `PageContainer` component containing the provided children.
  */
 
-export const PageContainer: React.FC<PropsWithChildren> = ({ children }) => {
-  return <div>{children}</div>;
+export const PageContainer: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className }) => {
+  return <div className={className ? className : ""}>{children}</div>;
 };

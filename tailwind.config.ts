@@ -18,7 +18,11 @@ export default {
     extend: {
       screens: {
         xsm: "640px",
-        xxl: "1800px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        xxl: "1536px",
+        xxxl: "1800px",
       },
       colors: {
         primary: {
