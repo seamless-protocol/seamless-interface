@@ -1,33 +1,31 @@
-import {
-  DisplayMoney,
-  DisplayPercentage,
-  DisplayTokenAmount,
-  FlexRow,
-  Icon,
-  SimpleTable,
-  TableCell,
-  TableRow,
-  Typography,
-} from "../../../../shared";
+import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
-import { TemporaryButton } from "../../../components/temporary-components/TemporaryButton";
 import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategy";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { DesktopTableRow } from "./desktop/DesktopTableRow";
+import { MobileTableRow } from "./mobile/MobileTableRow";
 
-const columns = [
-  { id: "strategyName", label: "Strategy Name" },
-  { id: "depositAsset", label: "Deposit Asset" },
-  { id: "targetMultiple", label: "Target Multiple" },
-  { id: "loopAPY", label: "Loop APY" },
-  { id: "availableToDeposit", label: "Available to Deposit" },
-  { id: "yourPosition", label: "Your Position" },
-];
+const columnNames = {
+  c_1_depositAsset: "Deposit Asset",
+  c_1_1_empty: "",
+  c_2_strategyName: "Strategy name",
+  c_3_targetMultiple: "Target Multiple",
+  c_4_loopAPY: "Loop APY",
+  c_5_availableToDeposit: "Available to Deposit",
+  c_6_yourPosition: "Your Position",
+  c_7_1: "#",
+};
+
+const columns = Object.keys(columnNames).map((key) => ({
+  id: key,
+  label: columnNames[key as keyof typeof columnNames],
+}));
 
 export const StrategiesTable: React.FC = () => {
   return (
-    <div className="mt-[-46px] ">
-      <div className="bg-white mx-24 transition-shadow duration-300 ease-in-out delay-[0ms] rounded shadow-[rgba(0,0,0,0.05)_0px_2px_1px,rgba(0,0,0,0.25)_0px_0px_1px] border mt-0 border-solid border-[rgb(234,235,239)]">
-        <div className="py-4">
+    <div className="flex flex-col xxl:items-center mt-[-46px]">
+      <Card className="xxl:w-[1440px]">
+        <div className="pt-4">
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
@@ -38,7 +36,7 @@ export const StrategiesTable: React.FC = () => {
             }}
           />
         </div>
-      </div>
+      </Card>
     </div>
   );
 };
@@ -54,70 +52,21 @@ const TableBody: React.FC = () => {
 };
 
 const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
-  const { data: strategy } = useFetchViewStrategy(index);
+  const { data: strategy, isLoading, isFetched } = useFetchViewStrategy(index);
 
   return (
-    <TableRow
-      rest={{
-        onClick: () => {
-          window.alert("Clicked:" + index);
-        },
-      }}
-      key={index}
-      hideBorder={index === ilmStrategies.length - 1}
-    >
-      <TableCell>
-        <Typography type="h4">{strategy.strategyName}</Typography>
-      </TableCell>
-      <TableCell>
-        <div className="flex justify-center items-center w-full">
-          <FlexRow className="gap-3">
-            <Icon
-              src={strategy.depositAsset.logo}
-              alt={strategy.depositAsset.name || "asset"}
-            />
-            <div className="text-left">
-              <Typography type="h4">{strategy.depositAsset.name}</Typography>
-              <Typography type="subheader2">
-                {strategy.depositAsset.description}
-              </Typography>
-            </div>
-          </FlexRow>
-        </div>
-      </TableCell>
-      <TableCell>
-        <Typography type="main16">{strategy.targetMultiple}</Typography>
-      </TableCell>
-      <TableCell>
-        <DisplayPercentage typography="main16" {...strategy.LoopAPY} />
-      </TableCell>
-      <TableCell>
-        <div>
-          <DisplayTokenAmount
-            typography="main16"
-            {...strategy.availableToDeposit?.tokenAmount}
-          />
-          <DisplayMoney
-            typography="subheader2"
-            {...strategy.availableToDeposit?.dollarAmount}
-          />
-        </div>
-      </TableCell>
-      <TableCell>
-        <div>
-          <DisplayTokenAmount
-            typography="main16"
-            {...strategy.yourPosition?.tokenAmount}
-          />
-          <DisplayMoney
-            typography="subheader2"
-            {...strategy.yourPosition?.dollarAmount}
-          />
-        </div>
-      </TableCell>
-      <TableCell>
-        <TemporaryButton />
-      </TableCell>
-    </TableRow>
+    <>
+      <DesktopTableRow
+        index={index}
+        hideBorder={index === ilmStrategies.length - 1}
+        strategy={strategy}
+        isLoading={isLoading || !isFetched}
+      />
+      <MobileTableRow
+        isLoading={isLoading || !isFetched}
+        columnNames={columnNames}
+        strategy={strategy}
+      />
+    </>
   );
 };

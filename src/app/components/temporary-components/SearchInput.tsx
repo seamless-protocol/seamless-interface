@@ -2,7 +2,7 @@
 
 export const SearchInput = () => {
   return (
-    <div className="relative">
+    <div className="hidden md:relative">
       <input
         type="text"
         placeholder="Search asset name, symbol, or address"

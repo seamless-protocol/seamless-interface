@@ -1,17 +1,9 @@
 import { Divider, Stack } from "@mui/material";
 import StrategyInfoTableBox from "./StrategyInfoTableColumn";
-import { useFetchStrategyInfo } from "../../../../../../state/loop-strategy/hooks/useFetchStrategyInfo";
+import { useFetchViewStrategyInfo } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
 
 function StrategyInfoTable() {
-  const {
-    isLoading,
-    collateral,
-    collateralUSD,
-    equity,
-    equityUSD,
-    currentMultiple,
-    targetMultiple,
-  } = useFetchStrategyInfo();
+  const { isLoading, data } = useFetchViewStrategyInfo(0);
 
   return (
     <Stack
@@ -25,26 +17,26 @@ function StrategyInfoTable() {
       }}
     >
       <StrategyInfoTableBox
-        isLoading={isLoading}
+        isLoading={isLoading!}
         label={"Total market value"}
-        primaryValue={collateral}
-        secondaryValue={collateralUSD}
+        primaryValue={data?.collateral.tokenAmount.value!}
+        secondaryValue={data?.collateral.dollarAmount.value!}
       />
       <StrategyInfoTableBox
-        isLoading={isLoading}
+        isLoading={isLoading!}
         label={"Total supplied"}
-        primaryValue={equity}
-        secondaryValue={equityUSD}
+        primaryValue={data?.equity.tokenAmount.value!}
+        secondaryValue={data?.equity.dollarAmount.value!}
       />
       <StrategyInfoTableBox
-        isLoading={isLoading}
+        isLoading={isLoading!}
         label={"Current multiple"}
-        primaryValue={currentMultiple}
+        primaryValue={data?.currentMultiple!}
       />
       <StrategyInfoTableBox
-        isLoading={isLoading}
+        isLoading={isLoading!}
         label={"Target multiple"}
-        primaryValue={targetMultiple}
+        primaryValue={data?.targetMultiple!}
       />
     </Stack>
   );

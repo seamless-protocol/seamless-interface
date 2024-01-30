@@ -1,10 +1,16 @@
 import { Button, Stack } from "@mui/material";
-import { useFetchWithdrawInfo } from "../../../../state/loop-strategy/hooks/useFetchWithdrawInfo";
 import WalletDataBox from "./wallet-data-box/WalletDataBox";
 
-function WithdrawRow() {
-  const { isLoading, userEquity, userEquityUSD } = useFetchWithdrawInfo();
-
+interface WithdrawRowProps {
+  isLoading?: boolean;
+  walletBalance: string;
+  walletBalanceUSD: string;
+}
+function WithdrawRow({
+  isLoading,
+  walletBalance,
+  walletBalanceUSD,
+}: WithdrawRowProps) {
   return (
     <Stack
       direction="row"
@@ -16,8 +22,8 @@ function WithdrawRow() {
       <WalletDataBox
         isLoading={isLoading}
         label="Available to withdraw"
-        walletBalance={userEquity}
-        walletBalanceUSD={userEquityUSD}
+        walletBalance={walletBalance}
+        walletBalanceUSD={walletBalanceUSD}
       />
 
       <Button

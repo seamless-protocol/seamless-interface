@@ -1,4 +1,3 @@
-
 /**
  * `TableRow` Component
  *
@@ -18,7 +17,7 @@
  * - `rest`: An object containing any additional HTML attributes specific to table row elements. These are spread onto the `<tr>` element.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <table>
  *   <TableRow className="custom-row-style">
@@ -47,13 +46,13 @@ export const TableRow: React.FC<{
   >;
 }> = ({ children, className, hideBorder, rest }) => {
   return (
-    <tr
-      className={`px-6 items-center h-[76px] cursor-pointer hover:bg-action-hover 
+    <div
+      className={` px-6 items-center h-[76px] cursor-pointer hover:bg-action-hover 
       ${hideBorder ? "" : "border-solid border-b border-b-divider"} 
       ${className ? className : ""}`}
       {...rest}
     >
       {children}
-    </tr>
+    </div>
   );
 };
