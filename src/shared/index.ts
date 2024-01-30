@@ -4,6 +4,7 @@
 export * from "./components/containers/FlexCol";
 export * from "./components/containers/FlexRow";
 export * from "./components/containers/PageContainer";
+export * from "./components/containers/Card";
 
 // **** //
 // text //

@@ -137,9 +137,5 @@ export const MobileTableRow: React.FC<{
 };
 
 const LocalMobileTableRow: React.FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <FlexRow className="justify-between items-center min-h-5">
-      {children}
-    </FlexRow>
-  );
+  return <FlexRow className="justify-between items-center">{children}</FlexRow>;
 };
