@@ -1,18 +1,22 @@
 import {
   DisplayMoney,
   DisplayTokenAmount,
+  Displayable,
   Divider,
   FlexCol,
   FlexRow,
   Icon,
   Typography,
 } from "../../../../../shared";
+import { ViewUserInfo } from "../../../../state/loop-strategy/types/ViewUserInfo";
 import { DepositButton } from "./DepositButton";
 import { WithdrawButton } from "./WithdrawButton";
 
 import walleIcon from "/public/walle-icon.svg";
 
-export const YourInfo = () => {
+export const YourInfo: React.FC<{
+  props: Displayable<ViewUserInfo>;
+}> = ({ props }) => {
   return (
     <FlexCol className="px-6 py-4 gap-8">
       <Typography type="h3">Your Info</Typography>
@@ -21,15 +25,27 @@ export const YourInfo = () => {
         <Icon src={walleIcon} alt="wallet-icon" width={16} height={16} />
         <FlexCol>
           <Typography type="subheader2">Wallet balance</Typography>
-          <DisplayTokenAmount typography="subheader1" value="0.00" />
+          <DisplayTokenAmount
+            typography="subheader1"
+            {...props.data?.underlyingAssetBalance.tokenAmount}
+            isLoading={props.isLoading}
+          />
         </FlexCol>
       </FlexRow>
       <Divider />
       <FlexRow className="justify-between items-center">
         <FlexCol>
           <Typography type="subheader2">Available to deposit</Typography>
-          <DisplayTokenAmount typography="main16" symbol="cbETH" value="0.00" />
-          <DisplayMoney typography="secondary12" value="0.00" />
+          <DisplayTokenAmount
+            typography="main16"
+            {...props?.data?.underlyingAssetBalance.tokenAmount}
+            isLoading={props.isLoading}
+          />
+          <DisplayMoney
+            typography="secondary12"
+            {...props?.data?.underlyingAssetBalance.dollarAmount}
+            isLoading={props.isLoading}
+          />
         </FlexCol>
 
         <DepositButton />
@@ -40,8 +56,16 @@ export const YourInfo = () => {
       <FlexRow className="justify-between items-center">
         <FlexCol>
           <Typography type="subheader2">Available to withdraw</Typography>
-          <DisplayTokenAmount typography="main16" symbol="cbETH" value="0.00" />
-          <DisplayMoney typography="secondary12" value="0.00" />
+          <DisplayTokenAmount
+            typography="main16"
+            {...props?.data?.strategyBalance.tokenAmount}
+            isLoading={props.isLoading}
+          />
+          <DisplayMoney
+            typography="secondary12"
+            {...props?.data?.strategyBalance.dollarAmount}
+            isLoading={props.isLoading}
+          />
         </FlexCol>
 
         <WithdrawButton />

@@ -7,11 +7,15 @@ import {
   ValueSymbolPair,
   VerticalDivider,
 } from "../../../../shared";
+import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
 
 import ilmDiagram from "/public/ilm-diagram.png";
 
-export const StrategyStatusAndConfiguration = () => {
-  const isLoading = true;
+export const StrategyStatusAndConfiguration: React.FC<{
+  id: number;
+}> = ({ id }) => {
+  const { data, isLoading } = useFetchViewStrategyInfo(id);
+
   return (
     <FlexCol className="px-6 py-4 gap-8">
       <Typography type="h3">Strategy status & configuration</Typography>
@@ -21,39 +25,42 @@ export const StrategyStatusAndConfiguration = () => {
             Strategy info
           </Typography>
           <FlexCol className="md:flex-row gap-4 md:gap-0">
-            <LocalValue
+            <LocalValueComponent
               title="Total market value"
-              firstValue={{
-                value: "81.28",
+              mainValue={{
+                ...data?.collateral.tokenAmount,
               }}
-              secondValue={{
-                value: "222.55K",
+              secondaryValue={{
+                ...data?.collateral.dollarAmount,
               }}
               isLoading={isLoading}
             />
             <VerticalDivider />
-            <LocalValue
+            <LocalValueComponent
               title="Total supplied"
-              firstValue={{
-                value: "81.28",
+              mainValue={{
+                ...data?.equity.tokenAmount,
               }}
-              secondValue={{
-                value: "222.55K",
+              secondaryValue={{
+                ...data?.equity.dollarAmount,
               }}
+              isLoading={isLoading}
             />
             <VerticalDivider />
-            <LocalValue
+            <LocalValueComponent
               title="Current multiple"
-              firstValue={{
-                value: "81.28",
+              mainValue={{
+                value: data?.currentMultiple,
               }}
+              isLoading={isLoading}
             />
             <VerticalDivider />
-            <LocalValue
+            <LocalValueComponent
               title="Target multiple"
-              firstValue={{
-                value: "81.28",
+              mainValue={{
+                value: data?.targetMultiple,
               }}
+              isLoading={isLoading}
             />
           </FlexCol>
         </FlexCol>
@@ -86,25 +93,25 @@ export const StrategyStatusAndConfiguration = () => {
   );
 };
 
-const LocalValue: React.FC<{
+const LocalValueComponent: React.FC<{
   title: string;
-  firstValue?: ValueSymbolPair;
-  secondValue?: ValueSymbolPair;
+  mainValue?: ValueSymbolPair;
+  secondaryValue?: ValueSymbolPair;
   isLoading?: boolean;
-}> = ({ title, firstValue, secondValue, isLoading }) => {
+}> = ({ title, mainValue, secondaryValue, isLoading }) => {
   return (
     <FlexCol>
       <Typography type="description">{title}</Typography>
       <FlexCol>
         <DisplayTokenAmount
           typography="main16"
-          {...firstValue}
+          {...mainValue}
           isLoading={isLoading}
         />
-        {secondValue && (
+        {secondaryValue && (
           <DisplayMoney
             typography="secondary12"
-            {...secondValue}
+            {...secondaryValue}
             isLoading={isLoading}
           />
         )}
