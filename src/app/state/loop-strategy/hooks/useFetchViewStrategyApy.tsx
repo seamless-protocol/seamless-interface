@@ -16,7 +16,7 @@ import {
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 
-function calculateApy(
+export function calculateApy(
   endValue: bigint,
   startValue: bigint,
   timeWindow: bigint
