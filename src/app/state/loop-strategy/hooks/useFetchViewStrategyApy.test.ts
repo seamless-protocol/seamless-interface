@@ -19,6 +19,10 @@ test("calculateApy", async () => {
   startValue = BigInt(300) * ONE_ETHER;
   expect(calculateApy(endValue, startValue, timeWindows)).toBeCloseTo(753.24);
 
+  endValue = BigInt(9000) * ONE_ETHER;
+  startValue = BigInt(10000) * ONE_ETHER;
+  expect(calculateApy(endValue, startValue, timeWindows)).toBeCloseTo(-51.69);
+
   endValue = BigInt(41) * ONE_ETHER;
   startValue = BigInt(40) * ONE_ETHER;
   timeWindows = BigInt(60 * 60 * 24 * 20); // 20 days
