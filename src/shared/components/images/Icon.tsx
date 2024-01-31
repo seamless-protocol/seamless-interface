@@ -49,6 +49,10 @@ export const Icon: React.FC<IconProps> = ({
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     return (
       <span
+        style={{
+          width: rest.width,
+          height: rest.height,
+        }}
         className={
           loaderSkeleton
             ? "skeleton min-h-10 min-w-10 rounded-full"
