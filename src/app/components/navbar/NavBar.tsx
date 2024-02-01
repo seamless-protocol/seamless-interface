@@ -13,6 +13,7 @@ const navigation = [
   },
   {
     name: "Lending & Borrowing",
+    //TODO: change to correct link when ready
     href: "https://ilm.seamlessprotocol.com",
     current: false,
   },
