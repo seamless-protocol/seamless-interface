@@ -3,10 +3,10 @@ import { WagmiProvider, http, createConfig } from "wagmi";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
-import ResponsiveAppBar from "./app/components/navbar/ResponsiveAppBar";
-import DetailsPage from "./app/pages/details-page/page";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
+import { NavBar } from "./app/components/navbar/NavBar";
+import DetailsPage from "./app/pages/details-page/page";
 
 const config = createConfig({
   chains: [base],
@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <ResponsiveAppBar />
+          <NavBar />
           <Routes>
             <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
             <Route path="/details" element={<DetailsPage />} />
