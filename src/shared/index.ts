@@ -1,3 +1,8 @@
+// ****** //
+// button //
+// ****** //
+export * from "./components/button/Button";
+
 // ********** //
 // containers //
 // ********** //
@@ -16,6 +21,12 @@ export * from "./components/text/Typography/Typography";
 // ******* //
 export * from "./components/divider/Divider";
 export * from "./components/divider/VerticalDivider";
+
+// **** //
+// form //
+// **** //
+export * from "./components/form/MyFormProvider";
+export * from "./components/form/inputs/CustomInput";
 
 // ***** //
 // types //
@@ -36,6 +47,11 @@ export * from "./components/display/DisplayText";
 // Icons //
 // ***** //
 export * from "./components/images/Icon";
+
+// ***** //
+// Modals //
+// ***** //
+export * from "./components/modal/Modal";
 
 // ***** //
 // Table //
