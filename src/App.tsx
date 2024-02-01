@@ -7,6 +7,7 @@ import ResponsiveAppBar from "./app/components/navbar/ResponsiveAppBar";
 import DetailsPage from "./app/pages/details-page/page";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
+import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 
 const config = createConfig({
   chains: [base],
@@ -26,6 +27,10 @@ function App() {
           <ResponsiveAppBar />
           <Routes>
             <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
+            <Route
+              path={RouterConfig.Routes.ilmDetails}
+              element={<IlmDetailsPage />}
+            />
             <Route path="/details" element={<DetailsPage />} />
           </Routes>
         </QueryClientProvider>

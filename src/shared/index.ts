@@ -15,6 +15,7 @@ export * from "./components/text/Typography/Typography";
 // divider //
 // ******* //
 export * from "./components/divider/Divider";
+export * from "./components/divider/VerticalDivider";
 
 // ***** //
 // types //

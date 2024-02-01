@@ -66,6 +66,7 @@ export const useFetchViewStrategyPageHeader = (
         value: formatToDisplayable(oraclePrice),
         symbol: "$",
       },
+      underlyingAsset: strategyConfig.underlyingAsset,
     },
   };
 };
