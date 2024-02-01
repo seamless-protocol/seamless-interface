@@ -10,8 +10,11 @@ import {
   Icon,
 } from "../../../../../shared";
 import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "../../../../router";
 
 export const MobileTableRow: React.FC<{
+  index: number;
   columnNames: {
     c_1_depositAsset: string;
     c_2_strategyName: string;
@@ -23,7 +26,7 @@ export const MobileTableRow: React.FC<{
   };
   strategy?: ViewStrategy;
   isLoading?: boolean;
-}> = ({ strategy, columnNames, isLoading }) => {
+}> = ({ strategy, columnNames, isLoading, index }) => {
   return (
     <FlexCol className="md:hidden p-4 pb-6">
       <FlexRow className="justify-start items-start gap-3 text-start mb-4">
@@ -127,9 +130,12 @@ export const MobileTableRow: React.FC<{
           </FlexCol>
         </LocalMobileTableRow>
         <LocalMobileTableRow>
-          <button className="inline-flex flex-1 items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none no-underline min-w-[64px] border shadow-none rounded font-medium leading-6 text-sm text-white m-0 px-3 py-1.5 border-solid border-[#eaebef] outline-none transition-all duration-250 ease-in-out bg-background-surface tracking-[0.009375rem]">
+          <Link
+            to={RouterConfig.Builder.ilmDetails(index)}
+            className="inline-flex flex-1 items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none no-underline min-w-[64px] border shadow-none rounded font-medium leading-6 text-sm text-white m-0 px-3 py-1.5 border-solid border-[#eaebef] outline-none transition-all duration-250 ease-in-out bg-background-surface tracking-[0.009375rem]"
+          >
             Details
-          </button>
+          </Link>
         </LocalMobileTableRow>
       </FlexCol>
     </FlexCol>

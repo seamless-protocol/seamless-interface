@@ -6,6 +6,7 @@ import { base } from "wagmi/chains";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { NavBar } from "./app/components/navbar/NavBar";
+import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 import DetailsPage from "./app/pages/details-page/page";
 
 const config = createConfig({
@@ -26,6 +27,10 @@ function App() {
           <NavBar />
           <Routes>
             <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
+            <Route
+              path={RouterConfig.Routes.ilmDetails}
+              element={<IlmDetailsPage />}
+            />
             <Route path="/details" element={<DetailsPage />} />
           </Routes>
         </QueryClientProvider>
