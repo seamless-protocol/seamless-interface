@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)\\.js",
+      "headers": { "Content-Type": "application/javascript" },
+      "dest": "/dist/$1.js"
+    },
+    {
+      "src": "/(.*)\\.css",
+      "headers": { "Content-Type": "text/css" },
+      "dest": "/dist/$1.css"
+    },
+    {
+      "src": "/(.*)\\.png",
+      "dest": "/dist/$1.png"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
