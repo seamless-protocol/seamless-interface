@@ -1,13 +1,7 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { parseUnits } from "viem";
+import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import {
-  cbEthAddress,
-  loopStrategyAddress,
-  useWriteCbEthApprove,
-  useWriteLoopStrategyDeposit,
-} from "../../../../generated/generated";
 import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
@@ -21,29 +15,34 @@ import {
 import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
 import AmountInputWrapper from "./AmountInput/AmountInputWrapper";
+import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
+import { useWriteAssetApprove } from "../../../../state/common/hooks/useWriteAssetApprove";
+import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 
 export interface DepositModalFormData {
   amount: string;
 }
 
-export const DepositModal = () => {
+interface DepositModalProps {
+  id: number;
+}
+
+export const DepositModal = ({ id }: DepositModalProps) => {
+  const strategyConfig = ilmStrategies[id];
+
   const account = useAccount();
 
-  // FETCH //
+  const { isDepositPending, isDepositSuccessful, deposit } =
+    useWriteStrategyDeposit(id);
   const {
-    writeContract: deposit,
-    isPending: isDepositPending,
-    //todo: what if user deposites twice??
-    isSuccess: isDepositSuccessful,
-  } = useWriteLoopStrategyDeposit();
-  const {
-    writeContract: approve,
     isPending: isApprovalPending,
     isSuccess: isAppovalSuccessful,
-  } = useWriteCbEthApprove();
+    approve: approve,
+  } = useWriteAssetApprove(strategyConfig.underlyingAsset.address);
 
   const { allowance } = useFetchAssetAllowance(
-    cbEthAddress,
+    strategyConfig.underlyingAsset.address,
+    strategyConfig.address,
     isAppovalSuccessful,
     isDepositSuccessful
   );
@@ -58,17 +57,14 @@ export const DepositModal = () => {
   const amount = watch("amount");
   const debouncedAmount = useDebounce(amount, 500);
 
-  const { shares } = useFetchPreviewDeposit(debouncedAmount);
+  const { shares } = useFetchPreviewDeposit(
+    strategyConfig.address,
+    debouncedAmount
+  );
 
   const onSubmitAsync = (data: DepositModalFormData) => {
     if (shares) {
-      deposit({
-        args: [
-          parseUnits(data.amount, 18),
-          account.address as `0x${string}`,
-          shares,
-        ],
-      });
+      deposit(parseUnits(data.amount, 18), account.address as Address, shares);
     }
   };
 
@@ -85,6 +81,9 @@ export const DepositModal = () => {
           <FlexCol>
             <Typography type="description">Amount</Typography>
             <AmountInputWrapper
+              assetAddress={strategyConfig.underlyingAsset.address}
+              assetSymbol={strategyConfig.underlyingAsset.symbol}
+              assetLogo={strategyConfig.underlyingAsset.logo}
               debouncedAmount={debouncedAmount}
               isDepositSuccessful={isDepositSuccessful}
             />
@@ -97,15 +96,14 @@ export const DepositModal = () => {
                 <Typography type="description">Shares to receive</Typography>
                 <Typography type="description">
                   {formatBigIntOnTwoDecimals(shares, 18)}
+                  {" " + strategyConfig.symbol}
                 </Typography>
               </FlexRow>
             </FlexCol>
           </FlexCol>
           <Button
             onClick={() =>
-              approve({
-                args: [loopStrategyAddress, parseUnits(amount || "0", 18)],
-              })
+              approve(strategyConfig.address, parseUnits(amount || "0", 18))
             }
             loading={isApprovalPending}
             disabled={

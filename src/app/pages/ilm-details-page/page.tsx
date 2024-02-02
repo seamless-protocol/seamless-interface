@@ -6,7 +6,6 @@ import { StrategyStatusAndConfiguration } from "./components/StrategyStatusAndCo
 import { YourInfo } from "./components/your-info/YourInfo";
 import { useState } from "react";
 import { TabSelector } from "./components/tab/TabSelector";
-import { useFetchViewUserInfo } from "../../state/loop-strategy/hooks/useFetchViewUserInfo";
 
 type PageParams = {
   id: string;
@@ -17,9 +16,6 @@ export const IlmDetailsPage = () => {
   const [selectedCard, setSelectedCard] = useState<"overview" | "yourInfo">(
     "overview"
   );
-
-  //todo: for rest of the data fatching
-  const viewUserInfo = useFetchViewUserInfo(Number(id));
 
   return (
     <PageContainer>
@@ -47,7 +43,7 @@ export const IlmDetailsPage = () => {
               className={`w-full mb-24 md:mb-1 lg:w-[500px] text-text-secondary lg:block ${selectedCard === "yourInfo" ? "" : "hidden"}`}
             >
               <Card>
-                <YourInfo props={viewUserInfo} />
+                <YourInfo id={Number(id || 0)} />
               </Card>
             </div>
           </div>

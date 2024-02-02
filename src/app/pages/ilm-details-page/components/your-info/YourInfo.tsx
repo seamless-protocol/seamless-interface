@@ -1,22 +1,25 @@
 import {
   DisplayMoney,
   DisplayTokenAmount,
-  Displayable,
   Divider,
   FlexCol,
   FlexRow,
   Icon,
   Typography,
 } from "../../../../../shared";
-import { ViewUserInfo } from "../../../../state/loop-strategy/types/ViewUserInfo";
+import { useFetchViewUserInfo } from "../../../../state/loop-strategy/hooks/useFetchViewUserInfo";
 import { DepositModal } from "./DepositModal";
-import { WithdrawButton } from "./WithdrawButton";
+import { WithdrawModal } from "./WithdrawModal";
 
 import walleIcon from "/public/walle-icon.svg";
 
-export const YourInfo: React.FC<{
-  props: Displayable<ViewUserInfo>;
-}> = ({ props }) => {
+interface YourInfoProps {
+  id: number;
+}
+
+export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
+  const viewUserInfo = useFetchViewUserInfo(id);
+
   return (
     <FlexCol className="px-6 py-4 gap-8">
       <Typography type="h3">Your Info</Typography>
@@ -27,8 +30,8 @@ export const YourInfo: React.FC<{
           <Typography type="subheader2">Wallet balance</Typography>
           <DisplayTokenAmount
             typography="subheader1"
-            {...props.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={props.isLoading}
+            {...viewUserInfo.data?.underlyingAssetBalance.tokenAmount}
+            isLoading={viewUserInfo.isLoading}
           />
         </FlexCol>
       </FlexRow>
@@ -38,17 +41,17 @@ export const YourInfo: React.FC<{
           <Typography type="subheader2">Available to deposit</Typography>
           <DisplayTokenAmount
             typography="main16"
-            {...props?.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={props.isLoading}
+            {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
+            isLoading={viewUserInfo.isLoading}
           />
           <DisplayMoney
             typography="secondary12"
-            {...props?.data?.underlyingAssetBalance.dollarAmount}
-            isLoading={props.isLoading}
+            {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
+            isLoading={viewUserInfo.isLoading}
           />
         </FlexCol>
 
-        <DepositModal />
+        <DepositModal id={id} />
       </FlexRow>
 
       <Divider />
@@ -58,17 +61,17 @@ export const YourInfo: React.FC<{
           <Typography type="subheader2">Available to withdraw</Typography>
           <DisplayTokenAmount
             typography="main16"
-            {...props?.data?.strategyBalance.tokenAmount}
-            isLoading={props.isLoading}
+            {...viewUserInfo?.data?.strategyBalance.tokenAmount}
+            isLoading={viewUserInfo.isLoading}
           />
           <DisplayMoney
             typography="secondary12"
-            {...props?.data?.strategyBalance.dollarAmount}
-            isLoading={props.isLoading}
+            {...viewUserInfo?.data?.strategyBalance.dollarAmount}
+            isLoading={viewUserInfo.isLoading}
           />
         </FlexCol>
 
-        <WithdrawButton />
+        <WithdrawModal id={id} />
       </FlexRow>
     </FlexCol>
   );

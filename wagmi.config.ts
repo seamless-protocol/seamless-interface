@@ -5,7 +5,7 @@ import { AaveOracleAbi } from "./abis/AaveOracle";
 import { react } from "@wagmi/cli/plugins";
 
 export default defineConfig({
-  out: "src/generated/generated.ts",
+  out: "src/app/generated/generated.ts",
   contracts: [
     {
       name: "cbETH",
@@ -14,7 +14,6 @@ export default defineConfig({
     },
     {
       name: "LoopStrategy",
-      address: "0xbf7163E07Cb778E3D6216d249Bd64fa7c86B6Da2",
       abi: LoopStrategyAbi,
     },
     {
