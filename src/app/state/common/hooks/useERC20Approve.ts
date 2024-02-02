@@ -13,7 +13,7 @@ const ALWAYS_APPROVE_MAX = false;
  *
  * @param {Address} tokenAddress - The Ethereum address of the ERC-20 token contract.
  * @param {Address} spenderAddress - The Ethereum address of the spender contract or account to approve.
- * @param {bigint} [threshold=BigInt(0)] - The minimum amount of tokens that should be approved for the spender. Defaults to 0.
+ * @param {bigint} [threshold=parseUnits(0)] - The minimum amount of tokens that should be approved for the spender. Defaults to 0.
  * @returns {Object} An object containing the approval state (`isApproved`), whether an approval transaction is in progress (`isApproving`),
  * a method to trigger the approval process (`approveAsync`), and a method to check the current approval status (`checkApproval`).
  *
@@ -25,7 +25,7 @@ const ALWAYS_APPROVE_MAX = false;
  * }, [checkApproval]);
  *
  * const handleApprove = async () => {
- *   await approveAsync(BigInt(2000));
+ *   await approveAsync(parseUnits(2000));
  * };
  */
 export const useERC20Approve = (
