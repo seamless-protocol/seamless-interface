@@ -19,7 +19,6 @@ export const useFetchStrategyInfo = (
   strategyAddress: Address,
   underlyingAssetAddress: Address
 ) => {
-  console.log("underlyingAssetAddress", underlyingAssetAddress);
   const {
     data: results,
     isLoading,
@@ -54,8 +53,6 @@ export const useFetchStrategyInfo = (
       },
     ],
   });
-
-  console.log(results);
 
   let collateral,
     collateralUSD,
