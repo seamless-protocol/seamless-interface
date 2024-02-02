@@ -11,7 +11,7 @@ import { useFetchViewUserInfo } from "../../../../state/loop-strategy/hooks/useF
 import { DepositModal } from "./DepositModal";
 import { WithdrawModal } from "./WithdrawModal";
 
-import walleIcon from "/public/walle-icon.svg";
+import walletIcon from "../../../../../assets/wallet-icon.svg";
 
 interface YourInfoProps {
   id: number;
@@ -25,7 +25,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
       <Typography type="h3">Your Info</Typography>
 
       <FlexRow className="items-center gap-4">
-        <Icon src={walleIcon} alt="wallet-icon" width={16} height={16} />
+        <Icon src={walletIcon} alt="wallet-icon" width={16} height={16} />
         <FlexCol>
           <Typography type="subheader2">Wallet balance</Typography>
           <DisplayTokenAmount

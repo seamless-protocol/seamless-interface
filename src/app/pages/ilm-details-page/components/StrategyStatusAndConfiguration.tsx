@@ -9,7 +9,7 @@ import {
 } from "../../../../shared";
 import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
 
-import ilmDiagram from "/public/ilm-diagram.png";
+import ilmDiagram from "../../../../assets/ilm-diagram.png";
 
 export const StrategyStatusAndConfiguration: React.FC<{
   id: number;

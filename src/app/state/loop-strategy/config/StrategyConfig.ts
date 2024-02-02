@@ -1,8 +1,8 @@
 import { Address } from "viem";
 import { CBETH_ADDRESS } from "../../../meta/constants";
-import CBETHImage from "/public/cbeth.svg";
 //TODO: Change this to strategy logo once it's known
-import CbEthStrategyLogo from "/public/favicon.svg";
+import CbEthStrategyLogo from "../../../../assets/favicon.svg";
+import CBETHImage from "../../../../assets/cbeth.svg";
 
 export interface StrategyConfig {
   name: string;
