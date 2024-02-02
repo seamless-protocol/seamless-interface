@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "builds": [
     {
       "src": "package.json",
@@ -14,6 +14,11 @@
       "src": "/(.*)\\.js",
       "headers": { "Content-Type": "application/javascript" },
       "dest": "/dist/$1.js"
+    },
+    {
+      "src": "/(.*)\\.css",
+      "headers": { "Content-Type": "text/css" },
+      "dest": "/dist/$1.css"
     },
     {
       "src": "/(.*)\\.png",
