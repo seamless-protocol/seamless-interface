@@ -97,11 +97,7 @@ function DepositModal({ setShowModal }: DepositModalProps) {
         </IconButton>
       </Stack>
 
-      <AmountInputBox
-        walletBalance={cbEthBalance || 0n}
-        amount={amount}
-        setAmount={setAmount}
-      />
+      <AmountInputBox walletBalance={cbEthBalance || 0n} amount={amount} />
 
       <TransactionDetailsBox shares={formatBigIntOnTwoDecimals(shares, 18)} />
 

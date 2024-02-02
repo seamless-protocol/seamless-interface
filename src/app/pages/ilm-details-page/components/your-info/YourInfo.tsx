@@ -9,7 +9,7 @@ import {
   Typography,
 } from "../../../../../shared";
 import { ViewUserInfo } from "../../../../state/loop-strategy/types/ViewUserInfo";
-import { DepositButton } from "./DepositButton";
+import { DepositModal } from "./DepositModal";
 import { WithdrawButton } from "./WithdrawButton";
 
 import walletIcon from "../../../../../assets/wallet-icon.svg";
@@ -48,7 +48,7 @@ export const YourInfo: React.FC<{
           />
         </FlexCol>
 
-        <DepositButton />
+        <DepositModal />
       </FlexRow>
 
       <Divider />

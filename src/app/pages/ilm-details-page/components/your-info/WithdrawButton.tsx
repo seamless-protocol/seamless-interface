@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 
+// todo: remove and implement modal, like deposit
 export const WithdrawButton = () => {
   return (
     <Button
