@@ -114,7 +114,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               Number(amount) <= 0
             }
           >
-            Approve cbETH to continue
+            Approve to continue
           </Button>
           <Button
             type="submit"
@@ -124,7 +124,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               Number(amount) <= 0
             }
           >
-            Deposit cbETH
+            Deposit
           </Button>
         </div>
       </Modal>
