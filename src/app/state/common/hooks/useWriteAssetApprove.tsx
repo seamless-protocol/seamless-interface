@@ -5,8 +5,8 @@ export const useWriteAssetApprove = (asset: Address) => {
   const { isPending, isSuccess, writeContract } = useWriteContract();
 
   return {
-    isPending: isPending,
-    isSuccess: isSuccess,
+    isPending,
+    isSuccess,
     approve: async (spender: Address, amount: bigint) => {
       writeContract({
         address: asset,

@@ -31,7 +31,7 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
 
   const {
     isPending: isWithdrawPending,
-    isSuccessful: isWithdrawSuccessful,
+    isSuccess: isWithdrawSuccessful,
     withdraw,
   } = useWriteStrategyWithdraw(id);
 

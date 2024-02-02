@@ -8,8 +8,8 @@ export const useWriteStrategyWithdraw = (id: number) => {
   const { isPending, isSuccess, writeContract } = useWriteContract();
 
   return {
-    isPending: isPending,
-    isSuccessful: isSuccess,
+    isPending,
+    isSuccess,
     withdraw: async (
       shares: bigint,
       from: Address,

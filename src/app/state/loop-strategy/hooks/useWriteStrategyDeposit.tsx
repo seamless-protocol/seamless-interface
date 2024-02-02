@@ -8,8 +8,8 @@ export const useWriteStrategyDeposit = (id: number) => {
   const { isPending, isSuccess, writeContract } = useWriteContract();
 
   return {
-    isDepositPending: isPending,
-    isDepositSuccessful: isSuccess,
+    isPending,
+    isSuccess,
     deposit: async (amount: bigint, address: Address, shares: bigint) => {
       writeContract({
         address: strategyConfig.address,

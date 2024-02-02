@@ -32,8 +32,11 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   const account = useAccount();
 
-  const { isDepositPending, isDepositSuccessful, deposit } =
-    useWriteStrategyDeposit(id);
+  const {
+    isPending: isDepositPending,
+    isSuccess: isDepositSuccessful,
+    deposit,
+  } = useWriteStrategyDeposit(id);
   const {
     isPending: isApprovalPending,
     isSuccess: isAppovalSuccessful,
