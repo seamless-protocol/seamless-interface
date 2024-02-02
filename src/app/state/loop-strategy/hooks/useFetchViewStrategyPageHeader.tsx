@@ -13,6 +13,7 @@ import { ilmStrategies } from "../config/StrategyConfig";
 import { Address } from "viem";
 import { ViewStrategyPageHeader } from "../types/ViewStrategyPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { useFetchStrategyApy } from "./useFetchViewStrategyApy";
 
 export const useFetchStrategyPageHeader = (
   strategyAddress: Address,
@@ -51,20 +52,33 @@ export const useFetchViewStrategyPageHeader = (
   index: number
 ): Displayable<ViewStrategyPageHeader> => {
   const strategyConfig = ilmStrategies[index];
-  const { isLoading, isFetched, targetMultiple, oraclePrice } =
-    useFetchStrategyPageHeader(
-      strategyConfig.address,
-      strategyConfig.underlyingAsset.address
-    );
+  const {
+    isLoading: isStrategyHeaderLoading,
+    isFetched: isStrategyHeaderFetched,
+    targetMultiple,
+    oraclePrice,
+  } = useFetchStrategyPageHeader(
+    strategyConfig.address,
+    strategyConfig.underlyingAsset.address
+  );
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    apy,
+  } = useFetchStrategyApy(strategyConfig);
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: isStrategyHeaderLoading || isApyLoading,
+    isFetched: isStrategyHeaderFetched && isApyFetched,
     data: {
       targetMultiple: formatToDisplayable(targetMultiple) + "x",
       oraclePrice: {
         value: formatToDisplayable(oraclePrice),
         symbol: "$",
+      },
+      apy: {
+        value: apy ? formatToDisplayable(apy) : "—",
+        symbol: apy ? "%" : "",
       },
       underlyingAsset: strategyConfig.underlyingAsset,
     },
