@@ -1057,14 +1057,6 @@ export const loopStrategyAbi = [
   },
 ] as const
 
-export const loopStrategyAddress =
-  '0xbf7163E07Cb778E3D6216d249Bd64fa7c86B6Da2' as const
-
-export const loopStrategyConfig = {
-  address: loopStrategyAddress,
-  abi: loopStrategyAbi,
-} as const
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cbETH
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1353,7 +1345,6 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
  */
 export const useReadLoopStrategy = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
 })
 
 /**
@@ -1362,7 +1353,6 @@ export const useReadLoopStrategy = /*#__PURE__*/ createUseReadContract({
 export const useReadLoopStrategyDefaultAdminRole =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'DEFAULT_ADMIN_ROLE',
   })
 
@@ -1372,7 +1362,6 @@ export const useReadLoopStrategyDefaultAdminRole =
 export const useReadLoopStrategyManagerRole =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'MANAGER_ROLE',
   })
 
@@ -1382,7 +1371,6 @@ export const useReadLoopStrategyManagerRole =
 export const useReadLoopStrategyPauserRole =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'PAUSER_ROLE',
   })
 
@@ -1392,7 +1380,6 @@ export const useReadLoopStrategyPauserRole =
 export const useReadLoopStrategyUpgraderRole =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'UPGRADER_ROLE',
   })
 
@@ -1402,7 +1389,6 @@ export const useReadLoopStrategyUpgraderRole =
 export const useReadLoopStrategyUpgradeInterfaceVersion =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'UPGRADE_INTERFACE_VERSION',
   })
 
@@ -1410,11 +1396,7 @@ export const useReadLoopStrategyUpgradeInterfaceVersion =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"allowance"`
  */
 export const useReadLoopStrategyAllowance = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'allowance',
-  },
+  { abi: loopStrategyAbi, functionName: 'allowance' },
 )
 
 /**
@@ -1422,7 +1404,6 @@ export const useReadLoopStrategyAllowance = /*#__PURE__*/ createUseReadContract(
  */
 export const useReadLoopStrategyAsset = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'asset',
 })
 
@@ -1430,11 +1411,7 @@ export const useReadLoopStrategyAsset = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"balanceOf"`
  */
 export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'balanceOf',
-  },
+  { abi: loopStrategyAbi, functionName: 'balanceOf' },
 )
 
 /**
@@ -1443,7 +1420,6 @@ export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
 export const useReadLoopStrategyCollateral =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'collateral',
   })
 
@@ -1453,7 +1429,6 @@ export const useReadLoopStrategyCollateral =
 export const useReadLoopStrategyConvertToAssets =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'convertToAssets',
   })
 
@@ -1463,7 +1438,6 @@ export const useReadLoopStrategyConvertToAssets =
 export const useReadLoopStrategyConvertToShares =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'convertToShares',
   })
 
@@ -1473,7 +1447,6 @@ export const useReadLoopStrategyConvertToShares =
 export const useReadLoopStrategyCurrentCollateralRatio =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'currentCollateralRatio',
   })
 
@@ -1482,7 +1455,6 @@ export const useReadLoopStrategyCurrentCollateralRatio =
  */
 export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'debt',
 })
 
@@ -1491,7 +1463,6 @@ export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadLoopStrategyDecimals = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'decimals',
 })
 
@@ -1500,7 +1471,6 @@ export const useReadLoopStrategyDecimals = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadLoopStrategyEquity = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'equity',
 })
 
@@ -1508,11 +1478,7 @@ export const useReadLoopStrategyEquity = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"equityUSD"`
  */
 export const useReadLoopStrategyEquityUsd = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'equityUSD',
-  },
+  { abi: loopStrategyAbi, functionName: 'equityUSD' },
 )
 
 /**
@@ -1521,7 +1487,6 @@ export const useReadLoopStrategyEquityUsd = /*#__PURE__*/ createUseReadContract(
 export const useReadLoopStrategyGetCollateralRatioTargets =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'getCollateralRatioTargets',
   })
 
@@ -1531,7 +1496,6 @@ export const useReadLoopStrategyGetCollateralRatioTargets =
 export const useReadLoopStrategyGetRoleAdmin =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'getRoleAdmin',
   })
 
@@ -1540,7 +1504,6 @@ export const useReadLoopStrategyGetRoleAdmin =
  */
 export const useReadLoopStrategyHasRole = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'hasRole',
 })
 
@@ -1550,7 +1513,6 @@ export const useReadLoopStrategyHasRole = /*#__PURE__*/ createUseReadContract({
 export const useReadLoopStrategyMaxDeposit =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'maxDeposit',
   })
 
@@ -1559,7 +1521,6 @@ export const useReadLoopStrategyMaxDeposit =
  */
 export const useReadLoopStrategyMaxMint = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'maxMint',
 })
 
@@ -1567,11 +1528,7 @@ export const useReadLoopStrategyMaxMint = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxRedeem"`
  */
 export const useReadLoopStrategyMaxRedeem = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'maxRedeem',
-  },
+  { abi: loopStrategyAbi, functionName: 'maxRedeem' },
 )
 
 /**
@@ -1580,7 +1537,6 @@ export const useReadLoopStrategyMaxRedeem = /*#__PURE__*/ createUseReadContract(
 export const useReadLoopStrategyMaxWithdraw =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'maxWithdraw',
   })
 
@@ -1589,7 +1545,6 @@ export const useReadLoopStrategyMaxWithdraw =
  */
 export const useReadLoopStrategyMint = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'mint',
 })
 
@@ -1598,7 +1553,6 @@ export const useReadLoopStrategyMint = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadLoopStrategyName = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'name',
 })
 
@@ -1607,7 +1561,6 @@ export const useReadLoopStrategyName = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadLoopStrategyPaused = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'paused',
 })
 
@@ -1617,7 +1570,6 @@ export const useReadLoopStrategyPaused = /*#__PURE__*/ createUseReadContract({
 export const useReadLoopStrategyPreviewDeposit =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'previewDeposit',
   })
 
@@ -1627,7 +1579,6 @@ export const useReadLoopStrategyPreviewDeposit =
 export const useReadLoopStrategyPreviewMint =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'previewMint',
   })
 
@@ -1637,7 +1588,6 @@ export const useReadLoopStrategyPreviewMint =
 export const useReadLoopStrategyPreviewRedeem =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'previewRedeem',
   })
 
@@ -1647,7 +1597,6 @@ export const useReadLoopStrategyPreviewRedeem =
 export const useReadLoopStrategyPreviewWithdraw =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'previewWithdraw',
   })
 
@@ -1657,7 +1606,6 @@ export const useReadLoopStrategyPreviewWithdraw =
 export const useReadLoopStrategyProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'proxiableUUID',
   })
 
@@ -1667,7 +1615,6 @@ export const useReadLoopStrategyProxiableUuid =
 export const useReadLoopStrategyRebalanceNeeded =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'rebalanceNeeded',
   })
 
@@ -1677,7 +1624,6 @@ export const useReadLoopStrategyRebalanceNeeded =
 export const useReadLoopStrategySupportsInterface =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'supportsInterface',
   })
 
@@ -1686,7 +1632,6 @@ export const useReadLoopStrategySupportsInterface =
  */
 export const useReadLoopStrategySymbol = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'symbol',
 })
 
@@ -1696,7 +1641,6 @@ export const useReadLoopStrategySymbol = /*#__PURE__*/ createUseReadContract({
 export const useReadLoopStrategyTotalAssets =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'totalAssets',
   })
 
@@ -1706,7 +1650,6 @@ export const useReadLoopStrategyTotalAssets =
 export const useReadLoopStrategyTotalSupply =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'totalSupply',
   })
 
@@ -1715,7 +1658,6 @@ export const useReadLoopStrategyTotalSupply =
  */
 export const useReadLoopStrategyWithdraw = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'withdraw',
 })
 
@@ -1724,7 +1666,6 @@ export const useReadLoopStrategyWithdraw = /*#__PURE__*/ createUseReadContract({
  */
 export const useWriteLoopStrategy = /*#__PURE__*/ createUseWriteContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
 })
 
 /**
@@ -1733,7 +1674,6 @@ export const useWriteLoopStrategy = /*#__PURE__*/ createUseWriteContract({
 export const useWriteLoopStrategyLoopStrategyInit =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'LoopStrategy_init',
   })
 
@@ -1741,22 +1681,14 @@ export const useWriteLoopStrategyLoopStrategyInit =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"approve"`
  */
 export const useWriteLoopStrategyApprove = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'approve',
-  },
+  { abi: loopStrategyAbi, functionName: 'approve' },
 )
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"deposit"`
  */
 export const useWriteLoopStrategyDeposit = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'deposit',
-  },
+  { abi: loopStrategyAbi, functionName: 'deposit' },
 )
 
 /**
@@ -1765,7 +1697,6 @@ export const useWriteLoopStrategyDeposit = /*#__PURE__*/ createUseWriteContract(
 export const useWriteLoopStrategyGrantRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'grantRole',
   })
 
@@ -1774,7 +1705,6 @@ export const useWriteLoopStrategyGrantRole =
  */
 export const useWriteLoopStrategyPause = /*#__PURE__*/ createUseWriteContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'pause',
 })
 
@@ -1784,7 +1714,6 @@ export const useWriteLoopStrategyPause = /*#__PURE__*/ createUseWriteContract({
 export const useWriteLoopStrategyRebalance =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'rebalance',
   })
 
@@ -1793,7 +1722,6 @@ export const useWriteLoopStrategyRebalance =
  */
 export const useWriteLoopStrategyRedeem = /*#__PURE__*/ createUseWriteContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
   functionName: 'redeem',
 })
 
@@ -1803,7 +1731,6 @@ export const useWriteLoopStrategyRedeem = /*#__PURE__*/ createUseWriteContract({
 export const useWriteLoopStrategyRenounceRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'renounceRole',
   })
 
@@ -1813,7 +1740,6 @@ export const useWriteLoopStrategyRenounceRole =
 export const useWriteLoopStrategyRevokeRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'revokeRole',
   })
 
@@ -1823,7 +1749,6 @@ export const useWriteLoopStrategyRevokeRole =
 export const useWriteLoopStrategySetCollateralRatioTargets =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'setCollateralRatioTargets',
   })
 
@@ -1833,7 +1758,6 @@ export const useWriteLoopStrategySetCollateralRatioTargets =
 export const useWriteLoopStrategySetInterestRateMode =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'setInterestRateMode',
   })
 
@@ -1843,7 +1767,6 @@ export const useWriteLoopStrategySetInterestRateMode =
 export const useWriteLoopStrategyTransfer =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'transfer',
   })
 
@@ -1853,7 +1776,6 @@ export const useWriteLoopStrategyTransfer =
 export const useWriteLoopStrategyTransferFrom =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'transferFrom',
   })
 
@@ -1861,11 +1783,7 @@ export const useWriteLoopStrategyTransferFrom =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"unpause"`
  */
 export const useWriteLoopStrategyUnpause = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-    functionName: 'unpause',
-  },
+  { abi: loopStrategyAbi, functionName: 'unpause' },
 )
 
 /**
@@ -1874,7 +1792,6 @@ export const useWriteLoopStrategyUnpause = /*#__PURE__*/ createUseWriteContract(
 export const useWriteLoopStrategyUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'upgradeToAndCall',
   })
 
@@ -1883,7 +1800,6 @@ export const useWriteLoopStrategyUpgradeToAndCall =
  */
 export const useSimulateLoopStrategy = /*#__PURE__*/ createUseSimulateContract({
   abi: loopStrategyAbi,
-  address: loopStrategyAddress,
 })
 
 /**
@@ -1892,7 +1808,6 @@ export const useSimulateLoopStrategy = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateLoopStrategyLoopStrategyInit =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'LoopStrategy_init',
   })
 
@@ -1902,7 +1817,6 @@ export const useSimulateLoopStrategyLoopStrategyInit =
 export const useSimulateLoopStrategyApprove =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'approve',
   })
 
@@ -1912,7 +1826,6 @@ export const useSimulateLoopStrategyApprove =
 export const useSimulateLoopStrategyDeposit =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'deposit',
   })
 
@@ -1922,7 +1835,6 @@ export const useSimulateLoopStrategyDeposit =
 export const useSimulateLoopStrategyGrantRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'grantRole',
   })
 
@@ -1932,7 +1844,6 @@ export const useSimulateLoopStrategyGrantRole =
 export const useSimulateLoopStrategyPause =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'pause',
   })
 
@@ -1942,7 +1853,6 @@ export const useSimulateLoopStrategyPause =
 export const useSimulateLoopStrategyRebalance =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'rebalance',
   })
 
@@ -1952,7 +1862,6 @@ export const useSimulateLoopStrategyRebalance =
 export const useSimulateLoopStrategyRedeem =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'redeem',
   })
 
@@ -1962,7 +1871,6 @@ export const useSimulateLoopStrategyRedeem =
 export const useSimulateLoopStrategyRenounceRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'renounceRole',
   })
 
@@ -1972,7 +1880,6 @@ export const useSimulateLoopStrategyRenounceRole =
 export const useSimulateLoopStrategyRevokeRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'revokeRole',
   })
 
@@ -1982,7 +1889,6 @@ export const useSimulateLoopStrategyRevokeRole =
 export const useSimulateLoopStrategySetCollateralRatioTargets =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'setCollateralRatioTargets',
   })
 
@@ -1992,7 +1898,6 @@ export const useSimulateLoopStrategySetCollateralRatioTargets =
 export const useSimulateLoopStrategySetInterestRateMode =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'setInterestRateMode',
   })
 
@@ -2002,7 +1907,6 @@ export const useSimulateLoopStrategySetInterestRateMode =
 export const useSimulateLoopStrategyTransfer =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'transfer',
   })
 
@@ -2012,7 +1916,6 @@ export const useSimulateLoopStrategyTransfer =
 export const useSimulateLoopStrategyTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'transferFrom',
   })
 
@@ -2022,7 +1925,6 @@ export const useSimulateLoopStrategyTransferFrom =
 export const useSimulateLoopStrategyUnpause =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'unpause',
   })
 
@@ -2032,7 +1934,6 @@ export const useSimulateLoopStrategyUnpause =
 export const useSimulateLoopStrategyUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     functionName: 'upgradeToAndCall',
   })
 
@@ -2040,10 +1941,7 @@ export const useSimulateLoopStrategyUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__
  */
 export const useWatchLoopStrategyEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: loopStrategyAbi,
-    address: loopStrategyAddress,
-  })
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: loopStrategyAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Approval"`
@@ -2051,7 +1949,6 @@ export const useWatchLoopStrategyEvent =
 export const useWatchLoopStrategyApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Approval',
   })
 
@@ -2061,7 +1958,6 @@ export const useWatchLoopStrategyApprovalEvent =
 export const useWatchLoopStrategyDepositEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Deposit',
   })
 
@@ -2071,7 +1967,6 @@ export const useWatchLoopStrategyDepositEvent =
 export const useWatchLoopStrategyInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Initialized',
   })
 
@@ -2081,7 +1976,6 @@ export const useWatchLoopStrategyInitializedEvent =
 export const useWatchLoopStrategyPausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Paused',
   })
 
@@ -2091,7 +1985,6 @@ export const useWatchLoopStrategyPausedEvent =
 export const useWatchLoopStrategyRoleAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'RoleAdminChanged',
   })
 
@@ -2101,7 +1994,6 @@ export const useWatchLoopStrategyRoleAdminChangedEvent =
 export const useWatchLoopStrategyRoleGrantedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'RoleGranted',
   })
 
@@ -2111,7 +2003,6 @@ export const useWatchLoopStrategyRoleGrantedEvent =
 export const useWatchLoopStrategyRoleRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'RoleRevoked',
   })
 
@@ -2121,7 +2012,6 @@ export const useWatchLoopStrategyRoleRevokedEvent =
 export const useWatchLoopStrategyTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Transfer',
   })
 
@@ -2131,7 +2021,6 @@ export const useWatchLoopStrategyTransferEvent =
 export const useWatchLoopStrategyUnpausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Unpaused',
   })
 
@@ -2141,7 +2030,6 @@ export const useWatchLoopStrategyUnpausedEvent =
 export const useWatchLoopStrategyUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Upgraded',
   })
 
@@ -2151,7 +2039,6 @@ export const useWatchLoopStrategyUpgradedEvent =
 export const useWatchLoopStrategyWithdrawEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
-    address: loopStrategyAddress,
     eventName: 'Withdraw',
   })
 
