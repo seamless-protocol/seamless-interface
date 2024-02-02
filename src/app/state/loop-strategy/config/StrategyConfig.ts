@@ -1,5 +1,7 @@
 import { Address } from "viem";
 import { CBETH_ADDRESS, WETH_ADDRESS } from "../../../meta/constants";
+//TODO: Change this to strategy logo once it's known
+import CbEthStrategyLogo from "../../../../assets/favicon.svg";
 import CBETHImage from "../../../../assets/cbeth.svg";
 
 interface AssetConfig {
@@ -13,6 +15,7 @@ export interface StrategyConfig {
   name: string;
   symbol: string;
   address: Address;
+  logo: any;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
 }
@@ -21,7 +24,8 @@ export const ilmStrategies: StrategyConfig[] = [
   {
     name: "cbETH Booster",
     symbol: "ilmCbEth",
-    address: "0xbf7163E07Cb778E3D6216d249Bd64fa7c86B6Da2",
+    address: "0x08dd8c0b5E660800970410f6Ab3e61727599501F",
+    logo: CbEthStrategyLogo,
     underlyingAsset: {
       name: "Coinbase Staked ETH",
       symbol: "cbETH",

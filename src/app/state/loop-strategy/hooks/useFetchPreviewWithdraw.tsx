@@ -1,11 +1,11 @@
 import { Address, parseUnits } from "viem";
-import { useReadLoopStrategyPreviewDeposit } from "../../../generated/generated";
+import { useReadLoopStrategyPreviewRedeem } from "../../../generated/generated";
 
-export const useFetchPreviewDeposit = (
+export const useFetchPreviewWithdraw = (
   strategyAddress: Address,
   amount: string
 ) => {
-  const { data: shares } = useReadLoopStrategyPreviewDeposit({
+  const { data: shares } = useReadLoopStrategyPreviewRedeem({
     address: strategyAddress,
     args: [parseUnits(amount, 18)],
   });
