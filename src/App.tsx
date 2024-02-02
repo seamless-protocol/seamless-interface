@@ -3,7 +3,6 @@ import { WagmiProvider, http, createConfig } from "wagmi";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { injected, metaMask, safe } from "wagmi/connectors";
 import { base } from "wagmi/chains";
-import ResponsiveAppBar from "./app/components/navbar/ResponsiveAppBar";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
@@ -23,7 +22,6 @@ function App() {
     <BrowserRouter>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <ResponsiveAppBar />
           <Routes>
             <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
             <Route
