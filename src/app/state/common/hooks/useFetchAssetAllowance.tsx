@@ -1,11 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useAccount, useReadContract } from "wagmi";
-import { loopStrategyAddress } from "../../../generated/generated";
 import { useEffect } from "react";
-import { erc20Abi } from "viem";
+import { Address, erc20Abi } from "viem";
 
 export const useFetchAssetAllowance = (
-  asset: `0x${string}`,
+  asset: Address,
+  spender: Address,
   isApprovalSuccessful: boolean,
   isDepositSuccessful: boolean
 ) => {
@@ -16,7 +16,7 @@ export const useFetchAssetAllowance = (
     address: asset,
     abi: erc20Abi,
     functionName: "allowance",
-    args: [account.address as `0x${string}`, loopStrategyAddress],
+    args: [account.address as Address, spender],
   });
 
   useEffect(() => {

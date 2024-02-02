@@ -6,19 +6,21 @@ import { formatBigIntOnTwoDecimals } from "../../../../../../shared/utils/helper
 import { ONE_ETHER } from "../../../../../meta/constants";
 import { DepositModalFormData } from "../DepositModal";
 
-import cbethImg from "/public/cbeth.svg";
-
 interface AmountInputBoxProps {
   walletBalance: bigint;
   debouncedAmount: string;
-  cbEthPrice?: bigint;
+  assetPrice?: bigint;
+  assetSymbol: string;
+  assetLogo: any;
 }
 
 // todo: generic amount input field
 export const AmountInput: React.FC<AmountInputBoxProps> = ({
   walletBalance,
   debouncedAmount,
-  cbEthPrice,
+  assetPrice,
+  assetSymbol,
+  assetLogo,
 }) => {
   return (
     <div className="border border-[#F2EEEE] rounded p-2">
@@ -32,8 +34,8 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
         />
 
         <div className="flex items-center space-x-2">
-          <img src={cbethImg} alt="Logo" className="h-8" />
-          <span className="text-lg text-right">cbETH</span>
+          <img src={assetLogo} alt="Logo" className="h-8" />
+          <span className="text-lg text-right">{assetSymbol}</span>
         </div>
       </div>
 
@@ -41,7 +43,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
         <span className="text-sm">
           $
           {formatBigIntOnTwoDecimals(
-            (parseUnits(debouncedAmount, 18) * (cbEthPrice || 0n)) / ONE_ETHER,
+            (parseUnits(debouncedAmount, 18) * (assetPrice || 0n)) / ONE_ETHER,
             8
           )}
         </span>

@@ -1,12 +1,14 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { etherUnits, parseUnits } from "viem";
+import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
   cbEthAddress,
   loopStrategyAddress,
+  useWriteCbEthApprove,
   useWriteLoopStrategyDeposit,
 } from "../../../../generated/generated";
+import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
   Button,
@@ -19,22 +21,41 @@ import {
 import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
+import { useWriteAssetApprove } from "../../../../state/common/hooks/useWriteAssetApprove";
+import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 
 export interface DepositModalFormData {
   amount: string;
 }
 
-export const DepositModal = () => {
+interface DepositModalProps {
+  id: number;
+}
+
+export const DepositModal = ({ id }: DepositModalProps) => {
+  const strategyConfig = ilmStrategies[id];
+
   const account = useAccount();
 
-  // FETCH //
   const {
-    writeContractAsync: depositAsync,
     isPending: isDepositPending,
-    //todo: what if user deposites twice??
     isSuccess: isDepositSuccessful,
-  } = useWriteLoopStrategyDeposit();
+    deposit,
+  } = useWriteStrategyDeposit(id);
+  const {
+    isPending: isApprovalPending,
+    isSuccess: isAppovalSuccessful,
+    approve: approve,
+  } = useWriteAssetApprove(strategyConfig.underlyingAsset.address);
+
+  const { allowance } = useFetchAssetAllowance(
+    strategyConfig.underlyingAsset.address,
+    strategyConfig.address,
+    isAppovalSuccessful,
+    isDepositSuccessful
+  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -52,7 +73,16 @@ export const DepositModal = () => {
     parseUnits(String(amount || 0), etherUnits.wei)
   );
 
-  const { shares } = useFetchPreviewDeposit(debouncedAmount);
+  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+    cbEthAddress,
+    loopStrategyAddress,
+    parseUnits(String(amount || 0), etherUnits.wei)
+  );
+
+  const { shares } = useFetchPreviewDeposit(
+    strategyConfig.address,
+    debouncedAmount
+  );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     console.log({ shares });
@@ -84,6 +114,9 @@ export const DepositModal = () => {
           <FlexCol>
             <Typography type="description">Amount</Typography>
             <AmountInputWrapper
+              assetAddress={strategyConfig.underlyingAsset.address}
+              assetSymbol={strategyConfig.underlyingAsset.symbol}
+              assetLogo={strategyConfig.underlyingAsset.logo}
               debouncedAmount={debouncedAmount}
               isDepositSuccessful={isDepositSuccessful}
             />
@@ -96,14 +129,20 @@ export const DepositModal = () => {
                 <Typography type="description">Shares to receive</Typography>
                 <Typography type="description">
                   {formatBigIntOnTwoDecimals(shares, 18)}
+                  {" " + strategyConfig.symbol}
                 </Typography>
               </FlexRow>
             </FlexCol>
           </FlexCol>
           <Button
-            onClick={() => approveAsync(parseUnits(amount || "0", 18))}
-            loading={isApproving}
-            disabled={isApproved || Number(amount) <= 0}
+            onClick={() =>
+              approve(strategyConfig.address, parseUnits(amount || "0", 18))
+            }
+            loading={isApprovalPending}
+            disabled={
+              parseFloat(String(allowance)) >= parseFloat(amount) ||
+              Number(amount) <= 0
+            }
           >
             Approve cbETH to continue
           </Button>
