@@ -12,7 +12,7 @@ import {
 } from "../../../../../shared";
 import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./AmountInput/AmountInputWrapper";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
 import { useFetchPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchPreviewWithdraw";
@@ -69,7 +69,7 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Withdraw cbETH" buttonText="Withdraw">
+      <Modal header="Withdraw cbETH" buttonText="Withdraw" onClose={reset}>
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>

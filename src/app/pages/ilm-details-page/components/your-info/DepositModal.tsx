@@ -2,13 +2,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import {
-  cbEthAddress,
-  loopStrategyAddress,
-  useWriteCbEthApprove,
-  useWriteLoopStrategyDeposit,
-} from "../../../../generated/generated";
-import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
+import { cbEthAddress } from "../../../../generated/generated";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
   Button,
@@ -22,7 +16,6 @@ import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
-import { useWriteAssetApprove } from "../../../../state/common/hooks/useWriteAssetApprove";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 
@@ -42,20 +35,8 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   const {
     isPending: isDepositPending,
     isSuccess: isDepositSuccessful,
-    deposit,
+    depositAsync,
   } = useWriteStrategyDeposit(id);
-  const {
-    isPending: isApprovalPending,
-    isSuccess: isAppovalSuccessful,
-    approve: approve,
-  } = useWriteAssetApprove(strategyConfig.underlyingAsset.address);
-
-  const { allowance } = useFetchAssetAllowance(
-    strategyConfig.underlyingAsset.address,
-    strategyConfig.address,
-    isAppovalSuccessful,
-    isDepositSuccessful
-  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -69,16 +50,9 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
     cbEthAddress,
-    loopStrategyAddress,
+    ilmStrategies[id].address,
     parseUnits(String(amount || 0), etherUnits.wei)
   );
-
-  const { isApproved, isApproving, approveAsync } = useERC20Approve(
-    cbEthAddress,
-    loopStrategyAddress,
-    parseUnits(String(amount || 0), etherUnits.wei)
-  );
-
   const { shares } = useFetchPreviewDeposit(
     strategyConfig.address,
     debouncedAmount
@@ -87,13 +61,11 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   const onSubmitAsync = async (data: DepositModalFormData) => {
     console.log({ shares });
     if (shares) {
-      await depositAsync({
-        args: [
-          parseUnits(data.amount, 18),
-          account.address as `0x${string}`,
-          shares,
-        ],
-      });
+      await depositAsync(
+        parseUnits(data.amount, 18),
+        account.address as Address,
+        shares
+      );
     }
   };
 
@@ -105,11 +77,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal
-        header="Deposit cbETH"
-        buttonText="Deposit"
-        onClose={() => reset()}
-      >
+      <Modal header="Deposit cbETH" buttonText="Deposit" onClose={reset}>
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
@@ -136,13 +104,10 @@ export const DepositModal = ({ id }: DepositModalProps) => {
           </FlexCol>
           <Button
             onClick={() =>
-              approve(strategyConfig.address, parseUnits(amount || "0", 18))
+              approveAsync(parseUnits(amount || "0", etherUnits.wei))
             }
-            loading={isApprovalPending}
-            disabled={
-              parseFloat(String(allowance)) >= parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            loading={isApproving}
+            disabled={isApproved || Number(amount) <= 0}
           >
             Approve cbETH to continue
           </Button>
