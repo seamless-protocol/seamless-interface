@@ -1,24 +1,21 @@
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import {
   cbEthAddress,
   useReadAaveOracleGetAssetPrice,
 } from "../../../generated/generated";
 import { formatBigIntOnTwoDecimals } from "../../../../shared/utils/helpers";
-import { formatUnits, parseUnits } from "viem";
+import { etherUnits, formatUnits, parseUnits } from "viem";
 import { ONE_ETHER } from "../../../meta/constants";
 import cbethImg from "../../../../assets/cbeth.svg";
+import { RHFInputField } from "../../../../shared/components/form/rhf/RHFInputField";
+import { DepositModalFormData } from "../../../pages/ilm-details-page/components/your-info/DepositModal";
 
 interface AmountInputBoxProps {
   walletBalance: bigint;
   amount: string;
-  setAmount: (amount: string) => void;
 }
 
-function AmountInputBox({
-  walletBalance,
-  amount,
-  setAmount,
-}: AmountInputBoxProps) {
+function AmountInputBox({ walletBalance, amount }: AmountInputBoxProps) {
   const { data: cbEthPrice } = useReadAaveOracleGetAssetPrice({
     args: [cbEthAddress],
   });
@@ -39,24 +36,12 @@ function AmountInputBox({
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <TextField
+        <RHFInputField<DepositModalFormData>
+          name="amount"
           type="number"
-          variant="standard"
-          placeholder="0.0"
-          value={amount || ""}
-          sx={{
-            paddingTop: "0.3rem",
-          }}
-          InputProps={{
-            disableUnderline: true,
-          }}
-          onChange={(e) => {
-            const valueBigInt = parseUnits(e.target.value || "0", 18);
-            const value =
-              valueBigInt > walletBalance ? walletBalance : valueBigInt;
-
-            setAmount(formatUnits(value, 18));
-          }}
+          placeholder="0.00"
+          className="pt-1 no-underline"
+          max={formatUnits(walletBalance || 0n, etherUnits.wei)}
         />
 
         <Stack direction={"row"} alignItems={"center"} spacing={"0.5rem"}>

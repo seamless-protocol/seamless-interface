@@ -9,10 +9,10 @@ import {
   Typography,
 } from "../../../../../shared";
 import { ViewUserInfo } from "../../../../state/loop-strategy/types/ViewUserInfo";
-import { DepositButton } from "./DepositButton";
+import { DepositModal } from "./DepositModal";
 import { WithdrawButton } from "./WithdrawButton";
 
-import walleIcon from "/public/walle-icon.svg";
+import walletIcon from "../../../../../assets/wallet-icon.svg";
 
 export const YourInfo: React.FC<{
   props: Displayable<ViewUserInfo>;
@@ -22,7 +22,7 @@ export const YourInfo: React.FC<{
       <Typography type="h3">Your Info</Typography>
 
       <FlexRow className="items-center gap-4">
-        <Icon src={walleIcon} alt="wallet-icon" width={16} height={16} />
+        <Icon src={walletIcon} alt="wallet-icon" width={16} height={16} />
         <FlexCol>
           <Typography type="subheader2">Wallet balance</Typography>
           <DisplayTokenAmount
@@ -48,7 +48,7 @@ export const YourInfo: React.FC<{
           />
         </FlexCol>
 
-        <DepositButton />
+        <DepositModal />
       </FlexRow>
 
       <Divider />

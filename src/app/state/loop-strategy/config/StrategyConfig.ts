@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { CBETH_ADDRESS, WETH_ADDRESS } from "../../../meta/constants";
-import CBETHImage from "/public/cbeth.svg";
+import CBETHImage from "../../../../assets/cbeth.svg";
 
 interface AssetConfig {
   name: string;
