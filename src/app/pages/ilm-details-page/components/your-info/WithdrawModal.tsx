@@ -32,7 +32,7 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
   const {
     isPending: isWithdrawPending,
     isSuccess: isWithdrawSuccessful,
-    withdraw,
+    withdrawAsync,
   } = useWriteStrategyWithdraw(id);
 
   // FORM //
@@ -50,9 +50,9 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
     debouncedAmount
   );
 
-  const onSubmitAsync = (data: WithdrawModalFormData) => {
+  const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (shares) {
-      withdraw(
+      await withdrawAsync(
         parseUnits(data.amount, 18),
         account.address as Address,
         account.address as Address,

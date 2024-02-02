@@ -5,18 +5,18 @@ import { loopStrategyAbi } from "../../../generated/generated";
 
 export const useWriteStrategyWithdraw = (id: number) => {
   const strategyConfig = ilmStrategies[id];
-  const { isPending, isSuccess, writeContract } = useWriteContract();
+  const { isPending, isSuccess, writeContractAsync } = useWriteContract();
 
   return {
     isPending,
     isSuccess,
-    withdraw: async (
+    withdrawAsync: async (
       shares: bigint,
       from: Address,
       receiver: Address,
       minToReceive: bigint
     ) => {
-      writeContract({
+      writeContractAsync({
         address: strategyConfig.address,
         abi: loopStrategyAbi,
         functionName: "redeem",
