@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ALWAYS_APPROVE_MAX = false;
 
@@ -32,6 +33,7 @@ export const useERC20Approve = (
   spenderAddress: Address,
   threshold: bigint = BigInt(0)
 ) => {
+  const queryClient = useQueryClient();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +41,7 @@ export const useERC20Approve = (
   const { writeContractAsync: approveTokenAsync, isPaused: isApproving } =
     useWriteContract();
 
-  const { data: allowance } = useReadContract({
+  const { data: allowance, queryKey } = useReadContract({
     address: tokenAddress,
     abi: erc20Abi,
     functionName: "allowance",
@@ -47,6 +49,8 @@ export const useERC20Approve = (
   });
 
   const checkApproval = useCallback(async () => {
+    console.log({ allowance });
+    console.log({ threshold });
     if (allowance && allowance >= threshold) {
       setIsApproved(true);
     } else {
@@ -62,9 +66,7 @@ export const useERC20Approve = (
     async (amount: bigint | undefined) => {
       setIsLoading(true);
 
-      const amountToApprove = ALWAYS_APPROVE_MAX
-        ? maxUint256
-        : (amount || 0n) - (allowance || 0n);
+      const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
 
       try {
         await approveTokenAsync({
@@ -73,13 +75,14 @@ export const useERC20Approve = (
           functionName: "approve",
           args: [spenderAddress, amountToApprove],
         });
+        queryClient.invalidateQueries({ queryKey });
       } catch (e) {
         console.log({ e });
       } finally {
         setIsLoading(false);
       }
     },
-    [allowance, approveTokenAsync, spenderAddress, tokenAddress]
+    [approveTokenAsync, queryClient, queryKey, spenderAddress, tokenAddress]
   );
 
   return {
