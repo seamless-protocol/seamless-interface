@@ -1,14 +1,12 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { parseUnits } from "viem";
+import { etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
   cbEthAddress,
   loopStrategyAddress,
-  useWriteCbEthApprove,
   useWriteLoopStrategyDeposit,
 } from "../../../../generated/generated";
-import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
   Button,
@@ -20,7 +18,8 @@ import {
 } from "../../../../../shared";
 import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./AmountInput/AmountInputWrapper";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 
 export interface DepositModalFormData {
   amount: string;
@@ -31,22 +30,11 @@ export const DepositModal = () => {
 
   // FETCH //
   const {
-    writeContract: deposit,
+    writeContractAsync: depositAsync,
     isPending: isDepositPending,
     //todo: what if user deposites twice??
     isSuccess: isDepositSuccessful,
   } = useWriteLoopStrategyDeposit();
-  const {
-    writeContract: approve,
-    isPending: isApprovalPending,
-    isSuccess: isAppovalSuccessful,
-  } = useWriteCbEthApprove();
-
-  const { allowance } = useFetchAssetAllowance(
-    cbEthAddress,
-    isAppovalSuccessful,
-    isDepositSuccessful
-  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -58,11 +46,17 @@ export const DepositModal = () => {
   const amount = watch("amount");
   const debouncedAmount = useDebounce(amount, 500);
 
+  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+    cbEthAddress,
+    loopStrategyAddress,
+    parseUnits(String(amount || 0), etherUnits.wei)
+  );
+
   const { shares } = useFetchPreviewDeposit(debouncedAmount);
 
-  const onSubmitAsync = (data: DepositModalFormData) => {
+  const onSubmitAsync = async (data: DepositModalFormData) => {
     if (shares) {
-      deposit({
+      await depositAsync({
         args: [
           parseUnits(data.amount, 18),
           account.address as `0x${string}`,
@@ -102,26 +96,16 @@ export const DepositModal = () => {
             </FlexCol>
           </FlexCol>
           <Button
-            onClick={() =>
-              approve({
-                args: [loopStrategyAddress, parseUnits(amount || "0", 18)],
-              })
-            }
-            loading={isApprovalPending}
-            disabled={
-              parseFloat(String(allowance)) >= parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            onClick={() => approveAsync(parseUnits(amount || "0", 18))}
+            loading={isApproving}
+            disabled={isApproved || Number(amount) <= 0}
           >
             Approve cbETH to continue
           </Button>
           <Button
             type="submit"
             loading={isDepositPending}
-            disabled={
-              parseFloat(String(allowance)) < parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            disabled={!isApproved || Number(amount) <= 0 || shares <= 0n}
           >
             Deposit cbETH
           </Button>
