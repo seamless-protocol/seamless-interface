@@ -31,7 +31,7 @@ export function calculateApy(
 
   const apr =
     (endValueNumber / startValueNumber) **
-      (1 / (timeWindowNumber / SECONDS_PER_YEAR)) -
+      (SECONDS_PER_YEAR / timeWindowNumber) -
     1;
 
   return (

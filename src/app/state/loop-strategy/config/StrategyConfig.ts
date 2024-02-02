@@ -3,6 +3,7 @@ import { CBETH_ADDRESS, WETH_ADDRESS } from "../../../meta/constants";
 //TODO: Change this to strategy logo once it's known
 import CbEthStrategyLogo from "../../../../assets/favicon.svg";
 import CBETHImage from "../../../../assets/cbeth.svg";
+import EthLogo from "../../../../assets/eth.svg";
 
 interface AssetConfig {
   name: string;
@@ -36,7 +37,7 @@ export const ilmStrategies: StrategyConfig[] = [
       name: "Ethereum",
       symbol: "ETH",
       address: WETH_ADDRESS,
-      logo: "src/assets/eth.svg",
+      logo: EthLogo,
     },
   },
 ];
