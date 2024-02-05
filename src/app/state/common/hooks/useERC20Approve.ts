@@ -13,7 +13,7 @@ const ALWAYS_APPROVE_MAX = false;
  *
  * @param {Address} tokenAddress - The Ethereum address of the ERC-20 token contract.
  * @param {Address} spenderAddress - The Ethereum address of the spender contract or account to approve.
- * @param {bigint} [threshold=parseUnits(0)] - The minimum amount of tokens that should be approved for the spender. Defaults to 0.
+ * @param {bigint} [amount=parseUnits(0)] - The minimum amount of tokens that should be approved for the spender. Defaults to 0.
  * @returns {Object} An object containing the approval state (`isApproved`), whether an approval transaction is in progress (`isApproving`),
  * a method to trigger the approval process (`approveAsync`), and a method to check the current approval status (`checkApproval`).
  *
@@ -31,7 +31,7 @@ const ALWAYS_APPROVE_MAX = false;
 export const useERC20Approve = (
   tokenAddress: Address,
   spenderAddress: Address,
-  threshold: bigint = BigInt(0)
+  amount: bigint = BigInt(0)
 ) => {
   const queryClient = useQueryClient();
   const { address } = useAccount();
@@ -49,41 +49,37 @@ export const useERC20Approve = (
   });
 
   const checkApproval = useCallback(async () => {
-    console.log({ allowance });
-    console.log({ threshold });
-    if (allowance && allowance >= threshold) {
+    if (allowance && allowance >= amount) {
       setIsApproved(true);
     } else {
       setIsApproved(false);
     }
-  }, [allowance, threshold]);
+  }, [allowance, amount]);
 
   useEffect(() => {
     checkApproval();
   }, [checkApproval]);
 
-  const approveAsync = useCallback(
-    async (amount: bigint | undefined) => {
-      setIsLoading(true);
+  const approveAsync = async () => {
+    setIsLoading(true);
 
-      const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
+    const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
 
-      try {
-        await approveTokenAsync({
-          address: tokenAddress,
-          abi: erc20Abi,
-          functionName: "approve",
-          args: [spenderAddress, amountToApprove],
-        });
-        queryClient.invalidateQueries({ queryKey });
-      } catch (e) {
-        console.log({ e });
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [approveTokenAsync, queryClient, queryKey, spenderAddress, tokenAddress]
-  );
+    try {
+      await approveTokenAsync({
+        address: tokenAddress,
+        abi: erc20Abi,
+        functionName: "approve",
+        args: [spenderAddress, amountToApprove],
+      });
+      queryClient.invalidateQueries({ queryKey });
+    } catch (e) {
+      console.log("Failed to approve token!");
+      console.error({ e });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
     isApproved,
