@@ -103,9 +103,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
             </FlexCol>
           </FlexCol>
           <Button
-            onClick={() =>
-              approveAsync(parseUnits(amount || "0", etherUnits.wei))
-            }
+            onClick={() => approveAsync()}
             loading={isApproving}
             disabled={isApproved || Number(amount) <= 0}
           >
