@@ -109,14 +109,14 @@ export const DepositModal = ({ id }: DepositModalProps) => {
             loading={isApproving}
             disabled={isApproved || Number(amount) <= 0}
           >
-            Approve cbETH to continue
+            Approve to continue
           </Button>
           <Button
             type="submit"
             loading={isDepositPending}
             disabled={!isApproved || Number(amount) <= 0 || shares <= 0n}
           >
-            Deposit cbETH
+            Deposit
           </Button>
         </div>
       </Modal>

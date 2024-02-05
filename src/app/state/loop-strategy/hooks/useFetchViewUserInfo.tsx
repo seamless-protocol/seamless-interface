@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import { formatToDisplayable } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../config/StrategyConfig";
-import { useFetchStrategyInfoForAccount } from "../../ILM/hooks/useFetchViewStrategies";
+import { useFetchStrategyInfoForAccount } from "../../ILM/hooks/useFetchViewStrategy";
 import { ViewUserInfo } from "../types/ViewUserInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
 

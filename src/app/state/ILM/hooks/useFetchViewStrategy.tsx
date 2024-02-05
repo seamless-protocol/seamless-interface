@@ -13,6 +13,7 @@ import {
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address } from "viem";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
+import { useFetchStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 
@@ -105,8 +106,8 @@ export const useFetchViewStrategy = (
 
   const account = useAccount();
   const {
-    isLoading,
-    isFetched,
+    isLoading: isStrategyInfoLoading,
+    isFetched: isStrategyInfoFetched,
     targetMultiple,
     userEquity,
     userEquityUSD,
@@ -118,9 +119,15 @@ export const useFetchViewStrategy = (
     account
   );
 
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    apy,
+  } = useFetchStrategyApy(strategyConfig);
+
   return {
-    isLoading,
-    isFetched,
+    isLoading: isStrategyInfoLoading || isApyLoading,
+    isFetched: isStrategyInfoFetched && isApyFetched,
     data: {
       strategyName: strategyConfig.name,
       depositAsset: {
@@ -130,8 +137,8 @@ export const useFetchViewStrategy = (
       },
       targetMultiple: formatToDisplayable(targetMultiple) + "x",
       LoopAPY: {
-        value: "6.57",
-        symbol: "%",
+        value: apy ? formatToDisplayable(apy) : "—",
+        symbol: apy ? "%" : "",
       },
       availableToDeposit: {
         tokenAmount: {

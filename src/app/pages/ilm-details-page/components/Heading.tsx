@@ -57,8 +57,7 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayPercentage
             typography="main21"
-            value={"3.97"}
-            symbol="%"
+            {...data?.apy}
             isLoading={isLoading}
           />
         </FlexCol>

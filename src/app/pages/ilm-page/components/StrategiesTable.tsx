@@ -1,6 +1,6 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
-import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategies";
+import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategy";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { DesktopTableRow } from "./desktop/DesktopTableRow";
 import { MobileTableRow } from "./mobile/MobileTableRow";
