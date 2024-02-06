@@ -36,9 +36,8 @@ export const useERC20Approve = (
   const queryClient = useQueryClient();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const { writeContractAsync: approveTokenAsync, isPaused: isApproving } =
+  const { writeContractAsync: approveTokenAsync, isPending: isApproving } =
     useWriteContract();
 
   const { data: allowance, queryKey } = useReadContract({
@@ -61,8 +60,6 @@ export const useERC20Approve = (
   }, [checkApproval]);
 
   const approveAsync = async () => {
-    setIsLoading(true);
-
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
 
     try {
@@ -76,14 +73,12 @@ export const useERC20Approve = (
     } catch (e) {
       console.log("Failed to approve token!");
       console.error({ e });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return {
     isApproved,
-    isApproving: isLoading || isApproving,
+    isApproving,
     approveAsync,
     checkApproval,
   };
