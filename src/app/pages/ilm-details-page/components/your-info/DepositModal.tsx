@@ -2,7 +2,6 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { cbEthAddress } from "../../../../generated/generated";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
   Button,
@@ -49,9 +48,9 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   const debouncedAmount = useDebounce(amount, 500);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
-    cbEthAddress,
+    ilmStrategies[id].underlyingAsset.address,
     ilmStrategies[id].address,
-    parseUnits(String(amount || 0), etherUnits.wei)
+    parseUnits(amount || "0", etherUnits.wei)
   );
   const { shares } = useFetchPreviewDeposit(
     strategyConfig.address,
@@ -59,7 +58,6 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
-    console.log({ shares });
     if (shares) {
       await depositAsync(
         parseUnits(data.amount, 18),
