@@ -10,6 +10,12 @@ export const CBETH_ADDRESS: Address =
 export const WSTETH_ADDRESS: Address =
   "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
 
+// Lending & Borrowing
+export const sWETH_ADDRESS: Address =
+  "0x48bf8fCd44e2977c8a9A744658431A8e6C0d866c";
+export const variableDebtSeamWETH_ADDRESS: Address =
+  "0x4cebC6688faa595537444068996ad9A207A19f13";
+
 //TODO: Change to base mainnet addresses
 export const WRAPED_CBETH_ADDRESS =
   "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";

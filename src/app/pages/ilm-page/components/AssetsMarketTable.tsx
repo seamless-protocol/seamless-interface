@@ -1,20 +1,21 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
-import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategy";
+import { lendingAssets } from "../../../state/lending-borrowing/config/AssetsConfig";
 import { useFetchViewAssetMarketInfo } from "../../../state/lending-borrowing/hooks/useFetchViewAssetMarketInfo";
-import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { AssetsMarketDesktopTableRow } from "./desktop/AssetsMarketDesktopTableRow";
 import { DesktopTableRow } from "./desktop/DesktopTableRow";
 import { MobileTableRow } from "./mobile/MobileTableRow";
 
 const columnNames = {
   c_1_depositAsset: "Deposit Asset",
-  c_1_1_empty: "",
-  c_2_strategyName: "Strategy name",
-  c_3_targetMultiple: "Target Multiple",
-  c_4_loopAPY: "Loop APY",
-  c_5_availableToDeposit: "Available to Deposit",
-  c_6_yourPosition: "Your Position",
-  c_7_1: "#",
+  // c_1_1_empty: "",
+  c_2_strategyName: "Total supplied",
+  c_3_supplyApy: "Supply APY",
+  c_4_targetMultiple: "Total borrowed",
+  c_5_borrowApy: "Borrow APY,variable",
+  c_6_borrowApy: "Borrow APY,stable",
+  // c_6_availableToDeposit: "Available to Deposit",
+  c_6_1: "#",
 };
 
 const columns = Object.keys(columnNames).map((key) => ({
@@ -22,7 +23,7 @@ const columns = Object.keys(columnNames).map((key) => ({
   label: columnNames[key as keyof typeof columnNames],
 }));
 
-export const StrategiesTable: React.FC = () => {
+export const AssetsMarketTable: React.FC = () => {
   return (
     <div className="flex flex-col xxl:items-center mt-[-46px]">
       <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
@@ -45,33 +46,34 @@ export const StrategiesTable: React.FC = () => {
 const TableBody: React.FC = () => {
   return (
     <>
-      {ilmStrategies.map((_, index) => (
-        <StrategiesTableRow index={index} key={index} />
+      {lendingAssets.map((_, index) => (
+        <AssetsMarketTableRow index={index} key={index} />
       ))}
     </>
   );
 };
 
-const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
-  const { data: strategy, isLoading, isFetched } = useFetchViewStrategy(index);
-
-  const { data } = useFetchViewAssetMarketInfo(index);
-  console.log(data);
+const AssetsMarketTableRow: React.FC<{ index: number }> = ({ index }) => {
+  const {
+    data: assets,
+    isLoading,
+    isFetched,
+  } = useFetchViewAssetMarketInfo(index);
 
   return (
     <>
-      <DesktopTableRow
+      <AssetsMarketDesktopTableRow
         index={index}
-        hideBorder={index === ilmStrategies.length - 1}
-        strategy={strategy}
+        hideBorder={index === lendingAssets.length - 1}
+        strategy={assets}
         isLoading={isLoading || !isFetched}
       />
-      <MobileTableRow
-        index={index}
-        isLoading={isLoading || !isFetched}
-        columnNames={columnNames}
-        strategy={strategy}
-      />
+      {/* <MobileTableRow */}
+      {/* index={index} */}
+      {/* isLoading={isLoading || !isFetched} */}
+      {/* columnNames={columnNames} */}
+      {/* strategy={assets} */}
+      {/* /> */}
     </>
   );
 };

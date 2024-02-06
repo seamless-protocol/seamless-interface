@@ -2,6 +2,7 @@ import { defineConfig } from "@wagmi/cli";
 import { erc20Abi } from "viem";
 import { LoopStrategyAbi } from "./abis/LoopStrategy";
 import { AaveOracleAbi } from "./abis/AaveOracle";
+import { LendingPoolAbi } from "./abis/LendingPool";
 import { react } from "@wagmi/cli/plugins";
 
 export default defineConfig({
@@ -20,6 +21,11 @@ export default defineConfig({
       name: "AaveOracle",
       address: "0xFDd4e83890BCcd1fbF9b10d71a5cc0a738753b01",
       abi: AaveOracleAbi,
+    },
+    {
+      name: "LendingPool",
+      address: "0x8F44Fd754285aa6A2b8B9B97739B79746e0475a7",
+      abi: LendingPoolAbi,
     },
   ],
   plugins: [react()],
