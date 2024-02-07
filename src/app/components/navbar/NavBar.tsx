@@ -8,8 +8,7 @@ import SeamlessLogo from "../../../assets/logo-seamless.svg";
 const navigation = [
   {
     name: "Integrated Liquidity Market",
-    //TODO: change to correct link when ready
-    href: "https://ilm.seamlessprotocol.com",
+    href: "/",
     current: true,
   },
   {
