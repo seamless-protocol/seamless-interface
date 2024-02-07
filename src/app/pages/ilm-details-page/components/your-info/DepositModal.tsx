@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useViewFetchPreviewDeposit";
+import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import {
   Button,
   DisplayMoney,
