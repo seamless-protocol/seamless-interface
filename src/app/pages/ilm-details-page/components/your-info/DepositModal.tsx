@@ -1,8 +1,7 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { Address, parseUnits } from "viem";
+import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
 import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
 import {
   Button,
@@ -14,10 +13,10 @@ import {
 } from "../../../../../shared";
 import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./AmountInput/AmountInputWrapper";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
-import { useWriteAssetApprove } from "../../../../state/common/hooks/useWriteAssetApprove";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 
 export interface DepositModalFormData {
   amount: string;
@@ -35,20 +34,8 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   const {
     isPending: isDepositPending,
     isSuccess: isDepositSuccessful,
-    deposit,
+    depositAsync,
   } = useWriteStrategyDeposit(id);
-  const {
-    isPending: isApprovalPending,
-    isSuccess: isAppovalSuccessful,
-    approve: approve,
-  } = useWriteAssetApprove(strategyConfig.underlyingAsset.address);
-
-  const { allowance } = useFetchAssetAllowance(
-    strategyConfig.underlyingAsset.address,
-    strategyConfig.address,
-    isAppovalSuccessful,
-    isDepositSuccessful
-  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -60,14 +47,23 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   const amount = watch("amount");
   const debouncedAmount = useDebounce(amount, 500);
 
+  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+    ilmStrategies[id].underlyingAsset.address,
+    ilmStrategies[id].address,
+    parseUnits(amount || "0", etherUnits.wei)
+  );
   const { shares } = useFetchPreviewDeposit(
     strategyConfig.address,
     debouncedAmount
   );
 
-  const onSubmitAsync = (data: DepositModalFormData) => {
+  const onSubmitAsync = async (data: DepositModalFormData) => {
     if (shares) {
-      deposit(parseUnits(data.amount, 18), account.address as Address, shares);
+      await depositAsync(
+        parseUnits(data.amount, 18),
+        account.address as Address,
+        shares
+      );
     }
   };
 
@@ -79,7 +75,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Deposit cbETH" buttonText="Deposit">
+      <Modal header="Deposit cbETH" buttonText="Deposit" onClose={reset}>
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
@@ -105,24 +101,16 @@ export const DepositModal = ({ id }: DepositModalProps) => {
             </FlexCol>
           </FlexCol>
           <Button
-            onClick={() =>
-              approve(strategyConfig.address, parseUnits(amount || "0", 18))
-            }
-            loading={isApprovalPending}
-            disabled={
-              parseFloat(String(allowance)) >= parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            onClick={() => approveAsync()}
+            loading={isApproving}
+            disabled={isApproved || Number(amount) <= 0}
           >
             Approve to continue
           </Button>
           <Button
             type="submit"
             loading={isDepositPending}
-            disabled={
-              parseFloat(String(allowance)) < parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            disabled={!isApproved || Number(amount) <= 0 || shares <= 0n}
           >
             Deposit
           </Button>
