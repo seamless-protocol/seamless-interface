@@ -4,16 +4,17 @@ import { FlexRow, Icon, Typography } from "../../../shared";
 import { Link } from "react-router-dom";
 import ConnectWalletButton from "./connect-wallet/ConnectWalletButton";
 import SeamlessLogo from "../../../assets/logo-seamless.svg";
+import { RouterConfig } from "../../router";
 
 const navigation = [
   {
     name: "Integrated Liquidity Market",
-    href: "/",
+    href: RouterConfig.Routes.ilm,
     current: true,
   },
   {
     name: "Lending & Borrowing",
-    href: "https://app.seamlessprotocol.com",
+    href: RouterConfig.Routes.lendingAndBorrowing,
     current: false,
   },
 ];

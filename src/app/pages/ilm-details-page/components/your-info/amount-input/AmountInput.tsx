@@ -7,6 +7,7 @@ import {
   formatToDisplayable,
 } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
+import { DisplayMoney } from "../../../../../../shared";
 
 interface AmountInputBoxProps {
   walletBalance: bigint;
@@ -40,9 +41,10 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
       </div>
 
       <div className="flex justify-between">
-        <span className="text-sm">
-          ${formatToDisplayable(debouncedAmountInUsd)}
-        </span>
+        <DisplayMoney
+          value={formatToDisplayable(debouncedAmountInUsd)}
+          typography="description"
+        />
         <span className="text-xs">
           Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
         </span>

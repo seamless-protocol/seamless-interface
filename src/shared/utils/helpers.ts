@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import { ONE_USD } from "../../app/meta/constants";
+import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
 
 export function formatUnitsToNumber(
   value: string | bigint | undefined,
@@ -35,10 +35,17 @@ export function formatToDisplayable(value: number) {
   return formatter.format(value);
 }
 
-export function formatToDisplayableOrDash(value: number) {
-  return value > 0 ? formatToDisplayable(value) : "-";
+export function formatToDisplayableOrPlaceholder(
+  value: number,
+  placeholder: string
+) {
+  return value > 0 ? formatToDisplayable(value) : placeholder;
 }
 
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
+}
+
+export function convertAprToApy(apr: number): number {
+  return ((1 + apr / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR - 1) * 100;
 }

@@ -7,7 +7,7 @@ import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import { ONE_ETHER } from "../../../meta/constants";
 import {
-  formatToDisplayableOrDash,
+  formatToDisplayableOrPlaceholder,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
@@ -88,21 +88,21 @@ export const useFetchViewPreviewDeposit = (
       minReceivingShares: minReceivingShares || 0n,
       sharesToReceive: {
         tokenAmount: {
-          value: formatToDisplayableOrDash(sharesToReceive),
+          value: formatToDisplayableOrPlaceholder(sharesToReceive, "-"),
           symbol: displayValues ? ilmStrategies[id].symbol : "",
         },
         dollarAmount: {
-          value: formatToDisplayableOrDash(sharesToReceiveInUsd),
+          value: formatToDisplayableOrPlaceholder(sharesToReceiveInUsd, "-"),
           symbol: displayValues ? "$" : "",
         },
       },
       cost: {
         tokenAmount: {
-          value: formatToDisplayableOrDash(costInUnderlyingAsset),
+          value: formatToDisplayableOrPlaceholder(costInUnderlyingAsset, "-"),
           symbol: displayValues ? ilmStrategies[id].underlyingAsset.symbol : "",
         },
         dollarAmount: {
-          value: formatToDisplayableOrDash(costInUsd),
+          value: formatToDisplayableOrPlaceholder(costInUsd, "-"),
           symbol: displayValues ? "$" : "",
         },
       },

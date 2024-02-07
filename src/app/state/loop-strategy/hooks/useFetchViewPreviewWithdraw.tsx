@@ -6,7 +6,7 @@ import {
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER } from "../../../meta/constants";
 import {
-  formatToDisplayableOrDash,
+  formatToDisplayableOrPlaceholder,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
@@ -88,25 +88,25 @@ export const useFetchViewPreviewWithdraw = (
       minReceivingAmount: minReceivingAmount || 0n,
       assetsToReceive: {
         tokenAmount: {
-          value: formatToDisplayableOrDash(assetsToReceive),
+          value: formatToDisplayableOrPlaceholder(assetsToReceive, "-"),
           symbol: displayValues
             ? ilmStrategies[index].underlyingAsset.symbol
             : "",
         },
         dollarAmount: {
-          value: formatToDisplayableOrDash(assetsToReceiveInUsd),
+          value: formatToDisplayableOrPlaceholder(assetsToReceiveInUsd, "-"),
           symbol: displayValues ? "$" : "",
         },
       },
       cost: {
         tokenAmount: {
-          value: formatToDisplayableOrDash(costInUnderlyingAsset),
+          value: formatToDisplayableOrPlaceholder(costInUnderlyingAsset, "-"),
           symbol: displayValues
             ? ilmStrategies[index].underlyingAsset.symbol
             : "",
         },
         dollarAmount: {
-          value: formatToDisplayableOrDash(costInUsd),
+          value: formatToDisplayableOrPlaceholder(costInUsd, "-"),
           symbol: displayValues ? "$" : "",
         },
       },
