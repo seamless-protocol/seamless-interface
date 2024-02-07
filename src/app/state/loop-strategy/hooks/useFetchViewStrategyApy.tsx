@@ -6,7 +6,7 @@ import {
   SECONDS_PER_YEAR,
 } from "../../../meta/constants";
 import {
-  formatToDisplayable,
+  formatToDisplayableOrPlaceholder,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { useFetchShareValueInBlock } from "../../common/hooks/useFetchShareValue";
@@ -90,7 +90,7 @@ export const useFetchViewStrategyApy = (index: number) => {
     isFetched,
     data: {
       apy: {
-        value: apy ? formatToDisplayable(apy) : "—",
+        value: formatToDisplayableOrPlaceholder(apy, "—"),
         symbol: apy ? "%" : "",
       },
     },

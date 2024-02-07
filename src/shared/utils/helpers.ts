@@ -36,10 +36,10 @@ export function formatToDisplayable(value: number) {
 }
 
 export function formatToDisplayableOrPlaceholder(
-  value: number,
+  value: number | undefined,
   placeholder: string
 ) {
-  return value > 0 ? formatToDisplayable(value) : placeholder;
+  return value && value > 0 ? formatToDisplayable(value) : placeholder;
 }
 
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
