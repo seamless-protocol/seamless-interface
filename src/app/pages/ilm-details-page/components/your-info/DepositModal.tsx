@@ -1,22 +1,26 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { Address, etherUnits, parseUnits } from "viem";
+import { Address, etherUnits, parseEther, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
+import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useViewFetchPreviewDeposit";
 import {
   Button,
+  DisplayMoney,
+  DisplayTokenAmount,
   FlexCol,
   FlexRow,
   Modal,
   MyFormProvider,
   Typography,
 } from "../../../../../shared";
-import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
+import { formatUnitsToNumber } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
+import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
+import { ONE_ETHER } from "../../../../meta/constants";
 
 export interface DepositModalFormData {
   amount: string;
@@ -28,9 +32,11 @@ interface DepositModalProps {
 
 export const DepositModal = ({ id }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
-
   const account = useAccount();
 
+  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
+    args: [strategyConfig.underlyingAsset.address],
+  });
   const {
     isPending: isDepositPending,
     isSuccess: isDepositSuccessful,
@@ -52,17 +58,17 @@ export const DepositModal = ({ id }: DepositModalProps) => {
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { shares } = useFetchPreviewDeposit(
-    strategyConfig.address,
+  const { data: previewDepositData } = useFetchViewPreviewDeposit(
+    id,
     debouncedAmount
   );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
-    if (shares) {
+    if (previewDepositData) {
       await depositAsync(
         parseUnits(data.amount, 18),
         account.address as Address,
-        shares
+        previewDepositData.minReceivingShares
       );
     }
   };
@@ -83,7 +89,10 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               assetAddress={strategyConfig.underlyingAsset.address}
               assetSymbol={strategyConfig.underlyingAsset.symbol}
               assetLogo={strategyConfig.underlyingAsset.logo}
-              debouncedAmount={debouncedAmount}
+              debouncedAmountInUsd={formatUnitsToNumber(
+                (parseEther(debouncedAmount) * (assetPrice || 0n)) / ONE_ETHER,
+                8
+              )}
               isDepositSuccessful={isDepositSuccessful}
             />
           </FlexCol>
@@ -93,10 +102,17 @@ export const DepositModal = ({ id }: DepositModalProps) => {
             <FlexCol className="border-divider border-[0.667px] rounded-md  p-3">
               <FlexRow className="justify-between">
                 <Typography type="description">Shares to receive</Typography>
-                <Typography type="description">
-                  {formatBigIntOnTwoDecimals(shares, 18)}
-                  {" " + strategyConfig.symbol}
-                </Typography>
+                <DisplayTokenAmount
+                  {...previewDepositData?.sharesToReceive.tokenAmount}
+                  typography="description"
+                />
+              </FlexRow>
+              <FlexRow className="justify-between">
+                <Typography type="description">Value to receive</Typography>
+                <DisplayMoney
+                  {...previewDepositData?.sharesToReceive.dollarAmount}
+                  typography="description"
+                />
               </FlexRow>
             </FlexCol>
           </FlexCol>
@@ -112,7 +128,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
           <Button
             type="submit"
             loading={isDepositPending}
-            disabled={!isApproved || Number(amount) <= 0 || shares <= 0n}
+            disabled={!isApproved || Number(amount) <= 0}
           >
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>
