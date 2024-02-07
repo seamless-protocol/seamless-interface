@@ -1,6 +1,5 @@
-import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { Address, etherUnits, parseEther, parseUnits } from "viem";
+import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useViewFetchPreviewDeposit";
 import {
@@ -13,14 +12,13 @@ import {
   MyFormProvider,
   Typography,
 } from "../../../../../shared";
-import { formatUnitsToNumber } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
-import { ONE_ETHER } from "../../../../meta/constants";
+import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 
 export interface DepositModalFormData {
   amount: string;
@@ -51,7 +49,11 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const debouncedAmount = useDebounce(amount, 500);
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
+    amount,
+    assetPrice,
+    500
+  );
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
     ilmStrategies[id].underlyingAsset.address,
@@ -89,17 +91,14 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               assetAddress={strategyConfig.underlyingAsset.address}
               assetSymbol={strategyConfig.underlyingAsset.symbol}
               assetLogo={strategyConfig.underlyingAsset.logo}
-              debouncedAmountInUsd={formatUnitsToNumber(
-                (parseEther(debouncedAmount) * (assetPrice || 0n)) / ONE_ETHER,
-                8
-              )}
+              debouncedAmountInUsd={debouncedAmountInUsd}
               isDepositSuccessful={isDepositSuccessful}
             />
           </FlexCol>
 
           <FlexCol>
             <Typography type="description">Transaction overview</Typography>
-            <FlexCol className="border-divider border-[0.667px] rounded-md  p-3">
+            <FlexCol className="border-divider border-[0.667px] rounded-md p-3 gap-1">
               <FlexRow className="justify-between">
                 <Typography type="description">Shares to receive</Typography>
                 <DisplayTokenAmount
@@ -111,6 +110,13 @@ export const DepositModal = ({ id }: DepositModalProps) => {
                 <Typography type="description">Value to receive</Typography>
                 <DisplayMoney
                   {...previewDepositData?.sharesToReceive.dollarAmount}
+                  typography="description"
+                />
+              </FlexRow>
+              <FlexRow className="justify-between">
+                <Typography type="description">Transaction cost</Typography>
+                <DisplayMoney
+                  {...previewDepositData?.cost.dollarAmount}
                   typography="description"
                 />
               </FlexRow>

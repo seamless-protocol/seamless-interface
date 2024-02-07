@@ -1,4 +1,4 @@
-import { parseUnits } from "viem";
+import { parseEther, parseUnits } from "viem";
 import {
   useReadAaveOracleGetAssetPrice,
   useReadLoopStrategyPreviewRedeem,
@@ -6,11 +6,12 @@ import {
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER } from "../../../meta/constants";
 import {
-  formatToDisplayable,
+  formatToDisplayableOrDash,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
+import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 
 export const useFetchPreviewWithdraw = (
   strategyConfig: StrategyConfig,
@@ -26,6 +27,12 @@ export const useFetchPreviewWithdraw = (
   });
 
   const {
+    isLoading: isShareValueLoading,
+    isFetched: isShareValueFetched,
+    shareValueInUnderlyingAsset,
+  } = useFetchShareValue(strategyConfig);
+
+  const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: underlyingAssetPrice,
@@ -33,18 +40,28 @@ export const useFetchPreviewWithdraw = (
     args: [strategyConfig.underlyingAsset.address],
   });
 
-  let assetsToReceive, assetsToReceiveInUsd;
+  let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (assets && underlyingAssetPrice) {
     assetsToReceive = (assets * 60n) / 100n;
     assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice) / ONE_ETHER;
+
+    costInUnderlyingAsset =
+      (parseEther(amount) * (shareValueInUnderlyingAsset || 0n)) / ONE_ETHER -
+      assetsToReceive;
+    costInUsd =
+      (costInUnderlyingAsset * (underlyingAssetPrice || 0n)) / ONE_ETHER;
   }
 
   return {
-    isLoading: isPreviewRedeemLoading || isAssetPriceLoading,
-    isFetched: isPreviewRedeemFetched && isAssetPriceFetched,
+    isLoading:
+      isPreviewRedeemLoading || isAssetPriceLoading || isShareValueLoading,
+    isFetched:
+      isPreviewRedeemFetched && isAssetPriceFetched && isShareValueFetched,
     minReceivingAmount: assetsToReceive,
     assetsToReceive: formatUnitsToNumber(assetsToReceive, 18),
     assetsToReceiveInUsd: formatUnitsToNumber(assetsToReceiveInUsd, 8),
+    costInUnderlyingAsset: formatUnitsToNumber(costInUnderlyingAsset, 18),
+    costInUsd: formatUnitsToNumber(costInUsd, 8),
   };
 };
 
@@ -58,7 +75,11 @@ export const useFetchViewPreviewWithdraw = (
     minReceivingAmount,
     assetsToReceive,
     assetsToReceiveInUsd,
+    costInUnderlyingAsset,
+    costInUsd,
   } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
+
+  const displayValues = assetsToReceive && assetsToReceive > 0;
 
   return {
     isLoading,
@@ -67,12 +88,26 @@ export const useFetchViewPreviewWithdraw = (
       minReceivingAmount: minReceivingAmount || 0n,
       assetsToReceive: {
         tokenAmount: {
-          value: formatToDisplayable(assetsToReceive),
-          symbol: ilmStrategies[index].underlyingAsset.symbol,
+          value: formatToDisplayableOrDash(assetsToReceive),
+          symbol: displayValues
+            ? ilmStrategies[index].underlyingAsset.symbol
+            : "",
         },
         dollarAmount: {
-          value: formatToDisplayable(assetsToReceiveInUsd),
-          symbol: "$",
+          value: formatToDisplayableOrDash(assetsToReceiveInUsd),
+          symbol: displayValues ? "$" : "",
+        },
+      },
+      cost: {
+        tokenAmount: {
+          value: formatToDisplayableOrDash(costInUnderlyingAsset),
+          symbol: displayValues
+            ? ilmStrategies[index].underlyingAsset.symbol
+            : "",
+        },
+        dollarAmount: {
+          value: formatToDisplayableOrDash(costInUsd),
+          symbol: displayValues ? "$" : "",
         },
       },
     },

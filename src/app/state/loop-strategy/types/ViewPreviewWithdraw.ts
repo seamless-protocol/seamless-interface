@@ -6,4 +6,8 @@ export interface ViewPreviewWithdraw {
     tokenAmount: ValueSymbolPair;
     dollarAmount: ValueSymbolPair;
   };
+  cost: {
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
+  };
 }

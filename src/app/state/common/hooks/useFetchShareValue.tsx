@@ -43,7 +43,7 @@ export const useFetchShareValueInBlock = (
     blockNumber,
   });
 
-  let shareValueInUsd, shareValueInEth;
+  let shareValueInUsd, shareValueInEth, shareValueInUnderlyingAsset;
   if (results) {
     const equity = results[0].result || 0n;
     const totalSupply = results[1].result || 0n;
@@ -51,9 +51,10 @@ export const useFetchShareValueInBlock = (
     const wethPrice = results[3].result || 0n;
 
     if (totalSupply !== 0n && underlyingAssetPrice !== 0n) {
+      shareValueInUnderlyingAsset = (equity * ONE_ETHER) / totalSupply;
       shareValueInEth =
-        (equity * wethPrice * ONE_ETHER) / (underlyingAssetPrice * totalSupply);
-      shareValueInUsd = (shareValueInEth * wethPrice) / ONE_ETHER;
+        (equity * underlyingAssetPrice * ONE_ETHER) / (wethPrice * totalSupply);
+      shareValueInUsd = (equity * underlyingAssetPrice) / totalSupply;
     }
   }
 
@@ -62,6 +63,7 @@ export const useFetchShareValueInBlock = (
     isFetched,
     shareValueInUsd,
     shareValueInEth,
+    shareValueInUnderlyingAsset,
   };
 };
 
@@ -74,6 +76,8 @@ export const useFetchShareValue = (strategyConfig: StrategyConfig) => {
 
   const {
     shareValueInUsd,
+    shareValueInEth,
+    shareValueInUnderlyingAsset,
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
   } = useFetchShareValueInBlock(block?.number || 0n, strategyConfig);
@@ -82,5 +86,7 @@ export const useFetchShareValue = (strategyConfig: StrategyConfig) => {
     isLoading: isBlockLoading || isShareValueLoading,
     isFetched: isBlockedFetched && isShareValueFetched,
     shareValueInUsd,
+    shareValueInEth,
+    shareValueInUnderlyingAsset,
   };
 };

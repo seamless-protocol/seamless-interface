@@ -6,4 +6,8 @@ export interface ViewPreviewDeposit {
     tokenAmount: ValueSymbolPair;
     dollarAmount: ValueSymbolPair;
   };
+  cost: {
+    tokenAmount: ValueSymbolPair;
+    dollarAmount: ValueSymbolPair;
+  };
 }

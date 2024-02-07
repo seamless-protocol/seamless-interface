@@ -1,6 +1,5 @@
-import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { Address, parseEther, parseUnits } from "viem";
+import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
   Button,
@@ -18,8 +17,7 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useViewFetchPreviewWithdraw";
 import { useFetchShareValue } from "../../../../state/common/hooks/useFetchShareValue";
-import { ONE_ETHER } from "../../../../meta/constants";
-import { formatUnitsToNumber } from "../../../../../shared/utils/helpers";
+import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -48,7 +46,11 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const debouncedAmount = useDebounce(amount, 500);
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
+    amount,
+    shareValueInUsd,
+    500
+  );
 
   const { data: previewWithdrawData } = useFetchViewPreviewWithdraw(
     id,
@@ -82,11 +84,7 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
               assetAddress={strategyConfig.address}
               assetSymbol={strategyConfig.symbol}
               assetLogo={strategyConfig.logo}
-              debouncedAmountInUsd={formatUnitsToNumber(
-                (parseEther(debouncedAmount) * (shareValueInUsd || 0n)) /
-                  ONE_ETHER,
-                8
-              )}
+              debouncedAmountInUsd={debouncedAmountInUsd}
               isDepositSuccessful={isWithdrawSuccessful}
             />
           </FlexCol>
@@ -105,6 +103,13 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
                 <Typography type="description">Value to receive</Typography>
                 <DisplayMoney
                   {...previewWithdrawData?.assetsToReceive.dollarAmount}
+                  typography="description"
+                />
+              </FlexRow>
+              <FlexRow className="justify-between">
+                <Typography type="description">Transaction cost</Typography>
+                <DisplayMoney
+                  {...previewWithdrawData?.cost.dollarAmount}
                   typography="description"
                 />
               </FlexRow>
