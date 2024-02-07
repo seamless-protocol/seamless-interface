@@ -1,7 +1,7 @@
 import { StrategiesTable } from "./components/StrategiesTable";
 import { HeadingContainer } from "../../components/header/HeadingContainer";
 import { Heading } from "./components/Heading";
-import { PageContainer } from "../../../shared";
+import { FlexCol, PageContainer } from "../../../shared";
 import { AssetsMarketTable } from "./components/AssetsMarketTable";
 
 export const IlmPage = () => {
@@ -10,8 +10,10 @@ export const IlmPage = () => {
       <HeadingContainer>
         <Heading />
       </HeadingContainer>
-      <StrategiesTable />
-      <AssetsMarketTable />
+      <FlexCol className="gap-10">
+        <StrategiesTable />
+        <AssetsMarketTable />
+      </FlexCol>
     </PageContainer>
   );
 };

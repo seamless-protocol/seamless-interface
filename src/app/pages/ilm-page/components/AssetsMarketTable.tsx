@@ -3,18 +3,15 @@ import { SearchInput } from "../../../components/temporary-components/SearchInpu
 import { lendingAssets } from "../../../state/lending-borrowing/config/AssetsConfig";
 import { useFetchViewAssetMarketInfo } from "../../../state/lending-borrowing/hooks/useFetchViewAssetMarketInfo";
 import { AssetsMarketDesktopTableRow } from "./desktop/AssetsMarketDesktopTableRow";
-import { DesktopTableRow } from "./desktop/DesktopTableRow";
-import { MobileTableRow } from "./mobile/MobileTableRow";
+import { AssetsMobileTableRow } from "./mobile/AssetsMobileTableRow";
 
 const columnNames = {
-  c_1_depositAsset: "Deposit Asset",
-  // c_1_1_empty: "",
-  c_2_strategyName: "Total supplied",
-  c_3_supplyApy: "Supply APY",
-  c_4_targetMultiple: "Total borrowed",
-  c_5_borrowApy: "Borrow APY,variable",
-  c_6_borrowApy: "Borrow APY,stable",
-  // c_6_availableToDeposit: "Available to Deposit",
+  c_1: "Deposit Asset",
+  c_2: "Total supplied",
+  c_3: "Supply APY",
+  c_4: "Total borrowed",
+  c_5: "Borrow APY,variable",
+  c_6: "Borrow APY,stable",
   c_6_1: "#",
 };
 
@@ -25,13 +22,13 @@ const columns = Object.keys(columnNames).map((key) => ({
 
 export const AssetsMarketTable: React.FC = () => {
   return (
-    <div className="flex flex-col xxl:items-center mt-[-46px]">
+    <div className="flex flex-col xxl:items-center">
       <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
         <div className="pt-4">
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
-            title="Strategies"
+            title="Base assets"
             filterComponent={<SearchInput />}
             settings={{
               skeletonRowCount: 1,
@@ -68,12 +65,12 @@ const AssetsMarketTableRow: React.FC<{ index: number }> = ({ index }) => {
         strategy={assets}
         isLoading={isLoading || !isFetched}
       />
-      {/* <MobileTableRow */}
-      {/* index={index} */}
-      {/* isLoading={isLoading || !isFetched} */}
-      {/* columnNames={columnNames} */}
-      {/* strategy={assets} */}
-      {/* /> */}
+      <AssetsMobileTableRow
+        index={index}
+        isLoading={isLoading || !isFetched}
+        columnNames={columnNames}
+        strategy={assets}
+      />
     </>
   );
 };

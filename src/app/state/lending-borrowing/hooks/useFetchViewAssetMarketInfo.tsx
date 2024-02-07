@@ -8,18 +8,21 @@ import {
   lendingPoolAddress,
 } from "../../../generated/generated";
 import { Address, erc20Abi } from "viem";
-import { ONE_ETHER } from "../../../meta/constants";
 import {
   convertAprToApy,
   formatToDisplayable,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { ViewAssetMarketInfo } from "../types/ViewAssetMarketInfo";
+import { useFetchAssetDecimals } from "../../common/hooks/useFetchAssetDecimals";
 
 function useFetchAssetMarketInfo(
   assetMarketConfig: AssetMarketConfig | undefined
 ) {
   const account = useAccount();
+  const { decimals } = useFetchAssetDecimals(
+    assetMarketConfig?.address as Address
+  );
   const {
     data: results,
     isLoading,
@@ -57,6 +60,8 @@ function useFetchAssetMarketInfo(
     ],
   });
 
+  const baseUnit = 10 ** (decimals || 0);
+
   let totalSupplied,
     totalSuppliedUsd,
     totalBorrowed,
@@ -69,8 +74,8 @@ function useFetchAssetMarketInfo(
     totalSupplied = BigInt(results[0].result || 0n);
     totalBorrowed = BigInt(results[1].result || 0n);
 
-    totalSuppliedUsd = (totalSupplied * price) / ONE_ETHER;
-    totalBorrowedUsd = (totalBorrowed * price) / ONE_ETHER;
+    totalSuppliedUsd = (totalSupplied * price) / BigInt(baseUnit);
+    totalBorrowedUsd = (totalBorrowed * price) / BigInt(baseUnit);
 
     const currentLiquidityRate = BigInt(
       results[3].result?.currentLiquidityRate || 0
@@ -85,12 +90,14 @@ function useFetchAssetMarketInfo(
     borrowApy = convertAprToApy(borrowApr);
   }
 
+  console.log("totalSupplied", totalSupplied);
+
   return {
     isLoading,
     isFetched,
-    totalSupplied: formatUnitsToNumber(totalSupplied, 18),
+    totalSupplied: formatUnitsToNumber(totalSupplied, decimals || 18),
     totalSuppliedUsd: formatUnitsToNumber(totalSuppliedUsd, 8),
-    totalBorrowed: formatUnitsToNumber(totalBorrowed, 18),
+    totalBorrowed: formatUnitsToNumber(totalBorrowed, decimals || 18),
     totalBorrowedUsd: formatUnitsToNumber(totalBorrowedUsd, 8),
     supplyApy,
     borrowApy,
