@@ -31,7 +31,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <DisplayTokenAmount
             typography="subheader1"
             {...viewUserInfo.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
+            isFetched={viewUserInfo.isFetched}
           />
         </FlexCol>
       </FlexRow>
@@ -42,12 +42,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <DisplayTokenAmount
             typography="main16"
             {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
+            isFetched={viewUserInfo.isFetched}
           />
           <DisplayMoney
             typography="secondary12"
             {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
-            isLoading={viewUserInfo.isLoading}
+            isFetched={viewUserInfo.isFetched}
           />
         </FlexCol>
 
@@ -62,12 +62,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <DisplayTokenAmount
             typography="main16"
             {...viewUserInfo?.data?.strategyBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
+            isFetched={viewUserInfo.isFetched}
           />
           <DisplayMoney
             typography="secondary12"
             {...viewUserInfo?.data?.strategyBalance.dollarAmount}
-            isLoading={viewUserInfo.isLoading}
+            isFetched={viewUserInfo.isFetched}
           />
         </FlexCol>
 
