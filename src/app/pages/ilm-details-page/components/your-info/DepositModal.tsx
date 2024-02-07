@@ -100,19 +100,21 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               </FlexRow>
             </FlexCol>
           </FlexCol>
-          <Button
-            onClick={() => approveAsync()}
-            loading={isApproving}
-            disabled={isApproved || Number(amount) <= 0}
-          >
-            Approve to continue
-          </Button>
+          {Number(amount) > 0 && (
+            <Button
+              onClick={() => approveAsync()}
+              loading={isApproving}
+              disabled={isApproved || Number(amount) <= 0}
+            >
+              Approve to continue
+            </Button>
+          )}
           <Button
             type="submit"
             loading={isDepositPending}
             disabled={!isApproved || Number(amount) <= 0 || shares <= 0n}
           >
-            Deposit
+            {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>
         </div>
       </Modal>
