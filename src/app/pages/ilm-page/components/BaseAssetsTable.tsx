@@ -1,6 +1,5 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
-import { fetchPrice } from "../../../state/common/hooks/useFetchCoinGeckoAssetPrice";
 import { lendingAssets } from "../../../state/lending-borrowing/config/AssetsConfig";
 import { useFetchViewBaseAsset } from "../../../state/lending-borrowing/hooks/useFetchViewBaseAsset";
 import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
@@ -22,7 +21,6 @@ const columns = Object.keys(columnNames).map((key) => ({
 }));
 
 export const BaseAssetsTable: React.FC = () => {
-  // fetchPrice();
   return (
     <div className="flex flex-col xxl:items-center">
       <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
@@ -67,7 +65,7 @@ const BaseAssetsTableRow: React.FC<{ index: number }> = ({ index }) => {
         index={index}
         isLoading={isLoading || !isFetched}
         columnNames={columnNames}
-        strategy={assets}
+        assets={assets}
       />
     </>
   );

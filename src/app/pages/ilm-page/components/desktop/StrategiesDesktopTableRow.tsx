@@ -13,7 +13,7 @@ import { DisplayDepositAsset } from "../DisplayDepositAsset";
 import { useNavigate } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 
-export const DesktopTableRow: React.FC<{
+export const StrategiesDesktopTableRow: React.FC<{
   index: number;
   strategy?: ViewStrategy;
   isLoading?: boolean;

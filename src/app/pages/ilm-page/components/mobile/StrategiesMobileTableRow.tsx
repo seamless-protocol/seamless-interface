@@ -13,7 +13,7 @@ import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 
-export const MobileTableRow: React.FC<{
+export const StrategiesMobileTableRow: React.FC<{
   index: number;
   columnNames: {
     c_1_depositAsset: string;

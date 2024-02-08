@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
+import { IncentivesButton } from "../desktop/IncentivesButton";
 
 export const BaseAssetsMobileTableRow: React.FC<{
   index: number;
@@ -23,28 +24,28 @@ export const BaseAssetsMobileTableRow: React.FC<{
     c_6: string;
     c_6_1: string;
   };
-  strategy?: ViewBaseAsset;
+  assets?: ViewBaseAsset;
   isLoading?: boolean;
-}> = ({ strategy, columnNames, isLoading, index }) => {
+}> = ({ assets, columnNames, isLoading, index }) => {
   return (
     <FlexCol className="md:hidden p-4 pb-6">
       <FlexRow className="justify-start items-start gap-3 text-start mb-4">
         <Icon
           isLoading={isLoading}
-          src={strategy?.depositAsset.logo}
-          alt={strategy?.depositAsset.name || "asset"}
+          src={assets?.depositAsset.logo}
+          alt={assets?.depositAsset.name || "asset"}
         />
 
         <div className="min-h-14 w-full">
           <span className="skeleton w-full h-full" />
           <DisplayText
             typography="h4"
-            text={strategy?.depositAsset.name}
+            text={assets?.depositAsset.name}
             isLoading={isLoading}
           />
           <DisplayText
             typography="subheader2"
-            text={strategy?.depositAsset.symbol}
+            text={assets?.depositAsset.symbol}
             isLoading={isLoading}
           />
         </div>
@@ -62,12 +63,12 @@ export const BaseAssetsMobileTableRow: React.FC<{
               <DisplayTokenAmount
                 typography="secondary14"
                 isLoading={isLoading}
-                {...strategy?.totalSupplied?.tokenAmount}
+                {...assets?.totalSupplied?.tokenAmount}
               />
               <DisplayMoney
                 typography="secondary12"
                 isLoading={isLoading}
-                {...strategy?.totalSupplied?.dollarAmount}
+                {...assets?.totalSupplied?.dollarAmount}
               />
             </FlexCol>
           </LocalMobileTableRow>
@@ -77,11 +78,14 @@ export const BaseAssetsMobileTableRow: React.FC<{
               text={columnNames.c_3}
               isLoading={isLoading}
             />
-            <DisplayPercentage
-              typography="secondary14"
-              {...strategy?.supplyApy}
-              isLoading={isLoading}
-            />
+            <FlexCol className="items-end">
+              <DisplayPercentage
+                typography="secondary14"
+                {...assets?.supplyApy}
+                isLoading={isLoading}
+              />
+              <IncentivesButton {...assets?.supplyIncentives} />
+            </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
             <DisplayText
@@ -93,12 +97,12 @@ export const BaseAssetsMobileTableRow: React.FC<{
               <DisplayTokenAmount
                 typography="secondary14"
                 isLoading={isLoading}
-                {...strategy?.totalBorrowed?.tokenAmount}
+                {...assets?.totalBorrowed?.tokenAmount}
               />
               <DisplayMoney
                 typography="secondary12"
                 isLoading={isLoading}
-                {...strategy?.totalBorrowed?.dollarAmount}
+                {...assets?.totalBorrowed?.dollarAmount}
               />
             </FlexCol>
           </LocalMobileTableRow>
@@ -108,11 +112,14 @@ export const BaseAssetsMobileTableRow: React.FC<{
               text={columnNames.c_5}
               isLoading={isLoading}
             />
-            <DisplayPercentage
-              typography="secondary14"
-              {...strategy?.borrowApyVariable}
-              isLoading={isLoading}
-            />
+            <FlexCol className="items-end">
+              <DisplayPercentage
+                typography="secondary14"
+                {...assets?.borrowApyVariable}
+                isLoading={isLoading}
+              />
+              <IncentivesButton {...assets?.borrowVariableIncentives} />
+            </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
             <DisplayText
@@ -122,7 +129,7 @@ export const BaseAssetsMobileTableRow: React.FC<{
             />
             <DisplayPercentage
               typography="secondary14"
-              {...strategy?.borrowApyStable}
+              {...assets?.borrowApyStable}
               isLoading={isLoading}
             />
           </LocalMobileTableRow>

@@ -23,7 +23,7 @@ import {
   SECONDS_PER_YEAR,
   assetLogos,
 } from "../../../meta/constants";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoAssetPrice";
+import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;

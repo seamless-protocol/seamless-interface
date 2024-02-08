@@ -2,8 +2,8 @@ import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
 import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategy";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
-import { DesktopTableRow } from "./desktop/DesktopTableRow";
-import { MobileTableRow } from "./mobile/MobileTableRow";
+import { StrategiesDesktopTableRow } from "./desktop/StrategiesDesktopTableRow";
+import { StrategiesMobileTableRow } from "./mobile/StrategiesMobileTableRow";
 
 const columnNames = {
   c_1_depositAsset: "Deposit Asset",
@@ -56,13 +56,13 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
 
   return (
     <>
-      <DesktopTableRow
+      <StrategiesDesktopTableRow
         index={index}
         hideBorder={index === ilmStrategies.length - 1}
         strategy={strategy}
         isLoading={isLoading || !isFetched}
       />
-      <MobileTableRow
+      <StrategiesMobileTableRow
         index={index}
         isLoading={isLoading || !isFetched}
         columnNames={columnNames}
