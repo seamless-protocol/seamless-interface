@@ -3,6 +3,7 @@ import {
   DisplayMoney,
   DisplayPercentage,
   DisplayTokenAmount,
+  FlexCol,
   TableCell,
   TableRow,
 } from "../../../../../shared";
@@ -10,14 +11,15 @@ import { TemporaryButton } from "../../../../components/temporary-components/Tem
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
 import { useNavigate } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
-import { ViewAssetMarketInfo } from "../../../../state/lending-borrowing/types/ViewAssetMarketInfo";
+import { IncentivesButton } from "./IncentivesButton";
+import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
 
-export const AssetsMarketDesktopTableRow: React.FC<{
+export const BaseAssetsDesktopTableRow: React.FC<{
   index: number;
-  strategy?: ViewAssetMarketInfo;
+  asset?: ViewBaseAsset;
   isLoading?: boolean;
   hideBorder?: boolean;
-}> = ({ index, strategy, isLoading, hideBorder }) => {
+}> = ({ index, asset, isLoading, hideBorder }) => {
   const navigate = useNavigate();
 
   return (
@@ -34,40 +36,45 @@ export const AssetsMarketDesktopTableRow: React.FC<{
         alignItems="items-start"
       >
         <DisplayDepositAsset
-          depositAsset={strategy?.depositAsset}
+          depositAsset={asset?.depositAsset}
           isLoading={isLoading}
         />
       </TableCell>
 
       <TableCell>
         <DisplayTokenAmount
-          {...strategy?.totalSupplied?.tokenAmount}
+          {...asset?.totalSupplied?.tokenAmount}
           typography="main16"
           isLoading={isLoading}
         />
         <DisplayMoney
-          {...strategy?.totalSupplied?.dollarAmount}
+          {...asset?.totalSupplied?.dollarAmount}
           typography="subheader2"
           isLoading={isLoading}
         />
       </TableCell>
 
       <TableCell>
-        <DisplayPercentage
-          typography="main16"
-          {...strategy?.supplyApy}
-          isLoading={isLoading}
-        />
+        <FlexCol className="">
+          <DisplayPercentage
+            typography="main16"
+            {...asset?.supplyApy}
+            isLoading={isLoading}
+          />
+          {asset?.supplyIncentives.totalApy.value !== "" && (
+            <IncentivesButton {...asset?.supplyIncentives} />
+          )}
+        </FlexCol>
       </TableCell>
 
-      <TableCell>
+      <TableCell className="flex items-center">
         <DisplayTokenAmount
-          {...strategy?.totalBorrowed?.tokenAmount}
+          {...asset?.totalBorrowed?.tokenAmount}
           typography="main16"
           isLoading={isLoading}
         />
         <DisplayMoney
-          {...strategy?.totalBorrowed?.dollarAmount}
+          {...asset?.totalBorrowed?.dollarAmount}
           typography="subheader2"
           isLoading={isLoading}
         />
@@ -75,15 +82,18 @@ export const AssetsMarketDesktopTableRow: React.FC<{
       <TableCell>
         <DisplayPercentage
           typography="main16"
-          {...strategy?.borrowApyVariable}
+          {...asset?.borrowApyVariable}
           isLoading={isLoading}
         />
+        {asset?.borrowVariableIncentives.totalApy.value !== "" && (
+          <IncentivesButton {...asset?.borrowVariableIncentives} />
+        )}
       </TableCell>
 
       <TableCell>
         <DisplayPercentage
           typography="main16"
-          {...strategy?.borrowApyStable}
+          {...asset?.borrowApyStable}
           isLoading={isLoading}
         />
       </TableCell>

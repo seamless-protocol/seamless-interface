@@ -4,16 +4,15 @@ import {
   DisplayPercentage,
   DisplayText,
   DisplayTokenAmount,
-  Divider,
   FlexCol,
   FlexRow,
   Icon,
 } from "../../../../../shared";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
-import { ViewAssetMarketInfo } from "../../../../state/lending-borrowing/types/ViewAssetMarketInfo";
+import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
 
-export const AssetsMobileTableRow: React.FC<{
+export const BaseAssetsMobileTableRow: React.FC<{
   index: number;
   columnNames: {
     c_1: string;
@@ -24,7 +23,7 @@ export const AssetsMobileTableRow: React.FC<{
     c_6: string;
     c_6_1: string;
   };
-  strategy?: ViewAssetMarketInfo;
+  strategy?: ViewBaseAsset;
   isLoading?: boolean;
 }> = ({ strategy, columnNames, isLoading, index }) => {
   return (

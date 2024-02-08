@@ -1,4 +1,6 @@
 import { Address } from "viem";
+import seamLogo from "../../assets/seam.svg";
+import ogPointsLogo from "../../assets/og-points.svg";
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
 export const COMPOUNDING_PERIODS_APY = 52;
@@ -19,32 +21,27 @@ export const USDC_ADDRESS: Address =
 // Lending & Borrowing
 export const sWETH_ADDRESS: Address =
   "0x48bf8fCd44e2977c8a9A744658431A8e6C0d866c";
-export const variableDebtSeamWETH_ADDRESS: Address =
-  "0x4cebC6688faa595537444068996ad9A207A19f13";
-
-export const sUSDbC_ADDRESS: Address =
-  "0x13A13869B814Be8F13B86e9875aB51bda882E391";
-export const variableDebtSeamUSDbC_ADDRESS: Address =
-  "0x326441fA5016d946e6E82e807875fDfdc3041B3B";
-
-export const scbETH_ADDRESS: Address =
-  "0x2c159A183d9056E29649Ce7E56E59cA833D32624";
-export const variableDebtSeamcbETH_ADDRESS: Address =
-  "0x72Dbdbe3423cdA5e92A3cC8ba9BFD41F67EE9168";
-
-export const sUSDC_ADDRESS: Address =
-  "0x53E240C0F985175dA046A62F26D490d1E259036e";
-export const variableDebtSeamUSDC_ADDRESS: Address =
-  "0x27Ce7E89312708FB54121ce7E44b13FBBB4C7661";
-
-export const sDAI_ADDRESS: Address =
-  "0x37eF72fAC21904EDd7e69f7c7AC98172849efF8e";
-export const variableDebtSeamDAI_ADDRESS: Address =
-  "0x2733e1DA7d35c5ea3ed246ed6b613DC3dA97Ce2E";
-
 export const swstETH_ADDRESS: Address =
   "0xfA48A40DAD139e9B1aF8dc82F37Da58cC3cA2867";
+export const sUSDbC_ADDRESS: Address =
+  "0x13A13869B814Be8F13B86e9875aB51bda882E391";
+export const scbETH_ADDRESS: Address =
+  "0x2c159A183d9056E29649Ce7E56E59cA833D32624";
+export const sUSDC_ADDRESS: Address =
+  "0x53E240C0F985175dA046A62F26D490d1E259036e";
+export const sDAI_ADDRESS: Address =
+  "0x37eF72fAC21904EDd7e69f7c7AC98172849efF8e";
 
+export const variableDebtSeamcbETH_ADDRESS: Address =
+  "0x72Dbdbe3423cdA5e92A3cC8ba9BFD41F67EE9168";
+export const variableDebtSeamDAI_ADDRESS: Address =
+  "0x2733e1DA7d35c5ea3ed246ed6b613DC3dA97Ce2E";
+export const variableDebtSeamUSDC_ADDRESS: Address =
+  "0x27Ce7E89312708FB54121ce7E44b13FBBB4C7661";
+export const variableDebtSeamUSDbC_ADDRESS: Address =
+  "0x326441fA5016d946e6E82e807875fDfdc3041B3B";
+export const variableDebtSeamWETH_ADDRESS: Address =
+  "0x4cebC6688faa595537444068996ad9A207A19f13";
 export const variableDebtSeamwstETH_ADDRESS: Address =
   "0x51fB9021d61c464674b419C0e3082B5b9223Fc17";
 
@@ -58,3 +55,11 @@ export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 
 export const APY_BLOCK_FRAME = 50n;
+
+export const AAVE_ADDRESS_PROVIDER =
+  "0x0E02EB705be325407707662C6f6d3466E939f3a0";
+
+export const assetLogos: Map<string, string> = new Map([
+  ["SEAM", seamLogo],
+  ["OG Points", ogPointsLogo],
+]);

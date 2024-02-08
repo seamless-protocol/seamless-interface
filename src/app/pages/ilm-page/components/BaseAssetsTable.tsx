@@ -1,9 +1,10 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
+import { fetchPrice } from "../../../state/common/hooks/useFetchCoinGeckoAssetPrice";
 import { lendingAssets } from "../../../state/lending-borrowing/config/AssetsConfig";
-import { useFetchViewAssetMarketInfo } from "../../../state/lending-borrowing/hooks/useFetchViewAssetMarketInfo";
-import { AssetsMarketDesktopTableRow } from "./desktop/AssetsMarketDesktopTableRow";
-import { AssetsMobileTableRow } from "./mobile/AssetsMobileTableRow";
+import { useFetchViewBaseAsset } from "../../../state/lending-borrowing/hooks/useFetchViewBaseAsset";
+import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
+import { BaseAssetsMobileTableRow } from "./mobile/BaseAssetsMobileTableRow";
 
 const columnNames = {
   c_1: "Deposit Asset",
@@ -20,7 +21,8 @@ const columns = Object.keys(columnNames).map((key) => ({
   label: columnNames[key as keyof typeof columnNames],
 }));
 
-export const AssetsMarketTable: React.FC = () => {
+export const BaseAssetsTable: React.FC = () => {
+  // fetchPrice();
   return (
     <div className="flex flex-col xxl:items-center">
       <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
@@ -44,28 +46,24 @@ const TableBody: React.FC = () => {
   return (
     <>
       {lendingAssets.map((_, index) => (
-        <AssetsMarketTableRow index={index} key={index} />
+        <BaseAssetsTableRow index={index} key={index} />
       ))}
     </>
   );
 };
 
-const AssetsMarketTableRow: React.FC<{ index: number }> = ({ index }) => {
-  const {
-    data: assets,
-    isLoading,
-    isFetched,
-  } = useFetchViewAssetMarketInfo(index);
+const BaseAssetsTableRow: React.FC<{ index: number }> = ({ index }) => {
+  const { data: assets, isLoading, isFetched } = useFetchViewBaseAsset(index);
 
   return (
     <>
-      <AssetsMarketDesktopTableRow
+      <BaseAssetsDesktopTableRow
         index={index}
         hideBorder={index === lendingAssets.length - 1}
-        strategy={assets}
+        asset={assets}
         isLoading={isLoading || !isFetched}
       />
-      <AssetsMobileTableRow
+      <BaseAssetsMobileTableRow
         index={index}
         isLoading={isLoading || !isFetched}
         columnNames={columnNames}

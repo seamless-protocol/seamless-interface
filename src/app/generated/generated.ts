@@ -162,6 +162,941 @@ export const aaveOracleConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IncentiveDataProvider
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const incentiveDataProviderAbi = [
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getFullReservesIncentiveData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    name: 'getReservesIncentivesData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserReservesIncentivesData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+] as const
+
+export const incentiveDataProviderAddress =
+  '0x3F5a90eF7BC3eE64e1E95b850DbBC2469fF71ce8' as const
+
+export const incentiveDataProviderConfig = {
+  address: incentiveDataProviderAddress,
+  abi: incentiveDataProviderAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LendingPool
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2510,6 +3445,43 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'FallbackOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__
+ */
+export const useReadIncentiveDataProvider = /*#__PURE__*/ createUseReadContract(
+  { abi: incentiveDataProviderAbi, address: incentiveDataProviderAddress },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getFullReservesIncentiveData"`
+ */
+export const useReadIncentiveDataProviderGetFullReservesIncentiveData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getFullReservesIncentiveData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getReservesIncentivesData"`
+ */
+export const useReadIncentiveDataProviderGetReservesIncentivesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getReservesIncentivesData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getUserReservesIncentivesData"`
+ */
+export const useReadIncentiveDataProviderGetUserReservesIncentivesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getUserReservesIncentivesData',
   })
 
 /**

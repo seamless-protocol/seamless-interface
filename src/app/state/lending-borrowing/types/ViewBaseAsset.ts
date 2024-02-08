@@ -1,6 +1,11 @@
 import { ValueSymbolPair } from "../../../../shared";
 
-export interface ViewAssetMarketInfo {
+export interface ViewRewardToken {
+  symbol: string;
+  logo: string;
+  apy: number;
+}
+export interface ViewBaseAsset {
   depositAsset: {
     name: string;
     symbol: string;
@@ -17,4 +22,13 @@ export interface ViewAssetMarketInfo {
   supplyApy: ValueSymbolPair;
   borrowApyVariable: ValueSymbolPair;
   borrowApyStable: ValueSymbolPair;
+
+  supplyIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
+  };
+  borrowVariableIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
+  };
 }

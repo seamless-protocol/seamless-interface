@@ -35,6 +35,13 @@ export function formatToDisplayable(value: number) {
   return formatter.format(value);
 }
 
+export function formatToDisplayableOrPlaceholder(
+  value: number | undefined,
+  placeholder: string
+) {
+  return value && value > 0 ? formatToDisplayable(value) : placeholder;
+}
+
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
 }

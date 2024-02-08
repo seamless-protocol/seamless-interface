@@ -1,7 +1,6 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
 import { useFetchViewStrategy } from "../../../state/ILM/hooks/useFetchViewStrategy";
-import { useFetchViewAssetMarketInfo } from "../../../state/lending-borrowing/hooks/useFetchViewAssetMarketInfo";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { DesktopTableRow } from "./desktop/DesktopTableRow";
 import { MobileTableRow } from "./mobile/MobileTableRow";
@@ -54,9 +53,6 @@ const TableBody: React.FC = () => {
 
 const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
   const { data: strategy, isLoading, isFetched } = useFetchViewStrategy(index);
-
-  const { data } = useFetchViewAssetMarketInfo(index);
-  console.log(data);
 
   return (
     <>
