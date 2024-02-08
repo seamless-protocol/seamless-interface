@@ -23,7 +23,7 @@ import {
   SECONDS_PER_YEAR,
   assetLogos,
 } from "../../../meta/constants";
-import { useFetchCoinGeckoAssetPrice } from "../../common/hooks/useFetchCoinGeckoAssetPrice";
+import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoAssetPrice";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -65,18 +65,18 @@ interface IncentiveApy {
 
 function parseRewardsTokenInformation(
   rewardsTokenInformation: RewardTokenInformation[],
-  totalUsd: bigint
+  totalUsd: bigint,
+  seamPrice: number
 ) {
-  const rewardTokenSymbols =
-    rewardsTokenInformation.map((rt: any) => rt.rewardTokenSymbol) || [];
-  const assetsPrices = useFetchCoinGeckoAssetPrice(rewardTokenSymbols);
-
   let totalApy = 0;
   let rewardTokens: RewardToken[] = [];
 
   for (let i = 0; i < rewardsTokenInformation.length; i++) {
     const rewardToken = rewardsTokenInformation[i];
-    const rewardTokenPrice = parseEther(assetsPrices[i].toString());
+    const rewardTokenPrice =
+      rewardToken.rewardTokenSymbol === "SEAM"
+        ? parseEther((seamPrice || 0n).toString())
+        : 0n;
     const emissionPerYear =
       rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApy =
@@ -99,7 +99,8 @@ function parseRewardsTokenInformation(
 function parseSupplyAndBorrowIncentives(
   incentives: Incentives | undefined,
   totalSuppliedUsd: bigint,
-  totalBorrowedUsd: bigint
+  totalBorrowedUsd: bigint,
+  seamPrice: number
 ): IncentiveApy[] {
   let supplyIncentives = {
     totalApy: 0,
@@ -109,7 +110,8 @@ function parseSupplyAndBorrowIncentives(
   if (incentives && incentives.aIncentiveData) {
     supplyIncentives = parseRewardsTokenInformation(
       incentives.aIncentiveData.rewardsTokenInformation,
-      totalSuppliedUsd
+      totalSuppliedUsd,
+      seamPrice
     );
   }
 
@@ -121,7 +123,8 @@ function parseSupplyAndBorrowIncentives(
   if (incentives && incentives.vIncentiveData) {
     borrowIncentives = parseRewardsTokenInformation(
       incentives.vIncentiveData.rewardsTokenInformation,
-      totalBorrowedUsd
+      totalBorrowedUsd,
+      seamPrice
     );
   }
 
@@ -176,9 +179,8 @@ function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
       },
     ],
   });
-  const incentives = results?.[5].result?.find(
-    (e: any) => e.underlyingAsset === assetMarketConfig?.address
-  ) as Incentives | [];
+
+  const seamPrice = useFetchCoinGeckoSeamPrice();
 
   const baseUnit = 10 ** (decimals || 0);
 
@@ -218,7 +220,8 @@ function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
     [supplyIncentives, borrowIncentives] = parseSupplyAndBorrowIncentives(
       incentives,
       totalSuppliedUsd,
-      totalBorrowedUsd
+      totalBorrowedUsd,
+      seamPrice || 0
     );
   }
 

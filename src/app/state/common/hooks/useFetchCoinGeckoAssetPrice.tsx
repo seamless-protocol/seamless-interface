@@ -1,58 +1,42 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
 
-let lastTimeCalled = 100;
+let lastTimeCalled = 0;
+let lastPrice = 0;
 
 export const fetchCoinGeckoAssetPrice = async ({
   queryKey,
 }: {
-  queryKey: any;
-}) => {
-  const asset = queryKey[1];
-  const coinGeckoAssetId = "seamless-protocol";
+  queryKey: string[];
+}): Promise<number> => {
+  const coinGeckoAssetId = queryKey[1];
 
-  if (lastTimeCalled + 1000 * 60 * 1 < Date.now()) {
-    lastTimeCalled = Date.now();
-    const res = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=8`
-    );
-    console.log("res", res);
+  // if (lastTimeCalled + 1000 * 60 * 1 < Date.now()) {
+  const res = await fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
+  );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch asset price");
-    }
-
-    const {
-      [coinGeckoAssetId]: { usd: price },
-    } = await res.json();
-
-    return price;
+  if (!res.ok) {
+    throw new Error("Failed to fetch asset price");
   }
 
-  return {};
-};
+  const {
+    [coinGeckoAssetId]: { usd: price },
+  } = await res.json();
 
-export const useFetchCoinGeckoAssetPrice = (asset: any) => {
-  const { data } = useQuery({
-    queryKey: ["fetchCoinGeckoAssetPrice", asset],
-    queryFn: fetchCoinGeckoAssetPrice,
-  });
-  // switch (asset[0]) {
-  // case "SEAM":
-  // return [3.5];
-  // case "ETH":
-  // return [2480.52];
-  // default:
-  // return [0, 3.515];
-  return [0, 0];
+  lastTimeCalled = Date.now();
+  lastPrice = price;
+
+  return price;
   // }
+
+  return lastPrice;
 };
 
-export const fetchPrice = () => {
+export const useFetchCoinGeckoSeamPrice = () => {
   const { data } = useQuery({
-    queryKey: ["fetchCoinGeckoAssetPrice", ""],
+    queryKey: ["fetchCoinGeckoAssetPrice", "seamless-protocol"],
     queryFn: fetchCoinGeckoAssetPrice,
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
-  console.log("data from query", data);
+
+  return data;
 };
