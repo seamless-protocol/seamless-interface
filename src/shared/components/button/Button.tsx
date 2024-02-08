@@ -86,9 +86,9 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${props.disabled || loading ? "bg-action-disabled" : "hover:bg-primary-dark"} 
+      className={`${props.disabled || loading ? "bg-action-disabled bg-disabled" : "hover:bg-primary-dark bg-primary-main"} 
         flex items-center justify-center space-x-2"  
-      bg-primary-main rounded-[4px] py-[10px] px-6 
+        rounded-[4px] py-[10px] px-6 
         text-text-primary text-description ${classes}`}
       type={type}
       disabled={props.disabled || loading}
