@@ -1,6 +1,6 @@
 import { useAccount, useReadContracts } from "wagmi";
 import { Displayable } from "../../../../shared";
-import { AssetMarketConfig, lendingAssets } from "../config/AssetsConfig";
+import { BaseAssetConfig, baseAssets } from "../config/BaseAssetsConfig";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -131,12 +131,10 @@ function parseSupplyAndBorrowIncentives(
   return [supplyIncentives, borrowIncentives];
 }
 
-function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
+function useFetchBaseAsset(baseAsset: BaseAssetConfig | undefined) {
   const account = useAccount();
 
-  const { decimals } = useFetchAssetDecimals(
-    assetMarketConfig?.address as Address
-  );
+  const { decimals } = useFetchAssetDecimals(baseAsset?.address as Address);
   const {
     data: results,
     isLoading,
@@ -144,12 +142,12 @@ function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
   } = useReadContracts({
     contracts: [
       {
-        address: assetMarketConfig?.sTokenAddress,
+        address: baseAsset?.sTokenAddress,
         abi: erc20Abi,
         functionName: "totalSupply",
       },
       {
-        address: assetMarketConfig?.debtTokenAddress,
+        address: baseAsset?.debtTokenAddress,
         abi: erc20Abi,
         functionName: "totalSupply",
       },
@@ -157,16 +155,16 @@ function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
-        args: [assetMarketConfig?.address as Address],
+        args: [baseAsset?.address as Address],
       },
       {
         address: lendingPoolAddress,
         abi: lendingPoolAbi,
         functionName: "getReserveData",
-        args: [assetMarketConfig?.address as Address],
+        args: [baseAsset?.address as Address],
       },
       {
-        address: assetMarketConfig?.address,
+        address: baseAsset?.address,
         abi: erc20Abi,
         functionName: "balanceOf",
         args: [account?.address as Address],
@@ -214,7 +212,7 @@ function useFetchBaseAsset(assetMarketConfig: AssetMarketConfig | undefined) {
     borrowApy = convertAprToApy(borrowApr);
 
     const incentives = results?.[5].result?.find(
-      (e: any) => e.underlyingAsset === assetMarketConfig?.address
+      (e: any) => e.underlyingAsset === baseAsset?.address
     ) as Incentives | undefined;
 
     [supplyIncentives, borrowIncentives] = parseSupplyAndBorrowIncentives(
@@ -253,16 +251,16 @@ export const useFetchViewBaseAsset = (
     borrowApy,
     supplyIncentives,
     borrowIncentives,
-  } = useFetchBaseAsset(lendingAssets[index]);
+  } = useFetchBaseAsset(baseAssets[index]);
 
   return {
     isLoading,
     isFetched,
     data: {
       depositAsset: {
-        name: lendingAssets[index]?.name,
-        symbol: lendingAssets[index]?.symbol,
-        logo: lendingAssets[index]?.logo,
+        name: baseAssets[index]?.name,
+        symbol: baseAssets[index]?.symbol,
+        logo: baseAssets[index]?.logo,
       },
       totalSupplied: {
         tokenAmount: {

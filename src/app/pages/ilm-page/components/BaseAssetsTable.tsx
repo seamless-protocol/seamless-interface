@@ -1,6 +1,6 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
-import { lendingAssets } from "../../../state/lending-borrowing/config/AssetsConfig";
+import { baseAssets } from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { useFetchViewBaseAsset } from "../../../state/lending-borrowing/hooks/useFetchViewBaseAsset";
 import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
 import { BaseAssetsMobileTableRow } from "./mobile/BaseAssetsMobileTableRow";
@@ -43,7 +43,7 @@ export const BaseAssetsTable: React.FC = () => {
 const TableBody: React.FC = () => {
   return (
     <>
-      {lendingAssets.map((_, index) => (
+      {baseAssets.map((_, index) => (
         <BaseAssetsTableRow index={index} key={index} />
       ))}
     </>
@@ -57,7 +57,7 @@ const BaseAssetsTableRow: React.FC<{ index: number }> = ({ index }) => {
     <>
       <BaseAssetsDesktopTableRow
         index={index}
-        hideBorder={index === lendingAssets.length - 1}
+        hideBorder={index === baseAssets.length - 1}
         asset={assets}
         isLoading={isLoading || !isFetched}
       />

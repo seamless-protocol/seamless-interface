@@ -9,7 +9,7 @@ import {
 } from "../../../../../shared";
 import { TemporaryButton } from "../../../../components/temporary-components/TemporaryButton";
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 import { IncentivesButton } from "./IncentivesButton";
 import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
@@ -20,13 +20,8 @@ export const BaseAssetsDesktopTableRow: React.FC<{
   isLoading?: boolean;
   hideBorder?: boolean;
 }> = ({ index, asset, isLoading, hideBorder }) => {
-  const navigate = useNavigate();
-
   return (
     <TableRow
-      rest={{
-        onClick: () => navigate(RouterConfig.Builder.ilmDetails(index)),
-      }}
       hideBorder={hideBorder}
       key={index}
       className="hidden md:grid grid-cols-7"
@@ -99,7 +94,9 @@ export const BaseAssetsDesktopTableRow: React.FC<{
       </TableCell>
 
       <TableCell>
-        <TemporaryButton />
+        <Link to={RouterConfig.Builder.assetDetails(index)}>
+          <TemporaryButton />
+        </Link>
       </TableCell>
     </TableRow>
   );

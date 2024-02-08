@@ -26,7 +26,7 @@ import usdcLogo from "../../../../assets/usdc.svg";
 import daiLogo from "../../../../assets/dai.svg";
 import wstethLogo from "../../../../assets/wsteth.svg";
 
-export interface AssetMarketConfig {
+export interface BaseAssetConfig {
   name: string;
   symbol: string;
   logo: string;
@@ -35,7 +35,7 @@ export interface AssetMarketConfig {
   debtTokenAddress: Address; // Variable debt token address because stable borrow rate is not supported
 }
 
-export const lendingAssets: AssetMarketConfig[] = [
+export const baseAssets: BaseAssetConfig[] = [
   {
     name: "Ethereum",
     symbol: "ETH",
