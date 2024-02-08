@@ -83,40 +83,19 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const classes = "";
   // TODO: IMPLEMENT COMPONENT PROPERLY!!!
-  //     style.root,
-  //     style[size],
-  //     {
-  //       [getBgVariant(props.disabled || loading ? "disabled" : color)]:
-  //         variant === "contained",
-  //     },
-  //     {
-  //       [getBorderVariant(props.disabled || loading ? "disabled" : color)]:
-  //         variant === "outlined",
-  //     },
-  //     {
-  //       ["w-full"]: fullWidth,
-  //       ["cursor-default"]: loading,
-  //       ["text-white"]:
-  //         color !== "warning" && color !== "secondary" && variant === "contained",
-  //       ["text-black"]:
-  //         ((color === "warning" || color === "secondary") &&
-  //           variant === "contained") ||
-  //         props.disabled,
-  //     },
-  //     className
-  //   );
 
   return (
     <button
-      className={`${props.disabled || loading ? "bg-action-disabled" : "hover:bg-primary-dark"} 
-        bg-primary-main rounded-[4px] py-[10px] px-6 
+      className={`${props.disabled || loading ? "bg-action-disabled bg-disabled" : "hover:bg-primary-dark bg-primary-main"} 
+        flex items-center justify-center space-x-2"  
+        rounded-[4px] py-[10px] px-6 
         text-text-primary text-description ${classes}`}
       type={type}
       disabled={props.disabled || loading}
       {...props}
     >
       {children}
-      {loading && <div className="loading loading-spinner loading-md ml-1.5" />}
+      {loading && <div className="loading loading-spinner loading-xs ml-1.5" />}
     </button>
   );
 };

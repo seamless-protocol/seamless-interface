@@ -1,23 +1,24 @@
-import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { Address, parseUnits } from "viem";
+import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchAssetAllowance } from "../../../../state/common/hooks/useFetchAssetAllowance";
-import { useFetchPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchPreviewDeposit";
+import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import {
   Button,
+  DisplayMoney,
+  DisplayTokenAmount,
   FlexCol,
   FlexRow,
   Modal,
   MyFormProvider,
   Typography,
 } from "../../../../../shared";
-import { formatBigIntOnTwoDecimals } from "../../../../../shared/utils/helpers";
 import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./AmountInput/AmountInputWrapper";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
-import { useWriteAssetApprove } from "../../../../state/common/hooks/useWriteAssetApprove";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
+import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
+import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 
 export interface DepositModalFormData {
   amount: string;
@@ -29,26 +30,16 @@ interface DepositModalProps {
 
 export const DepositModal = ({ id }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
-
   const account = useAccount();
 
+  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
+    args: [strategyConfig.underlyingAsset.address],
+  });
   const {
     isPending: isDepositPending,
     isSuccess: isDepositSuccessful,
-    deposit,
+    depositAsync,
   } = useWriteStrategyDeposit(id);
-  const {
-    isPending: isApprovalPending,
-    isSuccess: isAppovalSuccessful,
-    approve: approve,
-  } = useWriteAssetApprove(strategyConfig.underlyingAsset.address);
-
-  const { allowance } = useFetchAssetAllowance(
-    strategyConfig.underlyingAsset.address,
-    strategyConfig.address,
-    isAppovalSuccessful,
-    isDepositSuccessful
-  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -58,16 +49,29 @@ export const DepositModal = ({ id }: DepositModalProps) => {
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const debouncedAmount = useDebounce(amount, 500);
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
+    amount,
+    assetPrice,
+    500
+  );
 
-  const { shares } = useFetchPreviewDeposit(
-    strategyConfig.address,
+  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+    ilmStrategies[id].underlyingAsset.address,
+    ilmStrategies[id].address,
+    parseUnits(amount || "0", etherUnits.wei)
+  );
+  const { data: previewDepositData } = useFetchViewPreviewDeposit(
+    id,
     debouncedAmount
   );
 
-  const onSubmitAsync = (data: DepositModalFormData) => {
-    if (shares) {
-      deposit(parseUnits(data.amount, 18), account.address as Address, shares);
+  const onSubmitAsync = async (data: DepositModalFormData) => {
+    if (previewDepositData) {
+      await depositAsync(
+        parseUnits(data.amount, 18),
+        account.address as Address,
+        previewDepositData.minReceivingShares
+      );
     }
   };
 
@@ -79,7 +83,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Deposit cbETH" buttonText="Deposit">
+      <Modal header="Deposit cbETH" buttonText="Deposit" onClose={reset}>
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
@@ -87,44 +91,52 @@ export const DepositModal = ({ id }: DepositModalProps) => {
               assetAddress={strategyConfig.underlyingAsset.address}
               assetSymbol={strategyConfig.underlyingAsset.symbol}
               assetLogo={strategyConfig.underlyingAsset.logo}
-              debouncedAmount={debouncedAmount}
+              debouncedAmountInUsd={debouncedAmountInUsd}
               isDepositSuccessful={isDepositSuccessful}
             />
           </FlexCol>
 
           <FlexCol>
             <Typography type="description">Transaction overview</Typography>
-            <FlexCol className="border-divider border-[0.667px] rounded-md  p-3">
+            <FlexCol className="border-divider border-[0.667px] rounded-md p-3 gap-1">
               <FlexRow className="justify-between">
                 <Typography type="description">Shares to receive</Typography>
-                <Typography type="description">
-                  {formatBigIntOnTwoDecimals(shares, 18)}
-                  {" " + strategyConfig.symbol}
-                </Typography>
+                <DisplayTokenAmount
+                  {...previewDepositData?.sharesToReceive.tokenAmount}
+                  typography="description"
+                />
+              </FlexRow>
+              <FlexRow className="justify-between">
+                <Typography type="description">Value to receive</Typography>
+                <DisplayMoney
+                  {...previewDepositData?.sharesToReceive.dollarAmount}
+                  typography="description"
+                />
+              </FlexRow>
+              <FlexRow className="justify-between">
+                <Typography type="description">Transaction cost</Typography>
+                <DisplayMoney
+                  {...previewDepositData?.cost.dollarAmount}
+                  typography="description"
+                />
               </FlexRow>
             </FlexCol>
           </FlexCol>
-          <Button
-            onClick={() =>
-              approve(strategyConfig.address, parseUnits(amount || "0", 18))
-            }
-            loading={isApprovalPending}
-            disabled={
-              parseFloat(String(allowance)) >= parseFloat(amount) ||
-              Number(amount) <= 0
-            }
-          >
-            Approve to continue
-          </Button>
+          {Number(amount) > 0 && (
+            <Button
+              onClick={() => approveAsync()}
+              loading={isApproving}
+              disabled={isApproved || Number(amount) <= 0}
+            >
+              Approve to continue
+            </Button>
+          )}
           <Button
             type="submit"
             loading={isDepositPending}
-            disabled={
-              parseFloat(String(allowance)) < parseFloat(amount) ||
-              Number(amount) <= 0
-            }
+            disabled={!isApproved || Number(amount) <= 0}
           >
-            Deposit
+            {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>
         </div>
       </Modal>

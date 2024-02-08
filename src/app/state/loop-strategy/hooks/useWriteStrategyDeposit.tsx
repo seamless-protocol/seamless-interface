@@ -5,13 +5,13 @@ import { loopStrategyAbi } from "../../../generated/generated";
 
 export const useWriteStrategyDeposit = (id: number) => {
   const strategyConfig = ilmStrategies[id];
-  const { isPending, isSuccess, writeContract } = useWriteContract();
+  const { isPending, isSuccess, writeContractAsync } = useWriteContract();
 
   return {
     isPending,
     isSuccess,
-    deposit: async (amount: bigint, address: Address, shares: bigint) => {
-      writeContract({
+    depositAsync: async (amount: bigint, address: Address, shares: bigint) => {
+      writeContractAsync({
         address: strategyConfig.address,
         abi: loopStrategyAbi,
         functionName: "deposit",
