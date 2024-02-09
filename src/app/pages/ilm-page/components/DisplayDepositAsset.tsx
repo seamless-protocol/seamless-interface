@@ -4,7 +4,7 @@ import { FlexRow, FlexCol, DisplayText, Icon } from "../../../../shared";
 export const DisplayDepositAsset: React.FC<{
   depositAsset?: {
     name?: string | undefined;
-    symbol?: string | undefined;
+    description?: string | undefined;
     logo?: string | undefined;
   };
   isLoading?: boolean;
@@ -24,7 +24,7 @@ export const DisplayDepositAsset: React.FC<{
         />
         <DisplayText
           typography="subheader2"
-          text={depositAsset?.symbol}
+          text={depositAsset?.description}
           isLoading={isLoading}
         />
       </FlexCol>
