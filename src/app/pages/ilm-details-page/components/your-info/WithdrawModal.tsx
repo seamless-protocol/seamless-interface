@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
   Button,
+  ButtonProps,
   DisplayMoney,
   DisplayTokenAmount,
   FlexCol,
@@ -11,23 +13,22 @@ import {
   MyFormProvider,
   Typography,
 } from "../../../../../shared";
-import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
-import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useFetchShareValue } from "../../../../state/common/hooks/useFetchShareValue";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
+import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
+import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 
 export interface WithdrawModalFormData {
   amount: string;
 }
 
-interface WithdrawModalProps {
+interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
   id: number;
 }
 
-export const WithdrawModal = ({ id }: WithdrawModalProps) => {
+export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
 
@@ -76,7 +77,12 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Withdraw cbETH" buttonText="Withdraw" onClose={reset}>
+      <Modal
+        header="Withdraw cbETH"
+        buttonText="Withdraw"
+        onClose={reset}
+        buttonProps={{ ...buttonProps }}
+      >
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>

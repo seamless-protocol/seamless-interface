@@ -26,12 +26,13 @@ export const StrategiesMobileTableRow: React.FC<{
   };
   strategy?: ViewStrategy;
   isLoading?: boolean;
-}> = ({ strategy, columnNames, isLoading, index }) => {
+  isFetched?: boolean;
+}> = ({ strategy, columnNames, isFetched, index }) => {
   return (
     <FlexCol className="md:hidden p-4 pb-6">
       <FlexRow className="justify-start items-start gap-3 text-start mb-4">
         <Icon
-          isLoading={isLoading}
+          isFetched={isFetched}
           src={strategy?.depositAsset.logo}
           alt={strategy?.depositAsset.name || "asset"}
         />
@@ -41,12 +42,12 @@ export const StrategiesMobileTableRow: React.FC<{
           <DisplayText
             typography="h4"
             text={strategy?.depositAsset.name}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
           <DisplayText
             typography="subheader2"
             text={strategy?.depositAsset.description}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         </div>
       </FlexRow>
@@ -57,36 +58,36 @@ export const StrategiesMobileTableRow: React.FC<{
             <DisplayText
               typography="description"
               text={columnNames.c_2_strategyName}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <DisplayText
               typography="secondary14"
               text={strategy?.strategyName}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
           </LocalMobileTableRow>
           <LocalMobileTableRow>
             <DisplayText
               typography="description"
               text={columnNames.c_3_targetMultiple}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <DisplayText
               typography="main16"
               text={strategy?.targetMultiple}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
           </LocalMobileTableRow>
           <LocalMobileTableRow>
             <DisplayText
               typography="description"
               text={columnNames.c_4_loopAPY}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <DisplayPercentage
               typography="secondary14"
               {...strategy?.LoopAPY}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
           </LocalMobileTableRow>
         </FlexCol>
@@ -95,17 +96,17 @@ export const StrategiesMobileTableRow: React.FC<{
           <DisplayText
             typography="description"
             text={columnNames.c_5_availableToDeposit}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
           <FlexCol>
             <DisplayTokenAmount
               typography="secondary14"
-              isLoading={isLoading}
+              isFetched={isFetched}
               {...strategy?.availableToDeposit?.tokenAmount}
             />
             <DisplayMoney
               typography="secondary12"
-              isLoading={isLoading}
+              isFetched={isFetched}
               {...strategy?.availableToDeposit?.dollarAmount}
             />
           </FlexCol>
@@ -114,17 +115,17 @@ export const StrategiesMobileTableRow: React.FC<{
           <DisplayText
             typography="description"
             text={columnNames.c_6_yourPosition}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
           <FlexCol>
             <DisplayTokenAmount
               typography="secondary14"
-              isLoading={isLoading}
+              isFetched={isFetched}
               {...strategy?.yourPosition?.tokenAmount}
             />
             <DisplayMoney
               typography="secondary12"
-              isLoading={isLoading}
+              isFetched={isFetched}
               {...strategy?.yourPosition?.dollarAmount}
             />
           </FlexCol>

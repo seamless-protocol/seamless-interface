@@ -17,8 +17,9 @@ export const StrategiesDesktopTableRow: React.FC<{
   index: number;
   strategy?: ViewStrategy;
   isLoading?: boolean;
+  isFetched?: boolean;
   hideBorder?: boolean;
-}> = ({ index, strategy, isLoading, hideBorder }) => {
+}> = ({ index, strategy, isFetched, hideBorder }) => {
   const navigate = useNavigate();
 
   return (
@@ -36,14 +37,14 @@ export const StrategiesDesktopTableRow: React.FC<{
       >
         <DisplayDepositAsset
           depositAsset={strategy?.depositAsset}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
       <TableCell>
         <DisplayText
           typography="h4"
           text={strategy?.strategyName}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
 
@@ -51,7 +52,7 @@ export const StrategiesDesktopTableRow: React.FC<{
         <DisplayText
           typography="main16"
           text={strategy?.targetMultiple}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
 
@@ -59,7 +60,7 @@ export const StrategiesDesktopTableRow: React.FC<{
         <DisplayPercentage
           {...strategy?.LoopAPY}
           typography="main16"
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
 
@@ -67,12 +68,12 @@ export const StrategiesDesktopTableRow: React.FC<{
         <DisplayTokenAmount
           {...strategy?.availableToDeposit?.tokenAmount}
           typography="main16"
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
         <DisplayMoney
           {...strategy?.availableToDeposit?.dollarAmount}
           typography="subheader2"
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
 
@@ -80,12 +81,12 @@ export const StrategiesDesktopTableRow: React.FC<{
         <DisplayTokenAmount
           {...strategy?.yourPosition?.tokenAmount}
           typography="main16"
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
         <DisplayMoney
           {...strategy?.yourPosition?.dollarAmount}
           typography="subheader2"
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </TableCell>
 

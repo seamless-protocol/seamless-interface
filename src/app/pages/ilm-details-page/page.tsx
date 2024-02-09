@@ -19,7 +19,7 @@ export const IlmDetailsPage = () => {
 
   return (
     <PageContainer>
-      <HeadingContainer>
+      <HeadingContainer displayBackButton>
         {/* todo: if no id ? */}
         <Heading id={Number(id || 0)} />
       </HeadingContainer>

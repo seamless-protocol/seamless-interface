@@ -14,7 +14,7 @@ import ilmDiagram from "../../../../assets/ilm-diagram.png";
 export const StrategyStatusAndConfiguration: React.FC<{
   id: number;
 }> = ({ id }) => {
-  const { data, isLoading } = useFetchViewStrategyInfo(id);
+  const { data, isFetched } = useFetchViewStrategyInfo(id);
 
   return (
     <FlexCol className="px-6 py-4 gap-8">
@@ -33,7 +33,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
               secondaryValue={{
                 ...data?.collateral.dollarAmount,
               }}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <VerticalDivider />
             <LocalValueComponent
@@ -44,7 +44,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
               secondaryValue={{
                 ...data?.equity.dollarAmount,
               }}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <VerticalDivider />
             <LocalValueComponent
@@ -52,7 +52,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
               mainValue={{
                 value: data?.currentMultiple,
               }}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
             <VerticalDivider />
             <LocalValueComponent
@@ -60,7 +60,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
               mainValue={{
                 value: data?.targetMultiple,
               }}
-              isLoading={isLoading}
+              isFetched={isFetched}
             />
           </FlexCol>
         </FlexCol>
@@ -98,7 +98,8 @@ const LocalValueComponent: React.FC<{
   mainValue?: ValueSymbolPair;
   secondaryValue?: ValueSymbolPair;
   isLoading?: boolean;
-}> = ({ title, mainValue, secondaryValue, isLoading }) => {
+  isFetched?: boolean;
+}> = ({ title, mainValue, secondaryValue, isFetched }) => {
   return (
     <FlexCol>
       <Typography type="description">{title}</Typography>
@@ -106,13 +107,13 @@ const LocalValueComponent: React.FC<{
         <DisplayTokenAmount
           typography="main16"
           {...mainValue}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
         {secondaryValue && (
           <DisplayMoney
             typography="secondary12"
             {...secondaryValue}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         )}
       </FlexCol>
