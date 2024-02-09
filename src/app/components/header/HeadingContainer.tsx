@@ -1,3 +1,4 @@
+import { FlexCol } from "../../../shared";
 import { GoBackButton } from "../temporary-components/GoBackButton";
 
 export const HeadingContainer: React.FC<{
@@ -8,14 +9,14 @@ export const HeadingContainer: React.FC<{
     <div className="bg-background-header">
       <div className="flex flex-col xxl:items-center pt-12 pb-20">
         <div className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px] xxl:items-start">
-          <div className="md:px-6">
+          <FlexCol className="md:px-6 gap-2">
             {displayBackButton && (
               <div className="mb-2">
                 <GoBackButton />
               </div>
             )}
             {children}
-          </div>
+          </FlexCol>
         </div>
       </div>
     </div>
