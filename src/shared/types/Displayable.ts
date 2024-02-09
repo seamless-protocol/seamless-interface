@@ -7,6 +7,7 @@ export interface Displayable<T> {
 export interface ValueSymbolPair {
   value?: string;
   symbol?: string;
+  originalValue?: number;
 }
 
 export interface DisplayableAmount extends ValueSymbolPair {

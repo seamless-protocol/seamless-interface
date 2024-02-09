@@ -56,7 +56,8 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={
               !Number(
-                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.value
+                viewUserInfo?.data?.underlyingAssetBalance.dollarAmount
+                  .originalValue
               )
             }
           />
@@ -82,7 +83,9 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <WithdrawModal
             id={id}
             disabled={
-              !Number(viewUserInfo?.data?.strategyBalance.tokenAmount.value)
+              !Number(
+                viewUserInfo?.data?.strategyBalance.tokenAmount.originalValue
+              )
             }
           />
         </FlexRow>

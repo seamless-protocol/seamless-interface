@@ -12,6 +12,7 @@ import {
   Modal,
   MyFormProvider,
   Typography,
+  useNotificationContext,
 } from "../../../../../shared";
 import { useFetchShareValue } from "../../../../state/common/hooks/useFetchShareValue";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
@@ -31,6 +32,7 @@ interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
 export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
+  const { showNotification } = useNotificationContext();
 
   const { shareValueInUsd } = useFetchShareValue(strategyConfig);
   const {
@@ -60,12 +62,16 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
-      await withdrawAsync(
+      const txHash = await withdrawAsync(
         parseUnits(data.amount, 18),
         account.address as Address,
         account.address as Address,
         previewWithdrawData?.minReceivingAmount
       );
+      showNotification({
+        txHash,
+        content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
+      });
     }
   };
 

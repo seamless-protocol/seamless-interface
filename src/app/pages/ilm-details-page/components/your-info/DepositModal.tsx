@@ -12,6 +12,7 @@ import {
   Modal,
   MyFormProvider,
   Typography,
+  useNotificationContext,
 } from "../../../../../shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
@@ -32,6 +33,7 @@ interface DepositModalProps extends Omit<ButtonProps, "id"> {
 export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
+  const { showNotification } = useNotificationContext();
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
@@ -61,18 +63,23 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { data: previewDepositData } = useFetchViewPreviewDeposit(
+  const { data: previewDepositData, isLoading } = useFetchViewPreviewDeposit(
     id,
     debouncedAmount
   );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      await depositAsync(
+      const txHash = await depositAsync(
         parseUnits(data.amount, 18),
         account.address as Address,
         previewDepositData.minReceivingShares
       );
+
+      showNotification({
+        txHash,
+        content: `You Supplied ${data.amount} ${ilmStrategies[id].symbol}`,
+      });
     }
   };
 
@@ -110,6 +117,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 <DisplayTokenAmount
                   {...previewDepositData?.sharesToReceive.tokenAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
               <FlexRow className="justify-between">
