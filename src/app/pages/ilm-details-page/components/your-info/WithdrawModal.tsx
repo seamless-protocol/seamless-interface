@@ -76,7 +76,11 @@ export const WithdrawModal = ({ id }: WithdrawModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Withdraw cbETH" buttonText="Withdraw" onClose={reset}>
+      <Modal
+        header={`Withdraw ${strategyConfig.symbol}`}
+        buttonText="Withdraw"
+        onClose={reset}
+      >
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>

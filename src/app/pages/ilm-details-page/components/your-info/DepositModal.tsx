@@ -83,7 +83,11 @@ export const DepositModal = ({ id }: DepositModalProps) => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <Modal header="Deposit cbETH" buttonText="Deposit" onClose={reset}>
+      <Modal
+        header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
+        buttonText="Deposit"
+        onClose={reset}
+      >
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>

@@ -8,8 +8,7 @@ import {
   VerticalDivider,
 } from "../../../../shared";
 import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
-
-import ilmDiagram from "../../../../assets/ilm-diagram.png";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
 export const StrategyStatusAndConfiguration: React.FC<{
   id: number;
@@ -87,7 +86,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
 
         <Divider />
 
-        <img src={ilmDiagram} />
+        <img src={ilmStrategies[id].diagram} />
       </FlexCol>
     </FlexCol>
   );
