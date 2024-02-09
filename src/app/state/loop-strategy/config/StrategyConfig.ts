@@ -5,9 +5,10 @@ import {
   WSTETH_ADDRESS,
 } from "../../../meta/constants";
 //TODO: Change this to strategy logo once it's known
-import CbEthStrategyLogo from "../../../../assets/favicon.svg";
-import CBETHImage from "../../../../assets/cbeth.svg";
+import ilmcbETHLogo from "../../../../assets/ilmcbETH.svg";
+import ilmwstETHLogo from "../../../../assets/ilmwstETH.svg";
 import EthLogo from "../../../../assets/eth.svg";
+import CBETHImage from "../../../../assets/cbeth.svg";
 import WstEthLogo from "../../../../assets/wsteth.svg";
 
 interface AssetConfig {
@@ -29,9 +30,9 @@ export interface StrategyConfig {
 export const ilmStrategies: StrategyConfig[] = [
   {
     name: "cbETH Booster",
-    symbol: "ilmCbEth",
+    symbol: "ilmcbETH",
     address: "0x08dd8c0b5E660800970410f6Ab3e61727599501F",
-    logo: CbEthStrategyLogo,
+    logo: ilmcbETHLogo,
     underlyingAsset: {
       name: "Coinbase Staked ETH",
       symbol: "cbETH",
@@ -47,9 +48,9 @@ export const ilmStrategies: StrategyConfig[] = [
   },
   {
     name: "wstETH Booster",
-    symbol: "ilmWstEth",
+    symbol: "ilmwstETH",
     address: "0x78390FdE18B72E4905F68f3B110c3B4D99Cf725A",
-    logo: CbEthStrategyLogo,
+    logo: ilmwstETHLogo,
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",

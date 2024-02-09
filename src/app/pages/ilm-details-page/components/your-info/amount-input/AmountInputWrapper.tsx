@@ -1,12 +1,11 @@
 import React from "react";
-import { useReadAaveOracleGetAssetPrice } from "../../../../../generated/generated";
 import { AmountInput } from "./AmountInput";
 import { useFetchAccountAssetBalance } from "../../../../../state/common/hooks/useFetchAccountAssetBalance";
 import { Address } from "viem";
 
 interface AmountInputBoxWrapperProps {
   assetAddress: Address;
-  debouncedAmount: string;
+  debouncedAmountInUsd: number;
   isDepositSuccessful: boolean;
   assetSymbol: string;
   assetLogo: any;
@@ -14,7 +13,7 @@ interface AmountInputBoxWrapperProps {
 
 export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
   assetAddress,
-  debouncedAmount,
+  debouncedAmountInUsd,
   isDepositSuccessful,
   assetSymbol,
   assetLogo,
@@ -24,15 +23,11 @@ export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
     assetAddress,
     isDepositSuccessful
   );
-  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
-    args: [assetAddress],
-  });
 
   return (
     <AmountInput
       walletBalance={walletBalance || 0n}
-      debouncedAmount={debouncedAmount}
-      assetPrice={assetPrice}
+      debouncedAmountInUsd={debouncedAmountInUsd}
       assetSymbol={assetSymbol}
       assetLogo={assetLogo}
     />

@@ -1,15 +1,17 @@
 // AmountInputBox.tsx
 import React from "react";
-import { etherUnits, formatUnits, parseUnits } from "viem";
+import { etherUnits, formatUnits } from "viem";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
-import { formatBigIntOnTwoDecimals } from "../../../../../../shared/utils/helpers";
-import { ONE_ETHER } from "../../../../../meta/constants";
+import {
+  formatBigIntOnTwoDecimals,
+  formatToDisplayable,
+} from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
+import { DisplayMoney } from "../../../../../../shared";
 
 interface AmountInputBoxProps {
   walletBalance: bigint;
-  debouncedAmount: string;
-  assetPrice?: bigint;
+  debouncedAmountInUsd: number;
   assetSymbol: string;
   assetLogo: any;
 }
@@ -17,8 +19,7 @@ interface AmountInputBoxProps {
 // todo: generic amount input field
 export const AmountInput: React.FC<AmountInputBoxProps> = ({
   walletBalance,
-  debouncedAmount,
-  assetPrice,
+  debouncedAmountInUsd,
   assetSymbol,
   assetLogo,
 }) => {
@@ -40,13 +41,10 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
       </div>
 
       <div className="flex justify-between">
-        <span className="text-sm">
-          $
-          {formatBigIntOnTwoDecimals(
-            (parseUnits(debouncedAmount, 18) * (assetPrice || 0n)) / ONE_ETHER,
-            8
-          )}
-        </span>
+        <DisplayMoney
+          value={formatToDisplayable(debouncedAmountInUsd)}
+          typography="description"
+        />
         <span className="text-xs">
           Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
         </span>
