@@ -52,7 +52,7 @@ const TableBody: React.FC = () => {
 };
 
 const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
-  const { data: strategy, isLoading, isFetched } = useFetchViewStrategy(index);
+  const { data: strategy, isFetched } = useFetchViewStrategy(index);
 
   return (
     <>
@@ -60,11 +60,11 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
         index={index}
         hideBorder={index === ilmStrategies.length - 1}
         strategy={strategy}
-        isLoading={isLoading || !isFetched}
+        isFetched={isFetched}
       />
       <MobileTableRow
         index={index}
-        isLoading={isLoading || !isFetched}
+        isFetched={isFetched}
         columnNames={columnNames}
         strategy={strategy}
       />

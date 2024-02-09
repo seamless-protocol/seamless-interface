@@ -25,6 +25,9 @@ export default {
         xxl: "1536px",
         xxxl: "1800px",
       },
+      borderWidth: {
+        thin: "0.1px",
+      },
       colors: {
         primary: {
           main: "#383D51",

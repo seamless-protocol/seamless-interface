@@ -1,4 +1,9 @@
 // ****** //
+// auth //
+// ****** //
+export * from "./components/auth/AuthGuard";
+
+// ****** //
 // button //
 // ****** //
 export * from "./components/button/Button";
@@ -59,3 +64,8 @@ export * from "./components/modal/Modal";
 export * from "./components/table/SimpleTable";
 export * from "./components/table/TableCell";
 export * from "./components/table/TableRow";
+
+// ****** //
+// Wallet //
+// ****** //
+export * from "./components/wallet/WalletOptions";

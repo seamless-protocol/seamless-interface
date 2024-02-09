@@ -8,24 +8,25 @@ export const DisplayDepositAsset: React.FC<{
     logo?: string | undefined;
   };
   isLoading?: boolean;
-}> = ({ depositAsset, isLoading }) => {
+  isFetched?: boolean;
+}> = ({ depositAsset, isFetched }) => {
   return (
     <FlexRow className="gap-2 text-start">
       <Icon
         src={depositAsset?.logo}
         alt={depositAsset?.name || "asset"}
-        isLoading={isLoading}
+        isFetched={isFetched}
       />
       <FlexCol>
         <DisplayText
           typography="h4"
           text={depositAsset?.name}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
         <DisplayText
           typography="subheader2"
           text={depositAsset?.description}
-          isLoading={isLoading}
+          isFetched={isFetched}
         />
       </FlexCol>
     </FlexRow>

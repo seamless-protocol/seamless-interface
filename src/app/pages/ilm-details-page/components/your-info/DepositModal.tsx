@@ -1,9 +1,10 @@
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import {
   Button,
+  ButtonProps,
   DisplayMoney,
   DisplayTokenAmount,
   FlexCol,
@@ -12,23 +13,23 @@ import {
   MyFormProvider,
   Typography,
 } from "../../../../../shared";
-import { useForm } from "react-hook-form";
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
-import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
+import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
+import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
+import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 
 export interface DepositModalFormData {
   amount: string;
 }
 
-interface DepositModalProps {
+interface DepositModalProps extends Omit<ButtonProps, "id"> {
   id: number;
 }
 
-export const DepositModal = ({ id }: DepositModalProps) => {
+export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
 
@@ -87,6 +88,7 @@ export const DepositModal = ({ id }: DepositModalProps) => {
         header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
         buttonText="Deposit"
         onClose={reset}
+        buttonProps={{ ...buttonProps }}
       >
         <div className="flex flex-col gap-4">
           <FlexCol>

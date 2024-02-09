@@ -2,7 +2,7 @@ import { FlexCol, FlexRow, DisplayMoney, Typography } from "../../../../shared";
 import { useFetchIlmHeaderInfo } from "../../../state/ILM/hooks/useFetchIlmPageHeader";
 
 export const Heading = () => {
-  const { isLoading, data } = useFetchIlmHeaderInfo();
+  const { isFetched, data } = useFetchIlmHeaderInfo();
   return (
     <FlexCol className="gap-4 text-text-primary">
       <FlexCol>
@@ -20,7 +20,7 @@ export const Heading = () => {
             typography="main21"
             {...data.totalMarketSize}
             symbolColor="light"
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         </FlexCol>
       </FlexRow>
