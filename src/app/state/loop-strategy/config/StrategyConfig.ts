@@ -5,11 +5,11 @@ import {
   WSTETH_ADDRESS,
 } from "../../../meta/constants";
 //TODO: Change this to strategy logo once it's known
-import ilmcbETHLogo from "../../../../assets/ilmcbETH.svg";
-import ilmwstETHLogo from "../../../../assets/ilmwstETH.svg";
-import EthLogo from "../../../../assets/eth.svg";
-import CBETHImage from "../../../../assets/cbeth.svg";
-import WstEthLogo from "../../../../assets/wsteth.svg";
+import ilmcbETHLogo from "../../../../assets/tokens/ilmcbETH.svg";
+import ilmwstETHLogo from "../../../../assets/tokens/ilmwstETH.svg";
+import EthLogo from "../../../../assets/tokens/eth.svg";
+import CBETHImage from "../../../../assets/tokens/cbeth.svg";
+import WstEthLogo from "../../../../assets/tokens/wsteth.svg";
 
 interface AssetConfig {
   name: string;

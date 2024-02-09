@@ -12,7 +12,7 @@ import { useFetchViewUserInfo } from "../../../../state/loop-strategy/hooks/useF
 import { DepositModal } from "./DepositModal";
 import { WithdrawModal } from "./WithdrawModal";
 
-import walletIcon from "../../../../../assets/wallet-icon.svg";
+import walletIcon from "../../../../../assets/common/wallet-icon.svg";
 
 interface YourInfoProps {
   id: number;

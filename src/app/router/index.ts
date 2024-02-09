@@ -1,5 +1,7 @@
 const baseUrl = "";
 
+const etherScan = "https://etherscan.io/address";
+
 export const RouterConfig = {
   Routes: {
     ilm: `${baseUrl}/`,
@@ -9,5 +11,6 @@ export const RouterConfig = {
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
     ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
+    etherScan: (txHash: string) => `${etherScan}/${txHash}`,
   },
 };

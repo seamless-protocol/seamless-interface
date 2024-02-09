@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FlexRow, Icon, Typography } from "../../../shared";
 import { Link } from "react-router-dom";
 import ConnectWalletButton from "./connect-wallet/ConnectWalletButton";
-import SeamlessLogo from "../../../assets/logo-seamless.svg";
+import SeamlessLogo from "../../../assets/logos/logo-seamless.svg";
 import { RouterConfig } from "../../router";
 
 const navigation = [
