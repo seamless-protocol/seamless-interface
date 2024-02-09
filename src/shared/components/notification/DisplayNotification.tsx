@@ -1,7 +1,7 @@
 import { ModalBody } from "../modal/ModalBody";
 
 import { TNotificationProps } from "../../types/INotification";
-import { ENUM_COLORS, ENUM_STATUSES } from "./mapper";
+import { ENUM_COLORS, ENUM_MESSAGES, ENUM_STATUSES } from "./mapper";
 import { Icon } from "../images/Icon";
 import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
@@ -23,40 +23,47 @@ export const DisplayNotification = ({
   txHash,
   setModalOpen,
 }: Props) => {
-  console.log({ txHash });
-  const statusIcon = icon || ENUM_STATUSES[status];
+  const statusIcon = icon || (status ? ENUM_STATUSES[status] : "");
 
   return (
     <ModalBody setModalOpen={setModalOpen}>
-      <FlexCol className="items-center gap-4">
-        <div className={`${ENUM_COLORS[status]} p-3 rounded-full`}>
-          <Icon src={statusIcon} alt={status} />
-        </div>
+      <FlexCol className="items-center gap-2">
+        <FlexCol className="items-center gap-6">
+          <div
+            className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}
+          >
+            <Icon src={statusIcon} alt={status || "notification-icon"} />
+          </div>
 
-        <Typography type="main21">All Done!</Typography>
+          <Typography type="main21">
+            {status ? ENUM_MESSAGES[status] : "Invalid status."}
+          </Typography>
+        </FlexCol>
 
         <div>{content}</div>
 
-        <FlexCol className="w-full gap-2">
-          <FlexRow className="justify-between items-center">
-            <span />
-            <Link
-              to={RouterConfig.Builder.etherScan(txHash || "")}
-              target="_blank"
-            >
-              <FlexRow className="justify-between items-center gap-0.5">
-                <Typography type="subheader2">Review tx details</Typography>
-                <Icon
-                  src={externalLinkIcon}
-                  alt="external-link"
-                  width={12}
-                  height={12}
-                />
-              </FlexRow>
-            </Link>
-          </FlexRow>
+        <FlexCol className="w-full gap-2 mt-4">
+          {status === "success" && txHash && (
+            <FlexRow className="justify-between items-center">
+              <span />
+              <Link
+                to={RouterConfig.Builder.etherScan(txHash || "")}
+                target="_blank"
+              >
+                <FlexRow className="justify-between items-center gap-0.5">
+                  <Typography type="subheader2">Review tx details</Typography>
+                  <Icon
+                    src={externalLinkIcon}
+                    alt="external-link"
+                    width={12}
+                    height={12}
+                  />
+                </FlexRow>
+              </Link>
+            </FlexRow>
+          )}
           <Button fullWidth onClick={() => setModalOpen(false)}>
-            Ok, Close
+            <Typography type="buttonM">Ok, Close</Typography>
           </Button>
         </FlexCol>
       </FlexCol>

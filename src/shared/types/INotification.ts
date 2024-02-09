@@ -11,7 +11,7 @@ export type TNotificationStatus =
 
 export type TNotificationProps = {
   content: React.ReactNode;
-  status: TNotificationStatus;
+  status?: TNotificationStatus;
   duration?: number;
   icon?: string;
   position?: TPositions;

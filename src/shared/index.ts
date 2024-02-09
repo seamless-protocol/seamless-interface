@@ -3,7 +3,6 @@
 // ****** //
 export * from "./services/notification/NotificationContext";
 export * from "./services/notification/useNotificationContext";
-export * from "./services/notification/NotificationService";
 
 // ****** //
 // auth //

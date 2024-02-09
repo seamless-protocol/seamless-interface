@@ -9,9 +9,17 @@ export const ENUM_STATUSES = {
 };
 
 export const ENUM_COLORS = {
-  success: "bg-success-light",
-  loading: "bg-disabled-light",
-  error: "bg-error-light",
-  info: "bg-info-light",
-  warning: "bg-warning-light",
+  success: "bg-success-200",
+  loading: "bg-disabled-200",
+  error: "bg-error-200",
+  info: "bg-info-200",
+  warning: "bg-warning-200",
+};
+
+export const ENUM_MESSAGES = {
+  success: "All done!",
+  loading: "Loading...",
+  error: "woops :(",
+  info: "New info!",
+  warning: "Carefull!",
 };

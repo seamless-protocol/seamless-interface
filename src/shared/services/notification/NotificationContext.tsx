@@ -8,6 +8,11 @@ interface NotificationContextType {
   closeNotification: () => void;
 }
 
+const defaultNotificationSettings: Omit<TNotificationProps, "content"> = {
+  status: "success",
+  position: "center-center",
+};
+
 const defaultContextValue: NotificationContextType = {
   showNotification: () => {},
   closeNotification: () => {},
@@ -44,7 +49,11 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     >
       {children}
       {isOpen && notification && (
-        <DisplayNotification {...notification} setModalOpen={setIsOpen} />
+        <DisplayNotification
+          {...defaultNotificationSettings}
+          {...notification}
+          setModalOpen={setIsOpen}
+        />
       )}
     </NotificationContext.Provider>
   );
