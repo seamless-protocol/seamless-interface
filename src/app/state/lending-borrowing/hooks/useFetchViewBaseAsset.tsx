@@ -179,7 +179,6 @@ function useFetchBaseAsset(baseAsset: BaseAssetConfig | undefined) {
   });
 
   const seamPrice = useFetchCoinGeckoSeamPrice();
-
   const baseUnit = 10 ** (decimals || 0);
 
   let totalSupplied,

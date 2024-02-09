@@ -16,7 +16,7 @@ export const fetchCoinGeckoAssetPrice = async ({
   const coinGeckoAssetId = queryKey[1];
 
   const res = await fetch(
-    `${coinGeckoApiUrl}simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
+    `${coinGeckoApiUrl}/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
   );
 
   if (!res.ok) {
