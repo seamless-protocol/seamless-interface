@@ -1,3 +1,5 @@
+import React from "react";
+
 type XPositions = "left" | "right" | "center";
 type YPositions = "top" | "bottom" | "center";
 
@@ -13,7 +15,7 @@ export type TNotificationProps = {
   content: React.ReactNode;
   status?: TNotificationStatus;
   duration?: number;
-  icon?: string;
+  icon?: React.ReactNode;
   position?: TPositions;
   txHash?: string;
 };

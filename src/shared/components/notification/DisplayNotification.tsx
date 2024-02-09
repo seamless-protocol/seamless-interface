@@ -23,8 +23,6 @@ export const DisplayNotification = ({
   txHash,
   setModalOpen,
 }: Props) => {
-  const statusIcon = icon || (status ? ENUM_STATUSES[status] : "");
-
   return (
     <ModalBody setModalOpen={setModalOpen}>
       <FlexCol className="items-center gap-2">
@@ -32,7 +30,7 @@ export const DisplayNotification = ({
           <div
             className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}
           >
-            <Icon src={statusIcon} alt={status || "notification-icon"} />
+            {icon || (status ? ENUM_STATUSES[status] : <></>)}
           </div>
 
           <Typography type="main21">
@@ -47,7 +45,7 @@ export const DisplayNotification = ({
             <FlexRow className="justify-between items-center">
               <span />
               <Link
-                to={RouterConfig.Builder.etherScan(txHash || "")}
+                to={RouterConfig.Builder.baseScan(txHash || "")}
                 target="_blank"
               >
                 <FlexRow className="justify-between items-center gap-0.5">
