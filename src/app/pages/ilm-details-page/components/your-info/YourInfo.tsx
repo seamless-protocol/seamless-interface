@@ -52,7 +52,14 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             />
           </FlexCol>
 
-          <DepositModal id={id} />
+          <DepositModal
+            id={id}
+            disabled={
+              !Number(
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.value
+              )
+            }
+          />
         </FlexRow>
 
         <Divider />
@@ -72,7 +79,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             />
           </FlexCol>
 
-          <WithdrawModal id={id} />
+          <WithdrawModal
+            id={id}
+            disabled={
+              !Number(viewUserInfo?.data?.strategyBalance.tokenAmount.value)
+            }
+          />
         </FlexRow>
       </AuthGuard>
     </FlexCol>
