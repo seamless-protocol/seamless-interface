@@ -8,12 +8,14 @@ export const HeadingContainer: React.FC<{
     <div className="bg-background-header">
       <div className="flex flex-col xxl:items-center pt-12 pb-20">
         <div className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px] xxl:items-start">
-          {displayBackButton && (
-            <div className="mb-2">
-              <GoBackButton />
-            </div>
-          )}
-          {children}
+          <div className="md:px-6">
+            {displayBackButton && (
+              <div className="mb-2">
+                <GoBackButton />
+              </div>
+            )}
+            {children}
+          </div>
         </div>
       </div>
     </div>
