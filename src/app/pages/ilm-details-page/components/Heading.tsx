@@ -14,7 +14,7 @@ import { useFetchViewStrategyPageHeader } from "../../../state/loop-strategy/hoo
 export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
-  const { isLoading, data } = useFetchViewStrategyPageHeader(id);
+  const { isFetched, data } = useFetchViewStrategyPageHeader(id);
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
@@ -22,7 +22,7 @@ export const Heading: React.FC<{
         <Icon
           src={data?.underlyingAsset?.logo}
           alt={data?.underlyingAsset?.name || "asset"}
-          isLoading={isLoading}
+          isFetched={isFetched}
           width={55}
           height={55}
         />
@@ -30,12 +30,12 @@ export const Heading: React.FC<{
           <DisplayText
             typography="main21"
             text={data?.underlyingAsset?.name}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
           <DisplayText
             typography="description"
             text={data?.underlyingAsset?.symbol}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         </FlexCol>
       </FlexRow>
@@ -47,7 +47,7 @@ export const Heading: React.FC<{
           <DisplayValue
             typography="main21"
             value={data?.targetMultiple}
-            isLoading={isLoading}
+            isFetched={isFetched}
             loaderSkeleton
           />
         </FlexCol>
@@ -58,7 +58,7 @@ export const Heading: React.FC<{
           <DisplayPercentage
             typography="main21"
             {...data?.apy}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         </FlexCol>
         <FlexCol>
@@ -68,7 +68,7 @@ export const Heading: React.FC<{
           <DisplayMoney
             typography="main21"
             {...data?.oraclePrice}
-            isLoading={isLoading}
+            isFetched={isFetched}
           />
         </FlexCol>
       </FlexRow>

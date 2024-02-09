@@ -1,4 +1,5 @@
 import {
+  AuthGuard,
   DisplayMoney,
   DisplayTokenAmount,
   Divider,
@@ -23,56 +24,69 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
   return (
     <FlexCol className="px-6 py-4 gap-8">
       <Typography type="h3">Your Info</Typography>
+      <AuthGuard>
+        <FlexRow className="items-center gap-4">
+          <Icon src={walletIcon} alt="wallet-icon" width={16} height={16} />
+          <FlexCol>
+            <Typography type="subheader2">Wallet balance</Typography>
+            <DisplayTokenAmount
+              typography="subheader1"
+              {...viewUserInfo.data?.underlyingAssetBalance.tokenAmount}
+              isFetched={viewUserInfo.isFetched}
+            />
+          </FlexCol>
+        </FlexRow>
+        <Divider />
+        <FlexRow className="justify-between items-center">
+          <FlexCol>
+            <Typography type="subheader2">Available to deposit</Typography>
+            <DisplayTokenAmount
+              typography="main16"
+              {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
+              isFetched={viewUserInfo.isFetched}
+            />
+            <DisplayMoney
+              typography="secondary12"
+              {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
+              isFetched={viewUserInfo.isFetched}
+            />
+          </FlexCol>
 
-      <FlexRow className="items-center gap-4">
-        <Icon src={walletIcon} alt="wallet-icon" width={16} height={16} />
-        <FlexCol>
-          <Typography type="subheader2">Wallet balance</Typography>
-          <DisplayTokenAmount
-            typography="subheader1"
-            {...viewUserInfo.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
+          <DepositModal
+            id={id}
+            disabled={
+              !Number(
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.value
+              )
+            }
           />
-        </FlexCol>
-      </FlexRow>
-      <Divider />
-      <FlexRow className="justify-between items-center">
-        <FlexCol>
-          <Typography type="subheader2">Available to deposit</Typography>
-          <DisplayTokenAmount
-            typography="main16"
-            {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
-          />
-          <DisplayMoney
-            typography="secondary12"
-            {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
-            isLoading={viewUserInfo.isLoading}
-          />
-        </FlexCol>
+        </FlexRow>
 
-        <DepositModal id={id} />
-      </FlexRow>
+        <Divider />
 
-      <Divider />
+        <FlexRow className="justify-between items-center">
+          <FlexCol>
+            <Typography type="subheader2">Available to withdraw</Typography>
+            <DisplayTokenAmount
+              typography="main16"
+              {...viewUserInfo?.data?.strategyBalance.tokenAmount}
+              isFetched={viewUserInfo.isFetched}
+            />
+            <DisplayMoney
+              typography="secondary12"
+              {...viewUserInfo?.data?.strategyBalance.dollarAmount}
+              isFetched={viewUserInfo.isFetched}
+            />
+          </FlexCol>
 
-      <FlexRow className="justify-between items-center">
-        <FlexCol>
-          <Typography type="subheader2">Available to withdraw</Typography>
-          <DisplayTokenAmount
-            typography="main16"
-            {...viewUserInfo?.data?.strategyBalance.tokenAmount}
-            isLoading={viewUserInfo.isLoading}
+          <WithdrawModal
+            id={id}
+            disabled={
+              !Number(viewUserInfo?.data?.strategyBalance.tokenAmount.value)
+            }
           />
-          <DisplayMoney
-            typography="secondary12"
-            {...viewUserInfo?.data?.strategyBalance.dollarAmount}
-            isLoading={viewUserInfo.isLoading}
-          />
-        </FlexCol>
-
-        <WithdrawModal id={id} />
-      </FlexRow>
+        </FlexRow>
+      </AuthGuard>
     </FlexCol>
   );
 };

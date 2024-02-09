@@ -6,7 +6,7 @@ export interface DisplayTextProps {
   typography?: TypographyType;
   loaderSkeleton?: boolean;
   isLoading?: boolean;
-  isFetching?: boolean;
+  isFetched?: boolean;
   skeletonFitParentMaxWidth?: boolean;
 }
 
