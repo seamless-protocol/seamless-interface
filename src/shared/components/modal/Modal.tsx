@@ -7,7 +7,7 @@ import React, {
 import { Button, ButtonProps } from "../button/Button";
 import { Icon } from "../images/Icon";
 
-import xButton from "/public/xButton.svg";
+import xButton from "../../../assets/x-button.svg";
 import { FlexRow } from "../containers/FlexRow";
 import { Typography } from "../text/Typography/Typography";
 

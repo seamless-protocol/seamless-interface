@@ -1,7 +1,7 @@
-import { useAccount, useReadContract } from "wagmi";
-import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { erc20Abi } from "viem";
+import { useAccount, useReadContract } from "wagmi";
 
 export const useFetchAccountAssetBalance = (
   assset: `0x${string}`,

@@ -1,6 +1,7 @@
-import { FlexRow, Icon, Typography } from "../../../shared";
 import { useNavigate } from "react-router-dom";
-import leftArrow from "/common/left-arrow.svg";
+import { FlexRow, Icon, Typography } from "../../../shared";
+
+import leftArrow from "../../../assets/left-arrow.svg";
 
 export const GoBackButton = () => {
   const navigate = useNavigate();
