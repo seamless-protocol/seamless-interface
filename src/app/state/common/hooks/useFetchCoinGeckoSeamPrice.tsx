@@ -1,5 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
+interface CoinGeckoAssetPrice {
+  [assetId: string]: {
+    usd: number;
+  };
+}
+
+const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
+
 export const fetchCoinGeckoAssetPrice = async ({
   queryKey,
 }: {
@@ -8,7 +16,7 @@ export const fetchCoinGeckoAssetPrice = async ({
   const coinGeckoAssetId = queryKey[1];
 
   const res = await fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
+    `${coinGeckoApiUrl}simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
   );
 
   if (!res.ok) {
@@ -17,7 +25,7 @@ export const fetchCoinGeckoAssetPrice = async ({
 
   const {
     [coinGeckoAssetId]: { usd: price },
-  } = await res.json();
+  }: CoinGeckoAssetPrice = await res.json();
 
   return price;
 };

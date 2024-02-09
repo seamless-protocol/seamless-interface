@@ -27,5 +27,7 @@ export const PageContainer: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => {
-  return <div className={className ? className : ""}>{children}</div>;
+  return (
+    <div className={`${className ? className : ""} pb-10`}>{children}</div>
+  );
 };
