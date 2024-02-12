@@ -162,6 +162,2113 @@ export const aaveOracleConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IncentiveDataProvider
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const incentiveDataProviderAbi = [
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getFullReservesIncentiveData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    name: 'getReservesIncentivesData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sIncentiveData',
+            internalType: 'struct IUiIncentiveDataProviderV3.IncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'rewardsTokenInformation',
+                internalType: 'struct IUiIncentiveDataProviderV3.RewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'emissionPerSecond',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'incentivesLastUpdateTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'emissionEndTimestamp',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  { name: 'precision', internalType: 'uint8', type: 'uint8' },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserReservesIncentivesData',
+    outputs: [
+      {
+        name: '',
+        internalType:
+          'struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'aTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'vTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'sTokenIncentivesUserData',
+            internalType: 'struct IUiIncentiveDataProviderV3.UserIncentiveData',
+            type: 'tuple',
+            components: [
+              {
+                name: 'tokenAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'incentiveControllerAddress',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'userRewardsInformation',
+                internalType:
+                  'struct IUiIncentiveDataProviderV3.UserRewardInfo[]',
+                type: 'tuple[]',
+                components: [
+                  {
+                    name: 'rewardTokenSymbol',
+                    internalType: 'string',
+                    type: 'string',
+                  },
+                  {
+                    name: 'rewardOracleAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'rewardTokenAddress',
+                    internalType: 'address',
+                    type: 'address',
+                  },
+                  {
+                    name: 'userUnclaimedRewards',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'tokenIncentivesUserIndex',
+                    internalType: 'uint256',
+                    type: 'uint256',
+                  },
+                  {
+                    name: 'rewardPriceFeed',
+                    internalType: 'int256',
+                    type: 'int256',
+                  },
+                  {
+                    name: 'priceFeedDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                  {
+                    name: 'rewardTokenDecimals',
+                    internalType: 'uint8',
+                    type: 'uint8',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+] as const
+
+export const incentiveDataProviderAddress =
+  '0x3F5a90eF7BC3eE64e1E95b850DbBC2469fF71ce8' as const
+
+export const incentiveDataProviderConfig = {
+  address: incentiveDataProviderAddress,
+  abi: incentiveDataProviderAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LendingPool
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const lendingPoolAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'backer',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      { name: 'fee', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'BackUnbacked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'user',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'onBehalfOf',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'interestRateMode',
+        internalType: 'enum DataTypes.InterestRateMode',
+        type: 'uint8',
+        indexed: false,
+      },
+      {
+        name: 'borrowRate',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'referralCode',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: true,
+      },
+    ],
+    name: 'Borrow',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'target',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'initiator',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'asset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'interestRateMode',
+        internalType: 'enum DataTypes.InterestRateMode',
+        type: 'uint8',
+        indexed: false,
+      },
+      {
+        name: 'premium',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'referralCode',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: true,
+      },
+    ],
+    name: 'FlashLoan',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'asset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'totalDebt',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'IsolationModeTotalDebtUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'collateralAsset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'debtAsset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'debtToCover',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'liquidatedCollateralAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'liquidator',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'receiveAToken',
+        internalType: 'bool',
+        type: 'bool',
+        indexed: false,
+      },
+    ],
+    name: 'LiquidationCall',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'user',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'onBehalfOf',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'referralCode',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: true,
+      },
+    ],
+    name: 'MintUnbacked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amountMinted',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MintedToTreasury',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'RebalanceStableBorrowRate',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'repayer',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'useATokens',
+        internalType: 'bool',
+        type: 'bool',
+        indexed: false,
+      },
+    ],
+    name: 'Repay',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'liquidityRate',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'stableBorrowRate',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'variableBorrowRate',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'liquidityIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'variableBorrowIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'ReserveDataUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'ReserveUsedAsCollateralDisabled',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'ReserveUsedAsCollateralEnabled',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'user',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'onBehalfOf',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'referralCode',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: true,
+      },
+    ],
+    name: 'Supply',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'interestRateMode',
+        internalType: 'enum DataTypes.InterestRateMode',
+        type: 'uint8',
+        indexed: false,
+      },
+    ],
+    name: 'SwapBorrowRateMode',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'categoryId',
+        internalType: 'uint8',
+        type: 'uint8',
+        indexed: false,
+      },
+    ],
+    name: 'UserEModeSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reserve',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Withdraw',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ADDRESSES_PROVIDER',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'BRIDGE_PROTOCOL_FEE',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'FLASHLOAN_PREMIUM_TOTAL',
+    outputs: [{ name: '', internalType: 'uint128', type: 'uint128' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'FLASHLOAN_PREMIUM_TO_PROTOCOL',
+    outputs: [{ name: '', internalType: 'uint128', type: 'uint128' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'MAX_NUMBER_RESERVES',
+    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'MAX_STABLE_RATE_BORROW_SIZE_PERCENT',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'POOL_REVISION',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'fee', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'backUnbacked',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'interestRateMode', internalType: 'uint256', type: 'uint256' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+    ],
+    name: 'borrow',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'borrow',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'id', internalType: 'uint8', type: 'uint8' },
+      {
+        name: 'category',
+        internalType: 'struct DataTypes.EModeCategory',
+        type: 'tuple',
+        components: [
+          { name: 'ltv', internalType: 'uint16', type: 'uint16' },
+          {
+            name: 'liquidationThreshold',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          { name: 'liquidationBonus', internalType: 'uint16', type: 'uint16' },
+          { name: 'priceSource', internalType: 'address', type: 'address' },
+          { name: 'label', internalType: 'string', type: 'string' },
+        ],
+      },
+    ],
+    name: 'configureEModeCategory',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'deposit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'dropReserve',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'balanceFromBefore', internalType: 'uint256', type: 'uint256' },
+      { name: 'balanceToBefore', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'finalizeTransfer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'receiverAddress', internalType: 'address', type: 'address' },
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+      {
+        name: 'interestRateModes',
+        internalType: 'uint256[]',
+        type: 'uint256[]',
+      },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'params', internalType: 'bytes', type: 'bytes' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'flashLoan',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'receiverAddress', internalType: 'address', type: 'address' },
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'params', internalType: 'bytes', type: 'bytes' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'flashLoanSimple',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getConfiguration',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct DataTypes.ReserveConfigurationMap',
+        type: 'tuple',
+        components: [
+          { name: 'data', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint8', type: 'uint8' }],
+    name: 'getEModeCategoryData',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct DataTypes.EModeCategory',
+        type: 'tuple',
+        components: [
+          { name: 'ltv', internalType: 'uint16', type: 'uint16' },
+          {
+            name: 'liquidationThreshold',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          { name: 'liquidationBonus', internalType: 'uint16', type: 'uint16' },
+          { name: 'priceSource', internalType: 'address', type: 'address' },
+          { name: 'label', internalType: 'string', type: 'string' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint16', type: 'uint16' }],
+    name: 'getReserveAddressById',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveData',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct DataTypes.ReserveData',
+        type: 'tuple',
+        components: [
+          {
+            name: 'configuration',
+            internalType: 'struct DataTypes.ReserveConfigurationMap',
+            type: 'tuple',
+            components: [
+              { name: 'data', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+          { name: 'liquidityIndex', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'currentLiquidityRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'variableBorrowIndex',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'currentVariableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'currentStableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'lastUpdateTimestamp',
+            internalType: 'uint40',
+            type: 'uint40',
+          },
+          { name: 'id', internalType: 'uint16', type: 'uint16' },
+          { name: 'aTokenAddress', internalType: 'address', type: 'address' },
+          {
+            name: 'stableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'variableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'interestRateStrategyAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'accruedToTreasury',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          { name: 'unbacked', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'isolationModeTotalDebt',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveNormalizedIncome',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveNormalizedVariableDebt',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getReservesList',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getUserAccountData',
+    outputs: [
+      { name: 'totalCollateralBase', internalType: 'uint256', type: 'uint256' },
+      { name: 'totalDebtBase', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'availableBorrowsBase',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      {
+        name: 'currentLiquidationThreshold',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'ltv', internalType: 'uint256', type: 'uint256' },
+      { name: 'healthFactor', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getUserConfiguration',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct DataTypes.UserConfigurationMap',
+        type: 'tuple',
+        components: [
+          { name: 'data', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getUserEMode',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'aTokenAddress', internalType: 'address', type: 'address' },
+      { name: 'stableDebtAddress', internalType: 'address', type: 'address' },
+      { name: 'variableDebtAddress', internalType: 'address', type: 'address' },
+      {
+        name: 'interestRateStrategyAddress',
+        internalType: 'address',
+        type: 'address',
+      },
+    ],
+    name: 'initReserve',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'collateralAsset', internalType: 'address', type: 'address' },
+      { name: 'debtAsset', internalType: 'address', type: 'address' },
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'debtToCover', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiveAToken', internalType: 'bool', type: 'bool' },
+    ],
+    name: 'liquidationCall',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'args1', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'args2', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'liquidationCall',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'address[]', type: 'address[]' }],
+    name: 'mintToTreasury',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'mintUnbacked',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'rebalanceStableBorrowRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'rebalanceStableBorrowRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'repay',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'interestRateMode', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+    ],
+    name: 'repay',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'interestRateMode', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'repayWithATokens',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'repayWithATokens',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'args', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'repayWithPermit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'interestRateMode', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'permitV', internalType: 'uint8', type: 'uint8' },
+      { name: 'permitR', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'permitS', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'repayWithPermit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'rescueTokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'resetIsolationModeTotalDebt',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      {
+        name: 'configuration',
+        internalType: 'struct DataTypes.ReserveConfigurationMap',
+        type: 'tuple',
+        components: [
+          { name: 'data', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    name: 'setConfiguration',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'rateStrategyAddress', internalType: 'address', type: 'address' },
+    ],
+    name: 'setReserveInterestRateStrategyAddress',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'categoryId', internalType: 'uint8', type: 'uint8' }],
+    name: 'setUserEMode',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'setUserUseReserveAsCollateral',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'useAsCollateral', internalType: 'bool', type: 'bool' },
+    ],
+    name: 'setUserUseReserveAsCollateral',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'supply',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'supply',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'onBehalfOf', internalType: 'address', type: 'address' },
+      { name: 'referralCode', internalType: 'uint16', type: 'uint16' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'permitV', internalType: 'uint8', type: 'uint8' },
+      { name: 'permitR', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'permitS', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'supplyWithPermit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'args', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'supplyWithPermit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'swapBorrowRateMode',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'interestRateMode', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapBorrowRateMode',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'protocolFee', internalType: 'uint256', type: 'uint256' }],
+    name: 'updateBridgeProtocolFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'flashLoanPremiumTotal',
+        internalType: 'uint128',
+        type: 'uint128',
+      },
+      {
+        name: 'flashLoanPremiumToProtocol',
+        internalType: 'uint128',
+        type: 'uint128',
+      },
+    ],
+    name: 'updateFlashloanPremiums',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'args', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'withdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+export const lendingPoolAddress =
+  '0x8F44Fd754285aa6A2b8B9B97739B79746e0475a7' as const
+
+export const lendingPoolConfig = {
+  address: lendingPoolAddress,
+  abi: lendingPoolAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LoopStrategy
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1232,6 +3339,983 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'FallbackOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__
+ */
+export const useReadIncentiveDataProvider = /*#__PURE__*/ createUseReadContract(
+  { abi: incentiveDataProviderAbi, address: incentiveDataProviderAddress },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getFullReservesIncentiveData"`
+ */
+export const useReadIncentiveDataProviderGetFullReservesIncentiveData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getFullReservesIncentiveData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getReservesIncentivesData"`
+ */
+export const useReadIncentiveDataProviderGetReservesIncentivesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getReservesIncentivesData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getUserReservesIncentivesData"`
+ */
+export const useReadIncentiveDataProviderGetUserReservesIncentivesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: incentiveDataProviderAbi,
+    address: incentiveDataProviderAddress,
+    functionName: 'getUserReservesIncentivesData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__
+ */
+export const useReadLendingPool = /*#__PURE__*/ createUseReadContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
+ */
+export const useReadLendingPoolAddressesProvider =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'ADDRESSES_PROVIDER',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"BRIDGE_PROTOCOL_FEE"`
+ */
+export const useReadLendingPoolBridgeProtocolFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'BRIDGE_PROTOCOL_FEE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"FLASHLOAN_PREMIUM_TOTAL"`
+ */
+export const useReadLendingPoolFlashloanPremiumTotal =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'FLASHLOAN_PREMIUM_TOTAL',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"FLASHLOAN_PREMIUM_TO_PROTOCOL"`
+ */
+export const useReadLendingPoolFlashloanPremiumToProtocol =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'FLASHLOAN_PREMIUM_TO_PROTOCOL',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"MAX_NUMBER_RESERVES"`
+ */
+export const useReadLendingPoolMaxNumberReserves =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'MAX_NUMBER_RESERVES',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"MAX_STABLE_RATE_BORROW_SIZE_PERCENT"`
+ */
+export const useReadLendingPoolMaxStableRateBorrowSizePercent =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'MAX_STABLE_RATE_BORROW_SIZE_PERCENT',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"POOL_REVISION"`
+ */
+export const useReadLendingPoolPoolRevision =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'POOL_REVISION',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getConfiguration"`
+ */
+export const useReadLendingPoolGetConfiguration =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getConfiguration',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getEModeCategoryData"`
+ */
+export const useReadLendingPoolGetEModeCategoryData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getEModeCategoryData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveAddressById"`
+ */
+export const useReadLendingPoolGetReserveAddressById =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getReserveAddressById',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveData"`
+ */
+export const useReadLendingPoolGetReserveData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getReserveData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveNormalizedIncome"`
+ */
+export const useReadLendingPoolGetReserveNormalizedIncome =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getReserveNormalizedIncome',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveNormalizedVariableDebt"`
+ */
+export const useReadLendingPoolGetReserveNormalizedVariableDebt =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getReserveNormalizedVariableDebt',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReservesList"`
+ */
+export const useReadLendingPoolGetReservesList =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getReservesList',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserAccountData"`
+ */
+export const useReadLendingPoolGetUserAccountData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getUserAccountData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserConfiguration"`
+ */
+export const useReadLendingPoolGetUserConfiguration =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getUserConfiguration',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserEMode"`
+ */
+export const useReadLendingPoolGetUserEMode =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'getUserEMode',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__
+ */
+export const useWriteLendingPool = /*#__PURE__*/ createUseWriteContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"backUnbacked"`
+ */
+export const useWriteLendingPoolBackUnbacked =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'backUnbacked',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"borrow"`
+ */
+export const useWriteLendingPoolBorrow = /*#__PURE__*/ createUseWriteContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+  functionName: 'borrow',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"configureEModeCategory"`
+ */
+export const useWriteLendingPoolConfigureEModeCategory =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'configureEModeCategory',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteLendingPoolDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"dropReserve"`
+ */
+export const useWriteLendingPoolDropReserve =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'dropReserve',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"finalizeTransfer"`
+ */
+export const useWriteLendingPoolFinalizeTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'finalizeTransfer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoan"`
+ */
+export const useWriteLendingPoolFlashLoan =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'flashLoan',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoanSimple"`
+ */
+export const useWriteLendingPoolFlashLoanSimple =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'flashLoanSimple',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initReserve"`
+ */
+export const useWriteLendingPoolInitReserve =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'initReserve',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteLendingPoolInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"liquidationCall"`
+ */
+export const useWriteLendingPoolLiquidationCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'liquidationCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintToTreasury"`
+ */
+export const useWriteLendingPoolMintToTreasury =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'mintToTreasury',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintUnbacked"`
+ */
+export const useWriteLendingPoolMintUnbacked =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'mintUnbacked',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rebalanceStableBorrowRate"`
+ */
+export const useWriteLendingPoolRebalanceStableBorrowRate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'rebalanceStableBorrowRate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repay"`
+ */
+export const useWriteLendingPoolRepay = /*#__PURE__*/ createUseWriteContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+  functionName: 'repay',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithATokens"`
+ */
+export const useWriteLendingPoolRepayWithATokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'repayWithATokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithPermit"`
+ */
+export const useWriteLendingPoolRepayWithPermit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'repayWithPermit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rescueTokens"`
+ */
+export const useWriteLendingPoolRescueTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'rescueTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"resetIsolationModeTotalDebt"`
+ */
+export const useWriteLendingPoolResetIsolationModeTotalDebt =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'resetIsolationModeTotalDebt',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setConfiguration"`
+ */
+export const useWriteLendingPoolSetConfiguration =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setConfiguration',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setReserveInterestRateStrategyAddress"`
+ */
+export const useWriteLendingPoolSetReserveInterestRateStrategyAddress =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setReserveInterestRateStrategyAddress',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserEMode"`
+ */
+export const useWriteLendingPoolSetUserEMode =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setUserEMode',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserUseReserveAsCollateral"`
+ */
+export const useWriteLendingPoolSetUserUseReserveAsCollateral =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setUserUseReserveAsCollateral',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supply"`
+ */
+export const useWriteLendingPoolSupply = /*#__PURE__*/ createUseWriteContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+  functionName: 'supply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supplyWithPermit"`
+ */
+export const useWriteLendingPoolSupplyWithPermit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'supplyWithPermit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"swapBorrowRateMode"`
+ */
+export const useWriteLendingPoolSwapBorrowRateMode =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'swapBorrowRateMode',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateBridgeProtocolFee"`
+ */
+export const useWriteLendingPoolUpdateBridgeProtocolFee =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'updateBridgeProtocolFee',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateFlashloanPremiums"`
+ */
+export const useWriteLendingPoolUpdateFlashloanPremiums =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'updateFlashloanPremiums',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteLendingPoolWithdraw = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'withdraw',
+  },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__
+ */
+export const useSimulateLendingPool = /*#__PURE__*/ createUseSimulateContract({
+  abi: lendingPoolAbi,
+  address: lendingPoolAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"backUnbacked"`
+ */
+export const useSimulateLendingPoolBackUnbacked =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'backUnbacked',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"borrow"`
+ */
+export const useSimulateLendingPoolBorrow =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'borrow',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"configureEModeCategory"`
+ */
+export const useSimulateLendingPoolConfigureEModeCategory =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'configureEModeCategory',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateLendingPoolDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"dropReserve"`
+ */
+export const useSimulateLendingPoolDropReserve =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'dropReserve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"finalizeTransfer"`
+ */
+export const useSimulateLendingPoolFinalizeTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'finalizeTransfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoan"`
+ */
+export const useSimulateLendingPoolFlashLoan =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'flashLoan',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoanSimple"`
+ */
+export const useSimulateLendingPoolFlashLoanSimple =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'flashLoanSimple',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initReserve"`
+ */
+export const useSimulateLendingPoolInitReserve =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'initReserve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateLendingPoolInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"liquidationCall"`
+ */
+export const useSimulateLendingPoolLiquidationCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'liquidationCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintToTreasury"`
+ */
+export const useSimulateLendingPoolMintToTreasury =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'mintToTreasury',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintUnbacked"`
+ */
+export const useSimulateLendingPoolMintUnbacked =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'mintUnbacked',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rebalanceStableBorrowRate"`
+ */
+export const useSimulateLendingPoolRebalanceStableBorrowRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'rebalanceStableBorrowRate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repay"`
+ */
+export const useSimulateLendingPoolRepay =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'repay',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithATokens"`
+ */
+export const useSimulateLendingPoolRepayWithATokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'repayWithATokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithPermit"`
+ */
+export const useSimulateLendingPoolRepayWithPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'repayWithPermit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rescueTokens"`
+ */
+export const useSimulateLendingPoolRescueTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'rescueTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"resetIsolationModeTotalDebt"`
+ */
+export const useSimulateLendingPoolResetIsolationModeTotalDebt =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'resetIsolationModeTotalDebt',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setConfiguration"`
+ */
+export const useSimulateLendingPoolSetConfiguration =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setConfiguration',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setReserveInterestRateStrategyAddress"`
+ */
+export const useSimulateLendingPoolSetReserveInterestRateStrategyAddress =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setReserveInterestRateStrategyAddress',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserEMode"`
+ */
+export const useSimulateLendingPoolSetUserEMode =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setUserEMode',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserUseReserveAsCollateral"`
+ */
+export const useSimulateLendingPoolSetUserUseReserveAsCollateral =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'setUserUseReserveAsCollateral',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supply"`
+ */
+export const useSimulateLendingPoolSupply =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'supply',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supplyWithPermit"`
+ */
+export const useSimulateLendingPoolSupplyWithPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'supplyWithPermit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"swapBorrowRateMode"`
+ */
+export const useSimulateLendingPoolSwapBorrowRateMode =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'swapBorrowRateMode',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateBridgeProtocolFee"`
+ */
+export const useSimulateLendingPoolUpdateBridgeProtocolFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'updateBridgeProtocolFee',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateFlashloanPremiums"`
+ */
+export const useSimulateLendingPoolUpdateFlashloanPremiums =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'updateFlashloanPremiums',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateLendingPoolWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__
+ */
+export const useWatchLendingPoolEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"BackUnbacked"`
+ */
+export const useWatchLendingPoolBackUnbackedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'BackUnbacked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Borrow"`
+ */
+export const useWatchLendingPoolBorrowEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'Borrow',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"FlashLoan"`
+ */
+export const useWatchLendingPoolFlashLoanEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'FlashLoan',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"IsolationModeTotalDebtUpdated"`
+ */
+export const useWatchLendingPoolIsolationModeTotalDebtUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'IsolationModeTotalDebtUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"LiquidationCall"`
+ */
+export const useWatchLendingPoolLiquidationCallEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'LiquidationCall',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"MintUnbacked"`
+ */
+export const useWatchLendingPoolMintUnbackedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'MintUnbacked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"MintedToTreasury"`
+ */
+export const useWatchLendingPoolMintedToTreasuryEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'MintedToTreasury',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"RebalanceStableBorrowRate"`
+ */
+export const useWatchLendingPoolRebalanceStableBorrowRateEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'RebalanceStableBorrowRate',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Repay"`
+ */
+export const useWatchLendingPoolRepayEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'Repay',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveDataUpdated"`
+ */
+export const useWatchLendingPoolReserveDataUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'ReserveDataUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveUsedAsCollateralDisabled"`
+ */
+export const useWatchLendingPoolReserveUsedAsCollateralDisabledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'ReserveUsedAsCollateralDisabled',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveUsedAsCollateralEnabled"`
+ */
+export const useWatchLendingPoolReserveUsedAsCollateralEnabledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'ReserveUsedAsCollateralEnabled',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Supply"`
+ */
+export const useWatchLendingPoolSupplyEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'Supply',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"SwapBorrowRateMode"`
+ */
+export const useWatchLendingPoolSwapBorrowRateModeEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'SwapBorrowRateMode',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"UserEModeSet"`
+ */
+export const useWatchLendingPoolUserEModeSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'UserEModeSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Withdraw"`
+ */
+export const useWatchLendingPoolWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lendingPoolAbi,
+    address: lendingPoolAddress,
+    eventName: 'Withdraw',
   })
 
 /**

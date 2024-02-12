@@ -1,10 +1,11 @@
-import { FlexCol, FlexRow, DisplayMoney, Typography } from "../../../../shared";
-import { useFetchIlmHeaderInfo } from "../../../state/ILM/hooks/useFetchIlmPageHeader";
+import { FlexCol, FlexRow, Typography } from "../../../../shared";
+import { useFetchIlmPageHeader } from "../../../state/ILM/hooks/useFetchIlmPageHeader";
+import { HeadingColumn } from "./HeadingColumn";
 
 export const Heading = () => {
-  const { isFetched, data } = useFetchIlmHeaderInfo();
+  const { isFetched, data } = useFetchIlmPageHeader();
   return (
-    <FlexCol className="gap-4 text-text-primary">
+    <FlexCol className="gap-5 text-text-primary">
       <FlexCol>
         <Typography type="h1">Integrated Liquidity Market</Typography>
         <Typography type="description" color="light">
@@ -12,17 +13,21 @@ export const Heading = () => {
         </Typography>
       </FlexCol>
       <FlexRow className="gap-8">
-        <FlexCol className="min-h-14">
-          <Typography type="description" color="light">
-            Total market size
-          </Typography>
-          <DisplayMoney
-            typography="main21"
-            {...data.totalMarketSize}
-            symbolColor="light"
-            isFetched={isFetched}
-          />
-        </FlexCol>
+        <HeadingColumn
+          title="Total market size"
+          {...data?.totalMarketSizeUsd}
+          isFetched={isFetched}
+        />
+        <HeadingColumn
+          title="Total available"
+          {...data?.totalAvailableUsd}
+          isFetched={isFetched}
+        />
+        <HeadingColumn
+          title="Total borrows"
+          {...data?.totalBorrowsUsd}
+          isFetched={isFetched}
+        />
       </FlexRow>
     </FlexCol>
   );
