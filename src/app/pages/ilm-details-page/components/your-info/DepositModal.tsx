@@ -78,7 +78,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
       showNotification({
         txHash,
-        content: `You Supplied ${data.amount} ${ilmStrategies[id].symbol}`,
+        content: `You Supplied ${data.amount} ${ilmStrategies[id].underlyingAsset.symbol}`,
       });
     }
   };
