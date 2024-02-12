@@ -31,25 +31,25 @@ export const useFetchViewUserInfo = (
       underlyingAssetBalance: {
         tokenAmount: {
           value: formatToDisplayable(userBalance),
-          symbol: strategyConfig.underlyingAsset.symbol,
           originalValue: userBalance,
+          symbol: strategyConfig.underlyingAsset.symbol,
         },
         dollarAmount: {
           value: formatToDisplayable(userBalanceUSD),
-          symbol: "$",
           originalValue: userBalanceUSD,
+          symbol: "$",
         },
       },
       strategyBalance: {
         tokenAmount: {
           value: formatToDisplayable(userEquity),
-          symbol: strategyConfig.symbol,
           originalValue: userEquity,
+          symbol: strategyConfig.symbol,
         },
         dollarAmount: {
           value: formatToDisplayable(userEquityUSD),
-          symbol: "$",
           originalValue: userEquityUSD,
+          symbol: "$",
         },
       },
     },

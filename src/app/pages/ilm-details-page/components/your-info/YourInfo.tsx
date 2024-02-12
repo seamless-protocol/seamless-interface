@@ -56,7 +56,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={
               !Number(
-                viewUserInfo?.data?.underlyingAssetBalance.dollarAmount
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
                   .originalValue
               )
             }
