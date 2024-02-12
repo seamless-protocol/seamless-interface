@@ -1,15 +1,10 @@
 import { Address } from "viem";
 //TODO: Change this to strategy logo once it's known
-import ilmwstETHLogo from "@assets/ilmwstETH.svg";
-import EthLogo from "@assets/eth.svg";
-import WstEthLogo from "@assets/wsteth.svg";
+import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
+import EthLogo from "@assets/tokens/eth.svg";
+import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
 import { WSTETH_ADDRESS, WETH_ADDRESS } from "@meta";
-import ilmcbETHLogo from "../../../../assets/tokens/ilmcbETH.svg";
-import ilmwstETHLogo from "../../../../assets/tokens/ilmwstETH.svg";
-import EthLogo from "../../../../assets/tokens/eth.svg";
-import CBETHImage from "../../../../assets/tokens/cbeth.svg";
-import WstEthLogo from "../../../../assets/tokens/wsteth.svg";
 
 interface AssetConfig {
   name: string;

@@ -55,7 +55,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
     500
   );
 
-  const { data: previewWithdrawData } = useFetchViewPreviewWithdraw(
+  const { data: previewWithdrawData, isLoading } = useFetchViewPreviewWithdraw(
     id,
     debouncedAmount
   );
@@ -109,6 +109,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 <DisplayTokenAmount
                   {...previewWithdrawData?.assetsToReceive.tokenAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
               <FlexRow className="justify-between">
@@ -116,6 +117,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 <DisplayMoney
                   {...previewWithdrawData?.assetsToReceive.dollarAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
               <FlexRow className="justify-between">
@@ -123,6 +125,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 <DisplayMoney
                   {...previewWithdrawData?.cost.dollarAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
             </FlexCol>

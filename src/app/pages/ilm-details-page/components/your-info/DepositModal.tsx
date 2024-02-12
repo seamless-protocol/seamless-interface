@@ -125,6 +125,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 <DisplayMoney
                   {...previewDepositData?.sharesToReceive.dollarAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
               <FlexRow className="justify-between">
@@ -132,6 +133,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 <DisplayMoney
                   {...previewDepositData?.cost.dollarAmount}
                   typography="description"
+                  isLoading={isLoading}
                 />
               </FlexRow>
             </FlexCol>

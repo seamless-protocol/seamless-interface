@@ -10,8 +10,6 @@ import {
 import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
-import ilmDiagram from "../../../../assets/diagrams/ilm-diagram.png";
-
 export const StrategyStatusAndConfiguration: React.FC<{
   id: number;
 }> = ({ id }) => {
