@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg xmlns="http://www.w3.org/2000/svg"
-aria-label="Ethereum" role="img"
-viewBox="0 0 512 512"><rect
-width="512" height="512"
-rx="15%"
-fill="#ffffff"/><path
-fill="#3C3C3B" d="m256 362v107l131-185z"/><path
-fill="#343434" d="m256 41l131 218-131 78-132-78"/><path
-fill="#8C8C8C" d="m256 41v158l-132 60m0 25l132 78v107"/><path
-fill="#141414" d="m256 199v138l131-78"/><path
-fill="#393939" d="m124 259l132-60v138"/></svg>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M128 256c70.692 0 128-57.308 128-128C256 57.308 198.692 0 128 0 57.308 0 0 57.307 0 128c0 70.692 57.307 128 128 128Z" fill="#fff"/><path d="M131.482 188.289v58.964l72.876-102.69-72.876 43.726Zm70.227-62.942-70.227-116.6v84.8l70.227 31.8Z" fill="#3B3735"/><path d="M131.482 100.153v72.214l69.564-40.414-69.564-31.8Z" fill="#1F1D19"/><path d="m54.626 125.347 70.226-116.6v84.8l-70.226 31.8Z" fill="#959190"/><path d="M124.846 100.153v72.214l-69.564-40.414 69.564-31.8Z" fill="#403C3A"/><path d="M124.851 188.289v58.964l-72.876-102.69 72.876 43.726Z" fill="#959190"/></svg>
