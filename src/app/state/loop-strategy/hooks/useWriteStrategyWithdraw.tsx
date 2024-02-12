@@ -16,7 +16,7 @@ export const useWriteStrategyWithdraw = (id: number) => {
       receiver: Address,
       minToReceive: bigint
     ) => {
-      writeContractAsync({
+      return await writeContractAsync({
         address: strategyConfig.address,
         abi: loopStrategyAbi,
         functionName: "redeem",

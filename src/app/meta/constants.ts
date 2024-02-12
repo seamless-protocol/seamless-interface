@@ -1,6 +1,6 @@
 import { Address } from "viem";
-import seamLogo from "../../assets/seam.svg";
-import ogPointsLogo from "../../assets/og-points.svg";
+import seamLogo from "@assets/tokens/seam.svg";
+import ogPointsLogo from "@assets/tokens/og-points.svg";
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
 export const COMPOUNDING_PERIODS_APY = 52;

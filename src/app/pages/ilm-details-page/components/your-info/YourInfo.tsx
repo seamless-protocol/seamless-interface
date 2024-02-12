@@ -12,7 +12,7 @@ import { useFetchViewUserInfo } from "../../../../state/loop-strategy/hooks/useF
 import { DepositModal } from "./DepositModal";
 import { WithdrawModal } from "./WithdrawModal";
 
-import walletIcon from "../../../../../assets/wallet-icon.svg";
+import walletIcon from "../../../../../assets/common/wallet-icon.svg";
 
 interface YourInfoProps {
   id: number;
@@ -56,7 +56,8 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={
               !Number(
-                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.value
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
+                  .originalValue
               )
             }
           />
@@ -82,7 +83,9 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <WithdrawModal
             id={id}
             disabled={
-              !Number(viewUserInfo?.data?.strategyBalance.tokenAmount.value)
+              !Number(
+                viewUserInfo?.data?.strategyBalance.tokenAmount.originalValue
+              )
             }
           />
         </FlexRow>

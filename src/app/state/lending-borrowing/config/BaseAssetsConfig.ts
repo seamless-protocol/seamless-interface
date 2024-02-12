@@ -19,12 +19,12 @@ import {
   variableDebtSeamcbETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
 } from "../../../meta/constants";
-import ethLogo from "../../../../assets/eth.svg";
-import usdbcLogo from "../../../../assets/usdbc.svg";
-import cbethLogo from "../../../../assets/cbeth.svg";
-import usdcLogo from "../../../../assets/usdc.svg";
-import daiLogo from "../../../../assets/dai.svg";
-import wstethLogo from "../../../../assets/wsteth.svg";
+import ethLogo from "@assets/tokens/eth.svg";
+import usdbcLogo from "@assets/tokens/usdbc.svg";
+import cbethLogo from "@assets/tokens/cbeth.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
+import daiLogo from "@assets/tokens/dai.svg";
+import wstethLogo from "@assets/tokens/wsteth.svg";
 
 export interface BaseAssetConfig {
   name: string;

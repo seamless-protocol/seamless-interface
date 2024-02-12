@@ -1,4 +1,10 @@
 // ****** //
+// services //
+// ****** //
+export * from "./services/notification/NotificationContext";
+export * from "./services/notification/useNotificationContext";
+
+// ****** //
 // auth //
 // ****** //
 export * from "./components/auth/AuthGuard";
@@ -57,6 +63,11 @@ export * from "./components/images/Icon";
 // Modals //
 // ***** //
 export * from "./components/modal/Modal";
+
+// ************ //
+// notification //
+// ************ //
+export * from "./components/notification/DisplayNotification";
 
 // ***** //
 // Table //

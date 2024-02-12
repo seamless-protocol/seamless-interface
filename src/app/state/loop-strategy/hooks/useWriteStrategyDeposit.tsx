@@ -11,7 +11,7 @@ export const useWriteStrategyDeposit = (id: number) => {
     isPending,
     isSuccess,
     depositAsync: async (amount: bigint, address: Address, shares: bigint) => {
-      writeContractAsync({
+      return await writeContractAsync({
         address: strategyConfig.address,
         abi: loopStrategyAbi,
         functionName: "deposit",
