@@ -3,7 +3,7 @@ import { HeadingContainer } from "../../components/header/HeadingContainer";
 import { Heading } from "./components/Heading";
 import { PageContainer } from "../../../shared";
 
-import imageTest from "../../../assets/wsteth-diagram.svg";
+import imageTest from "@assets/wsteth-diagram.svg";
 
 export const IlmPage = () => {
   return (
