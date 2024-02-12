@@ -6,7 +6,7 @@ export interface ViewStrategy {
   depositAsset: {
     address?: Address;
     name?: string;
-    description?: string;
+    symbol?: string;
     logo?: string;
   };
   targetMultiple?: string;

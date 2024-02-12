@@ -131,7 +131,7 @@ export const useFetchViewStrategy = (
       strategyName: strategyConfig.name,
       depositAsset: {
         name: strategyConfig.underlyingAsset.name,
-        description: strategyConfig.underlyingAsset.symbol,
+        symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
       targetMultiple: formatToDisplayable(targetMultiple) + "x",
