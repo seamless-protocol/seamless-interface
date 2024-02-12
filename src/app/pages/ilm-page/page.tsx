@@ -1,7 +1,7 @@
 import { StrategiesTable } from "./components/StrategiesTable";
 import { HeadingContainer } from "../../components/header/HeadingContainer";
 import { Heading } from "./components/Heading";
-import { PageContainer, PageContainer } from "../../../shared";
+import { PageContainer } from "../../../shared";
 
 //alias
 import imageTest from "@assets/wsteth-diagram.svg";
