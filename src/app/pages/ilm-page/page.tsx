@@ -5,7 +5,7 @@ import { PageContainer } from "../../../shared";
 
 //alias
 import imageTest from "@assets/wsteth-diagram.svg";
-import imageTest2 from "@assets/diagram.svg";
+import imageTestPng from "@assets/wsteth-diagram.png";
 import cbeth from "@assets/cbeth.svg";
 
 export const IlmPage = () => {
@@ -16,8 +16,12 @@ export const IlmPage = () => {
       </HeadingContainer>
       alias
       <img src={cbeth} />
+      svg rep
+      {imageTest}
+      svg non
       <img src={imageTest} />
-      <img src={imageTest2} />
+      png
+      <img src={imageTestPng} />
       <StrategiesTable />
     </PageContainer>
   );
