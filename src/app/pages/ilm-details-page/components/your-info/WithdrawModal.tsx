@@ -84,7 +84,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <Modal
-        header="Withdraw cbETH"
+        header={`Withdraw ${strategyConfig.underlyingAsset.symbol}`}
         buttonText="Withdraw"
         onClose={reset}
         buttonProps={{ ...buttonProps }}

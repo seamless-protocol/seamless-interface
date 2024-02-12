@@ -92,7 +92,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <Modal
-        header="Deposit cbETH"
+        header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
         buttonText="Deposit"
         onClose={reset}
         buttonProps={{ ...buttonProps }}

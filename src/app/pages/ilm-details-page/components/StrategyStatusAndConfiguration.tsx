@@ -8,6 +8,7 @@ import {
   VerticalDivider,
 } from "../../../../shared";
 import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
 import ilmDiagram from "../../../../assets/diagrams/ilm-diagram.png";
 
@@ -73,13 +74,16 @@ export const StrategyStatusAndConfiguration: React.FC<{
           </Typography>
           <FlexCol>
             <Typography type="description">
-              This integrated Liquidity Market (ILM) uses cbETH deposits to
-              borrow ETH, which is used to purchase more cbETH to achieve the
-              targeted multiple.
+              This integrated Liquidity Market (ILM) uses{" "}
+              {ilmStrategies[id].underlyingAsset.symbol} deposits to borrow ETH,
+              which is used to purchase more{" "}
+              {ilmStrategies[id].underlyingAsset.symbol} to achieve the targeted
+              multiple.
             </Typography>
             <br />
             <Typography type="description">
-              This amplifies the participant's cbETH and ETH staking reward
+              This amplifies the participant's{" "}
+              {ilmStrategies[id].underlyingAsset.symbol} and ETH staking reward
               exposure.
             </Typography>
           </FlexCol>
@@ -87,7 +91,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
 
         <Divider />
 
-        <img src={ilmDiagram} />
+        <img src={ilmStrategies[id].diagram} />
       </FlexCol>
     </FlexCol>
   );

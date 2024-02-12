@@ -2,7 +2,6 @@ import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
-  cbEthAbi,
   loopStrategyAbi,
 } from "../../../generated/generated";
 import {
@@ -11,7 +10,7 @@ import {
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
-import { Address } from "viem";
+import { Address, erc20Abi } from "viem";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { useFetchStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
@@ -57,7 +56,7 @@ export function useFetchStrategyInfoForAccount(
       },
       {
         address: underlyingAssetAddress,
-        abi: cbEthAbi,
+        abi: erc20Abi,
         functionName: "balanceOf",
         args: [account.address as Address],
       },
@@ -132,7 +131,7 @@ export const useFetchViewStrategy = (
       strategyName: strategyConfig.name,
       depositAsset: {
         name: strategyConfig.underlyingAsset.name,
-        description: strategyConfig.underlyingAsset.symbol,
+        symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
       targetMultiple: formatToDisplayable(targetMultiple) + "x",

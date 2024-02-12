@@ -10,11 +10,6 @@ export default defineConfig({
   out: "src/app/generated/generated.ts",
   contracts: [
     {
-      name: "cbETH",
-      address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
-      abi: erc20Abi,
-    },
-    {
       name: "LoopStrategy",
       abi: LoopStrategyAbi,
     },
