@@ -4,6 +4,7 @@ import { Heading } from "./components/Heading";
 import { PageContainer } from "../../../shared";
 
 import imageTest from "@assets/wsteth-diagram.svg";
+import imageTest2 from "/public/wsteth-diagram.svg";
 
 export const IlmPage = () => {
   return (
@@ -12,6 +13,7 @@ export const IlmPage = () => {
         <Heading />
       </HeadingContainer>
       <img src={imageTest} />
+      <img src={imageTest2} />
       asd
       <StrategiesTable />
     </PageContainer>
