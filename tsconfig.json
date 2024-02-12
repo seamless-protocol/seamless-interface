@@ -6,8 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-
-    /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -15,11 +13,21 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
+    // * Linting * //
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets": ["src/assets/*"],
+      "@shared": ["src/shared/index"],
+      "@meta": ["src/app/meta/index"],
+      "@generated": ["src/app/generated/index"],
+      // "@state": ["src/app/state/*"],
+      // "@app-components": ["src/app/components/*"],
+      "@router": ["src/app/router/index"],
+    },
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],

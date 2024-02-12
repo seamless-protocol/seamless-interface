@@ -46,7 +46,7 @@ export const StrategiesMobileTableRow: React.FC<{
           />
           <DisplayText
             typography="subheader2"
-            text={strategy?.depositAsset.description}
+            text={strategy?.depositAsset.symbol}
             isFetched={isFetched}
           />
         </div>
