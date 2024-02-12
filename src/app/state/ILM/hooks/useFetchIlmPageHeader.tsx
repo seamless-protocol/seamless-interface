@@ -6,6 +6,8 @@ import {
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
+import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
+import { Displayable } from "../../../../shared/types/Displayable";
 
 function useFetchLendingPoolInfo() {
   const multicallParams = baseAssets.flatMap((asset) => [
@@ -71,7 +73,7 @@ function useFetchLendingPoolInfo() {
   };
 }
 
-export const useFetchIlmHeaderInfo = () => {
+export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
   const {
     isLoading,
     isFetched,
