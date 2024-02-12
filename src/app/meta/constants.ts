@@ -7,6 +7,8 @@ export const COMPOUNDING_PERIODS_APY = 52;
 
 export const WETH_ADDRESS: Address =
   "0x4200000000000000000000000000000000000006";
+export const CBETH_ADDRESS: Address =
+  "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
 export const WSTETH_ADDRESS: Address =
   "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
 export const USDBC_ADDRESS: Address =
