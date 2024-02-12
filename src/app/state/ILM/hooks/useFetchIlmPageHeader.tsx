@@ -1,17 +1,38 @@
-import { loopStrategyAbi } from "../../../generated/generated";
+import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
 import {
   formatToDisplayable,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { useReadContracts } from "wagmi";
+import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
+import { erc20Abi } from "viem";
+import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
+import { Displayable } from "../../../../shared/types/Displayable";
 
-function useFetchTotalMarketSize() {
-  const multicallParams = ilmStrategies.map((strategy) => ({
-    address: strategy.address,
-    abi: loopStrategyAbi,
-    functionName: "collateral",
-  }));
+function useFetchLendingPoolInfo() {
+  const multicallParams = baseAssets.flatMap((asset) => [
+    {
+      address: asset.sTokenAddress,
+      abi: erc20Abi,
+      functionName: "totalSupply",
+    },
+    {
+      address: asset.debtTokenAddress,
+      abi: erc20Abi,
+      functionName: "totalSupply",
+    },
+    {
+      address: aaveOracleAddress,
+      abi: aaveOracleAbi,
+      functionName: "getAssetPrice",
+      args: [asset.address],
+    },
+    {
+      address: asset.address,
+      abi: erc20Abi,
+      functionName: "decimals",
+    },
+  ]);
 
   const {
     data: results,
@@ -21,31 +42,58 @@ function useFetchTotalMarketSize() {
     contracts: multicallParams,
   });
 
-  let totalMarketSize = 0n;
+  let totalSuppliedUsd = 0n,
+    totalBorrowedUsd = 0n;
   if (results) {
-    for (const result of results) {
-      if (!result.error) {
-        totalMarketSize = totalMarketSize + ((result.result as bigint) || 0n);
-      }
+    for (let i = 0; i < results.length; i += 4) {
+      const totalSupplied = BigInt(results[i].result || 0);
+      const totalBorrowed = BigInt(results[i + 1].result || 0);
+      const assetPrice = BigInt(results[i + 2].result || 0);
+      const assetDecimals = Number(results[i + 3].result || 0);
+
+      totalSuppliedUsd +=
+        (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
+
+      totalBorrowedUsd +=
+        (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
     }
   }
 
   return {
     isLoading,
     isFetched,
-    collateralUSD: formatUnitsToNumber(totalMarketSize, 8),
+    totalMarketSizeUsd: formatUnitsToNumber(totalSuppliedUsd, 8),
+    totalAvailableUsd: formatUnitsToNumber(
+      totalSuppliedUsd - totalBorrowedUsd,
+      8
+    ),
+    totalBorrowsUsd: formatUnitsToNumber(totalBorrowedUsd, 8),
   };
 }
 
-export const useFetchIlmHeaderInfo = () => {
-  const { collateralUSD, isLoading, isFetched } = useFetchTotalMarketSize();
+export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
+  const {
+    isLoading,
+    isFetched,
+    totalMarketSizeUsd,
+    totalAvailableUsd,
+    totalBorrowsUsd,
+  } = useFetchLendingPoolInfo();
 
   return {
     isLoading,
     isFetched,
     data: {
-      totalMarketSize: {
-        value: formatToDisplayable(collateralUSD),
+      totalMarketSizeUsd: {
+        value: formatToDisplayable(totalMarketSizeUsd),
+        symbol: "$",
+      },
+      totalAvailableUsd: {
+        value: formatToDisplayable(totalAvailableUsd),
+        symbol: "$",
+      },
+      totalBorrowsUsd: {
+        value: formatToDisplayable(totalBorrowsUsd),
         symbol: "$",
       },
     },
