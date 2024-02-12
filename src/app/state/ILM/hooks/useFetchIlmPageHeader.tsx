@@ -51,13 +51,11 @@ function useFetchLendingPoolInfo() {
       const assetPrice = BigInt(results[i + 2].result || 0);
       const assetDecimals = Number(results[i + 3].result || 0);
 
-      totalSuppliedUsd += assetPrice
-        ? (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals)
-        : 0n;
+      totalSuppliedUsd +=
+        (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
 
-      totalBorrowedUsd += assetPrice
-        ? (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals)
-        : 0n;
+      totalBorrowedUsd +=
+        (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
     }
   }
 
