@@ -4,6 +4,7 @@ import { HeadingColumn } from "./HeadingColumn";
 
 export const Heading = () => {
   const { isFetched, data } = useFetchIlmPageHeader();
+
   return (
     <FlexCol className="gap-5 text-text-primary">
       <FlexCol>
@@ -15,17 +16,20 @@ export const Heading = () => {
       <FlexRow className="gap-8">
         <HeadingColumn
           title="Total market size"
-          {...data?.totalMarketSizeUsd}
+          value={data?.totalMarketSizeUsd.viewValue}
+          symbol={data?.totalMarketSizeUsd.symbol}
           isFetched={isFetched}
         />
         <HeadingColumn
           title="Total available"
-          {...data?.totalAvailableUsd}
+          value={data?.totalAvailableUsd.viewValue}
+          symbol={data?.totalAvailableUsd.symbol}
           isFetched={isFetched}
         />
         <HeadingColumn
           title="Total borrows"
-          {...data?.totalBorrowsUsd}
+          value={data?.totalBorrowsUsd.viewValue}
+          symbol={data?.totalBorrowsUsd.symbol}
           isFetched={isFetched}
         />
       </FlexRow>

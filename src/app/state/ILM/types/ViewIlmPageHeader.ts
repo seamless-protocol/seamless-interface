@@ -1,7 +1,7 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewNumber } from "../../../../shared";
 
 export interface ViewIlmPageHeader {
-  totalMarketSizeUsd: ValueSymbolPair;
-  totalAvailableUsd: ValueSymbolPair;
-  totalBorrowsUsd: ValueSymbolPair;
+  totalMarketSizeUsd: ViewNumber;
+  totalAvailableUsd: ViewNumber;
+  totalBorrowsUsd: ViewNumber;
 }

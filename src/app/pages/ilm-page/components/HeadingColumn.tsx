@@ -2,8 +2,8 @@ import { DisplayMoney, FlexCol, Typography } from "../../../../shared";
 
 interface HeadingColumnProps {
   title: string;
-  value?: string | undefined;
-  symbol?: string | undefined;
+  value: string | undefined;
+  symbol: string | undefined;
   isFetched: boolean | undefined;
 }
 

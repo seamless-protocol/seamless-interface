@@ -4,6 +4,19 @@ export interface Displayable<T> {
   isLoading?: boolean;
 }
 
+export interface ViewValueSymbolPair {
+  viewValue: string;
+  symbol: string;
+}
+
+export interface ViewNumber extends ViewValueSymbolPair {
+  value: number;
+}
+
+export interface ViewBigInt extends ViewValueSymbolPair {
+  bigIntValue: bigint;
+}
+
 export interface ValueSymbolPair {
   value?: string;
   symbol?: string;

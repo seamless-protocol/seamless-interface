@@ -1,6 +1,6 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
 import {
-  formatToDisplayable,
+  formatToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { useReadContracts } from "wagmi";
@@ -8,8 +8,15 @@ import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
 import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { Fetch, FetchNumber } from "src/shared/types/Fetch";
 
-function useFetchLendingPoolInfo() {
+interface LendingPoolInfo {
+  totalMarketSizeUsd: FetchNumber;
+  totalAvailableUsd: FetchNumber;
+  totalBorrowsUsd: FetchNumber;
+}
+
+function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   const multicallParams = baseAssets.flatMap((asset) => [
     {
       address: asset.sTokenAddress,
@@ -62,12 +69,18 @@ function useFetchLendingPoolInfo() {
   return {
     isLoading,
     isFetched,
-    totalMarketSizeUsd: formatUnitsToNumber(totalSuppliedUsd, 8),
-    totalAvailableUsd: formatUnitsToNumber(
-      totalSuppliedUsd - totalBorrowedUsd,
-      8
-    ),
-    totalBorrowsUsd: formatUnitsToNumber(totalBorrowedUsd, 8),
+    totalMarketSizeUsd: {
+      value: formatUnitsToNumber(totalSuppliedUsd, 8),
+      symbol: "$",
+    },
+    totalAvailableUsd: {
+      value: formatUnitsToNumber(totalSuppliedUsd - totalBorrowedUsd, 8),
+      symbol: "$",
+    },
+    totalBorrowsUsd: {
+      value: formatUnitsToNumber(totalBorrowedUsd, 8),
+      symbol: "$",
+    },
   };
 }
 
@@ -84,18 +97,9 @@ export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
     isLoading,
     isFetched,
     data: {
-      totalMarketSizeUsd: {
-        value: formatToDisplayable(totalMarketSizeUsd),
-        symbol: "$",
-      },
-      totalAvailableUsd: {
-        value: formatToDisplayable(totalAvailableUsd),
-        symbol: "$",
-      },
-      totalBorrowsUsd: {
-        value: formatToDisplayable(totalBorrowsUsd),
-        symbol: "$",
-      },
+      totalMarketSizeUsd: formatToViewNumber(totalMarketSizeUsd),
+      totalAvailableUsd: formatToViewNumber(totalAvailableUsd),
+      totalBorrowsUsd: formatToViewNumber(totalBorrowsUsd),
     },
   };
 };

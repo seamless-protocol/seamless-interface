@@ -1,5 +1,7 @@
 import { formatUnits } from "viem";
 import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
+import { ViewNumber } from "../types/Displayable";
+import { FetchNumber } from "../types/Fetch";
 
 export function formatUnitsToNumber(
   value: string | bigint | undefined,
@@ -40,6 +42,14 @@ export function formatToDisplayableOrPlaceholder(
   placeholder: string
 ) {
   return value && value > 0 ? formatToDisplayable(value) : placeholder;
+}
+
+export function formatToViewNumber({ value, symbol }: FetchNumber): ViewNumber {
+  return {
+    value: value,
+    viewValue: formatToDisplayable(value),
+    symbol,
+  };
 }
 
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
