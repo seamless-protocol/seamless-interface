@@ -82,6 +82,7 @@ export default {
           base: "#0455ff",
           lifi: "#F5B5FF",
           header: "#0C356A",
+          hover: "#234B80",
           footer: "#0C356A",
           disabled: "#EAEBEF",
         },

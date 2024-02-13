@@ -2,6 +2,10 @@ import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
 
 const baseUrl = "";
 const lendingAndBorrowingUrl = "https://app.seamlessprotocol.com";
+const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
+const governanceUrl = "https://app.seamlessprotocol.com/governance";
+const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
+const developersUrl = "https://github.com/seamless-protocol/interface";
 
 const baseScan = "https://basescan.org/tx";
 
@@ -9,6 +13,10 @@ export const RouterConfig = {
   Routes: {
     ilm: `${baseUrl}/`,
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
+    stakingFarms: `${stakingFarmsUrl}/`,
+    governance: `${governanceUrl}/`,
+    faq: `${faqUrl}`,
+    developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
