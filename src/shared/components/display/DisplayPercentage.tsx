@@ -6,6 +6,7 @@ export interface DisplayPercentageProps extends DisplayableAmount {
   typography?: TypographyType;
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after" | undefined;
+  className?: string;
 }
 /**
  * `DisplayPercentage` Component

@@ -11,13 +11,13 @@ export const DisplayDepositAsset: React.FC<{
   isFetched?: boolean;
 }> = ({ depositAsset, isFetched }) => {
   return (
-    <FlexRow className="gap-2 text-start">
+    <FlexRow className="w-full gap-2 text-start">
       <Icon
         src={depositAsset?.logo}
         alt={depositAsset?.name || "asset"}
         isFetched={isFetched}
       />
-      <FlexCol>
+      <FlexCol className="w-full truncate">
         <DisplayText
           typography="h4"
           text={depositAsset?.name}

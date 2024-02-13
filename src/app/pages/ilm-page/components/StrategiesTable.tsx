@@ -7,7 +7,6 @@ import { StrategiesMobileTableRow } from "./mobile/StrategiesMobileTableRow";
 
 const columnNames = {
   c_1_depositAsset: "Deposit Asset",
-  c_1_1_empty: "",
   c_2_strategyName: "Strategy name",
   c_3_targetMultiple: "Target Multiple",
   c_4_loopAPY: "Loop APY",

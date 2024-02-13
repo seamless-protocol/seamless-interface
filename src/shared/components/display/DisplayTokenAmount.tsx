@@ -7,6 +7,7 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
   symbolColor?: TypographyColor;
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after" | undefined;
+  className?: string;
 }
 /**
  * `DisplayTokenAmount` Component
