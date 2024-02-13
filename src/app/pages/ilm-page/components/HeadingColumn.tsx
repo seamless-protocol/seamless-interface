@@ -2,14 +2,14 @@ import { DisplayMoney, FlexCol, Typography } from "../../../../shared";
 
 interface HeadingColumnProps {
   title: string;
-  value: string | undefined;
+  viewValue: string | undefined;
   symbol: string | undefined;
-  isFetched: boolean | undefined;
+  isFetched: boolean;
 }
 
 export const HeadingColumn: React.FC<HeadingColumnProps> = ({
   title,
-  value,
+  viewValue,
   symbol,
   isFetched,
 }) => {
@@ -20,7 +20,7 @@ export const HeadingColumn: React.FC<HeadingColumnProps> = ({
       </Typography>
       <DisplayMoney
         typography="main21"
-        value={value}
+        viewValue={viewValue}
         symbol={symbol}
         symbolColor="light"
         isFetched={isFetched}

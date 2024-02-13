@@ -50,7 +50,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  */
 
 export const DisplayValue: React.FC<DisplayValueProps> = ({
-  value,
+  viewValue,
   symbol,
   isFetched,
   isLoading,
@@ -61,7 +61,10 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
 }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
-      const { width, height } = getTypographySkeletonSize(typography, value);
+      const { width, height } = getTypographySkeletonSize(
+        typography,
+        viewValue
+      );
 
       return (
         <span style={{ width, height }} className="skeleton mb-[1px]"></span>
@@ -83,10 +86,10 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
               color={symbolColor}
             >
               {symbol}
-            </Typography>{" "}
+            </Typography>
           </>
         )}
-        {value}
+        {viewValue}
 
         {symbolPosition === "after" && symbol && (
           <>
@@ -114,17 +117,17 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
  */
 const getTypographySkeletonSize = (
   typographyType: TypographyType,
-  value = ""
+  viewValue = ""
 ) => {
   const fontSize = fontSizes[typographyType] || "1rem";
   const height = `calc(${fontSize} * 1.5)`;
 
   const avgCharWidthInRem = 150 / 23 / 16;
 
-  let widthInRem = value.length * avgCharWidthInRem;
+  let widthInRem = viewValue.length * avgCharWidthInRem;
 
   const minWidthMultiplier = 10;
-  if (value.length < 10) {
+  if (viewValue.length < 10) {
     widthInRem = minWidthMultiplier * avgCharWidthInRem;
   }
   const width = `calc(${fontSize} * ${widthInRem})`;

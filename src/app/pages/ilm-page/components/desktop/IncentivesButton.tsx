@@ -16,7 +16,10 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
 }) => {
   return (
     <FlexRow className="items-center gap-1 border border-slate-200 p-1 rounded">
-      <DisplayPercentage {...totalApy} />
+      <DisplayPercentage
+        viewValue={totalApy?.value}
+        symbol={totalApy?.symbol}
+      />
       <FlexRow className="object-cover ">
         {rewardTokens?.map((rewardToken, index) => {
           return (

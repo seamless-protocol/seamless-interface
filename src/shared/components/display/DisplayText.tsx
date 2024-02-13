@@ -16,6 +16,6 @@ export const DisplayText: React.FC<DisplayTextProps> = ({
   ...props
 }) => {
   return (
-    <DisplayValue value={text} loaderSkeleton={loaderSkeleton} {...props} />
+    <DisplayValue viewValue={text} loaderSkeleton={loaderSkeleton} {...props} />
   );
 };

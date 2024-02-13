@@ -1,7 +1,7 @@
 import { formatUnits } from "viem";
 import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
-import { ViewNumber } from "../types/Displayable";
-import { FetchNumber } from "../types/Fetch";
+import { ViewBigInt, ViewNumber } from "../types/Displayable";
+import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
 export function formatUnitsToNumber(
   value: string | bigint | undefined,
@@ -41,12 +41,42 @@ export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
   placeholder: string
 ) {
-  return value && value > 0 ? formatToDisplayable(value) : placeholder;
+  return value && value != 0 ? formatToDisplayable(value) : placeholder;
 }
 
-export function formatToViewNumber({ value, symbol }: FetchNumber): ViewNumber {
+export function formatToViewBigInt({
+  bigIntValue,
+  decimals,
+  symbol = "",
+}: FetchBigInt): ViewBigInt {
+  const value = formatUnitsToNumber(bigIntValue, decimals);
   return {
-    value: value,
+    value,
+    viewValue: formatToDisplayable(value),
+    bigIntValue: bigIntValue,
+    symbol,
+  };
+}
+
+export function formatFetchNumberToViewNumber({
+  value,
+  symbol,
+}: FetchNumber): ViewNumber {
+  return {
+    value,
+    viewValue: formatToDisplayable(value),
+    symbol,
+  };
+}
+
+export function formatToViewNumber({
+  bigIntValue,
+  decimals,
+  symbol,
+}: FetchBigInt): ViewNumber {
+  const value = formatUnitsToNumber(bigIntValue, decimals);
+  return {
+    value,
     viewValue: formatToDisplayable(value),
     symbol,
   };

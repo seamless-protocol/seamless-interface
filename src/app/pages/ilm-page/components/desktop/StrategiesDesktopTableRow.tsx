@@ -15,12 +15,13 @@ import { RouterConfig } from "../../../../router";
 
 export const StrategiesDesktopTableRow: React.FC<{
   index: number;
-  strategy?: ViewStrategy;
-  isLoading?: boolean;
-  isFetched?: boolean;
+  strategy: ViewStrategy;
+  isLoading?: boolean | undefined;
+  isFetched?: boolean | undefined;
   hideBorder?: boolean;
 }> = ({ index, strategy, isFetched, hideBorder }) => {
   const navigate = useNavigate();
+  console.log(strategy);
 
   return (
     <TableRow
@@ -51,14 +52,14 @@ export const StrategiesDesktopTableRow: React.FC<{
       <TableCell>
         <DisplayText
           typography="main16"
-          text={strategy?.targetMultiple}
+          {...strategy?.targetMultiple}
           isFetched={isFetched}
         />
       </TableCell>
 
       <TableCell>
         <DisplayPercentage
-          {...strategy?.LoopAPY}
+          {...strategy?.loopApy}
           typography="main16"
           isFetched={isFetched}
         />

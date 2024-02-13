@@ -5,8 +5,8 @@ export interface FetchNumber {
 
 export interface FetchBigInt {
   bigIntValue: bigint;
-  symbol: string;
   decimals: number;
+  symbol: string;
 }
 
 export type Fetch<T> = T & {

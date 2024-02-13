@@ -1,19 +1,16 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
-import {
-  formatToViewNumber,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
 import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
-import { Fetch, FetchNumber } from "src/shared/types/Fetch";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { formatToViewBigInt } from "../../../../shared/utils/helpers";
 
 interface LendingPoolInfo {
-  totalMarketSizeUsd: FetchNumber;
-  totalAvailableUsd: FetchNumber;
-  totalBorrowsUsd: FetchNumber;
+  totalMarketSizeUsd: FetchBigInt;
+  totalAvailableUsd: FetchBigInt;
+  totalBorrowsUsd: FetchBigInt;
 }
 
 function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
@@ -70,15 +67,18 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     isLoading,
     isFetched,
     totalMarketSizeUsd: {
-      value: formatUnitsToNumber(totalSuppliedUsd, 8),
+      bigIntValue: totalSuppliedUsd,
+      decimals: 8,
       symbol: "$",
     },
     totalAvailableUsd: {
-      value: formatUnitsToNumber(totalSuppliedUsd - totalBorrowedUsd, 8),
+      bigIntValue: totalSuppliedUsd - totalBorrowedUsd,
+      decimals: 8,
       symbol: "$",
     },
     totalBorrowsUsd: {
-      value: formatUnitsToNumber(totalBorrowedUsd, 8),
+      bigIntValue: totalBorrowedUsd,
+      decimals: 8,
       symbol: "$",
     },
   };
@@ -97,9 +97,9 @@ export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
     isLoading,
     isFetched,
     data: {
-      totalMarketSizeUsd: formatToViewNumber(totalMarketSizeUsd),
-      totalAvailableUsd: formatToViewNumber(totalAvailableUsd),
-      totalBorrowsUsd: formatToViewNumber(totalBorrowsUsd),
+      totalMarketSizeUsd: formatToViewBigInt(totalMarketSizeUsd),
+      totalAvailableUsd: formatToViewBigInt(totalAvailableUsd),
+      totalBorrowsUsd: formatToViewBigInt(totalBorrowsUsd),
     },
   };
 };

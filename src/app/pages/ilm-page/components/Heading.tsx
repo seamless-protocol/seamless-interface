@@ -16,20 +16,17 @@ export const Heading = () => {
       <FlexRow className="gap-8">
         <HeadingColumn
           title="Total market size"
-          value={data?.totalMarketSizeUsd.viewValue}
-          symbol={data?.totalMarketSizeUsd.symbol}
+          {...data?.totalMarketSizeUsd}
           isFetched={isFetched}
         />
         <HeadingColumn
           title="Total available"
-          value={data?.totalAvailableUsd.viewValue}
-          symbol={data?.totalAvailableUsd.symbol}
+          {...data?.totalAvailableUsd}
           isFetched={isFetched}
         />
         <HeadingColumn
           title="Total borrows"
-          value={data?.totalBorrowsUsd.viewValue}
-          symbol={data?.totalBorrowsUsd.symbol}
+          {...data?.totalBorrowsUsd}
           isFetched={isFetched}
         />
       </FlexRow>

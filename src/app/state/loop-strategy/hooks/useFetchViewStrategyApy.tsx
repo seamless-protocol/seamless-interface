@@ -10,14 +10,17 @@ import {
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { useFetchShareValueInBlock } from "../../common/hooks/useFetchShareValue";
+import { Fetch, FetchNumber } from "src/shared/types/Fetch";
+import { ViewStrategyApy } from "../types/ViewStrategyApy";
+import { Displayable } from "src/shared/types/Displayable";
 
 export function calculateApy(
   endValue: bigint,
   startValue: bigint,
   timeWindow: bigint
-) {
+): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
-    return undefined;
+    return 0;
   }
 
   const endValueNumber = formatUnitsToNumber(endValue, 18);
@@ -34,7 +37,13 @@ export function calculateApy(
   );
 }
 
-export const useFetchStrategyApy = (strategyConfig: StrategyConfig) => {
+interface StrategyApy {
+  apy: FetchNumber;
+}
+
+export const useFetchStrategyApy = (
+  strategyConfig: StrategyConfig
+): Fetch<StrategyApy> => {
   const {
     data: latestBlockData,
     isLoading: isLatestBlockLoading,
@@ -72,25 +81,32 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig) => {
       isPrevBlockShareValueFetched &&
       isLatestBlockFetched &&
       isPrevBlockFetched,
-    apy: calculateApy(
-      shareValueInEthLatestBlock || 0n,
-      shareValueInEthPrevBlock || 0n,
-      (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
-    ),
+    apy: {
+      value: calculateApy(
+        shareValueInEthLatestBlock || 0n,
+        shareValueInEthPrevBlock || 0n,
+        (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
+      ),
+      symbol: "%",
+    },
   };
 };
 
-export const useFetchViewStrategyApy = (index: number) => {
+export const useFetchViewStrategyApy = (
+  index: number
+): Displayable<ViewStrategyApy> => {
   const { apy, isLoading, isFetched } = useFetchStrategyApy(
     ilmStrategies[index]
   );
+
+  console.log("apy", apy);
 
   return {
     isLoading,
     isFetched,
     data: {
       apy: {
-        value: formatToDisplayableOrPlaceholder(apy, "—"),
+        viewValue: formatToDisplayableOrPlaceholder(apy.value, "—"),
         symbol: apy ? "%" : "",
       },
     },

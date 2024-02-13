@@ -1,20 +1,21 @@
 export interface Displayable<T> {
-  data?: T;
-  isFetched?: boolean;
-  isLoading?: boolean;
+  data: T;
+  isFetched: boolean;
+  isLoading: boolean;
 }
 
 export interface ViewValueSymbolPair {
-  viewValue: string;
-  symbol: string;
+  viewValue?: string | undefined;
+  symbol?: string | undefined;
 }
 
 export interface ViewNumber extends ViewValueSymbolPair {
-  value: number;
+  value?: number | undefined;
 }
 
 export interface ViewBigInt extends ViewValueSymbolPair {
-  bigIntValue: bigint;
+  value?: number | undefined;
+  bigIntValue?: bigint | undefined;
 }
 
 export interface ValueSymbolPair {
@@ -23,7 +24,7 @@ export interface ValueSymbolPair {
   originalValue?: number;
 }
 
-export interface DisplayableAmount extends ValueSymbolPair {
+export interface DisplayableAmount extends ViewValueSymbolPair {
   isFetched?: boolean;
   isLoading?: boolean;
 }
