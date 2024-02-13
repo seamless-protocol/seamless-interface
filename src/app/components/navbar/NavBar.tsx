@@ -93,20 +93,22 @@ export function NavBar() {
     >
       {({ open }) => (
         <>
-          <div className=" px-2 sm:px-6 lg:px-8 flex flex-row items-center justify-between min-h-12">
-            <FlexRow className="items-center">
-              <FlexRow className="h-full flex items-center gap-2">
-                <Icon src={SeamlessLogo} alt="logo" className="h-6 w-6" />
-                <Typography
-                  className="text-base"
-                  type="description"
-                  color="primary"
-                >
-                  Seamless
-                </Typography>
-              </FlexRow>
+          <div className=" px-2 md:px-6 lg:px-8 flex flex-row items-center justify-between min-h-12">
+            <FlexRow className="items-center ">
+              <Link to={RouterConfig.Routes.ilm}>
+                <FlexRow className="h-full flex items-center gap-2">
+                  <Icon src={SeamlessLogo} alt="logo" className="h-6 w-6" />
+                  <Typography
+                    className="text-base"
+                    type="description"
+                    color="primary"
+                  >
+                    Seamless
+                  </Typography>
+                </FlexRow>
+              </Link>
 
-              <div className="absolute inset-r-0 right-0 flex items-center sm:hidden">
+              <div className="absolute inset-r-0 right-0 flex items-center md:hidden">
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -118,10 +120,10 @@ export function NavBar() {
                 </Disclosure.Button>
               </div>
 
-              <div className="hidden sm:ml-6 sm:block">
+              <div className="hidden md:ml-6 md:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
-                    <div className="group relative px-4 py-3.5">
+                    <div className="group relative px-4 py-3.5 flex items-center">
                       <span
                         className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
                       ></span>
@@ -141,12 +143,12 @@ export function NavBar() {
                 </div>
               </div>
             </FlexRow>
-            <div className="hidden sm:block items-right">
+            <div className="hidden md:block items-right">
               <ConnectWalletButton />
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden min-h-screen bg-slate-800">
+          <Disclosure.Panel className="md:hidden min-h-screen bg-slate-800">
             <div className="space-y-1 px-2 pb-3 pt-8  border-t border-slate-600">
               <Typography type="main12" color="light" className="px-4 mb-3">
                 Menu
