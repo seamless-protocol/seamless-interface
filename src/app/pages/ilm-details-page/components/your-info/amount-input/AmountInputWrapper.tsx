@@ -26,7 +26,7 @@ export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
 
   return (
     <AmountInput
-      walletBalance={walletBalance || 0n}
+      walletBalance={walletBalance}
       debouncedAmountInUsd={debouncedAmountInUsd}
       assetSymbol={assetSymbol}
       assetLogo={assetLogo}

@@ -5,18 +5,23 @@ import {
 } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER } from "../../../meta/constants";
-import {
-  formatToDisplayableOrPlaceholder,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+
+interface PreviewWithdraw {
+  assetsToReceive: FetchBigInt;
+  assetsToReceiveInUsd: FetchBigInt;
+  costInUnderlyingAsset: FetchBigInt;
+  costInUsd: FetchBigInt;
+}
 
 export const useFetchPreviewWithdraw = (
   strategyConfig: StrategyConfig,
   amount: string
-) => {
+): Fetch<PreviewWithdraw> => {
   const {
     data: assets,
     isLoading: isPreviewRedeemLoading,
@@ -57,11 +62,26 @@ export const useFetchPreviewWithdraw = (
       isPreviewRedeemLoading || isAssetPriceLoading || isShareValueLoading,
     isFetched:
       isPreviewRedeemFetched && isAssetPriceFetched && isShareValueFetched,
-    minReceivingAmount: assetsToReceive,
-    assetsToReceive: formatUnitsToNumber(assetsToReceive, 18),
-    assetsToReceiveInUsd: formatUnitsToNumber(assetsToReceiveInUsd, 8),
-    costInUnderlyingAsset: formatUnitsToNumber(costInUnderlyingAsset, 18),
-    costInUsd: formatUnitsToNumber(costInUsd, 8),
+    assetsToReceive: {
+      bigIntValue: assetsToReceive || 0n,
+      decimals: 18,
+      symbol: strategyConfig.underlyingAsset.symbol,
+    },
+    assetsToReceiveInUsd: {
+      bigIntValue: assetsToReceiveInUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    costInUnderlyingAsset: {
+      bigIntValue: costInUnderlyingAsset || 0n,
+      decimals: 18,
+      symbol: strategyConfig.underlyingAsset.symbol,
+    },
+    costInUsd: {
+      bigIntValue: costInUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
   };
 };
 
@@ -72,43 +92,23 @@ export const useFetchViewPreviewWithdraw = (
   const {
     isLoading,
     isFetched,
-    minReceivingAmount,
     assetsToReceive,
     assetsToReceiveInUsd,
     costInUnderlyingAsset,
     costInUsd,
   } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
 
-  const displayValues = assetsToReceive && assetsToReceive > 0;
-
   return {
     isLoading,
     isFetched,
     data: {
-      minReceivingAmount: minReceivingAmount || 0n,
       assetsToReceive: {
-        tokenAmount: {
-          value: formatToDisplayableOrPlaceholder(assetsToReceive, "-"),
-          symbol: displayValues
-            ? ilmStrategies[index].underlyingAsset.symbol
-            : "",
-        },
-        dollarAmount: {
-          value: formatToDisplayableOrPlaceholder(assetsToReceiveInUsd, "-"),
-          symbol: displayValues ? "$" : "",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(assetsToReceive),
+        dollarAmount: formatFetchBigIntToViewBigInt(assetsToReceiveInUsd),
       },
       cost: {
-        tokenAmount: {
-          value: formatToDisplayableOrPlaceholder(costInUnderlyingAsset, "-"),
-          symbol: displayValues
-            ? ilmStrategies[index].underlyingAsset.symbol
-            : "",
-        },
-        dollarAmount: {
-          value: formatToDisplayableOrPlaceholder(costInUsd, "-"),
-          symbol: displayValues ? "$" : "",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset),
+        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd),
       },
     },
   };

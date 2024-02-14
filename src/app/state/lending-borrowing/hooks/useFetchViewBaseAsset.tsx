@@ -14,7 +14,7 @@ import {
   convertAprToApy,
   formatFetchNumberToViewNumber,
   formatToDisplayableOrPlaceholder,
-  formatToViewBigInt,
+  formatFetchBigIntToViewBigInt,
   formatToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
@@ -300,11 +300,11 @@ export const useFetchViewBaseAsset = (
         logo: baseAssets[index].logo,
       },
       totalSupplied: {
-        tokenAmount: formatToViewBigInt(totalSupplied),
+        tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
         dollarAmount: formatToViewNumber(totalSuppliedUsd),
       },
       totalBorrowed: {
-        tokenAmount: formatToViewBigInt(totalBorrowed),
+        tokenAmount: formatFetchBigIntToViewBigInt(totalBorrowed),
         dollarAmount: formatToViewNumber(totalBorrowedUsd),
       },
       supplyApy: formatFetchNumberToViewNumber(supplyApy),

@@ -15,6 +15,7 @@ export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
   const { isFetched, data } = useFetchViewStrategyPageHeader(id);
+  console.log("data", data);
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
@@ -46,7 +47,7 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayValue
             typography="main21"
-            value={data?.targetMultiple}
+            {...data?.targetMultiple}
             isFetched={isFetched}
             loaderSkeleton
           />

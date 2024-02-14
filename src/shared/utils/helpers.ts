@@ -10,30 +10,24 @@ export function formatUnitsToNumber(
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
-export function stringToNumber(value: string | undefined) {
-  return parseFloat(value || "0");
-}
-
 const formatter = Intl.NumberFormat("en", {
   notation: "compact",
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
 
-export function formatOnTwoDecimals(
-  input: number | bigint | undefined
-): string {
-  return formatter.format(input || 0);
-}
+export function formatToDisplayable(value: number | undefined) {
+  value = value || 0;
 
-export function formatBigIntOnTwoDecimals(
-  input: bigint | undefined,
-  decimals: number
-): string {
-  return formatter.format(formatUnitsToNumber(input, decimals));
-}
+  if (value < 1 && value > 0) {
+    const formatter = Intl.NumberFormat("en", {
+      notation: "compact",
+      minimumFractionDigits: 6,
+      maximumFractionDigits: 6,
+    });
+    return formatter.format(value);
+  }
 
-export function formatToDisplayable(value: number) {
   return formatter.format(value);
 }
 
@@ -44,7 +38,7 @@ export function formatToDisplayableOrPlaceholder(
   return value && value != 0 ? formatToDisplayable(value) : placeholder;
 }
 
-export function formatToViewBigInt({
+export function formatFetchBigIntToViewBigInt({
   bigIntValue,
   decimals,
   symbol = "",

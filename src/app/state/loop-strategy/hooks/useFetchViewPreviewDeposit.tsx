@@ -6,17 +6,22 @@ import {
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import { ONE_ETHER } from "../../../meta/constants";
-import {
-  formatToDisplayableOrPlaceholder,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+
+interface PreviewDeposit {
+  sharesToReceive: FetchBigInt;
+  sharesToReceiveInUsd: FetchBigInt;
+  costInUnderlyingAsset: FetchBigInt;
+  costInUsd: FetchBigInt;
+}
 
 export const useFetchPreviewDeposit = (
   strategyConfig: StrategyConfig,
   amount: string
-) => {
+): Fetch<PreviewDeposit> => {
   const {
     data: shares,
     isLoading: isPreviewDepositLoading,
@@ -57,11 +62,26 @@ export const useFetchPreviewDeposit = (
       isPreviewDepositLoading || isShareValueLoading || isAssetPriceLoading,
     isFetched:
       isPreviewDepositFetched && isShareValueFetched && isAssetPriceFetched,
-    minReceivingShares: sharesToReceive,
-    sharesToReceive: formatUnitsToNumber(sharesToReceive, 18),
-    sharesToReceiveInUsd: formatUnitsToNumber(sharesToReceiveInUsd, 8),
-    costInUnderlyingAsset: formatUnitsToNumber(costInUnderlyingAsset, 18),
-    costInUsd: formatUnitsToNumber(costInUsd, 8),
+    sharesToReceive: {
+      bigIntValue: sharesToReceive || 0n,
+      decimals: 18,
+      symbol: strategyConfig.symbol,
+    },
+    sharesToReceiveInUsd: {
+      bigIntValue: sharesToReceiveInUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    costInUnderlyingAsset: {
+      bigIntValue: costInUnderlyingAsset || 0n,
+      decimals: 18,
+      symbol: strategyConfig.underlyingAsset.symbol,
+    },
+    costInUsd: {
+      bigIntValue: costInUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
   };
 };
 
@@ -72,39 +92,23 @@ export const useFetchViewPreviewDeposit = (
   const {
     isLoading,
     isFetched,
-    minReceivingShares,
     sharesToReceive,
     sharesToReceiveInUsd,
     costInUnderlyingAsset,
     costInUsd,
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
-  const displayValues = sharesToReceive && sharesToReceive > 0;
-
   return {
     isLoading: isLoading,
     isFetched: isFetched,
     data: {
-      minReceivingShares: minReceivingShares || 0n,
       sharesToReceive: {
-        tokenAmount: {
-          value: formatToDisplayableOrPlaceholder(sharesToReceive, "-"),
-          symbol: displayValues ? ilmStrategies[id].symbol : "",
-        },
-        dollarAmount: {
-          value: formatToDisplayableOrPlaceholder(sharesToReceiveInUsd, "-"),
-          symbol: displayValues ? "$" : "",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(sharesToReceive),
+        dollarAmount: formatFetchBigIntToViewBigInt(sharesToReceiveInUsd),
       },
       cost: {
-        tokenAmount: {
-          value: formatToDisplayableOrPlaceholder(costInUnderlyingAsset, "-"),
-          symbol: displayValues ? ilmStrategies[id].underlyingAsset.symbol : "",
-        },
-        dollarAmount: {
-          value: formatToDisplayableOrPlaceholder(costInUsd, "-"),
-          symbol: displayValues ? "$" : "",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset),
+        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd),
       },
     },
   };

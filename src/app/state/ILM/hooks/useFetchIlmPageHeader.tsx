@@ -5,7 +5,7 @@ import { erc20Abi } from "viem";
 import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
-import { formatToViewBigInt } from "../../../../shared/utils/helpers";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd: FetchBigInt;
@@ -97,9 +97,9 @@ export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
     isLoading,
     isFetched,
     data: {
-      totalMarketSizeUsd: formatToViewBigInt(totalMarketSizeUsd),
-      totalAvailableUsd: formatToViewBigInt(totalAvailableUsd),
-      totalBorrowsUsd: formatToViewBigInt(totalBorrowsUsd),
+      totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
+      totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
+      totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
     },
   };
 };

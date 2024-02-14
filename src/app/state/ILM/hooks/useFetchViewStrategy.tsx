@@ -6,11 +6,14 @@ import {
 } from "../../../generated/generated";
 import {
   convertRatioToMultiple,
-  formatToViewBigInt,
+  formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address, erc20Abi } from "viem";
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
+import {
+  StrategyConfig,
+  ilmStrategies,
+} from "../../loop-strategy/config/StrategyConfig";
 import { useFetchViewStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
@@ -25,10 +28,10 @@ interface StrategyInfoForAccount {
 }
 
 export function useFetchStrategyInfoForAccount(
-  strategyAddress: Address,
-  underlyingAssetAddress: Address,
+  strategyConfig: StrategyConfig,
   account: UseAccountReturnType
 ): Fetch<StrategyInfoForAccount> {
+  const { address: strategyAddress, underlyingAsset } = strategyConfig;
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
   const {
     data: results,
@@ -63,7 +66,7 @@ export function useFetchStrategyInfoForAccount(
         functionName: "equityUSD",
       },
       {
-        address: underlyingAssetAddress,
+        address: underlyingAsset.address,
         abi: erc20Abi,
         functionName: "balanceOf",
         args: [account.address as Address],
@@ -72,7 +75,7 @@ export function useFetchStrategyInfoForAccount(
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
-        args: [underlyingAssetAddress],
+        args: [underlyingAsset.address],
       },
     ],
   });
@@ -106,7 +109,7 @@ export function useFetchStrategyInfoForAccount(
     userEquity: {
       bigIntValue: userEquity || 0n,
       decimals: 18,
-      symbol: "",
+      symbol: strategyConfig.symbol,
     },
     userEquityUSD: {
       bigIntValue: userEquityUSD || 0n,
@@ -116,7 +119,7 @@ export function useFetchStrategyInfoForAccount(
     userBalance: {
       bigIntValue: userBalance || 0n,
       decimals: 18,
-      symbol: "",
+      symbol: underlyingAsset.symbol,
     },
     userBalanceUSD: {
       bigIntValue: userBalanceUSD || 0n,
@@ -140,11 +143,7 @@ export const useFetchViewStrategy = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(
-    strategyConfig.address,
-    strategyConfig.underlyingAsset.address,
-    account
-  );
+  } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   const {
     isLoading: isApyLoading,
@@ -162,15 +161,21 @@ export const useFetchViewStrategy = (
         symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
-      targetMultiple: formatToViewBigInt(targetMultiple),
+      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
       loopApy: data.apy,
       availableToDeposit: {
-        tokenAmount: formatToViewBigInt(userBalance),
-        dollarAmount: formatToViewBigInt(userBalanceUSD),
+        tokenAmount: formatFetchBigIntToViewBigInt({
+          ...userBalance,
+          symbol: "",
+        }),
+        dollarAmount: formatFetchBigIntToViewBigInt(userBalanceUSD),
       },
       yourPosition: {
-        tokenAmount: formatToViewBigInt(userEquity),
-        dollarAmount: formatToViewBigInt(userEquityUSD),
+        tokenAmount: formatFetchBigIntToViewBigInt({
+          ...userEquity,
+          symbol: "",
+        }),
+        dollarAmount: formatFetchBigIntToViewBigInt(userEquityUSD),
       },
     },
   };

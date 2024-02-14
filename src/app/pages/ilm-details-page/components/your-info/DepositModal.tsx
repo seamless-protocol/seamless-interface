@@ -73,7 +73,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
       const txHash = await depositAsync(
         parseUnits(data.amount, 18),
         account.address as Address,
-        previewDepositData.minReceivingShares
+        previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
       );
 
       showNotification({
