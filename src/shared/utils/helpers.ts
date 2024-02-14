@@ -19,7 +19,7 @@ const formatter = Intl.NumberFormat("en", {
 export function formatToDisplayable(value: number | undefined) {
   value = value || 0;
 
-  if (value < 1 && value > 0) {
+  if (value < 0.01 && value > 0) {
     const formatter = Intl.NumberFormat("en", {
       notation: "compact",
       minimumFractionDigits: 6,
