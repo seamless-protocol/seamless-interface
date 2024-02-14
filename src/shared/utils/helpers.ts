@@ -10,11 +10,15 @@ export function formatUnitsToNumber(
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
-const formatter = Intl.NumberFormat("en", {
-  notation: "compact",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
+function format(value: number, decimals: number) {
+  const formatter = Intl.NumberFormat("en", {
+    notation: "compact",
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
+  return formatter.format(value);
+}
 
 export function formatToDisplayable(
   value: number | undefined,
@@ -22,16 +26,8 @@ export function formatToDisplayable(
 ) {
   value = value || 0;
 
-  if (value > 0 && value < extraDigitsCap) {
-    const formatter = Intl.NumberFormat("en", {
-      notation: "compact",
-      minimumFractionDigits: 6,
-      maximumFractionDigits: 6,
-    });
-    return formatter.format(value);
-  }
-
-  return formatter.format(value);
+  const decimals = value > 0 && value < extraDigitsCap ? 6 : 2;
+  return format(value, decimals);
 }
 
 export function formatToDisplayableOrPlaceholder(
