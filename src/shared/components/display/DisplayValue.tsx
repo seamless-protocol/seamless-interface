@@ -8,6 +8,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   symbolColor?: TypographyColor;
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
+  className?: string;
 }
 /**
  * `DisplayValue` Component
@@ -58,6 +59,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   loaderSkeleton,
   typography = "secondary12",
   symbolPosition = "before",
+  className = "",
 }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
@@ -76,7 +78,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     return (
       <Typography
         type={typography}
-        className="whitespace-nowrap text-overflow-ellipsis"
+        className={`truncate hover:text-clip ${className}`}
       >
         {symbolPosition === "before" && symbol && (
           <>

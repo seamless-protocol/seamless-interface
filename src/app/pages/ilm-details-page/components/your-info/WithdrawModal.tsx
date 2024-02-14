@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
@@ -10,6 +10,7 @@ import {
   FlexCol,
   FlexRow,
   Modal,
+  ModalHandles,
   MyFormProvider,
   Typography,
   useNotificationContext,
@@ -33,6 +34,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
   const { showNotification } = useNotificationContext();
+  const modalRef = useRef<ModalHandles | null>(null);
 
   const { shareValueInUsd } = useFetchShareValue(strategyConfig);
   const {
@@ -68,6 +70,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         account.address as Address,
         previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
       );
+      modalRef.current?.close();
       showNotification({
         txHash,
         content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
@@ -84,6 +87,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <Modal
+        ref={modalRef}
         header={`Withdraw ${strategyConfig.underlyingAsset.symbol}`}
         buttonText="Withdraw"
         onClose={reset}

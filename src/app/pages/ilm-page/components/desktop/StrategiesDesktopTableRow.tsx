@@ -30,12 +30,9 @@ export const StrategiesDesktopTableRow: React.FC<{
       }}
       hideBorder={hideBorder}
       key={index}
-      className="hidden md:grid grid-cols-8"
+      className="hidden md:grid grid-cols-7"
     >
-      <TableCell
-        className="overflow-hidden col-span-2"
-        alignItems="items-start"
-      >
+      <TableCell alignItems="items-start">
         <DisplayDepositAsset
           depositAsset={strategy?.depositAsset}
           isFetched={isFetched}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
@@ -10,6 +10,7 @@ import {
   FlexCol,
   FlexRow,
   Modal,
+  ModalHandles,
   MyFormProvider,
   Typography,
   useNotificationContext,
@@ -34,6 +35,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
   const { showNotification } = useNotificationContext();
+  const modalRef = useRef<ModalHandles | null>(null);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
@@ -75,6 +77,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
         account.address as Address,
         previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
       );
+      modalRef.current?.close();
 
       showNotification({
         txHash,
@@ -92,6 +95,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <Modal
+        ref={modalRef}
         header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
         buttonText="Deposit"
         onClose={reset}
