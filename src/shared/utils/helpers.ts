@@ -16,10 +16,13 @@ const formatter = Intl.NumberFormat("en", {
   maximumFractionDigits: 2,
 });
 
-export function formatToDisplayable(value: number | undefined) {
+export function formatToDisplayable(
+  value: number | undefined,
+  extraDigitsCap = 1
+) {
   value = value || 0;
 
-  if (value < 0.01 && value > 0) {
+  if (value > 0 && value < extraDigitsCap) {
     const formatter = Intl.NumberFormat("en", {
       notation: "compact",
       minimumFractionDigits: 6,
@@ -33,32 +36,34 @@ export function formatToDisplayable(value: number | undefined) {
 
 export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
-  placeholder: string
+  placeholder: string,
+  extraDigitsCap = 1
 ) {
-  return value && value != 0 ? formatToDisplayable(value) : placeholder;
+  return value && value != 0
+    ? formatToDisplayable(value, extraDigitsCap)
+    : placeholder;
 }
 
-export function formatFetchBigIntToViewBigInt({
-  bigIntValue,
-  decimals,
-  symbol = "",
-}: FetchBigInt): ViewBigInt {
+export function formatFetchBigIntToViewBigInt(
+  { bigIntValue, decimals, symbol = "" }: FetchBigInt,
+  extraDigitsCap = 1
+): ViewBigInt {
   const value = formatUnitsToNumber(bigIntValue, decimals);
   return {
     value,
-    viewValue: formatToDisplayable(value),
+    viewValue: formatToDisplayable(value, extraDigitsCap),
     bigIntValue: bigIntValue,
     symbol,
   };
 }
 
-export function formatFetchNumberToViewNumber({
-  value,
-  symbol,
-}: FetchNumber): ViewNumber {
+export function formatFetchNumberToViewNumber(
+  { value, symbol }: FetchNumber,
+  extraDigitsCap = 1
+): ViewNumber {
   return {
     value,
-    viewValue: formatToDisplayable(value),
+    viewValue: formatToDisplayable(value, extraDigitsCap),
     symbol,
   };
 }

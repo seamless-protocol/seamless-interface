@@ -306,13 +306,14 @@ export const useFetchViewBaseAsset = (
         tokenAmount: formatFetchBigIntToViewBigInt(totalBorrowed),
         dollarAmount: formatFetchBigIntToViewBigInt(totalBorrowedUsd),
       },
-      supplyApy: formatFetchNumberToViewNumber(supplyApy),
-      borrowApyVariable: formatFetchNumberToViewNumber(borrowApy),
+      supplyApy: formatFetchNumberToViewNumber(supplyApy, 0),
+      borrowApyVariable: formatFetchNumberToViewNumber(borrowApy, 0),
       supplyIncentives: {
         totalApy: {
           value: formatToDisplayableOrPlaceholder(
             supplyIncentives?.totalApy,
-            ""
+            "",
+            0
           ),
           symbol: supplyIncentives && supplyIncentives?.totalApy > 0 ? "%" : "",
         },
@@ -322,7 +323,8 @@ export const useFetchViewBaseAsset = (
         totalApy: {
           value: formatToDisplayableOrPlaceholder(
             borrowIncentives?.totalApy,
-            ""
+            "",
+            0
           ),
           symbol: borrowIncentives && borrowIncentives?.totalApy > 0 ? "%" : "",
         },
