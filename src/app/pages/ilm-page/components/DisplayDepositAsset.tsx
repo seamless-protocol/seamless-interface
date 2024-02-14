@@ -10,7 +10,6 @@ export const DisplayDepositAsset: React.FC<{
   isLoading?: boolean;
   isFetched?: boolean;
 }> = ({ depositAsset, isFetched }) => {
-  console.log(depositAsset, isFetched);
   return (
     <FlexRow className="gap-2 text-start">
       <Icon

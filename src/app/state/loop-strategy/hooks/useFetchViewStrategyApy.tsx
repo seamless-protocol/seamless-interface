@@ -99,8 +99,6 @@ export const useFetchViewStrategyApy = (
     ilmStrategies[index]
   );
 
-  console.log("apy", apy);
-
   return {
     isLoading,
     isFetched,
