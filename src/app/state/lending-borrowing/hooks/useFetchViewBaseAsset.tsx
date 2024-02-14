@@ -15,7 +15,6 @@ import {
   formatFetchNumberToViewNumber,
   formatToDisplayableOrPlaceholder,
   formatFetchBigIntToViewBigInt,
-  formatToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { ViewBaseAsset } from "../types/ViewBaseAsset";
@@ -301,11 +300,11 @@ export const useFetchViewBaseAsset = (
       },
       totalSupplied: {
         tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
-        dollarAmount: formatToViewNumber(totalSuppliedUsd),
+        dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
       totalBorrowed: {
         tokenAmount: formatFetchBigIntToViewBigInt(totalBorrowed),
-        dollarAmount: formatToViewNumber(totalBorrowedUsd),
+        dollarAmount: formatFetchBigIntToViewBigInt(totalBorrowedUsd),
       },
       supplyApy: formatFetchNumberToViewNumber(supplyApy),
       borrowApyVariable: formatFetchNumberToViewNumber(borrowApy),

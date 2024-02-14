@@ -63,19 +63,6 @@ export function formatFetchNumberToViewNumber({
   };
 }
 
-export function formatToViewNumber({
-  bigIntValue,
-  decimals,
-  symbol,
-}: FetchBigInt): ViewNumber {
-  const value = formatUnitsToNumber(bigIntValue, decimals);
-  return {
-    value,
-    viewValue: formatToDisplayable(value),
-    symbol,
-  };
-}
-
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
 }
