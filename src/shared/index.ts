@@ -1,8 +1,13 @@
 // ****** //
-// services //
+// contexts //
 // ****** //
-export * from "./services/notification/NotificationContext";
-export * from "./services/notification/useNotificationContext";
+export * from "./contexts/notification/NotificationContext";
+export * from "./contexts/notification/useNotificationContext";
+
+// ****** //
+// hooks //
+// ****** //
+export * from "./hooks/useAutoConnect";
 
 // ****** //
 // auth //

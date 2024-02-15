@@ -14,7 +14,7 @@ import { NotificationProvider } from "./shared";
 
 const config = getDefaultConfig({
   appName: "Seamless protocol",
-  projectId: "2f8447f4d3ccccca7354b8bc93433b3b",
+  projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
   chains: [base],
   transports: {
     [base.id]: http(import.meta.env.VITE_BASE_RPC_URL),

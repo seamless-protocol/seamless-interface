@@ -1,5 +1,4 @@
 import { defineConfig } from "@wagmi/cli";
-import { erc20Abi } from "viem";
 import { LoopStrategyAbi } from "./abis/LoopStrategy";
 import { AaveOracleAbi } from "./abis/AaveOracle";
 import { LendingPoolAbi } from "./abis/LendingPool";
