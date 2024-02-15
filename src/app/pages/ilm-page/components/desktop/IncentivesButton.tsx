@@ -21,6 +21,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
         {rewardTokens?.map((rewardToken, index) => {
           return (
             <img
+              key={index}
               className={index > 0 ? "-ml-1 w-3 h-3" : "w-3 h-3"}
               src={rewardToken.logo}
             ></img>

@@ -69,8 +69,8 @@ function MoreMenu() {
       </div>
       <Transition>
         <Menu.Items className="absolute left-0 z-10 mt-6 w-60 origin-top-right rounded bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {moreMenuItems.map((item) => (
-            <Menu.Item>
+          {moreMenuItems.map((item, index) => (
+            <Menu.Item key={index}>
               <Link to={item.href}>
                 <FlexRow className="items-center hover:bg-action-hover px-4 py-3 gap-3">
                   <div className="w-5">{item.icon}</div>
@@ -122,8 +122,11 @@ export function NavBar() {
 
               <div className="hidden md:ml-6 md:block">
                 <div className="flex space-x-4">
-                  {navigation.map((item) => (
-                    <div className="group relative px-4 py-3.5 flex items-center">
+                  {navigation.map((item, index) => (
+                    <div
+                      key={index}
+                      className="group relative px-4 py-3.5 flex items-center"
+                    >
                       <span
                         className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
                       ></span>
@@ -153,16 +156,20 @@ export function NavBar() {
               <Typography type="main12" color="light" className="px-4 mb-3">
                 Menu
               </Typography>
-              {navigation.map((item) => (
-                <MobileMenuRow label={item.name} href={item.href} />
+              {navigation.map((item, index) => (
+                <MobileMenuRow key={index} label={item.name} href={item.href} />
               ))}
               <div>
                 <hr className="border-t border-slate-600 my-10" />
                 <Typography type="main12" color="light" className="px-4 mb-3">
                   Links
                 </Typography>
-                {moreMenuItems.map((item) => (
-                  <MobileMenuRow label={item.name} href={item.href} />
+                {moreMenuItems.map((item, index) => (
+                  <MobileMenuRow
+                    key={index}
+                    label={item.name}
+                    href={item.href}
+                  />
                 ))}
               </div>
             </div>

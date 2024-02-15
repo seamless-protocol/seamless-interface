@@ -1,15 +1,8 @@
-import { useConnect } from "wagmi";
+// import { useConnect } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export function WalletOptions() {
-  const { connectors, connect } = useConnect();
+  // const { connectors, connect } = useConnect();
 
-  return connectors.map((connector) => (
-    <button
-      key={connector.uid}
-      style={{ color: "white" }}
-      onClick={() => connect({ connector })}
-    >
-      {connector.name}
-    </button>
-  ));
+  return <ConnectButton />;
 }
