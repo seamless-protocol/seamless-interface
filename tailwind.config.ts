@@ -165,6 +165,24 @@ export default {
             fontWeight: 600,
           },
         ],
+        body1: [
+          pxToRem(14),
+          {
+            fontFamily: FONT,
+            lineHeight: pxToRem(20),
+            letterSpacing: pxToRem(0.15),
+            fontWeight: 600,
+          },
+        ],
+        body2: [
+          pxToRem(14),
+          {
+            fontFamily: FONT,
+            lineHeight: pxToRem(20),
+            letterSpacing: pxToRem(0.15),
+            fontWeight: 400,
+          },
+        ],
         subheader1: [
           pxToRem(14),
           {

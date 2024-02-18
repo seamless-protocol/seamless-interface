@@ -1,6 +1,6 @@
 import React from "react";
 import { useAccount } from "wagmi";
-import { WalletOptions } from "../wallet/WalletOptions";
+import { ConnectWalletRainbowWrapper } from "../wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapper";
 import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
 
@@ -62,7 +62,7 @@ export const AuthGuard: React.FC<{
       <FlexCol className={`gap-1 ${className}`}>
         {message}
         <div className="bg-background-header">
-          <WalletOptions />
+          <ConnectWalletRainbowWrapper />
         </div>
       </FlexCol>
     );

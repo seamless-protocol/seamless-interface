@@ -1,8 +1,7 @@
-import { WalletOptions } from "../../../../shared/components/wallet/WalletOptions";
+import { ConnectWalletRainbowWrapper } from "@shared";
 
-//TODO: Remove this component once third parties start supporting new Wagmi version
 function ConnectWalletButton() {
-  return <WalletOptions />;
+  return <ConnectWalletRainbowWrapper />;
 }
 
 export default ConnectWalletButton;
