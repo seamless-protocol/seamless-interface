@@ -85,3 +85,4 @@ export * from "./components/table/TableRow";
 // Wallet //
 // ****** //
 export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapper";
+export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapperMobile";
