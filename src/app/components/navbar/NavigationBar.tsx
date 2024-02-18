@@ -17,6 +17,7 @@ import { ActionSection } from "../../../shared/components/wallet/ConnectWalletRa
 import { AvatarSection } from "../../../shared/components/wallet/ConnectWalletRainbowWrapper/components/sections/AvatarSection";
 import { NetworkSection } from "../../../shared/components/wallet/ConnectWalletRainbowWrapper/components/sections/NetworkSection";
 import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const navigation = [
   {
@@ -58,13 +59,11 @@ const NavBar: React.FC<{
   isWalletMenuOpen?: boolean;
   setIsWalletMenuOpen: (value: boolean) => void;
 }> = ({ isMenuOpen, setIsMenuOpen, isWalletMenuOpen, setIsWalletMenuOpen }) => {
-  const { address } = useAccount();
+  const { isConnected } = useAccount();
 
-  const toggleDropdown = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    setIsWalletMenuOpen(!isWalletMenuOpen);
+    if (isConnected) setIsWalletMenuOpen(!isWalletMenuOpen);
   };
 
   return (
@@ -108,20 +107,40 @@ const NavBar: React.FC<{
           <ConnectWalletRainbowWrapper />
         </div>
         <div className="flex flex-row items-center md:hidden">
-          <button
-            onClick={toggleDropdown}
-            className="box-border  border-solid  border-thin
+          <ConnectButton.Custom>
+            {({ account, openConnectModal }) => {
+              return (
+                <>
+                  <button
+                    onClick={(e) => {
+                      if (isConnected) handleClick(e);
+                      else openConnectModal();
+                    }}
+                    className="box-border  border-solid  border-thin
                       rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
                     bg-primary-main hover:bg-background-header"
-          >
-            <FlexRow className="gap-1 items-center">
-              {shortenHash(address)}
-              <ChevronDownIcon
-                width={20}
-                className={`w-5 h-5 transition-transform ease-in-out ${isWalletMenuOpen ? "rotate-180" : ""}`}
-              />
-            </FlexRow>
-          </button>
+                  >
+                    <FlexRow className="gap-1 items-center">
+                      {isConnected ? account?.displayName : "Connect Wallet"}
+                      {isConnected && (
+                        <ChevronDownIcon
+                          width={20}
+                          className={`w-5 h-5 transition-transform ease-in-out ${isWalletMenuOpen ? "rotate-180" : ""}`}
+                        />
+                      )}
+                    </FlexRow>
+                  </button>
+
+                  <WalletContent
+                    accountDisplayName={account?.displayName}
+                    isWalletMenuOpen={isWalletMenuOpen}
+                    setIsWalletMenuOpen={setIsWalletMenuOpen}
+                  />
+                </>
+              );
+            }}
+          </ConnectButton.Custom>
+
           <button
             className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -141,14 +160,6 @@ const NavBar: React.FC<{
   );
 };
 
-function shortenHash(hash?: string, length = 4) {
-  if (!hash) return "..";
-  if (hash.length <= length * 2) {
-    return hash; // Return the original hash if it's too short to shorten meaningfully
-  }
-  return `${hash.substring(0, length)}...${hash.substring(hash.length - length)}`;
-}
-
 export function NavigationBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
@@ -162,20 +173,20 @@ export function NavigationBar() {
         setIsWalletMenuOpen={setIsWalletMenuOpen}
       />
 
-      <WalletContent
-        isWalletMenuOpen={isWalletMenuOpen}
-        setIsWalletMenuOpen={setIsWalletMenuOpen}
-      />
-
       <MobileMenuContent isMenuOpen={isMobileMenuOpen} />
     </nav>
   );
 }
 
 const WalletContent: React.FC<{
+  accountDisplayName?: string | undefined;
   isWalletMenuOpen?: boolean;
   setIsWalletMenuOpen: (value: boolean) => void;
-}> = ({ isWalletMenuOpen: isMenuOpen, setIsWalletMenuOpen: setIsMenuOpen }) => {
+}> = ({
+  accountDisplayName,
+  isWalletMenuOpen: isMenuOpen,
+  setIsWalletMenuOpen: setIsMenuOpen,
+}) => {
   return (
     <>
       <div
@@ -184,7 +195,10 @@ const WalletContent: React.FC<{
       >
         <FlexCol className="gap-2">
           <div className="border-b">
-            <AvatarSection />
+            <AvatarSection
+              accountDisplayName={accountDisplayName}
+              setIsDropdownVisible={setIsMenuOpen}
+            />
           </div>
           {/* todo */}
           <NetworkSection chainName={"Base"} />

@@ -7,13 +7,15 @@ import { useAccount, useDisconnect } from "wagmi";
 
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
-}> = ({ accountDisplayName }) => {
+  setIsDropdownVisible?: (value: boolean) => void;
+}> = ({ accountDisplayName, setIsDropdownVisible }) => {
   const { connector } = useAccount();
   const { disconnect } = useDisconnect();
   const handleDisconnect = async () => {
     await disconnect({
       connector,
     });
+    if (setIsDropdownVisible) setIsDropdownVisible(false);
   };
 
   return (
@@ -24,7 +26,12 @@ export const AvatarSection: React.FC<{
             <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
           </div>
         </div>
-        <Typography type="h4">{accountDisplayName}</Typography>
+        <Typography
+          type="h4"
+          className="md:text-primary-dark text-primary-contrast"
+        >
+          {accountDisplayName}
+        </Typography>
       </FlexRow>
 
       <FlexRow className="gap-2">
