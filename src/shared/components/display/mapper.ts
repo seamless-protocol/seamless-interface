@@ -8,6 +8,8 @@ export const fontSizes = {
   h2: pxToRem(21),
   h3: pxToRem(18),
   h4: pxToRem(16),
+  body1: pxToRem(14),
+  body2: pxToRem(14),
   subheader1: pxToRem(14),
   subheader2: pxToRem(12),
   subheader2Light: pxToRem(12),
