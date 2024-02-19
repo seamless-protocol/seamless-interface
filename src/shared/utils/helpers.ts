@@ -30,6 +30,13 @@ export function formatToDisplayable(
   return format(value, decimals);
 }
 
+/**
+ * This function is used to format the number value to a displayable value or a placeholder, mostly used for APY and APR
+ * @param value Value to format
+ * @param placeholder Placeholder to display if value is undefined or 0
+ * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @returns
+ */
 export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
   placeholder: string,
@@ -40,6 +47,14 @@ export function formatToDisplayableOrPlaceholder(
     : placeholder;
 }
 
+/**
+ * This function is used to format the bigInt value received from smart contracts to a displayable value
+ * @param bigIntValue BigInt value to format
+ * @param decimals On how many decimals bigint value is
+ * @param symbol Symbol to display
+ * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @returns
+ */
 export function formatFetchBigIntToViewBigInt(
   { bigIntValue, decimals, symbol = "" }: FetchBigInt,
   extraDigitsCap = 1
@@ -53,6 +68,13 @@ export function formatFetchBigIntToViewBigInt(
   };
 }
 
+/**
+ * This function is used to format the number value to a displayable value
+ * @param value Value to format
+ * @param symbol Symbol to display
+ * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @returns
+ */
 export function formatFetchNumberToViewNumber(
   { value, symbol }: FetchNumber,
   extraDigitsCap = 1
