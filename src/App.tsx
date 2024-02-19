@@ -11,6 +11,7 @@ import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 import { NotificationProvider } from "./shared";
 import { walletConfig } from "../wallet.config.ts";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
+import { myRainbowkitThemeConfig } from "./rainbow-modal.config.ts";
 
 const config = getDefaultConfig({
   appName: walletConfig.appName,
@@ -28,7 +29,7 @@ function App() {
       <NotificationProvider>
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
+            <RainbowKitProvider theme={myRainbowkitThemeConfig}>
               <NavigationBar />
               <Routes>
                 <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
