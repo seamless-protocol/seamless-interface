@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 
+const trmLabsApiUrl = import.meta.env.VITE_TRM_LABS_API_URL;
+
 const fetchIsAddressSanctioned = async ({
   queryKey,
 }: {
@@ -10,20 +12,17 @@ const fetchIsAddressSanctioned = async ({
   console.log("address", address);
 
   try {
-    const res = await fetch(
-      "https://api.trmlabs.com/public/v1/sanctions/screening",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    const res = await fetch(`${trmLabsApiUrl}/sanctions/screening`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([
+        {
+          address,
         },
-        body: JSON.stringify([
-          {
-            address,
-          },
-        ]),
-      }
-    );
+      ]),
+    });
 
     if (!res.ok) {
       console.error("Failed to check if address is sanctioned");
