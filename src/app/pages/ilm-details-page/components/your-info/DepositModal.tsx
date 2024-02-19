@@ -22,6 +22,7 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface DepositModalFormData {
   amount: string;
@@ -37,6 +38,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
+  const queryClient = useQueryClient();
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
@@ -72,17 +74,27 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      const txHash = await depositAsync(
-        parseUnits(data.amount, 18),
-        account.address as Address,
-        previewDepositData.minReceivingShares
-      );
-      modalRef.current?.close();
+      try {
+        const txHash = await depositAsync(
+          parseUnits(data.amount, 18),
+          account.address as Address,
+          previewDepositData.minReceivingShares
+        );
+        modalRef.current?.close();
 
-      showNotification({
-        txHash,
-        content: `You Supplied ${data.amount} ${ilmStrategies[id].underlyingAsset.symbol}`,
-      });
+        showNotification({
+          txHash,
+          content: `You Supplied ${data.amount} ${ilmStrategies[id].underlyingAsset.symbol}`,
+        });
+        queryClient.invalidateQueries();
+      } catch (e) {
+        modalRef.current?.close();
+        showNotification({
+          status: "error",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content: (e as any)?.shortMessage,
+        });
+      }
     }
   };
 

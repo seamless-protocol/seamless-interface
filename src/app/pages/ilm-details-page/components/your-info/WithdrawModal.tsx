@@ -21,6 +21,7 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -35,6 +36,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const account = useAccount();
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
+  const queryClient = useQueryClient();
 
   const { shareValueInUsd } = useFetchShareValue(strategyConfig);
   const {
@@ -64,17 +66,27 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
-      const txHash = await withdrawAsync(
-        parseUnits(data.amount, 18),
-        account.address as Address,
-        account.address as Address,
-        previewWithdrawData?.minReceivingAmount
-      );
-      modalRef.current?.close();
-      showNotification({
-        txHash,
-        content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
-      });
+      try {
+        const txHash = await withdrawAsync(
+          parseUnits(data.amount, 18),
+          account.address as Address,
+          account.address as Address,
+          previewWithdrawData?.minReceivingAmount
+        );
+        modalRef.current?.close();
+        showNotification({
+          txHash,
+          content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
+        });
+        queryClient.invalidateQueries();
+      } catch (e) {
+        modalRef.current?.close();
+        showNotification({
+          status: "error",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content: (e as any)?.shortMessage,
+        });
+      }
     }
   };
 
