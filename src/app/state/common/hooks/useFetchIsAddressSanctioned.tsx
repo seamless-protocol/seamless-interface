@@ -9,7 +9,6 @@ const fetchIsAddressSanctioned = async ({
   queryKey: string[];
 }) => {
   const address = queryKey[1];
-  console.log("address", address);
 
   try {
     const res = await fetch(`${trmLabsApiUrl}/sanctions/screening`, {
