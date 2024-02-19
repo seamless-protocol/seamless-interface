@@ -5,11 +5,6 @@ export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 
 // ****** //
-// hooks //
-// ****** //
-export * from "./hooks/useAutoConnect";
-
-// ****** //
 // auth //
 // ****** //
 export * from "./components/auth/AuthGuard";
