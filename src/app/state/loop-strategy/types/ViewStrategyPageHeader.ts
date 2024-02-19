@@ -1,10 +1,10 @@
 import { Address } from "viem";
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt, ViewNumber } from "../../../../shared";
 
 export interface ViewStrategyPageHeader {
-  targetMultiple: string;
-  oraclePrice: ValueSymbolPair;
-  apy: ValueSymbolPair;
+  targetMultiple: ViewBigInt;
+  oraclePrice: ViewBigInt;
+  apy: ViewNumber;
   underlyingAsset: {
     name: string;
     symbol: string;

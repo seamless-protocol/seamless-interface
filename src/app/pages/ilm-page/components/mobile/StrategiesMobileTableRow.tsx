@@ -74,7 +74,7 @@ export const StrategiesMobileTableRow: React.FC<{
             />
             <DisplayText
               typography="main16"
-              text={strategy?.targetMultiple}
+              {...strategy?.targetMultiple}
               isFetched={isFetched}
             />
           </LocalMobileTableRow>
@@ -86,7 +86,7 @@ export const StrategiesMobileTableRow: React.FC<{
             />
             <DisplayPercentage
               typography="secondary14"
-              {...strategy?.LoopAPY}
+              {...strategy?.loopApy}
               isFetched={isFetched}
             />
           </LocalMobileTableRow>

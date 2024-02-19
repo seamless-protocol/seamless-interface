@@ -12,8 +12,9 @@ import {
 import { Address, erc20Abi, parseEther } from "viem";
 import {
   convertAprToApy,
-  formatToDisplayable,
+  formatFetchNumberToViewNumber,
   formatToDisplayableOrPlaceholder,
+  formatFetchBigIntToViewBigInt,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { ViewBaseAsset } from "../types/ViewBaseAsset";
@@ -24,6 +25,7 @@ import {
   assetLogos,
 } from "../../../meta/constants";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
+import { Fetch, FetchBigInt, FetchNumber } from "src/shared/types/Fetch";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -131,7 +133,20 @@ function parseSupplyAndBorrowIncentives(
   return [supplyIncentives, borrowIncentives];
 }
 
-function useFetchBaseAsset(baseAsset: BaseAssetConfig | undefined) {
+interface BaseAsset {
+  totalSupplied: FetchBigInt;
+  totalSuppliedUsd: FetchBigInt;
+  totalBorrowed: FetchBigInt;
+  totalBorrowedUsd: FetchBigInt;
+  supplyApy: FetchNumber;
+  borrowApy: FetchNumber;
+  supplyIncentives: IncentiveApy | undefined;
+  borrowIncentives: IncentiveApy | undefined;
+}
+
+function useFetchBaseAsset(
+  baseAsset: BaseAssetConfig | undefined
+): Fetch<BaseAsset> {
   const account = useAccount();
 
   const { decimals } = useFetchAssetDecimals(baseAsset?.address as Address);
@@ -225,13 +240,35 @@ function useFetchBaseAsset(baseAsset: BaseAssetConfig | undefined) {
   return {
     isLoading,
     isFetched,
-    totalSupplied: formatUnitsToNumber(totalSupplied, decimals || 18),
-    totalSuppliedUsd: formatUnitsToNumber(totalSuppliedUsd, 8),
-    totalBorrowed: formatUnitsToNumber(totalBorrowed, decimals || 18),
-    totalBorrowedUsd: formatUnitsToNumber(totalBorrowedUsd, 8),
-    supplyApy: supplyApy,
+    totalSupplied: {
+      bigIntValue: totalSupplied || 0n,
+      decimals: decimals || 18,
+      symbol: "",
+    },
+    totalSuppliedUsd: {
+      bigIntValue: totalSuppliedUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    totalBorrowed: {
+      bigIntValue: totalBorrowed || 0n,
+      decimals: decimals || 18,
+      symbol: "",
+    },
+    totalBorrowedUsd: {
+      bigIntValue: totalBorrowedUsd || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    supplyApy: {
+      value: supplyApy || 0,
+      symbol: "%",
+    },
+    borrowApy: {
+      value: borrowApy || 0,
+      symbol: "%",
+    },
     supplyIncentives,
-    borrowApy: borrowApy,
     borrowIncentives,
   };
 }
@@ -257,38 +294,20 @@ export const useFetchViewBaseAsset = (
     isFetched,
     data: {
       depositAsset: {
-        name: baseAssets[index]?.name,
-        symbol: baseAssets[index]?.symbol,
-        logo: baseAssets[index]?.logo,
+        name: baseAssets[index].name,
+        symbol: baseAssets[index].symbol,
+        logo: baseAssets[index].logo,
       },
       totalSupplied: {
-        tokenAmount: {
-          value: formatToDisplayable(totalSupplied),
-          symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(totalSuppliedUsd),
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
+        dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
       totalBorrowed: {
-        tokenAmount: {
-          value: formatToDisplayable(totalBorrowed),
-          symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(totalBorrowedUsd),
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(totalBorrowed),
+        dollarAmount: formatFetchBigIntToViewBigInt(totalBorrowedUsd),
       },
-      supplyApy: {
-        value: formatToDisplayable(supplyApy || 0),
-        symbol: "%",
-      },
-      borrowApyVariable: {
-        value: formatToDisplayable(borrowApy || 0),
-        symbol: "%",
-      },
+      supplyApy: formatFetchNumberToViewNumber(supplyApy),
+      borrowApyVariable: formatFetchNumberToViewNumber(borrowApy),
       supplyIncentives: {
         totalApy: {
           value: formatToDisplayableOrPlaceholder(
@@ -310,7 +329,8 @@ export const useFetchViewBaseAsset = (
         rewardTokens: borrowIncentives?.rewardTokens || [],
       },
       borrowApyStable: {
-        value: "—",
+        value: 0,
+        viewValue: "—",
         symbol: "",
       },
     },

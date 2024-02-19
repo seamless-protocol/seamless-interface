@@ -1,8 +1,7 @@
 import { useReadContracts } from "wagmi";
 import {
   convertRatioToMultiple,
-  formatToDisplayable,
-  formatUnitsToNumber,
+  formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
 import {
   aaveOracleAbi,
@@ -14,11 +13,21 @@ import { Address } from "viem";
 import { ilmStrategies } from "../config/StrategyConfig";
 import { ViewStrategyInfo } from "../types/ViewStrategyInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+
+interface StrategyInfo {
+  collateral: FetchBigInt;
+  collateralUSD: FetchBigInt;
+  equity: FetchBigInt;
+  equityUSD: FetchBigInt;
+  currentMultiple: FetchBigInt;
+  targetMultiple: FetchBigInt;
+}
 
 export const useFetchStrategyInfo = (
   strategyAddress: Address,
   underlyingAssetAddress: Address
-) => {
+): Fetch<StrategyInfo> => {
   const {
     data: results,
     isLoading,
@@ -79,12 +88,36 @@ export const useFetchStrategyInfo = (
   return {
     isLoading,
     isFetched,
-    collateral: formatUnitsToNumber(collateral, 18),
-    collateralUSD: formatUnitsToNumber(collateralUSD, 8),
-    equity: formatUnitsToNumber(equity, 18),
-    equityUSD: formatUnitsToNumber(equityUSD, 8),
-    currentMultiple: formatUnitsToNumber(currentMultiple, 8),
-    targetMultiple: formatUnitsToNumber(targetMultiple, 8),
+    collateral: {
+      bigIntValue: collateral || 0n,
+      decimals: 18,
+      symbol: "",
+    },
+    collateralUSD: {
+      bigIntValue: collateralUSD || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    equity: {
+      bigIntValue: equity || 0n,
+      decimals: 18,
+      symbol: "",
+    },
+    equityUSD: {
+      bigIntValue: equityUSD || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    currentMultiple: {
+      bigIntValue: currentMultiple || 0n,
+      decimals: 8,
+      symbol: "x",
+    },
+    targetMultiple: {
+      bigIntValue: targetMultiple || 0n,
+      decimals: 8,
+      symbol: "x",
+    },
   };
 };
 
@@ -111,27 +144,15 @@ export const useFetchViewStrategyInfo = (
     isFetched,
     data: {
       collateral: {
-        tokenAmount: {
-          value: formatToDisplayable(collateral),
-          symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(collateralUSD),
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(collateral),
+        dollarAmount: formatFetchBigIntToViewBigInt(collateralUSD),
       },
       equity: {
-        tokenAmount: {
-          value: formatToDisplayable(equity),
-          symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(equityUSD),
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(equity),
+        dollarAmount: formatFetchBigIntToViewBigInt(equityUSD),
       },
-      currentMultiple: formatToDisplayable(currentMultiple) + "x",
-      targetMultiple: formatToDisplayable(targetMultiple) + "x",
+      currentMultiple: formatFetchBigIntToViewBigInt(currentMultiple),
+      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
     },
   };
 };

@@ -1,15 +1,19 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
-import {
-  formatToDisplayable,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
-import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
+import { ViewLendingPoolInfo } from "../types/ViewLendingPoolInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
-function useFetchLendingPoolInfo() {
+interface LendingPoolInfo {
+  totalMarketSizeUsd: FetchBigInt;
+  totalAvailableUsd: FetchBigInt;
+  totalBorrowsUsd: FetchBigInt;
+}
+
+function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   const multicallParams = baseAssets.flatMap((asset) => [
     {
       address: asset.sTokenAddress,
@@ -62,40 +66,41 @@ function useFetchLendingPoolInfo() {
   return {
     isLoading,
     isFetched,
-    totalMarketSizeUsd: formatUnitsToNumber(totalSuppliedUsd, 8),
-    totalAvailableUsd: formatUnitsToNumber(
-      totalSuppliedUsd - totalBorrowedUsd,
-      8
-    ),
-    totalBorrowsUsd: formatUnitsToNumber(totalBorrowedUsd, 8),
+    totalMarketSizeUsd: {
+      bigIntValue: totalSuppliedUsd,
+      decimals: 8,
+      symbol: "$",
+    },
+    totalAvailableUsd: {
+      bigIntValue: totalSuppliedUsd - totalBorrowedUsd,
+      decimals: 8,
+      symbol: "$",
+    },
+    totalBorrowsUsd: {
+      bigIntValue: totalBorrowedUsd,
+      decimals: 8,
+      symbol: "$",
+    },
   };
 }
 
-export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
-  const {
-    isLoading,
-    isFetched,
-    totalMarketSizeUsd,
-    totalAvailableUsd,
-    totalBorrowsUsd,
-  } = useFetchLendingPoolInfo();
+export const useFetchViewLendingPoolInfo =
+  (): Displayable<ViewLendingPoolInfo> => {
+    const {
+      isLoading,
+      isFetched,
+      totalMarketSizeUsd,
+      totalAvailableUsd,
+      totalBorrowsUsd,
+    } = useFetchLendingPoolInfo();
 
-  return {
-    isLoading,
-    isFetched,
-    data: {
-      totalMarketSizeUsd: {
-        value: formatToDisplayable(totalMarketSizeUsd),
-        symbol: "$",
+    return {
+      isLoading,
+      isFetched,
+      data: {
+        totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
+        totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
+        totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
       },
-      totalAvailableUsd: {
-        value: formatToDisplayable(totalAvailableUsd),
-        symbol: "$",
-      },
-      totalBorrowsUsd: {
-        value: formatToDisplayable(totalBorrowsUsd),
-        symbol: "$",
-      },
-    },
+    };
   };
-};
