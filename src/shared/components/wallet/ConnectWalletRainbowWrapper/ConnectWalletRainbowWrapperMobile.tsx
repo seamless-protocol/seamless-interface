@@ -67,6 +67,7 @@ export const ConnectWalletRainbowWrapperMobile = () => {
               accountDisplayName={account?.displayName}
               isWalletMenuOpen={isDropdownVisible}
               setIsWalletMenuOpen={setIsDropdownVisible}
+              openConnectModal={openConnectModal}
             />
           </>
         );
@@ -80,11 +81,13 @@ const WalletContent: React.FC<{
   chainName?: string | undefined;
   isWalletMenuOpen?: boolean;
   setIsWalletMenuOpen: (value: boolean) => void;
+  openConnectModal: () => void;
 }> = ({
   accountDisplayName,
   chainName,
   isWalletMenuOpen: isMenuOpen,
   setIsWalletMenuOpen: setIsMenuOpen,
+  openConnectModal,
 }) => {
   return (
     <>
@@ -95,6 +98,7 @@ const WalletContent: React.FC<{
         <FlexCol className="gap-2">
           <div className="border-b">
             <AvatarSection
+              openConnectModal={openConnectModal}
               accountDisplayName={accountDisplayName}
               setIsDropdownVisible={setIsMenuOpen}
             />

@@ -9,13 +9,20 @@ import avatar from "@assets/common/avatar.png";
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
   setIsDropdownVisible?: (value: boolean) => void;
-}> = ({ accountDisplayName, setIsDropdownVisible }) => {
+  openConnectModal?: () => void;
+}> = ({ accountDisplayName, setIsDropdownVisible, openConnectModal }) => {
   const { connector } = useAccount();
   const { disconnect } = useDisconnect();
   const handleDisconnect = async () => {
     await disconnect({
       connector,
     });
+    if (setIsDropdownVisible) setIsDropdownVisible(false);
+  };
+
+  const handleSwitchWallet = async () => {
+    if (openConnectModal) openConnectModal();
+    await handleDisconnect();
     if (setIsDropdownVisible) setIsDropdownVisible(false);
   };
 
@@ -36,7 +43,7 @@ export const AvatarSection: React.FC<{
       </FlexRow>
 
       <FlexRow className="gap-2">
-        <MicroButton text="SWITCH WALLET" handleClick={handleDisconnect} />
+        <MicroButton text="SWITCH WALLET" handleClick={handleSwitchWallet} />
         <MicroButton text="DISCONNECT" handleClick={handleDisconnect} />
       </FlexRow>
     </FlexCol>

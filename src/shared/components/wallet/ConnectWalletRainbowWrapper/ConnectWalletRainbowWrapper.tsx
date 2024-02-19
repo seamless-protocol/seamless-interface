@@ -107,7 +107,11 @@ export const ConnectWalletRainbowWrapper = () => {
                       >
                         <FlexCol className="gap-2">
                           <div className="border-b">
-                            <AvatarSection />
+                            <AvatarSection
+                              accountDisplayName={account.displayName}
+                              setIsDropdownVisible={setIsDropdownVisible}
+                              openConnectModal={openConnectModal}
+                            />
                           </div>
                           <NetworkSection chainName={chain.name} />
                           <div className="border-t">
