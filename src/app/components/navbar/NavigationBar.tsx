@@ -43,12 +43,12 @@ const moreMenuItems = [
   {
     name: "FAQ",
     href: RouterConfig.Routes.faq,
-    icon: <BookOpenIcon width={20} />,
+    icon: <QuestionMarkCircleIcon width={20} />,
   },
   {
     name: "Developers",
     href: RouterConfig.Routes.developers,
-    icon: <QuestionMarkCircleIcon width={20} />,
+    icon: <BookOpenIcon width={20} />,
   },
 ];
 
