@@ -16,6 +16,9 @@ import { myRainbowkitThemeConfig } from "./rainbow-modal.config.ts";
 const config = getDefaultConfig({
   appName: walletConfig.appName,
   projectId: walletConfig.walletConnectProjectId,
+  appDescription: walletConfig.appDescription,
+  appIcon: walletConfig.appIcon,
+  appUrl: walletConfig.appUrl,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   chains: walletConfig.chains as any,
   transports: walletConfig.transports,
