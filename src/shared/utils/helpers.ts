@@ -63,7 +63,7 @@ export function formatToDisplayable(
  * This function is used to format the number value to a displayable value or a placeholder, mostly used for APY and APR
  * @param value Value to format
  * @param placeholder Placeholder to display if value is undefined or 0
- * @param decimalsOptions Decimals options to use for formatting
+ * @param decimalsOptions Decimals options to use for formatting, partial type of DecimalsOptions. If some fields are not provided default values will be used
  * @returns
  */
 export function formatToDisplayableOrPlaceholder(
@@ -109,7 +109,7 @@ export function formatFetchBigIntToViewBigInt(
  * This function is used to format the number value to a displayable value
  * @param value Value to format
  * @param symbol Symbol to display
- * @param decimalsOptions Decimals options to use for formatting
+ * @param decimalsOptions Decimals options to use for formatting, partial type of DecimalsOptions. If some fields are not provided default values will be used
  * @returns
  */
 export function formatFetchNumberToViewNumber(
