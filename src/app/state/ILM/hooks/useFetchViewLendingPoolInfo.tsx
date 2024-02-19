@@ -2,7 +2,7 @@ import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
-import { ViewIlmPageHeader } from "../types/ViewIlmPageHeader";
+import { ViewLendingPoolInfo } from "../types/ViewLendingPoolInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -84,22 +84,23 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   };
 }
 
-export const useFetchIlmPageHeader = (): Displayable<ViewIlmPageHeader> => {
-  const {
-    isLoading,
-    isFetched,
-    totalMarketSizeUsd,
-    totalAvailableUsd,
-    totalBorrowsUsd,
-  } = useFetchLendingPoolInfo();
+export const useFetchViewLendingPoolInfo =
+  (): Displayable<ViewLendingPoolInfo> => {
+    const {
+      isLoading,
+      isFetched,
+      totalMarketSizeUsd,
+      totalAvailableUsd,
+      totalBorrowsUsd,
+    } = useFetchLendingPoolInfo();
 
-  return {
-    isLoading,
-    isFetched,
-    data: {
-      totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
-      totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
-      totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
-    },
+    return {
+      isLoading,
+      isFetched,
+      data: {
+        totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
+        totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
+        totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
+      },
+    };
   };
-};
