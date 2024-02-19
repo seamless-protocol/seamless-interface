@@ -4,6 +4,7 @@ import { FlexRow } from "../../../../containers/FlexRow";
 import { Typography } from "../../../../text/Typography/Typography";
 import { MicroButton } from "../MicroButton";
 import { useAccount, useDisconnect } from "wagmi";
+import avatar from "@assets/common/avatar.png";
 
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
@@ -23,7 +24,7 @@ export const AvatarSection: React.FC<{
       <FlexRow className="items-center gap-2">
         <div className="avatar">
           <div className="w-12 rounded-full">
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src={avatar} alt={`user-avatar-${accountDisplayName}`} />
           </div>
         </div>
         <Typography
