@@ -8,8 +8,10 @@ export const myRainbowkitThemeConfig: Theme = {
     body: "Inter, Arial",
   },
   radii: {
-    ...ltheme.radii,
     modal: "4px",
     modalMobile: "4px",
+    menuButton: "4px",
+    actionButton: "4px",
+    connectButton: "4px",
   },
 };
