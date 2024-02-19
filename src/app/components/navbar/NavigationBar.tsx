@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BookOpenIcon,
+  EllipsisHorizontalIcon,
+  QuestionMarkCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
 import {
@@ -37,10 +43,12 @@ const moreMenuItems = [
   {
     name: "FAQ",
     href: RouterConfig.Routes.faq,
+    icon: <BookOpenIcon width={20} />,
   },
   {
     name: "Developers",
     href: RouterConfig.Routes.developers,
+    icon: <QuestionMarkCircleIcon width={20} />,
   },
 ];
 
@@ -48,6 +56,25 @@ const NavBar: React.FC<{
   isMenuOpen?: boolean;
   setIsMenuOpen: (value: boolean) => void;
 }> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        moreMenuRef.current &&
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        !(moreMenuRef.current as any).contains(event.target)
+      ) {
+        setIsMoreMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="bg-background-header border-b border-slate-600 px-2 md:px-6 lg:px-8 flex flex-row items-center justify-between min-h-12">
       <FlexRow className="items-center justify-between w-full">
@@ -60,7 +87,7 @@ const NavBar: React.FC<{
             <span className="text-primary-contrast">Seamless</span>
           </Link>
 
-          <div className="hidden md:ml-6 md:block">
+          <div className="hidden md:ml-6 md:flex md:flex-row md:items-center">
             <div className="flex space-x-4">
               {navigation.map((item, index) => (
                 <div
@@ -81,6 +108,35 @@ const NavBar: React.FC<{
                   </Link>
                 </div>
               ))}
+            </div>
+
+            <div className="relative" ref={moreMenuRef}>
+              <button
+                onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                className="flex items-center px-3 py-0.5 ml-1 rounded min-w-8 hover:bg-background-hover"
+              >
+                <span className="text-base text-center" color="primary">
+                  <Typography type="description">More</Typography>
+                </span>
+                <EllipsisHorizontalIcon className="h-5 w-5 text-white ml-2" />
+              </button>
+              {isMoreMenuOpen && (
+                <div className="absolute py-1 text-text-secondary left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  {moreMenuItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      target="_blank"
+                      className="block px-4 py-3 hover:bg-action-hover"
+                    >
+                      <FlexRow className="items-center gap-2">
+                        {item.icon}
+                        <Typography type="subheader1">{item.name}</Typography>
+                      </FlexRow>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </FlexRow>
