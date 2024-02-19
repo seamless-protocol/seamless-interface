@@ -36,19 +36,24 @@ function format(value: number, decimals: number) {
 
 export function formatToDisplayable(
   value: number | undefined,
-  decimalsOptions: DecimalsOptions
+  decimalsOptions: Partial<DecimalsOptions>
 ) {
   if (!value) return format(0, 2);
 
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
+
   let decimals;
   if (value < 10) {
-    decimals = decimalsOptions.singleDigitNumberDecimals;
+    decimals = decimalsFormattingOptions.singleDigitNumberDecimals;
   } else if (value < 100) {
-    decimals = decimalsOptions.doubleDigitNumberDecimals;
+    decimals = decimalsFormattingOptions.doubleDigitNumberDecimals;
   } else if (value < 1000) {
-    decimals = decimalsOptions.threeDigitNumberDecimals;
+    decimals = decimalsFormattingOptions.threeDigitNumberDecimals;
   } else {
-    decimals = decimalsOptions.fourDigitNumberDecimals;
+    decimals = decimalsFormattingOptions.fourDigitNumberDecimals;
   }
 
   return format(value, decimals);
@@ -64,10 +69,14 @@ export function formatToDisplayable(
 export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
   placeholder: string,
-  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
+  decimalsOptions?: Partial<DecimalsOptions>
 ) {
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
   return value && value != 0
-    ? formatToDisplayable(value, decimalsOptions)
+    ? formatToDisplayable(value, decimalsFormattingOptions)
     : placeholder;
 }
 
@@ -81,12 +90,16 @@ export function formatToDisplayableOrPlaceholder(
  */
 export function formatFetchBigIntToViewBigInt(
   { bigIntValue, decimals, symbol = "" }: FetchBigInt,
-  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
+  decimalsOptions?: Partial<DecimalsOptions>
 ): ViewBigInt {
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
   const value = formatUnitsToNumber(bigIntValue, decimals);
   return {
     value,
-    viewValue: formatToDisplayable(value, decimalsOptions),
+    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue: bigIntValue,
     symbol,
   };
@@ -101,11 +114,15 @@ export function formatFetchBigIntToViewBigInt(
  */
 export function formatFetchNumberToViewNumber(
   { value, symbol }: FetchNumber,
-  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
+  decimalsOptions?: Partial<DecimalsOptions>
 ): ViewNumber {
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
   return {
     value,
-    viewValue: formatToDisplayable(value, decimalsOptions),
+    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     symbol,
   };
 }

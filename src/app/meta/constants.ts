@@ -3,11 +3,9 @@ import seamLogo from "@assets/tokens/seam.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import { DecimalsOptions } from "src/shared/utils/helpers";
 
-export const walletBalanceDecimalsOptions: DecimalsOptions = {
+export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
   singleDigitNumberDecimals: 6,
   doubleDigitNumberDecimals: 4,
-  threeDigitNumberDecimals: 2,
-  fourDigitNumberDecimals: 2,
 };
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
