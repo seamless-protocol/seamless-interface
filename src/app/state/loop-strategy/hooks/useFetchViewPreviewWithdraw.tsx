@@ -4,7 +4,10 @@ import {
   useReadLoopStrategyPreviewRedeem,
 } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { ONE_ETHER } from "../../../meta/constants";
+import {
+  ONE_ETHER,
+  walletBalanceDecimalsOptions,
+} from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
@@ -103,12 +106,24 @@ export const useFetchViewPreviewWithdraw = (
     isFetched,
     data: {
       assetsToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(assetsToReceive),
-        dollarAmount: formatFetchBigIntToViewBigInt(assetsToReceiveInUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          assetsToReceive,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          assetsToReceiveInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
       cost: {
-        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset),
-        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          costInUnderlyingAsset,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          costInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
     },
   };

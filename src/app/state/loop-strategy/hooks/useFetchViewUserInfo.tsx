@@ -4,6 +4,7 @@ import { ilmStrategies } from "../config/StrategyConfig";
 import { useFetchStrategyInfoForAccount } from "../../ILM/hooks/useFetchViewStrategy";
 import { ViewUserInfo } from "../types/ViewUserInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 export const useFetchViewUserInfo = (
   index: number
@@ -25,12 +26,24 @@ export const useFetchViewUserInfo = (
     isFetched,
     data: {
       underlyingAssetBalance: {
-        tokenAmount: formatFetchBigIntToViewBigInt(userBalance),
-        dollarAmount: formatFetchBigIntToViewBigInt(userBalanceUSD),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          userBalance,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          userBalanceUSD,
+          walletBalanceDecimalsOptions
+        ),
       },
       strategyBalance: {
-        tokenAmount: formatFetchBigIntToViewBigInt(userEquity),
-        dollarAmount: formatFetchBigIntToViewBigInt(userEquityUSD),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          userEquity,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          userEquityUSD,
+          walletBalanceDecimalsOptions
+        ),
       },
     },
   };

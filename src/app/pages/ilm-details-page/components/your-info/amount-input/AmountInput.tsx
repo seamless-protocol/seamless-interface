@@ -4,6 +4,7 @@ import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFI
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
 import { DisplayMoney, ViewBigInt } from "../../../../../../shared";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
@@ -38,7 +39,10 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
 
       <div className="flex justify-between">
         <DisplayMoney
-          viewValue={formatToDisplayable(debouncedAmountInUsd)}
+          viewValue={formatToDisplayable(
+            debouncedAmountInUsd,
+            walletBalanceDecimalsOptions
+          )}
           typography="description"
         />
         <span className="text-xs">

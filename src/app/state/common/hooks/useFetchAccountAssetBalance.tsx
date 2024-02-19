@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 export const useFetchAccountAssetBalance = (
   asset: Address,
@@ -23,10 +24,13 @@ export const useFetchAccountAssetBalance = (
   }, [isDepositSuccessful, queryClient]);
 
   return {
-    balance: formatFetchBigIntToViewBigInt({
-      bigIntValue: balance || 0n,
-      symbol: "",
-      decimals: 18,
-    }),
+    balance: formatFetchBigIntToViewBigInt(
+      {
+        bigIntValue: balance || 0n,
+        symbol: "",
+        decimals: 18,
+      },
+      walletBalanceDecimalsOptions
+    ),
   };
 };

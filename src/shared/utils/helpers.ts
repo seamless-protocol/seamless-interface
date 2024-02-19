@@ -3,6 +3,20 @@ import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
+export interface DecimalsOptions {
+  singleDigitNumberDecimals: number;
+  doubleDigitNumberDecimals: number;
+  threeDigitNumberDecimals: number;
+  fourDigitNumberDecimals: number;
+}
+
+const defaultDecimalsOptions: DecimalsOptions = {
+  singleDigitNumberDecimals: 2,
+  doubleDigitNumberDecimals: 2,
+  threeDigitNumberDecimals: 2,
+  fourDigitNumberDecimals: 2,
+};
+
 export function formatUnitsToNumber(
   value: string | bigint | undefined,
   decimals: number
@@ -22,11 +36,21 @@ function format(value: number, decimals: number) {
 
 export function formatToDisplayable(
   value: number | undefined,
-  extraDigitsCap = 1
+  decimalsOptions: DecimalsOptions
 ) {
-  value = value || 0;
+  if (!value) return format(0, 2);
 
-  const decimals = value > 0 && value < extraDigitsCap ? 6 : 2;
+  let decimals;
+  if (value < 10) {
+    decimals = decimalsOptions.singleDigitNumberDecimals;
+  } else if (value < 100) {
+    decimals = decimalsOptions.doubleDigitNumberDecimals;
+  } else if (value < 1000) {
+    decimals = decimalsOptions.threeDigitNumberDecimals;
+  } else {
+    decimals = decimalsOptions.fourDigitNumberDecimals;
+  }
+
   return format(value, decimals);
 }
 
@@ -34,16 +58,16 @@ export function formatToDisplayable(
  * This function is used to format the number value to a displayable value or a placeholder, mostly used for APY and APR
  * @param value Value to format
  * @param placeholder Placeholder to display if value is undefined or 0
- * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @param decimalsOptions Decimals options to use for formatting
  * @returns
  */
 export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
   placeholder: string,
-  extraDigitsCap = 1
+  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
 ) {
   return value && value != 0
-    ? formatToDisplayable(value, extraDigitsCap)
+    ? formatToDisplayable(value, decimalsOptions)
     : placeholder;
 }
 
@@ -52,17 +76,17 @@ export function formatToDisplayableOrPlaceholder(
  * @param bigIntValue BigInt value to format
  * @param decimals On how many decimals bigint value is
  * @param symbol Symbol to display
- * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @param decimalsOptions Decimals options to use for formatting
  * @returns
  */
 export function formatFetchBigIntToViewBigInt(
   { bigIntValue, decimals, symbol = "" }: FetchBigInt,
-  extraDigitsCap = 1
+  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
 ): ViewBigInt {
   const value = formatUnitsToNumber(bigIntValue, decimals);
   return {
     value,
-    viewValue: formatToDisplayable(value, extraDigitsCap),
+    viewValue: formatToDisplayable(value, decimalsOptions),
     bigIntValue: bigIntValue,
     symbol,
   };
@@ -72,16 +96,16 @@ export function formatFetchBigIntToViewBigInt(
  * This function is used to format the number value to a displayable value
  * @param value Value to format
  * @param symbol Symbol to display
- * @param extraDigitsCap If the value is less than this, display 6 decimals otherwise 2
+ * @param decimalsOptions Decimals options to use for formatting
  * @returns
  */
 export function formatFetchNumberToViewNumber(
   { value, symbol }: FetchNumber,
-  extraDigitsCap = 1
+  decimalsOptions: DecimalsOptions = defaultDecimalsOptions
 ): ViewNumber {
   return {
     value,
-    viewValue: formatToDisplayable(value, extraDigitsCap),
+    viewValue: formatToDisplayable(value, decimalsOptions),
     symbol,
   };
 }

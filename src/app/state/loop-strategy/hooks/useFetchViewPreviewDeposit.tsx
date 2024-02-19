@@ -5,7 +5,10 @@ import {
 } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
-import { ONE_ETHER } from "../../../meta/constants";
+import {
+  ONE_ETHER,
+  walletBalanceDecimalsOptions,
+} from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
@@ -103,12 +106,24 @@ export const useFetchViewPreviewDeposit = (
     isFetched: isFetched,
     data: {
       sharesToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(sharesToReceive),
-        dollarAmount: formatFetchBigIntToViewBigInt(sharesToReceiveInUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          sharesToReceive,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          sharesToReceiveInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
       cost: {
-        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset),
-        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          costInUnderlyingAsset,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          costInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
     },
   };
