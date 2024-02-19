@@ -21,7 +21,6 @@ export const StrategiesDesktopTableRow: React.FC<{
   hideBorder?: boolean;
 }> = ({ index, strategy, isFetched, hideBorder }) => {
   const navigate = useNavigate();
-  console.log(strategy);
 
   return (
     <TableRow
