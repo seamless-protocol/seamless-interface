@@ -11,6 +11,7 @@ interface AssetConfig {
   symbol: string;
   address: Address;
   logo: string;
+  decimals: number;
 }
 
 export interface StrategyConfig {
@@ -35,12 +36,14 @@ export const ilmStrategies: StrategyConfig[] = [
       symbol: "wstETH",
       address: WSTETH_ADDRESS,
       logo: WstEthLogo,
+      decimals: 18,
     },
     debtAsset: {
       name: "Ethereum",
       symbol: "ETH",
       address: WETH_ADDRESS,
       logo: EthLogo,
+      decimals: 18,
     },
   },
 ];

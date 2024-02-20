@@ -30,10 +30,10 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <BrowserRouter>
-      <NotificationProvider>
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+            <NotificationProvider>
               <ConnectButtonProvider>
                 <NavigationBar />
               </ConnectButtonProvider>
@@ -44,10 +44,10 @@ function App() {
                   element={<IlmDetailsPage />}
                 />
               </Routes>
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </NotificationProvider>
+            </NotificationProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </BrowserRouter>
   );
 }
