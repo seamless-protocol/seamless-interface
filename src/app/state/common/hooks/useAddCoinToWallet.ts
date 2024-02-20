@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Address } from "viem";
-import { PublicWalletLogosConfig } from "../../../../public-wallet-logos-config";
+import { PublicAssetLogosConfig } from "../../../../public-asset-logos-config";
 
 //todo: remove duplicate interface after folder structure hooks refactor
 interface Coin {
@@ -12,8 +12,8 @@ interface Coin {
 
 export const addCoinToWallet = async (token: Coin): Promise<void> => {
   const logoUrl =
-    token.symbol in PublicWalletLogosConfig
-      ? PublicWalletLogosConfig[token.symbol]
+    token.symbol in PublicAssetLogosConfig
+      ? PublicAssetLogosConfig[token.symbol]
       : undefined;
 
   if (!logoUrl)
