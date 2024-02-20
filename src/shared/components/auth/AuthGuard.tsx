@@ -1,8 +1,8 @@
 import React from "react";
 import { useAccount } from "wagmi";
-import { ConnectWalletRainbowWrapper } from "../wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapper";
 import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 /**
  * `AuthGuard` Component Documentation
@@ -61,8 +61,21 @@ export const AuthGuard: React.FC<{
     return (
       <FlexCol className={`gap-1 ${className}`}>
         {message}
-        <div className="bg-background-header">
-          <ConnectWalletRainbowWrapper />
+        <div className="">
+          <ConnectButton.Custom>
+            {({ openConnectModal }) => {
+              return (
+                <button
+                  className="box-border text-white border-solid  border-thin
+            rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
+          bg-primary-main hover:bg-background-header"
+                  onClick={openConnectModal}
+                >
+                  Connect wallet
+                </button>
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </FlexCol>
     );

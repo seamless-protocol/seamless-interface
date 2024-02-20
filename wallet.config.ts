@@ -1,38 +1,32 @@
-import { http } from "viem";
-import * as chains from "wagmi/chains";
-import { injected, safe } from "wagmi/connectors";
+import { Chain, http } from "viem";
+import { base } from "wagmi/chains";
+import logoSeamless from "@assets/logos/logo-seamless.svg";
 
 export type WalletConfig = {
   appName: string;
 
-  targetNetwork: chains.Chain; // make this array?
+  targetNetwork: Chain; // make this array?
   walletConnectProjectId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  connectors: any[]; //todo
-  onlyLocalBurnerWallet: boolean;
-  walletAutoConnect: boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  chains: any;
+  chains: Chain[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transports: any;
+
+  appDescription: string;
+  appUrl: string;
+  appIcon: string;
 };
 
 export const walletConfig = {
-  appName: "Seamless protocol",
+  appName: "Seamless Protocol",
+  appDescription: `Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.`,
+  appUrl: "https://app.seamlessprotocol.com/",
+  appIcon: logoSeamless,
+  targetNetwork: base,
+  walletConnectProjectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
 
-  targetNetwork: chains.base,
-  connectors: [injected(), safe()],
-
-  walletConnectProjectId:
-    import.meta.env.VITE_BASE_WALLET_PROJECT_ID ||
-    "3a8170812b534d0ff9d794f19a901d64",
-
-  onlyLocalBurnerWallet: true,
-  walletAutoConnect: true,
-
-  chains: [chains.base],
+  chains: [base],
   transports: {
-    [chains.base.id]: http(import.meta.env.VITE_BASE_RPC_URL),
+    [base.id]: http(import.meta.env.VITE_BASE_RPC_URL),
   },
 } satisfies WalletConfig;

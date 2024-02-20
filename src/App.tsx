@@ -12,10 +12,14 @@ import { NotificationProvider } from "./shared";
 import { walletConfig } from "../wallet.config.ts";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { myRainbowkitThemeConfig } from "./rainbow-modal.config.ts";
+import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
 
 const config = getDefaultConfig({
   appName: walletConfig.appName,
   projectId: walletConfig.walletConnectProjectId,
+  appDescription: walletConfig.appDescription,
+  appIcon: walletConfig.appIcon,
+  appUrl: walletConfig.appUrl,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   chains: walletConfig.chains as any,
   transports: walletConfig.transports,
@@ -30,7 +34,9 @@ function App() {
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <RainbowKitProvider theme={myRainbowkitThemeConfig}>
-              <NavigationBar />
+              <ConnectButtonProvider>
+                <NavigationBar />
+              </ConnectButtonProvider>
               <Routes>
                 <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
                 <Route

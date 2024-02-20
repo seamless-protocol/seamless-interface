@@ -5,11 +5,6 @@ export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 
 // ****** //
-// hooks //
-// ****** //
-export * from "./hooks/useAutoConnect";
-
-// ****** //
 // auth //
 // ****** //
 export * from "./components/auth/AuthGuard";
@@ -84,5 +79,5 @@ export * from "./components/table/TableRow";
 // ****** //
 // Wallet //
 // ****** //
-export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapper";
-export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapperMobile";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
