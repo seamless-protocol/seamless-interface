@@ -71,7 +71,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.minReceivingAmount
+          previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({

@@ -74,17 +74,11 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      const txHash = await depositAsync(
-        parseUnits(data.amount, 18),
-        account.address as Address,
-        previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
-      );
-      modalRef.current?.close();
       try {
         const txHash = await depositAsync(
           parseUnits(data.amount, 18),
           account.address as Address,
-          previewDepositData.minReceivingShares
+          previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
         );
         modalRef.current?.close();
 
