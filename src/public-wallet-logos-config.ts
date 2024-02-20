@@ -27,4 +27,6 @@ interface WalletLogosConfigType {
 export const PublicWalletLogosConfig: WalletLogosConfigType = {
   wstETH:
     "https://exponential.imgix.net/icons/assets/stETH_color.jpg?auto=format&fit=max&w=256",
+  ilmwstETH:
+    "https://exponential.imgix.net/icons/assets/stETH_color.jpg?auto=format&fit=max&w=256",
 };
