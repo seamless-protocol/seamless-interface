@@ -31,7 +31,7 @@ const defaultContextValue: ConnectButtonContextType = {
   handleSwitchWallet: async () => {},
   handleCopyAddressClick: async () => {},
   handleViewItOnExplorer: () => {},
-  dropdownRef: { current: null }, // This should ideally be created using `useRef`.
+  dropdownRef: { current: null },
 };
 
 export const ConnectButtonContext =
