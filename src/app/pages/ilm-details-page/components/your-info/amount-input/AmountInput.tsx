@@ -3,8 +3,9 @@ import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
-import { DisplayMoney, ViewBigInt } from "../../../../../../shared";
+import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { useFormContext } from "react-hook-form";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
@@ -20,6 +21,12 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   assetSymbol,
   assetLogo,
 }) => {
+  const { setValue } = useFormContext();
+
+  const handleMaxClick = () => {
+    setValue("amount", String(walletBalance.value || 0));
+  };
+
   return (
     <div className="border border-[#F2EEEE] rounded p-2">
       <div className="flex justify-between items-center">
@@ -45,9 +52,18 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           )}
           typography="description"
         />
-        <span className="text-xs">
-          Wallet balance {walletBalance.viewValue}
-        </span>
+        <FlexRow className="items-center gap-1">
+          <span className="text-xs">
+            Wallet balance {walletBalance.viewValue}
+          </span>
+          <button
+            type="button"
+            className="outline-none text-text-light"
+            onClick={handleMaxClick}
+          >
+            <Typography type="buttonS">MAX</Typography>
+          </button>
+        </FlexRow>
       </div>
     </div>
   );
