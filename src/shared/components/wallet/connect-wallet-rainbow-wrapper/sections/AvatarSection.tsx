@@ -10,7 +10,8 @@ import { useUserAvatar } from "../../../../hooks/useUserAvatar";
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
 }> = ({ accountDisplayName }) => {
-  const { handleDisconnect, handleSwitchWallet } = useConnectButtonContext();
+  const { handleDisconnect, handleSwitchWallet, ensAvatar } =
+    useConnectButtonContext();
   const { avatar } = useUserAvatar();
 
   return (
@@ -18,7 +19,10 @@ export const AvatarSection: React.FC<{
       <FlexRow className="items-center gap-2">
         <div className="avatar">
           <div className="w-12 rounded-full">
-            <Icon src={avatar} alt={`user-avatar-${accountDisplayName}`} />
+            <Icon
+              src={ensAvatar || avatar}
+              alt={`user-avatar-${accountDisplayName}`}
+            />
           </div>
         </div>
         <Typography
