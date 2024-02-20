@@ -3,11 +3,9 @@ import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
-import { DisplayMoney, ViewBigInt } from "../../../../../../shared";
+import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
-import { DisplayMoney, FlexRow, Typography } from "../../../../../../shared";
 import { useFormContext } from "react-hook-form";
-import { formatUnits, etherUnits } from "viem";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
@@ -23,11 +21,10 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   assetSymbol,
   assetLogo,
 }) => {
-  const maxNumber = formatUnits(walletBalance || 0n, etherUnits.wei);
   const { setValue } = useFormContext();
 
   const handleMaxClick = () => {
-    setValue("amount", maxNumber);
+    setValue("amount", String(walletBalance.value || 0));
   };
 
   return (
@@ -39,7 +36,6 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           placeholder="0.00"
           className="pt-1 no-underline"
           max={walletBalance.value || 0}
-          max={maxNumber}
         />
 
         <div className="flex items-center space-x-2">
@@ -56,12 +52,9 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           )}
           typography="description"
         />
-        <span className="text-xs">
-          Wallet balance {walletBalance.viewValue}
-        </span>
         <FlexRow className="items-center gap-1">
           <span className="text-xs">
-            Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
+            Wallet balance {walletBalance.viewValue}
           </span>
           <button
             type="button"
