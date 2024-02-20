@@ -18,13 +18,13 @@ export const Heading: React.FC<{
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
-      <FlexRow className="gap-2 text-start">
+      <FlexRow className="gap-3 text-start">
         <Icon
           src={data?.underlyingAsset?.logo}
           alt={data?.underlyingAsset?.name || "asset"}
           isFetched={isFetched}
-          width={55}
-          height={55}
+          width={40}
+          height={40}
         />
         <FlexCol>
           <DisplayText

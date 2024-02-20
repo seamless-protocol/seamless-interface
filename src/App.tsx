@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi"; //, http, createConfig
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import { injected, safe } from "wagmi/connectors";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
@@ -30,10 +29,10 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <BrowserRouter>
-      <NotificationProvider>
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+            <NotificationProvider>
               <ConnectButtonProvider>
                 <NavigationBar />
               </ConnectButtonProvider>
@@ -44,10 +43,10 @@ function App() {
                   element={<IlmDetailsPage />}
                 />
               </Routes>
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </NotificationProvider>
+            </NotificationProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </BrowserRouter>
   );
 }
