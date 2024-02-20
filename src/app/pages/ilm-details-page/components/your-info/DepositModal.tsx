@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
-  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -24,6 +23,7 @@ import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hook
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useQueryClient } from "@tanstack/react-query";
+import { AddCoinToWallet } from "../../../../../shared/components/wallet/add-coin-to-wallet/AddCointToWallet";
 
 export interface DepositModalFormData {
   amount: string;
@@ -94,10 +94,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               <AddCoinToWallet {...ilmStrategies[id]} />
             </FlexCol>
           ),
-        });
-        showNotification({
-          txHash,
-          content: `You Supplied ${data.amount} ${ilmStrategies[id].underlyingAsset.symbol}`,
         });
         queryClient.invalidateQueries();
       } catch (e) {
