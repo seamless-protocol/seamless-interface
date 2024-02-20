@@ -1,9 +1,10 @@
 import { useAccount } from "wagmi";
-import { formatToDisplayable } from "../../../../shared/utils/helpers";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../config/StrategyConfig";
 import { useFetchStrategyInfoForAccount } from "../../ILM/hooks/useFetchViewStrategy";
 import { ViewUserInfo } from "../types/ViewUserInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 export const useFetchViewUserInfo = (
   index: number
@@ -18,39 +19,31 @@ export const useFetchViewUserInfo = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(
-    strategyConfig.address,
-    strategyConfig.underlyingAsset.address,
-    account
-  );
+  } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   return {
     isLoading,
     isFetched,
     data: {
       underlyingAssetBalance: {
-        tokenAmount: {
-          value: formatToDisplayable(userBalance),
-          originalValue: userBalance,
-          symbol: strategyConfig.underlyingAsset.symbol,
-        },
-        dollarAmount: {
-          value: formatToDisplayable(userBalanceUSD),
-          originalValue: userBalanceUSD,
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          userBalance,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          userBalanceUSD,
+          walletBalanceDecimalsOptions
+        ),
       },
       strategyBalance: {
-        tokenAmount: {
-          value: formatToDisplayable(userEquity),
-          originalValue: userEquity,
-          symbol: strategyConfig.symbol,
-        },
-        dollarAmount: {
-          value: formatToDisplayable(userEquityUSD),
-          originalValue: userEquityUSD,
-          symbol: "$",
-        },
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          userEquity,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          userEquityUSD,
+          walletBalanceDecimalsOptions
+        ),
       },
     },
   };

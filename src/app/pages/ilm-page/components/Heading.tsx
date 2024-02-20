@@ -1,9 +1,10 @@
 import { FlexCol, FlexRow, Typography } from "../../../../shared";
-import { useFetchIlmPageHeader } from "../../../state/ILM/hooks/useFetchIlmPageHeader";
+import { useFetchViewLendingPoolInfo } from "../../../state/ILM/hooks/useFetchViewLendingPoolInfo";
 import { HeadingColumn } from "./HeadingColumn";
 
 export const Heading = () => {
-  const { isFetched, data } = useFetchIlmPageHeader();
+  const { isFetched, data } = useFetchViewLendingPoolInfo();
+
   return (
     <FlexCol className="gap-5 text-text-primary">
       <FlexCol>

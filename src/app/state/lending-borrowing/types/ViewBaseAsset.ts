@@ -1,4 +1,4 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ValueSymbolPair, ViewBigInt, ViewNumber } from "../../../../shared";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -12,16 +12,16 @@ export interface ViewBaseAsset {
     logo: string;
   };
   totalSupplied: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewNumber;
   };
   totalBorrowed: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewNumber;
   };
-  supplyApy: ValueSymbolPair;
-  borrowApyVariable: ValueSymbolPair;
-  borrowApyStable: ValueSymbolPair;
+  supplyApy: ViewNumber;
+  borrowApyVariable: ViewNumber;
+  borrowApyStable: ViewNumber;
 
   supplyIncentives: {
     totalApy: ValueSymbolPair;

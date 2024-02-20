@@ -6,19 +6,24 @@ import {
 } from "../../../generated/generated";
 import {
   convertRatioToMultiple,
-  formatToDisplayable,
-  formatUnitsToNumber,
+  formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../config/StrategyConfig";
 import { Address } from "viem";
 import { ViewStrategyPageHeader } from "../types/ViewStrategyPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
-import { useFetchStrategyApy } from "./useFetchViewStrategyApy";
+import { useFetchViewStrategyApy } from "./useFetchViewStrategyApy";
+import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+
+interface StrategyPageHeader {
+  targetMultiple: FetchBigInt;
+  oraclePrice: FetchBigInt;
+}
 
 export const useFetchStrategyPageHeader = (
   strategyAddress: Address,
   underlyingAssetAddress: Address
-) => {
+): Fetch<StrategyPageHeader> => {
   const {
     data: results,
     isLoading,
@@ -43,8 +48,16 @@ export const useFetchStrategyPageHeader = (
   return {
     isLoading,
     isFetched,
-    targetMultiple: formatUnitsToNumber(targetMultiple, 8),
-    oraclePrice: formatUnitsToNumber(results?.[1].result, 8),
+    targetMultiple: {
+      bigIntValue: targetMultiple,
+      decimals: 8,
+      symbol: "x",
+    },
+    oraclePrice: {
+      bigIntValue: results?.[1].result || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
   };
 };
 
@@ -64,22 +77,16 @@ export const useFetchViewStrategyPageHeader = (
   const {
     isLoading: isApyLoading,
     isFetched: isApyFetched,
-    apy,
-  } = useFetchStrategyApy(strategyConfig);
+    data,
+  } = useFetchViewStrategyApy(index);
 
   return {
     isLoading: isStrategyHeaderLoading || isApyLoading,
     isFetched: isStrategyHeaderFetched && isApyFetched,
     data: {
-      targetMultiple: formatToDisplayable(targetMultiple) + "x",
-      oraclePrice: {
-        value: formatToDisplayable(oraclePrice),
-        symbol: "$",
-      },
-      apy: {
-        value: apy ? formatToDisplayable(apy) : "—",
-        symbol: apy ? "%" : "",
-      },
+      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
+      oraclePrice: formatFetchBigIntToViewBigInt(oraclePrice),
+      apy: data.apy,
       underlyingAsset: strategyConfig.underlyingAsset,
     },
   };

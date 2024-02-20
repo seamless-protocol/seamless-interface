@@ -1,7 +1,18 @@
 import { test, expect } from "vitest";
 import { ONE_ETHER } from "../../../meta/constants";
 import { calculateApy } from "./useFetchViewStrategyApy";
-import { formatOnTwoDecimals } from "../../../../shared/utils/helpers";
+
+const formatter = Intl.NumberFormat("en", {
+  notation: "compact",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+export function formatOnTwoDecimals(
+  input: number | bigint | undefined
+): string {
+  return formatter.format(input || 0);
+}
 
 function calculateApyWrapper(
   endValue: bigint,

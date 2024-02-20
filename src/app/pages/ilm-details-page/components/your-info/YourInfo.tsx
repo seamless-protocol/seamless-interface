@@ -57,7 +57,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             disabled={
               !Number(
                 viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
-                  .originalValue
+                  .bigIntValue
               )
             }
           />
@@ -84,7 +84,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={
               !Number(
-                viewUserInfo?.data?.strategyBalance.tokenAmount.originalValue
+                viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue
               )
             }
           />
