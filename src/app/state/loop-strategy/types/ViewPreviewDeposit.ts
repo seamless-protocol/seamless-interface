@@ -1,13 +1,12 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface ViewPreviewDeposit {
-  minReceivingShares: bigint;
   sharesToReceive: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
   cost: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
 }

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt, ViewNumber } from "../../../../shared";
 
 export interface ViewStrategy {
   strategyName?: string;
@@ -9,14 +9,14 @@ export interface ViewStrategy {
     symbol?: string;
     logo?: string;
   };
-  targetMultiple?: string;
-  LoopAPY?: ValueSymbolPair;
+  targetMultiple?: ViewBigInt;
+  loopApy?: ViewNumber;
   availableToDeposit?: {
-    tokenAmount?: ValueSymbolPair;
-    dollarAmount?: ValueSymbolPair;
+    tokenAmount?: ViewBigInt;
+    dollarAmount?: ViewBigInt;
   };
   yourPosition?: {
-    tokenAmount?: ValueSymbolPair;
-    dollarAmount?: ValueSymbolPair;
+    tokenAmount?: ViewBigInt;
+    dollarAmount?: ViewBigInt;
   };
 }

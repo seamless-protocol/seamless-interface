@@ -6,21 +6,32 @@ import {
 } from "../../../generated/generated";
 import {
   convertRatioToMultiple,
-  formatToDisplayable,
-  formatUnitsToNumber,
+  formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address, erc20Abi } from "viem";
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
-import { useFetchStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
+import {
+  StrategyConfig,
+  ilmStrategies,
+} from "../../loop-strategy/config/StrategyConfig";
+import { useFetchViewStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
+import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+
+interface StrategyInfoForAccount {
+  targetMultiple: FetchBigInt;
+  userEquity: FetchBigInt;
+  userEquityUSD: FetchBigInt;
+  userBalance: FetchBigInt;
+  userBalanceUSD: FetchBigInt;
+}
 
 export function useFetchStrategyInfoForAccount(
-  strategyAddress: Address,
-  underlyingAssetAddress: Address,
+  strategyConfig: StrategyConfig,
   account: UseAccountReturnType
-) {
+): Fetch<StrategyInfoForAccount> {
+  const { address: strategyAddress, underlyingAsset } = strategyConfig;
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
   const {
     data: results,
@@ -55,7 +66,7 @@ export function useFetchStrategyInfoForAccount(
         functionName: "equityUSD",
       },
       {
-        address: underlyingAssetAddress,
+        address: underlyingAsset.address,
         abi: erc20Abi,
         functionName: "balanceOf",
         args: [account.address as Address],
@@ -64,7 +75,7 @@ export function useFetchStrategyInfoForAccount(
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
-        args: [underlyingAssetAddress],
+        args: [underlyingAsset.address],
       },
     ],
   });
@@ -90,11 +101,31 @@ export function useFetchStrategyInfoForAccount(
   return {
     isLoading,
     isFetched,
-    targetMultiple: formatUnitsToNumber(targetMultiple, 8),
-    userEquity: formatUnitsToNumber(userEquity, 18),
-    userEquityUSD: formatUnitsToNumber(userEquityUSD, 8),
-    userBalance: formatUnitsToNumber(userBalance, 18),
-    userBalanceUSD: formatUnitsToNumber(userBalanceUSD, 8),
+    targetMultiple: {
+      bigIntValue: targetMultiple || 0n,
+      decimals: 8,
+      symbol: "x",
+    },
+    userEquity: {
+      bigIntValue: userEquity || 0n,
+      decimals: 18,
+      symbol: strategyConfig.symbol,
+    },
+    userEquityUSD: {
+      bigIntValue: userEquityUSD || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
+    userBalance: {
+      bigIntValue: userBalance || 0n,
+      decimals: 18,
+      symbol: underlyingAsset.symbol,
+    },
+    userBalanceUSD: {
+      bigIntValue: userBalanceUSD || 0n,
+      decimals: 8,
+      symbol: "$",
+    },
   };
 }
 
@@ -112,17 +143,13 @@ export const useFetchViewStrategy = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(
-    strategyConfig.address,
-    strategyConfig.underlyingAsset.address,
-    account
-  );
+  } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   const {
     isLoading: isApyLoading,
     isFetched: isApyFetched,
-    apy,
-  } = useFetchStrategyApy(strategyConfig);
+    data,
+  } = useFetchViewStrategyApy(index);
 
   return {
     isLoading: isStrategyInfoLoading || isApyLoading,
@@ -134,30 +161,21 @@ export const useFetchViewStrategy = (
         symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
-      targetMultiple: formatToDisplayable(targetMultiple) + "x",
-      LoopAPY: {
-        value: apy ? formatToDisplayable(apy) : "—",
-        symbol: apy ? "%" : "",
-      },
+      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
+      loopApy: data.apy,
       availableToDeposit: {
-        tokenAmount: {
-          value: formatToDisplayable(userBalance),
+        tokenAmount: formatFetchBigIntToViewBigInt({
+          ...userBalance,
           symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(userBalanceUSD),
-          symbol: "$",
-        },
+        }),
+        dollarAmount: formatFetchBigIntToViewBigInt(userBalanceUSD),
       },
       yourPosition: {
-        tokenAmount: {
-          value: formatToDisplayable(userEquity),
+        tokenAmount: formatFetchBigIntToViewBigInt({
+          ...userEquity,
           symbol: "",
-        },
-        dollarAmount: {
-          value: formatToDisplayable(userEquityUSD),
-          symbol: "$",
-        },
+        }),
+        dollarAmount: formatFetchBigIntToViewBigInt(userEquityUSD),
       },
     },
   };

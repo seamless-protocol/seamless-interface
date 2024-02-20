@@ -1,13 +1,13 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface ViewUserInfo {
   underlyingAssetBalance: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
 
   strategyBalance: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
 }

@@ -1,17 +1,16 @@
 // AmountInputBox.tsx
 import React from "react";
-import { etherUnits, formatUnits } from "viem";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
-import {
-  formatBigIntOnTwoDecimals,
-  formatToDisplayable,
-} from "../../../../../../shared/utils/helpers";
+import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
+import { DisplayMoney, ViewBigInt } from "../../../../../../shared";
+import { walletBalanceDecimalsOptions } from "@meta";
 import { DisplayMoney, FlexRow, Typography } from "../../../../../../shared";
 import { useFormContext } from "react-hook-form";
+import { formatUnits, etherUnits } from "viem";
 
 interface AmountInputBoxProps {
-  walletBalance: bigint;
+  walletBalance: ViewBigInt;
   debouncedAmountInUsd: number;
   assetSymbol: string;
   assetLogo: any;
@@ -39,6 +38,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           type="number"
           placeholder="0.00"
           className="pt-1 no-underline"
+          max={walletBalance.value || 0}
           max={maxNumber}
         />
 
@@ -50,9 +50,15 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
 
       <div className="flex justify-between">
         <DisplayMoney
-          value={formatToDisplayable(debouncedAmountInUsd)}
+          viewValue={formatToDisplayable(
+            debouncedAmountInUsd,
+            walletBalanceDecimalsOptions
+          )}
           typography="description"
         />
+        <span className="text-xs">
+          Wallet balance {walletBalance.viewValue}
+        </span>
         <FlexRow className="items-center gap-1">
           <span className="text-xs">
             Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}

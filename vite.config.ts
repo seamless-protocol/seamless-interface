@@ -16,4 +16,7 @@ export default defineConfig({
       "@router": path.resolve(__dirname, "src/app/router"),
     },
   },
+  optimizeDeps: {
+    exclude: ["js-big-decimal"],
+  },
 });

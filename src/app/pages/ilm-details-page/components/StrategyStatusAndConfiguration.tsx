@@ -4,8 +4,8 @@ import {
   Divider,
   FlexCol,
   Typography,
-  ValueSymbolPair,
   VerticalDivider,
+  ViewValueSymbolPair,
 } from "../../../../shared";
 import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
@@ -26,39 +26,27 @@ export const StrategyStatusAndConfiguration: React.FC<{
           <FlexCol className="md:flex-row gap-4 md:gap-0">
             <LocalValueComponent
               title="Total market value"
-              mainValue={{
-                ...data?.collateral.tokenAmount,
-              }}
-              secondaryValue={{
-                ...data?.collateral.dollarAmount,
-              }}
               isFetched={isFetched}
+              mainValue={data.collateral.tokenAmount}
+              secondaryValue={data.collateral.dollarAmount}
             />
             <VerticalDivider />
             <LocalValueComponent
               title="Total supplied"
-              mainValue={{
-                ...data?.equity.tokenAmount,
-              }}
-              secondaryValue={{
-                ...data?.equity.dollarAmount,
-              }}
+              mainValue={data.equity.tokenAmount}
+              secondaryValue={data.equity.dollarAmount}
               isFetched={isFetched}
             />
             <VerticalDivider />
             <LocalValueComponent
               title="Current multiple"
-              mainValue={{
-                value: data?.currentMultiple,
-              }}
+              mainValue={data.currentMultiple}
               isFetched={isFetched}
             />
             <VerticalDivider />
             <LocalValueComponent
               title="Target multiple"
-              mainValue={{
-                value: data?.targetMultiple,
-              }}
+              mainValue={data?.targetMultiple}
               isFetched={isFetched}
             />
           </FlexCol>
@@ -97,8 +85,8 @@ export const StrategyStatusAndConfiguration: React.FC<{
 
 const LocalValueComponent: React.FC<{
   title: string;
-  mainValue?: ValueSymbolPair;
-  secondaryValue?: ValueSymbolPair;
+  mainValue?: ViewValueSymbolPair;
+  secondaryValue?: ViewValueSymbolPair;
   isLoading?: boolean;
   isFetched?: boolean;
 }> = ({ title, mainValue, secondaryValue, isFetched }) => {

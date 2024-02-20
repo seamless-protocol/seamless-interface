@@ -1,14 +1,14 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface ViewStrategyInfo {
-  currentMultiple: string;
-  targetMultiple: string;
+  currentMultiple: ViewBigInt;
+  targetMultiple: ViewBigInt;
   collateral: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
   equity: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
 }
