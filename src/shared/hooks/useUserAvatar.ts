@@ -1,16 +1,9 @@
 import makeBlockie from "ethereum-blockies-base64";
-import { normalize } from "viem/ens";
 import { useMemo } from "react";
-import { useEnsName, useEnsAvatar, useAccount } from "wagmi";
+import { useAccount } from "wagmi";
 
 export const useUserAvatar = () => {
-  const { address } = useAccount();
-  const { data: ensName, isLoading } = useEnsName({
-    address: address,
-  });
-  const { data: ensAvatar, isLoading: isAvatarLoading } = useEnsAvatar({
-    name: normalize(ensName || ""),
-  });
+  const { address, isConnecting } = useAccount();
 
   const blockieAvatar = useMemo(() => {
     if (!address) return undefined;
@@ -18,7 +11,7 @@ export const useUserAvatar = () => {
   }, [address]);
 
   return {
-    avatar: ensAvatar || blockieAvatar,
-    isLoading: isLoading || isAvatarLoading,
+    avatar: blockieAvatar,
+    isLoading: isConnecting,
   };
 };
