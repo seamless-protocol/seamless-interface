@@ -1,13 +1,12 @@
-import { ValueSymbolPair } from "../../../../shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface ViewPreviewWithdraw {
-  minReceivingAmount: bigint;
   assetsToReceive: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
   cost: {
-    tokenAmount: ValueSymbolPair;
-    dollarAmount: ValueSymbolPair;
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
   };
 }

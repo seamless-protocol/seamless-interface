@@ -46,7 +46,7 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayValue
             typography="main21"
-            value={data?.targetMultiple}
+            {...data?.targetMultiple}
             isFetched={isFetched}
             loaderSkeleton
           />

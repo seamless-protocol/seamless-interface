@@ -16,8 +16,8 @@ import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBas
 
 export const BaseAssetsDesktopTableRow: React.FC<{
   index: number;
-  asset?: ViewBaseAsset;
-  isLoading?: boolean;
+  asset: ViewBaseAsset;
+  isLoading: boolean;
   hideBorder?: boolean;
 }> = ({ index, asset, isLoading, hideBorder }) => {
   return (
@@ -32,7 +32,7 @@ export const BaseAssetsDesktopTableRow: React.FC<{
           alignItems="items-start"
         >
           <DisplayDepositAsset
-            depositAsset={asset?.depositAsset}
+            depositAsset={asset.depositAsset}
             isLoading={isLoading}
           />
         </TableCell>
@@ -53,8 +53,8 @@ export const BaseAssetsDesktopTableRow: React.FC<{
         <TableCell>
           <FlexCol className="">
             <DisplayPercentage
-              typography="main16"
               {...asset?.supplyApy}
+              typography="main16"
               isLoading={isLoading}
             />
             {asset?.supplyIncentives.totalApy.value !== "" && (
@@ -77,8 +77,8 @@ export const BaseAssetsDesktopTableRow: React.FC<{
         </TableCell>
         <TableCell>
           <DisplayPercentage
-            typography="main16"
             {...asset?.borrowApyVariable}
+            typography="main16"
             isLoading={isLoading}
           />
           {asset?.borrowVariableIncentives.totalApy.value !== "" && (
@@ -88,8 +88,8 @@ export const BaseAssetsDesktopTableRow: React.FC<{
 
         <TableCell>
           <DisplayPercentage
-            typography="main16"
             {...asset?.borrowApyStable}
+            typography="main16"
             isLoading={isLoading}
           />
         </TableCell>
