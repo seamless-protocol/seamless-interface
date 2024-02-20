@@ -1,12 +1,7 @@
-import { useAccount } from "wagmi";
-import { Account } from "./Account";
-import { WalletOptions } from "../../../../shared/components/wallet/WalletOptions";
+import { ConnectWalletRainbowWrapper } from "@shared";
 
-//TODO: Remove this component once third parties start supporting new Wagmi version
 function ConnectWalletButton() {
-  const { isConnected } = useAccount();
-  if (isConnected) return <Account />;
-  return <WalletOptions />;
+  return <ConnectWalletRainbowWrapper />;
 }
 
 export default ConnectWalletButton;
