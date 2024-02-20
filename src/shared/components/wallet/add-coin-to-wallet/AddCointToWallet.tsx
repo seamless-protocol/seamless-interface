@@ -1,11 +1,11 @@
 import React from "react";
 import { Address } from "viem";
 import { FlexCol } from "../../containers/FlexCol";
-import { FlexRow } from "../../containers/FlexRow";
 import { Icon } from "../../images/Icon";
 import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
 import { useAddCoinToWallet } from "../../../../app/state/common/hooks/useAddCoinToWallet";
+import walletIconWhite from "@assets/common/wallet-icon-white.svg";
 
 interface Coin {
   symbol: string;
@@ -61,16 +61,17 @@ export const AddCoinToWallet: React.FC<Coin> = ({
   };
 
   return (
-    <FlexCol className="p-3 gap-3 border my-4 rounded-md">
-      <FlexRow className="p-1 gap-2 items-start">
-        <Icon src={logo} width={40} alt={`${symbol}-icon`} />
-
-        <FlexCol className="gap-1 px-1 items-start">
-          <Typography>{symbol}</Typography>
-          <Typography type="subheader2">New asset in your wallet?</Typography>
-        </FlexCol>
-      </FlexRow>
-      <Button fullWidth loading={isPending} onClick={handleAddToWalletClick}>
+    <FlexCol className="p-3 gap-3 bg-background-disabled my-4 rounded-md items-center">
+      <Icon src={logo} width={30} alt={`${symbol}-icon`} />
+      <Typography>
+        Add <strong>{symbol}</strong> to wallet to track your balance.
+      </Typography>
+      <Button
+        loading={isPending}
+        onClick={handleAddToWalletClick}
+        className="flex flex-row gap-3"
+      >
+        <Icon src={walletIconWhite} width={20} alt="wallet-icon-white" />
         Add to wallet
       </Button>
     </FlexCol>
