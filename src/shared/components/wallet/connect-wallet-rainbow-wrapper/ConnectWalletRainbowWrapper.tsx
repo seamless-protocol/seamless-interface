@@ -7,10 +7,16 @@ import { ActionSection } from "./sections/ActionSection";
 import { AvatarSection } from "./sections/AvatarSection";
 import { NetworkSection } from "./sections/NetworkSection";
 import { useConnectButtonContext } from "../../../contexts/connect-wallet/useConnectButtonContext";
+import { Icon } from "../../images/Icon";
 
 export const ConnectWalletRainbowWrapper = () => {
-  const { dropdownRef, isDropdownVisible, toggleDropdown } =
-    useConnectButtonContext();
+  const {
+    userAvatar,
+    dropdownRef,
+    isDropdownVisible,
+    toggleDropdown,
+    setEnsAvatar,
+  } = useConnectButtonContext();
 
   return (
     <ConnectButton.Custom>
@@ -22,6 +28,8 @@ export const ConnectWalletRainbowWrapper = () => {
         authenticationStatus,
         mounted,
       }) => {
+        setEnsAvatar?.(account?.ensAvatar);
+
         const ready = mounted && authenticationStatus !== "loading";
         const connected =
           ready &&
@@ -70,7 +78,15 @@ export const ConnectWalletRainbowWrapper = () => {
                       rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
                     bg-primary-main hover:bg-background-header"
                     >
-                      <FlexRow className="gap-1 items-center">
+                      <FlexRow className="gap-2 items-center">
+                        {userAvatar && (
+                          <Icon
+                            className="rounded-full"
+                            src={userAvatar}
+                            width={20}
+                            alt={`user-avatar-${account.displayName}`}
+                          />
+                        )}
                         {account.displayName}
                         <ChevronDownIcon
                           width={20}

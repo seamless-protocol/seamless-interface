@@ -6,14 +6,21 @@ import { ActionSection } from "./sections/ActionSection";
 import { AvatarSection } from "./sections/AvatarSection";
 import { NetworkSection } from "./sections/NetworkSection";
 import { useConnectButtonContext } from "../../../contexts/connect-wallet/useConnectButtonContext";
+import { Icon } from "../../images/Icon";
 
 export const ConnectWalletRainbowWrapperMobile = () => {
-  const { isConnected, isDropdownVisible, toggleDropdown } =
-    useConnectButtonContext();
+  const {
+    userAvatar,
+    setEnsAvatar,
+    isConnected,
+    isDropdownVisible,
+    toggleDropdown,
+  } = useConnectButtonContext();
 
   return (
     <ConnectButton.Custom>
       {({ account, openConnectModal, chain }) => {
+        setEnsAvatar?.(account?.ensAvatar);
         return (
           <>
             <button
@@ -26,6 +33,14 @@ export const ConnectWalletRainbowWrapperMobile = () => {
             bg-primary-main hover:bg-background-header"
             >
               <FlexRow className="gap-1 items-center">
+                {userAvatar && (
+                  <Icon
+                    className="rounded-full"
+                    src={userAvatar}
+                    width={20}
+                    alt={`user-avatar-${account?.displayName}`}
+                  />
+                )}
                 {isConnected ? account?.displayName : "Connect Wallet"}
                 {isConnected && (
                   <ChevronDownIcon

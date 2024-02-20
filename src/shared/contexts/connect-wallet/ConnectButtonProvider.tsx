@@ -8,6 +8,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
+import { useUserAvatar } from "../../hooks/useUserAvatar";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -20,6 +21,8 @@ interface ConnectButtonContextType {
   handleCopyAddressClick: () => Promise<void>;
   handleViewItOnExplorer: () => void;
   dropdownRef: React.RefObject<HTMLDivElement>;
+  userAvatar?: string;
+  setEnsAvatar?: (value?: string | undefined) => void;
 }
 
 const defaultContextValue: ConnectButtonContextType = {
@@ -41,8 +44,10 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { isConnected, address } = useAccount();
+  const { avatar } = useUserAvatar();
   const { disconnect } = useDisconnect();
   const { openConnectModal } = useConnectModal();
+  const [ensAvatar, setEnsAvatar] = useState<string | undefined>();
   const [attemptingToSwitch, setAttemptingToSwitch] = useState(false);
   const dropdown = useDropdown();
 
@@ -90,6 +95,12 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
     handleCopyAddressClick,
     handleViewItOnExplorer,
     dropdownRef: dropdown.dropdownRef,
+    setEnsAvatar: (ensAvatar?: string) => {
+      setTimeout(() => {
+        if (ensAvatar) setEnsAvatar?.(ensAvatar);
+      }, 0);
+    },
+    userAvatar: ensAvatar || avatar,
   };
 
   return (

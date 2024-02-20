@@ -1,6 +1,9 @@
 // ****** //
 // contexts //
+// contexts //
 // ****** //
+export * from "./contexts/notification/NotificationContext";
+export * from "./contexts/notification/useNotificationContext";
 export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 

@@ -1,6 +1,4 @@
-import React, { useMemo } from "react";
-import { useAccount } from "wagmi";
-import makeBlockie from "ethereum-blockies-base64";
+import React from "react";
 import { FlexCol } from "../../../containers/FlexCol";
 import { FlexRow } from "../../../containers/FlexRow";
 import { Icon } from "../../../images/Icon";
@@ -11,24 +9,15 @@ import { useConnectButtonContext } from "../../../../contexts/connect-wallet/use
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
 }> = ({ accountDisplayName }) => {
-  const { address, isConnecting } = useAccount();
-  const { handleDisconnect, handleSwitchWallet } = useConnectButtonContext();
-
-  const avatar = useMemo(() => {
-    if (!address) return undefined;
-    return makeBlockie(address);
-  }, [address]);
+  const { handleDisconnect, handleSwitchWallet, userAvatar } =
+    useConnectButtonContext();
 
   return (
     <FlexCol className="p-4 gap-2 md:text-primary-dark text-primary-contrast">
       <FlexRow className="items-center gap-2">
         <div className="avatar">
           <div className="w-12 rounded-full">
-            <Icon
-              src={avatar}
-              isLoading={isConnecting}
-              alt={`user-avatar-${accountDisplayName}`}
-            />
+            <Icon src={userAvatar} alt={`user-avatar-${accountDisplayName}`} />
           </div>
         </div>
         <Typography
