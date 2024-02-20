@@ -7,7 +7,8 @@ import {
   formatToDisplayable,
 } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
-import { DisplayMoney } from "../../../../../../shared";
+import { DisplayMoney, FlexRow, Typography } from "../../../../../../shared";
+import { useFormContext } from "react-hook-form";
 
 interface AmountInputBoxProps {
   walletBalance: bigint;
@@ -23,6 +24,13 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   assetSymbol,
   assetLogo,
 }) => {
+  const maxNumber = formatUnits(walletBalance || 0n, etherUnits.wei);
+  const { setValue } = useFormContext();
+
+  const handleMaxClick = () => {
+    setValue("amount", maxNumber);
+  };
+
   return (
     <div className="border border-[#F2EEEE] rounded p-2">
       <div className="flex justify-between items-center">
@@ -31,7 +39,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           type="number"
           placeholder="0.00"
           className="pt-1 no-underline"
-          max={formatUnits(walletBalance || 0n, etherUnits.wei)}
+          max={maxNumber}
         />
 
         <div className="flex items-center space-x-2">
@@ -45,9 +53,18 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           value={formatToDisplayable(debouncedAmountInUsd)}
           typography="description"
         />
-        <span className="text-xs">
-          Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
-        </span>
+        <FlexRow className="items-center gap-1">
+          <span className="text-xs">
+            Wallet balance {formatBigIntOnTwoDecimals(walletBalance, 18)}
+          </span>
+          <button
+            type="button"
+            className="outline-none text-text-light"
+            onClick={handleMaxClick}
+          >
+            <Typography type="buttonS">MAX</Typography>
+          </button>
+        </FlexRow>
       </div>
     </div>
   );
