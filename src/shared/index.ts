@@ -79,5 +79,5 @@ export * from "./components/table/TableRow";
 // ****** //
 // Wallet //
 // ****** //
-export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapper";
-export * from "./components/wallet/ConnectWalletRainbowWrapper/ConnectWalletRainbowWrapperMobile";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
