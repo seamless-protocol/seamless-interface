@@ -9,6 +9,8 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/useUserAvatar";
+import { useFetchIsAddressSanctioned } from "../../../app/state/common/hooks/useFetchIsAddressSanctioned";
+import { Address } from "viem";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -44,6 +46,7 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { isConnected, address } = useAccount();
+  const { isSanctioned } = useFetchIsAddressSanctioned(address as Address);
   const { avatar } = useUserAvatar();
   const { disconnect } = useDisconnect();
   const { openConnectModal } = useConnectModal();
@@ -56,15 +59,19 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
       openConnectModal?.();
       setAttemptingToSwitch(false);
     }
-  }, [isConnected, attemptingToSwitch, openConnectModal]);
+
+    if (isSanctioned) {
+      handleDisconnect();
+    }
+  }, [isConnected, isSanctioned, attemptingToSwitch, openConnectModal]);
 
   const handleDisconnect = async () => {
-    await disconnect();
+    disconnect();
     dropdown.setIsDropdownVisible(false);
   };
 
   const handleSwitchWallet = async () => {
-    await disconnect();
+    disconnect();
     setAttemptingToSwitch(true);
     dropdown.setIsDropdownVisible(false);
   };
