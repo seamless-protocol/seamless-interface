@@ -9,6 +9,7 @@ interface ModalBodyProps {
   header?: string;
   fullScreen?: boolean;
   setModalOpen: (isOpen: boolean) => void;
+  className?: string;
 }
 
 export const ModalBody: React.FC<ModalBodyProps> = ({
@@ -16,6 +17,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   header,
   fullScreen,
   setModalOpen,
+  className = "",
 }) => {
   const handleOverlayMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -31,7 +33,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
         fullScreen
           ? "w-full h-full bg-black bg-opacity-50"
           : "bg-black bg-opacity-50"
-      }`}
+      } ${className}`}
       style={{ opacity: 1 }}
       onMouseDown={handleOverlayMouseDown}
     >

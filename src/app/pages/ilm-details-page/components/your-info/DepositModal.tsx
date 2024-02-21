@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
+  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -14,7 +15,7 @@ import {
   MyFormProvider,
   Typography,
   useNotificationContext,
-} from "../../../../../shared";
+} from "@shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
@@ -85,7 +86,15 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
       showNotification({
         txHash,
-        content: `You Supplied ${data.amount} ${ilmStrategies[id].underlyingAsset.symbol}`,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography>
+              You Supplied {data.amount}{" "}
+              {ilmStrategies[id].underlyingAsset.symbol}
+            </Typography>
+            <AddCoinToWallet {...ilmStrategies[id]} />
+          </FlexCol>
+        ),
       });
     }
   };

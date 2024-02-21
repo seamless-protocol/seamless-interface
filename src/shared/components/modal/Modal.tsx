@@ -1,22 +1,18 @@
 import { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
 import { Button, ButtonProps } from "../button/Button";
-import { Icon } from "../images/Icon";
 
 import { ModalBody } from "./ModalBody";
 
 interface ModalProps {
   children: ReactNode;
   buttonProps?: ButtonProps;
-  buttonText: string;
+  buttonText?: string;
   header?: string;
-  icon?: string; // Make icon optional
-  iconProps?: {
-    width: number;
-    height: number;
-  };
+  icon?: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
   fullScreen?: boolean;
+  className?: string;
 }
 export interface ModalHandles {
   close: () => void;
@@ -32,8 +28,8 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
       onOpen,
       onClose,
       fullScreen,
-      iconProps,
       header,
+      className,
     },
     ref
   ) => {
@@ -56,14 +52,7 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
           }}
         >
           {buttonText}
-          {icon && (
-            <Icon
-              src={icon}
-              alt={"button-" + icon}
-              width={iconProps ? iconProps.width : 4}
-              height={iconProps ? iconProps.height : 4}
-            />
-          )}
+          {icon && icon}
         </Button>
 
         {isModalOpen && (
@@ -71,6 +60,7 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
             header={header}
             fullScreen={fullScreen}
             setModalOpen={setModalOpen}
+            className={className}
           >
             {children}
           </ModalBody>

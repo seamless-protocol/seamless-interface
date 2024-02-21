@@ -1,8 +1,11 @@
 // ****** //
-// services //
+// contexts //
+// contexts //
 // ****** //
-export * from "./services/notification/NotificationContext";
-export * from "./services/notification/useNotificationContext";
+export * from "./contexts/notification/NotificationContext";
+export * from "./contexts/notification/useNotificationContext";
+export * from "./contexts/notification/NotificationContext";
+export * from "./contexts/notification/useNotificationContext";
 
 // ****** //
 // auth //
@@ -79,4 +82,6 @@ export * from "./components/table/TableRow";
 // ****** //
 // Wallet //
 // ****** //
-export * from "./components/wallet/WalletOptions";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
+export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
+export * from "./components/wallet/add-coin-to-wallet/AddCointToWallet";

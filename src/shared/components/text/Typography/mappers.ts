@@ -4,6 +4,8 @@ export type TypographyType =
   | "h2"
   | "h3"
   | "h4"
+  | "body1"
+  | "body2"
   | "subheader1"
   | "subheader2"
   | "description"
@@ -38,6 +40,8 @@ export const tailwindStyles = {
   h2: "text-h2",
   h3: "text-h3",
   h4: "text-h4",
+  body1: "text-body1",
+  body2: "text-body2",
   subheader1: "text-subheader1",
   subheader2: "text-subheader2",
   subheader2Light: "text-subheader2Light",
@@ -75,6 +79,8 @@ export const ComponentMap: { [key in TypographyType]: React.ElementType } = {
   h2: "h2",
   h3: "h3",
   h4: "h4",
+  body1: "p",
+  body2: "p",
   subheader1: "p",
   subheader2: "p",
   description: "p",
