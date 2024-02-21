@@ -4,7 +4,7 @@ import React, {
   useEffect,
   PropsWithChildren,
 } from "react";
-import { useAccount, useConfig, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
@@ -45,11 +45,10 @@ export const ConnectButtonContext =
 export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const config = useConfig();
   const { isConnected, address } = useAccount();
   const { isSanctioned } = useFetchIsAddressSanctioned(address as Address);
   const { avatar } = useUserAvatar();
-  const { disconnect } = useDisconnect({ config });
+  const { disconnect } = useDisconnect();
   const { openConnectModal } = useConnectModal();
   const [ensAvatar, setEnsAvatar] = useState<string | undefined>();
   const [attemptingToSwitch, setAttemptingToSwitch] = useState(false);
