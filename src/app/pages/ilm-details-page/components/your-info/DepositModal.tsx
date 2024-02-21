@@ -23,7 +23,6 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useFetchIsAddressSanctioned } from "../../../../state/common/hooks/useFetchIsAddressSanctioned";
 
 export interface DepositModalFormData {
   amount: string;
@@ -36,9 +35,6 @@ interface DepositModalProps extends Omit<ButtonProps, "id"> {
 export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
-  const { isSanctioned } = useFetchIsAddressSanctioned(
-    account.address as Address
-  );
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
@@ -159,7 +155,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
             <Button
               onClick={() => approveAsync()}
               loading={isApproving}
-              disabled={isSanctioned || isApproved || Number(amount) <= 0}
+              disabled={isApproved || Number(amount) <= 0}
             >
               Approve to continue
             </Button>
@@ -167,7 +163,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           <Button
             type="submit"
             loading={isDepositPending}
-            disabled={isSanctioned || !isApproved || Number(amount) <= 0}
+            disabled={!isApproved || Number(amount) <= 0}
           >
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>

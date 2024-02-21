@@ -4,11 +4,13 @@ import React, {
   useEffect,
   PropsWithChildren,
 } from "react";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useConfig, useDisconnect } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/useUserAvatar";
+import { useFetchIsAddressSanctioned } from "../../../app/state/common/hooks/useFetchIsAddressSanctioned";
+import { Address } from "viem";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -43,9 +45,11 @@ export const ConnectButtonContext =
 export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
+  const config = useConfig();
   const { isConnected, address } = useAccount();
+  const { isSanctioned } = useFetchIsAddressSanctioned(address as Address);
   const { avatar } = useUserAvatar();
-  const { disconnect } = useDisconnect();
+  const { disconnect } = useDisconnect({ config });
   const { openConnectModal } = useConnectModal();
   const [ensAvatar, setEnsAvatar] = useState<string | undefined>();
   const [attemptingToSwitch, setAttemptingToSwitch] = useState(false);
@@ -56,15 +60,19 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
       openConnectModal?.();
       setAttemptingToSwitch(false);
     }
-  }, [isConnected, attemptingToSwitch, openConnectModal]);
+
+    if (isSanctioned) {
+      handleDisconnect();
+    }
+  }, [isConnected, isSanctioned, attemptingToSwitch, openConnectModal]);
 
   const handleDisconnect = async () => {
-    await disconnect();
+    disconnect();
     dropdown.setIsDropdownVisible(false);
   };
 
   const handleSwitchWallet = async () => {
-    await disconnect();
+    disconnect();
     setAttemptingToSwitch(true);
     dropdown.setIsDropdownVisible(false);
   };

@@ -21,7 +21,6 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useFetchIsAddressSanctioned } from "../../../../state/common/hooks/useFetchIsAddressSanctioned";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -34,9 +33,6 @@ interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
 export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const account = useAccount();
-  const { isSanctioned } = useFetchIsAddressSanctioned(
-    account.address as Address
-  );
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
@@ -141,7 +137,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           <Button
             type="submit"
             loading={isWithdrawPending}
-            disabled={isSanctioned || Number(amount) <= 0}
+            disabled={Number(amount) <= 0}
           >
             Withdraw
           </Button>
