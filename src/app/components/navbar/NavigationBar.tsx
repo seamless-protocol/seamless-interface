@@ -18,8 +18,8 @@ import {
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: RouterConfig.Routes.ilm,
+    name: "Markets",
+    href: RouterConfig.Routes.markets,
     current: true,
   },
   {
@@ -35,6 +35,11 @@ const navigation = [
   {
     name: "Governance",
     href: RouterConfig.Routes.governance,
+    current: false,
+  },
+  {
+    name: "Claim Airdrop",
+    href: RouterConfig.Routes.claimAirdrop,
     current: false,
   },
 ];
@@ -80,7 +85,7 @@ const NavBar: React.FC<{
       <FlexRow className="items-center justify-between w-full">
         <FlexRow className="items-center justify-start">
           <Link
-            to={RouterConfig.Routes.ilm}
+            to={RouterConfig.Routes.markets}
             className="flex items-center gap-2"
           >
             <img src={SeamlessLogo} alt="logo" className="h-6 w-6" />
