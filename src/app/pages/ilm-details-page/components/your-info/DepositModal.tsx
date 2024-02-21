@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
-  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -23,6 +22,8 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { useQueryClient } from "@tanstack/react-query";
+import { AddCoinToWallet } from "../../../../../shared/components/wallet/add-coin-to-wallet/AddCointToWallet";
 
 export interface DepositModalFormData {
   amount: string;
@@ -38,6 +39,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
+  const queryClient = useQueryClient();
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
@@ -73,25 +75,35 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      const txHash = await depositAsync(
-        parseUnits(data.amount, 18),
-        account.address as Address,
-        previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
-      );
-      modalRef.current?.close();
+      try {
+        const txHash = await depositAsync(
+          parseUnits(data.amount, 18),
+          account.address as Address,
+          previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
+        );
+        modalRef.current?.close();
 
-      showNotification({
-        txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            <Typography>
-              You Supplied {data.amount}{" "}
-              {ilmStrategies[id].underlyingAsset.symbol}
-            </Typography>
-            <AddCoinToWallet {...ilmStrategies[id]} />
-          </FlexCol>
-        ),
-      });
+        showNotification({
+          txHash,
+          content: (
+            <FlexCol className="w-full items-center text-center justify-center">
+              <Typography>
+                You Supplied {data.amount}{" "}
+                {ilmStrategies[id].underlyingAsset.symbol}
+              </Typography>
+              <AddCoinToWallet {...ilmStrategies[id]} />
+            </FlexCol>
+          ),
+        });
+        queryClient.invalidateQueries();
+      } catch (e) {
+        modalRef.current?.close();
+        showNotification({
+          status: "error",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content: (e as any)?.shortMessage,
+        });
+      }
     }
   };
 
