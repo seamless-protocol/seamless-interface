@@ -12,7 +12,7 @@ const columnNames = {
   c_4: "Total borrowed",
   c_5: "Borrow APY,variable",
   c_6: "Borrow APY,stable",
-  c_6_1: "#",
+  c_6_1: "",
 };
 
 const columns = Object.keys(columnNames).map((key) => ({

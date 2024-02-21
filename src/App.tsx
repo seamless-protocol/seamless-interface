@@ -37,7 +37,10 @@ function App() {
                 <NavigationBar />
               </ConnectButtonProvider>
               <Routes>
-                <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
+                <Route
+                  path={RouterConfig.Routes.markets}
+                  element={<IlmPage />}
+                />
                 <Route
                   path={RouterConfig.Routes.ilmDetails}
                   element={<IlmDetailsPage />}

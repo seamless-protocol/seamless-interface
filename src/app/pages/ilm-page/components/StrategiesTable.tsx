@@ -12,7 +12,7 @@ const columnNames = {
   c_4_loopAPY: "Loop APY",
   c_5_availableToDeposit: "Available to Deposit",
   c_6_yourPosition: "Your Position",
-  c_7_1: "#",
+  c_7_1: "",
 };
 
 const columns = Object.keys(columnNames).map((key) => ({
