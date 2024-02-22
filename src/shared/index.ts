@@ -6,6 +6,8 @@ export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
+export * from "./contexts/lifi/LifiWidgetContext";
+export * from "./contexts/lifi/useLifiWidgetContext";
 
 // ****** //
 // auth //

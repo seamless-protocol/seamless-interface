@@ -6,13 +6,13 @@ import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
 import { BaseAssetsMobileTableRow } from "./mobile/BaseAssetsMobileTableRow";
 
 const columnNames = {
-  c_1: "Deposit Asset",
+  c_1: "Deposit asset",
   c_2: "Total supplied",
   c_3: "Supply APY",
   c_4: "Total borrowed",
   c_5: "Borrow APY,variable",
   c_6: "Borrow APY,stable",
-  c_6_1: "#",
+  c_6_1: "",
 };
 
 const columns = Object.keys(columnNames).map((key) => ({
@@ -28,7 +28,8 @@ export const BaseAssetsTable: React.FC = () => {
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
-            title="Base assets"
+            title="Supply & Borrow"
+            subtitle="Choose from a wide range of assets to supply and borrow"
             filterComponent={<SearchInput />}
             settings={{
               skeletonRowCount: 1,
@@ -43,9 +44,10 @@ export const BaseAssetsTable: React.FC = () => {
 const TableBody: React.FC = () => {
   return (
     <>
-      {baseAssets.map((_, index) => (
-        <BaseAssetsTableRow index={index} key={index} />
-      ))}
+      {baseAssets.map(
+        (asset, index) =>
+          !asset.hide && <BaseAssetsTableRow index={index} key={index} />
+      )}
     </>
   );
 };

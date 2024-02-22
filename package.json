@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@heroicons/react": "^2.1.1",
+    "@lifi/widget": "3.0.0-alpha.31",
     "@rainbow-me/rainbowkit": "^2.0.0",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.17.1",

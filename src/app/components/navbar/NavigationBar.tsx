@@ -6,6 +6,8 @@ import {
   EllipsisHorizontalIcon,
   QuestionMarkCircleIcon,
   XMarkIcon,
+  CircleStackIcon,
+  GiftIcon,
 } from "@heroicons/react/24/outline";
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
@@ -13,6 +15,7 @@ import {
   CBSubscribeButton,
   ConnectWalletRainbowWrapper,
   ConnectWalletRainbowWrapperMobile,
+  useLifiWidgetContext,
   FlexRow,
   Typography,
 } from "@shared";
@@ -20,18 +23,19 @@ import { CbSubscribeConfig } from "../../config/cb-subscribe-config";
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: RouterConfig.Routes.ilm,
+    name: "All Markets",
+    href: RouterConfig.Routes.markets,
     current: true,
   },
   {
-    name: "Lending & Borrowing",
+    name: "Supply & Borrow Dashboard",
     href: RouterConfig.Routes.lendingAndBorrowing,
     current: false,
   },
   {
-    name: "Staking Farms",
-    href: RouterConfig.Routes.stakingFarms,
+    name: "Bridge to Base",
+    href: "",
+    isLifi: true,
     current: false,
   },
   {
@@ -43,12 +47,22 @@ const navigation = [
 
 const moreMenuItems = [
   {
+    name: "Staking Farms",
+    href: RouterConfig.Routes.stakingFarms,
+    icon: <CircleStackIcon width={20} />,
+  },
+  {
+    name: "Claim Airdrop",
+    href: RouterConfig.Routes.claimAirdrop,
+    icon: <GiftIcon width={20} />,
+  },
+  {
     name: "FAQ",
     href: RouterConfig.Routes.faq,
     icon: <QuestionMarkCircleIcon width={20} />,
   },
   {
-    name: "Developers",
+    name: "GitHub",
     href: RouterConfig.Routes.developers,
     icon: <BookOpenIcon width={20} />,
   },
@@ -60,6 +74,8 @@ const NavBar: React.FC<{
 }> = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement | null>(null);
+  const { toggle: toggleLifiWidget } = useLifiWidgetContext();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -82,7 +98,7 @@ const NavBar: React.FC<{
       <FlexRow className="items-center justify-between w-full">
         <FlexRow className="items-center justify-start">
           <Link
-            to={RouterConfig.Routes.ilm}
+            to={RouterConfig.Routes.markets}
             className="flex items-center gap-2"
           >
             <img src={SeamlessLogo} alt="logo" className="h-6 w-6" />
@@ -99,15 +115,27 @@ const NavBar: React.FC<{
                   <span
                     className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
                   ></span>
-                  <Link to={item.href} className="h-max flex items-center">
-                    <Typography
-                      className="text-base text-center"
-                      type="description"
-                      color="primary"
-                    >
-                      {item.name}
-                    </Typography>
-                  </Link>
+                  {item.isLifi ? (
+                    <button onClick={() => toggleLifiWidget()}>
+                      <Typography
+                        className="text-base text-center"
+                        type="description"
+                        color="primary"
+                      >
+                        {item.name}
+                      </Typography>
+                    </button>
+                  ) : (
+                    <Link to={item.href} className="h-max flex items-center">
+                      <Typography
+                        className="text-base text-center"
+                        type="description"
+                        color="primary"
+                      >
+                        {item.name}
+                      </Typography>
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>

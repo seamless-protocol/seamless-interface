@@ -8,9 +8,10 @@ export const Heading = () => {
   return (
     <FlexCol className="gap-5 text-text-primary">
       <FlexCol>
-        <Typography type="h1">Integrated Liquidity Market</Typography>
+        <Typography type="h1">Seamless Markets</Typography>
         <Typography type="description" color="light">
-          Simplify your flow with integrated borrowing strategies
+          Paving the way for Modern DeFi with lending, borrowing, and automated
+          strategies
         </Typography>
       </FlexCol>
       <FlexRow className="gap-8">
