@@ -71,7 +71,7 @@ const WalletContent: React.FC<{
   return (
     <>
       <div
-        className={`md:hidden  ${isMenuOpen ? "fixed top-12 inset-0 z-50 bg-slate-800" : "hidden"} transform 
+        className={`md:hidden  ${isMenuOpen ? "fixed top-16 inset-0 z-50 bg-slate-800" : "hidden"} transform 
           transition-transform duration-300 ease-in-out`}
       >
         <FlexCol className="gap-2">
