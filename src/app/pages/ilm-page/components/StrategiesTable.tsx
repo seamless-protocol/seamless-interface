@@ -6,12 +6,12 @@ import { StrategiesDesktopTableRow } from "./desktop/StrategiesDesktopTableRow";
 import { StrategiesMobileTableRow } from "./mobile/StrategiesMobileTableRow";
 
 const columnNames = {
-  c_1_depositAsset: "Deposit Asset",
+  c_1_depositAsset: "Deposit asset",
   c_2_strategyName: "Strategy name",
-  c_3_targetMultiple: "Target Multiple",
-  c_4_loopAPY: "Loop APY",
-  c_5_availableToDeposit: "Available to Deposit",
-  c_6_yourPosition: "Your Position",
+  c_3_targetMultiple: "Target multiple",
+  c_4_loopAPY: "Estimated APY",
+  c_5_availableToDeposit: "In your wallet",
+  c_6_yourPosition: "Your current position",
   c_7_1: "",
 };
 

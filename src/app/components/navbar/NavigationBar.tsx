@@ -18,12 +18,12 @@ import {
 
 const navigation = [
   {
-    name: "Markets",
+    name: "All Markets",
     href: RouterConfig.Routes.markets,
     current: true,
   },
   {
-    name: "Lending & Borrowing",
+    name: "Supply & Borrow Dashboard",
     href: RouterConfig.Routes.lendingAndBorrowing,
     current: false,
   },

@@ -6,7 +6,7 @@ import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
 import { BaseAssetsMobileTableRow } from "./mobile/BaseAssetsMobileTableRow";
 
 const columnNames = {
-  c_1: "Deposit Asset",
+  c_1: "Deposit asset",
   c_2: "Total supplied",
   c_3: "Supply APY",
   c_4: "Total borrowed",
