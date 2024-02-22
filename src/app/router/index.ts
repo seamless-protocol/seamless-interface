@@ -18,7 +18,6 @@ export const RouterConfig = {
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,
-    lifiWidget: `${baseUrl}/lifi`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
