@@ -28,7 +28,8 @@ export const StrategiesTable: React.FC = () => {
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
-            title="Strategies"
+            title="Integrated Liquidity Market (ILM) Strategies"
+            subtitle="Automate your strategy for increased rewards and reduced fees."
             filterComponent={<SearchInput />}
             settings={{
               skeletonRowCount: 1,

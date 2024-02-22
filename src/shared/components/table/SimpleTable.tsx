@@ -19,6 +19,7 @@ interface GenericSimpleTableProps {
   bodyComponent?: React.ReactNode;
   columns: TableLabel[];
   title: string;
+  subtitle: string;
   filterComponent?: React.ReactNode;
   footerComponent?: React.ReactNode;
   settings?: Settings;
@@ -74,18 +75,25 @@ export const SimpleTable = ({
   columns,
   bodyComponent,
   title,
+  subtitle,
   filterComponent,
   footerComponent,
   settings = { skeletonRowCount: 5 },
 }: GenericSimpleTableProps) => {
   return (
     <div className="text-text-secondary">
-      <FlexRow className="p-1 px-6 justify-between ">
-        <Typography type="h2" color="secondary">
-          {title}
+      <FlexCol className="p-1 px-6 ">
+        <FlexRow className="justify-between ">
+          <Typography type="h2" color="secondary">
+            {title}
+          </Typography>
+
+          {filterComponent}
+        </FlexRow>
+        <Typography type="description" color="light">
+          {subtitle}
         </Typography>
-        {filterComponent}
-      </FlexRow>
+      </FlexCol>
       <div className="mt-4">
         <FlexRow className="hidden md:flex px-6 pt-4 pb-1 min-w-full  border-b border-b-divider">
           {columns.map((column) => (

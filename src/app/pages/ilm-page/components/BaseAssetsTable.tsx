@@ -28,7 +28,8 @@ export const BaseAssetsTable: React.FC = () => {
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
-            title="Base assets"
+            title="Lending & Borrowing"
+            subtitle="Choose from a wide range of assets to supply and borrow"
             filterComponent={<SearchInput />}
             settings={{
               skeletonRowCount: 1,
