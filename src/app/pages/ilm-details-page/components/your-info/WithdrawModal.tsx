@@ -78,7 +78,6 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         reset();
         queryClient.invalidateQueries();
       } catch (e) {
-        console.log("e", e);
         modalRef.current?.close();
         showNotification({
           status: "error",
