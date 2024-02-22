@@ -54,7 +54,7 @@ export const variableDebtSeamwstETH_ADDRESS: Address =
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 
-export const APY_BLOCK_FRAME = 50n;
+export const APY_BLOCK_FRAME = 1000n;
 
 export const AAVE_ADDRESS_PROVIDER =
   "0x0E02EB705be325407707662C6f6d3466E939f3a0";

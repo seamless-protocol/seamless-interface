@@ -60,6 +60,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
                   .bigIntValue
               )
             }
+            className={"w-28"}
           />
         </FlexRow>
 
@@ -87,6 +88,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
                 viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue
               )
             }
+            className="w-28"
           />
         </FlexRow>
       </AuthGuard>

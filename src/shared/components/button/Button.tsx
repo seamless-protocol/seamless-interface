@@ -84,6 +84,14 @@ export const Button: React.FC<ButtonProps> = ({
   const classes = "";
   // TODO: IMPLEMENT COMPONENT PROPERLY!!!
 
+  console.log(`${props.disabled || loading ? "bg-action-disabled bg-disabled" : "hover:bg-primary-dark bg-primary-main"} 
+  flex items-center justify-center space-x-2"  
+  rounded-[4px] py-[10px] px-6 
+  text-text-primary text-description 
+  ${fullWidth ? "w-full" : ""} ${className} ${classes}`);
+
+  console.log(className);
+
   return (
     <button
       className={`${props.disabled || loading ? "bg-action-disabled bg-disabled" : "hover:bg-primary-dark bg-primary-main"} 
