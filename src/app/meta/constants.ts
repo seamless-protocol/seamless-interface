@@ -24,7 +24,7 @@ export const DAI_ADDRESS: Address =
 export const USDC_ADDRESS: Address =
   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 export const rwstETH_ADDRESS: Address =
-  "0xB01174C7868D25F66d99998502841aa709757201";
+  "0xc9ae3B5673341859D3aC55941D27C8Be4698C9e4";
 
 // Lending & Borrowing
 export const sWETH_ADDRESS: Address =

@@ -38,8 +38,6 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     },
   ]);
 
-  console.log("multicallParams", multicallParams);
-
   const {
     data: results,
     isLoading,
