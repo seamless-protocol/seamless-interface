@@ -15,7 +15,7 @@ export const LiFiWidgetWrapper = () => {
   const { isOpen, setIsOpen } = useLifiWidgetContext();
   const widgetEvents = useWidgetEvents();
 
-  const widgetConfig: WidgetConfig = {
+  const LifiConfigWidgetConfig: WidgetConfig = {
     ...lifiConfig,
     hiddenUI: [HiddenUI.DrawerButton],
   };
@@ -59,8 +59,8 @@ export const LiFiWidgetWrapper = () => {
     // This is to force LiFi widget to use Memory router to not override the Browser history router
     <UNSAFE_LocationContext.Provider value={null as any}>
       <LiFiWidget
-        integrator={widgetConfig.integrator}
-        config={widgetConfig}
+        integrator={LifiConfigWidgetConfig.integrator}
+        config={LifiConfigWidgetConfig}
         ref={drawerRef}
         onClose={() => setIsOpen(false)}
       />

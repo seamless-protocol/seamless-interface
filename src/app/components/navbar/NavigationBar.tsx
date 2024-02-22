@@ -34,7 +34,7 @@ const navigation = [
     current: false,
   },
   {
-    name: "Swap onto Base",
+    name: "Bridge to Base",
     href: "",
     isLifi: true,
     current: false,
