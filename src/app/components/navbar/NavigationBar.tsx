@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {} from "@lifi/widget";
 import {
   Bars3Icon,
   BookOpenIcon,
