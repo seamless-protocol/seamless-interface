@@ -7,9 +7,9 @@ export interface ViewRewardToken {
 }
 export interface ViewBaseAsset {
   depositAsset: {
-    name: string;
-    symbol: string;
-    logo: string;
+    name?: string;
+    symbol?: string;
+    logo?: string;
   };
   totalSupplied: {
     tokenAmount: ViewBigInt;

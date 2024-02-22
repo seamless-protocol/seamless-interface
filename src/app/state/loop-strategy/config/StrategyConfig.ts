@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, zeroAddress } from "viem";
 //TODO: Change this to strategy logo once it's known
 import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
 import EthLogo from "@assets/tokens/eth.svg";
@@ -13,6 +13,12 @@ interface AssetConfig {
   logo: string;
 }
 
+interface CollateralAssetConfig {
+  address: Address;
+  sTokenAddress: Address;
+  debtTokenAddress: Address;
+}
+
 export interface StrategyConfig {
   name: string;
   symbol: string;
@@ -20,6 +26,7 @@ export interface StrategyConfig {
   logo: string;
   diagram: string;
   defaultApy: number;
+  collateralAsset: CollateralAssetConfig;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
 }
@@ -32,6 +39,11 @@ export const ilmStrategies: StrategyConfig[] = [
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
     defaultApy: 7.74,
+    collateralAsset: {
+      address: "0xc9ae3B5673341859D3aC55941D27C8Be4698C9e4",
+      sTokenAddress: "0xb01C5c4eB40d2F2b64Daa3170F89849d00eA6B44",
+      debtTokenAddress: zeroAddress,
+    },
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",
