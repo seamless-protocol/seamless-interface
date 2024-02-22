@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
@@ -39,11 +39,8 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const queryClient = useQueryClient();
 
   const { shareValueInUsd } = useFetchShareValue(strategyConfig);
-  const {
-    isPending: isWithdrawPending,
-    isSuccess: isWithdrawSuccessful,
-    withdrawAsync,
-  } = useWriteStrategyWithdraw(id);
+  const { isPending: isWithdrawPending, withdrawAsync } =
+    useWriteStrategyWithdraw(id);
 
   // FORM //
   const methods = useForm<WithdrawModalFormData>({
@@ -67,7 +64,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
       try {
-        const txHash = await withdrawAsync(
+        const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
@@ -78,8 +75,10 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           txHash,
           content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
         });
+        reset();
         queryClient.invalidateQueries();
       } catch (e) {
+        console.log("e", e);
         modalRef.current?.close();
         showNotification({
           status: "error",
@@ -89,12 +88,6 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (isWithdrawSuccessful) {
-      reset();
-    }
-  }, [isWithdrawSuccessful, reset]);
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
@@ -113,7 +106,6 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
               assetSymbol={strategyConfig.symbol}
               assetLogo={strategyConfig.logo}
               debouncedAmountInUsd={debouncedAmountInUsd}
-              isDepositSuccessful={isWithdrawSuccessful}
             />
           </FlexCol>
 

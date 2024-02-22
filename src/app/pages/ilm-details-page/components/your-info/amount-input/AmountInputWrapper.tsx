@@ -6,7 +6,6 @@ import { Address } from "viem";
 interface AmountInputBoxWrapperProps {
   assetAddress: Address;
   debouncedAmountInUsd: number;
-  isDepositSuccessful: boolean;
   assetSymbol: string;
   assetLogo: any;
 }
@@ -14,15 +13,11 @@ interface AmountInputBoxWrapperProps {
 export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
   assetAddress,
   debouncedAmountInUsd,
-  isDepositSuccessful,
   assetSymbol,
   assetLogo,
 }) => {
   // TODO: properly invallidate query!!!
-  const { balance: walletBalance } = useFetchAccountAssetBalance(
-    assetAddress,
-    isDepositSuccessful
-  );
+  const { balance: walletBalance } = useFetchAccountAssetBalance(assetAddress);
 
   return (
     <AmountInput
