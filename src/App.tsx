@@ -10,10 +10,10 @@ import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 import { NotificationProvider } from "./shared";
 import { LiFiWidgetWrapper } from "./shared/components/lifi/LiFiWidgetWrapper.tsx";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
-import { myRainbowkitThemeConfig } from "./rainbow-modal.config.ts";
 import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
+import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
-import { rainbowConfig } from "./rainbow-config.ts";
+import { rainbowConfig } from "./app/config/rainbow-config.ts";
 
 const queryClient = new QueryClient();
 

@@ -18,6 +18,7 @@ export * from "./components/auth/AuthGuard";
 // button //
 // ****** //
 export * from "./components/button/Button";
+export * from "./components/button/CBSubscribeButton";
 
 // ********** //
 // containers //

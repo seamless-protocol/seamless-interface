@@ -12,12 +12,14 @@ import {
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
 import {
+  CBSubscribeButton,
   ConnectWalletRainbowWrapper,
   ConnectWalletRainbowWrapperMobile,
   useLifiWidgetContext,
   FlexRow,
   Typography,
 } from "@shared";
+import { CbSubscribeConfig } from "../../config/cb-subscribe-config";
 
 const navigation = [
   {
@@ -168,27 +170,33 @@ const NavBar: React.FC<{
             </div>
           </div>
         </FlexRow>
-
-        <div className="md:block hidden">
-          <ConnectWalletRainbowWrapper />
-        </div>
-        <div className="flex flex-row items-center md:hidden">
-          <ConnectWalletRainbowWrapperMobile />
-
-          <button
-            className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <span className="sr-only">
-              {isMenuOpen ? "Close menu" : "Open menu"}
-            </span>
-            {isMenuOpen ? (
-              <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-            ) : (
-              <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+        <FlexRow className="justify-end gap-1 md:gap-4 items-center px-2">
+          <span className="">
+            {typeof window !== "undefined" && (
+              <CBSubscribeButton config={{ ...CbSubscribeConfig }} />
             )}
-          </button>
-        </div>
+          </span>
+          <div className="md:block hidden">
+            <ConnectWalletRainbowWrapper />
+          </div>
+          <div className="flex flex-row items-center md:hidden">
+            <ConnectWalletRainbowWrapperMobile />
+
+            <button
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <span className="sr-only">
+                {isMenuOpen ? "Close menu" : "Open menu"}
+              </span>
+              {isMenuOpen ? (
+                <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </FlexRow>
       </FlexRow>
     </div>
   );
@@ -214,7 +222,7 @@ const MobileMenuContent: React.FC<{
 }> = ({ isMenuOpen }) => {
   return (
     <div
-      className={`md:hidden ${isMenuOpen ? "fixed top-12 inset-0 z-50 bg-slate-800" : "hidden"} transform 
+      className={`md:hidden ${isMenuOpen ? "fixed top-16 inset-0 z-50 bg-slate-800" : "hidden"} transform 
         transition-transform duration-300 ease-in-out`}
     >
       <div className="pb-3 px-6 mt-12">
