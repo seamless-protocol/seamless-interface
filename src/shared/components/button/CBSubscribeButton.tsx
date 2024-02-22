@@ -29,8 +29,7 @@ export const CBSubscribeButton: React.FC<{
     } else {
       console.error("window.CBWSubscribe is not defined");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected, window.CBWSubscribe]);
+  }, [isConnected, window.CBWSubscribe, isCoinbaseWallet]);
 
   const handleSubscribe = useCallback(() => {
     if (window && window.CBWSubscribe) {
