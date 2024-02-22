@@ -28,7 +28,7 @@ export const BaseAssetsTable: React.FC = () => {
           <SimpleTable
             columns={columns}
             bodyComponent={<TableBody />}
-            title="Lending & Borrowing"
+            title="Supply & Borrow"
             subtitle="Choose from a wide range of assets to supply and borrow"
             filterComponent={<SearchInput />}
             settings={{

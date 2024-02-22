@@ -29,7 +29,7 @@ export const StrategiesTable: React.FC = () => {
             columns={columns}
             bodyComponent={<TableBody />}
             title="Integrated Liquidity Market (ILM) Strategies"
-            subtitle="Automate your strategy for increased rewards and reduced fees."
+            subtitle="Automate your strategy for increased rewards and reduced fees"
             filterComponent={<SearchInput />}
             settings={{
               skeletonRowCount: 1,

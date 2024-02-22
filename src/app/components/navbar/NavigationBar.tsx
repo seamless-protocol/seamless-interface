@@ -6,6 +6,8 @@ import {
   EllipsisHorizontalIcon,
   QuestionMarkCircleIcon,
   XMarkIcon,
+  CircleStackIcon,
+  GiftIcon,
 } from "@heroicons/react/24/outline";
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
@@ -28,7 +30,7 @@ const navigation = [
     current: false,
   },
   {
-    name: "Staking Farms",
+    name: "Bridge to Base",
     href: RouterConfig.Routes.stakingFarms,
     current: false,
   },
@@ -37,21 +39,26 @@ const navigation = [
     href: RouterConfig.Routes.governance,
     current: false,
   },
-  {
-    name: "Claim Airdrop",
-    href: RouterConfig.Routes.claimAirdrop,
-    current: false,
-  },
 ];
 
 const moreMenuItems = [
+  {
+    name: "Staking Farms",
+    href: RouterConfig.Routes.stakingFarms,
+    icon: <CircleStackIcon width={20} />,
+  },
+  {
+    name: "Claim Airdrop",
+    href: RouterConfig.Routes.claimAirdrop,
+    icon: <GiftIcon width={20} />,
+  },
   {
     name: "FAQ",
     href: RouterConfig.Routes.faq,
     icon: <QuestionMarkCircleIcon width={20} />,
   },
   {
-    name: "Developers",
+    name: "GitHub",
     href: RouterConfig.Routes.developers,
     icon: <BookOpenIcon width={20} />,
   },
