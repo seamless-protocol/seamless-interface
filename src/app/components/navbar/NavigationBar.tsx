@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import {} from "@lifi/widget";
 import {
   Bars3Icon,
   BookOpenIcon,
@@ -12,6 +13,7 @@ import { RouterConfig } from "@router";
 import {
   ConnectWalletRainbowWrapper,
   ConnectWalletRainbowWrapperMobile,
+  useLifiWidgetContext,
   FlexRow,
   Typography,
 } from "@shared";
@@ -30,6 +32,12 @@ const navigation = [
   {
     name: "Staking Farms",
     href: RouterConfig.Routes.stakingFarms,
+    current: false,
+  },
+  {
+    name: "Swap onto Base",
+    href: "",
+    isLifi: true,
     current: false,
   },
   {
@@ -58,6 +66,8 @@ const NavBar: React.FC<{
 }> = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement | null>(null);
+  const { toggle: toggleLifiWidget } = useLifiWidgetContext();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -97,15 +107,27 @@ const NavBar: React.FC<{
                   <span
                     className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
                   ></span>
-                  <Link to={item.href} className="h-max flex items-center">
-                    <Typography
-                      className="text-base text-center"
-                      type="description"
-                      color="primary"
-                    >
-                      {item.name}
-                    </Typography>
-                  </Link>
+                  {item.isLifi ? (
+                    <button onClick={() => toggleLifiWidget()}>
+                      <Typography
+                        className="text-base text-center"
+                        type="description"
+                        color="primary"
+                      >
+                        {item.name}
+                      </Typography>
+                    </button>
+                  ) : (
+                    <Link to={item.href} className="h-max flex items-center">
+                      <Typography
+                        className="text-base text-center"
+                        type="description"
+                        color="primary"
+                      >
+                        {item.name}
+                      </Typography>
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>

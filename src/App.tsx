@@ -8,8 +8,10 @@ import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 import { NotificationProvider } from "./shared";
+import { LiFiWidgetWrapper } from "./shared/components/lifi/LiFiWidgetWrapper.tsx";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { myRainbowkitThemeConfig } from "./rainbow-modal.config.ts";
+import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
 import { rainbowConfig } from "./rainbow-config.ts";
 
@@ -22,16 +24,19 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
             <NotificationProvider>
-              <ConnectButtonProvider>
-                <NavigationBar />
-              </ConnectButtonProvider>
-              <Routes>
-                <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
-                <Route
-                  path={RouterConfig.Routes.ilmDetails}
-                  element={<IlmDetailsPage />}
-                />
-              </Routes>
+              <LifiWidgetProvider>
+                <ConnectButtonProvider>
+                  <NavigationBar />
+                </ConnectButtonProvider>
+                <Routes>
+                  <Route path={RouterConfig.Routes.ilm} element={<IlmPage />} />
+                  <Route
+                    path={RouterConfig.Routes.ilmDetails}
+                    element={<IlmDetailsPage />}
+                  />
+                </Routes>
+                <LiFiWidgetWrapper />
+              </LifiWidgetProvider>
             </NotificationProvider>
           </RainbowKitProvider>
         </QueryClientProvider>
