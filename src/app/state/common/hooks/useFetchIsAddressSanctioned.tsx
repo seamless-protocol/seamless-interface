@@ -35,11 +35,12 @@ const fetchIsAddressSanctioned = async ({
   }
 };
 
-export const useFetchIsAddressSanctioned = (address: Address) => {
+export const useFetchIsAddressSanctioned = (address?: Address) => {
   const { data } = useQuery({
-    queryKey: ["fetchIsAddressSanctioned", address],
+    queryKey: ["fetchIsAddressSanctioned", address as string],
     queryFn: fetchIsAddressSanctioned,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: address != undefined
   });
 
   return { isSanctioned: data };

@@ -9,7 +9,6 @@ const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol/interface";
 
 const baseScan = "https://basescan.org/tx";
-const transactionHistory = "https://app.seamlessprotocol.com/history/";
 
 export const RouterConfig = {
   Routes: {
@@ -21,7 +20,6 @@ export const RouterConfig = {
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,
-    transactionHistory: `${transactionHistory}`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
