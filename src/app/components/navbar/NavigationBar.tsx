@@ -32,11 +32,6 @@ const navigation = [
   },
   {
     name: "Bridge to Base",
-    href: RouterConfig.Routes.stakingFarms,
-    current: false,
-  },
-  {
-    name: "Bridge to Base",
     href: "",
     isLifi: true,
     current: false,
