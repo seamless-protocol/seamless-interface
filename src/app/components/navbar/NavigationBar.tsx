@@ -6,6 +6,8 @@ import {
   EllipsisHorizontalIcon,
   QuestionMarkCircleIcon,
   XMarkIcon,
+  CircleStackIcon,
+  GiftIcon,
 } from "@heroicons/react/24/outline";
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
@@ -19,18 +21,13 @@ import {
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: RouterConfig.Routes.ilm,
+    name: "All Markets",
+    href: RouterConfig.Routes.markets,
     current: true,
   },
   {
-    name: "Lending & Borrowing",
+    name: "Supply & Borrow Dashboard",
     href: RouterConfig.Routes.lendingAndBorrowing,
-    current: false,
-  },
-  {
-    name: "Staking Farms",
-    href: RouterConfig.Routes.stakingFarms,
     current: false,
   },
   {
@@ -48,12 +45,22 @@ const navigation = [
 
 const moreMenuItems = [
   {
+    name: "Staking Farms",
+    href: RouterConfig.Routes.stakingFarms,
+    icon: <CircleStackIcon width={20} />,
+  },
+  {
+    name: "Claim Airdrop",
+    href: RouterConfig.Routes.claimAirdrop,
+    icon: <GiftIcon width={20} />,
+  },
+  {
     name: "FAQ",
     href: RouterConfig.Routes.faq,
     icon: <QuestionMarkCircleIcon width={20} />,
   },
   {
-    name: "Developers",
+    name: "GitHub",
     href: RouterConfig.Routes.developers,
     icon: <BookOpenIcon width={20} />,
   },
@@ -89,7 +96,7 @@ const NavBar: React.FC<{
       <FlexRow className="items-center justify-between w-full">
         <FlexRow className="items-center justify-start">
           <Link
-            to={RouterConfig.Routes.ilm}
+            to={RouterConfig.Routes.markets}
             className="flex items-center gap-2"
           >
             <img src={SeamlessLogo} alt="logo" className="h-6 w-6" />

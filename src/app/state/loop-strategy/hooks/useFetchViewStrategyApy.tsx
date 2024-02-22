@@ -6,7 +6,7 @@ import {
   SECONDS_PER_YEAR,
 } from "../../../meta/constants";
 import {
-  formatToDisplayableOrPlaceholder,
+  formatFetchNumberToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { useFetchShareValueInBlock } from "../../common/hooks/useFetchShareValue";
@@ -70,6 +70,12 @@ export const useFetchStrategyApy = (
     isFetched: isPrevBlockShareValueFetched,
   } = useFetchShareValueInBlock(prevBlockData?.number || 0n, strategyConfig);
 
+  const apy = calculateApy(
+    shareValueInEthLatestBlock || 0n,
+    shareValueInEthPrevBlock || 0n,
+    (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
+  );
+
   return {
     isLoading:
       isLatestBlockShareValueLoading ||
@@ -82,11 +88,7 @@ export const useFetchStrategyApy = (
       isLatestBlockFetched &&
       isPrevBlockFetched,
     apy: {
-      value: calculateApy(
-        shareValueInEthLatestBlock || 0n,
-        shareValueInEthPrevBlock || 0n,
-        (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
-      ),
+      value: apy ? apy : strategyConfig.defaultApy,
       symbol: "%",
     },
   };
@@ -103,10 +105,7 @@ export const useFetchViewStrategyApy = (
     isLoading,
     isFetched,
     data: {
-      apy: {
-        viewValue: formatToDisplayableOrPlaceholder(apy.value, "—"),
-        symbol: apy ? "%" : "",
-      },
+      apy: formatFetchNumberToViewNumber(apy),
     },
   };
 };

@@ -19,6 +19,7 @@ export interface StrategyConfig {
   address: Address;
   logo: string;
   diagram: string;
+  defaultApy: number;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
 }
@@ -30,6 +31,7 @@ export const ilmStrategies: StrategyConfig[] = [
     address: "0x78390FdE18B72E4905F68f3B110c3B4D99Cf725A",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
+    defaultApy: 7.74,
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",

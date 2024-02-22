@@ -1,9 +1,10 @@
 import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
 
 const baseUrl = "";
-const lendingAndBorrowingUrl = "https://app.seamlessprotocol.com";
+const lendingAndBorrowingUrl = "https://legacy.seamlessprotocol.com";
 const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
-const governanceUrl = "https://app.seamlessprotocol.com/governance";
+const governanceUrl = "https://legacy.seamlessprotocol.com/governance";
+const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol/interface";
 
@@ -11,10 +12,11 @@ const baseScan = "https://basescan.org/tx";
 
 export const RouterConfig = {
   Routes: {
-    ilm: `${baseUrl}/`,
+    markets: `${baseUrl}/`,
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
     stakingFarms: `${stakingFarmsUrl}/`,
     governance: `${governanceUrl}/`,
+    claimAirdrop: `${claimAirdropUrl}`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,
