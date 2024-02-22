@@ -94,8 +94,6 @@ export const useFetchViewLendingPoolInfo =
       totalBorrowsUsd,
     } = useFetchLendingPoolInfo();
 
-    console.log("totalMarketSizeUsd", totalMarketSizeUsd);
-
     return {
       isLoading,
       isFetched,
