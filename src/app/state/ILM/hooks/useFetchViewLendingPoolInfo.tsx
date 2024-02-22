@@ -38,6 +38,8 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     },
   ]);
 
+  console.log("multicallParams", multicallParams);
+
   const {
     data: results,
     isLoading,
@@ -93,6 +95,8 @@ export const useFetchViewLendingPoolInfo =
       totalAvailableUsd,
       totalBorrowsUsd,
     } = useFetchLendingPoolInfo();
+
+    console.log("totalMarketSizeUsd", totalMarketSizeUsd);
 
     return {
       isLoading,

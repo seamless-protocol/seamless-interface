@@ -23,6 +23,8 @@ export const DAI_ADDRESS: Address =
   "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb";
 export const USDC_ADDRESS: Address =
   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+export const rwstETH_ADDRESS: Address =
+  "0xB01174C7868D25F66d99998502841aa709757201";
 
 // Lending & Borrowing
 export const sWETH_ADDRESS: Address =
@@ -37,6 +39,8 @@ export const sUSDC_ADDRESS: Address =
   "0x53E240C0F985175dA046A62F26D490d1E259036e";
 export const sDAI_ADDRESS: Address =
   "0x37eF72fAC21904EDd7e69f7c7AC98172849efF8e";
+export const srwstETH_ADDRESS: Address =
+  "0xb01C5c4eB40d2F2b64Daa3170F89849d00eA6B44";
 
 export const variableDebtSeamcbETH_ADDRESS: Address =
   "0x72Dbdbe3423cdA5e92A3cC8ba9BFD41F67EE9168";
