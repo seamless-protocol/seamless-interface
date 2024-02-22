@@ -10,7 +10,6 @@ import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/useUserAvatar";
 import { useFetchIsAddressSanctioned } from "../../../app/state/common/hooks/useFetchIsAddressSanctioned";
-import { Address } from "viem";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -46,7 +45,7 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { isConnected, address } = useAccount();
-  const { isSanctioned } = useFetchIsAddressSanctioned(address as Address);
+  const { isSanctioned } = useFetchIsAddressSanctioned(address);
   const { avatar } = useUserAvatar();
   const { disconnect } = useDisconnect();
   const { openConnectModal } = useConnectModal();
