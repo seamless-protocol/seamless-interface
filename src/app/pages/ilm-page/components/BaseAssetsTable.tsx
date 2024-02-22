@@ -44,9 +44,10 @@ export const BaseAssetsTable: React.FC = () => {
 const TableBody: React.FC = () => {
   return (
     <>
-      {baseAssets.map((_, index) => (
-        <BaseAssetsTableRow index={index} key={index} />
-      ))}
+      {baseAssets.map(
+        (asset, index) =>
+          !asset.hide && <BaseAssetsTableRow index={index} key={index} />
+      )}
     </>
   );
 };
