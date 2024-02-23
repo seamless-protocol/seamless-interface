@@ -19,11 +19,11 @@ export const RouterConfig = {
     claimAirdrop: `${claimAirdropUrl}`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
-    ilmDetails: `${baseUrl}#/ilm-details/:id`,
+    ilmDetails: `${baseUrl}/ilm-details/:id`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
-    ilmDetails: (id: number) => `${baseUrl}#/ilm-details/${id}`,
+    ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
     assetDetails: (id: number) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${baseAssets[id].address.toLowerCase()}&marketName=proto_base_v3`,
     baseScan: (txHash: string) => `${baseScan}/${txHash}`,
