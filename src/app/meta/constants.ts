@@ -65,5 +65,6 @@ export const AAVE_ADDRESS_PROVIDER =
 
 export const assetLogos: Map<string, string> = new Map([
   ["SEAM", seamLogo],
+  ["esSEAM", seamLogo],
   ["OG Points", ogPointsLogo],
 ]);
