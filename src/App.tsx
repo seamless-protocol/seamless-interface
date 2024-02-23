@@ -13,7 +13,6 @@ import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
 import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
-import { Tenderly, Network } from "@tenderly/sdk";
 import { rainbowConfig } from "./app/config/rainbow-config.ts";
 
 const queryClient = new QueryClient();
