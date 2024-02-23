@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
+import path, { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
@@ -16,20 +16,23 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["js-big-decimal"],
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        nested: resolve(__dirname, "nested/index.html"),
+      },
+    },
+  },
+  // server: {
+  //   proxy: {
+  //     // Define proxies if necessary
+  //   },
+  //   setupMiddlewares: (middlewares, { app }) => {
+  //     // Use history API fallback middleware
+  //     const history = require("connect-history-api-fallback");
+  //     app.use(history());
+  //     return middlewares;
+  //   },
+  // },
 });
-
-// Custom middleware for handling SPA fallback
-// Note: This should be outside of the defineConfig if using the latest Vite API
-export function configureServer(server) {
-  return () => {
-    server.middlewares.use((req, res, next) => {
-      const url = req.url;
-      // Check if the request is for a file or not
-      if (!url.startsWith("/api") && !url.includes(".")) {
-        // Rewrite the request to /index.html
-        req.url = "/index.html";
-      }
-      next();
-    });
-  };
-}
