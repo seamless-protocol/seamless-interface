@@ -30,7 +30,6 @@ export const useFetchPreviewWithdraw = (
   const [assets, setAssets] = useState(0n);
 
   useEffect(() => {
-    console.log("useFetchPreviewWithdraw useEffect");
     if (!block || !block.number || !account.address) return;
 
     simulateWithdraw(
@@ -39,7 +38,6 @@ export const useFetchPreviewWithdraw = (
       strategyConfig,
       block.number
     ).then((result) => {
-      console.log("useFetchPreviewWithdraw simulateWithdraw result", result);
       result.isSuccess && setAssets(result.assetsToReceive);
     });
   }, [amount, block]);
