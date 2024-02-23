@@ -6,6 +6,7 @@ import { DepositModalFormData } from "../DepositModal";
 import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
+import { formatUnits } from "viem";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
@@ -24,7 +25,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   const { setValue } = useFormContext();
 
   const handleMaxClick = () => {
-    setValue("amount", String(walletBalance.value || 0));
+    setValue("amount", formatUnits(walletBalance?.bigIntValue || 0n, 18));
   };
 
   return (
