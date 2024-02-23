@@ -24,15 +24,17 @@ export default defineConfig({
       },
     },
   },
-  // server: {
-  //   proxy: {
-  //     // Define proxies if necessary
-  //   },
-  //   setupMiddlewares: (middlewares, { app }) => {
-  //     // Use history API fallback middleware
-  //     const history = require("connect-history-api-fallback");
-  //     app.use(history());
-  //     return middlewares;
-  //   },
-  // },
+  server: {
+    proxy: {
+      // Define your proxies here if needed
+    },
+    setupMiddlewares: (middlewares, { app }) => {
+      // Custom middleware to serve index.html on unmatched routes
+      app.use("*", (req, res, next) => {
+        res.type("html");
+        res.send(indexHtml);
+      });
+      return middlewares;
+    },
+  },
 });
