@@ -92,7 +92,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
             </FlexCol>
           ),
         });
-        reset();
         queryClient.invalidateQueries();
       } catch (e) {
         modalRef.current?.close();

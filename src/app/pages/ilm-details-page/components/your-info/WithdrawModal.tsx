@@ -75,7 +75,6 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           txHash,
           content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
         });
-        reset();
         queryClient.invalidateQueries();
       } catch (e) {
         modalRef.current?.close();
