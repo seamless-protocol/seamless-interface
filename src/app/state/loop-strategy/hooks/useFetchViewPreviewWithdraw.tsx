@@ -11,7 +11,7 @@ import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { useEffect, useState } from "react";
-import { useAccount, useBlock } from "wagmi";
+import { useAccount } from "wagmi";
 import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
 
 interface PreviewWithdraw {
@@ -25,22 +25,16 @@ export const useFetchPreviewWithdraw = (
   strategyConfig: StrategyConfig,
   amount: string
 ): Fetch<PreviewWithdraw> => {
-  const { data: block } = useBlock();
   const account = useAccount();
   const [assets, setAssets] = useState(0n);
 
   useEffect(() => {
-    if (!block || !block.number || !account.address) return;
+    if (!account.address) return;
 
-    simulateWithdraw(
-      account.address,
-      amount,
-      strategyConfig,
-      block.number
-    ).then((result) => {
+    simulateWithdraw(account.address, amount, strategyConfig).then((result) => {
       result.isSuccess && setAssets(result.assetsToReceive);
     });
-  }, [amount, block]);
+  }, [amount]);
 
   const {
     isLoading: isShareValueLoading,

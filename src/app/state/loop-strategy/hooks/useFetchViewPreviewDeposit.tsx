@@ -10,7 +10,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
-import { useBlock, useAccount } from "wagmi";
+import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
 
@@ -25,19 +25,16 @@ export const useFetchPreviewDeposit = (
   strategyConfig: StrategyConfig,
   amount: string
 ): Fetch<PreviewDeposit> => {
-  const { data: block } = useBlock();
   const account = useAccount();
   const [shares, setShares] = useState(0n);
 
   useEffect(() => {
-    if (!block || !block.number || !account.address) return;
+    if (!account.address) return;
 
-    simulateDeposit(account.address, amount, strategyConfig, block.number).then(
-      (result) => {
-        result.isSuccess && setShares(result.sharesToReceive);
-      }
-    );
-  }, [amount, block]);
+    simulateDeposit(account.address, amount, strategyConfig).then((result) => {
+      result.isSuccess && setShares(result.sharesToReceive);
+    });
+  }, [amount]);
 
   const {
     isLoading: isShareValueLoading,

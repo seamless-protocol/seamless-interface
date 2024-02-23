@@ -1,5 +1,4 @@
 import { Address, Hex, decodeEventLog } from "viem";
-import { Tenderly, Network } from "@tenderly/sdk";
 import {
   createApproveTx,
   createDepositTx,
@@ -19,32 +18,53 @@ export interface PreviewWithdraw {
   assetsToReceive: bigint;
 }
 
-export const tenderlyInstance = new Tenderly({
-  accountName: import.meta.env.VITE_TENDERLY_ACCOUNT_NAME as string,
-  projectName: import.meta.env.VITE_TENDERLY_PROJECT_NAME as string,
-  accessKey: import.meta.env.VITE_TENDERLY_ACCESS_KEY as string,
-  network: Network.BASE,
-});
+const tenderlyNodeAccessKey = import.meta.env.VITE_TENDERLY_NODE_ACCESS_KEY;
+
+async function simulateBundle(functionCalls: any) {
+  try {
+    const res = await fetch(
+      `https://base.gateway.tenderly.co/${tenderlyNodeAccessKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: 0,
+          jsonrpc: "2.0",
+          method: "tenderly_simulateBundle",
+          params: [functionCalls, "latest"],
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Failed to simulate transactions");
+      return null;
+    }
+
+    return await res.json();
+  } catch (e) {
+    console.error("Failed to simulate transactions");
+    return null;
+  }
+}
 
 export async function simulateDeposit(
   account: Address,
   amount: string,
-  strategyConfig: StrategyConfig,
-  blockNumber: bigint
+  strategyConfig: StrategyConfig
 ): Promise<PreviewDeposit> {
   try {
-    const result = await tenderlyInstance.simulator.simulateBundle({
-      transactions: [
-        createApproveTx(
-          account,
-          strategyConfig.underlyingAsset.address,
-          strategyConfig.address,
-          amount
-        ),
-        createDepositTx(account, strategyConfig.address, amount),
-      ],
-      blockNumber: Number(blockNumber),
-    });
+    const { result } = await simulateBundle([
+      createApproveTx(
+        account,
+        strategyConfig.underlyingAsset.address,
+        strategyConfig.address,
+        amount
+      ),
+      createDepositTx(account, strategyConfig.address, amount),
+    ]);
 
     if (!result || !result[1].status || !result[1].logs) {
       return {
@@ -87,23 +107,24 @@ export async function simulateDeposit(
 export async function simulateWithdraw(
   account: Address,
   amount: string,
-  strategyConfig: StrategyConfig,
-  blockNumber: bigint
+  strategyConfig: StrategyConfig
 ): Promise<PreviewWithdraw> {
   try {
-    const result = await tenderlyInstance.simulator.simulateTransaction({
-      transaction: createWithdrawTx(account, strategyConfig.address, amount),
-      blockNumber: Number(blockNumber),
-    });
+    const { result } = await simulateBundle([
+      createWithdrawTx(account, strategyConfig.address, amount),
+    ]);
 
-    if (!result || !result.status || !result.logs) {
+    console.log("result", result);
+
+    if (!result || !result[0].status || !result[0].logs) {
       return {
         isSuccess: false,
         assetsToReceive: 0n,
       };
     }
 
-    const logs = result.logs;
+    const logs = result[0].logs;
+    // Withdraw event is the last event
     const withdrawEvent = logs[logs?.length - 1];
 
     if (!withdrawEvent || !withdrawEvent.raw) {
