@@ -58,7 +58,7 @@ export function createWithdrawTx(
     strategyAddress,
     encodeFunctionData({
       abi: loopStrategyAbi,
-      functionName: "withdraw",
+      functionName: "redeem",
       args: [parseUnits(amount, 18), account, account],
     })
   );

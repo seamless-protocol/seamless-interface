@@ -1,12 +1,22 @@
 import { Address, Hex, decodeEventLog } from "viem";
 import { Tenderly, Network } from "@tenderly/sdk";
-import { createApproveTx, createDepositTx } from "./tenderlyHelpers";
+import {
+  createApproveTx,
+  createDepositTx,
+  createWithdrawTx,
+} from "./tenderlyHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
+import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 import { StrategyConfig } from "../../app/state/loop-strategy/config/StrategyConfig";
 
 export interface PreviewDeposit {
   isSuccess: boolean;
   sharesToReceive: bigint;
+}
+
+export interface PreviewWithdraw {
+  isSuccess: boolean;
+  assetsToReceive: bigint;
 }
 
 export const tenderlyInstance = new Tenderly({
@@ -70,6 +80,53 @@ export async function simulateDeposit(
     return {
       isSuccess: false,
       sharesToReceive: 0n,
+    };
+  }
+}
+
+export async function simulateWithdraw(
+  account: Address,
+  amount: string,
+  strategyConfig: StrategyConfig,
+  blockNumber: bigint
+): Promise<PreviewWithdraw> {
+  try {
+    const result = await tenderlyInstance.simulator.simulateTransaction({
+      transaction: createWithdrawTx(account, strategyConfig.address, amount),
+      blockNumber: Number(blockNumber),
+    });
+
+    if (!result || !result.status || !result.logs) {
+      return {
+        isSuccess: false,
+        assetsToReceive: 0n,
+      };
+    }
+
+    const logs = result.logs;
+    const withdrawEvent = logs[logs?.length - 1];
+
+    if (!withdrawEvent || !withdrawEvent.raw) {
+      return {
+        isSuccess: false,
+        assetsToReceive: 0n,
+      };
+    }
+
+    const decodedWithdrawEvent = decodeEventLog({
+      abi: withdrawEventAbi,
+      data: withdrawEvent.raw.data as Hex,
+      topics: withdrawEvent.raw.topics as [],
+    });
+
+    return {
+      isSuccess: true,
+      assetsToReceive: decodedWithdrawEvent.args.assets,
+    };
+  } catch (e) {
+    return {
+      isSuccess: false,
+      assetsToReceive: 0n,
     };
   }
 }

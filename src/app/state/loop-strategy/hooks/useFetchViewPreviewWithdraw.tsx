@@ -1,8 +1,5 @@
-import { parseEther, parseUnits } from "viem";
-import {
-  useReadAaveOracleGetAssetPrice,
-  useReadLoopStrategyPreviewRedeem,
-} from "../../../generated/generated";
+import { parseEther } from "viem";
+import { useReadAaveOracleGetAssetPrice } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   ONE_ETHER,
@@ -13,6 +10,9 @@ import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { useEffect, useState } from "react";
+import { useAccount, useBlock } from "wagmi";
+import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -25,14 +25,24 @@ export const useFetchPreviewWithdraw = (
   strategyConfig: StrategyConfig,
   amount: string
 ): Fetch<PreviewWithdraw> => {
-  const {
-    data: assets,
-    isLoading: isPreviewRedeemLoading,
-    isFetched: isPreviewRedeemFetched,
-  } = useReadLoopStrategyPreviewRedeem({
-    address: strategyConfig.address,
-    args: [parseUnits(amount, 18)],
-  });
+  const { data: block } = useBlock();
+  const account = useAccount();
+  const [assets, setAssets] = useState(0n);
+
+  useEffect(() => {
+    console.log("useFetchPreviewWithdraw useEffect");
+    if (!block || !block.number || !account.address) return;
+
+    simulateWithdraw(
+      account.address,
+      amount,
+      strategyConfig,
+      block.number
+    ).then((result) => {
+      console.log("useFetchPreviewWithdraw simulateWithdraw result", result);
+      result.isSuccess && setAssets(result.assetsToReceive);
+    });
+  }, [amount, block]);
 
   const {
     isLoading: isShareValueLoading,
@@ -50,7 +60,7 @@ export const useFetchPreviewWithdraw = (
 
   let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (assets && underlyingAssetPrice) {
-    assetsToReceive = (assets * 60n) / 100n;
+    assetsToReceive = assets;
     assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice) / ONE_ETHER;
 
     costInUnderlyingAsset =
@@ -61,10 +71,8 @@ export const useFetchPreviewWithdraw = (
   }
 
   return {
-    isLoading:
-      isPreviewRedeemLoading || isAssetPriceLoading || isShareValueLoading,
-    isFetched:
-      isPreviewRedeemFetched && isAssetPriceFetched && isShareValueFetched,
+    isLoading: isAssetPriceLoading || isShareValueLoading,
+    isFetched: isAssetPriceFetched && isShareValueFetched,
     assetsToReceive: {
       bigIntValue: assetsToReceive || 0n,
       decimals: 18,
