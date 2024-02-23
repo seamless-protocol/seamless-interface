@@ -88,10 +88,9 @@ export function useFetchStrategyInfoForAccount(
     const userShares = BigInt(results[1].result || 0);
     const totalShares = BigInt(results[2].result || 0);
 
-    const equity = BigInt(results[3].result || 0);
     const equityUSD = BigInt(results[4].result || 0);
 
-    userEquity = totalShares ? (equity * userShares) / totalShares : 0n;
+    userEquity = userShares;
     userEquityUSD = totalShares ? (equityUSD * userShares) / totalShares : 0n;
 
     userBalance = BigInt(results[5].result || 0);

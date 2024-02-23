@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
@@ -43,11 +43,8 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
-  const {
-    isPending: isDepositPending,
-    isSuccess: isDepositSuccessful,
-    depositAsync,
-  } = useWriteStrategyDeposit(id);
+  const { isPending: isDepositPending, depositAsync } =
+    useWriteStrategyDeposit(id);
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -76,7 +73,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
       try {
-        const txHash = await depositAsync(
+        const { txHash } = await depositAsync(
           parseUnits(data.amount, 18),
           account.address as Address,
           previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
@@ -107,12 +104,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     }
   };
 
-  useEffect(() => {
-    if (isDepositSuccessful) {
-      reset();
-    }
-  }, [isDepositSuccessful, reset]);
-
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <Modal
@@ -130,7 +121,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               assetSymbol={strategyConfig.underlyingAsset.symbol}
               assetLogo={strategyConfig.underlyingAsset.logo}
               debouncedAmountInUsd={debouncedAmountInUsd}
-              isDepositSuccessful={isDepositSuccessful}
             />
           </FlexCol>
 
