@@ -12,6 +12,7 @@ import { TemporaryButton } from "../../../../components/temporary-components/Tem
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
 import { useNavigate } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
+import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 
 export const StrategiesDesktopTableRow: React.FC<{
   index: number;
@@ -33,7 +34,10 @@ export const StrategiesDesktopTableRow: React.FC<{
     >
       <TableCell alignItems="items-start">
         <DisplayDepositAsset
-          depositAsset={strategy?.depositAsset}
+          depositAsset={{
+            ...strategy?.depositAsset,
+            logo: ilmStrategies[index].logo,
+          }}
           isFetched={isFetched}
         />
       </TableCell>
