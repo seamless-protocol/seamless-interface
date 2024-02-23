@@ -14,7 +14,7 @@ export const rainbowConfig = getDefaultConfig({
   transports: {
     [base.id]: fallback(
       [
-        http(import.meta.env.VITE_BASE_RPC_FREE_1),
+        // http(import.meta.env.VITE_BASE_RPC_FREE_1),
         //paid
         //   http(import.meta.env.VITE_BASE_MAIN_RPC_URL),
         //   webSocket(import.meta.env.VITE_BASE_RPC_PAID_WS_2),

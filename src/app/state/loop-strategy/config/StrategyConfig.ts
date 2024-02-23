@@ -28,7 +28,7 @@ export const ilmStrategies: StrategyConfig[] = [
   {
     name: "wstETH Booster",
     symbol: "ilmwstETH",
-    address: "0x2962673cC60eE877768A38fa6d7FEe7468b3F09b",
+    address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
     defaultApy: 7.74,
