@@ -30,7 +30,7 @@ const fetchIsAddressSanctioned = async ({
     const data: [{ isSanctioned: boolean }] = await res.json();
     return data[0].isSanctioned;
   } catch (e) {
-    console.error(" Failed to check if address is sanctioned");
+    console.error("Failed to check if address is sanctioned");
     return false;
   }
 };
@@ -40,7 +40,7 @@ export const useFetchIsAddressSanctioned = (address?: Address) => {
     queryKey: ["fetchIsAddressSanctioned", address as string],
     queryFn: fetchIsAddressSanctioned,
     staleTime: 1000 * 60 * 60, // 1 hour
-    enabled: address != undefined
+    enabled: address != undefined,
   });
 
   return { isSanctioned: data };

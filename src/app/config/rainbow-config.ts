@@ -5,7 +5,7 @@ import { fallback, http, webSocket } from "wagmi";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
-  // Paid
+  //  Paid
   { url: import.meta.env.VITE_BASE_MAIN_RPC_URL, isWebSocket: false },
   { url: import.meta.env.VITE_BASE_RPC_PAID_WS_2, isWebSocket: true },
   // Free

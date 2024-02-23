@@ -3,16 +3,21 @@ import { ilmStrategies } from "../config/StrategyConfig";
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated/generated";
 import { waitForTransaction } from "../../../../shared/utils/transactionWrapper";
+import { useState } from "react";
 
 export const useWriteStrategyDeposit = (id: number) => {
   const strategyConfig = ilmStrategies[id];
   const config = useConfig();
-  const { isPending, writeContractAsync } = useWriteContract();
+
+  const [isPending, setIsPending] = useState(false);
+  const { writeContractAsync } = useWriteContract();
 
   return {
     isPending,
     depositAsync: async (amount: bigint, address: Address, shares: bigint) => {
-      return waitForTransaction(config, async () => {
+      setIsPending(true);
+
+      const ret = await waitForTransaction(config, async () => {
         return writeContractAsync({
           address: strategyConfig.address,
           abi: loopStrategyAbi,
@@ -20,6 +25,10 @@ export const useWriteStrategyDeposit = (id: number) => {
           args: [amount, address, shares],
         });
       });
+
+      setIsPending(false);
+
+      return ret;
     },
   };
 };
