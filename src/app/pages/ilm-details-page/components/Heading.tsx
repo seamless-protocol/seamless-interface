@@ -10,6 +10,7 @@ import {
   Icon,
 } from "../../../../shared";
 import { useFetchViewStrategyPageHeader } from "../../../state/loop-strategy/hooks/useFetchViewStrategyPageHeader";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
 export const Heading: React.FC<{
   id: number;
@@ -20,7 +21,7 @@ export const Heading: React.FC<{
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
       <FlexRow className="gap-3 text-start">
         <Icon
-          src={data?.underlyingAsset?.logo}
+          src={ilmStrategies[id].logo}
           alt={data?.underlyingAsset?.name || "asset"}
           isFetched={isFetched}
           width={40}
