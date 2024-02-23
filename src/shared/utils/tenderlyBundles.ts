@@ -97,6 +97,7 @@ export async function simulateDeposit(
       sharesToReceive,
     };
   } catch (e) {
+    console.error("Failed to simulate deposit");
     return {
       isSuccess: false,
       sharesToReceive: 0n,
@@ -113,8 +114,6 @@ export async function simulateWithdraw(
     const { result } = await simulateBundle([
       createWithdrawTx(account, strategyConfig.address, amount),
     ]);
-
-    console.log("result", result);
 
     if (!result || !result[0].status || !result[0].logs) {
       return {
@@ -145,6 +144,7 @@ export async function simulateWithdraw(
       assetsToReceive: decodedWithdrawEvent.args.assets,
     };
   } catch (e) {
+    console.error("Failed to simulate withdraw");
     return {
       isSuccess: false,
       assetsToReceive: 0n,
