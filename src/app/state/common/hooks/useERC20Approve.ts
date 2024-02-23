@@ -1,7 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useConfig,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
+import { waitForTransaction } from "../../../../shared/utils/transactionWrapper";
 
 const ALWAYS_APPROVE_MAX = false;
 
@@ -34,11 +40,12 @@ export const useERC20Approve = (
   amount: bigint = BigInt(0)
 ) => {
   const queryClient = useQueryClient();
+  const config = useConfig();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
 
-  const { writeContractAsync: approveTokenAsync, isPending: isApproving } =
-    useWriteContract();
+  const { writeContractAsync: approveTokenAsync } = useWriteContract();
 
   const { data: allowance, queryKey } = useReadContract({
     address: tokenAddress,
@@ -63,12 +70,18 @@ export const useERC20Approve = (
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
 
     try {
-      await approveTokenAsync({
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: "approve",
-        args: [spenderAddress, amountToApprove],
+      setIsApproving(true);
+
+      await waitForTransaction(config, async () => {
+        return approveTokenAsync({
+          address: tokenAddress,
+          abi: erc20Abi,
+          functionName: "approve",
+          args: [spenderAddress, amountToApprove],
+        });
       });
+
+      setIsApproving(false);
       queryClient.invalidateQueries({ queryKey });
     } catch (e) {
       console.log("Failed to approve token!");
