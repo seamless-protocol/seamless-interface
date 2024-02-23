@@ -3,7 +3,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi"; //, http, createConfig
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <WagmiProvider config={rainbowConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
@@ -44,7 +44,7 @@ function App() {
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>
-    </BrowserRouter>
+    </Router>
   );
 }
 
