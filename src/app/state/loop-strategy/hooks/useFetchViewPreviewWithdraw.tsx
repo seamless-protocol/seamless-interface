@@ -52,7 +52,7 @@ export const useFetchPreviewWithdraw = (
 
   let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (assets && underlyingAssetPrice) {
-    assetsToReceive = assets;
+    assetsToReceive = (assets * 99n) / 100n;
     assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice) / ONE_ETHER;
 
     costInUnderlyingAsset =

@@ -53,7 +53,7 @@ export const useFetchPreviewDeposit = (
 
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (shares && shareValueInUsd) {
-    sharesToReceive = shares;
+    sharesToReceive = (shares * 99n) / 100n;
     sharesToReceiveInUsd = (sharesToReceive * shareValueInUsd) / ONE_ETHER;
 
     costInUnderlyingAsset =
