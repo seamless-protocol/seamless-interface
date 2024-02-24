@@ -73,12 +73,20 @@ function parseRewardsTokenInformation(
   let totalApy = 0;
   let rewardTokens: RewardToken[] = [];
 
+  const now = BigInt(Math.floor(Date.now() / 1000));
+
   for (let i = 0; i < rewardsTokenInformation.length; i++) {
     const rewardToken = rewardsTokenInformation[i];
+
+    // Ignore emissions programs that are now over
+    if (rewardToken.emissionEndTimestamp < now) {
+      continue;
+    }
+
     const rewardTokenPrice =
-      rewardToken.rewardTokenSymbol === "SEAM"
+      rewardToken.rewardTokenSymbol === "esSEAM" || rewardToken.rewardTokenSymbol === "SEAM"
         ? parseEther((seamPrice || 0n).toString())
-        : 0n;
+        : parseEther(rewardToken.rewardPriceFeed.toString());
     const emissionPerYear =
       rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApy =
