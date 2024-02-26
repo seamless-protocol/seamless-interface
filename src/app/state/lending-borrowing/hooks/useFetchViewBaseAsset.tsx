@@ -16,6 +16,7 @@ import {
   formatToDisplayableOrPlaceholder,
   formatFetchBigIntToViewBigInt,
   formatUnitsToNumber,
+  normalizeDecimals,
 } from "../../../../shared/utils/helpers";
 import { ViewBaseAsset } from "../types/ViewBaseAsset";
 import { useFetchAssetDecimals } from "../../common/hooks/useFetchAssetDecimals";
@@ -73,12 +74,25 @@ function parseRewardsTokenInformation(
   let totalApy = 0;
   let rewardTokens: RewardToken[] = [];
 
+  const now = BigInt(Math.floor(Date.now() / 1000));
+
   for (let i = 0; i < rewardsTokenInformation.length; i++) {
     const rewardToken = rewardsTokenInformation[i];
+
+    // Ignore emissions programs that are now over
+    if (rewardToken.emissionEndTimestamp < now) {
+      continue;
+    }
+
     const rewardTokenPrice =
+      rewardToken.rewardTokenSymbol === "esSEAM" ||
       rewardToken.rewardTokenSymbol === "SEAM"
         ? parseEther((seamPrice || 0n).toString())
-        : 0n;
+        : normalizeDecimals(
+            rewardToken.rewardPriceFeed,
+            BigInt(rewardToken.priceFeedDecimals),
+            18n
+          );
     const emissionPerYear =
       rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApy =
