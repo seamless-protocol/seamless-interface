@@ -30,7 +30,8 @@ export default {
         xxxl: "1800px",
       },
       borderWidth: {
-        thin: "0.1px",
+        thinest: "0.1px",
+        thin: "0.67px",
       },
       colors: {
         primary: {
@@ -115,6 +116,7 @@ export default {
         },
         other: {
           standardInputLine: "#383D511F",
+          borderButton: "#EBEBED1F",
         },
       },
       fontFamily: {
