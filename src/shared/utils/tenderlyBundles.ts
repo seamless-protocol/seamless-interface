@@ -45,7 +45,7 @@ async function simulateBundle(functionCalls: any) {
 
     return await res.json();
   } catch (e) {
-    console.error("Failed to simulate transactions");
+    console.error("Failed to simulate transactions", e);
     return null;
   }
 }
