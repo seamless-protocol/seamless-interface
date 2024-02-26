@@ -16,6 +16,7 @@ import {
   formatToDisplayableOrPlaceholder,
   formatFetchBigIntToViewBigInt,
   formatUnitsToNumber,
+  normalizeDecimals,
 } from "../../../../shared/utils/helpers";
 import { ViewBaseAsset } from "../types/ViewBaseAsset";
 import { useFetchAssetDecimals } from "../../common/hooks/useFetchAssetDecimals";
@@ -84,9 +85,14 @@ function parseRewardsTokenInformation(
     }
 
     const rewardTokenPrice =
-      rewardToken.rewardTokenSymbol === "esSEAM" || rewardToken.rewardTokenSymbol === "SEAM"
+      rewardToken.rewardTokenSymbol === "esSEAM" ||
+      rewardToken.rewardTokenSymbol === "SEAM"
         ? parseEther((seamPrice || 0n).toString())
-        : parseEther(rewardToken.rewardPriceFeed.toString());
+        : normalizeDecimals(
+            rewardToken.rewardPriceFeed,
+            BigInt(rewardToken.priceFeedDecimals),
+            18n
+          );
     const emissionPerYear =
       rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApy =

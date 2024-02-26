@@ -134,3 +134,15 @@ export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
 export function convertAprToApy(apr: number): number {
   return ((1 + apr / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR - 1) * 100;
 }
+
+export function normalizeDecimals(
+  value: bigint,
+  valueDecimals: bigint,
+  toDecimals: bigint
+): bigint {
+  if (valueDecimals <= toDecimals) {
+    return value * 10n ** (toDecimals - valueDecimals);
+  } else {
+    return value / 10n ** (valueDecimals - toDecimals);
+  }
+}
