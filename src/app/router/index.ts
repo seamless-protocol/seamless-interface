@@ -6,7 +6,7 @@ const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
 const governanceUrl = "https://legacy.seamlessprotocol.com/governance";
 const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
-const developersUrl = "https://github.com/seamless-protocol/interface";
+const developersUrl = "https://github.com/seamless-protocol";
 
 const baseScan = "https://basescan.org/tx";
 
