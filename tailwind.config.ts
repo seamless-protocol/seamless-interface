@@ -72,6 +72,7 @@ export default {
           100: "#1C4B1E",
           200: "#ECF8ED",
         },
+
         background: {
           default: "#F8F0E5",
           paper: "#FFF",
@@ -332,6 +333,16 @@ export default {
             fontFamily: FONT,
             fontWeight: 500,
             letterSpacing: pxToRem(0.1),
+            lineHeight: pxToRem(16),
+            fontSize: pxToRem(12),
+          },
+        ],
+        caption: [
+          pxToRem(12),
+          {
+            fontFamily: FONT,
+            fontWeight: 400,
+            letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(16),
             fontSize: pxToRem(12),
           },

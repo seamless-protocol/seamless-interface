@@ -27,4 +27,5 @@ export const fontSizes = {
   secondary14: pxToRem(14),
   main12: pxToRem(12),
   secondary12: pxToRem(12),
+  caption: pxToRem(12),
 };
