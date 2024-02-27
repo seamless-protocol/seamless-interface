@@ -15,15 +15,19 @@ import {
   Typography,
   useNotificationContext,
 } from "@shared";
-import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
+import {
+  loopStrategyAbi,
+  useReadAaveOracleGetAssetPrice,
+} from "../../../../generated/generated";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useQueryClient } from "@tanstack/react-query";
+
 import { AddCoinToWallet } from "../../../../../shared/components/wallet/add-coin-to-wallet/AddCointToWallet";
+import { useSeamlessContractWrite } from "../../../../../shared/wagmi-wrapper/hooks/useSeamlessContractWrite";
+import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import { KEY_AccountAsset_Balance } from "../../../../state/common/hooks/useFetchAccountAssetBalance";
 
 export interface DepositModalFormData {
   amount: string;
@@ -39,12 +43,14 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
-  const queryClient = useQueryClient();
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
-  const { isPending: isDepositPending, depositAsync } =
-    useWriteStrategyDeposit(id);
+  const { seamlessWriteAsync, isPending } = useSeamlessContractWrite({
+    address: ilmStrategies[id].address,
+    abi: loopStrategyAbi,
+    functionName: "deposit",
+  });
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -72,35 +78,42 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      try {
-        const { txHash } = await depositAsync(
-          parseUnits(data.amount, 18),
-          account.address as Address,
-          previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
-        );
-        modalRef.current?.close();
+      await seamlessWriteAsync(
+        {
+          args: [
+            parseUnits(data.amount, 18),
+            account.address as Address,
+            previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          ],
+        },
+        {
+          queriesToInvalidate: [KEY_AccountAsset_Balance],
+          onSuccess: (txHash) => {
+            modalRef.current?.close();
 
-        showNotification({
-          txHash,
-          content: (
-            <FlexCol className="w-full items-center text-center justify-center">
-              <Typography>
-                You Supplied {data.amount}{" "}
-                {ilmStrategies[id].underlyingAsset.symbol}
-              </Typography>
-              <AddCoinToWallet {...ilmStrategies[id]} />
-            </FlexCol>
-          ),
-        });
-        queryClient.invalidateQueries();
-      } catch (e) {
-        modalRef.current?.close();
-        showNotification({
-          status: "error",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content: (e as any)?.shortMessage,
-        });
-      }
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol className="w-full items-center text-center justify-center">
+                  <Typography>
+                    You Supplied {data.amount}{" "}
+                    {ilmStrategies[id].underlyingAsset.symbol}
+                  </Typography>
+                  <AddCoinToWallet {...ilmStrategies[id]} />
+                </FlexCol>
+              ),
+            });
+          },
+          onError: (e) => {
+            modalRef.current?.close();
+            showNotification({
+              status: "error",
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              content: (e as any)?.shortMessage,
+            });
+          },
+        }
+      );
     }
   };
 
@@ -164,7 +177,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           )}
           <Button
             type="submit"
-            loading={isDepositPending}
+            loading={isPending} //todo
             disabled={!isApproved || Number(amount) <= 0}
           >
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
