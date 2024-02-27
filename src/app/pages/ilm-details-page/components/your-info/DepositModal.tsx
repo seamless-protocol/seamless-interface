@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Address, etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import {
+  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -14,6 +15,7 @@ import {
   MyFormProvider,
   Typography,
   useNotificationContext,
+  useSeamlessContractWrite,
 } from "@shared";
 import {
   loopStrategyAbi,
@@ -24,10 +26,9 @@ import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDeb
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 
-import { AddCoinToWallet } from "../../../../../shared/components/wallet/add-coin-to-wallet/AddCointToWallet";
-import { useSeamlessContractWrite } from "../../../../../shared/wagmi-wrapper/hooks/useSeamlessContractWrite";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { KEY_AccountAsset_Balance } from "../../../../state/common/hooks/useFetchAccountAssetBalance";
+import { KEY_Strategy_InfoForAccount } from "../../../../state/ILM/hooks/useFetchViewStrategy";
 
 export interface DepositModalFormData {
   amount: string;
@@ -46,11 +47,12 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
-  const { seamlessWriteAsync, isPending } = useSeamlessContractWrite({
-    address: ilmStrategies[id].address,
-    abi: loopStrategyAbi,
-    functionName: "deposit",
-  });
+  const { seamlessWriteAsync: depositAsync, isPending } =
+    useSeamlessContractWrite({
+      address: ilmStrategies[id].address,
+      abi: loopStrategyAbi,
+      functionName: "deposit",
+    });
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -78,7 +80,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      await seamlessWriteAsync(
+      await depositAsync(
         {
           args: [
             parseUnits(data.amount, 18),
@@ -87,7 +89,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           ],
         },
         {
-          queriesToInvalidate: [KEY_AccountAsset_Balance],
+          queriesToInvalidate: [
+            KEY_AccountAsset_Balance,
+            KEY_Strategy_InfoForAccount,
+          ],
           onSuccess: (txHash) => {
             modalRef.current?.close();
 
