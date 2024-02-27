@@ -14,7 +14,7 @@ export interface ViewNumber extends ViewValueSymbolPair {
 }
 
 export interface ViewBigInt extends ViewValueSymbolPair {
-  value?: number | undefined;
+  value?: string | undefined;
   bigIntValue?: bigint | undefined;
 }
 
