@@ -7,6 +7,7 @@ interface AmountInputBoxWrapperProps {
   assetAddress: Address;
   debouncedAmountInUsd: number;
   assetSymbol: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   assetLogo: any;
 }
 
