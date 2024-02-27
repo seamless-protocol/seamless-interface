@@ -22,7 +22,7 @@ const columns = Object.keys(columnNames).map((key) => ({
 
 export const BaseAssetsTable: React.FC = () => {
   return (
-    <div className="flex flex-col xxl:items-center">
+    <div className="flex flex-col xxl:items-center pb-10">
       <Card className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
         <div className="pt-4">
           <SimpleTable

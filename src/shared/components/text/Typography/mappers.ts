@@ -21,7 +21,8 @@ export type TypographyType =
   | "main14"
   | "secondary14"
   | "main12"
-  | "secondary12";
+  | "secondary12"
+  | "caption";
 
 export type TypographyColor =
   | "primary"
@@ -59,6 +60,7 @@ export const tailwindStyles = {
   secondary14: "text-secondary14",
   main12: "text-main12",
   secondary12: "text-secondary12",
+  caption: "text-caption",
 };
 
 export const textColorStyles: { [key in TypographyColor]: string } = {
@@ -97,4 +99,5 @@ export const ComponentMap: { [key in TypographyType]: React.ElementType } = {
   secondary21: "p",
   helperText: "span",
   tooltip: "span",
+  caption: "p",
 };
