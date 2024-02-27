@@ -1,4 +1,4 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -28,71 +28,63 @@ interface StrategyInfoForAccount {
   userBalanceUSD: FetchBigInt;
 }
 
+export const KEY_Strategy_InfoForAccount = "KEY_Strategy_InfoForAccount";
+
 export function useFetchStrategyInfoForAccount(
   strategyConfig: StrategyConfig,
   account: UseAccountReturnType
 ): Fetch<StrategyInfoForAccount> {
   const { address: strategyAddress, underlyingAsset } = strategyConfig;
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  const {} = useSeamlessContractReads([
-    {
-      address: strategyAddress,
-      abi: loopStrategyAbi,
-      functionName: "getCollateralRatioTargets",
-    },
-    {
-      address: underlyingAsset.address,
-      abi: erc20Abi,
-      functionName: "balanceOf",
-      args: [account.address as Address],
-    },
-  ]);
   const {
     data: results,
     isLoading,
     isFetched,
-  } = useReadContracts({
-    contracts: [
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "getCollateralRatioTargets",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "balanceOf",
-        args: [account.address as Address],
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "totalSupply",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equity",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equityUSD",
-      },
-      {
-        address: underlyingAsset.address,
-        abi: erc20Abi,
-        functionName: "balanceOf",
-        args: [account.address as Address],
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [underlyingAsset.address],
-      },
-    ],
-  });
+  } = useSeamlessContractReads(
+    {
+      contracts: [
+        {
+          address: strategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "getCollateralRatioTargets",
+        },
+        {
+          address: strategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "balanceOf",
+          args: [account.address as Address],
+        },
+        {
+          address: strategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "totalSupply",
+        },
+        {
+          address: strategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "equity",
+        },
+        {
+          address: strategyAddress,
+          abi: loopStrategyAbi,
+          functionName: "equityUSD",
+        },
+        {
+          address: underlyingAsset.address,
+          abi: erc20Abi,
+          functionName: "balanceOf",
+          args: [account.address as Address],
+        },
+        {
+          address: aaveOracleAddress,
+          abi: aaveOracleAbi,
+          functionName: "getAssetPrice",
+          args: [underlyingAsset.address],
+        },
+      ],
+    },
+    KEY_Strategy_InfoForAccount
+  );
 
   if (results) {
     const collateralRatioTargets = results[0].result;
