@@ -1,6 +1,5 @@
 // ****** //
 // contexts //
-// contexts //
 // ****** //
 export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
@@ -88,3 +87,10 @@ export * from "./components/table/TableRow";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/add-coin-to-wallet/AddCointToWallet";
+
+// ****** //
+// hooks //
+// ****** //
+export * from "./wagmi-wrapper/hooks/useSeamlessContractRead";
+export * from "./wagmi-wrapper/hooks/useSeamlessContractReads";
+export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
