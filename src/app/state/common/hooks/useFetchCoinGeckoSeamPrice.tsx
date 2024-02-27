@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { parseEther } from "viem";
 
 interface CoinGeckoAssetPrice {
   [assetId: string]: {
@@ -36,5 +37,5 @@ export const useFetchCoinGeckoSeamPrice = () => {
     queryFn: fetchCoinGeckoAssetPrice,
   });
 
-  return data;
+  return parseEther((data || 0).toString());
 };
