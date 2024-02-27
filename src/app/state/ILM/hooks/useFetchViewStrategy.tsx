@@ -18,6 +18,7 @@ import { useFetchViewStrategyApy } from "../../loop-strategy/hooks/useFetchViewS
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { useSeamlessContractReads } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractReads";
 
 interface StrategyInfoForAccount {
   targetMultiple: FetchBigInt;
@@ -33,6 +34,19 @@ export function useFetchStrategyInfoForAccount(
 ): Fetch<StrategyInfoForAccount> {
   const { address: strategyAddress, underlyingAsset } = strategyConfig;
   let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
+  const {} = useSeamlessContractReads([
+    {
+      address: strategyAddress,
+      abi: loopStrategyAbi,
+      functionName: "getCollateralRatioTargets",
+    },
+    {
+      address: underlyingAsset.address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [account.address as Address],
+    },
+  ]);
   const {
     data: results,
     isLoading,
