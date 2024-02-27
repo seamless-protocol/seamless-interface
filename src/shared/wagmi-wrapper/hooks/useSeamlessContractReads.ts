@@ -1,32 +1,29 @@
-import { Abi, ContractFunctionArgs, ContractFunctionName } from "viem";
 import { useQueryStore } from "../store/QueryStore";
 import { useEffect, useState } from "react";
 import {
   Config,
   ResolvedRegister,
-  UseReadContractParameters,
+  UseReadContractsParameters,
+  UseReadContractsReturnType,
   useReadContracts,
 } from "wagmi";
-import { ReadContractData } from "wagmi/query";
+import { ReadContractsData } from "wagmi/query";
 
 export function useSeamlessContractReads<
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends ContractFunctionName<TAbi, "pure" | "view">,
-  TArgs extends ContractFunctionArgs<TAbi, "pure" | "view", TFunctionName>,
+  const contracts extends readonly unknown[],
+  allowFailure extends boolean = true,
   config extends Config = ResolvedRegister["config"],
-  selectData = ReadContractData<TAbi, TFunctionName, TArgs>,
+  selectData = ReadContractsData<contracts, allowFailure>,
 >(
-  parameters: UseReadContractParameters<
-    TAbi,
-    TFunctionName,
-    TArgs,
+  parameters: UseReadContractsParameters<
+    contracts,
+    allowFailure,
     config,
     selectData
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  >[] = [] as any,
+  > = {},
   seamlessQueryKey?: string
-) {
-  const result = useReadContracts([...parameters]);
+): UseReadContractsReturnType<contracts, allowFailure, selectData> {
+  const result = useReadContracts({ ...parameters });
   const { addQueryKey } = useQueryStore();
 
   //todo: compare query keys instead?
