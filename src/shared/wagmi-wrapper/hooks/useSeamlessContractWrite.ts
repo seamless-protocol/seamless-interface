@@ -87,12 +87,12 @@ export function useSeamlessContractWrite<
   const [isPending, setIsPending] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   useEffect(() => {
-    setErrorMessage(error?.message);
+    setErrorMessage(error?.message); //todo: might this override errorMessage set in error handler?
   }, [error?.message, setErrorMessage]);
 
-  // ************** //
-  // write contract //
-  // ************** //
+  // ********************** //
+  // Write contract wrapper //
+  // ********************** //
   const seamlessWriteAsync = async (
     args: Parameters<typeof writeContractAsync>[0],
     settings?: SeamlessWriteAsyncParams
