@@ -8,7 +8,7 @@ export const FOOTER_NAVIGATION = [
     text: "Privacy",
   },
   {
-    url: "https://docs.seamlessprotocol.com/overview/introduction-to-seamless-protocol",
+    url: "https://docs.seamlessprotocol.com",
     text: "Docs",
   },
   {
