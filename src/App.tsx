@@ -7,13 +7,14 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
-import { NotificationProvider } from "./shared";
+import { FlexCol, NotificationProvider } from "./shared";
 import { LiFiWidgetWrapper } from "./shared/components/lifi/LiFiWidgetWrapper.tsx";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
 import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
 import { rainbowConfig } from "./app/config/rainbow-config.ts";
+import { Footer } from "./app/components/footer/Footer.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,19 +26,22 @@ function App() {
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
             <NotificationProvider>
               <LifiWidgetProvider>
-                <ConnectButtonProvider>
-                  <NavigationBar />
-                </ConnectButtonProvider>
-                <Routes>
-                  <Route
-                    path={RouterConfig.Routes.markets}
-                    element={<IlmPage />}
-                  />
-                  <Route
-                    path={RouterConfig.Routes.ilmDetails}
-                    element={<IlmDetailsPage />}
-                  />
-                </Routes>
+                <FlexCol className="min-h-screen">
+                  <ConnectButtonProvider>
+                    <NavigationBar />
+                  </ConnectButtonProvider>
+                  <Routes>
+                    <Route
+                      path={RouterConfig.Routes.markets}
+                      element={<IlmPage />}
+                    />
+                    <Route
+                      path={RouterConfig.Routes.ilmDetails}
+                      element={<IlmDetailsPage />}
+                    />
+                  </Routes>
+                  <Footer />
+                </FlexCol>
                 <LiFiWidgetWrapper />
               </LifiWidgetProvider>
             </NotificationProvider>

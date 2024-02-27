@@ -30,7 +30,8 @@ export default {
         xxxl: "1800px",
       },
       borderWidth: {
-        thin: "0.1px",
+        thinest: "0.1px",
+        thin: "0.67px",
       },
       colors: {
         primary: {
@@ -72,6 +73,7 @@ export default {
           100: "#1C4B1E",
           200: "#ECF8ED",
         },
+
         background: {
           default: "#F8F0E5",
           paper: "#FFF",
@@ -114,6 +116,7 @@ export default {
         },
         other: {
           standardInputLine: "#383D511F",
+          borderButton: "#EBEBED1F",
         },
       },
       fontFamily: {
@@ -332,6 +335,16 @@ export default {
             fontFamily: FONT,
             fontWeight: 500,
             letterSpacing: pxToRem(0.1),
+            lineHeight: pxToRem(16),
+            fontSize: pxToRem(12),
+          },
+        ],
+        caption: [
+          pxToRem(12),
+          {
+            fontFamily: FONT,
+            fontWeight: 400,
+            letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(16),
             fontSize: pxToRem(12),
           },

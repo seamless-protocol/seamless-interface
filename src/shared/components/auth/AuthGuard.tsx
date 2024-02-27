@@ -3,6 +3,7 @@ import { useAccount } from "wagmi";
 import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButtonStyled } from "../wallet/connect-wallet-rainbow-wrapper/components/ConnectButton";
 
 /**
  * `AuthGuard` Component Documentation
@@ -65,14 +66,9 @@ export const AuthGuard: React.FC<{
           <ConnectButton.Custom>
             {({ openConnectModal }) => {
               return (
-                <button
-                  className="box-border text-white border-solid  border-thin
-            rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
-          bg-primary-main hover:bg-background-header"
-                  onClick={openConnectModal}
-                >
+                <ConnectButtonStyled onClick={openConnectModal}>
                   Connect wallet
-                </button>
+                </ConnectButtonStyled>
               );
             }}
           </ConnectButton.Custom>
