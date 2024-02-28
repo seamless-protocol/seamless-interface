@@ -47,6 +47,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
+  // todo: still create wrapper hook for useSeamlessContractWrite in each place ?
   const { seamlessWriteAsync: depositAsync, isPending } =
     useSeamlessContractWrite({
       address: ilmStrategies[id].address,
@@ -111,6 +112,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           },
           onError: (e) => {
             modalRef.current?.close();
+            //todo: show error notification by default inside seamlessWrite function?
             showNotification({
               status: "error",
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
