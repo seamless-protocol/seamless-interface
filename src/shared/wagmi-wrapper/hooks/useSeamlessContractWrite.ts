@@ -100,12 +100,13 @@ export function useSeamlessContractWrite<
       //1. write contract async
       const txHash = await writeContractAsync(args);
 
-      //2. wait for transaction
-      const receipt = await waitForTransactionReceipt(wagmiConfig, {
+      //2. wait for transaction receipt
+      const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
         hash: txHash,
       });
       //3. throw if receipt is not valid
-      if (receipt.status === "reverted") throw new Error("Execution reverted."); //todo: better way to handle reverted?
+      if (txReceipt.status === "reverted")
+        throw new Error("Execution reverted."); //todo: better way to handle reverted?
 
       //4. invalidate queries
       if (settings?.queriesToInvalidate)
@@ -128,6 +129,7 @@ export function useSeamlessContractWrite<
 
       //3. call callback
       settings?.onError?.(error);
+      //todo: display error notification always?
     } finally {
       setIsPending(false);
       //1. call callback
