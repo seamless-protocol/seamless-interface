@@ -5,8 +5,7 @@ import { useConfig } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useEffect, useState } from "react";
 import { getParsedError } from "../../utils/errorPersers";
-import { useQueryClient } from "@tanstack/react-query";
-import { useQueryStore } from "../store/QueryStore";
+import { useInvalidateQueries } from "./useInvalidateQueries";
 
 type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
@@ -75,8 +74,7 @@ export function useSeamlessContractWrite<
   // *********** //
   // Query cache //
   // *********** //
-  const queryClient = useQueryClient();
-  const { getQueryKey } = useQueryStore();
+  const { invalidateMany } = useInvalidateQueries();
   // ****** //
   // Config //
   // ****** //
@@ -110,15 +108,8 @@ export function useSeamlessContractWrite<
       if (receipt.status === "reverted") throw new Error("Execution reverted."); //todo: better way to handle reverted?
 
       //4. invalidate queries
-      if (settings?.queriesToInvalidate) {
-        const promises = settings.queriesToInvalidate.map(async (query) => {
-          const queryKey = getQueryKey(query);
-          if (queryKey) {
-            return queryClient.invalidateQueries({ queryKey });
-          }
-        });
-        await Promise.all(promises);
-      }
+      if (settings?.queriesToInvalidate)
+        await invalidateMany(settings.queriesToInvalidate);
 
       //5. call onSuccess callback
       settings?.onSuccess?.(txHash);
