@@ -20,6 +20,11 @@ type SeamlessWriteAsyncParams = {
  *
  * A React hook for performing seamless write operations on blockchain contracts. It abstracts the complexity of managing transaction states, error handling, and query invalidation post-transaction, providing a simplified and efficient interface for contract interactions.
  *
+ * ## Key Overrides:
+ * - **isPending** - now waits for transaction receipt.
+ * - **errorMessage** - now shows error if any: get transaction receipt or contract write fails.
+ * - **seamlessWriteAsync** - now have extended functionalities on top of writeContractAsync.
+ *
  * ## Key Features:
  * - **Simplified Transaction Management**: Handles the lifecycle of a transaction, including sending, receipt waiting, and status checking.
  * - **Automated Query Invalidation**: Supports invalidating React Query queries post-transaction, ensuring data consistency across the application.
