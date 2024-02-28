@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { QueryKey } from "@tanstack/react-query";
 
+//todo: is it enough for key to be string? change it to QueryKey ?
 type StoreState = {
   queryKeys: Record<string, QueryKey>;
   addQueryKey: (key: string, queryKey: QueryKey) => void;
