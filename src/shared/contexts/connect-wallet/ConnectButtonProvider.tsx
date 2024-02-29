@@ -9,7 +9,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/useUserAvatar";
-import { useFetchIsAddressSanctioned } from "../../../app/state/common/hooks/useFetchIsAddressSanctioned";
+import { useFetchIsAddressSanctioned } from "../../hooks/useFetchIsAddressSanctioned";
 
 interface ConnectButtonContextType {
   isConnected: boolean;

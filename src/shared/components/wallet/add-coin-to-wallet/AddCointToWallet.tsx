@@ -4,7 +4,7 @@ import { FlexCol } from "../../containers/FlexCol";
 import { Icon } from "../../images/Icon";
 import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
-import { useAddCoinToWallet } from "../../../../app/state/common/hooks/useAddCoinToWallet";
+import { useAddCoinToWallet } from "../../../hooks/useAddCoinToWallet";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
 
 interface Coin {

@@ -22,7 +22,6 @@ import {
   normalizeDecimals,
 } from "../../../../shared/utils/helpers";
 import { ViewBaseAsset } from "../../../state/lending-borrowing/types/ViewBaseAsset";
-import { useFetchAssetDecimals } from "../../../state/common/hooks/useFetchAssetDecimals";
 import {
   AAVE_ADDRESS_PROVIDER,
   SECONDS_PER_YEAR,
@@ -30,6 +29,7 @@ import {
 } from "../../../meta/constants";
 import { useFetchCoinGeckoSeamPrice } from "../../../state/common/hooks/useFetchCoinGeckoSeamPrice";
 import { Fetch, FetchBigInt, FetchNumber } from "src/shared/types/Fetch";
+import { useToken } from "../../../state/asset/hooks/useToken";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -166,11 +166,15 @@ function useFetchBaseAsset(
 ): Fetch<BaseAsset> {
   const account = useAccount();
 
-  const { decimals } = useFetchAssetDecimals(baseAsset?.address as Address);
+  const {
+    isLoading: isAssetDataLoading,
+    isFetched: isAssetDataFetched,
+    decimals,
+  } = useToken(baseAsset?.address as Address);
   const {
     data: results,
-    isLoading,
-    isFetched,
+    isLoading: isLendingPoolDataLoading,
+    isFetched: isLendingPoolDataFetched,
   } = useReadContracts({
     contracts: [
       {
@@ -255,8 +259,8 @@ function useFetchBaseAsset(
   }
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: isLendingPoolDataLoading || isAssetDataLoading,
+    isFetched: isLendingPoolDataFetched && isAssetDataFetched,
     totalSupplied: {
       bigIntValue: totalSupplied || 0n,
       decimals: decimals || 18,

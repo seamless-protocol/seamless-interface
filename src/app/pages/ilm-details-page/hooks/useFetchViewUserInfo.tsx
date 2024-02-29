@@ -1,47 +1,49 @@
-import { useAccount } from "wagmi";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
-import { useFetchStrategyInfoForAccount } from "../../ilm-page/hooks/useFetchViewStrategy";
 import { ViewUserInfo } from "../../../state/loop-strategy/types/ViewUserInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { useFetchDetailAssetBalance } from "../../../state/asset/hooks/useFetchViewDetailAssetBalance";
 
 export const useFetchViewUserInfo = (
   index: number
 ): Displayable<ViewUserInfo> => {
   const strategyConfig = ilmStrategies[index];
 
-  const account = useAccount();
   const {
-    isLoading,
-    isFetched,
-    userEquity,
-    userEquityUSD,
-    userBalance,
-    userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(strategyConfig, account);
+    isLoading: isUnderlyingAssetBalanceLoading,
+    isFetched: isUnderlyingAssetBalanceFetched,
+    balance: underlyingAssetBalance,
+    balanceUsd: underlyingAssetBalanceUsd,
+  } = useFetchDetailAssetBalance(strategyConfig.underlyingAsset.address);
+  const {
+    isLoading: isStrategyBalanceLoading,
+    isFetched: isStrategyBalanceFetched,
+    balance: strategyBalance,
+    balanceUsd: strategyBalanceUsd,
+  } = useFetchDetailAssetBalance(strategyConfig.address);
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: isUnderlyingAssetBalanceLoading || isStrategyBalanceLoading,
+    isFetched: isUnderlyingAssetBalanceFetched && isStrategyBalanceFetched,
     data: {
       underlyingAssetBalance: {
         tokenAmount: formatFetchBigIntToViewBigInt(
-          userBalance,
+          underlyingAssetBalance,
           walletBalanceDecimalsOptions
         ),
         dollarAmount: formatFetchBigIntToViewBigInt(
-          userBalanceUSD,
+          underlyingAssetBalanceUsd,
           walletBalanceDecimalsOptions
         ),
       },
       strategyBalance: {
         tokenAmount: formatFetchBigIntToViewBigInt(
-          userEquity,
+          strategyBalance,
           walletBalanceDecimalsOptions
         ),
         dollarAmount: formatFetchBigIntToViewBigInt(
-          userEquityUSD,
+          strategyBalanceUsd,
           walletBalanceDecimalsOptions
         ),
       },

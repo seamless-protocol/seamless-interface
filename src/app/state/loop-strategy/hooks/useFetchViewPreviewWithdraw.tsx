@@ -1,5 +1,4 @@
 import { parseEther } from "viem";
-import { useReadAaveOracleGetAssetPrice } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   ONE_ETHER,
@@ -8,11 +7,11 @@ import {
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
-import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
+import { useFetchAssetPrice } from "../../asset/hooks/useFetchViewAssetPrice";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -39,27 +38,27 @@ export const useFetchPreviewWithdraw = (
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
-    shareValueInUnderlyingAsset,
-  } = useFetchShareValue(strategyConfig);
+    price: sharePrice,
+  } = useFetchAssetPrice(strategyConfig.address);
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
-    data: underlyingAssetPrice,
-  } = useReadAaveOracleGetAssetPrice({
-    args: [strategyConfig.underlyingAsset.address],
-  });
+    price: underlyingAssetPrice,
+  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
   let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (assets && underlyingAssetPrice) {
     assetsToReceive = (assets * 99n) / 100n;
-    assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice) / ONE_ETHER;
+    assetsToReceiveInUsd =
+      (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
 
+    const withdrawAmountInUsd =
+      (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
+
+    costInUsd = withdrawAmountInUsd - assetsToReceiveInUsd;
     costInUnderlyingAsset =
-      (parseEther(amount) * (shareValueInUnderlyingAsset || 0n)) / ONE_ETHER -
-      assetsToReceive;
-    costInUsd =
-      (costInUnderlyingAsset * (underlyingAssetPrice || 0n)) / ONE_ETHER;
+      (costInUsd * ONE_ETHER) / underlyingAssetPrice.bigIntValue;
   }
 
   return {

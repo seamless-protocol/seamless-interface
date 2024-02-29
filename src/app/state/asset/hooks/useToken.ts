@@ -1,7 +1,13 @@
 import { Address, erc20Abi } from "viem";
 import { useReadContract } from "wagmi";
+import { Fetch } from "../../../../shared/types/Fetch";
 
-export const useToken = (token: Address) => {
+export interface Token {
+  symbol: string;
+  decimals: number;
+}
+
+export const useToken = (token: Address): Fetch<Token> => {
   const {
     data: decimals,
     isLoading: isDecimalsLoading,

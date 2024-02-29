@@ -1,6 +1,6 @@
 import { ViewBigInt } from "../../../../shared";
 
-export interface ViewTokenBalanceUsd {
+export interface ViewDetailAssetBalance {
   balance: {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;

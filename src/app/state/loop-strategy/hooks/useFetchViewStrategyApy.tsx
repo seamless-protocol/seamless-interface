@@ -9,10 +9,10 @@ import {
   formatFetchNumberToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
-import { useFetchShareValueInBlock } from "../../common/hooks/useFetchShareValue";
 import { Fetch, FetchNumber } from "src/shared/types/Fetch";
 import { ViewStrategyApy } from "../types/ViewStrategyApy";
 import { Displayable } from "src/shared/types/Displayable";
+import { useFetchAssetPriceInBlock } from "../../asset/hooks/useFetchViewAssetPrice";
 
 export function calculateApy(
   endValue: bigint,
@@ -60,19 +60,25 @@ export const useFetchStrategyApy = (
   });
 
   const {
-    shareValueInEth: shareValueInEthLatestBlock,
+    price: shareValueInUsdLatestBlock,
     isLoading: isLatestBlockShareValueLoading,
     isFetched: isLatestBlockShareValueFetched,
-  } = useFetchShareValueInBlock(latestBlockData?.number || 0n, strategyConfig);
+  } = useFetchAssetPriceInBlock(
+    strategyConfig.address,
+    latestBlockData?.number || 0n
+  );
   const {
-    shareValueInEth: shareValueInEthPrevBlock,
+    price: shareValueInUsdPrevBlock,
     isLoading: isPrevBlockShareValueLoading,
     isFetched: isPrevBlockShareValueFetched,
-  } = useFetchShareValueInBlock(prevBlockData?.number || 0n, strategyConfig);
+  } = useFetchAssetPriceInBlock(
+    strategyConfig.address,
+    prevBlockData?.number || 0n
+  );
 
   const apy = calculateApy(
-    shareValueInEthLatestBlock || 0n,
-    shareValueInEthPrevBlock || 0n,
+    shareValueInUsdLatestBlock.bigIntValue,
+    shareValueInUsdPrevBlock.bigIntValue,
     (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
   );
 

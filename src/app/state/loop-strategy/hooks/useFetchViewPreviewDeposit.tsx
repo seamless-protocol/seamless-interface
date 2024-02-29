@@ -1,7 +1,5 @@
 import { parseEther } from "viem";
-import { useReadAaveOracleGetAssetPrice } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import {
   ONE_ETHER,
   walletBalanceDecimalsOptions,
@@ -13,6 +11,7 @@ import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
+import { useFetchAssetPrice } from "../../asset/hooks/useFetchViewAssetPrice";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -39,27 +38,26 @@ export const useFetchPreviewDeposit = (
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
-    shareValueInUsd,
-    shareValueInUnderlyingAsset,
-  } = useFetchShareValue(strategyConfig);
+    price: sharePrice,
+  } = useFetchAssetPrice(strategyConfig.address);
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
-    data: assetPrice,
-  } = useReadAaveOracleGetAssetPrice({
-    args: [strategyConfig.underlyingAsset.address],
-  });
+    price: assetPrice,
+  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
-  if (shares && shareValueInUsd) {
+  if (shares && sharePrice && assetPrice) {
     sharesToReceive = (shares * 99n) / 100n;
-    sharesToReceiveInUsd = (sharesToReceive * shareValueInUsd) / ONE_ETHER;
+    sharesToReceiveInUsd =
+      (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
-    costInUnderlyingAsset =
-      parseEther(amount) -
-      (sharesToReceive * (shareValueInUnderlyingAsset || 0n)) / ONE_ETHER;
-    costInUsd = (costInUnderlyingAsset * (assetPrice || 0n)) / ONE_ETHER;
+    const depositValueInUsd =
+      (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
+
+    costInUsd = depositValueInUsd - sharesToReceiveInUsd;
+    costInUnderlyingAsset = (costInUsd * ONE_ETHER) / assetPrice.bigIntValue;
   }
 
   return {

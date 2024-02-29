@@ -1,20 +1,21 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
-import { aaveOracleAbi, aaveOracleAddress } from "../../../generated";
 import { useToken } from "./useToken";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
-import { ViewTokenBalanceUsd } from "../../loop-strategy/types/ViewTokenBalanceUsd";
+import { useFetchAssetPrice } from "./useFetchViewAssetPrice";
+import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
+import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 
-export interface TokenBalanceUsd {
+export interface DetailAssetBalance {
   balance: FetchBigInt;
   balanceUsd: FetchBigInt;
 }
 
-export const useFetchTokenBalanceUsd = (
+export const useFetchDetailAssetBalance = (
   token: Address
-): Fetch<TokenBalanceUsd> => {
+): Fetch<DetailAssetBalance> => {
   const account = useAccount();
 
   const {
@@ -37,38 +38,35 @@ export const useFetchTokenBalanceUsd = (
   let {
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
-    data: price,
-  } = useReadContract({
-    address: aaveOracleAddress,
-    abi: aaveOracleAbi,
-    functionName: "getAssetPrice",
-    args: [token],
-  });
+    price,
+  } = useFetchAssetPrice(token);
 
   balance = balance || 0n;
   price = price || 0n;
 
+  const strategy = ilmStrategies.find((strategy) => strategy.address === token);
+
   return {
     isLoading: isTokenDataLoading || isBalanceLoading || isPriceLoading,
-    isFetched: isTokenDataFetched || (isBalanceFetched && isPriceFetched),
+    isFetched: isTokenDataFetched && isBalanceFetched && isPriceFetched,
     balance: {
       bigIntValue: balance,
-      symbol: symbol,
+      symbol: strategy ? strategy.symbol : symbol,
       decimals: 18,
     },
     balanceUsd: {
-      bigIntValue: (balance * price) / BigInt(10 ** decimals),
+      bigIntValue: (balance * price.bigIntValue) / BigInt(10 ** decimals),
       symbol: "$",
       decimals: 8,
     },
   };
 };
 
-export const useFetchViewTokenBalanceUsd = (
+export const useFetchViewDetailAssetBalance = (
   token: Address
-): Displayable<ViewTokenBalanceUsd> => {
+): Displayable<ViewDetailAssetBalance> => {
   const { isLoading, isFetched, balance, balanceUsd } =
-    useFetchTokenBalanceUsd(token);
+    useFetchDetailAssetBalance(token);
 
   return {
     isLoading,
