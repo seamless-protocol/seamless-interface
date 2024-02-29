@@ -1,13 +1,10 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useReadContracts } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
   loopStrategyAbi,
 } from "../../../generated/generated";
-import {
-  convertRatioToMultiple,
-  formatFetchBigIntToViewBigInt,
-} from "../../../../shared/utils/helpers";
+import { convertRatioToMultiple } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address, erc20Abi } from "viem";
 import {
@@ -18,6 +15,9 @@ import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useF
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../../../state/loop-strategy/types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { useFetchViewTargetMultiple } from "../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
+import { useFetchViewStrategyBalance } from "../../../state/loop-strategy/hooks/useFetchViewStrategyBalance";
+import { useFetchViewTokenBalanceUsd } from "../../../state/common/hooks/useFetchTokenBalanceUsd";
 
 interface StrategyInfoForAccount {
   targetMultiple: FetchBigInt;
@@ -133,26 +133,41 @@ export const useFetchViewStrategy = (
 ): Displayable<ViewStrategy> => {
   const strategyConfig = ilmStrategies[index];
 
-  const account = useAccount();
   const {
-    isLoading: isStrategyInfoLoading,
-    isFetched: isStrategyInfoFetched,
-    targetMultiple,
-    userEquity,
-    userEquityUSD,
-    userBalance,
-    userBalanceUSD,
-  } = useFetchStrategyInfoForAccount(strategyConfig, account);
+    data: targetMultiple,
+    isLoading: isTargetMultipleLoading,
+    isFetched: isTargetMultipleFetched,
+  } = useFetchViewTargetMultiple(strategyConfig.address);
+
+  const {
+    data: strategyBalance,
+    isLoading: isStrategyBalanceLoading,
+    isFetched: isStrategyBalanceFetched,
+  } = useFetchViewStrategyBalance(strategyConfig);
+
+  const {
+    data: userBalance,
+    isLoading: isUserBalanceLoading,
+    isFetched: isUserBalanceFetched,
+  } = useFetchViewTokenBalanceUsd(strategyConfig.underlyingAsset.address);
 
   const {
     isLoading: isApyLoading,
     isFetched: isApyFetched,
-    data,
+    data: apyData,
   } = useFetchViewStrategyApy(index);
 
   return {
-    isLoading: isStrategyInfoLoading || isApyLoading,
-    isFetched: isStrategyInfoFetched && isApyFetched,
+    isLoading:
+      isTargetMultipleLoading ||
+      isStrategyBalanceLoading ||
+      isApyLoading ||
+      isUserBalanceLoading,
+    isFetched:
+      isTargetMultipleFetched &&
+      isStrategyBalanceFetched &&
+      isApyFetched &&
+      isUserBalanceFetched,
     data: {
       strategyName: strategyConfig.name,
       depositAsset: {
@@ -160,21 +175,18 @@ export const useFetchViewStrategy = (
         symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
-      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
-      loopApy: data.apy,
+      targetMultiple: targetMultiple.targetMultiple,
+      loopApy: apyData.apy,
       availableToDeposit: {
-        tokenAmount: formatFetchBigIntToViewBigInt({
-          ...userBalance,
-          symbol: "",
-        }),
-        dollarAmount: formatFetchBigIntToViewBigInt(userBalanceUSD),
+        tokenAmount: { ...userBalance.balance.tokenAmount, symbol: "" },
+        dollarAmount: userBalance.balance.dollarAmount,
       },
       yourPosition: {
-        tokenAmount: formatFetchBigIntToViewBigInt({
-          ...userEquity,
+        tokenAmount: {
+          ...strategyBalance.balance.tokenAmount,
           symbol: "",
-        }),
-        dollarAmount: formatFetchBigIntToViewBigInt(userEquityUSD),
+        },
+        dollarAmount: strategyBalance.balance.dollarAmount,
       },
     },
   };
