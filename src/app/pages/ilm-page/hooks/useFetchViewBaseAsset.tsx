@@ -1,6 +1,9 @@
 import { useAccount, useReadContracts } from "wagmi";
 import { Displayable } from "../../../../shared";
-import { BaseAssetConfig, baseAssets } from "../config/BaseAssetsConfig";
+import {
+  BaseAssetConfig,
+  baseAssets,
+} from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -18,14 +21,14 @@ import {
   formatUnitsToNumber,
   normalizeDecimals,
 } from "../../../../shared/utils/helpers";
-import { ViewBaseAsset } from "../types/ViewBaseAsset";
-import { useFetchAssetDecimals } from "../../common/hooks/useFetchAssetDecimals";
+import { ViewBaseAsset } from "../../../state/lending-borrowing/types/ViewBaseAsset";
+import { useFetchAssetDecimals } from "../../../state/common/hooks/useFetchAssetDecimals";
 import {
   AAVE_ADDRESS_PROVIDER,
   SECONDS_PER_YEAR,
   assetLogos,
 } from "../../../meta/constants";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
+import { useFetchCoinGeckoSeamPrice } from "../../../state/common/hooks/useFetchCoinGeckoSeamPrice";
 import { Fetch, FetchBigInt, FetchNumber } from "src/shared/types/Fetch";
 
 interface RewardTokenInformation {

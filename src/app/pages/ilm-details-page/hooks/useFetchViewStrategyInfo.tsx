@@ -10,8 +10,8 @@ import {
 } from "../../../generated/generated";
 import { ONE_ETHER, ONE_USD } from "../../../meta/constants";
 import { Address } from "viem";
-import { ilmStrategies } from "../config/StrategyConfig";
-import { ViewStrategyInfo } from "../types/ViewStrategyInfo";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { ViewStrategyInfo } from "../../../state/loop-strategy/types/ViewStrategyInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 

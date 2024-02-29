@@ -1,8 +1,8 @@
 import { useAccount } from "wagmi";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { ilmStrategies } from "../config/StrategyConfig";
-import { useFetchStrategyInfoForAccount } from "./useFetchViewStrategy";
-import { ViewUserInfo } from "../types/ViewUserInfo";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchStrategyInfoForAccount } from "../../ilm-page/hooks/useFetchViewStrategy";
+import { ViewUserInfo } from "../../../state/loop-strategy/types/ViewUserInfo";
 import { Displayable } from "../../../../shared/types/Displayable";
 import { walletBalanceDecimalsOptions } from "@meta";
 

@@ -8,11 +8,11 @@ import {
   convertRatioToMultiple,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
-import { ilmStrategies } from "../config/StrategyConfig";
+import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { Address } from "viem";
-import { ViewStrategyPageHeader } from "../types/ViewStrategyPageHeader";
+import { ViewStrategyPageHeader } from "../../../state/loop-strategy/types/ViewStrategyPageHeader";
 import { Displayable } from "../../../../shared/types/Displayable";
-import { useFetchViewStrategyApy } from "./useFetchViewStrategyApy";
+import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 
 interface StrategyPageHeader {

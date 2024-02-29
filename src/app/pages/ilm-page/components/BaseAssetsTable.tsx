@@ -1,7 +1,7 @@
 import { Card, SimpleTable } from "../../../../shared";
 import { SearchInput } from "../../../components/temporary-components/SearchInput";
 import { baseAssets } from "../../../state/lending-borrowing/config/BaseAssetsConfig";
-import { useFetchViewBaseAsset } from "../../../state/lending-borrowing/hooks/useFetchViewBaseAsset";
+import { useFetchViewBaseAsset } from "../hooks/useFetchViewBaseAsset";
 import { BaseAssetsDesktopTableRow } from "./desktop/BaseAssetsDesktopTableRow";
 import { BaseAssetsMobileTableRow } from "./mobile/BaseAssetsMobileTableRow";
 

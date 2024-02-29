@@ -10,10 +10,13 @@ import {
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address, erc20Abi } from "viem";
-import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { useFetchViewStrategyApy } from "./useFetchViewStrategyApy";
+import {
+  StrategyConfig,
+  ilmStrategies,
+} from "../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
-import { ViewStrategy } from "../types/ViewStrategy";
+import { ViewStrategy } from "../../../state/loop-strategy/types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 
 interface StrategyInfoForAccount {
