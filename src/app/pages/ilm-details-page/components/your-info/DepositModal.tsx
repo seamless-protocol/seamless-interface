@@ -94,7 +94,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
             });
           },
           onSettled: () => {
-            console.log("is this called?");
             modalRef.current?.close();
           },
         }

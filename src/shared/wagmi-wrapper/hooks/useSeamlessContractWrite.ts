@@ -14,7 +14,7 @@ export type SeamlessWriteAsyncParams = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError?: (e: any) => void;
   onSettled?: () => void;
-  hideErrorOnNotification?: boolean;
+  hideDefaultErrorOnNotification?: boolean;
 };
 
 /**
@@ -142,7 +142,7 @@ export function useSeamlessContractWrite<
       setErrorMessage(parsedError);
 
       //3. show error notification
-      if (!settings?.hideErrorOnNotification) {
+      if (!settings?.hideDefaultErrorOnNotification) {
         showNotification({
           status: "error",
           content: parsedError,

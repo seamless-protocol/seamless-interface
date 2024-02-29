@@ -28,15 +28,17 @@ export const useMutateDepositStrategy = (id: number, assetAddress: Address) => {
 
   //mutation wrapper
   const depositAsync = async (
+    //ui arguments
     args: {
       amount: string;
       sharesToReceive: bigint;
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
-    // fetch sharesToReceive here instead of using it from props to avoid race condition bug.
+    //todo: bugfix fetch sharesToReceive here instead of using it from props to avoid race condition bug.
     await seamlessWriteAsync(
       {
+        //ui -> contract arguments
         args: [
           parseUnits(args.amount, 18),
           address as Address,
