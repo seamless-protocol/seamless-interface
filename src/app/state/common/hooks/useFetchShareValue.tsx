@@ -1,4 +1,4 @@
-import { useBlock, useReadContracts } from "wagmi";
+import { useBlock, useReadContract } from "wagmi";
 import { StrategyConfig } from "../../loop-strategy/config/StrategyConfig";
 import {
   aaveOracleAbi,
@@ -11,49 +11,75 @@ export const useFetchShareValueInBlock = (
   blockNumber: bigint,
   strategyConfig: StrategyConfig
 ) => {
-  const {
-    data: results,
-    isLoading,
-    isFetched,
-  } = useReadContracts({
-    contracts: [
-      {
-        address: strategyConfig.address,
-        abi: loopStrategyAbi,
-        functionName: "equity",
-      },
-      {
-        address: strategyConfig.address,
-        abi: loopStrategyAbi,
-        functionName: "totalSupply",
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [strategyConfig.underlyingAsset.address],
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [strategyConfig.debtAsset.address],
-      },
-    ],
+  let {
+    isLoading: isEquityLoading,
+    isFetched: isEquityFetched,
+    data: equity,
+  } = useReadContract({
+    address: strategyConfig.address,
+    abi: loopStrategyAbi,
+    functionName: "equity",
     blockNumber,
   });
 
+  let {
+    isLoading: isTotalSupplyLoading,
+    isFetched: isTotalSupplyFetched,
+    data: totalSupply,
+  } = useReadContract({
+    address: strategyConfig.address,
+    abi: loopStrategyAbi,
+    functionName: "totalSupply",
+    blockNumber,
+  });
+
+  let {
+    isLoading: isUnderlyingAssetPriceLoading,
+    isFetched: isUnderlyingAssetPriceFetched,
+    data: underlyingAssetPrice,
+  } = useReadContract({
+    address: aaveOracleAddress,
+    abi: aaveOracleAbi,
+    functionName: "getAssetPrice",
+    args: [strategyConfig.underlyingAsset.address],
+    blockNumber,
+  });
+
+  let {
+    isLoading: isDebtAssetPriceLoading,
+    isFetched: isDebtAssetPriceFetched,
+    data: debtAssetPrice,
+  } = useReadContract({
+    address: aaveOracleAddress,
+    abi: aaveOracleAbi,
+    functionName: "getAssetPrice",
+    args: [strategyConfig.debtAsset.address],
+    blockNumber,
+  });
+
+  const isLoading =
+    isEquityLoading ||
+    isTotalSupplyLoading ||
+    isUnderlyingAssetPriceLoading ||
+    isDebtAssetPriceLoading;
+  const isFetched =
+    isEquityFetched ||
+    isTotalSupplyFetched ||
+    isUnderlyingAssetPriceFetched ||
+    isDebtAssetPriceFetched;
+
   let shareValueInUsd, shareValueInEth, shareValueInUnderlyingAsset;
-  if (results) {
-    const equity = results[0].result || 0n;
-    const totalSupply = results[1].result || 0n;
-    const underlyingAssetPrice = results[2].result || 0n;
-    const wethPrice = results[3].result || 0n;
+  if (isFetched) {
+    equity = equity || 0n;
+    totalSupply = totalSupply || 0n;
+    underlyingAssetPrice = underlyingAssetPrice || 0n;
+    debtAssetPrice = debtAssetPrice || 0n;
 
     if (totalSupply !== 0n && underlyingAssetPrice !== 0n) {
       shareValueInUnderlyingAsset = (equity * ONE_ETHER) / totalSupply;
       shareValueInEth =
-        (equity * underlyingAssetPrice * ONE_ETHER) / (wethPrice * totalSupply);
+        (equity * underlyingAssetPrice * ONE_ETHER) /
+        (debtAssetPrice * totalSupply);
       shareValueInUsd = (equity * underlyingAssetPrice) / totalSupply;
     }
   }

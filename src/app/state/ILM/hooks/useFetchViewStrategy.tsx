@@ -1,4 +1,4 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount, useReadContract } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -32,69 +32,97 @@ export function useFetchStrategyInfoForAccount(
   account: UseAccountReturnType
 ): Fetch<StrategyInfoForAccount> {
   const { address: strategyAddress, underlyingAsset } = strategyConfig;
-  let targetMultiple, userEquity, userEquityUSD, userBalance, userBalanceUSD;
-  const {
-    data: results,
-    isLoading,
-    isFetched,
-  } = useReadContracts({
-    contracts: [
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "getCollateralRatioTargets",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "balanceOf",
-        args: [account.address as Address],
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "totalSupply",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equity",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equityUSD",
-      },
-      {
-        address: underlyingAsset.address,
-        abi: erc20Abi,
-        functionName: "balanceOf",
-        args: [account.address as Address],
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [underlyingAsset.address],
-      },
-    ],
+
+  let {
+    data: collateralRatioTargets,
+    isLoading: isCollateralRatioTargetLoading,
+    isFetched: isCollateralRatioTargetFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "getCollateralRatioTargets",
+  });
+  let {
+    data: userShares,
+    isLoading: isStrategyBalanceLoading,
+    isFetched: isStrategyBalanceFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "balanceOf",
+    args: [account.address as Address],
+  });
+  let {
+    data: totalShares,
+    isLoading: isTotalSupplyLoading,
+    isFetched: isTotalSupplyFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "totalSupply",
+  });
+  let {
+    data: equityUSD,
+    isLoading: isEquityUSDLoading,
+    isFetched: isEquityUSDFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "equityUSD",
   });
 
-  if (results) {
-    const collateralRatioTargets = results[0].result;
-    const targetRatio = BigInt(collateralRatioTargets?.target || 0);
+  let {
+    data: underlyingAssetBalance,
+    isLoading: isUnderlyingAssetBalanceLoading,
+    isFetched: isUnderlyingAssetBalanceFetched,
+  } = useReadContract({
+    address: underlyingAsset.address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [account.address as Address],
+  });
+  let {
+    data: underlyingAssetPrice,
+    isLoading: isUnderlyingAssetPriceLoading,
+    isFetched: isUnderlyingAssetPriceFetched,
+  } = useReadContract({
+    address: aaveOracleAddress,
+    abi: aaveOracleAbi,
+    functionName: "getAssetPrice",
+    args: [underlyingAsset.address],
+  });
+
+  const isLoading =
+    isCollateralRatioTargetLoading ||
+    isStrategyBalanceLoading ||
+    isTotalSupplyLoading ||
+    isEquityUSDLoading ||
+    isUnderlyingAssetBalanceLoading ||
+    isUnderlyingAssetPriceLoading;
+
+  const isFetched =
+    isCollateralRatioTargetFetched ||
+    isStrategyBalanceFetched ||
+    isTotalSupplyFetched ||
+    isEquityUSDFetched ||
+    isUnderlyingAssetBalanceFetched ||
+    isUnderlyingAssetPriceFetched;
+
+  let targetMultiple, userEquity, userEquityUSD, underlyingAssetBalanceUSD;
+  if (isFetched) {
+    const targetRatio = collateralRatioTargets?.target || 0n;
     targetMultiple = convertRatioToMultiple(targetRatio);
 
-    const userShares = BigInt(results[1].result || 0);
-    const totalShares = BigInt(results[2].result || 0);
-
-    const equityUSD = BigInt(results[4].result || 0);
+    userShares = userShares || 0n;
+    totalShares = totalShares || 0n;
+    equityUSD = equityUSD || 0n;
 
     userEquity = userShares;
     userEquityUSD = totalShares ? (equityUSD * userShares) / totalShares : 0n;
 
-    userBalance = BigInt(results[5].result || 0);
-    userBalanceUSD = (userBalance * BigInt(results[6].result || 0)) / ONE_ETHER;
+    underlyingAssetBalance = underlyingAssetBalance || 0n;
+    underlyingAssetBalanceUSD =
+      (underlyingAssetBalance * (underlyingAssetPrice || 0n)) / ONE_ETHER;
   }
 
   return {
@@ -116,12 +144,12 @@ export function useFetchStrategyInfoForAccount(
       symbol: "$",
     },
     userBalance: {
-      bigIntValue: userBalance || 0n,
+      bigIntValue: underlyingAssetBalance || 0n,
       decimals: 18,
       symbol: underlyingAsset.symbol,
     },
     userBalanceUSD: {
-      bigIntValue: userBalanceUSD || 0n,
+      bigIntValue: underlyingAssetBalanceUSD || 0n,
       decimals: 8,
       symbol: "$",
     },
@@ -143,7 +171,6 @@ export const useFetchViewStrategy = (
     userBalance,
     userBalanceUSD,
   } = useFetchStrategyInfoForAccount(strategyConfig, account);
-
   const {
     isLoading: isApyLoading,
     isFetched: isApyFetched,

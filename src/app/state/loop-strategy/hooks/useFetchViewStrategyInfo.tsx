@@ -1,4 +1,4 @@
-import { useReadContracts } from "wagmi";
+import { useReadContract } from "wagmi";
 import {
   convertRatioToMultiple,
   formatFetchBigIntToViewBigInt,
@@ -28,60 +28,80 @@ export const useFetchStrategyInfo = (
   strategyAddress: Address,
   underlyingAssetAddress: Address
 ): Fetch<StrategyInfo> => {
-  const {
-    data: results,
-    isLoading,
-    isFetched,
-  } = useReadContracts({
-    contracts: [
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "getCollateralRatioTargets",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "collateral",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equity",
-      },
-      {
-        address: strategyAddress,
-        abi: loopStrategyAbi,
-        functionName: "equityUSD",
-      },
-      {
-        address: aaveOracleAddress,
-        abi: aaveOracleAbi,
-        functionName: "getAssetPrice",
-        args: [underlyingAssetAddress],
-      },
-    ],
+  let {
+    data: collateralRatioTargets,
+    isLoading: isCollateralRatioTargetLoading,
+    isFetched: isCollateralRatioTargetFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "getCollateralRatioTargets",
+  });
+  let {
+    data: collateralUSD,
+    isLoading: isCollateralLoading,
+    isFetched: isCollateralFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "collateral",
+  });
+  let {
+    data: equity,
+    isLoading: isEquityLoading,
+    isFetched: isEquityFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "equity",
+  });
+  let {
+    data: equityUSD,
+    isLoading: isEquityUSDLoading,
+    isFetched: isEquityUSDFetched,
+  } = useReadContract({
+    address: strategyAddress,
+    abi: loopStrategyAbi,
+    functionName: "equityUSD",
+  });
+  let {
+    data: underlyingAssetPrice,
+    isLoading: isUnderlyingAssetPriceLoading,
+    isFetched: isUnderlyingAssetPriceFetched,
+  } = useReadContract({
+    address: aaveOracleAddress,
+    abi: aaveOracleAbi,
+    functionName: "getAssetPrice",
+    args: [underlyingAssetAddress],
   });
 
-  let collateral,
-    collateralUSD,
-    equity,
-    equityUSD,
-    currentMultiple,
-    targetMultiple;
+  const isLoading =
+    isCollateralRatioTargetLoading ||
+    isCollateralLoading ||
+    isEquityLoading ||
+    isEquityUSDLoading ||
+    isUnderlyingAssetPriceLoading;
+  const isFetched =
+    isCollateralRatioTargetFetched ||
+    isCollateralFetched ||
+    isEquityFetched ||
+    isEquityUSDFetched ||
+    isUnderlyingAssetPriceFetched;
 
-  if (results) {
-    const collateralRatioTargets = results[0].result;
+  let targetMultiple, collateral, currentMultiple;
+  if (isFetched) {
     const targetRatio = BigInt(collateralRatioTargets?.target || 0);
     targetMultiple = convertRatioToMultiple(targetRatio);
 
-    collateralUSD = BigInt(results[1].result || 0);
-    const collateralAssetPrice = BigInt(results[4].result || 0);
-    collateral = (collateralUSD * ONE_ETHER) / collateralAssetPrice;
+    collateralUSD = collateralUSD || 0n;
+    underlyingAssetPrice = underlyingAssetPrice || 0n;
+    collateral =
+      underlyingAssetPrice !== 0n
+        ? (collateralUSD * ONE_ETHER) / underlyingAssetPrice
+        : 0n;
 
-    equity = BigInt(results[2].result || 0);
-    equityUSD = BigInt(results[3].result || 0);
-
+    equity = equity || 0n;
+    equityUSD = equityUSD || 0n;
     currentMultiple = equity !== 0n ? (collateral * ONE_USD) / equity : 0n;
   }
 
