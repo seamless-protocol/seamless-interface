@@ -9,7 +9,7 @@ import {
   FlexRow,
   Icon,
 } from "../../../../../shared";
-import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
+import { ViewStrategy } from "../../../../state/loop-strategy/types/ViewStrategy";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 

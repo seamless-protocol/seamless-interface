@@ -10,11 +10,8 @@ import {
 } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "../../../meta/constants";
 import { Address, erc20Abi } from "viem";
-import {
-  StrategyConfig,
-  ilmStrategies,
-} from "../../loop-strategy/config/StrategyConfig";
-import { useFetchViewStrategyApy } from "../../loop-strategy/hooks/useFetchViewStrategyApy";
+import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
+import { useFetchViewStrategyApy } from "./useFetchViewStrategyApy";
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";

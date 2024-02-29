@@ -7,7 +7,7 @@ import {
   TableCell,
   TableRow,
 } from "../../../../../shared";
-import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
+import { ViewStrategy } from "../../../../state/loop-strategy/types/ViewStrategy";
 import { TemporaryButton } from "../../../../components/temporary-components/TemporaryButton";
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
 import { useNavigate } from "react-router-dom";
