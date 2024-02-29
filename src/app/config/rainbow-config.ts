@@ -32,10 +32,4 @@ export const rainbowConfig = getDefaultConfig({
       { rank: true }
     ),
   },
-  batch: {
-    multicall: {
-      batchSize: 1000000000,
-      wait: 5_000,
-    },
-  },
 });

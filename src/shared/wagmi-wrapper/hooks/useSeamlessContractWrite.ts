@@ -6,13 +6,15 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useEffect, useState } from "react";
 import { getParsedError } from "../../utils/errorPersers";
 import { useInvalidateQueries } from "./useInvalidateQueries";
+import { QueryKey } from "@tanstack/query-core";
+import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
 
-type SeamlessWriteAsyncParams = {
+export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError?: (e: any) => void;
   onSettled?: () => void;
-  queriesToInvalidate?: string[];
+  hideErrorOnNotification?: boolean;
 };
 
 /**
@@ -70,7 +72,10 @@ export function useSeamlessContractWrite<
   TFunctionName extends
     | ContractFunctionName<TAbi, "nonpayable" | "payable">
     | undefined = undefined,
->(config: CreateUseWriteContractParameters<TAbi, TAddress, TFunctionName>) {
+>(
+  config: CreateUseWriteContractParameters<TAbi, TAddress, TFunctionName>,
+  queriesToInvalidate?: QueryKey[]
+) {
   // ********** //
   // Write hook //
   // ********** //
@@ -92,6 +97,10 @@ export function useSeamlessContractWrite<
   useEffect(() => {
     setErrorMessage(error?.message); //todo: might this override errorMessage set in error handler?
   }, [error?.message, setErrorMessage]);
+  // ************ //
+  // Notification //
+  // ************ //
+  const { showNotification } = useNotificationContext();
 
   // ********************** //
   // Write contract wrapper //
@@ -114,8 +123,7 @@ export function useSeamlessContractWrite<
         throw new Error("Execution reverted."); //todo: better way to handle reverted?
 
       //4. invalidate queries
-      if (settings?.queriesToInvalidate)
-        await invalidateMany(settings.queriesToInvalidate);
+      if (queriesToInvalidate) await invalidateMany(queriesToInvalidate);
 
       //5. call onSuccess callback
       settings?.onSuccess?.(txHash);
@@ -129,10 +137,19 @@ export function useSeamlessContractWrite<
       //1. log error
       console.error("Operation failed:", error);
 
+      const parsedError = getParsedError(error);
       //2. set error message
-      setErrorMessage(getParsedError(error));
+      setErrorMessage(parsedError);
 
-      //3. call callback
+      //3. show error notification
+      if (!settings?.hideErrorOnNotification) {
+        showNotification({
+          status: "error",
+          content: parsedError,
+        });
+      }
+
+      //4. call callback
       settings?.onError?.(error);
       //todo: display error notification always?
     } finally {

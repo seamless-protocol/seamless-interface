@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Address, etherUnits, parseUnits } from "viem";
-import { useAccount } from "wagmi";
+import { etherUnits, parseUnits } from "viem";
 import {
   AddCoinToWallet,
   Button,
@@ -15,20 +14,15 @@ import {
   MyFormProvider,
   Typography,
   useNotificationContext,
-  useSeamlessContractWrite,
 } from "@shared";
-import {
-  loopStrategyAbi,
-  useReadAaveOracleGetAssetPrice,
-} from "../../../../generated/generated";
+import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
 import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { KEY_AccountAsset_Balance } from "../../../../state/common/hooks/useFetchAccountAssetBalance";
-import { KEY_Strategy_InfoForAccount } from "../../../../state/ILM/hooks/useFetchViewStrategy";
+import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 
 export interface DepositModalFormData {
   amount: string;
@@ -40,20 +34,17 @@ interface DepositModalProps extends Omit<ButtonProps, "id"> {
 
 export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
-  const account = useAccount();
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
-  // todo: still create wrapper hook for useSeamlessContractWrite in each place ?
-  const { seamlessWriteAsync: depositAsync, isPending } =
-    useSeamlessContractWrite({
-      address: ilmStrategies[id].address,
-      abi: loopStrategyAbi,
-      functionName: "deposit",
-    });
+
+  const { depositAsync, isPending } = useMutateDepositStrategy(
+    id,
+    strategyConfig.underlyingAsset.address
+  );
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -83,20 +74,12 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     if (previewDepositData) {
       await depositAsync(
         {
-          args: [
-            parseUnits(data.amount, 18),
-            account.address as Address,
+          amount: data.amount,
+          sharesToReceive:
             previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
-          ],
         },
         {
-          queriesToInvalidate: [
-            KEY_AccountAsset_Balance,
-            KEY_Strategy_InfoForAccount,
-          ],
           onSuccess: (txHash) => {
-            modalRef.current?.close();
-
             showNotification({
               txHash,
               content: (
@@ -110,14 +93,9 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               ),
             });
           },
-          onError: (e) => {
+          onSettled: () => {
+            console.log("is this called?");
             modalRef.current?.close();
-            //todo: show error notification by default inside seamlessWrite function?
-            showNotification({
-              status: "error",
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              content: (e as any)?.shortMessage,
-            });
           },
         }
       );

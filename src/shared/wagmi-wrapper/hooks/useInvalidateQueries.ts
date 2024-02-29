@@ -1,5 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useQueryStore } from "../store/QueryStore"; // Adjust the import path as necessary
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 
 /**
  * `useInvalidateQueries` Hook
@@ -25,15 +24,11 @@ import { useQueryStore } from "../store/QueryStore"; // Adjust the import path a
  */
 export function useInvalidateQueries() {
   const queryClient = useQueryClient();
-  const { getQueryKey } = useQueryStore();
 
-  const invalidateMany = async (seamlessQueriesToInvalidate: string[]) => {
-    const promises = seamlessQueriesToInvalidate.map((query) => {
-      const queryKey = getQueryKey(query);
-      return queryKey
-        ? queryClient.invalidateQueries({ queryKey })
-        : Promise.resolve();
-    });
+  const invalidateMany = async (seamlessQueriesToInvalidate: QueryKey[]) => {
+    const promises = seamlessQueriesToInvalidate.map((queryKey) =>
+      queryClient.invalidateQueries({ queryKey })
+    );
     await Promise.all(promises);
   };
 

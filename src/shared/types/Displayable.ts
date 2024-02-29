@@ -1,7 +1,12 @@
+import { QueryKey } from "@tanstack/query-core";
+
 export interface Displayable<T> {
   data: T;
   isFetched: boolean;
   isLoading: boolean;
+
+  //todo ne valjda interface
+  queryKey: QueryKey;
 }
 
 export interface ViewValueSymbolPair {

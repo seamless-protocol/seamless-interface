@@ -19,16 +19,18 @@ import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { useSeamlessContractReads } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractReads";
+import { QueryKey } from "@tanstack/query-core";
 
+//todo: nije dobar interface
 interface StrategyInfoForAccount {
   targetMultiple: FetchBigInt;
   userEquity: FetchBigInt;
   userEquityUSD: FetchBigInt;
   userBalance: FetchBigInt;
   userBalanceUSD: FetchBigInt;
+  //todo: nije dobar interface
+  queryKey: QueryKey;
 }
-
-export const KEY_Strategy_InfoForAccount = "KEY_Strategy_InfoForAccount";
 
 export function useFetchStrategyInfoForAccount(
   strategyConfig: StrategyConfig,
@@ -40,51 +42,49 @@ export function useFetchStrategyInfoForAccount(
     data: results,
     isLoading,
     isFetched,
-  } = useSeamlessContractReads(
-    {
-      contracts: [
-        {
-          address: strategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "getCollateralRatioTargets",
-        },
-        {
-          address: strategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "balanceOf",
-          args: [account.address as Address],
-        },
-        {
-          address: strategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "totalSupply",
-        },
-        {
-          address: strategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equity",
-        },
-        {
-          address: strategyAddress,
-          abi: loopStrategyAbi,
-          functionName: "equityUSD",
-        },
-        {
-          address: underlyingAsset.address,
-          abi: erc20Abi,
-          functionName: "balanceOf",
-          args: [account.address as Address],
-        },
-        {
-          address: aaveOracleAddress,
-          abi: aaveOracleAbi,
-          functionName: "getAssetPrice",
-          args: [underlyingAsset.address],
-        },
-      ],
-    },
-    KEY_Strategy_InfoForAccount
-  );
+    ...rest
+  } = useSeamlessContractReads({
+    contracts: [
+      {
+        address: strategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "getCollateralRatioTargets",
+      },
+      {
+        address: strategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "balanceOf",
+        args: [account.address as Address],
+      },
+      {
+        address: strategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "totalSupply",
+      },
+      {
+        address: strategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equity",
+      },
+      {
+        address: strategyAddress,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+      },
+      {
+        address: underlyingAsset.address,
+        abi: erc20Abi,
+        functionName: "balanceOf",
+        args: [account.address as Address],
+      },
+      {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [underlyingAsset.address],
+      },
+    ],
+  });
 
   if (results) {
     const collateralRatioTargets = results[0].result;
@@ -104,6 +104,7 @@ export function useFetchStrategyInfoForAccount(
   }
 
   return {
+    ...rest,
     isLoading,
     isFetched,
     targetMultiple: {
@@ -148,6 +149,7 @@ export const useFetchViewStrategy = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
+    ...rest
   } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   const {
@@ -157,6 +159,7 @@ export const useFetchViewStrategy = (
   } = useFetchViewStrategyApy(index);
 
   return {
+    ...rest,
     isLoading: isStrategyInfoLoading || isApyLoading,
     isFetched: isStrategyInfoFetched && isApyFetched,
     data: {

@@ -4,20 +4,15 @@ import { useAccount } from "wagmi";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
 
-export const KEY_AccountAsset_Balance = "KEY_AccountAsset_Balance";
-
 export const useFetchAccountAssetBalance = (asset: Address) => {
   const account = useAccount();
 
-  const { data: balance } = useSeamlessContractRead(
-    {
-      address: asset,
-      abi: erc20Abi,
-      functionName: "balanceOf",
-      args: [account.address as `0x${string}`],
-    },
-    KEY_AccountAsset_Balance
-  );
+  const { data: balance, ...rest } = useSeamlessContractRead({
+    address: asset,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [account.address as `0x${string}`],
+  });
 
   return {
     balance: formatFetchBigIntToViewBigInt(
@@ -28,5 +23,6 @@ export const useFetchAccountAssetBalance = (asset: Address) => {
       },
       walletBalanceDecimalsOptions
     ),
+    ...rest,
   };
 };
