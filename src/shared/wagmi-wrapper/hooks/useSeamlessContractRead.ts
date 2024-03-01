@@ -10,7 +10,7 @@ import { ReadContractData } from "wagmi/query";
 /**
  * `useSeamlessContractRead` Hook
  *
- * Simple `useCotractRead` wrapper.
+ * Simple `useContractRead` wrapper.
  *
  * ## Key Features:
  * - **Type-Safe Contract Interactions**: Utilizes TypeScript generics to ensure type safety across contract interactions.
@@ -18,7 +18,6 @@ import { ReadContractData } from "wagmi/query";
  *
  * ## Parameters:
  * - `parameters`: A configuration object for reading from the contract, including contract address, ABI, function name, and arguments.
- * - `seamlessQueryKey`: An optional string that acts as a unique identifier for caching and retrieving the query result within a global query store.
  *
  * ## Usage:
  *
@@ -48,14 +47,13 @@ export function useSeamlessContractRead<
   config extends Config = ResolvedRegister["config"],
   selectData = ReadContractData<TAbi, TFunctionName, TArgs>,
 >(
-  parameters: UseReadContractParameters<
+  parameters = {} as UseReadContractParameters<
     TAbi,
     TFunctionName,
     TArgs,
     config,
     selectData
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  > = {} as any
+  >
 ) {
   // ************* //
   // Read contract //

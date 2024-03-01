@@ -3,7 +3,7 @@ import { QueryKey, useQueryClient } from "@tanstack/react-query";
 /**
  * `useInvalidateQueries` Hook
  *
- * A React hook that provides a function to invalidate multiple queries in the React Query cache. This is particularly useful for ensuring data consistency by forcing refetches of specified queries after mutations or other data-altering operations.
+ * A React hook that provides a function to invalidate multiple queries in the React Query cache. This is particularly useful for ensuring data consistency by forcing refetch of specified queries after mutations or other data-altering operations.
  *
  * ## Key Features:
  * - **Batch Invalidation**: Allows for invalidating multiple queries at once, reducing the complexity of managing cache consistency across the application.

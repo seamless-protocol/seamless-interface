@@ -16,7 +16,7 @@ import { ReadContractsData } from "wagmi/query";
  * - **Batch Contract Reads**: Enables multiple contract reads in a single hook call, reducing network requests and improving efficiency.
  * - **Type-Safe Batch Reads**: Employs TypeScript generics to ensure type safety and integrity across multiple contract interactions.
  * - **Flexible Configuration**: Supports custom configurations for batch reads, including allowances for failures and custom result selection.
- *
+ * - **Multicall**: Doing multicall and it is not relying on batching support from rpc provider.
  * ## Parameters:
  * - `parameters`: An object specifying the configurations for the batch contract read operations, including the list of contracts and their respective read parameters.
  *
