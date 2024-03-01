@@ -12,6 +12,10 @@ export const useFetchAccountAssetBalance = (asset: Address) => {
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [account.address as `0x${string}`],
+    query: {
+      staleTime: Infinity,
+      refetchInterval: 1_000,
+    },
   });
 
   return {

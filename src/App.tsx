@@ -14,6 +14,7 @@ import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx
 import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
 import { rainbowConfig } from "./app/config/rainbow-config.ts";
+import { TestPage } from "./app/pages/test-page/page.tsx";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function App() {
                     path={RouterConfig.Routes.ilmDetails}
                     element={<IlmDetailsPage />}
                   />
+                  <Route path={"/test"} element={<TestPage />} />
                 </Routes>
                 <LiFiWidgetWrapper />
               </LifiWidgetProvider>
