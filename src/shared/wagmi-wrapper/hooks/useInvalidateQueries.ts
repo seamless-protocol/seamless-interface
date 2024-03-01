@@ -25,7 +25,9 @@ import { QueryKey, useQueryClient } from "@tanstack/react-query";
 export function useInvalidateQueries() {
   const queryClient = useQueryClient();
 
-  const invalidateMany = async (seamlessQueriesToInvalidate: QueryKey[]) => {
+  const invalidateMany = async (
+    seamlessQueriesToInvalidate: (QueryKey | undefined)[]
+  ) => {
     const promises = seamlessQueriesToInvalidate.map((queryKey) =>
       queryClient.invalidateQueries({ queryKey })
     );

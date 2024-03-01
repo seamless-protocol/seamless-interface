@@ -74,7 +74,7 @@ export function useSeamlessContractWrite<
     | undefined = undefined,
 >(
   config: CreateUseWriteContractParameters<TAbi, TAddress, TFunctionName>,
-  queriesToInvalidate?: QueryKey[]
+  queriesToInvalidate?: (QueryKey | undefined)[]
 ) {
   // ********** //
   // Write hook //

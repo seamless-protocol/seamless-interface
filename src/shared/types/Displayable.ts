@@ -6,7 +6,7 @@ export interface Displayable<T> {
   isLoading: boolean;
 
   //todo ne valjda interface
-  queryKey: QueryKey;
+  queryKey?: QueryKey;
 }
 
 export interface ViewValueSymbolPair {
