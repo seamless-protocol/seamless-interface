@@ -8,6 +8,7 @@ import { AvatarSection } from "./sections/AvatarSection";
 import { NetworkSection } from "./sections/NetworkSection";
 import { useConnectButtonContext } from "../../../contexts/connect-wallet/useConnectButtonContext";
 import { Icon } from "../../images/Icon";
+import { ConnectButtonStyled } from "./components/ConnectButton";
 
 export const ConnectWalletRainbowWrapper = () => {
   const {
@@ -50,14 +51,9 @@ export const ConnectWalletRainbowWrapper = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button
-                    className="box-border text-white border-solid  border-thin
-                  rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
-                bg-primary-main hover:bg-background-header"
-                    onClick={openConnectModal}
-                  >
+                  <ConnectButtonStyled onClick={openConnectModal}>
                     Connect wallet
-                  </button>
+                  </ConnectButtonStyled>
                 );
               }
               if (chain.unsupported) {
@@ -70,13 +66,10 @@ export const ConnectWalletRainbowWrapper = () => {
               return (
                 <div style={{ display: "flex", gap: 12 }}>
                   <div className="dropdown dropdown-end" ref={dropdownRef}>
-                    <div
+                    <ConnectButtonStyled
                       tabIndex={0}
                       role="button"
                       onClick={toggleDropdown}
-                      className="box-border text-white border-solid  border-thin
-                      rounded px-3 py-1.5  transition-all duration-250 ease-in-out 
-                    bg-primary-main hover:bg-background-header"
                     >
                       <FlexRow className="gap-2 items-center">
                         {userAvatar && (
@@ -93,7 +86,7 @@ export const ConnectWalletRainbowWrapper = () => {
                           className={`w-5 h-5 transition-transform ease-in-out ${isDropdownVisible ? "rotate-180" : ""}`}
                         />
                       </FlexRow>
-                    </div>
+                    </ConnectButtonStyled>
                     {isDropdownVisible && (
                       <div
                         tabIndex={0}
