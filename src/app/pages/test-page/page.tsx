@@ -3,6 +3,12 @@ import { ilmStrategies } from "../../state/loop-strategy/config/StrategyConfig";
 import { useFetchAccountAssetBalance } from "../../state/common/hooks/useFetchAccountAssetBalance";
 import { BalanceTestCmp } from "./BalanceTestCmp";
 
+// export const TestPage = () => {
+//   return (
+//     <div>page</div>
+//   )
+// }
+
 export const TestPage = () => {
   const [show, setShow] = useState(true);
   const [show2, setShow2] = useState(true);
