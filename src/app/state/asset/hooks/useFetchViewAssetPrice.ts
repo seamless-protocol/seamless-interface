@@ -13,6 +13,7 @@ import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
+import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -23,10 +24,10 @@ const fetchAssetPriceInBlock = async (
   asset: Address,
   blockNumber?: bigint
 ): Promise<bigint> => {
-  const index = ilmStrategies.find((strategy) => strategy.address === asset);
+  const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   let price = 0n;
-  if (!!index) {
+  if (strategy) {
     const equityUsd = await readContract(client, {
       address: asset,
       abi: loopStrategyAbi,
@@ -44,6 +45,13 @@ const fetchAssetPriceInBlock = async (
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
+    const baseAsset = baseAssets.find(
+      (baseAsset) =>
+        baseAsset.sTokenAddress === asset ||
+        baseAsset.debtTokenAddress === asset
+    );
+    asset = baseAsset ? baseAsset.address : asset;
+
     price = await readContract(client, {
       address: aaveOracleAddress,
       abi: aaveOracleAbi,

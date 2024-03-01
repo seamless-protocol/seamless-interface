@@ -127,6 +127,16 @@ export function formatFetchNumberToViewNumber(
   };
 }
 
+export function formatIncentiveApyToViewNumber(
+  apy: number | undefined
+): ViewNumber {
+  apy = apy || 0;
+  return {
+    viewValue: formatToDisplayableOrPlaceholder(apy, ""),
+    symbol: apy > 0 ? "%" : "",
+  };
+}
+
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n) {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
 }
