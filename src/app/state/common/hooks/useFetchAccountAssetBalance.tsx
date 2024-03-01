@@ -14,7 +14,7 @@ export const useFetchAccountAssetBalance = (asset: Address) => {
     args: [account.address as `0x${string}`],
     query: {
       staleTime: Infinity,
-      refetchInterval: 1_000,
+      refetchInterval: 6_000,
     },
   });
 
