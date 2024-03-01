@@ -41,10 +41,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     args: [strategyConfig.underlyingAsset.address],
   });
 
-  const { depositAsync, isPending } = useMutateDepositStrategy(
-    id,
-    strategyConfig.underlyingAsset.address
-  );
+  const { depositAsync, isDepositPending } = useMutateDepositStrategy(id);
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -161,7 +158,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           )}
           <Button
             type="submit"
-            loading={isPending} //todo
+            loading={isDepositPending}
             disabled={!isApproved || Number(amount) <= 0}
           >
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}

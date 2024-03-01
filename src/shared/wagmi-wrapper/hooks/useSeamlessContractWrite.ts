@@ -129,7 +129,7 @@ export function useSeamlessContractWrite<
       settings?.onSuccess?.(txHash);
 
       //6. log result
-      console.log("Operation successful:", txHash); //todo: add logging service
+      console.info("Operation successful:", txHash); //todo: add logging service
 
       //7. return result
       return txHash;

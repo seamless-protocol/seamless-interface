@@ -6,13 +6,14 @@ import { useAccount } from "wagmi";
 import { useFetchAccountAssetBalance } from "../../common/hooks/useFetchAccountAssetBalance";
 import { useFetchViewUserInfo } from "../hooks/useFetchViewUserInfo";
 
-export const useMutateDepositStrategy = (id: number, assetAddress: Address) => {
+export const useMutateDepositStrategy = (id: number) => {
   //meta data
   const { address } = useAccount();
 
   //cache data
-  const { queryKey: acountAssetBalanceQK } =
-    useFetchAccountAssetBalance(assetAddress);
+  const { queryKey: accountAssetBalanceQK } = useFetchAccountAssetBalance(
+    ilmStrategies[id].underlyingAsset.address
+  );
   const { queryKey: ViewUserInfoKQ } = useFetchViewUserInfo(id);
 
   //hook call
@@ -23,7 +24,7 @@ export const useMutateDepositStrategy = (id: number, assetAddress: Address) => {
       functionName: "deposit",
     },
     //array of query keys to invalidate, when mutation happens!
-    [acountAssetBalanceQK, ViewUserInfoKQ]
+    [accountAssetBalanceQK, ViewUserInfoKQ]
   );
 
   //mutation wrapper
@@ -49,5 +50,5 @@ export const useMutateDepositStrategy = (id: number, assetAddress: Address) => {
     );
   };
 
-  return { ...rest, depositAsync };
+  return { ...rest, isDepositPending: rest.isPending, depositAsync };
 };

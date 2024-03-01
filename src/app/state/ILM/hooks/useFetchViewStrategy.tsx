@@ -21,14 +21,14 @@ import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { useSeamlessContractReads } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractReads";
 import { QueryKey } from "@tanstack/query-core";
 
-//todo: nije dobar interface
+//todo: rethink this interface
 interface StrategyInfoForAccount {
   targetMultiple: FetchBigInt;
   userEquity: FetchBigInt;
   userEquityUSD: FetchBigInt;
   userBalance: FetchBigInt;
   userBalanceUSD: FetchBigInt;
-  //todo: nije dobar interface
+  //todo: rethink this interface
   queryKey: QueryKey;
 }
 

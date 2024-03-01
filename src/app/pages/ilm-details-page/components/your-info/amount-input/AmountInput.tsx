@@ -12,7 +12,7 @@ interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
   debouncedAmountInUsd: number;
   assetSymbol: string;
-  assetLogo: any;
+  assetLogo: string;
 }
 
 // todo: generic amount input field
