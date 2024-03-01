@@ -1,7 +1,7 @@
-import { ViewNumber } from "../../../../shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface ViewLendingPoolInfo {
-  totalMarketSizeUsd: ViewNumber;
-  totalAvailableUsd: ViewNumber;
-  totalBorrowsUsd: ViewNumber;
+  totalMarketSizeUsd: ViewBigInt;
+  totalAvailableUsd: ViewBigInt;
+  totalBorrowsUsd: ViewBigInt;
 }
