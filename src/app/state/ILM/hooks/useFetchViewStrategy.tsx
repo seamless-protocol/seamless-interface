@@ -1,4 +1,4 @@
-import { UseAccountReturnType, useAccount, useReadContracts } from "wagmi";
+import { UseAccountReturnType, useAccount } from "wagmi";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -18,13 +18,18 @@ import { useFetchViewStrategyApy } from "../../loop-strategy/hooks/useFetchViewS
 import { Displayable } from "../../../../shared";
 import { ViewStrategy } from "../types/ViewStrategy";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { useSeamlessContractReads } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractReads";
+import { QueryKey } from "@tanstack/query-core";
 
+//todo: rethink this interface
 interface StrategyInfoForAccount {
   targetMultiple: FetchBigInt;
   userEquity: FetchBigInt;
   userEquityUSD: FetchBigInt;
   userBalance: FetchBigInt;
   userBalanceUSD: FetchBigInt;
+  //todo: rethink this interface
+  queryKey: QueryKey;
 }
 
 export function useFetchStrategyInfoForAccount(
@@ -37,7 +42,8 @@ export function useFetchStrategyInfoForAccount(
     data: results,
     isLoading,
     isFetched,
-  } = useReadContracts({
+    ...rest
+  } = useSeamlessContractReads({
     contracts: [
       {
         address: strategyAddress,
@@ -98,6 +104,7 @@ export function useFetchStrategyInfoForAccount(
   }
 
   return {
+    ...rest,
     isLoading,
     isFetched,
     targetMultiple: {
@@ -142,6 +149,7 @@ export const useFetchViewStrategy = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
+    ...rest
   } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   const {
@@ -151,6 +159,7 @@ export const useFetchViewStrategy = (
   } = useFetchViewStrategyApy(index);
 
   return {
+    ...rest,
     isLoading: isStrategyInfoLoading || isApyLoading,
     isFetched: isStrategyInfoFetched && isApyFetched,
     data: {

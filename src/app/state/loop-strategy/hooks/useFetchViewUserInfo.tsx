@@ -19,9 +19,11 @@ export const useFetchViewUserInfo = (
     userEquityUSD,
     userBalance,
     userBalanceUSD,
+    ...rest
   } = useFetchStrategyInfoForAccount(strategyConfig, account);
 
   return {
+    ...rest,
     isLoading,
     isFetched,
     data: {
