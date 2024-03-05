@@ -13,11 +13,11 @@ export interface ViewBaseAsset {
   };
   totalSupplied: {
     tokenAmount: ViewBigInt;
-    dollarAmount: ViewNumber;
+    dollarAmount: ViewBigInt;
   };
   totalBorrowed: {
     tokenAmount: ViewBigInt;
-    dollarAmount: ViewNumber;
+    dollarAmount: ViewBigInt;
   };
   supplyApy: ViewNumber;
   borrowApyVariable: ViewNumber;

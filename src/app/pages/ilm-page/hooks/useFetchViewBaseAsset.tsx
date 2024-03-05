@@ -12,7 +12,7 @@ import {
   lendingPoolAbi,
   lendingPoolAddress,
 } from "../../../generated/generated";
-import { Address, erc20Abi, parseEther } from "viem";
+import { Address, erc20Abi } from "viem";
 import {
   convertAprToApy,
   formatFetchNumberToViewNumber,
@@ -72,7 +72,7 @@ interface IncentiveApy {
 function parseRewardsTokenInformation(
   rewardsTokenInformation: RewardTokenInformation[],
   totalUsd: bigint,
-  seamPrice: number
+  seamPrice: bigint
 ) {
   let totalApy = 0;
   let rewardTokens: RewardToken[] = [];
@@ -90,7 +90,7 @@ function parseRewardsTokenInformation(
     const rewardTokenPrice =
       rewardToken.rewardTokenSymbol === "esSEAM" ||
       rewardToken.rewardTokenSymbol === "SEAM"
-        ? parseEther((seamPrice || 0n).toString())
+        ? seamPrice
         : normalizeDecimals(
             rewardToken.rewardPriceFeed,
             BigInt(rewardToken.priceFeedDecimals),
@@ -119,7 +119,7 @@ function parseSupplyAndBorrowIncentives(
   incentives: Incentives | undefined,
   totalSuppliedUsd: bigint,
   totalBorrowedUsd: bigint,
-  seamPrice: number
+  seamPrice: bigint
 ): IncentiveApy[] {
   let supplyIncentives = {
     totalApy: 0,
@@ -254,7 +254,7 @@ function useFetchBaseAsset(
       incentives,
       totalSuppliedUsd,
       totalBorrowedUsd,
-      seamPrice || 0
+      seamPrice
     );
   }
 

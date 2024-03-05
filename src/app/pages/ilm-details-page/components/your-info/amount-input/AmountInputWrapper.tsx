@@ -7,7 +7,7 @@ interface AmountInputBoxWrapperProps {
   assetAddress: Address;
   debouncedAmountInUsd: number;
   assetSymbol: string;
-  assetLogo: any;
+  assetLogo: string;
 }
 
 export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
