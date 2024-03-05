@@ -3,7 +3,9 @@ import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   APY_BLOCK_FRAME,
   COMPOUNDING_PERIODS_APY,
+  ONE_USD,
   SECONDS_PER_YEAR,
+  WETH_ADDRESS,
 } from "../../../meta/constants";
 import {
   formatFetchNumberToViewNumber,
@@ -68,6 +70,12 @@ export const useFetchStrategyApy = (
     latestBlockData?.number || 0n
   );
   const {
+    price: ethPriceInUsdLatestBlock,
+    isLoading: isLatestBlockEthPriceLoading,
+    isFetched: isLatestBlockEthPriceFetched,
+  } = useFetchAssetPriceInBlock(WETH_ADDRESS, latestBlockData?.number || 0n);
+
+  const {
     price: shareValueInUsdPrevBlock,
     isLoading: isPrevBlockShareValueLoading,
     isFetched: isPrevBlockShareValueFetched,
@@ -75,10 +83,25 @@ export const useFetchStrategyApy = (
     strategyConfig.address,
     prevBlockData?.number || 0n
   );
+  const {
+    price: ethPriceInUsdPrevBlock,
+    isLoading: isPrevBlockEthPriceLoading,
+    isFetched: isPrevBlockEthPriceFetched,
+  } = useFetchAssetPriceInBlock(WETH_ADDRESS, prevBlockData?.number || 0n);
+
+  const shareValueInEthLatestBlock = ethPriceInUsdLatestBlock.bigIntValue
+    ? (shareValueInUsdLatestBlock.bigIntValue * ONE_USD) /
+      ethPriceInUsdLatestBlock.bigIntValue
+    : 0n;
+
+  const shareValueInEthPrevBlock = ethPriceInUsdPrevBlock.bigIntValue
+    ? (shareValueInUsdPrevBlock.bigIntValue * ONE_USD) /
+      ethPriceInUsdPrevBlock.bigIntValue
+    : 0n;
 
   const apy = calculateApy(
-    shareValueInUsdLatestBlock.bigIntValue,
-    shareValueInUsdPrevBlock.bigIntValue,
+    shareValueInEthLatestBlock,
+    shareValueInEthPrevBlock,
     (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
   );
 
@@ -86,11 +109,15 @@ export const useFetchStrategyApy = (
     isLoading:
       isLatestBlockShareValueLoading ||
       isPrevBlockShareValueLoading ||
+      isLatestBlockEthPriceLoading ||
+      isPrevBlockEthPriceLoading ||
       isLatestBlockLoading ||
       isPrevBlockLoading,
     isFetched:
       isLatestBlockShareValueFetched &&
       isPrevBlockShareValueFetched &&
+      isLatestBlockEthPriceFetched &&
+      isPrevBlockEthPriceFetched &&
       isLatestBlockFetched &&
       isPrevBlockFetched,
     apy: {

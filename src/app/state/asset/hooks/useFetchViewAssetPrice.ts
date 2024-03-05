@@ -67,7 +67,7 @@ export const useFetchAssetPriceInBlock = (
     fetchAssetPriceInBlock(config.getClient(), asset, blockNumber).then(
       (price) => setPrice(price)
     );
-  }, [asset]);
+  }, [asset, blockNumber]);
 
   return {
     isLoading: price === undefined,
