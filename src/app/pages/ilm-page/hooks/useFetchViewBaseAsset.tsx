@@ -1,5 +1,10 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { Displayable } from "../../../../shared";
+import {
+  Displayable,
+  ValueSymbolPair,
+  ViewBigInt,
+  ViewNumber,
+} from "../../../../shared";
 import {
   BaseAssetConfig,
   baseAssets,
@@ -21,7 +26,6 @@ import {
   formatUnitsToNumber,
   normalizeDecimals,
 } from "../../../../shared/utils/helpers";
-import { ViewBaseAsset } from "../../../state/lending-borrowing/types/ViewBaseAsset";
 import {
   AAVE_ADDRESS_PROVIDER,
   SECONDS_PER_YEAR,
@@ -291,6 +295,39 @@ function useFetchBaseAsset(
     },
     supplyIncentives,
     borrowIncentives,
+  };
+}
+
+export interface ViewRewardToken {
+  symbol: string;
+  logo: string;
+  apy: number;
+}
+export interface ViewBaseAsset {
+  depositAsset: {
+    name?: string;
+    symbol?: string;
+    logo?: string;
+  };
+  totalSupplied: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  totalBorrowed: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  supplyApy: ViewNumber;
+  borrowApyVariable: ViewNumber;
+  borrowApyStable: ViewNumber;
+
+  supplyIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
+  };
+  borrowVariableIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
   };
 }
 

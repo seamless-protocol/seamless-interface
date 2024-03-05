@@ -2,8 +2,7 @@ import { aaveOracleAbi, aaveOracleAddress } from "../../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
-import { ViewLendingPoolInfo } from "../../../state/lending-borrowing/types/ViewLendingPoolInfo";
-import { Displayable } from "../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
@@ -82,6 +81,12 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
       symbol: "$",
     },
   };
+}
+
+export interface ViewLendingPoolInfo {
+  totalMarketSizeUsd: ViewBigInt;
+  totalAvailableUsd: ViewBigInt;
+  totalBorrowsUsd: ViewBigInt;
 }
 
 export const useFetchViewLendingPoolInfo =

@@ -1,9 +1,19 @@
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
-import { ViewUserInfo } from "../../../state/loop-strategy/types/ViewUserInfo";
-import { Displayable } from "../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchDetailAssetBalance } from "../../../state/asset/hooks/useFetchViewDetailAssetBalance";
+export interface ViewUserInfo {
+  underlyingAssetBalance: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+
+  strategyBalance: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+}
 
 export const useFetchViewUserInfo = (
   index: number

@@ -3,7 +3,7 @@ import {
   FlexRow,
   ValueSymbolPair,
 } from "../../../../../shared";
-import { ViewRewardToken } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
+import { ViewRewardToken } from "../../hooks/useFetchViewBaseAsset";
 
 interface IncentivesButtonProps {
   totalApy?: ValueSymbolPair;

@@ -1,6 +1,6 @@
 import { Address, erc20Abi } from "viem";
-import { useReadContract } from "wagmi";
 import { Fetch } from "../../../../shared/types/Fetch";
+import { useSeamlessContractRead } from "../../../../shared";
 
 export interface Token {
   symbol: string;
@@ -12,7 +12,7 @@ export const useToken = (token: Address): Fetch<Token> => {
     data: decimals,
     isLoading: isDecimalsLoading,
     isFetched: isDecimalsFetched,
-  } = useReadContract({
+  } = useSeamlessContractRead({
     address: token,
     abi: erc20Abi,
     functionName: "decimals",
@@ -22,7 +22,7 @@ export const useToken = (token: Address): Fetch<Token> => {
     data: symbol,
     isLoading: isSymbolLoading,
     isFetched: isSymbolFetched,
-  } = useReadContract({
+  } = useSeamlessContractRead({
     address: token,
     abi: erc20Abi,
     functionName: "symbol",
