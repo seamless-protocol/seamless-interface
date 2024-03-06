@@ -12,6 +12,7 @@ import {
   Modal,
   ModalHandles,
   MyFormProvider,
+  StandardTooltip,
   Typography,
   useNotificationContext,
 } from "@shared";
@@ -122,7 +123,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
             <Typography type="description">Transaction overview</Typography>
             <FlexCol className="border-divider border-[0.667px] rounded-md p-3 gap-1">
               <FlexRow className="justify-between">
-                <Typography type="description">Shares to receive</Typography>
+                <Typography type="description">
+                  Min shares to receive
+                </Typography>
+
                 <DisplayTokenAmount
                   {...previewDepositData?.sharesToReceive.tokenAmount}
                   typography="description"
@@ -130,7 +134,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 />
               </FlexRow>
               <FlexRow className="justify-between">
-                <Typography type="description">Value to receive</Typography>
+                <Typography type="description">Min value to receive</Typography>
                 <DisplayMoney
                   {...previewDepositData?.sharesToReceive.dollarAmount}
                   typography="description"
@@ -138,7 +142,17 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 />
               </FlexRow>
               <FlexRow className="justify-between">
-                <Typography type="description">Transaction cost</Typography>
+                <FlexRow className="items-center">
+                  <Typography type="description">
+                    Max transaction cost
+                  </Typography>
+                  <StandardTooltip width={1}>
+                    <Typography type="subheader2">
+                      DEX fees incurred to keep the strategy <br /> at the
+                      target multiple after your deposit.
+                    </Typography>
+                  </StandardTooltip>
+                </FlexRow>
                 <DisplayMoney
                   {...previewDepositData?.cost.dollarAmount}
                   typography="description"
