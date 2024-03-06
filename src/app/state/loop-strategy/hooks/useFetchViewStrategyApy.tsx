@@ -130,15 +130,19 @@ export const useFetchStrategyApy = (
 export const useFetchViewStrategyApy = (
   index: number
 ): Displayable<ViewStrategyApy> => {
-  const { apy, isLoading, isFetched } = useFetchStrategyApy(
-    ilmStrategies[index]
-  );
+  //TODO: remove this hook or remove defaultApy
+  // const { apy, isLoading, isFetched } = useFetchStrategyApy(
+  //   ilmStrategies[index]
+  // );
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: false,
+    isFetched: true,
     data: {
-      apy: formatFetchNumberToViewNumber(apy),
+      apy: formatFetchNumberToViewNumber({
+        value: ilmStrategies[index].defaultApy,
+        symbol: "%",
+      }),
     },
   };
 };
