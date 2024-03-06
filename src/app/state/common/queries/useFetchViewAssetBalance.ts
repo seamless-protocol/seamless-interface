@@ -1,8 +1,8 @@
 import { Address, erc20Abi } from "viem";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { useToken } from "./useToken";
+import { useToken } from "../metadataQueries/useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 
@@ -10,7 +10,7 @@ export interface AssetBalance {
   data: FetchBigInt;
 }
 
-export const useFetchAssetBalance = (asset: Address): Fetch<AssetBalance> => {
+export const useFetchAssetBalance = (asset: Address) => {
   const account = useAccount();
 
   const {
@@ -24,6 +24,7 @@ export const useFetchAssetBalance = (asset: Address): Fetch<AssetBalance> => {
     data: balance,
     isLoading: isBalanceLoading,
     isFetched: isBalanceFetched,
+    ...rest
   } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
@@ -34,6 +35,7 @@ export const useFetchAssetBalance = (asset: Address): Fetch<AssetBalance> => {
   return {
     isLoading: isTokenDataLoading || isBalanceLoading,
     isFetched: isTokenDataFetched && isBalanceFetched,
+    ...rest,
     data: {
       bigIntValue: balance || 0n,
       symbol: symbol,

@@ -3,14 +3,14 @@ import { loopStrategyAbi } from "@generated";
 import { ilmStrategies } from "../config/StrategyConfig";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchBalanceOf } from "../../common/queries/useFetchBalanceOf";
+import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateDepositStrategy = (id: number) => {
   //meta data
   const { address } = useAccount();
 
   //cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchBalanceOf(
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(
     ilmStrategies[id].underlyingAsset.address
   );
 
