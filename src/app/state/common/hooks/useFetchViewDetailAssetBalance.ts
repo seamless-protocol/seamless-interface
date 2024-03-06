@@ -18,7 +18,7 @@ export const useFetchDetailAssetBalance = (
   const {
     isLoading: isBalanceLoading,
     isFetched: isBalanceFetched,
-    balance,
+    data: balance,
   } = useFetchAssetBalance(token);
 
   let {
