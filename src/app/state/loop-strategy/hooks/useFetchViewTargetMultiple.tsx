@@ -15,8 +15,11 @@ export interface TargetMultiple {
 export const useFetchTargetMultiple = (
   strategy: Address
 ): Fetch<TargetMultiple> => {
-  const { isLoading, isFetched, target } =
-    useFetchCollateralRatioTargets(strategy);
+  const {
+    isLoading,
+    isFetched,
+    data: { target },
+  } = useFetchCollateralRatioTargets(strategy);
 
   return {
     isLoading,

@@ -1,6 +1,7 @@
-import { Address, erc20Abi } from "viem";
+import { Address } from "viem";
 import { Fetch } from "../../../../shared/types/Fetch";
-import { useSeamlessContractRead } from "../../../../shared";
+import { useFetchAssetDecimals } from "../metadataQueries/useFetchAssetDecimals";
+import { useFetchAssetSymbol } from "../metadataQueries/useFetchAssetSymbol";
 
 export interface Token {
   symbol: string;
@@ -12,21 +13,13 @@ export const useToken = (token: Address): Fetch<Token> => {
     data: decimals,
     isLoading: isDecimalsLoading,
     isFetched: isDecimalsFetched,
-  } = useSeamlessContractRead({
-    address: token,
-    abi: erc20Abi,
-    functionName: "decimals",
-  });
+  } = useFetchAssetDecimals(token);
 
   const {
     data: symbol,
     isLoading: isSymbolLoading,
     isFetched: isSymbolFetched,
-  } = useSeamlessContractRead({
-    address: token,
-    abi: erc20Abi,
-    functionName: "symbol",
-  });
+  } = useFetchAssetSymbol(token);
 
   return {
     isLoading: isDecimalsLoading || isSymbolLoading,

@@ -4,31 +4,32 @@ import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
+import { metadataQueryConfig } from "../../settings/config";
 
 export interface CollateralRatioTargets {
-  target: FetchBigInt;
+  data: {
+    target: FetchBigInt;
+  };
 }
 
 export const useFetchCollateralRatioTargets = (
   strategy: Address
 ): Fetch<CollateralRatioTargets> => {
-  const {
-    data: collateralRatioTargets,
-    isLoading,
-    isFetched,
-  } = useSeamlessContractRead({
+  const result = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "getCollateralRatioTargets",
+    query: metadataQueryConfig,
   });
 
   return {
-    isLoading,
-    isFetched,
-    target: {
-      bigIntValue: collateralRatioTargets?.target || 0n,
-      decimals: 8,
-      symbol: "",
+    ...result,
+    data: {
+      target: {
+        bigIntValue: result.data?.target || 0n,
+        decimals: 8,
+        symbol: "",
+      },
     },
   };
 };
@@ -36,8 +37,11 @@ export const useFetchCollateralRatioTargets = (
 export const useFetchViewCollateralRatioTargets = (
   strategy: Address
 ): Displayable<ViewCollateralRatioTargets> => {
-  const { isLoading, isFetched, target } =
-    useFetchCollateralRatioTargets(strategy);
+  const {
+    isLoading,
+    isFetched,
+    data: { target },
+  } = useFetchCollateralRatioTargets(strategy);
 
   return {
     isLoading,

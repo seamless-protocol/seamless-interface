@@ -4,15 +4,12 @@ import { useSeamlessContractRead } from "../../../../shared";
 
 export const useFetchBalanceOf = (asset: Address) => {
   const account = useAccount();
-  const { data: balance, ...rest } = useSeamlessContractRead({
+  const result = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [account.address as Address],
   });
 
-  return {
-    balance,
-    ...rest,
-  };
+  return result;
 };

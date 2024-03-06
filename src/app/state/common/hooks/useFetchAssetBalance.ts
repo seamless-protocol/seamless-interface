@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { useToken } from "../metadataQueries/useToken";
+import { useToken } from "./useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useFetchBalanceOf } from "../queries/useFetchBalanceOf";
 
@@ -19,7 +19,7 @@ export const useFetchAssetBalance = (asset: Address): Fetch<AssetBalance> => {
   } = useToken(asset);
 
   const {
-    balance,
+    data: balance,
     isLoading: isBalanceLoading,
     isFetched: isBalanceFetched,
   } = useFetchBalanceOf(asset);
