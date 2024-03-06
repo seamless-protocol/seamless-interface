@@ -5,7 +5,7 @@ import { Displayable } from "../../../../shared";
 import { useFetchAssetPrice } from "./useFetchViewAssetPrice";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
-import { useFetchAssetBalance } from "./useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
 
 export interface DetailAssetBalance {
   balance: FetchBigInt;

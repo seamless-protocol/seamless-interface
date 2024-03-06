@@ -1,7 +1,7 @@
 import React from "react";
 import { AmountInput } from "./AmountInput";
 import { Address } from "viem";
-import { useFetchAssetBalance } from "../../../../../state/common/hooks/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 
 interface AmountInputBoxWrapperProps {
   assetAddress: Address;
