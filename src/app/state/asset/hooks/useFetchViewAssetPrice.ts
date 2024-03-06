@@ -7,7 +7,7 @@ import {
   loopStrategyAbi,
 } from "../../../generated";
 import { Address, erc20Abi } from "viem";
-import { ONE_ETHER } from "../../../meta";
+import { ONE_ETHER, ONE_USD } from "../../../meta";
 import { Config, useBlock, useConfig } from "wagmi";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -21,7 +21,8 @@ export interface AssetPrice {
 const fetchAssetPriceInBlock = async (
   config: Config,
   asset: Address,
-  blockNumber?: bigint
+  blockNumber?: bigint,
+  underlyingAsset?: Address
 ): Promise<bigint> => {
   const index = ilmStrategies.find((strategy) => strategy.address === asset);
 
@@ -54,19 +55,29 @@ const fetchAssetPriceInBlock = async (
     });
   }
 
+  if (underlyingAsset) {
+    const underlyingPrice = await fetchAssetPriceInBlock(
+      config,
+      underlyingAsset,
+      blockNumber
+    );
+    price = (price * ONE_USD) / underlyingPrice;
+  }
+
   return price;
 };
 
 export const useFetchAssetPriceInBlock = (
   asset: Address,
-  blockNumber: bigint
+  blockNumber: bigint,
+  underlyingAsset?: Address
 ): Fetch<AssetPrice> => {
   const config = useConfig();
   const [price, setPrice] = useState<bigint | undefined>(undefined);
 
   useEffect(() => {
-    fetchAssetPriceInBlock(config, asset, blockNumber).then((price) =>
-      setPrice(price)
+    fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset).then(
+      (price) => setPrice(price)
     );
   }, [asset, blockNumber]);
 
@@ -81,15 +92,22 @@ export const useFetchAssetPriceInBlock = (
   };
 };
 
-export const useFetchAssetPrice = (asset: Address): Fetch<AssetPrice> => {
+export const useFetchAssetPrice = (
+  asset: Address,
+  underlyingAsset?: Address
+): Fetch<AssetPrice> => {
   const { data: block } = useBlock();
-  return useFetchAssetPriceInBlock(asset, block?.number || 0n);
+  return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
 };
 
 export const useFetchViewAssetPrice = (
-  asset: Address
+  asset: Address,
+  underlyingAsset?: Address
 ): Displayable<ViewAssetPrice> => {
-  const { isLoading, isFetched, price } = useFetchAssetPrice(asset);
+  const { isLoading, isFetched, price } = useFetchAssetPrice(
+    asset,
+    underlyingAsset
+  );
 
   return {
     isLoading,
