@@ -12,7 +12,7 @@ import {
 import { Fetch, FetchNumber } from "src/shared/types/Fetch";
 import { ViewStrategyApy } from "../types/ViewStrategyApy";
 import { Displayable } from "src/shared/types/Displayable";
-import { useFetchAssetPriceInBlock } from "../../asset/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPriceInBlock } from "../../common/hooks/useFetchViewAssetPrice";
 
 export function calculateApy(
   endValue: bigint,
@@ -80,8 +80,8 @@ export const useFetchStrategyApy = (
   );
 
   const apy = calculateApy(
-    shareValueInLatestBlock.bigIntValue,
-    shareValueInPrevBlock.bigIntValue,
+    shareValueInLatestBlock.bigIntValue || 0n,
+    shareValueInPrevBlock.bigIntValue || 0n,
     (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
   );
 
@@ -109,8 +109,6 @@ export const useFetchViewStrategyApy = (
   const { apy, isLoading, isFetched } = useFetchStrategyApy(
     ilmStrategies[index]
   );
-  console.log(apy.value);
-  console.log("isFetched", isFetched);
 
   return {
     isLoading,

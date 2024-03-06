@@ -2,7 +2,7 @@ import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfi
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { Displayable, ViewBigInt, ViewNumber } from "../../../../shared";
 import { useFetchViewTargetMultiple } from "../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
-import { useFetchViewDetailAssetBalance } from "../../../state/asset/hooks/useFetchViewDetailAssetBalance";
+import { useFetchViewDetailAssetBalance } from "../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { Address } from "viem";
 
 export interface ViewStrategy {

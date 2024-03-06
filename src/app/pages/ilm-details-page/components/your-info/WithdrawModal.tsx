@@ -18,10 +18,10 @@ import {
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
-import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
+import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useQueryClient } from "@tanstack/react-query";
-import { useFetchAssetPrice } from "../../../../state/asset/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../../state/common/hooks/useFetchViewAssetPrice";
 
 export interface WithdrawModalFormData {
   amount: string;

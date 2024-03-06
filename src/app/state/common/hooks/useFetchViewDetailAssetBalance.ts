@@ -1,12 +1,11 @@
-import { Address, erc20Abi } from "viem";
-import { useAccount } from "wagmi";
-import { useToken } from "./useToken";
+import { Address } from "viem";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { Displayable } from "../../../../shared";
 import { useFetchAssetPrice } from "./useFetchViewAssetPrice";
-import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
+import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
+import { useFetchAssetBalance } from "./useFetchAssetBalance";
 
 export interface DetailAssetBalance {
   balance: FetchBigInt;
@@ -16,46 +15,35 @@ export interface DetailAssetBalance {
 export const useFetchDetailAssetBalance = (
   token: Address
 ): Fetch<DetailAssetBalance> => {
-  const account = useAccount();
-
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
-    decimals,
-    symbol,
-  } = useToken(token);
-
-  let {
     isLoading: isBalanceLoading,
     isFetched: isBalanceFetched,
-    data: balance,
-  } = useSeamlessContractRead({
-    address: token,
-    abi: erc20Abi,
-    functionName: "balanceOf",
-    args: [account.address as Address],
-  });
+    balance,
+  } = useFetchAssetBalance(token);
+
   let {
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
     price,
   } = useFetchAssetPrice(token);
 
-  balance = balance || 0n;
+  balance.bigIntValue = balance.bigIntValue || 0n;
   price = price || 0n;
 
   const strategy = ilmStrategies.find((strategy) => strategy.address === token);
 
   return {
-    isLoading: isTokenDataLoading || isBalanceLoading || isPriceLoading,
-    isFetched: isTokenDataFetched && isBalanceFetched && isPriceFetched,
+    isLoading: isBalanceLoading || isPriceLoading,
+    isFetched: isBalanceFetched && isPriceFetched,
     balance: {
-      bigIntValue: balance,
-      symbol: strategy ? strategy.symbol : symbol,
+      bigIntValue: balance.bigIntValue,
+      symbol: strategy ? strategy.symbol : balance.symbol,
       decimals: 18,
     },
     balanceUsd: {
-      bigIntValue: (balance * price.bigIntValue) / BigInt(10 ** decimals),
+      bigIntValue:
+        (balance.bigIntValue * price.bigIntValue) /
+        BigInt(10 ** balance.decimals),
       symbol: "$",
       decimals: 8,
     },

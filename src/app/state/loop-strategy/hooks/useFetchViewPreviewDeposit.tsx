@@ -11,7 +11,7 @@ import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
-import { useFetchAssetPrice } from "../../asset/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../common/hooks/useFetchViewAssetPrice";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;

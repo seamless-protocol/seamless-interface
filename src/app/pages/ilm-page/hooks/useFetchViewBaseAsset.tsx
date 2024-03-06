@@ -33,7 +33,7 @@ import {
 } from "../../../meta/constants";
 import { useFetchCoinGeckoSeamPrice } from "../../../state/common/hooks/useFetchCoinGeckoSeamPrice";
 import { Fetch, FetchBigInt, FetchNumber } from "src/shared/types/Fetch";
-import { useToken } from "../../../state/asset/hooks/useToken";
+import { useToken } from "../../../state/common/metadataQueries/useToken";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;

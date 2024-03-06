@@ -16,7 +16,7 @@ import {
   useNotificationContext,
 } from "@shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
-import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve";
+import { useERC20Approve } from "../../../../state/common/mutations/useERC20Approve";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
