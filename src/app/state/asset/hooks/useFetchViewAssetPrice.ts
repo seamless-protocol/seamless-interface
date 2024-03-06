@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
-import { readContract } from "viem/actions";
+import { readContract } from "wagmi/actions";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
   loopStrategyAbi,
 } from "../../../generated";
-import { Address, Client, erc20Abi } from "viem";
+import { Address, erc20Abi } from "viem";
 import { ONE_ETHER } from "../../../meta";
-import { useBlock, useConfig } from "wagmi";
+import { Config, useBlock, useConfig } from "wagmi";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
@@ -19,7 +19,7 @@ export interface AssetPrice {
 }
 
 const fetchAssetPriceInBlock = async (
-  client: Client,
+  config: Config,
   asset: Address,
   blockNumber?: bigint
 ): Promise<bigint> => {
@@ -27,13 +27,14 @@ const fetchAssetPriceInBlock = async (
 
   let price = 0n;
   if (!!index) {
-    const equityUsd = await readContract(client, {
+    const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,
       functionName: "equityUSD",
       blockNumber,
     });
-    const totalSupply = await readContract(client, {
+
+    const totalSupply = await readContract(config, {
       address: asset,
       abi: erc20Abi,
       functionName: "totalSupply",
@@ -44,7 +45,7 @@ const fetchAssetPriceInBlock = async (
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
-    price = await readContract(client, {
+    price = await readContract(config, {
       address: aaveOracleAddress,
       abi: aaveOracleAbi,
       functionName: "getAssetPrice",
@@ -64,8 +65,8 @@ export const useFetchAssetPriceInBlock = (
   const [price, setPrice] = useState<bigint | undefined>(undefined);
 
   useEffect(() => {
-    fetchAssetPriceInBlock(config.getClient(), asset, blockNumber).then(
-      (price) => setPrice(price)
+    fetchAssetPriceInBlock(config, asset, blockNumber).then((price) =>
+      setPrice(price)
     );
   }, [asset, blockNumber]);
 
