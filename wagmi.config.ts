@@ -4,6 +4,7 @@ import { AaveOracleAbi } from "./abis/AaveOracle";
 import { LendingPoolAbi } from "./abis/LendingPool";
 import { react } from "@wagmi/cli/plugins";
 import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
+import { AaveProtocolDataProviderAbi } from "./abis/AaveProtocolDataProvider";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -26,6 +27,11 @@ export default defineConfig({
       name: "IncentiveDataProvider",
       address: "0x3F5a90eF7BC3eE64e1E95b850DbBC2469fF71ce8",
       abi: UIIncentiveDataProviderAbi,
+    },
+    {
+      name: "ProtocolDataProvider",
+      address: "0x2A0979257105834789bC6b9E1B00446DFbA8dFBa",
+      abi: AaveProtocolDataProviderAbi,
     },
   ],
   plugins: [react()],
