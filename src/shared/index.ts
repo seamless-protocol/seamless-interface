@@ -33,6 +33,12 @@ export * from "./components/containers/Card";
 export * from "./components/text/Typography/Typography";
 
 // ******* //
+// tooltip //
+// ******* //
+export * from "./components/tooltip/Tooltip";
+export * from "./components/tooltip/StandardTooltip";
+
+// ******* //
 // divider //
 // ******* //
 export * from "./components/divider/Divider";
