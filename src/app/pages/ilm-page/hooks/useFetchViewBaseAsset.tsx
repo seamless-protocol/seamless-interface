@@ -4,7 +4,8 @@ import { Address } from "viem";
 import { useFetchViewDetailAssetTotalSupply } from "../../../state/asset/hooks/useFetchViewDetailAssetTotalSupply";
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewBorrowApy } from "../../../state/lending-borrowing/hooks/useFetchViewBorrowApy";
-import { useFetchViewIncentives } from "../../../state/lending-borrowing/hooks/useFetchIncentives";
+import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchSupplyIncentives";
+import { useFetchViewBorrowIncentives } from "../../../state/lending-borrowing/hooks/useFetchBorrowIncentives";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -69,10 +70,16 @@ export const useFetchViewBaseAsset = (
   } = useFetchViewBorrowApy(baseAsset.address as Address);
 
   const {
-    isLoading: isIncentivesLoading,
-    isFetched: isIncentivesFetched,
-    data: { supplyIncentives, borrowVariableIncentives },
-  } = useFetchViewIncentives(baseAsset.address as Address);
+    isLoading: isSupplyIncentivesLoading,
+    isFetched: isSupplyIncentivesFetched,
+    data: supplyIncentives,
+  } = useFetchViewSupplyIncentives(baseAsset.address as Address);
+
+  const {
+    isLoading: isBorrowVariableIncentivesLoading,
+    isFetched: isBorrowVariableIncentivesFetched,
+    data: borrowVariableIncentives,
+  } = useFetchViewBorrowIncentives(baseAsset.address as Address);
 
   return {
     isLoading:
@@ -80,13 +87,15 @@ export const useFetchViewBaseAsset = (
       isTotalBorrowedLoading ||
       isSupplyApyLoading ||
       isBorrowApyLoading ||
-      isIncentivesLoading,
+      isSupplyIncentivesLoading ||
+      isBorrowVariableIncentivesLoading,
     isFetched:
       isTotalSuppliedFetched &&
       isTotalBorrowedFetched &&
       isSupplyApyFetched &&
       isBorrowApyFetched &&
-      isIncentivesFetched,
+      isSupplyIncentivesFetched &&
+      isBorrowVariableIncentivesFetched,
     data: {
       depositAsset: {
         name: baseAsset.name,
