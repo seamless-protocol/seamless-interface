@@ -1,11 +1,12 @@
 import { Displayable, ViewBigInt, ViewNumber } from "../../../../shared";
 import { baseAssets } from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { Address } from "viem";
-import { useFetchViewDetailAssetTotalSupply } from "../../../state/asset/hooks/useFetchViewDetailAssetTotalSupply";
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewBorrowApy } from "../../../state/lending-borrowing/hooks/useFetchViewBorrowApy";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchSupplyIncentives";
 import { useFetchViewBorrowIncentives } from "../../../state/lending-borrowing/hooks/useFetchBorrowIncentives";
+import { useFetchViewDetailTotalSupplied } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
+import { useFetchViewDetailTotalBorrowed } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalBorrowed";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -48,14 +49,14 @@ export const useFetchViewBaseAsset = (
   const {
     isLoading: isTotalSuppliedLoading,
     isFetched: isTotalSuppliedFetched,
-    data: { totalSupply: totalSupplied },
-  } = useFetchViewDetailAssetTotalSupply(baseAsset.sTokenAddress as Address);
+    data: { totalSupplied },
+  } = useFetchViewDetailTotalSupplied(baseAsset.address as Address);
 
   const {
     isLoading: isTotalBorrowedLoading,
     isFetched: isTotalBorrowedFetched,
-    data: { totalSupply: totalBorrowed },
-  } = useFetchViewDetailAssetTotalSupply(baseAsset.debtTokenAddress as Address);
+    data: { totalBorrowed },
+  } = useFetchViewDetailTotalBorrowed(baseAsset.address as Address);
 
   const {
     isLoading: isSupplyApyLoading,
