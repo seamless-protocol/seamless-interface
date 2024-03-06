@@ -142,7 +142,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 />
               </FlexRow>
               <FlexRow className="justify-between">
-                <FlexRow className="items-center">
+                <FlexRow className="items-center gap-1">
                   <Typography type="description">
                     Max transaction cost
                   </Typography>
