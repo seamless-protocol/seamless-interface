@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
-import { Displayable } from "../../../../shared";
+import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useToken } from "./useToken";
@@ -23,7 +23,7 @@ export const useFetchAssetBalance = (asset: Address): Fetch<AssetBalance> => {
     data: balance,
     isLoading: isBalanceLoading,
     isFetched: isBalanceFetched,
-  } = useReadContract({
+  } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",

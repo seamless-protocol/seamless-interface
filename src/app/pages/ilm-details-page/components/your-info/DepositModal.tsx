@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Address, etherUnits, parseUnits } from "viem";
-import { useAccount } from "wagmi";
+import { etherUnits, parseUnits } from "viem";
 import {
+  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -20,10 +20,9 @@ import { useERC20Approve } from "../../../../state/common/hooks/useERC20Approve"
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-import { useWriteStrategyDeposit } from "../../../../state/loop-strategy/hooks/useWriteStrategyDeposit";
+
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useQueryClient } from "@tanstack/react-query";
-import { AddCoinToWallet } from "../../../../../shared/components/wallet/add-coin-to-wallet/AddCointToWallet";
+import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 
 export interface DepositModalFormData {
   amount: string;
@@ -35,16 +34,14 @@ interface DepositModalProps extends Omit<ButtonProps, "id"> {
 
 export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
-  const account = useAccount();
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
-  const queryClient = useQueryClient();
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
-  const { isPending: isDepositPending, depositAsync } =
-    useWriteStrategyDeposit(id);
+
+  const { depositAsync, isDepositPending } = useMutateDepositStrategy(id);
 
   // FORM //
   const methods = useForm<DepositModalFormData>({
@@ -72,35 +69,32 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
-      try {
-        const { txHash } = await depositAsync(
-          parseUnits(data.amount, 18),
-          account.address as Address,
-          previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n
-        );
-        modalRef.current?.close();
-
-        showNotification({
-          txHash,
-          content: (
-            <FlexCol className="w-full items-center text-center justify-center">
-              <Typography>
-                You Supplied {data.amount}{" "}
-                {ilmStrategies[id].underlyingAsset.symbol}
-              </Typography>
-              <AddCoinToWallet {...ilmStrategies[id]} />
-            </FlexCol>
-          ),
-        });
-        queryClient.invalidateQueries();
-      } catch (e) {
-        modalRef.current?.close();
-        showNotification({
-          status: "error",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content: (e as any)?.shortMessage,
-        });
-      }
+      await depositAsync(
+        {
+          amount: data.amount,
+          sharesToReceive:
+            previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+        },
+        {
+          onSuccess: (txHash) => {
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol className="w-full items-center text-center justify-center">
+                  <Typography>
+                    You Supplied {data.amount}{" "}
+                    {ilmStrategies[id].underlyingAsset.symbol}
+                  </Typography>
+                  <AddCoinToWallet {...ilmStrategies[id]} />
+                </FlexCol>
+              ),
+            });
+          },
+          onSettled: () => {
+            modalRef.current?.close();
+          },
+        }
+      );
     }
   };
 

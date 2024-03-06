@@ -98,7 +98,7 @@ export function formatFetchBigIntToViewBigInt(
   };
   const value = formatUnitsToNumber(bigIntValue, decimals);
   return {
-    value,
+    value: formatUnits(bigIntValue, decimals),
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue: bigIntValue,
     symbol,

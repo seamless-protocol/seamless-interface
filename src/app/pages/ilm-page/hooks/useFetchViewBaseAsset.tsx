@@ -1,11 +1,43 @@
-import { Displayable } from "../../../../shared";
+import { Displayable, ViewBigInt, ViewNumber } from "../../../../shared";
 import { baseAssets } from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { Address } from "viem";
-import { ViewBaseAsset } from "../../../state/lending-borrowing/types/ViewBaseAsset";
 import { useFetchViewDetailAssetTotalSupply } from "../../../state/asset/hooks/useFetchViewDetailAssetTotalSupply";
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewBorrowApy } from "../../../state/lending-borrowing/hooks/useFetchViewBorrowApy";
 import { useFetchViewIncentives } from "../../../state/lending-borrowing/hooks/useFetchIncentives";
+
+export interface ViewRewardToken {
+  symbol: string;
+  logo: string;
+  apy: number;
+}
+export interface ViewBaseAsset {
+  depositAsset: {
+    name?: string;
+    symbol?: string;
+    logo?: string;
+  };
+  totalSupplied: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  totalBorrowed: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  supplyApy: ViewNumber;
+  borrowApyVariable: ViewNumber;
+  borrowApyStable: ViewNumber;
+
+  supplyIncentives: {
+    totalApy: ViewNumber;
+    rewardTokens: ViewRewardToken[];
+  };
+  borrowVariableIncentives: {
+    totalApy: ViewNumber;
+    rewardTokens: ViewRewardToken[];
+  };
+}
 
 export const useFetchViewBaseAsset = (
   index: number

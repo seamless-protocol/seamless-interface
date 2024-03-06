@@ -12,7 +12,7 @@ interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
   debouncedAmountInUsd: number;
   assetSymbol: string;
-  assetLogo: any;
+  assetLogo: string;
 }
 
 // todo: generic amount input field
@@ -36,7 +36,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           type="number"
           placeholder="0.00"
           className="pt-1 no-underline"
-          max={walletBalance.value || 0}
+          max={walletBalance.value || "0"}
         />
 
         <div className="flex items-center space-x-2">

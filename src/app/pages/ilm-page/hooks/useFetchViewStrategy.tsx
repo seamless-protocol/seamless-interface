@@ -1,9 +1,29 @@
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { Displayable } from "../../../../shared";
-import { ViewStrategy } from "../../../state/loop-strategy/types/ViewStrategy";
+import { Displayable, ViewBigInt, ViewNumber } from "../../../../shared";
 import { useFetchViewTargetMultiple } from "../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewDetailAssetBalance } from "../../../state/asset/hooks/useFetchViewDetailAssetBalance";
+import { Address } from "viem";
+
+export interface ViewStrategy {
+  strategyName?: string;
+  depositAsset: {
+    address?: Address;
+    name?: string;
+    symbol?: string;
+    logo?: string;
+  };
+  targetMultiple?: ViewBigInt;
+  loopApy?: ViewNumber;
+  availableToDeposit?: {
+    tokenAmount?: ViewBigInt;
+    dollarAmount?: ViewBigInt;
+  };
+  yourPosition?: {
+    tokenAmount?: ViewBigInt;
+    dollarAmount?: ViewBigInt;
+  };
+}
 
 export const useFetchViewStrategy = (
   index: number

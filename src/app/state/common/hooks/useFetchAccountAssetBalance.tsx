@@ -1,12 +1,13 @@
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Address, erc20Abi } from "viem";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
 
 export const useFetchAccountAssetBalance = (asset: Address) => {
   const account = useAccount();
 
-  const { data: balance } = useReadContract({
+  const { data: balance, ...rest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",
@@ -22,5 +23,6 @@ export const useFetchAccountAssetBalance = (asset: Address) => {
       },
       walletBalanceDecimalsOptions
     ),
+    ...rest,
   };
 };

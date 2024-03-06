@@ -11,8 +11,7 @@ import {
 import { ONE_ETHER, ONE_USD } from "../../../meta/constants";
 import { Address } from "viem";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
-import { ViewStrategyInfo } from "../../../state/loop-strategy/types/ViewStrategyInfo";
-import { Displayable } from "../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 
 interface StrategyInfo {
@@ -120,6 +119,19 @@ export const useFetchStrategyInfo = (
     },
   };
 };
+
+export interface ViewStrategyInfo {
+  currentMultiple: ViewBigInt;
+  targetMultiple: ViewBigInt;
+  collateral: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  equity: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+}
 
 export const useFetchViewStrategyInfo = (
   index: number

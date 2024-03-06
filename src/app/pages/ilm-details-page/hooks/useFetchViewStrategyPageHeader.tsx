@@ -10,8 +10,11 @@ import {
 } from "../../../../shared/utils/helpers";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { Address } from "viem";
-import { ViewStrategyPageHeader } from "../../../state/loop-strategy/types/ViewStrategyPageHeader";
-import { Displayable } from "../../../../shared/types/Displayable";
+import {
+  Displayable,
+  ViewBigInt,
+  ViewNumber,
+} from "../../../../shared/types/Displayable";
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 
@@ -60,6 +63,18 @@ export const useFetchStrategyPageHeader = (
     },
   };
 };
+
+export interface ViewStrategyPageHeader {
+  targetMultiple: ViewBigInt;
+  oraclePrice: ViewBigInt;
+  apy: ViewNumber;
+  underlyingAsset: {
+    name: string;
+    symbol: string;
+    address: Address;
+    logo: string;
+  };
+}
 
 export const useFetchViewStrategyPageHeader = (
   index: number

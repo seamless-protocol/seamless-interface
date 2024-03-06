@@ -1,7 +1,12 @@
+import { QueryKey } from "@tanstack/query-core";
+
 export interface Displayable<T> {
   data: T;
   isFetched: boolean;
   isLoading: boolean;
+
+  //todo rethink interface
+  queryKey?: QueryKey;
 }
 
 export interface ViewValueSymbolPair {
@@ -14,7 +19,7 @@ export interface ViewNumber extends ViewValueSymbolPair {
 }
 
 export interface ViewBigInt extends ViewValueSymbolPair {
-  value?: number | undefined;
+  value?: string | undefined;
   bigIntValue?: bigint | undefined;
 }
 
