@@ -43,7 +43,6 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
           fullScreen ? "w-full h-full" : ""
         }`}
         style={{ opacity: 1 }}
-        onClick={(e) => e.stopPropagation()}
       >
         <FlexRow className="items-center justify-between mb-6">
           <Typography type="h2">{header}</Typography>
