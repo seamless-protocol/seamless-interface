@@ -26,7 +26,7 @@ export const useFetchDetailAssetBalance = (
   let {
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
-    price,
+    data: price,
   } = useFetchAssetPrice(token);
 
   balance.bigIntValue = balance.bigIntValue || 0n;

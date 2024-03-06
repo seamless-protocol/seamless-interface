@@ -3,18 +3,14 @@ import {
   convertRatioToMultiple,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { ViewTargetMultiple } from "../types/ViewTargetMultiple";
 import { useFetchCollateralRatioTargets } from "../metadataQueries/useFetchViewCollateralRatioTargets";
 
-export interface TargetMultiple {
-  targetMultiple: FetchBigInt;
-}
-
 export const useFetchTargetMultiple = (
   strategy: Address
-): Fetch<TargetMultiple> => {
+): FetchData<FetchBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -24,7 +20,7 @@ export const useFetchTargetMultiple = (
   return {
     isLoading,
     isFetched,
-    targetMultiple: {
+    data: {
       bigIntValue: convertRatioToMultiple(target.bigIntValue),
       decimals: 8,
       symbol: "x",
@@ -35,8 +31,11 @@ export const useFetchTargetMultiple = (
 export const useFetchViewTargetMultiple = (
   strategy: Address
 ): Displayable<ViewTargetMultiple> => {
-  const { isLoading, isFetched, targetMultiple } =
-    useFetchTargetMultiple(strategy);
+  const {
+    isLoading,
+    isFetched,
+    data: targetMultiple,
+  } = useFetchTargetMultiple(strategy);
 
   return {
     isLoading,

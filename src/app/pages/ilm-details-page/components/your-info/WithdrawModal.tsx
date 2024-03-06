@@ -38,7 +38,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { price } = useFetchAssetPrice(strategyConfig.address);
+  const { data: price } = useFetchAssetPrice(strategyConfig.address);
 
   const { isPending: isWithdrawPending, withdrawAsync } =
     useWriteStrategyWithdraw(id);

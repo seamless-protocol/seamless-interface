@@ -17,7 +17,7 @@ export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
   assetLogo,
 }) => {
   // TODO: properly invallidate query!!!
-  const { balance: walletBalance } = useFetchAssetBalance(assetAddress);
+  const { data: walletBalance } = useFetchAssetBalance(assetAddress);
 
   return (
     <AmountInput

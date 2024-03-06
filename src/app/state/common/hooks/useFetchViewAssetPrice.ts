@@ -9,7 +9,7 @@ import {
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "../../../meta";
 import { Config, useBlock, useConfig } from "wagmi";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
@@ -71,7 +71,7 @@ export const useFetchAssetPriceInBlock = (
   asset: Address,
   blockNumber: bigint,
   underlyingAsset?: Address
-): Fetch<AssetPrice> => {
+): FetchData<FetchBigInt> => {
   const config = useConfig();
   const [price, setPrice] = useState<bigint | undefined>(undefined);
 
@@ -84,7 +84,7 @@ export const useFetchAssetPriceInBlock = (
   return {
     isLoading: price === undefined,
     isFetched: price !== 0n,
-    price: {
+    data: {
       bigIntValue: price || 0n,
       decimals: 8,
       symbol: "$",
@@ -95,7 +95,7 @@ export const useFetchAssetPriceInBlock = (
 export const useFetchAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
-): Fetch<AssetPrice> => {
+): FetchData<FetchBigInt> => {
   const { data: block } = useBlock();
   return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
 };
@@ -104,10 +104,11 @@ export const useFetchViewAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
 ): Displayable<ViewAssetPrice> => {
-  const { isLoading, isFetched, price } = useFetchAssetPrice(
-    asset,
-    underlyingAsset
-  );
+  const {
+    isLoading,
+    isFetched,
+    data: price,
+  } = useFetchAssetPrice(asset, underlyingAsset);
 
   return {
     isLoading,

@@ -173,7 +173,7 @@ function useFetchBaseAsset(
   const {
     isLoading: isAssetDataLoading,
     isFetched: isAssetDataFetched,
-    decimals,
+    data: { decimals },
   } = useToken(baseAsset?.address as Address);
   const {
     data: results,

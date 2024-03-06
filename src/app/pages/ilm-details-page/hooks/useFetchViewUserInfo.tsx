@@ -23,14 +23,15 @@ export const useFetchViewUserInfo = (
   const {
     isLoading: isUnderlyingAssetBalanceLoading,
     isFetched: isUnderlyingAssetBalanceFetched,
-    balance: underlyingAssetBalance,
-    balanceUsd: underlyingAssetBalanceUsd,
+    data: {
+      balance: underlyingAssetBalance,
+      balanceUsd: underlyingAssetBalanceUsd,
+    },
   } = useFetchDetailAssetBalance(strategyConfig.underlyingAsset.address);
   const {
     isLoading: isStrategyBalanceLoading,
     isFetched: isStrategyBalanceFetched,
-    balance: strategyBalance,
-    balanceUsd: strategyBalanceUsd,
+    data: { balance: strategyBalance, balanceUsd: strategyBalanceUsd },
   } = useFetchDetailAssetBalance(strategyConfig.address);
 
   return {

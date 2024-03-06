@@ -1,14 +1,9 @@
 import { Address, erc20Abi } from "viem";
-import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useToken } from "../metadataQueries/useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
-
-export interface AssetBalance {
-  data: FetchBigInt;
-}
 
 export const useFetchAssetBalance = (asset: Address) => {
   const account = useAccount();
@@ -16,8 +11,7 @@ export const useFetchAssetBalance = (asset: Address) => {
   const {
     isLoading: isTokenDataLoading,
     isFetched: isTokenDataFetched,
-    symbol,
-    decimals,
+    data: { symbol, decimals },
   } = useToken(asset);
 
   const {
