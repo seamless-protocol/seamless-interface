@@ -2312,11 +2312,6 @@ export const loopStrategyAbi = [
   },
   {
     type: "error",
-    inputs: [],
-    name: "ErrorNotEnoughAllowance",
-  },
-  {
-    type: "error",
     inputs: [
       { name: "sender", internalType: "address", type: "address" },
       { name: "balance", internalType: "uint256", type: "uint256" },
