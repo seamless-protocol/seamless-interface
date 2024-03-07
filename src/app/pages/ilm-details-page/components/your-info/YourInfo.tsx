@@ -54,12 +54,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
 
           <DepositModal
             id={id}
-            // disabled={
-            //   !Number(
-            //     viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
-            //       .bigIntValue
-            //   )
-            // }
+            disabled={
+              !Number(
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
+                  .bigIntValue
+              )
+            }
             className={"w-28"}
           />
         </FlexRow>

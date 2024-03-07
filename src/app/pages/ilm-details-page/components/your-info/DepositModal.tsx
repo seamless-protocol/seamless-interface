@@ -173,7 +173,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
           <Button
             type="submit"
             loading={isDepositPending}
-            // disabled={!isApproved || Number(amount) <= 0}
+            disabled={!isApproved || Number(amount) <= 0}
           >
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>
