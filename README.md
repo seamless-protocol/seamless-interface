@@ -12,10 +12,10 @@ React front end application for interacting with [Seamless Protocol](https://sea
 
 <!-- Badge row 2 - links and profiles -->
 
-[![Website base.org](https://img.shields.io/website-up-down-green-red/https/seamlessprotocol.com.svg)](https://seamlessprotocol.com)
+[![Website](https://img.shields.io/website-up-down-green-red/https/seamlessprotocol.com.svg)](https://seamlessprotocol.com)
 [![Docs](https://img.shields.io/badge/docs-up-green)](https://docs.seamlessprotocol.com/)
 [![Discord](https://img.shields.io/discord/1067165013397213286?label=discord)](https://discord.com/invite/Uye9jCVgUp)
-[![Twitter BuildOnBase](https://img.shields.io/twitter/follow/BuildOnBase?style=social)](https://twitter.com/seamlessfi)
+[![Twitter seamlessfi](https://img.shields.io/twitter/follow/seamlessfi?style=social)](https://twitter.com/seamlessfi)
 
 <!-- Badge row 3 - detailed status -->
 
@@ -30,7 +30,7 @@ Create .env.production file and copy content from .env.production.sample file.
 Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 
 - run `npm run build`
-- test your prod build localy `npm run preview` (after building it)
+- test your prod build locally `npm run preview` (after building it)
 
 ## Run application locally
 
