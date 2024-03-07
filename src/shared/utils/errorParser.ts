@@ -10,12 +10,14 @@ export const getParsedError = (error: any | BaseError): string => {
   let message =
     "An unknown error occurred, use the Support channel in Discord for assistance.";
 
-  const revertError = error?.walk
+  const revertedError = error?.walk
     ? error.walk((err: unknown) => err instanceof ContractFunctionRevertedError)
     : null;
 
-  if (revertError instanceof ContractFunctionRevertedError) {
-    const errorName = revertError.data?.errorName ?? "";
+  if (revertedError instanceof ContractFunctionRevertedError) {
+    const errorName =
+      revertedError.data?.errorName ?? revertedError.signature ?? "";
+    console.log({ revertedError });
     message = errorMapping[errorName] ?? message;
   } else if (error.shortMessage) {
     message = error.shortMessage;
@@ -32,4 +34,5 @@ export const errorMapping: Record<string, string> = {
   EnforcedPause: "Temporary pause in effect, please check Discord for updates.",
   ErrorNotEnoughAllowance:
     "Not enough allowance, did you approve your tokens first?",
+  "0xc2139725": "This ILM is currently at capacity, please try again later",
 };
