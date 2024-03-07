@@ -38,8 +38,6 @@ export const getParsedError = (e: any | CustomError): string => {
 };
 
 export const errorMapping: Record<string, string> = {
-  ContractFunctionZeroDataError:
-    "Contract not found! Make sure you are on correct chain.",
   EnforcedPause: "Temporary pause in effect, please check Discord for updates.",
   ErrorNotEnoughAllowance:
     "Not enough allowance, did you approve your tokens first?",
