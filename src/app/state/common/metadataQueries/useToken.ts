@@ -1,13 +1,14 @@
 import { Address, erc20Abi } from "viem";
-import { Fetch } from "../../../../shared/types/Fetch";
+import { FetchData } from "../../../../shared/types/Fetch";
 import { useSeamlessContractRead } from "../../../../shared";
+import { metadataQueryConfig } from "../../settings/config";
 
 export interface Token {
   symbol: string;
   decimals: number;
 }
 
-export const useToken = (token: Address): Fetch<Token> => {
+export const useToken = (token: Address): FetchData<Token> => {
   const {
     data: decimals,
     isLoading: isDecimalsLoading,
@@ -16,6 +17,7 @@ export const useToken = (token: Address): Fetch<Token> => {
     address: token,
     abi: erc20Abi,
     functionName: "decimals",
+    query: metadataQueryConfig,
   });
 
   const {
@@ -26,12 +28,15 @@ export const useToken = (token: Address): Fetch<Token> => {
     address: token,
     abi: erc20Abi,
     functionName: "symbol",
+    query: metadataQueryConfig,
   });
 
   return {
     isLoading: isDecimalsLoading || isSymbolLoading,
     isFetched: isDecimalsFetched && isSymbolFetched,
-    symbol: symbol || "",
-    decimals: decimals || 18,
+    data: {
+      symbol: symbol || "",
+      decimals: decimals || 18,
+    },
   };
 };

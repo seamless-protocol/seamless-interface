@@ -2,10 +2,10 @@ import { Address, erc20Abi } from "viem";
 import { useFetchAssetPrice } from "./useFetchViewAssetPrice";
 import { useReadContract } from "wagmi";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
-import { useToken } from "./useToken";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailAssetTotalSupply } from "../types/ViewDetailAssetTotalSupply";
 import { Displayable } from "../../../../shared/types/Displayable";
+import { useToken } from "../metadataQueries/useToken";
 
 export interface DetailAssetTotalSupply {
   totalSupply: FetchBigInt;
@@ -18,7 +18,7 @@ export const useFetchDetailAssetTotalSupply = (
   const {
     isLoading: isTokenDataLoading,
     isFetched: isTokenDataFetched,
-    decimals,
+    data: { decimals },
   } = useToken(asset);
 
   let {
@@ -34,7 +34,7 @@ export const useFetchDetailAssetTotalSupply = (
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
-    price,
+    data: price,
   } = useFetchAssetPrice(asset);
 
   totalSupply = totalSupply || 0n;

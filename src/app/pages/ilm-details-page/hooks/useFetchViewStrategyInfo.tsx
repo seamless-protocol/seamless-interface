@@ -76,7 +76,9 @@ export const useFetchStrategyInfo = (
 
     collateralUSD = BigInt(results[1].result || 0);
     const collateralAssetPrice = BigInt(results[4].result || 0);
-    collateral = (collateralUSD * ONE_ETHER) / collateralAssetPrice;
+    collateral = collateralAssetPrice
+      ? (collateralUSD * ONE_ETHER) / collateralAssetPrice
+      : 0n;
 
     equity = BigInt(results[2].result || 0);
     equityUSD = BigInt(results[3].result || 0);

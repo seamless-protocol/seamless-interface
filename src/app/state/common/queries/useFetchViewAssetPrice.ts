@@ -1,40 +1,43 @@
-import { useEffect, useState } from "react";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
-import { readContract } from "viem/actions";
+import { readContract } from "wagmi/actions";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
   loopStrategyAbi,
 } from "../../../generated";
-import { Address, Client, erc20Abi } from "viem";
-import { ONE_ETHER } from "../../../meta";
-import { useBlock, useConfig } from "wagmi";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { Address, erc20Abi } from "viem";
+import { ONE_ETHER, ONE_USD } from "../../../meta";
+import { Config, useBlock, useConfig } from "wagmi";
+import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
 import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
+import { useQuery } from "@tanstack/react-query";
+import { metadataQueryConfig } from "../../settings/config";
 
 export interface AssetPrice {
   price: FetchBigInt;
 }
 
 const fetchAssetPriceInBlock = async (
-  client: Client,
+  config: Config,
   asset: Address,
-  blockNumber?: bigint
+  blockNumber?: bigint,
+  underlyingAsset?: Address
 ): Promise<bigint> => {
   const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   let price = 0n;
   if (strategy) {
-    const equityUsd = await readContract(client, {
+    const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,
       functionName: "equityUSD",
       blockNumber,
     });
-    const totalSupply = await readContract(client, {
+
+    const totalSupply = await readContract(config, {
       address: asset,
       abi: erc20Abi,
       functionName: "totalSupply",
@@ -52,7 +55,7 @@ const fetchAssetPriceInBlock = async (
     );
     asset = baseAsset ? baseAsset.address : asset;
 
-    price = await readContract(client, {
+    price = await readContract(config, {
       address: aaveOracleAddress,
       abi: aaveOracleAbi,
       functionName: "getAssetPrice",
@@ -61,26 +64,40 @@ const fetchAssetPriceInBlock = async (
     });
   }
 
+  if (underlyingAsset) {
+    const underlyingPrice = await fetchAssetPriceInBlock(
+      config,
+      underlyingAsset,
+      blockNumber
+    );
+    price = (price * ONE_USD) / underlyingPrice;
+  }
+
   return price;
 };
 
 export const useFetchAssetPriceInBlock = (
   asset: Address,
-  blockNumber: bigint
-): Fetch<AssetPrice> => {
+  blockNumber: bigint,
+  underlyingAsset?: Address
+) => {
   const config = useConfig();
-  const [price, setPrice] = useState<bigint | undefined>(undefined);
 
-  useEffect(() => {
-    fetchAssetPriceInBlock(config.getClient(), asset, blockNumber).then(
-      (price) => setPrice(price)
-    );
-  }, [asset, blockNumber]);
+  const { data: price, ...rest } = useQuery({
+    queryFn: () =>
+      fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
+    queryKey: [
+      "fetchAssetPriceInBlock",
+      asset,
+      blockNumber.toString(),
+      underlyingAsset,
+    ],
+    ...metadataQueryConfig,
+  });
 
   return {
-    isLoading: price === undefined,
-    isFetched: price !== 0n,
-    price: {
+    ...rest,
+    data: {
       bigIntValue: price || 0n,
       decimals: 8,
       symbol: "$",
@@ -88,15 +105,23 @@ export const useFetchAssetPriceInBlock = (
   };
 };
 
-export const useFetchAssetPrice = (asset: Address): Fetch<AssetPrice> => {
+export const useFetchAssetPrice = (
+  asset: Address,
+  underlyingAsset?: Address
+) => {
   const { data: block } = useBlock();
-  return useFetchAssetPriceInBlock(asset, block?.number || 0n);
+  return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
 };
 
 export const useFetchViewAssetPrice = (
-  asset: Address
+  asset: Address,
+  underlyingAsset?: Address
 ): Displayable<ViewAssetPrice> => {
-  const { isLoading, isFetched, price } = useFetchAssetPrice(asset);
+  const {
+    isLoading,
+    isFetched,
+    data: price,
+  } = useFetchAssetPrice(asset, underlyingAsset);
 
   return {
     isLoading,

@@ -7,11 +7,11 @@ import {
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
-import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
-import { useFetchAssetPrice } from "../../asset/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -23,7 +23,7 @@ interface PreviewWithdraw {
 export const useFetchPreviewWithdraw = (
   strategyConfig: StrategyConfig,
   amount: string
-): Fetch<PreviewWithdraw> => {
+): FetchData<PreviewWithdraw> => {
   const account = useAccount();
   const [assets, setAssets] = useState(0n);
 
@@ -38,13 +38,13 @@ export const useFetchPreviewWithdraw = (
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
-    price: sharePrice,
+    data: sharePrice,
   } = useFetchAssetPrice(strategyConfig.address);
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
-    price: underlyingAssetPrice,
+    data: underlyingAssetPrice,
   } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
   let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
@@ -64,25 +64,27 @@ export const useFetchPreviewWithdraw = (
   return {
     isLoading: isAssetPriceLoading || isShareValueLoading,
     isFetched: isAssetPriceFetched && isShareValueFetched,
-    assetsToReceive: {
-      bigIntValue: assetsToReceive || 0n,
-      decimals: 18,
-      symbol: strategyConfig.underlyingAsset.symbol,
-    },
-    assetsToReceiveInUsd: {
-      bigIntValue: assetsToReceiveInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-    costInUnderlyingAsset: {
-      bigIntValue: costInUnderlyingAsset || 0n,
-      decimals: 18,
-      symbol: strategyConfig.underlyingAsset.symbol,
-    },
-    costInUsd: {
-      bigIntValue: costInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
+    data: {
+      assetsToReceive: {
+        bigIntValue: assetsToReceive || 0n,
+        decimals: 18,
+        symbol: strategyConfig.underlyingAsset.symbol,
+      },
+      assetsToReceiveInUsd: {
+        bigIntValue: assetsToReceiveInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+      costInUnderlyingAsset: {
+        bigIntValue: costInUnderlyingAsset || 0n,
+        decimals: 18,
+        symbol: strategyConfig.underlyingAsset.symbol,
+      },
+      costInUsd: {
+        bigIntValue: costInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
     },
   };
 };
@@ -94,10 +96,12 @@ export const useFetchViewPreviewWithdraw = (
   const {
     isLoading,
     isFetched,
-    assetsToReceive,
-    assetsToReceiveInUsd,
-    costInUnderlyingAsset,
-    costInUsd,
+    data: {
+      assetsToReceive,
+      assetsToReceiveInUsd,
+      costInUnderlyingAsset,
+      costInUsd,
+    },
   } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
 
   return {

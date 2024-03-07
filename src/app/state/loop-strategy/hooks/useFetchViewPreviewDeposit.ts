@@ -7,11 +7,11 @@ import {
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
-import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
-import { useFetchAssetPrice } from "../../asset/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -23,7 +23,7 @@ interface PreviewDeposit {
 export const useFetchPreviewDeposit = (
   strategyConfig: StrategyConfig,
   amount: string
-): Fetch<PreviewDeposit> => {
+): FetchData<PreviewDeposit> => {
   const account = useAccount();
   const [shares, setShares] = useState(0n);
 
@@ -38,13 +38,13 @@ export const useFetchPreviewDeposit = (
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
-    price: sharePrice,
+    data: sharePrice,
   } = useFetchAssetPrice(strategyConfig.address);
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
-    price: assetPrice,
+    data: assetPrice,
   } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
@@ -63,25 +63,27 @@ export const useFetchPreviewDeposit = (
   return {
     isLoading: isShareValueLoading || isAssetPriceLoading,
     isFetched: isShareValueFetched && isAssetPriceFetched,
-    sharesToReceive: {
-      bigIntValue: sharesToReceive || 0n,
-      decimals: 18,
-      symbol: strategyConfig.symbol,
-    },
-    sharesToReceiveInUsd: {
-      bigIntValue: sharesToReceiveInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-    costInUnderlyingAsset: {
-      bigIntValue: costInUnderlyingAsset || 0n,
-      decimals: 18,
-      symbol: strategyConfig.underlyingAsset.symbol,
-    },
-    costInUsd: {
-      bigIntValue: costInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
+    data: {
+      sharesToReceive: {
+        bigIntValue: sharesToReceive || 0n,
+        decimals: 18,
+        symbol: strategyConfig.symbol,
+      },
+      sharesToReceiveInUsd: {
+        bigIntValue: sharesToReceiveInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+      costInUnderlyingAsset: {
+        bigIntValue: costInUnderlyingAsset || 0n,
+        decimals: 18,
+        symbol: strategyConfig.underlyingAsset.symbol,
+      },
+      costInUsd: {
+        bigIntValue: costInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
     },
   };
 };
@@ -93,10 +95,12 @@ export const useFetchViewPreviewDeposit = (
   const {
     isLoading,
     isFetched,
-    sharesToReceive,
-    sharesToReceiveInUsd,
-    costInUnderlyingAsset,
-    costInUsd,
+    data: {
+      sharesToReceive,
+      sharesToReceiveInUsd,
+      costInUnderlyingAsset,
+      costInUsd,
+    },
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
   return {

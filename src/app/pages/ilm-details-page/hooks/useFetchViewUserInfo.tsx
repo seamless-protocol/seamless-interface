@@ -2,7 +2,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { walletBalanceDecimalsOptions } from "@meta";
-import { useFetchDetailAssetBalance } from "../../../state/asset/hooks/useFetchViewDetailAssetBalance";
+import { useFetchDetailAssetBalance } from "../../../state/common/hooks/useFetchViewDetailAssetBalance";
 export interface ViewUserInfo {
   underlyingAssetBalance: {
     tokenAmount: ViewBigInt;
@@ -23,14 +23,15 @@ export const useFetchViewUserInfo = (
   const {
     isLoading: isUnderlyingAssetBalanceLoading,
     isFetched: isUnderlyingAssetBalanceFetched,
-    balance: underlyingAssetBalance,
-    balanceUsd: underlyingAssetBalanceUsd,
+    data: {
+      balance: underlyingAssetBalance,
+      balanceUsd: underlyingAssetBalanceUsd,
+    },
   } = useFetchDetailAssetBalance(strategyConfig.underlyingAsset.address);
   const {
     isLoading: isStrategyBalanceLoading,
     isFetched: isStrategyBalanceFetched,
-    balance: strategyBalance,
-    balanceUsd: strategyBalanceUsd,
+    data: { balance: strategyBalance, balanceUsd: strategyBalanceUsd },
   } = useFetchDetailAssetBalance(strategyConfig.address);
 
   return {

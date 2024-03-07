@@ -1,40 +1,27 @@
 import { Address } from "viem";
-import { useReadContract } from "wagmi";
-import { loopStrategyAbi } from "../../../generated/generated";
 import {
   convertRatioToMultiple,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { ViewTargetMultiple } from "../types/ViewTargetMultiple";
-
-export interface TargetMultiple {
-  targetMultiple: FetchBigInt;
-}
+import { useFetchCollateralRatioTargets } from "../metadataQueries/useFetchViewCollateralRatioTargets";
 
 export const useFetchTargetMultiple = (
   strategy: Address
-): Fetch<TargetMultiple> => {
+): FetchData<FetchBigInt> => {
   const {
-    data: collateralRatioTargets,
     isLoading,
     isFetched,
-  } = useReadContract({
-    address: strategy,
-    abi: loopStrategyAbi,
-    functionName: "getCollateralRatioTargets",
-  });
-
-  let targetMultiple = collateralRatioTargets
-    ? convertRatioToMultiple(collateralRatioTargets.target)
-    : 0n;
+    data: { target },
+  } = useFetchCollateralRatioTargets(strategy);
 
   return {
     isLoading,
     isFetched,
-    targetMultiple: {
-      bigIntValue: targetMultiple,
+    data: {
+      bigIntValue: convertRatioToMultiple(target.bigIntValue),
       decimals: 8,
       symbol: "x",
     },
@@ -44,8 +31,11 @@ export const useFetchTargetMultiple = (
 export const useFetchViewTargetMultiple = (
   strategy: Address
 ): Displayable<ViewTargetMultiple> => {
-  const { isLoading, isFetched, targetMultiple } =
-    useFetchTargetMultiple(strategy);
+  const {
+    isLoading,
+    isFetched,
+    data: targetMultiple,
+  } = useFetchTargetMultiple(strategy);
 
   return {
     isLoading,
