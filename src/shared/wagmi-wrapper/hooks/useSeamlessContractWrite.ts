@@ -118,6 +118,7 @@ export function useSeamlessContractWrite<
       const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
         hash: txHash,
       });
+
       //3. throw if receipt is not valid
       if (txReceipt.status === "reverted")
         throw new Error("Execution reverted."); //todo: better way to handle reverted?
@@ -136,6 +137,7 @@ export function useSeamlessContractWrite<
     } catch (error) {
       //1. log error
       console.error("Operation failed:", error);
+      console.log({ error: (error as any).cause.data.abiItem.name });
 
       const parsedError = getParsedError(error);
       //2. set error message
