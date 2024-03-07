@@ -21,7 +21,7 @@ import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hoo
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useQueryClient } from "@tanstack/react-query";
-import { useFetchAssetPrice } from "../../../../state/common/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 
 export interface WithdrawModalFormData {
   amount: string;

@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
-import { useFetchAssetPrice } from "./useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../queries/useFetchViewAssetPrice";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
@@ -23,14 +23,11 @@ export const useFetchDetailAssetBalance = (
     data: balance,
   } = useFetchAssetBalance(token);
 
-  let {
+  const {
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
     data: price,
   } = useFetchAssetPrice(token);
-
-  balance.bigIntValue = balance.bigIntValue || 0n;
-  price = price || 0n;
 
   const strategy = ilmStrategies.find((strategy) => strategy.address === token);
 

@@ -11,7 +11,7 @@ import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
-import { useFetchAssetPrice } from "../../common/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;

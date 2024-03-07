@@ -12,7 +12,7 @@ import {
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
 import { ViewStrategyApy } from "../types/ViewStrategyApy";
 import { Displayable } from "src/shared/types/Displayable";
-import { useFetchAssetPriceInBlock } from "../../common/hooks/useFetchViewAssetPrice";
+import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
 export function calculateApy(
   endValue: bigint,

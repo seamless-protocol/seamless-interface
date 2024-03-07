@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { readContract } from "wagmi/actions";
 import {
@@ -9,10 +8,11 @@ import {
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "../../../meta";
 import { Config, useBlock, useConfig } from "wagmi";
-import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
+import { useQuery } from "@tanstack/react-query";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -27,7 +27,7 @@ const fetchAssetPriceInBlock = async (
   const index = ilmStrategies.find((strategy) => strategy.address === asset);
 
   let price = 0n;
-  if (!!index) {
+  if (index) {
     const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,
@@ -71,19 +71,22 @@ export const useFetchAssetPriceInBlock = (
   asset: Address,
   blockNumber: bigint,
   underlyingAsset?: Address
-): FetchData<FetchBigInt> => {
+) => {
   const config = useConfig();
-  const [price, setPrice] = useState<bigint | undefined>(undefined);
 
-  useEffect(() => {
-    fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset).then(
-      (price) => setPrice(price)
-    );
-  }, [asset, blockNumber]);
+  const { data: price, ...rest } = useQuery({
+    queryFn: () =>
+      fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
+    queryKey: [
+      "fetchAssetPriceInBlock",
+      asset,
+      blockNumber.toString(),
+      underlyingAsset,
+    ],
+  });
 
   return {
-    isLoading: price === undefined,
-    isFetched: price !== 0n,
+    ...rest,
     data: {
       bigIntValue: price || 0n,
       decimals: 8,
@@ -95,7 +98,7 @@ export const useFetchAssetPriceInBlock = (
 export const useFetchAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
-): FetchData<FetchBigInt> => {
+) => {
   const { data: block } = useBlock();
   return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
 };
