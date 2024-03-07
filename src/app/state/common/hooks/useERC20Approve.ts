@@ -1,13 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
-import {
-  useAccount,
-  useConfig,
-  useReadContract,
-  useWriteContract,
-} from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
-import { waitForTransaction } from "../../../../shared/utils/transactionWrapper";
+import { useSeamlessContractWrite } from "../../../../shared";
 
 const ALWAYS_APPROVE_MAX = false;
 
@@ -40,12 +35,15 @@ export const useERC20Approve = (
   amount: bigint = BigInt(0)
 ) => {
   const queryClient = useQueryClient();
-  const config = useConfig();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
 
-  const { writeContractAsync: approveTokenAsync } = useWriteContract();
+  const { seamlessWriteAsync: approveTokenAsync } = useSeamlessContractWrite({
+    address: tokenAddress,
+    abi: erc20Abi,
+    functionName: "approve",
+  });
 
   const { data: allowance, queryKey } = useReadContract({
     address: tokenAddress,
@@ -69,24 +67,17 @@ export const useERC20Approve = (
   const approveAsync = async () => {
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
 
-    try {
-      setIsApproving(true);
+    setIsApproving(true);
 
-      await waitForTransaction(config, async () => {
-        return approveTokenAsync({
-          address: tokenAddress,
-          abi: erc20Abi,
-          functionName: "approve",
-          args: [spenderAddress, amountToApprove],
-        });
-      });
-
-      setIsApproving(false);
-      queryClient.invalidateQueries({ queryKey });
-    } catch (e) {
-      console.log("Failed to approve token!");
-      console.error({ e });
-    }
+    await approveTokenAsync(
+      {
+        args: [spenderAddress, amountToApprove],
+      },
+      {
+        onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+        onSettled: () => setIsApproving(false),
+      }
+    );
   };
 
   return {
