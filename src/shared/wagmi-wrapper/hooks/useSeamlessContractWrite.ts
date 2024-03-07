@@ -4,7 +4,7 @@ import { CreateUseWriteContractParameters } from "wagmi/dist/types/hooks/codegen
 import { useConfig } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useEffect, useState } from "react";
-import { getParsedError } from "../../utils/errorPersers";
+import { getParsedError } from "../../utils/errorParser";
 import { useInvalidateQueries } from "./useInvalidateQueries";
 import { QueryKey } from "@tanstack/query-core";
 import { useNotificationContext } from "../../contexts/notification/useNotificationContext";

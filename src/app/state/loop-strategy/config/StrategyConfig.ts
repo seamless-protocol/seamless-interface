@@ -5,7 +5,6 @@ import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
 import { WSTETH_ADDRESS, WETH_ADDRESS } from "@meta";
-const RPC_URL: string = import.meta.env.VITE_BASE_RPC_FREE_1;
 
 interface AssetConfig {
   name: string;
@@ -29,9 +28,8 @@ export const ilmStrategies: StrategyConfig[] = [
   {
     name: "wstETH Booster",
     symbol: "ilmwstETH",
-    address: RPC_URL.startsWith("https://rpc.tenderly.co")
-      ? "0x2962673cC60eE877768A38fa6d7FEe7468b3F09b" //use tenderly address
-      : "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e", //use basenet address
+    //0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
+    address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
     defaultApy: 7.74,

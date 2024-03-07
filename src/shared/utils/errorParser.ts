@@ -5,10 +5,7 @@ interface CustomError {
     data?: {
       errorName?: string;
     };
-    name?:
-      | "ContractFunctionZeroDataError"
-      | "ContractFunctionRevertedError"
-      | string;
+    name?: string;
   };
 }
 
@@ -33,7 +30,7 @@ export const getParsedError = (e: any | CustomError): string => {
       message = error.shortMessage;
     } else {
       message =
-        "Unknown error, feel free to report this to our discord channel.";
+        "An unknown error occurred, use the Support channel in Discord for assistance.";
     }
   }
 
