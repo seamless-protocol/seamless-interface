@@ -13,6 +13,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
 import { useQuery } from "@tanstack/react-query";
+import { metadataQueryConfig } from "../../settings/config";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -83,6 +84,7 @@ export const useFetchAssetPriceInBlock = (
       blockNumber.toString(),
       underlyingAsset,
     ],
+    ...metadataQueryConfig,
   });
 
   return {
