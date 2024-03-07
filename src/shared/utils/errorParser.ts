@@ -1,13 +1,4 @@
-import { BaseError } from "viem";
-
-interface CustomError extends BaseError {
-  cause?: {
-    data?: {
-      errorName?: string;
-    };
-    name?: string;
-  };
-}
+import { BaseError, ContractFunctionRevertedError } from "viem";
 
 /**
  * @dev utility function to parse error
@@ -15,16 +6,18 @@ interface CustomError extends BaseError {
  * @returns {string} parsed error string
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getParsedError = (e: any | CustomError): string => {
-  let message = e.shortMessage ?? "An unknown error occurred";
+export const getParsedError = (error: any | BaseError): string => {
+  let message = error.shortMessage ?? "An unknown error occurred.";
 
-  const error = e as CustomError;
-  if (error) {
-    if (e.cause?.data?.errorName && errorMapping[e.cause?.data?.errorName]) {
-      message = errorMapping[e.cause?.data?.errorName];
-    } else if (e.cause?.name && errorMapping[e.cause?.name]) {
-      message = errorMapping[e.cause?.name];
-    } else if (error.details) {
+  if (error as BaseError) {
+    const revertError = error?.walk(
+      (err: unknown) => err instanceof ContractFunctionRevertedError
+    );
+    if (revertError instanceof ContractFunctionRevertedError) {
+      const errorName = revertError.data?.errorName ?? "";
+      if (errorMapping[errorName]) return errorMapping[errorName];
+    }
+    if (error.details) {
       message = error.details;
     } else if (error.shortMessage) {
       message = error.shortMessage;
