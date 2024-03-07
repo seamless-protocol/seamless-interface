@@ -137,7 +137,6 @@ export function useSeamlessContractWrite<
     } catch (error) {
       //1. log error
       console.error("Operation failed:", error);
-      console.log({ error: (error as any).cause.data.abiItem.name });
 
       const parsedError = getParsedError(error);
       //2. set error message
