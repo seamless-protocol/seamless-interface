@@ -1,6 +1,6 @@
-interface CustomError {
-  details?: string;
-  shortMessage?: string;
+import { BaseError } from "viem";
+
+interface CustomError extends BaseError {
   cause?: {
     data?: {
       errorName?: string;
