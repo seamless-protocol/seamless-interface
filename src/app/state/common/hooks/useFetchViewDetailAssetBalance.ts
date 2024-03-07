@@ -38,7 +38,7 @@ export const useFetchDetailAssetBalance = (
       balance: {
         bigIntValue: balance.bigIntValue,
         symbol: strategy ? strategy.symbol : balance.symbol,
-        decimals: 18,
+        decimals: balance.decimals,
       },
       balanceUsd: {
         bigIntValue:

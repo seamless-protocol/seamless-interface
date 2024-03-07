@@ -1,6 +1,9 @@
 import { Address, erc20Abi } from "viem";
 import { Displayable, useSeamlessContractRead } from "../../../../shared";
-import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
+import {
+  DecimalsOptions,
+  formatFetchBigIntToViewBigInt,
+} from "../../../../shared/utils/helpers";
 import { useToken } from "../metadataQueries/useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
@@ -39,7 +42,8 @@ export const useFetchAssetBalance = (asset: Address) => {
 };
 
 export const useFetchViewAssetBalance = (
-  asset: Address
+  asset: Address,
+  decimalsOptions?: Partial<DecimalsOptions>
 ): Displayable<ViewAssetBalance> => {
   const { isLoading, isFetched, data: balance } = useFetchAssetBalance(asset);
 
@@ -47,7 +51,7 @@ export const useFetchViewAssetBalance = (
     isLoading,
     isFetched,
     data: {
-      balance: formatFetchBigIntToViewBigInt(balance),
+      balance: formatFetchBigIntToViewBigInt(balance, decimalsOptions),
     },
   };
 };
