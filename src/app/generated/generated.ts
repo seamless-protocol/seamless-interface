@@ -3165,6 +3165,261 @@ export const loopStrategyAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ProtocolDataProvider
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const protocolDataProviderAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      {
+        name: 'addressesProvider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ADDRESSES_PROVIDER',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getATokenTotalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAllATokens',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct IPoolDataProvider.TokenData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'symbol', internalType: 'string', type: 'string' },
+          { name: 'tokenAddress', internalType: 'address', type: 'address' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAllReservesTokens',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct IPoolDataProvider.TokenData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'symbol', internalType: 'string', type: 'string' },
+          { name: 'tokenAddress', internalType: 'address', type: 'address' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getDebtCeiling',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getDebtCeilingDecimals',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getFlashLoanEnabled',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getInterestRateStrategyAddress',
+    outputs: [
+      { name: 'irStrategyAddress', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getLiquidationProtocolFee',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getPaused',
+    outputs: [{ name: 'isPaused', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveCaps',
+    outputs: [
+      { name: 'borrowCap', internalType: 'uint256', type: 'uint256' },
+      { name: 'supplyCap', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveConfigurationData',
+    outputs: [
+      { name: 'decimals', internalType: 'uint256', type: 'uint256' },
+      { name: 'ltv', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'liquidationThreshold',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'liquidationBonus', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveFactor', internalType: 'uint256', type: 'uint256' },
+      { name: 'usageAsCollateralEnabled', internalType: 'bool', type: 'bool' },
+      { name: 'borrowingEnabled', internalType: 'bool', type: 'bool' },
+      { name: 'stableBorrowRateEnabled', internalType: 'bool', type: 'bool' },
+      { name: 'isActive', internalType: 'bool', type: 'bool' },
+      { name: 'isFrozen', internalType: 'bool', type: 'bool' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveData',
+    outputs: [
+      { name: 'unbacked', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'accruedToTreasuryScaled',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'totalAToken', internalType: 'uint256', type: 'uint256' },
+      { name: 'totalStableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'totalVariableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'liquidityRate', internalType: 'uint256', type: 'uint256' },
+      { name: 'variableBorrowRate', internalType: 'uint256', type: 'uint256' },
+      { name: 'stableBorrowRate', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'averageStableBorrowRate',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'liquidityIndex', internalType: 'uint256', type: 'uint256' },
+      { name: 'variableBorrowIndex', internalType: 'uint256', type: 'uint256' },
+      { name: 'lastUpdateTimestamp', internalType: 'uint40', type: 'uint40' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveEModeCategory',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getReserveTokensAddresses',
+    outputs: [
+      { name: 'aTokenAddress', internalType: 'address', type: 'address' },
+      {
+        name: 'stableDebtTokenAddress',
+        internalType: 'address',
+        type: 'address',
+      },
+      {
+        name: 'variableDebtTokenAddress',
+        internalType: 'address',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getSiloedBorrowing',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getTotalDebt',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getUnbackedMintCap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserReserveData',
+    outputs: [
+      {
+        name: 'currentATokenBalance',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'currentStableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'currentVariableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'principalStableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'scaledVariableDebt', internalType: 'uint256', type: 'uint256' },
+      { name: 'stableBorrowRate', internalType: 'uint256', type: 'uint256' },
+      { name: 'liquidityRate', internalType: 'uint256', type: 'uint256' },
+      { name: 'stableRateLastUpdated', internalType: 'uint40', type: 'uint40' },
+      { name: 'usageAsCollateralEnabled', internalType: 'bool', type: 'bool' },
+    ],
+    stateMutability: 'view',
+  },
+] as const
+
+export const protocolDataProviderAddress =
+  '0x2A0979257105834789bC6b9E1B00446DFbA8dFBa' as const
+
+export const protocolDataProviderConfig = {
+  address: protocolDataProviderAddress,
+  abi: protocolDataProviderAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -5018,4 +5273,202 @@ export const useWatchLoopStrategyWithdrawEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Withdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__
+ */
+export const useReadProtocolDataProvider = /*#__PURE__*/ createUseReadContract({
+  abi: protocolDataProviderAbi,
+  address: protocolDataProviderAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
+ */
+export const useReadProtocolDataProviderAddressesProvider =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'ADDRESSES_PROVIDER',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getATokenTotalSupply"`
+ */
+export const useReadProtocolDataProviderGetATokenTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getATokenTotalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getAllATokens"`
+ */
+export const useReadProtocolDataProviderGetAllATokens =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getAllATokens',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getAllReservesTokens"`
+ */
+export const useReadProtocolDataProviderGetAllReservesTokens =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getAllReservesTokens',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getDebtCeiling"`
+ */
+export const useReadProtocolDataProviderGetDebtCeiling =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getDebtCeiling',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getDebtCeilingDecimals"`
+ */
+export const useReadProtocolDataProviderGetDebtCeilingDecimals =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getDebtCeilingDecimals',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getFlashLoanEnabled"`
+ */
+export const useReadProtocolDataProviderGetFlashLoanEnabled =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getFlashLoanEnabled',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getInterestRateStrategyAddress"`
+ */
+export const useReadProtocolDataProviderGetInterestRateStrategyAddress =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getInterestRateStrategyAddress',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getLiquidationProtocolFee"`
+ */
+export const useReadProtocolDataProviderGetLiquidationProtocolFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getLiquidationProtocolFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getPaused"`
+ */
+export const useReadProtocolDataProviderGetPaused =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getPaused',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveCaps"`
+ */
+export const useReadProtocolDataProviderGetReserveCaps =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getReserveCaps',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveConfigurationData"`
+ */
+export const useReadProtocolDataProviderGetReserveConfigurationData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getReserveConfigurationData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveData"`
+ */
+export const useReadProtocolDataProviderGetReserveData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getReserveData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveEModeCategory"`
+ */
+export const useReadProtocolDataProviderGetReserveEModeCategory =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getReserveEModeCategory',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveTokensAddresses"`
+ */
+export const useReadProtocolDataProviderGetReserveTokensAddresses =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getReserveTokensAddresses',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getSiloedBorrowing"`
+ */
+export const useReadProtocolDataProviderGetSiloedBorrowing =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getSiloedBorrowing',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getTotalDebt"`
+ */
+export const useReadProtocolDataProviderGetTotalDebt =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getTotalDebt',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getUnbackedMintCap"`
+ */
+export const useReadProtocolDataProviderGetUnbackedMintCap =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getUnbackedMintCap',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getUserReserveData"`
+ */
+export const useReadProtocolDataProviderGetUserReserveData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: protocolDataProviderAbi,
+    address: protocolDataProviderAddress,
+    functionName: 'getUserReserveData',
   })

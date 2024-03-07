@@ -1,39 +1,26 @@
-import { useReadContract } from "wagmi";
-import {
-  lendingPoolAbi,
-  lendingPoolAddress,
-} from "../../../generated/generated";
 import {
   convertAprToApy,
   formatFetchNumberToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
-import { Fetch, FetchNumber } from "../../../../shared/types/Fetch";
+import { FetchData, FetchNumber } from "../../../../shared/types/Fetch";
 import { Address } from "viem";
 import { Displayable } from "../../../../shared";
 import { ViewApy } from "../types/ViewApy";
+import { useFetchReserveData } from "../queries/useFetchReserveData";
 
-export interface SupplyApy {
-  apy: FetchNumber;
-}
-
-export const useFetchBorrowApy = (asset: Address): Fetch<SupplyApy> => {
+export const useFetchBorrowApy = (asset: Address): FetchData<FetchNumber> => {
   const {
     isLoading,
     isFetched,
-    data: reserveData,
-  } = useReadContract({
-    address: lendingPoolAddress,
-    abi: lendingPoolAbi,
-    functionName: "getReserveData",
-    args: [asset],
-  });
+    data: { variableBorrowRate },
+  } = useFetchReserveData(asset);
 
   let borrowApy = 0;
-  if (reserveData) {
+  if (variableBorrowRate) {
     const borrowApr = formatUnitsToNumber(
-      reserveData.currentVariableBorrowRate,
-      27
+      variableBorrowRate.bigIntValue,
+      variableBorrowRate.decimals
     );
     borrowApy = convertAprToApy(borrowApr);
   }
@@ -41,7 +28,7 @@ export const useFetchBorrowApy = (asset: Address): Fetch<SupplyApy> => {
   return {
     isLoading,
     isFetched,
-    apy: {
+    data: {
       value: borrowApy,
       symbol: borrowApy ? "%" : "",
     },
@@ -49,7 +36,7 @@ export const useFetchBorrowApy = (asset: Address): Fetch<SupplyApy> => {
 };
 
 export const useFetchViewBorrowApy = (asset: Address): Displayable<ViewApy> => {
-  const { isLoading, isFetched, apy } = useFetchBorrowApy(asset);
+  const { isLoading, isFetched, data: apy } = useFetchBorrowApy(asset);
 
   return {
     isLoading,

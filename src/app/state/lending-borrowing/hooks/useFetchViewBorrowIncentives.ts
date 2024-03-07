@@ -1,12 +1,5 @@
 import { Address } from "viem";
-import { baseAssets } from "../config/BaseAssetsConfig";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
-import {
-  incentiveDataProviderAbi,
-  incentiveDataProviderAddress,
-} from "../../../generated";
-import { AAVE_ADDRESS_PROVIDER } from "../../../meta";
-import { useFetchDetailAssetTotalSupply } from "../../asset/hooks/useFetchViewDetailAssetTotalSupply";
+import { Displayable } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
 import {
   IncentiveApy,
@@ -16,6 +9,8 @@ import {
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveApyToViewNumber } from "../../../../shared/utils/helpers";
 import { Fetch } from "../../../../shared/types/Fetch";
+import { useFetchDetailTotalBorrowed } from "./useFetchViewDetailTotalBorrowed";
+import { useFetchReservesIncentivesData } from "../metadataQueries/useFetchReservesIncentivesData";
 
 interface BorrowIncentives {
   borrowIncentives: IncentiveApy;
@@ -24,24 +19,17 @@ interface BorrowIncentives {
 export const useFetchBorrowIncentives = (
   asset: Address
 ): Fetch<BorrowIncentives> => {
-  const baseAsset = baseAssets.find((e) => e.address === asset)!;
-
   const {
     isLoading: isIncentivesLoading,
     isFetched: isIncentivesFetched,
     data,
-  } = useSeamlessContractRead({
-    address: incentiveDataProviderAddress,
-    abi: incentiveDataProviderAbi,
-    functionName: "getReservesIncentivesData",
-    args: [AAVE_ADDRESS_PROVIDER],
-  });
+  } = useFetchReservesIncentivesData();
 
   const {
     isLoading: isTotalBorrowedLoading,
     isFetched: isTotalBorrowedFetched,
-    totalSupplyUsd: totalBorrowedUsd,
-  } = useFetchDetailAssetTotalSupply(baseAsset.debtTokenAddress);
+    data: { totalBorrowedUsd },
+  } = useFetchDetailTotalBorrowed(asset);
 
   const seamPrice = useFetchCoinGeckoSeamPrice();
 

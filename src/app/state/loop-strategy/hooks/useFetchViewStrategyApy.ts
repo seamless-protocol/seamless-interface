@@ -102,18 +102,10 @@ export const useFetchStrategyApy = (
 export const useFetchViewStrategyApy = (
   index: number
 ): Displayable<ViewStrategyApy> => {
-<<<<<<< HEAD:src/app/state/loop-strategy/hooks/useFetchViewStrategyApy.tsx
-  //TODO: remove this hook or remove defaultApy
+  //TODO: uncomment when enough time passes to present real data
   // const { apy, isLoading, isFetched } = useFetchStrategyApy(
   //   ilmStrategies[index]
   // );
-=======
-  const {
-    data: apy,
-    isLoading,
-    isFetched,
-  } = useFetchStrategyApy(ilmStrategies[index]);
->>>>>>> feat/refactor-fetch-strategy-hook:src/app/state/loop-strategy/hooks/useFetchViewStrategyApy.ts
 
   return {
     isLoading: false,
