@@ -7,7 +7,7 @@ import {
 } from "../../../generated";
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "../../../meta";
-import { Config, useBlock, useConfig } from "wagmi";
+import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
@@ -70,7 +70,7 @@ const fetchAssetPriceInBlock = async (
 
 export const useFetchAssetPriceInBlock = (
   asset: Address,
-  blockNumber: bigint,
+  blockNumber?: bigint,
   underlyingAsset?: Address
 ) => {
   const config = useConfig();
@@ -81,7 +81,7 @@ export const useFetchAssetPriceInBlock = (
     queryKey: [
       "fetchAssetPriceInBlock",
       asset,
-      blockNumber.toString(),
+      blockNumber?.toString(),
       underlyingAsset,
     ],
     ...metadataQueryConfig,
@@ -101,8 +101,7 @@ export const useFetchAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
 ) => {
-  const { data: block } = useBlock();
-  return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
+  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
 export const useFetchViewAssetPrice = (
