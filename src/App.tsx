@@ -13,7 +13,7 @@ import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
 import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
-import { rainbowConfig } from "./app/config/rainbow-config.ts";
+import { rainbowConfig } from "./app/config/rainbow.config.ts";
 import { Footer } from "./app/components/footer/Footer.tsx";
 
 const queryClient = new QueryClient();
