@@ -12,7 +12,6 @@ import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewAssetPrice } from "../types/ViewAssetPrice";
-import { baseAssets } from "../../lending-borrowing/config/BaseAssetsConfig";
 import { useQuery } from "@tanstack/react-query";
 import { metadataQueryConfig } from "../../settings/config";
 
@@ -48,13 +47,6 @@ const fetchAssetPriceInBlock = async (
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
-    const baseAsset = baseAssets.find(
-      (baseAsset) =>
-        baseAsset.sTokenAddress === asset ||
-        baseAsset.debtTokenAddress === asset
-    );
-    asset = baseAsset ? baseAsset.address : asset;
-
     price = await readContract(config, {
       address: aaveOracleAddress,
       abi: aaveOracleAbi,

@@ -10,7 +10,7 @@ import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveApyToViewNumber } from "../../../../shared/utils/helpers";
 import { Fetch } from "../../../../shared/types/Fetch";
 import { useFetchDetailTotalBorrowed } from "./useFetchViewDetailTotalBorrowed";
-import { useFetchReservesIncentivesData } from "../metadataQueries/useFetchReservesIncentivesData";
+import { useFetchReservesIncentivesData } from "../queries/useFetchReservesIncentivesData";
 
 interface BorrowIncentives {
   borrowIncentives: IncentiveApy;

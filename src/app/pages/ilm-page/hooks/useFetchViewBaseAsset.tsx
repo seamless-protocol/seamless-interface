@@ -7,7 +7,6 @@ import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/h
 import { useFetchViewBorrowIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewBorrowIncentives";
 import { useFetchViewDetailTotalSupplied } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewDetailTotalBorrowed } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalBorrowed";
-import { useFetchReserveData } from "../../../state/lending-borrowing/queries/useFetchReserveData";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -46,8 +45,6 @@ export const useFetchViewBaseAsset = (
   index: number
 ): Displayable<ViewBaseAsset> => {
   const baseAsset = baseAssets[index];
-
-  useFetchReserveData(baseAsset.address as Address);
 
   const {
     isLoading: isTotalSuppliedLoading,
