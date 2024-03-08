@@ -3,14 +3,13 @@ import { Displayable } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
 import {
   IncentiveApy,
-  Incentives,
   parseIncentives,
 } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { Fetch } from "../../../../shared/types/Fetch";
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveApyToViewNumber } from "../../../../shared/utils/helpers";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { useFetchReservesIncentivesData } from "../queries/useFetchReservesIncentivesData";
+import { useFetchRawReservesIncentivesDataByAsset } from "../queries/useFetchRawReservesIncentivesDataByAsset";
 
 interface SupplyIncentives {
   supplyIncentives: IncentiveApy;
@@ -22,8 +21,8 @@ export const useFetchSupplyIncentives = (
   const {
     isLoading: isIncentivesLoading,
     isFetched: isIncentivesFetched,
-    data,
-  } = useFetchReservesIncentivesData();
+    data: incentives,
+  } = useFetchRawReservesIncentivesDataByAsset(asset);
 
   const {
     isLoading: isTotalSuppliedLoading,
@@ -34,11 +33,7 @@ export const useFetchSupplyIncentives = (
   const seamPrice = useFetchCoinGeckoSeamPrice();
 
   let supplyIncentives = { totalApy: 0, rewardTokens: [] } as IncentiveApy;
-  if (data && totalSuppliedUsd && seamPrice) {
-    const incentives = data?.find((e: any) => e.underlyingAsset === asset) as
-      | Incentives
-      | undefined;
-
+  if (incentives && totalSuppliedUsd && seamPrice) {
     if (incentives && incentives.aIncentiveData) {
       supplyIncentives = parseIncentives(
         incentives?.aIncentiveData,
