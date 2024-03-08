@@ -17,8 +17,7 @@ export const getParsedError = (error: any | BaseError): string => {
   if (revertedError instanceof ContractFunctionRevertedError) {
     const errorKey =
       revertedError.data?.errorName ?? revertedError.signature ?? "";
-    console.log({ revertedError });
-    message = errorMapping[errorKey] ?? message;
+    if (errorMapping[errorKey]) return errorMapping[errorKey];
   } else if (error.shortMessage) {
     message = error.shortMessage;
   } else if (error.details) {
