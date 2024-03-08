@@ -9,9 +9,9 @@ import {
   FlexRow,
   Icon,
 } from "../../../../../shared";
-import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
+import { ViewStrategy } from "../../hooks/useFetchViewStrategy";
 
 export const StrategiesMobileTableRow: React.FC<{
   index: number;

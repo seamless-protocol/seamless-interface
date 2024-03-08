@@ -10,8 +10,8 @@ import {
 } from "../../../../../shared";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
-import { ViewBaseAsset } from "../../../../state/lending-borrowing/types/ViewBaseAsset";
 import { IncentivesButton } from "../desktop/IncentivesButton";
+import { ViewBaseAsset } from "../../hooks/useFetchViewBaseAsset";
 
 export const BaseAssetsMobileTableRow: React.FC<{
   index: number;

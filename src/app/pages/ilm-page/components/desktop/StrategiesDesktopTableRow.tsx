@@ -7,12 +7,12 @@ import {
   TableCell,
   TableRow,
 } from "../../../../../shared";
-import { ViewStrategy } from "../../../../state/ILM/types/ViewStrategy";
 import { TemporaryButton } from "../../../../components/temporary-components/TemporaryButton";
 import { DisplayDepositAsset } from "../DisplayDepositAsset";
 import { useNavigate } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { ViewStrategy } from "../../hooks/useFetchViewStrategy";
 
 export const StrategiesDesktopTableRow: React.FC<{
   index: number;

@@ -1,6 +1,14 @@
 import { useAccount, useReadContracts } from "wagmi";
-import { Displayable } from "../../../../shared";
-import { BaseAssetConfig, baseAssets } from "../config/BaseAssetsConfig";
+import {
+  Displayable,
+  ValueSymbolPair,
+  ViewBigInt,
+  ViewNumber,
+} from "../../../../shared";
+import {
+  BaseAssetConfig,
+  baseAssets,
+} from "../../../state/lending-borrowing/config/BaseAssetsConfig";
 import {
   aaveOracleAbi,
   aaveOracleAddress,
@@ -18,15 +26,14 @@ import {
   formatUnitsToNumber,
   normalizeDecimals,
 } from "../../../../shared/utils/helpers";
-import { ViewBaseAsset } from "../types/ViewBaseAsset";
-import { useFetchAssetDecimals } from "../../common/hooks/useFetchAssetDecimals";
 import {
   AAVE_ADDRESS_PROVIDER,
   SECONDS_PER_YEAR,
   assetLogos,
 } from "../../../meta/constants";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
 import { Fetch, FetchBigInt, FetchNumber } from "src/shared/types/Fetch";
+import { useToken } from "../../../state/common/metadataQueries/useToken";
+import { useFetchCoinGeckoSeamPrice } from "../../../state/common/hooks/useFetchCoinGeckoSeamPrice";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -163,11 +170,15 @@ function useFetchBaseAsset(
 ): Fetch<BaseAsset> {
   const account = useAccount();
 
-  const { decimals } = useFetchAssetDecimals(baseAsset?.address as Address);
+  const {
+    isLoading: isAssetDataLoading,
+    isFetched: isAssetDataFetched,
+    data: { decimals },
+  } = useToken(baseAsset?.address as Address);
   const {
     data: results,
-    isLoading,
-    isFetched,
+    isLoading: isLendingPoolDataLoading,
+    isFetched: isLendingPoolDataFetched,
   } = useReadContracts({
     contracts: [
       {
@@ -252,8 +263,8 @@ function useFetchBaseAsset(
   }
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: isLendingPoolDataLoading || isAssetDataLoading,
+    isFetched: isLendingPoolDataFetched && isAssetDataFetched,
     totalSupplied: {
       bigIntValue: totalSupplied || 0n,
       decimals: decimals || 18,
@@ -284,6 +295,39 @@ function useFetchBaseAsset(
     },
     supplyIncentives,
     borrowIncentives,
+  };
+}
+
+export interface ViewRewardToken {
+  symbol: string;
+  logo: string;
+  apy: number;
+}
+export interface ViewBaseAsset {
+  depositAsset: {
+    name?: string;
+    symbol?: string;
+    logo?: string;
+  };
+  totalSupplied: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  totalBorrowed: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  supplyApy: ViewNumber;
+  borrowApyVariable: ViewNumber;
+  borrowApyStable: ViewNumber;
+
+  supplyIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
+  };
+  borrowVariableIncentives: {
+    totalApy: ValueSymbolPair;
+    rewardTokens: ViewRewardToken[];
   };
 }
 

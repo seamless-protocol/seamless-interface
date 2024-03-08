@@ -9,10 +9,10 @@ import {
   formatFetchNumberToViewNumber,
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
-import { useFetchShareValueInBlock } from "../../common/hooks/useFetchShareValue";
-import { Fetch, FetchNumber } from "src/shared/types/Fetch";
+import { FetchData, FetchNumber } from "src/shared/types/Fetch";
 import { ViewStrategyApy } from "../types/ViewStrategyApy";
 import { Displayable } from "src/shared/types/Displayable";
+import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
 export function calculateApy(
   endValue: bigint,
@@ -37,13 +37,9 @@ export function calculateApy(
   );
 }
 
-interface StrategyApy {
-  apy: FetchNumber;
-}
-
 export const useFetchStrategyApy = (
   strategyConfig: StrategyConfig
-): Fetch<StrategyApy> => {
+): FetchData<FetchNumber> => {
   const {
     data: latestBlockData,
     isLoading: isLatestBlockLoading,
@@ -60,19 +56,28 @@ export const useFetchStrategyApy = (
   });
 
   const {
-    shareValueInEth: shareValueInEthLatestBlock,
+    data: shareValueInLatestBlock,
     isLoading: isLatestBlockShareValueLoading,
     isFetched: isLatestBlockShareValueFetched,
-  } = useFetchShareValueInBlock(latestBlockData?.number || 0n, strategyConfig);
+  } = useFetchAssetPriceInBlock(
+    strategyConfig.address,
+    latestBlockData?.number || 0n,
+    strategyConfig.underlyingAsset.address
+  );
+
   const {
-    shareValueInEth: shareValueInEthPrevBlock,
+    data: shareValueInPrevBlock,
     isLoading: isPrevBlockShareValueLoading,
     isFetched: isPrevBlockShareValueFetched,
-  } = useFetchShareValueInBlock(prevBlockData?.number || 0n, strategyConfig);
+  } = useFetchAssetPriceInBlock(
+    strategyConfig.address,
+    prevBlockData?.number || 0n,
+    strategyConfig.underlyingAsset.address
+  );
 
   const apy = calculateApy(
-    shareValueInEthLatestBlock || 0n,
-    shareValueInEthPrevBlock || 0n,
+    shareValueInLatestBlock.bigIntValue || 0n,
+    shareValueInPrevBlock.bigIntValue || 0n,
     (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
   );
 
@@ -87,7 +92,7 @@ export const useFetchStrategyApy = (
       isPrevBlockShareValueFetched &&
       isLatestBlockFetched &&
       isPrevBlockFetched,
-    apy: {
+    data: {
       value: apy ? apy : strategyConfig.defaultApy,
       symbol: "%",
     },
@@ -97,9 +102,11 @@ export const useFetchStrategyApy = (
 export const useFetchViewStrategyApy = (
   index: number
 ): Displayable<ViewStrategyApy> => {
-  const { apy, isLoading, isFetched } = useFetchStrategyApy(
-    ilmStrategies[index]
-  );
+  const {
+    data: apy,
+    isLoading,
+    isFetched,
+  } = useFetchStrategyApy(ilmStrategies[index]);
 
   return {
     isLoading,

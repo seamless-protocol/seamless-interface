@@ -1,7 +1,8 @@
 import React from "react";
 import { AmountInput } from "./AmountInput";
-import { useFetchAccountAssetBalance } from "../../../../../state/common/hooks/useFetchAccountAssetBalance";
 import { Address } from "viem";
+import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
+import { walletBalanceDecimalsOptions } from "../../../../../meta";
 
 interface AmountInputBoxWrapperProps {
   assetAddress: Address;
@@ -17,11 +18,13 @@ export const AmountInputWrapper: React.FC<AmountInputBoxWrapperProps> = ({
   assetLogo,
 }) => {
   // TODO: properly invallidate query!!!
-  const { balance: walletBalance } = useFetchAccountAssetBalance(assetAddress);
+  const {
+    data: { balance },
+  } = useFetchViewAssetBalance(assetAddress, walletBalanceDecimalsOptions);
 
   return (
     <AmountInput
-      walletBalance={walletBalance}
+      walletBalance={balance}
       debouncedAmountInUsd={debouncedAmountInUsd}
       assetSymbol={assetSymbol}
       assetLogo={assetLogo}

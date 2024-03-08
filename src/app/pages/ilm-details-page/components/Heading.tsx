@@ -9,7 +9,7 @@ import {
   DisplayText,
   Icon,
 } from "../../../../shared";
-import { useFetchViewStrategyPageHeader } from "../../../state/loop-strategy/hooks/useFetchViewStrategyPageHeader";
+import { useFetchViewStrategyPageHeader } from "../hooks/useFetchViewStrategyPageHeader";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
 export const Heading: React.FC<{

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Address } from "viem";
-import { PublicAssetLogosConfig } from "../../../config/public-asset-logos-config";
+import { PublicAssetLogosConfig } from "../../app/config/public-asset-logos-config";
 
 //todo: remove duplicate interface after folder structure hooks refactor
 interface Coin {

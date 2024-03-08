@@ -8,7 +8,7 @@ import {
   Icon,
   Typography,
 } from "../../../../../shared";
-import { useFetchViewUserInfo } from "../../../../state/loop-strategy/hooks/useFetchViewUserInfo";
+import { useFetchViewUserInfo } from "../../hooks/useFetchViewUserInfo";
 import { DepositModal } from "./DepositModal";
 import { WithdrawModal } from "./WithdrawModal";
 

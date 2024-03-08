@@ -15,13 +15,13 @@ import {
   Typography,
   useNotificationContext,
 } from "../../../../../shared";
-import { useFetchShareValue } from "../../../../state/common/hooks/useFetchShareValue";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
-import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/hooks/useWriteStrategyWithdraw";
+import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useQueryClient } from "@tanstack/react-query";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -38,7 +38,8 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { shareValueInUsd } = useFetchShareValue(strategyConfig);
+  const { data: price } = useFetchAssetPrice(strategyConfig.address);
+
   const { isPending: isWithdrawPending, withdrawAsync } =
     useWriteStrategyWithdraw(id);
 
@@ -52,7 +53,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const amount = watch("amount");
   const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
     amount,
-    shareValueInUsd,
+    price.bigIntValue,
     500
   );
 

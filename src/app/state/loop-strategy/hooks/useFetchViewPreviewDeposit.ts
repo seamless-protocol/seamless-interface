@@ -1,7 +1,5 @@
 import { parseEther } from "viem";
-import { useReadAaveOracleGetAssetPrice } from "../../../generated/generated";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { useFetchShareValue } from "../../common/hooks/useFetchShareValue";
 import {
   ONE_ETHER,
   walletBalanceDecimalsOptions,
@@ -9,10 +7,11 @@ import {
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
-import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
+import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -24,7 +23,7 @@ interface PreviewDeposit {
 export const useFetchPreviewDeposit = (
   strategyConfig: StrategyConfig,
   amount: string
-): Fetch<PreviewDeposit> => {
+): FetchData<PreviewDeposit> => {
   const account = useAccount();
   const [shares, setShares] = useState(0n);
 
@@ -39,51 +38,52 @@ export const useFetchPreviewDeposit = (
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
-    shareValueInUsd,
-    shareValueInUnderlyingAsset,
-  } = useFetchShareValue(strategyConfig);
+    data: sharePrice,
+  } = useFetchAssetPrice(strategyConfig.address);
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: assetPrice,
-  } = useReadAaveOracleGetAssetPrice({
-    args: [strategyConfig.underlyingAsset.address],
-  });
+  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
-  if (shares && shareValueInUsd) {
+  if (shares && sharePrice && assetPrice) {
     sharesToReceive = (shares * 99n) / 100n;
-    sharesToReceiveInUsd = (sharesToReceive * shareValueInUsd) / ONE_ETHER;
+    sharesToReceiveInUsd =
+      (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
-    costInUnderlyingAsset =
-      parseEther(amount) -
-      (sharesToReceive * (shareValueInUnderlyingAsset || 0n)) / ONE_ETHER;
-    costInUsd = (costInUnderlyingAsset * (assetPrice || 0n)) / ONE_ETHER;
+    const depositValueInUsd =
+      (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
+
+    costInUsd = depositValueInUsd - sharesToReceiveInUsd;
+    costInUnderlyingAsset = (costInUsd * ONE_ETHER) / assetPrice.bigIntValue;
   }
 
   return {
     isLoading: isShareValueLoading || isAssetPriceLoading,
     isFetched: isShareValueFetched && isAssetPriceFetched,
-    sharesToReceive: {
-      bigIntValue: sharesToReceive || 0n,
-      decimals: 18,
-      symbol: strategyConfig.symbol,
-    },
-    sharesToReceiveInUsd: {
-      bigIntValue: sharesToReceiveInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-    costInUnderlyingAsset: {
-      bigIntValue: costInUnderlyingAsset || 0n,
-      decimals: 18,
-      symbol: strategyConfig.underlyingAsset.symbol,
-    },
-    costInUsd: {
-      bigIntValue: costInUsd || 0n,
-      decimals: 8,
-      symbol: "$",
+    data: {
+      sharesToReceive: {
+        bigIntValue: sharesToReceive || 0n,
+        decimals: 18,
+        symbol: strategyConfig.symbol,
+      },
+      sharesToReceiveInUsd: {
+        bigIntValue: sharesToReceiveInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+      costInUnderlyingAsset: {
+        bigIntValue: costInUnderlyingAsset || 0n,
+        decimals: 18,
+        symbol: strategyConfig.underlyingAsset.symbol,
+      },
+      costInUsd: {
+        bigIntValue: costInUsd || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
     },
   };
 };
@@ -95,10 +95,12 @@ export const useFetchViewPreviewDeposit = (
   const {
     isLoading,
     isFetched,
-    sharesToReceive,
-    sharesToReceiveInUsd,
-    costInUnderlyingAsset,
-    costInUsd,
+    data: {
+      sharesToReceive,
+      sharesToReceiveInUsd,
+      costInUnderlyingAsset,
+      costInUsd,
+    },
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
   return {

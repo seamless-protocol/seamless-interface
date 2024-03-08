@@ -1,5 +1,5 @@
 import { FlexCol, FlexRow, Typography } from "../../../../shared";
-import { useFetchViewLendingPoolInfo } from "../../../state/ILM/hooks/useFetchViewLendingPoolInfo";
+import { useFetchViewLendingPoolInfo } from "../hooks/useFetchViewLendingPoolInfo";
 import { HeadingColumn } from "./HeadingColumn";
 
 export const Heading = () => {

@@ -7,7 +7,7 @@ import {
   VerticalDivider,
   ViewValueSymbolPair,
 } from "../../../../shared";
-import { useFetchViewStrategyInfo } from "../../../state/loop-strategy/hooks/useFetchViewStrategyInfo";
+import { useFetchViewStrategyInfo } from "../hooks/useFetchViewStrategyInfo";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
 export const StrategyStatusAndConfiguration: React.FC<{

@@ -3,18 +3,16 @@ import { loopStrategyAbi } from "@generated";
 import { ilmStrategies } from "../config/StrategyConfig";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchAccountAssetBalance } from "../../common/hooks/useFetchAccountAssetBalance";
-import { useFetchViewUserInfo } from "../hooks/useFetchViewUserInfo";
+import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateDepositStrategy = (id: number) => {
   //meta data
   const { address } = useAccount();
 
   //cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAccountAssetBalance(
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(
     ilmStrategies[id].underlyingAsset.address
   );
-  const { queryKey: ViewUserInfoKQ } = useFetchViewUserInfo(id);
 
   //hook call
   const { seamlessWriteAsync, ...rest } = useSeamlessContractWrite(
@@ -24,7 +22,7 @@ export const useMutateDepositStrategy = (id: number) => {
       functionName: "deposit",
     },
     //array of query keys to invalidate, when mutation happens!
-    [accountAssetBalanceQK, ViewUserInfoKQ]
+    [accountAssetBalanceQK]
   );
 
   //mutation wrapper
