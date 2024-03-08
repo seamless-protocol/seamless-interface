@@ -46,7 +46,7 @@ function parseRewardsTokenInformation(
   seamPrice: bigint
 ): IncentiveApy {
   let totalApy = 0;
-  let rewardTokens: RewardToken[] = [];
+  const rewardTokens: RewardToken[] = [];
 
   if (totalUsd === 0n) {
     return { totalApy, rewardTokens };
