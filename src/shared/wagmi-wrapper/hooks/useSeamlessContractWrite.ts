@@ -4,7 +4,7 @@ import { CreateUseWriteContractParameters } from "wagmi/dist/types/hooks/codegen
 import { useConfig } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useEffect, useState } from "react";
-import { getParsedError } from "../../utils/errorPersers";
+import { getParsedError } from "../../utils/errorParser";
 import { useInvalidateQueries } from "./useInvalidateQueries";
 import { QueryKey } from "@tanstack/query-core";
 import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
@@ -118,6 +118,7 @@ export function useSeamlessContractWrite<
       const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
         hash: txHash,
       });
+
       //3. throw if receipt is not valid
       if (txReceipt.status === "reverted")
         throw new Error("Execution reverted."); //todo: better way to handle reverted?
@@ -135,7 +136,8 @@ export function useSeamlessContractWrite<
       return txHash;
     } catch (error) {
       //1. log error
-      console.error("Operation failed:", error);
+      console.error("Operation failed:");
+      console.log({ error });
 
       const parsedError = getParsedError(error);
       //2. set error message
