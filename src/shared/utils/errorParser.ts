@@ -15,10 +15,10 @@ export const getParsedError = (error: any | BaseError): string => {
     : null;
 
   if (revertedError instanceof ContractFunctionRevertedError) {
-    const errorName =
+    const errorKey =
       revertedError.data?.errorName ?? revertedError.signature ?? "";
     console.log({ revertedError });
-    message = errorMapping[errorName] ?? message;
+    message = errorMapping[errorKey] ?? message;
   } else if (error.shortMessage) {
     message = error.shortMessage;
   } else if (error.details) {
@@ -35,4 +35,6 @@ export const errorMapping: Record<string, string> = {
   ErrorNotEnoughAllowance:
     "Not enough allowance, did you approve your tokens first?",
   "0xc2139725": "This ILM is currently at capacity, please try again later",
+  ERC4626ExceededMaxDeposit:
+    "This ILM is currently at capacity, please try again later",
 };
