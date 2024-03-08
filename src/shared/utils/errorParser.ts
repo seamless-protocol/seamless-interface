@@ -10,13 +10,14 @@ export const getParsedError = (error: any | BaseError): string => {
   let message =
     "An unknown error occurred, use the Support channel in Discord for assistance.";
 
-  const revertError = error?.walk
+  const revertedError = error?.walk
     ? error.walk((err: unknown) => err instanceof ContractFunctionRevertedError)
     : null;
 
-  if (revertError instanceof ContractFunctionRevertedError) {
-    const errorName = revertError.data?.errorName ?? "";
-    message = errorMapping[errorName] ?? message;
+  if (revertedError instanceof ContractFunctionRevertedError) {
+    const errorKey =
+      revertedError.data?.errorName ?? revertedError.signature ?? "";
+    if (errorMapping[errorKey]) return errorMapping[errorKey];
   } else if (error.shortMessage) {
     message = error.shortMessage;
   } else if (error.details) {
@@ -32,4 +33,9 @@ export const errorMapping: Record<string, string> = {
   EnforcedPause: "Temporary pause in effect, please check Discord for updates.",
   ErrorNotEnoughAllowance:
     "Not enough allowance, did you approve your tokens first?",
+  "0xc2139725": "Not enough allowance, did you approve your tokens first?",
+  ERC4626ExceededMaxDeposit:
+    "This ILM is currently at capacity, please try again later",
+  SharesReceivedBelowMinimum:
+    "Action exceeded safe slippage parameters, please try again later",
 };
