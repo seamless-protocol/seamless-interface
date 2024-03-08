@@ -34,7 +34,9 @@ export const errorMapping: Record<string, string> = {
   EnforcedPause: "Temporary pause in effect, please check Discord for updates.",
   ErrorNotEnoughAllowance:
     "Not enough allowance, did you approve your tokens first?",
-  "0xc2139725": "This ILM is currently at capacity, please try again later",
+  "0xc2139725": "Not enough allowance, did you approve your tokens first?",
   ERC4626ExceededMaxDeposit:
     "This ILM is currently at capacity, please try again later",
+  SharesReceivedBelowMinimum:
+    "Action exceeded safe slippage parameters, please try again later",
 };
