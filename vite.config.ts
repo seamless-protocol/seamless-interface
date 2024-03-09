@@ -8,6 +8,9 @@ export default defineConfig({
   plugins: [react(), sentryVitePlugin({
     org: "seashell-r3",
     project: "javascript-react"
+  }), sentryVitePlugin({
+    org: "seamless-jw",
+    project: "javascript-react"
   })],
 
   resolve: {
