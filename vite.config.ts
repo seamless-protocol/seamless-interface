@@ -31,5 +31,19 @@ export default defineConfig({
 
   build: {
     sourcemap: true,
+
+    rollupOptions: {
+      onLog(level, log, handler) {
+        if (
+          log.cause &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (log.cause as any).message ===
+            `Can't resolve original location of error.`
+        ) {
+          return;
+        }
+        handler(level, log);
+      },
+    },
   },
 });
