@@ -15,8 +15,11 @@ import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
 import { rainbowConfig } from "./app/config/rainbow.config.ts";
 import { Footer } from "./app/components/footer/Footer.tsx";
+import * as Sentry from "@sentry/react";
 
 const queryClient = new QueryClient();
+
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
   return (
@@ -30,7 +33,7 @@ function App() {
                   <ConnectButtonProvider>
                     <NavigationBar />
                   </ConnectButtonProvider>
-                  <Routes>
+                  <SentryRoutes>
                     <Route
                       path={RouterConfig.Routes.markets}
                       element={<IlmPage />}
@@ -39,7 +42,7 @@ function App() {
                       path={RouterConfig.Routes.ilmDetails}
                       element={<IlmDetailsPage />}
                     />
-                  </Routes>
+                  </SentryRoutes>
                   <Footer />
                 </FlexCol>
                 <LiFiWidgetWrapper />

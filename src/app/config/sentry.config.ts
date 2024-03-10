@@ -1,4 +1,11 @@
 import * as Sentry from "@sentry/react";
+import React from "react";
+import {
+  useLocation,
+  useNavigationType,
+  createRoutesFromChildren,
+  matchRoutes,
+} from "react-router-dom";
 
 Sentry.init({
   dsn: "https://f078a84aea6485ab874269be898bad60@o4506877073555456.ingest.us.sentry.io/4506877076242432",
@@ -7,6 +14,13 @@ Sentry.init({
     Sentry.replayIntegration({
       maskAllText: false,
       blockAllMedia: false,
+    }),
+    Sentry.reactRouterV6BrowserTracingIntegration({
+      useEffect: React.useEffect,
+      useLocation,
+      useNavigationType,
+      createRoutesFromChildren,
+      matchRoutes,
     }),
   ],
   // Performance Monitoring
