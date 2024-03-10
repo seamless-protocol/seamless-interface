@@ -11,8 +11,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //** RAINBOW **/
 import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+//** SENTRY **/
+import * as Sentry from "@sentry/react";
 //** LIFI WIDGET **/
 import {
+  FallbackPage,
   LifiWidgetProvider,
   LiFiWidgetWrapper,
   NotificationProvider,
@@ -23,17 +26,19 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <WagmiProvider config={rainbowConfig}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider theme={myRainbowkitThemeConfig}>
-          <NotificationProvider>
-            <LifiWidgetProvider>
-              <App />
-              <LiFiWidgetWrapper />
-            </LifiWidgetProvider>
-          </NotificationProvider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
+      <WagmiProvider config={rainbowConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+            <NotificationProvider>
+              <LifiWidgetProvider>
+                <App />
+                <LiFiWidgetWrapper />
+              </LifiWidgetProvider>
+            </NotificationProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>
 );
