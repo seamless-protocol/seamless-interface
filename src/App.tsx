@@ -26,13 +26,6 @@ function App() {
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
             <NotificationProvider>
               <LifiWidgetProvider>
-                <button
-                  onClick={() => {
-                    throw new Error("Test");
-                  }}
-                >
-                  test
-                </button>
                 <FlexCol className="min-h-screen">
                   <ConnectButtonProvider>
                     <NavigationBar />
