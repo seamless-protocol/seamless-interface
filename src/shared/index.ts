@@ -7,6 +7,8 @@ export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 export * from "./contexts/lifi/LifiWidgetContext";
 export * from "./contexts/lifi/useLifiWidgetContext";
+export * from "./contexts/connect-wallet/ConnectButtonProvider";
+export * from "./contexts/connect-wallet/useConnectButtonContext";
 
 // ****** //
 // auth //
@@ -51,6 +53,16 @@ export * from "./components/form/MyFormProvider";
 export * from "./components/form/inputs/CustomInput";
 
 // ***** //
+// Images //
+// ***** //
+export * from "./components/images/Icon";
+
+// **** //
+// lifi //
+// **** //
+export * from "./components/lifi/LiFiWidgetWrapper";
+
+// ***** //
 // types //
 // ***** //
 export * from "./types/Color";
@@ -64,11 +76,6 @@ export * from "./components/display/DisplayValue";
 export * from "./components/display/DisplayPercentage";
 export * from "./components/display/DisplayTokenAmount";
 export * from "./components/display/DisplayText";
-
-// ***** //
-// Icons //
-// ***** //
-export * from "./components/images/Icon";
 
 // ***** //
 // Modals //

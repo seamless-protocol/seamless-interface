@@ -1,57 +1,36 @@
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi"; //, http, createConfig
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+//** ROUTER **/
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { RouterConfig } from "@router";
+//** PAGES **/
 import { IlmPage } from "./app/pages/ilm-page/page";
-import { RouterConfig } from "./app/router";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
-import { FlexCol, NotificationProvider } from "./shared";
-import { LiFiWidgetWrapper } from "./shared/components/lifi/LiFiWidgetWrapper.tsx";
+//** LAYOUT **/
+import { ConnectButtonProvider, FlexCol } from "@shared";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
-import { LifiWidgetProvider } from "./shared/contexts/lifi/LifiWidgetContext.tsx";
-import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
-import { ConnectButtonProvider } from "./shared/contexts/connect-wallet/ConnectButtonProvider.tsx";
-import { rainbowConfig } from "./app/config/rainbow.config.ts";
 import { Footer } from "./app/components/footer/Footer.tsx";
+//** SENTRY **/
 import * as Sentry from "@sentry/react";
-
-const queryClient = new QueryClient();
-
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
   return (
-    <Router>
-      <WagmiProvider config={rainbowConfig}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={myRainbowkitThemeConfig}>
-            <NotificationProvider>
-              <LifiWidgetProvider>
-                <FlexCol className="min-h-screen">
-                  <ConnectButtonProvider>
-                    <NavigationBar />
-                  </ConnectButtonProvider>
-                  <SentryRoutes>
-                    <Route
-                      path={RouterConfig.Routes.markets}
-                      element={<IlmPage />}
-                    />
-                    <Route
-                      path={RouterConfig.Routes.ilmDetails}
-                      element={<IlmDetailsPage />}
-                    />
-                  </SentryRoutes>
-                  <Footer />
-                </FlexCol>
-                <LiFiWidgetWrapper />
-              </LifiWidgetProvider>
-            </NotificationProvider>
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </Router>
+    <HashRouter>
+      <FlexCol className="min-h-screen">
+        <ConnectButtonProvider>
+          <NavigationBar />
+        </ConnectButtonProvider>
+        <SentryRoutes>
+          <Route path={RouterConfig.Routes.markets} element={<IlmPage />} />
+          <Route
+            path={RouterConfig.Routes.ilmDetails}
+            element={<IlmDetailsPage />}
+          />
+        </SentryRoutes>
+        <Footer />
+      </FlexCol>
+    </HashRouter>
   );
 }
 
