@@ -13,14 +13,7 @@ declare global {
       }) => void;
       toggleSubscription: () => void;
     };
-    // ethereum: {
-    //   isConnected: () => boolean;
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   providers: any;
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   setSelectedProvider: any;
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   request: any;
-    // };
   }
 }
+
+export const IS_DEV_MODE = process.env.NODE_ENV === "development";
