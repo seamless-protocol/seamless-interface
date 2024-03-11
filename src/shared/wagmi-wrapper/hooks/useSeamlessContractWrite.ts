@@ -136,8 +136,11 @@ export function useSeamlessContractWrite<
       return txHash;
     } catch (error) {
       //1. log error
-      console.error("Operation failed:");
-      console.error({ error });
+      console.error(
+        "UseSeamlessContractWrite Operation failed:",
+        { error },
+        { args }
+      );
 
       const parsedError = getParsedError(error);
       //2. set error message
