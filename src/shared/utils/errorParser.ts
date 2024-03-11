@@ -4,6 +4,25 @@ const defaultMessage =
   "An unknown error occurred, use the Support channel in Discord for assistance.";
 
 /**
+ * Checks if the message should have an additional error explanation appended.
+ * @param message - The error message to check.
+ * @param errorKey - The error key to append if conditions are met.
+ * @returns {string} - The potentially modified message.
+ */
+const appendWithErrorType = (message: string, errorKey: string): string => {
+  const contractFunctionReverted = /^The contract function "(.*)" reverted/;
+  const executionRevertedRegex = /^Execution reverted\.?$/;
+  if (
+    contractFunctionReverted.test(message) ||
+    executionRevertedRegex.test(message) ||
+    message === defaultMessage
+  ) {
+    return `${message} - Operation Unsuccessful Due to: [${errorKey}] error.`;
+  }
+  return message;
+};
+
+/**
  * @dev utility function to parse error
  * @param e - error object
  * @returns {string} parsed error string
@@ -23,12 +42,7 @@ export const getParsedError = (error: any | BaseError): string => {
 
   message = error.shortMessage || error.details || error.message || message;
 
-  const regex = /^The contract function "(.*)" reverted/;
-  if (regex.test(message) || message === defaultMessage) {
-    message += ` - Operation Unsuccessful Due to: [${errorKey}] error.`;
-  }
-
-  return message;
+  return appendWithErrorType(message, errorKey);
 };
 
 export const errorMapping: Record<string, string> = {
