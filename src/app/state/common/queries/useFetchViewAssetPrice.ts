@@ -80,10 +80,10 @@ export const useFetchAssetPriceInBlock = (
     queryKey: [
       "fetchAssetPriceInBlock",
       asset,
-      blockNumber?.toString(),
       underlyingAsset,
+      blockNumber?.toString(),
     ],
-    staleTime: Infinity,
+    staleTime: blockNumber ? Infinity : undefined,
   });
 
   return {
