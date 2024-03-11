@@ -29,10 +29,6 @@ export default defineConfig(({ mode }) => {
       },
     },
 
-    optimizeDeps: {
-      exclude: ["js-big-decimal"],
-    },
-
     build: {
       sourcemap: true,
 
