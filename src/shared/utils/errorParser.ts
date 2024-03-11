@@ -8,7 +8,7 @@ import { BaseError, ContractFunctionRevertedError } from "viem";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getParsedError = (error: any | BaseError): string => {
   let message =
-    "An unknown error occurred, use the Support channel in Discord for assistance.";
+    "An unknown error occurred, use the support channel in Discord for assistance.";
 
   const revertedError = error?.walk
     ? error.walk((err: unknown) => err instanceof ContractFunctionRevertedError)
