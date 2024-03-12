@@ -51,7 +51,7 @@ export const useFetchViewStrategy = (
   const {
     isLoading: isApyLoading,
     isFetched: isApyFetched,
-    data: apyData,
+    data: apy,
   } = useFetchViewStrategyApy(index);
 
   return {
@@ -72,8 +72,8 @@ export const useFetchViewStrategy = (
         symbol: strategyConfig.underlyingAsset.symbol,
         logo: strategyConfig.underlyingAsset.logo,
       },
-      targetMultiple: targetMultiple.targetMultiple,
-      loopApy: apyData.apy,
+      targetMultiple,
+      loopApy: apy,
       availableToDeposit: {
         tokenAmount: { ...userBalance.balance.tokenAmount, symbol: "" },
         dollarAmount: userBalance.balance.dollarAmount,

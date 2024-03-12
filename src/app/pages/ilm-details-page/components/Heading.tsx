@@ -9,34 +9,50 @@ import {
   DisplayText,
   Icon,
 } from "../../../../shared";
-import { useFetchViewStrategyPageHeader } from "../hooks/useFetchViewStrategyPageHeader";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewTargetMultiple } from "../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
+import { useFetchViewAssetPrice } from "../../../state/common/queries/useFetchViewAssetPrice";
+import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 
 export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
-  const { isFetched, data } = useFetchViewStrategyPageHeader(id);
+  const strategyConfig = ilmStrategies[id];
+  const {
+    isLoading: isTargetMultipleLoading,
+    isFetched: isTargetMultipleFetched,
+    data: targetMultiple,
+  } = useFetchViewTargetMultiple(strategyConfig.address);
+
+  const {
+    isLoading: isOraclePriceLoading,
+    isFetched: isOraclePriceFetched,
+    data: oraclePrice,
+  } = useFetchViewAssetPrice(strategyConfig.underlyingAsset.address);
+
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    data: apy,
+  } = useFetchViewStrategyApy(id);
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
       <FlexRow className="gap-3 text-start">
         <Icon
-          src={ilmStrategies[id].logo}
-          alt={data?.underlyingAsset?.name || "asset"}
-          isFetched={isFetched}
+          src={strategyConfig.logo}
+          alt={strategyConfig.underlyingAsset.symbol || "asset"}
           width={40}
           height={40}
         />
         <FlexCol>
           <DisplayText
             typography="main21"
-            text={data?.underlyingAsset?.name}
-            isFetched={isFetched}
+            text={strategyConfig.underlyingAsset?.name}
           />
           <DisplayText
             typography="description"
-            text={data?.underlyingAsset?.symbol}
-            isFetched={isFetched}
+            text={strategyConfig.underlyingAsset?.symbol}
           />
         </FlexCol>
       </FlexRow>
@@ -47,8 +63,9 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayValue
             typography="main21"
-            {...data?.targetMultiple}
-            isFetched={isFetched}
+            {...targetMultiple}
+            isLoading={isTargetMultipleLoading}
+            isFetched={isTargetMultipleFetched}
             loaderSkeleton
           />
         </FlexCol>
@@ -58,8 +75,9 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayPercentage
             typography="main21"
-            {...data?.apy}
-            isFetched={isFetched}
+            {...apy}
+            isLoading={isApyLoading}
+            isFetched={isApyFetched}
           />
         </FlexCol>
         <FlexCol>
@@ -68,8 +86,9 @@ export const Heading: React.FC<{
           </Typography>
           <DisplayMoney
             typography="main21"
-            {...data?.oraclePrice}
-            isFetched={isFetched}
+            {...oraclePrice}
+            isLoading={isOraclePriceLoading}
+            isFetched={isOraclePriceFetched}
           />
         </FlexCol>
       </FlexRow>

@@ -10,8 +10,7 @@ import {
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
-import { ViewStrategyApy } from "../types/ViewStrategyApy";
-import { Displayable } from "src/shared/types/Displayable";
+import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
 export function calculateApy(
@@ -101,7 +100,7 @@ export const useFetchStrategyApy = (
 
 export const useFetchViewStrategyApy = (
   index: number
-): Displayable<ViewStrategyApy> => {
+): Displayable<ViewNumber> => {
   //TODO: uncomment when enough time passes to present real data
   // const { apy, isLoading, isFetched } = useFetchStrategyApy(
   //   ilmStrategies[index]
@@ -110,11 +109,9 @@ export const useFetchViewStrategyApy = (
   return {
     isLoading: false,
     isFetched: true,
-    data: {
-      apy: formatFetchNumberToViewNumber({
-        value: ilmStrategies[index].defaultApy,
-        symbol: "%",
-      }),
-    },
+    data: formatFetchNumberToViewNumber({
+      value: ilmStrategies[index].defaultApy,
+      symbol: "%",
+    }),
   };
 };
