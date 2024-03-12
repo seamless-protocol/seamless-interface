@@ -10,8 +10,7 @@ import { ONE_ETHER, ONE_USD } from "../../../meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable } from "../../../../shared";
-import { ViewAssetPrice } from "../types/ViewAssetPrice";
+import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 
 export interface AssetPrice {
@@ -106,7 +105,7 @@ export const useFetchAssetPrice = (
 export const useFetchViewAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
-): Displayable<ViewAssetPrice> => {
+): Displayable<ViewBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -116,8 +115,6 @@ export const useFetchViewAssetPrice = (
   return {
     isLoading,
     isFetched,
-    data: {
-      price: formatFetchBigIntToViewBigInt(price),
-    },
+    data: formatFetchBigIntToViewBigInt(price),
   };
 };

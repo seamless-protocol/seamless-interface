@@ -4,8 +4,7 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable } from "../../../../shared";
-import { ViewTargetMultiple } from "../types/ViewTargetMultiple";
+import { Displayable, ViewBigInt } from "../../../../shared";
 import { useFetchCollateralRatioTargets } from "../metadataQueries/useFetchViewCollateralRatioTargets";
 
 export const useFetchTargetMultiple = (
@@ -30,7 +29,7 @@ export const useFetchTargetMultiple = (
 
 export const useFetchViewTargetMultiple = (
   strategy: Address
-): Displayable<ViewTargetMultiple> => {
+): Displayable<ViewBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -40,8 +39,6 @@ export const useFetchViewTargetMultiple = (
   return {
     isLoading,
     isFetched,
-    data: {
-      targetMultiple: formatFetchBigIntToViewBigInt(targetMultiple),
-    },
+    data: formatFetchBigIntToViewBigInt(targetMultiple),
   };
 };
