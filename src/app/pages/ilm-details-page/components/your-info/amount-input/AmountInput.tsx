@@ -10,6 +10,7 @@ import { formatUnits } from "viem";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
+  maxAssets: ViewBigInt;
   debouncedAmountInUsd: number;
   assetSymbol: string;
   assetLogo: string;
@@ -18,6 +19,7 @@ interface AmountInputBoxProps {
 // todo: generic amount input field
 export const AmountInput: React.FC<AmountInputBoxProps> = ({
   walletBalance,
+  maxAssets,
   debouncedAmountInUsd,
   assetSymbol,
   assetLogo,
@@ -25,7 +27,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   const { setValue } = useFormContext();
 
   const handleMaxClick = () => {
-    setValue("amount", formatUnits(walletBalance?.bigIntValue || 0n, 18));
+    setValue("amount", formatUnits(maxAssets?.bigIntValue || 0n, 18));
   };
 
   return (
@@ -36,7 +38,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           type="number"
           placeholder="0.00"
           className="pt-1 no-underline"
-          max={walletBalance.value || "0"}
+          max={maxAssets.value || "0"}
         />
 
         <div className="flex items-center space-x-2">

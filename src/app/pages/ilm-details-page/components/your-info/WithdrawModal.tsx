@@ -101,9 +101,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           <FlexCol>
             <Typography type="description">Amount</Typography>
             <AmountInputWrapper
-              assetAddress={strategyConfig.address}
-              assetSymbol={strategyConfig.symbol}
-              assetLogo={strategyConfig.logo}
+              id={id}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
           </FlexCol>

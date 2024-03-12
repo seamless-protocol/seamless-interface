@@ -21,9 +21,8 @@ import { useERC20Approve } from "../../../../state/common/mutations/useERC20Appr
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
 import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import AmountInputDepositWrapper from "./amount-input/AmountInputDepositWrapper";
 
 export interface DepositModalFormData {
   amount: string;
@@ -111,10 +110,8 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputWrapper
-              assetAddress={strategyConfig.underlyingAsset.address}
-              assetSymbol={strategyConfig.underlyingAsset.symbol}
-              assetLogo={strategyConfig.underlyingAsset.logo}
+            <AmountInputDepositWrapper
+              id={id}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
           </FlexCol>
