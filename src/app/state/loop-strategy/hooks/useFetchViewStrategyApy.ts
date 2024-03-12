@@ -101,15 +101,17 @@ export const useFetchStrategyApy = (
 export const useFetchViewStrategyApy = (
   index: number
 ): Displayable<ViewNumber> => {
-  const {
-    data: apy,
-    isLoading,
-    isFetched,
-  } = useFetchStrategyApy(ilmStrategies[index]);
+  //TODO: uncomment when enough time passes to present real data
+  // const { apy, isLoading, isFetched } = useFetchStrategyApy(
+  //   ilmStrategies[index]
+  // );
 
   return {
-    isLoading,
-    isFetched,
-    data: formatFetchNumberToViewNumber(apy),
+    isLoading: false,
+    isFetched: true,
+    data: formatFetchNumberToViewNumber({
+      value: ilmStrategies[index].defaultApy,
+      symbol: "%",
+    }),
   };
 };

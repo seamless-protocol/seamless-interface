@@ -23,10 +23,10 @@ const fetchAssetPriceInBlock = async (
   blockNumber?: bigint,
   underlyingAsset?: Address
 ): Promise<bigint> => {
-  const index = ilmStrategies.find((strategy) => strategy.address === asset);
+  const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   let price = 0n;
-  if (index) {
+  if (strategy) {
     const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,

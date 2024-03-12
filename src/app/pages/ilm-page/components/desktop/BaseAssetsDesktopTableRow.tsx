@@ -57,7 +57,7 @@ export const BaseAssetsDesktopTableRow: React.FC<{
               typography="main16"
               isLoading={isLoading}
             />
-            {asset?.supplyIncentives.totalApy.value !== "" && (
+            {asset?.supplyIncentives.totalApy.value !== 0 && (
               <IncentivesButton {...asset?.supplyIncentives} />
             )}
           </FlexCol>
@@ -81,7 +81,7 @@ export const BaseAssetsDesktopTableRow: React.FC<{
             typography="main16"
             isLoading={isLoading}
           />
-          {asset?.borrowVariableIncentives.totalApy.value !== "" && (
+          {asset?.borrowVariableIncentives.totalApy.value !== 0 && (
             <IncentivesButton {...asset?.borrowVariableIncentives} />
           )}
         </TableCell>
