@@ -7,13 +7,11 @@ import {
 } from "../../../generated";
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "../../../meta";
-import { Config, useBlock, useConfig } from "wagmi";
+import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable } from "../../../../shared";
-import { ViewAssetPrice } from "../types/ViewAssetPrice";
+import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { metadataQueryConfig } from "../../settings/config";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -70,7 +68,7 @@ const fetchAssetPriceInBlock = async (
 
 export const useFetchAssetPriceInBlock = (
   asset: Address,
-  blockNumber: bigint,
+  blockNumber?: bigint,
   underlyingAsset?: Address
 ) => {
   const config = useConfig();
@@ -81,10 +79,10 @@ export const useFetchAssetPriceInBlock = (
     queryKey: [
       "fetchAssetPriceInBlock",
       asset,
-      blockNumber.toString(),
       underlyingAsset,
+      { blockNumber },
     ],
-    ...metadataQueryConfig,
+    staleTime: blockNumber ? Infinity : undefined,
   });
 
   return {
@@ -101,14 +99,13 @@ export const useFetchAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
 ) => {
-  const { data: block } = useBlock();
-  return useFetchAssetPriceInBlock(asset, block?.number || 0n, underlyingAsset);
+  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
 export const useFetchViewAssetPrice = (
   asset: Address,
   underlyingAsset?: Address
-): Displayable<ViewAssetPrice> => {
+): Displayable<ViewBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -118,8 +115,6 @@ export const useFetchViewAssetPrice = (
   return {
     isLoading,
     isFetched,
-    data: {
-      price: formatFetchBigIntToViewBigInt(price),
-    },
+    data: formatFetchBigIntToViewBigInt(price),
   };
 };

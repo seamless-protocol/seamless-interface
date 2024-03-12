@@ -10,8 +10,7 @@ import {
   formatUnitsToNumber,
 } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
-import { ViewStrategyApy } from "../types/ViewStrategyApy";
-import { Displayable } from "src/shared/types/Displayable";
+import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
 export function calculateApy(
@@ -101,7 +100,7 @@ export const useFetchStrategyApy = (
 
 export const useFetchViewStrategyApy = (
   index: number
-): Displayable<ViewStrategyApy> => {
+): Displayable<ViewNumber> => {
   const {
     data: apy,
     isLoading,
@@ -111,8 +110,6 @@ export const useFetchViewStrategyApy = (
   return {
     isLoading,
     isFetched,
-    data: {
-      apy: formatFetchNumberToViewNumber(apy),
-    },
+    data: formatFetchNumberToViewNumber(apy),
   };
 };
