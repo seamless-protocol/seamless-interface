@@ -80,7 +80,7 @@ export const useFetchAssetPriceInBlock = (
       "fetchAssetPriceInBlock",
       asset,
       underlyingAsset,
-      blockNumber?.toString(),
+      { blockNumber },
     ],
     staleTime: blockNumber ? Infinity : undefined,
   });
