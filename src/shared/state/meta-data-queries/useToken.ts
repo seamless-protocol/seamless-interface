@@ -1,6 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
-import { useSeamlessContractRead } from "../..";
+import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 
 export interface Token {
   symbol: string;
