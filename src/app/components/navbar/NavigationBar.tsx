@@ -19,7 +19,7 @@ import {
   FlexRow,
   Typography,
 } from "@shared";
-import { CbSubscribeConfig } from "../../config/cb-subscribe-config";
+import { CbSubscribeConfig } from "../../config/cb-subscribe.config";
 
 const navigation = [
   {

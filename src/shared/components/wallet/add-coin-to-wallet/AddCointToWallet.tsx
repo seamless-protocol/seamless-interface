@@ -19,7 +19,7 @@ interface Coin {
  * This component provides a user interface for adding a specified coin to the user's MetaMask wallet.
  * It utilizes the `useAddCoinToWallet` hook to perform the addition operation.
  *
- * * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos-config file. Make sure to update it.
+ * * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
  *
  * ## Key Features:
  * - **Dynamic Coin Data**: Accepts coin data (symbol, address, logo, and decimals) as props.
@@ -37,7 +37,7 @@ interface Coin {
  * />
  * ```
  *
- * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos-config file. Make sure to update it.
+ * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
  * In this example, the `AddCoinToWallet` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
  *
  * @param {Coin} props The coin details.
