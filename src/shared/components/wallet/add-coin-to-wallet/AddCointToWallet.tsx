@@ -4,7 +4,7 @@ import { FlexCol } from "../../containers/FlexCol";
 import { Icon } from "../../images/Icon";
 import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
-import { useAddCoinToWallet } from "../../../hooks/useAddCoinToWallet";
+import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
 
 interface Coin {
@@ -49,7 +49,7 @@ export const AddCoinToWallet: React.FC<Coin> = ({
   logo,
   decimals,
 }) => {
-  const { mutateAsync, isPending } = useAddCoinToWallet();
+  const { mutateAsync, isPending } = useWatchAsset();
 
   const handleAddToWalletClick = async () => {
     await mutateAsync({

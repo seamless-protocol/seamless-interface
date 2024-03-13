@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { useWalletName } from "../../hooks/useWalletName";
+import { useWalletName } from "../../hooks/wallet-hooks/useWalletName";
 
 interface Props {
   partnerAddress: string;
