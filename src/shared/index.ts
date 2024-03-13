@@ -74,12 +74,18 @@ export * from "./components/lifi/LiFiWidgetWrapper";
 // **** //
 export * from "./components/links/SmallExternalLinkButton";
 export * from "./components/links/ViewOracleContract";
+export * from "./components/links/ViewTokenContract";
 
 // ***** //
 // types //
 // ***** //
 export * from "./types/Color";
 export * from "./types/Displayable";
+
+// ****** //
+// utils  //
+// ****** //
+export * from "./utils/consts";
 
 // ******* //
 // display //
