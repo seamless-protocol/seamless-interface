@@ -4,7 +4,7 @@ import {
   protocolDataProviderAbi,
   protocolDataProviderAddress,
 } from "../../../generated";
-import { useToken } from "../../../../shared/hooks/meta-data-queries/useToken";
+import { useToken } from "../../../../shared/state/meta-data-queries/useToken";
 
 export const useFetchReserveData = (asset: Address) => {
   const {

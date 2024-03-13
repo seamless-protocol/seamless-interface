@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "../text/Typography/Typography";
 import { Tooltip } from "../tooltip/Tooltip";
 import { Address } from "viem";
-import { useToken } from "../../hooks/meta-data-queries/useToken";
+import { useToken } from "../../state/meta-data-queries/useToken";
 import { useWatchAsset } from "@shared";
 
 export const SmallWatchAssetButton: React.FC<{

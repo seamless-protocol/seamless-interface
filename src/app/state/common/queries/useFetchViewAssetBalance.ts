@@ -4,7 +4,7 @@ import {
   DecimalsOptions,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
-import { useToken } from "../../../../shared/hooks/meta-data-queries/useToken";
+import { useToken } from "../../../../shared/state/meta-data-queries/useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 

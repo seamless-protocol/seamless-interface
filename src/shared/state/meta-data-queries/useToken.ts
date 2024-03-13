@@ -1,7 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
 import { useSeamlessContractRead } from "../..";
-import { metadataQueryConfig } from "../../../app/state/settings/config";
 
 export interface Token {
   symbol: string;
@@ -17,7 +16,9 @@ export const useToken = (token: Address): FetchData<Token> => {
     address: token,
     abi: erc20Abi,
     functionName: "decimals",
-    query: metadataQueryConfig,
+    query: {
+      staleTime: Infinity,
+    },
   });
 
   const {
@@ -28,7 +29,9 @@ export const useToken = (token: Address): FetchData<Token> => {
     address: token,
     abi: erc20Abi,
     functionName: "symbol",
-    query: metadataQueryConfig,
+    query: {
+      staleTime: Infinity,
+    },
   });
 
   return {
