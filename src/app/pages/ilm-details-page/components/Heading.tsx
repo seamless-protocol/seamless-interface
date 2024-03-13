@@ -8,7 +8,10 @@ import {
   DisplayMoney,
   DisplayText,
   Icon,
-} from "../../../../shared";
+  ViewOracleContract,
+  SmallWatchAssetButton,
+  ViewTokenContract,
+} from "@shared";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewAssetPrice } from "../../../state/common/queries/useFetchViewAssetPrice";
@@ -46,10 +49,18 @@ export const Heading: React.FC<{
           height={40}
         />
         <FlexCol>
-          <DisplayText
-            typography="main21"
-            text={strategyConfig.underlyingAsset?.name}
-          />
+          <FlexRow className="gap-2">
+            <DisplayText
+              typography="main21"
+              text={strategyConfig.underlyingAsset?.name}
+            />
+            <ViewTokenContract
+              address={strategyConfig.underlyingAsset.address}
+            />
+            <SmallWatchAssetButton
+              address={strategyConfig.underlyingAsset.address}
+            />
+          </FlexRow>
           <DisplayText
             typography="description"
             text={strategyConfig.underlyingAsset?.symbol}
@@ -64,6 +75,7 @@ export const Heading: React.FC<{
           <DisplayValue
             typography="main21"
             {...targetMultiple}
+            symbolColor="light"
             isLoading={isTargetMultipleLoading}
             isFetched={isTargetMultipleFetched}
             loaderSkeleton
@@ -76,6 +88,7 @@ export const Heading: React.FC<{
           <DisplayPercentage
             typography="main21"
             {...apy}
+            symbolColor="light"
             isLoading={isApyLoading}
             isFetched={isApyFetched}
           />
@@ -84,12 +97,18 @@ export const Heading: React.FC<{
           <Typography type="description" color="light">
             Oracle price
           </Typography>
-          <DisplayMoney
-            typography="main21"
-            {...oraclePrice}
-            isLoading={isOraclePriceLoading}
-            isFetched={isOraclePriceFetched}
-          />
+          <FlexRow className="gap-2">
+            <DisplayMoney
+              symbolColor="light"
+              typography="main21"
+              {...oraclePrice}
+              isLoading={isOraclePriceLoading}
+              isFetched={isOraclePriceFetched}
+            />
+            <ViewOracleContract
+              address={strategyConfig.underlyingAsset.address}
+            />
+          </FlexRow>
         </FlexCol>
       </FlexRow>
     </div>
