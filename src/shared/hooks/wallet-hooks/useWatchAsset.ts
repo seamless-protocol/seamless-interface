@@ -1,9 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { Address } from "viem";
+import { Address, createWalletClient, custom } from "viem";
 import { PublicAssetLogosConfig } from "../../../app/config/public-asset-logos.config";
-import { walletClient } from "../../../../wagmi.config";
+import { base } from "viem/chains";
 
-//todo: remove duplicate interface after folder structure hooks refactor
+//todo: move this somewhere else
+export const walletClient = createWalletClient({
+  chain: base,
+  transport: custom(window.ethereum!),
+});
 interface Asset {
   symbol: string;
   address: Address;
