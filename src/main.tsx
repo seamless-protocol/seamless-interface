@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 //** OTHER **/
-import "../global.d.ts";
+import "./app/config/window.override.ts";
 import "./app/config/sentry.config.ts";
 //** WAGMI **/
 import { rainbowConfig } from "./app/config/rainbow.config.ts";
