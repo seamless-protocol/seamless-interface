@@ -39,5 +39,6 @@ export const errorMapping: Record<string, string> = {
     "This ILM is currently at capacity, please try again later",
   SharesReceivedBelowMinimum:
     "Action exceeded safe slippage parameters, please try again later",
-  "0xea8d7f02": "",
+  "0xea8d7f02":
+    "Action exceeded safe slippage parameters, please try again later",
 };
