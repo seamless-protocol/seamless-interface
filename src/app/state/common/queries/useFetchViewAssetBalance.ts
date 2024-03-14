@@ -1,10 +1,9 @@
 import { Address, erc20Abi } from "viem";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { Displayable, useSeamlessContractRead, useToken } from "@shared";
 import {
   DecimalsOptions,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared/utils/helpers";
-import { useToken } from "../../../../shared/state/meta-data-queries/useToken";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 
