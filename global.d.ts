@@ -13,7 +13,6 @@ declare global {
       }) => void;
       toggleSubscription: () => void;
     };
-<<<<<<<< HEAD:global.d.ts
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ethereum?: any & {
       request: ({
@@ -26,9 +25,5 @@ declare global {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }) => Promise<any>;
     };
-========
->>>>>>>> main:src/app/config/window.override.ts
   }
 }
-
-export const IS_DEV_MODE = process.env.NODE_ENV === "development";

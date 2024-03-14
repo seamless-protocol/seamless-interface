@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react";
+import { IS_DEV_MODE } from "@shared";
 import React from "react";
 import {
   useLocation,
@@ -6,7 +7,6 @@ import {
   createRoutesFromChildren,
   matchRoutes,
 } from "react-router-dom";
-import { IS_DEV_MODE } from "./window.override";
 
 if (!IS_DEV_MODE) {
   Sentry.init({

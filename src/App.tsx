@@ -7,7 +7,12 @@ import { RouterConfig } from "@router";
 import { IlmPage } from "./app/pages/ilm-page/page";
 import { IlmDetailsPage } from "./app/pages/ilm-details-page/page";
 //** LAYOUT **/
-import { ConnectButtonProvider, FallbackPage, FlexCol } from "@shared";
+import {
+  ConnectButtonProvider,
+  FallbackPage,
+  FlexCol,
+  PageNotFound,
+} from "@shared";
 import { NavigationBar } from "./app/components/navbar/NavigationBar.tsx";
 import { Footer } from "./app/components/footer/Footer.tsx";
 //** SENTRY **/
@@ -28,6 +33,7 @@ function App() {
               path={RouterConfig.Routes.ilmDetails}
               element={<IlmDetailsPage />}
             />
+            <Route path="*" element={<PageNotFound />} />
           </SentryRoutes>
           <Footer />
         </FlexCol>
