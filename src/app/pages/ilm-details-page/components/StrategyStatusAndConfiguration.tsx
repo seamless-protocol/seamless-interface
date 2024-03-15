@@ -19,6 +19,7 @@ import { RouterConfig } from "@router";
 export const StrategyStatusAndConfiguration: React.FC<{
   id: number;
 }> = ({ id }) => {
+  const strategyConfig = ilmStrategies[id];
   const { data, isFetched } = useFetchViewStrategyInfo(id);
 
   return (
@@ -58,11 +59,13 @@ export const StrategyStatusAndConfiguration: React.FC<{
               />
             </FlexCol>
             <FlexCol className="gap-3 max-w-40">
-              <Typography>Collector Info</Typography>
+              <Typography>Loop Strategy</Typography>
               <FlexCol className="border-thin rounded-md border-divider p-2">
-                <Typography type="description">Collector Contract</Typography>
+                <Typography type="description">Loop Strategy</Typography>
                 <Link
-                  to={RouterConfig.Builder.baseScanAddress("0x")}
+                  to={RouterConfig.Builder.baseScanAddress(
+                    strategyConfig.address
+                  )}
                   target="_blank"
                 >
                   <FlexRow className="gap-1">

@@ -72,6 +72,7 @@ export const Heading: React.FC<{
                 <ViewAssetOnBaseScan
                   label="Strategy Asset"
                   {...strategyConfig}
+                  symbol={strategyConfig.symbol}
                 />
               </ul>
             </Dropdown>
@@ -83,7 +84,11 @@ export const Heading: React.FC<{
                   label="Underlying Asset"
                   {...strategyConfig.underlyingAsset}
                 />
-                <WatchAsset label="Strategy Asset" {...strategyConfig} />
+                <WatchAsset
+                  label="Strategy Asset"
+                  {...strategyConfig}
+                  symbol={strategyConfig.symbol}
+                />
               </ul>
             </Dropdown>
           </FlexRow>
@@ -101,7 +106,6 @@ export const Heading: React.FC<{
           <DisplayValue
             typography="main21"
             {...targetMultiple}
-            symbolColor="light"
             isLoading={isTargetMultipleLoading}
             isFetched={isTargetMultipleFetched}
             loaderSkeleton
@@ -114,7 +118,6 @@ export const Heading: React.FC<{
           <DisplayPercentage
             typography="main21"
             {...apy}
-            symbolColor="light"
             isLoading={isApyLoading}
             isFetched={isApyFetched}
           />
@@ -125,7 +128,6 @@ export const Heading: React.FC<{
           </Typography>
           <FlexRow className="gap-2">
             <DisplayMoney
-              symbolColor="light"
               typography="main21"
               {...oraclePrice}
               isLoading={isOraclePriceLoading}
@@ -151,11 +153,11 @@ export const Heading: React.FC<{
 
 const ViewAssetOnBaseScan: React.FC<{
   address: string;
-  name?: string;
+  symbol?: string;
   logo?: string;
   label?: string;
   className?: string;
-}> = ({ address, name, logo, label, className }) => {
+}> = ({ address, symbol, logo, label, className }) => {
   return (
     <div className={`text-text-secondary ${className}`}>
       <div className="px-4 py-3 pb-2">
@@ -163,8 +165,8 @@ const ViewAssetOnBaseScan: React.FC<{
       </div>
       <a target="_blank" href={RouterConfig.Builder.baseScanAddress(address)}>
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
-          <Icon width={16} src={logo} alt={name || ""} />
-          <Typography type="subheader1">{name}</Typography>
+          <Icon width={16} src={logo} alt={symbol || ""} />
+          <Typography type="subheader1">{symbol}</Typography>
         </FlexRow>
       </a>
     </div>
@@ -173,11 +175,11 @@ const ViewAssetOnBaseScan: React.FC<{
 
 const WatchAsset: React.FC<{
   address: Address;
-  name?: string;
+  symbol?: string;
   logo?: string;
   label?: string;
   className?: string;
-}> = ({ address, name, logo, label, className }) => {
+}> = ({ address, symbol, logo, label, className }) => {
   const { mutateAsync } = useWatchAsset();
   const { data: tokenData } = useToken(address);
 
@@ -198,8 +200,8 @@ const WatchAsset: React.FC<{
         className="focus:outline-none w-full text-left"
       >
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
-          <Icon width={16} src={logo} alt={name || ""} />
-          <Typography type="subheader1">{name}</Typography>
+          <Icon width={16} src={logo} alt={symbol || ""} />
+          <Typography type="subheader1">{symbol}</Typography>
         </FlexRow>
       </button>
     </div>
