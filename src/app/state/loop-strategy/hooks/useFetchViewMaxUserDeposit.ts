@@ -4,8 +4,12 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { walletBalanceDecimalsOptions } from "../../../meta";
+import { Displayable, ViewBigInt } from "../../../../shared";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 
-export const useFetchMaxUserDeposit = (strategy: Address) => {
+export const useFetchMaxUserDeposit = (
+  strategy: Address
+): FetchData<FetchBigInt> => {
   const {
     data: underlyingAsset,
     isLoading: isUnderlyingAssetLoading,
@@ -36,7 +40,9 @@ export const useFetchMaxUserDeposit = (strategy: Address) => {
   };
 };
 
-export const useFetchViewMaxUserDeposit = (strategy: Address) => {
+export const useFetchViewMaxUserDeposit = (
+  strategy: Address
+): Displayable<ViewBigInt> => {
   const {
     isLoading,
     isFetched,
