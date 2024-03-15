@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/react";
-import { IS_DEV_MODE } from "@shared";
 import React from "react";
 import {
   useLocation,
@@ -8,7 +7,7 @@ import {
   matchRoutes,
 } from "react-router-dom";
 
-if (!IS_DEV_MODE) {
+if (import.meta.env.VITE_IS_DEV_MODE !== true) {
   Sentry.init({
     dsn: "https://f078a84aea6485ab874269be898bad60@o4506877073555456.ingest.us.sentry.io/4506877076242432",
     integrations: [
