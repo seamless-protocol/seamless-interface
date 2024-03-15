@@ -88,7 +88,7 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
 
   const handleViewItOnExplorer = () => {
     if (!address) return;
-    const url = RouterConfig.Builder.baseScanTx(address);
+    const url = RouterConfig.Builder.baseScanAddress(address);
     window.open(url, "_blank");
     dropdown.setIsDropdownVisible(false);
   };
