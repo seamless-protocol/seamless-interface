@@ -20,6 +20,7 @@ import { useFetchViewAssetPrice } from "../../../../state/common/queries/useFetc
 import { useFetchViewStrategyApy } from "../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { RouterConfig } from "@router";
 import { Address } from "viem";
+import { aaveOracleAddress } from "@generated";
 
 export const Heading: React.FC<{
   id: number;
@@ -137,9 +138,7 @@ export const Heading: React.FC<{
               tooltipText="View Oracle Contract"
               onClick={() => {
                 window.open(
-                  RouterConfig.Builder.baseScanAddress(
-                    strategyConfig.underlyingAsset.address
-                  ),
+                  RouterConfig.Builder.baseScanAddress(aaveOracleAddress),
                   "_blank"
                 );
               }}
