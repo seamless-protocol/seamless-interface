@@ -26,7 +26,7 @@ export * from "./components/auth/AuthGuard";
 // ****** //
 export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
-export * from "./components/button/SmallWatchAssetButton";
+export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 
 // ********** //
 // containers //
@@ -53,6 +53,11 @@ export * from "./components/tooltip/StandardTooltip";
 export * from "./components/divider/Divider";
 export * from "./components/divider/VerticalDivider";
 
+// ******** //
+// Dropdown //
+// ******** //
+export * from "./components/dropdown/Dropdown";
+
 // **** //
 // form //
 // **** //
@@ -72,9 +77,7 @@ export * from "./components/lifi/LiFiWidgetWrapper";
 // **** //
 // links //
 // **** //
-export * from "./components/links/SmallExternalLinkButton";
-export * from "./components/links/ViewOracleContract";
-export * from "./components/links/ViewTokenContract";
+export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 
 // ***** //
 // types //

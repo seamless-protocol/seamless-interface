@@ -1,20 +1,19 @@
 import React from "react";
-import { Typography } from "../text/Typography/Typography";
-import { Tooltip } from "../tooltip/Tooltip";
+import { Typography } from "../../text/Typography/Typography";
+import { Tooltip } from "../../tooltip/Tooltip";
 
 export const SmallExternalLinkButton: React.FC<{
-  url?: string;
+  onClick?: () => void;
   tooltipText?: string;
-}> = ({ url, tooltipText }) => {
+}> = ({ onClick, tooltipText }) => {
   return (
     <Tooltip
       tooltip={<Typography type="description">{tooltipText}</Typography>}
       size="small"
       theme="dark"
     >
-      <a
-        href={url}
-        target="_blank"
+      <button
+        onClick={onClick}
         rel="noopener noreferrer"
         className="group bg-primary-main w-6 h-6 p-1 cursor-pointer rounded-full border-other-borderButton border-thin flex justify-center items-center"
       >
@@ -32,7 +31,7 @@ export const SmallExternalLinkButton: React.FC<{
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
           ></path>
         </svg>
-      </a>
+      </button>
     </Tooltip>
   );
 };
