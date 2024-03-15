@@ -34,7 +34,7 @@ export const useFetchAssetBalance = (asset: Address) => {
     isFetched: isTokenDataFetched && isBalanceFetched,
     ...rest,
     data: {
-      bigIntValue: 111111111111111111111111111n,
+      bigIntValue: balance || 0n,
       symbol: symbol,
       decimals: decimals,
     },
