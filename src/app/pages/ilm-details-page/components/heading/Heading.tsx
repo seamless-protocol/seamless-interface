@@ -106,6 +106,7 @@ export const Heading: React.FC<{
           <DisplayValue
             typography="main21"
             {...targetMultiple}
+            symbolColor="light"
             isLoading={isTargetMultipleLoading}
             isFetched={isTargetMultipleFetched}
             loaderSkeleton
@@ -118,6 +119,7 @@ export const Heading: React.FC<{
           <DisplayPercentage
             typography="main21"
             {...apy}
+            symbolColor="light"
             isLoading={isApyLoading}
             isFetched={isApyFetched}
           />
@@ -130,6 +132,7 @@ export const Heading: React.FC<{
             <DisplayMoney
               typography="main21"
               {...oraclePrice}
+              symbolColor="light"
               isLoading={isOraclePriceLoading}
               isFetched={isOraclePriceFetched}
             />
