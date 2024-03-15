@@ -22,7 +22,6 @@
     "paths": {
       "@assets": ["src/assets/*"],
       "@shared": ["src/shared/index"],
-      "@meta": ["src/app/meta/index"],
       "@generated": ["src/app/generated/index"],
       // "@state": ["src/app/state/*"],
       // "@app-components": ["src/app/components/*"],

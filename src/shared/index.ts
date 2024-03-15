@@ -11,6 +11,11 @@ export * from "./contexts/connect-wallet/ConnectButtonProvider";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 
 // ****** //
+// meta //
+// ****** //
+export * from "./meta";
+
+// ****** //
 // pages //
 // ****** //
 export * from "./pages/FallbackPage";

@@ -2,7 +2,7 @@ import React from "react";
 import { AmountInput } from "./AmountInput";
 import { Address } from "viem";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
-import { walletBalanceDecimalsOptions } from "../../../../../meta";
+import { walletBalanceDecimalsOptions } from "../../../../../../shared/meta";
 
 interface AmountInputBoxWrapperProps {
   assetAddress: Address;

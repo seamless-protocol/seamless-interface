@@ -8,7 +8,7 @@ import {
   aaveOracleAddress,
   loopStrategyAbi,
 } from "../../../generated/generated";
-import { ONE_ETHER, ONE_USD } from "../../../meta/constants";
+import { ONE_ETHER, ONE_USD } from "../../../../shared/meta/constants";
 import { Address } from "viem";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";

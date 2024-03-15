@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { ONE_ETHER } from "../../../meta/constants";
+import { ONE_ETHER } from "../../../../shared/meta/constants";
 import { calculateApy } from "./useFetchViewStrategyApy";
 
 const formatter = Intl.NumberFormat("en", {

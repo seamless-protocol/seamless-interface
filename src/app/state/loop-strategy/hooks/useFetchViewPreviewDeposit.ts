@@ -3,7 +3,7 @@ import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   ONE_ETHER,
   walletBalanceDecimalsOptions,
-} from "../../../meta/constants";
+} from "../../../../shared/meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";

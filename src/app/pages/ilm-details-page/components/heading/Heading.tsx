@@ -11,15 +11,14 @@ import {
   SmallWatchAssetButton,
   SmallExternalLinkButton,
   Dropdown,
-  useToken,
-  useWatchAsset,
 } from "@shared";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 import { useFetchViewStrategyApy } from "../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { RouterConfig } from "@router";
-import { Address } from "viem";
+import { ViewAssetOnBaseScan } from "./ViewAssetOnBaseScan";
+import { WatchAsset } from "./WatchAsset";
 
 export const Heading: React.FC<{
   id: number;
@@ -72,7 +71,6 @@ export const Heading: React.FC<{
                 <ViewAssetOnBaseScan
                   label="Strategy Asset"
                   {...strategyConfig}
-                  symbol={strategyConfig.symbol}
                 />
               </ul>
             </Dropdown>
@@ -84,11 +82,7 @@ export const Heading: React.FC<{
                   label="Underlying Asset"
                   {...strategyConfig.underlyingAsset}
                 />
-                <WatchAsset
-                  label="Strategy Asset"
-                  {...strategyConfig}
-                  symbol={strategyConfig.symbol}
-                />
+                <WatchAsset label="Strategy Asset" {...strategyConfig} />
               </ul>
             </Dropdown>
           </FlexRow>
@@ -150,63 +144,6 @@ export const Heading: React.FC<{
           </FlexRow>
         </FlexCol>
       </FlexRow>
-    </div>
-  );
-};
-
-const ViewAssetOnBaseScan: React.FC<{
-  address: string;
-  symbol?: string;
-  logo?: string;
-  label?: string;
-  className?: string;
-}> = ({ address, symbol, logo, label, className }) => {
-  return (
-    <div className={`text-text-secondary ${className}`}>
-      <div className="px-4 py-3 pb-2">
-        <Typography type="secondary12">{label}</Typography>
-      </div>
-      <a target="_blank" href={RouterConfig.Builder.baseScanAddress(address)}>
-        <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
-          <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
-        </FlexRow>
-      </a>
-    </div>
-  );
-};
-
-const WatchAsset: React.FC<{
-  address: Address;
-  symbol?: string;
-  logo?: string;
-  label?: string;
-  className?: string;
-}> = ({ address, symbol, logo, label, className }) => {
-  const { mutateAsync } = useWatchAsset();
-  const { data: tokenData } = useToken(address);
-
-  const handleWatchAsset = async () => {
-    await mutateAsync({
-      address,
-      ...tokenData,
-    });
-  };
-
-  return (
-    <div className={`text-text-secondary ${className}`}>
-      <div className="px-4 py-3 pb-2">
-        <Typography type="secondary12">{label}</Typography>
-      </div>
-      <button
-        onClick={handleWatchAsset}
-        className="focus:outline-none w-full text-left"
-      >
-        <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
-          <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
-        </FlexRow>
-      </button>
     </div>
   );
 };

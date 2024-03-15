@@ -3,8 +3,13 @@ import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../DepositModal";
-import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
-import { walletBalanceDecimalsOptions } from "@meta";
+import {
+  DisplayMoney,
+  ViewBigInt,
+  FlexRow,
+  Typography,
+  walletBalanceDecimalsOptions,
+} from "@shared";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
 
