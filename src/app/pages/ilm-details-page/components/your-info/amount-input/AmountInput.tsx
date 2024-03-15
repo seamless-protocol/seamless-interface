@@ -2,7 +2,7 @@
 import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
-import { DepositModalFormData } from "../DepositModal";
+import { DepositModalFormData } from "../deposit/DepositModal";
 import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";

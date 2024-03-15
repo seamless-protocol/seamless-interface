@@ -1,5 +1,5 @@
 import React from "react";
-import { AmountInput } from "./AmountInput";
+import { AmountInput } from "../amount-input/AmountInput";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";

@@ -14,14 +14,14 @@ import {
   MyFormProvider,
   Typography,
   useNotificationContext,
-} from "../../../../../shared";
-import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
-import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
-import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+} from "../../../../../../shared";
+import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
+import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
+import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
+import { AmountInputWithdrawWrapper } from "./AmountInputWithdrawWrapper";
 import { useQueryClient } from "@tanstack/react-query";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -100,7 +100,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputWrapper
+            <AmountInputWithdrawWrapper
               id={id}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
