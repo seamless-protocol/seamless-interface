@@ -6,8 +6,9 @@ import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
 import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
+import { useToken } from "../../../state/meta-data-queries/useToken";
 
-interface Coin {
+interface Token {
   symbol: string;
   address: Address;
   logo?: string;
@@ -40,22 +41,25 @@ interface Coin {
  * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
  * In this example, the `AddCoinToWallet` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
  *
- * @param {Coin} props The coin details.
+ * @param {Token} props The coin details.
  * @returns {React.FC} A React functional component.
  */
-export const AddCoinToWallet: React.FC<Coin> = ({
+export const WatchAssetComponent: React.FC<Token> = ({
   symbol,
   address,
   logo,
   decimals,
 }) => {
   const { mutateAsync, isPending } = useWatchAsset();
+  const {
+    data: { decimals: fetchedDecimals },
+  } = useToken(address);
 
   const handleAddToWalletClick = async () => {
     await mutateAsync({
       symbol,
       address,
-      decimals,
+      decimals: decimals || fetchedDecimals,
       logo,
     });
   };
