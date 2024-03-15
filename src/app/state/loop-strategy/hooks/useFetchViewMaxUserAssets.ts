@@ -1,11 +1,15 @@
 import { Address } from "viem";
-import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { walletBalanceDecimalsOptions } from "../../../meta";
+import { useFetchMaxAssets } from "../queries/useFetchViewMaxAssets";
+import { StrategyAction } from "../../../pages/ilm-details-page/components/your-info/amount-input/AmountInputWrapper";
 
-export const useFetchMaxUserDeposit = (strategy: Address) => {
+export const useFetchMaxUserAssets = (
+  strategy: Address,
+  action: StrategyAction
+) => {
   const {
     data: underlyingAsset,
     isLoading: isUnderlyingAssetLoading,
@@ -16,7 +20,7 @@ export const useFetchMaxUserDeposit = (strategy: Address) => {
     isLoading: isMaxDepositLoading,
     isFetched: isMaxDepositFetched,
     data: maxDeposit,
-  } = useFetchMaxDeposit(strategy);
+  } = useFetchMaxAssets(strategy, action);
 
   const {
     isLoading: isAssetBalanceLoading,
@@ -36,12 +40,15 @@ export const useFetchMaxUserDeposit = (strategy: Address) => {
   };
 };
 
-export const useFetchViewMaxUserDeposit = (strategy: Address) => {
+export const useFetchViewMaxUserAssets = (
+  strategy: Address,
+  action: StrategyAction
+) => {
   const {
     isLoading,
     isFetched,
     data: maxUserDeposit,
-  } = useFetchMaxUserDeposit(strategy);
+  } = useFetchMaxUserAssets(strategy, action);
 
   return {
     isLoading,

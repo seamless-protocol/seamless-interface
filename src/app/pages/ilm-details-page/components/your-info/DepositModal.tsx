@@ -22,7 +22,10 @@ import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDeb
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
-import AmountInputDepositWrapper from "./amount-input/AmountInputDepositWrapper";
+import {
+  AmountInputWrapper,
+  StrategyAction,
+} from "./amount-input/AmountInputWrapper";
 
 export interface DepositModalFormData {
   amount: string;
@@ -110,8 +113,9 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputDepositWrapper
+            <AmountInputWrapper
               id={id}
+              action={StrategyAction.Deposit}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
           </FlexCol>

@@ -19,7 +19,10 @@ import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDeb
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
+import {
+  AmountInputWrapper,
+  StrategyAction,
+} from "./amount-input/AmountInputWrapper";
 import { useQueryClient } from "@tanstack/react-query";
 import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 
@@ -102,6 +105,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
             <Typography type="description">Amount</Typography>
             <AmountInputWrapper
               id={id}
+              action={StrategyAction.Withdraw}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
           </FlexCol>
