@@ -57,9 +57,7 @@ export const StrategyStatusAndConfiguration: React.FC<{
                 mainValue={data?.targetMultiple}
                 isFetched={isFetched}
               />
-            </FlexCol>
-            <FlexCol className="gap-3 max-w-40">
-              <Typography>Loop Strategy</Typography>
+              <VerticalDivider />
               <FlexCol className="border-thin rounded-md border-divider p-2">
                 <Typography type="description">Loop Strategy</Typography>
                 <Link
