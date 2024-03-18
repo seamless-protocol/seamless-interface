@@ -15,10 +15,10 @@ interface Token {
   decimals?: number;
 }
 /**
- * `AddCoinToWallet` Component
+ * `WatchAssetComponent` Component
  *
  * This component provides a user interface for adding a specified coin to the user's MetaMask wallet.
- * It utilizes the `useAddCoinToWallet` hook to perform the addition operation.
+ * It utilizes the `useWatchAssetComponent` hook to perform the addition operation.
  *
  * * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
  *
@@ -30,7 +30,7 @@ interface Token {
  * ## Usage:
  *
  * ```jsx
- * <AddCoinToWallet
+ * <WatchAssetComponent
  *   symbol="ETH"
  *   address="0x123..."
  *   logo={assets/token/yourLogo}
@@ -39,7 +39,7 @@ interface Token {
  * ```
  *
  * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
- * In this example, the `AddCoinToWallet` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
+ * In this example, the `WatchAssetComponent` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
  *
  * @param {Token} props The coin details.
  * @returns {React.FC} A React functional component.

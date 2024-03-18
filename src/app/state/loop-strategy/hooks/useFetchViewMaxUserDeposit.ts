@@ -3,8 +3,7 @@ import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { walletBalanceDecimalsOptions } from "../../../meta";
-import { Displayable, ViewBigInt } from "../../../../shared";
+import { Displayable, ViewBigInt, walletBalanceDecimalsOptions } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 
 export const useFetchMaxUserDeposit = (

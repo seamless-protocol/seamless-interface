@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { etherUnits, parseUnits } from "viem";
 import {
-  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -14,6 +13,7 @@ import {
   MyFormProvider,
   StandardTooltip,
   Typography,
+  WatchAssetComponent,
   useERC20Approve,
   useNotificationContext,
 } from "@shared";
@@ -85,7 +85,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     You Supplied {data.amount}{" "}
                     {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet {...ilmStrategies[id]} />
+                  <WatchAssetComponent {...ilmStrategies[id]} />
                 </FlexCol>
               ),
             });
