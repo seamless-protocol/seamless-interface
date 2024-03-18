@@ -1,7 +1,7 @@
 import { HeadingContainer } from "../../components/header/HeadingContainer";
 import { Card, PageContainer } from "../../../shared";
 import { useParams } from "react-router-dom";
-import { Heading } from "./components/Heading";
+import { Heading } from "./components/heading/Heading";
 import { StrategyStatusAndConfiguration } from "./components/StrategyStatusAndConfiguration";
 import { YourInfo } from "./components/your-info/YourInfo";
 import { useState } from "react";

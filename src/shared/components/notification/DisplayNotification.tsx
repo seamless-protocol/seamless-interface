@@ -45,7 +45,7 @@ export const DisplayNotification = ({
             <FlexRow className="justify-between items-center">
               <span />
               <Link
-                to={RouterConfig.Builder.baseScan(txHash || "")}
+                to={RouterConfig.Builder.baseScanTx(txHash || "")}
                 target="_blank"
               >
                 <FlexRow className="justify-between items-center gap-0.5">

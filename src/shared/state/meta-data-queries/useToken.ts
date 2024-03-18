@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
-import { FetchData } from "../../../../shared/types/Fetch";
-import { useSeamlessContractRead } from "../../../../shared";
-import { metadataQueryConfig } from "../../settings/config";
+import { FetchData } from "../../types/Fetch";
+import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
+import { metadataQueryConfig } from "../settings/config";
 
 export interface Token {
   symbol: string;

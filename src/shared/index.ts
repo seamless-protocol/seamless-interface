@@ -25,6 +25,7 @@ export * from "./components/auth/AuthGuard";
 // ****** //
 export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
+export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 
 // ********** //
 // containers //
@@ -51,6 +52,11 @@ export * from "./components/tooltip/StandardTooltip";
 export * from "./components/divider/Divider";
 export * from "./components/divider/VerticalDivider";
 
+// ******** //
+// Dropdown //
+// ******** //
+export * from "./components/dropdown/Dropdown";
+
 // **** //
 // form //
 // **** //
@@ -66,6 +72,11 @@ export * from "./components/images/Icon";
 // lifi //
 // **** //
 export * from "./components/lifi/LiFiWidgetWrapper";
+
+// **** //
+// links //
+// **** //
+export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 
 // ***** //
 // types //
@@ -106,9 +117,19 @@ export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletR
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/add-coin-to-wallet/AddCointToWallet";
 
-// ****** //
-// hooks //
-// ****** //
+// ************** //
+// wagmi wrappers //
+// ************** //
 export * from "./wagmi-wrapper/hooks/useSeamlessContractRead";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractReads";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
+
+// ****** //
+// hooks  //
+// ****** //
+export * from "./hooks";
+
+// ****** //
+// state  //
+// ****** //
+export * from "./state";

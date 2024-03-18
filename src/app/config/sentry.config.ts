@@ -6,7 +6,7 @@ import {
   createRoutesFromChildren,
   matchRoutes,
 } from "react-router-dom";
-import { IS_DEV_MODE } from "./window.override";
+import { IS_DEV_MODE } from "../../globals";
 
 if (!IS_DEV_MODE) {
   Sentry.init({
