@@ -5,7 +5,7 @@ import {
   ViewBigInt,
   useSeamlessContractRead,
   useToken,
-} from "../../../../shared";
+} from "@shared";
 import { loopStrategyAbi } from "../../../generated";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 

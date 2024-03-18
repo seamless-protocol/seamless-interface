@@ -20,6 +20,7 @@ import { useFetchViewAssetPrice } from "../../../../state/common/queries/useFetc
 import { useFetchViewStrategyApy } from "../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { RouterConfig } from "@router";
 import { Address } from "viem";
+import { aaveOracleAddress } from "@generated";
 
 export const Heading: React.FC<{
   id: number;
@@ -106,7 +107,6 @@ export const Heading: React.FC<{
           <DisplayValue
             typography="main21"
             {...targetMultiple}
-            symbolColor="light"
             isLoading={isTargetMultipleLoading}
             isFetched={isTargetMultipleFetched}
             loaderSkeleton
@@ -119,7 +119,6 @@ export const Heading: React.FC<{
           <DisplayPercentage
             typography="main21"
             {...apy}
-            symbolColor="light"
             isLoading={isApyLoading}
             isFetched={isApyFetched}
           />
@@ -132,7 +131,6 @@ export const Heading: React.FC<{
             <DisplayMoney
               typography="main21"
               {...oraclePrice}
-              symbolColor="light"
               isLoading={isOraclePriceLoading}
               isFetched={isOraclePriceFetched}
             />
@@ -140,9 +138,7 @@ export const Heading: React.FC<{
               tooltipText="View Oracle Contract"
               onClick={() => {
                 window.open(
-                  RouterConfig.Builder.baseScanAddress(
-                    strategyConfig.underlyingAsset.address
-                  ),
+                  RouterConfig.Builder.baseScanAddress(aaveOracleAddress),
                   "_blank"
                 );
               }}

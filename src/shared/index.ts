@@ -14,7 +14,6 @@ export * from "./contexts/connect-wallet/useConnectButtonContext";
 // pages //
 // ****** //
 export * from "./pages/FallbackPage";
-export * from "./pages/PageNotFound";
 
 // ****** //
 // auth //
@@ -117,11 +116,6 @@ export * from "./components/table/TableRow";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/add-coin-to-wallet/AddCointToWallet";
-
-// ****** //
-// utils //
-// ****** //
-export * from "./utils/consts";
 
 // ************** //
 // wagmi wrappers //
