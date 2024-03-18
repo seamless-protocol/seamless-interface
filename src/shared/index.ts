@@ -130,11 +130,6 @@ export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletR
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
 
-// ****** //
-// utils //
-// ****** //
-export * from "./utils/consts";
-
 // ************** //
 // wagmi wrappers //
 // ************** //

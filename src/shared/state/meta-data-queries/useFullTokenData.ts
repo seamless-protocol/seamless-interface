@@ -2,6 +2,7 @@ import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
 import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 import { TokenDataDict } from "@meta";
+import { metadataQueryConfig } from "../settings/config";
 
 export interface FullTokenData {
   symbol: string;
@@ -22,9 +23,7 @@ export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
     address: token,
     abi: erc20Abi,
     functionName: "decimals",
-    query: {
-      staleTime: Infinity,
-    },
+    query: metadataQueryConfig,
   });
 
   const {
@@ -35,9 +34,7 @@ export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
     address: token,
     abi: erc20Abi,
     functionName: "symbol",
-    query: {
-      staleTime: Infinity,
-    },
+    query: metadataQueryConfig,
   });
 
   return {
