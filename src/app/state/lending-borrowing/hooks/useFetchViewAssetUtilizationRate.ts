@@ -1,8 +1,9 @@
 import { Address } from "viem";
-import { Displayable, ONE_ETHER, ViewBigInt } from "@shared";
+import { Displayable, ViewBigInt } from "@shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
+import { ONE_ETHER } from "@meta";
 
 export const useFetchAssetUtilizationRate = (
   asset: Address
