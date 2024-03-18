@@ -6,8 +6,9 @@ import {
   createRoutesFromChildren,
   matchRoutes,
 } from "react-router-dom";
+import { IS_DEV_MODE } from "../../globals";
 
-if (import.meta.env.VITE_IS_DEV_MODE !== true) {
+if (IS_DEV_MODE) {
   Sentry.init({
     dsn: "https://f078a84aea6485ab874269be898bad60@o4506877073555456.ingest.us.sentry.io/4506877076242432",
     integrations: [
