@@ -142,9 +142,6 @@ export * from "./utils/consts";
 // ************** //
 // wagmi wrappers //
 // ************** //
-// ************** //
-// wagmi wrappers //
-// ************** //
 export * from "./wagmi-wrapper/hooks/useSeamlessContractRead";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractReads";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
