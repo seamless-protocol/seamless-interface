@@ -7,7 +7,7 @@ import {
 } from "@shared";
 import { Address } from "viem";
 
-export const WatchAsset: React.FC<{
+export const WatchAssetButton: React.FC<{
   address: Address;
   label?: string;
   className?: string;

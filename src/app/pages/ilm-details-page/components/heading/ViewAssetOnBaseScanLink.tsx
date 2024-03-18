@@ -2,7 +2,7 @@ import { RouterConfig } from "@router";
 import { useFullTokenData, Typography, FlexRow, Icon } from "@shared";
 import { Address } from "viem";
 
-export const ViewAssetOnBaseScan: React.FC<{
+export const ViewAssetOnBaseScanLink: React.FC<{
   address: Address;
   label?: string;
   className?: string;
