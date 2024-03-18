@@ -1,4 +1,4 @@
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   ONE_ETHER,
@@ -9,9 +9,10 @@ import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable } from "../../../../shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
-import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
+import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
+import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { useToken } from "../../common/metadataQueries/useToken";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -25,15 +26,34 @@ export const useFetchPreviewDeposit = (
   amount: string
 ): FetchData<PreviewDeposit> => {
   const account = useAccount();
-  const [shares, setShares] = useState(0n);
 
-  useEffect(() => {
-    if (!account.address) return;
+  const {
+    isLoading: isStrategyAssetLoading,
+    isFetched: isStrategyAssetFetched,
+    data: underlyingAsset,
+  } = useFetchStrategyAsset(strategyConfig.address);
 
-    simulateDeposit(account.address, amount, strategyConfig).then((result) => {
-      result.isSuccess && setShares(result.sharesToReceive);
-    });
-  }, [amount]);
+  const {
+    isLoading: isUnderlyingAssetDataLoading,
+    isFetched: isUnderlyingAssetDataFetched,
+    data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+  } = useToken(underlyingAsset);
+
+  const {
+    isLoading: isStrategyAssetDataLoading,
+    isFetched: isStrategyAssetDataFetched,
+    data: { decimals: strategyDecimals },
+  } = useToken(strategyConfig.address);
+
+  const {
+    data: shares,
+    isLoading: isSimulateDepositLoading,
+    isFetched: isSimulateDepositFetched,
+  } = useFetchSimulateDeposit(
+    account.address as Address,
+    strategyConfig.address,
+    amount
+  );
 
   const {
     isLoading: isShareValueLoading,
@@ -45,11 +65,11 @@ export const useFetchPreviewDeposit = (
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: assetPrice,
-  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchAssetPrice(underlyingAsset);
 
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
-  if (shares && sharePrice && assetPrice) {
-    sharesToReceive = (shares * 99n) / 100n;
+  if (shares && shares.bigIntValue && sharePrice && assetPrice) {
+    sharesToReceive = (shares.bigIntValue * 99n) / 100n;
     sharesToReceiveInUsd =
       (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
@@ -61,12 +81,24 @@ export const useFetchPreviewDeposit = (
   }
 
   return {
-    isLoading: isShareValueLoading || isAssetPriceLoading,
-    isFetched: isShareValueFetched && isAssetPriceFetched,
+    isLoading:
+      isStrategyAssetLoading ||
+      isUnderlyingAssetDataLoading ||
+      isStrategyAssetDataLoading ||
+      isShareValueLoading ||
+      isAssetPriceLoading ||
+      isSimulateDepositLoading,
+    isFetched:
+      isStrategyAssetFetched &&
+      isUnderlyingAssetDataFetched &&
+      isStrategyAssetDataFetched &&
+      isShareValueFetched &&
+      isAssetPriceFetched &&
+      isSimulateDepositFetched,
     data: {
       sharesToReceive: {
         bigIntValue: sharesToReceive || 0n,
-        decimals: 18,
+        decimals: strategyDecimals,
         symbol: strategyConfig.symbol,
       },
       sharesToReceiveInUsd: {
@@ -76,8 +108,8 @@ export const useFetchPreviewDeposit = (
       },
       costInUnderlyingAsset: {
         bigIntValue: costInUnderlyingAsset || 0n,
-        decimals: 18,
-        symbol: strategyConfig.underlyingAsset.symbol,
+        decimals: underlyingAssetDecimals,
+        symbol: underlyingAssetSymbol,
       },
       costInUsd: {
         bigIntValue: costInUsd || 0n,

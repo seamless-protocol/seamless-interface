@@ -3,6 +3,7 @@ import { AmountInput } from "../amount-input/AmountInput";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { walletBalanceDecimalsOptions } from "../../../../../meta";
 
 interface AmountInputDepositWrapperProps {
   id: number;
@@ -20,7 +21,7 @@ export const AmountInputDepositWrapper: React.FC<
   // TODO: properly invallidate query!!!
   const {
     data: { balance },
-  } = useFetchViewAssetBalance(assetAddress);
+  } = useFetchViewAssetBalance(assetAddress, walletBalanceDecimalsOptions);
 
   const { data: maxUserDeposit } = useFetchViewMaxUserDeposit(strategy);
 

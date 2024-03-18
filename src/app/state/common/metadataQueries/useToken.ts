@@ -8,7 +8,7 @@ export interface Token {
   decimals: number;
 }
 
-export const useToken = (token: Address): FetchData<Token> => {
+export const useToken = (token?: Address): FetchData<Token> => {
   const {
     data: decimals,
     isLoading: isDecimalsLoading,

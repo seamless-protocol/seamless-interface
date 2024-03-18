@@ -1,4 +1,4 @@
-import { Address, Hex, decodeEventLog } from "viem";
+import { Address, Hex, decodeEventLog, parseEther } from "viem";
 import {
   createApproveTx,
   createDepositTx,
@@ -6,7 +6,6 @@ import {
 } from "./tenderlyHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
-import { StrategyConfig } from "../../app/state/loop-strategy/config/StrategyConfig";
 
 export interface PreviewDeposit {
   isSuccess: boolean;
@@ -52,18 +51,21 @@ async function simulateBundle(functionCalls: any) {
 
 export async function simulateDeposit(
   account: Address,
-  amount: string,
-  strategyConfig: StrategyConfig
+  strategy: Address,
+  underlyingAsset: Address | undefined,
+  amount: string
 ): Promise<PreviewDeposit> {
+  if (!underlyingAsset || parseEther(amount) === 0n) {
+    return {
+      isSuccess: true,
+      sharesToReceive: 0n,
+    };
+  }
+
   try {
     const { result } = await simulateBundle([
-      createApproveTx(
-        account,
-        strategyConfig.underlyingAsset.address,
-        strategyConfig.address,
-        amount
-      ),
-      createDepositTx(account, strategyConfig.address, amount),
+      createApproveTx(account, underlyingAsset, strategy, amount),
+      createDepositTx(account, strategy, amount),
     ]);
 
     if (!result || !result[1].status || !result[1].logs) {
@@ -107,12 +109,19 @@ export async function simulateDeposit(
 
 export async function simulateWithdraw(
   account: Address,
-  amount: string,
-  strategyConfig: StrategyConfig
+  strategy: Address,
+  amount: string
 ): Promise<PreviewWithdraw> {
+  if (parseEther(amount) === 0n) {
+    return {
+      isSuccess: true,
+      assetsToReceive: 0n,
+    };
+  }
+
   try {
     const { result } = await simulateBundle([
-      createWithdrawTx(account, strategyConfig.address, amount),
+      createWithdrawTx(account, strategy, amount),
     ]);
 
     if (!result || !result[0].status || !result[0].logs) {
