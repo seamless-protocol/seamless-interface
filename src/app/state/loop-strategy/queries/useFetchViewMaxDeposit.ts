@@ -4,9 +4,9 @@ import {
   Displayable,
   ViewBigInt,
   useSeamlessContractRead,
-} from "../../../../shared";
+  useToken,
+} from "@shared";
 import { loopStrategyAbi } from "../../../generated";
-import { useToken } from "../../common/metadataQueries/useToken";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
 export const useFetchMaxDeposit = (
