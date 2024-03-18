@@ -13,7 +13,7 @@ export * from "./contexts/connect-wallet/useConnectButtonContext";
 // ****** //
 // meta //
 // ****** //
-export * from "./meta";
+export * from "../meta";
 
 // ****** //
 // pages //

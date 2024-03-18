@@ -26,6 +26,7 @@
       // "@state": ["src/app/state/*"],
       // "@app-components": ["src/app/components/*"],
       "@router": ["src/app/router/index"],
+      "@meta": ["src/meta/index"],
     },
   },
   "include": ["src/**/*", "types/**/*.d.ts"],

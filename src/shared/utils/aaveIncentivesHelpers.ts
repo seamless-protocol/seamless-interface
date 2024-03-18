@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { formatUnitsToNumber, normalizeDecimals } from "./helpers";
-import { SECONDS_PER_YEAR, assetLogos } from "../meta";
+import { SECONDS_PER_YEAR, assetLogos } from "../../meta";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;

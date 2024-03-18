@@ -4,7 +4,7 @@ import {
   APY_BLOCK_FRAME,
   COMPOUNDING_PERIODS_APY,
   SECONDS_PER_YEAR,
-} from "../../../../shared/meta/constants";
+} from "../../../../meta/constants";
 import {
   formatFetchNumberToViewNumber,
   formatUnitsToNumber,

@@ -3,7 +3,7 @@ import {
   incentiveDataProviderAbi,
   incentiveDataProviderAddress,
 } from "../../../generated";
-import { AAVE_ADDRESS_PROVIDER } from "../../../../shared/meta";
+import { AAVE_ADDRESS_PROVIDER } from "../../../../meta";
 
 /**
  * Fetches incentives data from smart contract for all assets in lending pool

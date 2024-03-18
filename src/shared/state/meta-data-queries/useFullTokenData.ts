@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
 import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
-import { TokenDataDict } from "../../meta/TokenDataDict";
+import { TokenDataDict } from "@meta";
 
 export interface FullTokenData {
   symbol: string;
