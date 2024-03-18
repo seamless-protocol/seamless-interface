@@ -2,19 +2,15 @@
 import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
-import { DepositModalFormData } from "../DepositModal";
-import {
-  DisplayMoney,
-  ViewBigInt,
-  FlexRow,
-  Typography,
-  walletBalanceDecimalsOptions,
-} from "@shared";
+import { DepositModalFormData } from "../deposit/DepositModal";
+import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
+import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
+  maxAssets: ViewBigInt;
   debouncedAmountInUsd: number;
   assetSymbol: string;
   assetLogo: string;
@@ -23,6 +19,7 @@ interface AmountInputBoxProps {
 // todo: generic amount input field
 export const AmountInput: React.FC<AmountInputBoxProps> = ({
   walletBalance,
+  maxAssets,
   debouncedAmountInUsd,
   assetSymbol,
   assetLogo,
@@ -30,7 +27,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   const { setValue } = useFormContext();
 
   const handleMaxClick = () => {
-    setValue("amount", formatUnits(walletBalance?.bigIntValue || 0n, 18));
+    setValue("amount", formatUnits(maxAssets?.bigIntValue || 0n, 18));
   };
 
   return (
@@ -41,7 +38,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
           type="number"
           placeholder="0.00"
           className="pt-1 no-underline"
-          max={walletBalance.value || "0"}
+          max={maxAssets.value || "0"}
         />
 
         <div className="flex items-center space-x-2">

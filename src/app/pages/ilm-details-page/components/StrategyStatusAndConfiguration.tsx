@@ -27,25 +27,9 @@ export const StrategyStatusAndConfiguration: React.FC<{
       <Typography type="h3">Strategy status & configuration</Typography>
       <FlexCol className="gap-10">
         <FlexCol className="md:flex-row gap-4">
-          <FlexCol>
-            <Typography type="subheader1" className="md:min-w-[170px]">
-              Strategy info
-            </Typography>
-            <Link
-              to={RouterConfig.Builder.baseScanAddress(strategyConfig.address)}
-              target="_blank"
-            >
-              <FlexRow className="gap-1">
-                <Typography type="description">View contract</Typography>
-                <Icon
-                  width={12}
-                  height={12}
-                  src={externalLink}
-                  alt="external-link"
-                />
-              </FlexRow>
-            </Link>
-          </FlexCol>
+          <Typography type="subheader1" className="md:min-w-[170px]">
+            Strategy info
+          </Typography>
           <FlexCol className="gap-20">
             <FlexCol className="md:flex-row gap-4 md:gap-0">
               <LocalValueComponent
@@ -73,6 +57,26 @@ export const StrategyStatusAndConfiguration: React.FC<{
                 mainValue={data?.targetMultiple}
                 isFetched={isFetched}
               />
+              <VerticalDivider />
+              <FlexCol className="border-thin rounded-md border-divider p-2">
+                <Typography type="description">Loop Strategy</Typography>
+                <Link
+                  to={RouterConfig.Builder.baseScanAddress(
+                    strategyConfig.address
+                  )}
+                  target="_blank"
+                >
+                  <FlexRow className="gap-1">
+                    <Typography type="description">View contract</Typography>
+                    <Icon
+                      width={12}
+                      height={12}
+                      src={externalLink}
+                      alt="external-link"
+                    />
+                  </FlexRow>
+                </Link>
+              </FlexCol>
             </FlexCol>
           </FlexCol>
         </FlexCol>

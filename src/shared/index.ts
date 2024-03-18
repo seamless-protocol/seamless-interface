@@ -32,6 +32,7 @@ export * from "./components/auth/AuthGuard";
 export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
+export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 
 // ********** //
 // containers //
@@ -63,6 +64,11 @@ export * from "./components/divider/VerticalDivider";
 // ******** //
 export * from "./components/dropdown/Dropdown";
 
+// ******** //
+// Dropdown //
+// ******** //
+export * from "./components/dropdown/Dropdown";
+
 // **** //
 // form //
 // **** //
@@ -78,6 +84,11 @@ export * from "./components/images/Icon";
 // lifi //
 // **** //
 export * from "./components/lifi/LiFiWidgetWrapper";
+
+// **** //
+// links //
+// **** //
+export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 
 // **** //
 // links //
@@ -128,6 +139,9 @@ export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
 // ****** //
 export * from "./utils/consts";
 
+// ************** //
+// wagmi wrappers //
+// ************** //
 // ************** //
 // wagmi wrappers //
 // ************** //

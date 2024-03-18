@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { etherUnits, parseUnits } from "viem";
 import {
-  WatchAssetComponent,
+  AddCoinToWallet,
   Button,
   ButtonProps,
   DisplayMoney,
@@ -14,16 +14,15 @@ import {
   MyFormProvider,
   StandardTooltip,
   Typography,
+  useERC20Approve,
   useNotificationContext,
 } from "@shared";
-import { useReadAaveOracleGetAssetPrice } from "../../../../generated/generated";
-import { useERC20Approve } from "../../../../../shared/state/mutations/useERC20Approve";
-import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
-import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-
-import AmountInputWrapper from "./amount-input/AmountInputWrapper";
-import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import { useReadAaveOracleGetAssetPrice } from "../../../../../generated/generated";
+import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
+import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
+import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import AmountInputDepositWrapper from "./AmountInputDepositWrapper";
 
 export interface DepositModalFormData {
   amount: string;
@@ -86,7 +85,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     You Supplied {data.amount}{" "}
                     {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <WatchAssetComponent {...ilmStrategies[id]} />
+                  <AddCoinToWallet {...ilmStrategies[id]} />
                 </FlexCol>
               ),
             });
@@ -111,10 +110,8 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputWrapper
-              assetAddress={strategyConfig.underlyingAsset.address}
-              assetSymbol={strategyConfig.underlyingAsset.symbol}
-              assetLogo={strategyConfig.underlyingAsset.logo}
+            <AmountInputDepositWrapper
+              id={id}
               debouncedAmountInUsd={debouncedAmountInUsd}
             />
           </FlexCol>
