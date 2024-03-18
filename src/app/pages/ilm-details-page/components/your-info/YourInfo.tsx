@@ -9,8 +9,8 @@ import {
   Typography,
 } from "../../../../../shared";
 import { useFetchViewUserInfo } from "../../hooks/useFetchViewUserInfo";
-import { DepositModal } from "./DepositModal";
-import { WithdrawModal } from "./WithdrawModal";
+import { DepositModal } from "./deposit/DepositModal";
+import { WithdrawModal } from "./withdraw/WithdrawModal";
 
 import walletIcon from "../../../../../assets/common/wallet-icon.svg";
 
