@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { IS_DEV_MODE } from "../../globals";
 
-if (IS_DEV_MODE) {
+if (!IS_DEV_MODE) {
   Sentry.init({
     dsn: "https://f078a84aea6485ab874269be898bad60@o4506877073555456.ingest.us.sentry.io/4506877076242432",
     integrations: [
