@@ -11,11 +11,6 @@ export * from "./contexts/connect-wallet/ConnectButtonProvider";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 
 // ****** //
-// meta //
-// ****** //
-export * from "../meta";
-
-// ****** //
 // pages //
 // ****** //
 export * from "./pages/FallbackPage";
@@ -74,6 +69,7 @@ export * from "./components/dropdown/Dropdown";
 // **** //
 export * from "./components/form/MyFormProvider";
 export * from "./components/form/inputs/CustomInput";
+export * from "./components/form/rhf/RHFInputField";
 
 // ***** //
 // Images //

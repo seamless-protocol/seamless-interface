@@ -2,7 +2,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { useFetchDetailAssetBalance } from "../../../state/common/hooks/useFetchViewDetailAssetBalance";
-import { walletBalanceDecimalsOptions } from "@shared";
+import { walletBalanceDecimalsOptions } from "@meta";
 export interface ViewUserInfo {
   underlyingAssetBalance: {
     tokenAmount: ViewBigInt;

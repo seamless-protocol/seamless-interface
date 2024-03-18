@@ -1,7 +1,7 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import { parseEther } from "viem";
 import { formatUnitsToNumber } from "../../../../shared/utils/helpers";
-import { ONE_ETHER } from "../../../../meta/constants";
+import { ONE_ETHER } from "@meta";
 
 export const useWrappedDebounce = (
   assetAmount: string,

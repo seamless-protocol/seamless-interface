@@ -1,6 +1,5 @@
 // AmountInputBox.tsx
 import React from "react";
-import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../deposit/DepositModal";
 import {
@@ -8,10 +7,11 @@ import {
   ViewBigInt,
   FlexRow,
   Typography,
-  walletBalanceDecimalsOptions,
+  RHFInputField,
 } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;

@@ -4,7 +4,7 @@ import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
-import { WSTETH_ADDRESS, WETH_ADDRESS } from "@shared";
+import { WSTETH_ADDRESS, WETH_ADDRESS } from "@meta";
 
 interface AssetConfig {
   name: string;
