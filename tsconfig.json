@@ -29,6 +29,6 @@
       "@router": ["src/app/router/index"],
     },
   },
-  "include": ["src/**/*", "types/**/*.d.ts"],
+  "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }

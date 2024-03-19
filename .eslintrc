@@ -1,32 +1,32 @@
-module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-  ],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
-  parser: "@typescript-eslint/parser",
-  plugins: ["react-refresh"],
-  settings: {
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "warnOnUnsupportedTypeScriptVersion": false,
+  },
+  "settings": {
     "import/resolver": {
-      typescript: {
-        alwaysTryTypes: true,
+      "typescript": {
+        "alwaysTryTypes": true,
       },
     },
   },
-  rules: {
-    "react-refresh/only-export-components": [
-      "warn",
-      { allowConstantExport: true },
-    ],
-
+  "rules": {
     "import/no-extraneous-dependencies": 0,
     "no-alert": 0,
-    camelcase: 0,
+    "camelcase": 0,
     "no-console": 0,
     "no-unused-vars": 0,
     "no-param-reassign": 0,
@@ -46,54 +46,59 @@ module.exports = {
     "jsx-a11y/control-has-associated-label": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "consistent-return": 0,
-    "import/no-cycle": 0,
     "react/prop-types": 0,
     "import/export": 0,
     "react/jsx-no-constructed-context-values": 0,
     "react-hooks/exhaustive-deps": 0,
     "import/no-named-as-default": 0,
-    radix: "warn",
-    eqeqeq: "warn",
-    "no-plusplus": "warn",
+    "no-plusplus": 0,
+    "react/no-unused-prop-types": 0,
+    "import/order": 0,
+    "arrow-body-style": 0,
+    "no-continue": 0,
+    "react/button-has-type": 0,
+    "no-sparse-arrays": 0,
+
+    "radix": "warn",
+    "eqeqeq": ["warn", "smart"],
     "no-nested-ternary": "warn",
     "jsx-a11y/tabindex-no-positive": "warn",
-    "react/no-unused-prop-types": 0,
     "react/no-unescaped-entities": "warn",
-    "react/button-has-type": "warn",
     "jsx-a11y/no-static-element-interactions": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
     "@typescript-eslint/no-unused-expressions": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
+    "no-unsafe-optional-chaining": "warn",
     "react/jsx-no-useless-fragment": [
       1,
       {
-        allowExpressions: true,
+        "allowExpressions": true,
       },
     ],
     "prefer-destructuring": [
       1,
       {
-        object: true,
-        array: true,
+        "object": true,
+        "array": false,
       },
     ],
     "react/no-unstable-nested-components": [
       1,
       {
-        allowAsProps: true,
+        "allowAsProps": true,
       },
     ],
     "@typescript-eslint/no-unused-vars": [
       1,
       {
-        args: "none",
+        "args": "none",
       },
     ],
     "react/jsx-no-duplicate-props": [
       1,
       {
-        ignoreCase: false,
+        "ignoreCase": false,
       },
     ],
   },
-};
+}
