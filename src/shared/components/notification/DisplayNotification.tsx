@@ -30,7 +30,7 @@ export const DisplayNotification = ({
           <div
             className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}
           >
-            {icon || (status ? ENUM_STATUSES[status] : <></>)}
+            {icon || (status ? ENUM_STATUSES[status] : <> </>)}
           </div>
 
           <Typography type="main21">

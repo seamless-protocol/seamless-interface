@@ -62,12 +62,12 @@ export const useFetchStrategyInfo = (
     ],
   });
 
-  let collateral,
-    collateralUSD,
-    equity,
-    equityUSD,
-    currentMultiple,
-    targetMultiple;
+  let collateral;
+    let collateralUSD;
+    let equity;
+    let equityUSD;
+    let currentMultiple;
+    let targetMultiple;
 
   if (results) {
     const collateralRatioTargets = results[0].result;

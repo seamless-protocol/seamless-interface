@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
+import { ONE_USD, SECONDS_PER_YEAR } from "@meta";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
@@ -17,10 +17,7 @@ const defaultDecimalsOptions: DecimalsOptions = {
   fourDigitNumberDecimals: 2,
 };
 
-export function formatUnitsToNumber(
-  value: string | bigint | undefined,
-  decimals: number
-) {
+export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number) {
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
@@ -75,9 +72,7 @@ export function formatToDisplayableOrPlaceholder(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  return value && value != 0
-    ? formatToDisplayable(value, decimalsFormattingOptions)
-    : placeholder;
+  return value && value != 0 ? formatToDisplayable(value, decimalsFormattingOptions) : placeholder;
 }
 
 /**
@@ -100,7 +95,7 @@ export function formatFetchBigIntToViewBigInt(
   return {
     value: formatUnits(bigIntValue, decimals),
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
-    bigIntValue: bigIntValue,
+    bigIntValue,
     symbol,
   };
 }
@@ -127,9 +122,7 @@ export function formatFetchNumberToViewNumber(
   };
 }
 
-export function formatIncentiveApyToViewNumber(
-  apy: number | undefined
-): ViewNumber {
+export function formatIncentiveApyToViewNumber(apy: number | undefined): ViewNumber {
   apy = apy || 0;
   return {
     viewValue: formatToDisplayableOrPlaceholder(apy, ""),
@@ -152,7 +145,6 @@ export function normalizeDecimals(
 ): bigint {
   if (valueDecimals <= toDecimals) {
     return value * 10n ** (toDecimals - valueDecimals);
-  } else {
-    return value / 10n ** (valueDecimals - toDecimals);
   }
+  return value / 10n ** (valueDecimals - toDecimals);
 }

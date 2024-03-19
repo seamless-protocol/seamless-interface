@@ -53,7 +53,7 @@ export const Typography: React.FC<TypographyProps> = ({
   tagOverride,
   children,
 }) => {
-  const Tag = tagOverride ? tagOverride : ComponentMap[type];
+  const Tag = tagOverride || ComponentMap[type];
   const styleClass = tailwindStyles[type] || "";
   const colorClass = color ? textColorStyles[color] : "";
   const combinedClassNames = `${styleClass} ${colorClass} ${className}`;

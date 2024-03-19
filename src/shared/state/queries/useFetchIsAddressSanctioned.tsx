@@ -40,7 +40,7 @@ export const useFetchIsAddressSanctioned = (address?: Address) => {
     queryKey: ["fetchIsAddressSanctioned", address as string],
     queryFn: fetchIsAddressSanctioned,
     staleTime: 1000 * 60 * 60, // 1 hour
-    enabled: address != undefined,
+    enabled: address != null,
   });
 
   return { isSanctioned: data };

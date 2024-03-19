@@ -13,16 +13,16 @@ declare global {
       }) => void;
       toggleSubscription: () => void;
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     ethereum?: any & {
       request: ({
         method,
         params,
       }: {
         method: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         params?: Array<any>;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
       }) => Promise<any>;
     };
   }

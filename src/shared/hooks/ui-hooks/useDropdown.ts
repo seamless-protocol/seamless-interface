@@ -38,7 +38,7 @@ export const useDropdown = () => {
   const dropdownRef = useRef(null);
 
   const toggleDropdown = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     e: React.MouseEvent<any>
   ) => {
     e.stopPropagation();
@@ -49,7 +49,7 @@ export const useDropdown = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         !(dropdownRef.current as any).contains(event.target)
       ) {
         setIsDropdownVisible(false);

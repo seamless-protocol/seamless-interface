@@ -5,7 +5,7 @@ export interface Displayable<T> {
   isFetched: boolean;
   isLoading: boolean;
 
-  //todo rethink interface
+  // todo rethink interface
   queryKey?: QueryKey;
 }
 

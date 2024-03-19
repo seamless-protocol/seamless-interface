@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { formatUnitsToNumber, normalizeDecimals } from "./helpers";
-import { SECONDS_PER_YEAR, assetLogos } from "../../app/meta";
+import { SECONDS_PER_YEAR, assetLogos } from "@meta";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -63,18 +63,15 @@ function parseRewardsTokenInformation(
     }
 
     const rewardTokenPrice =
-      rewardToken.rewardTokenSymbol === "esSEAM" ||
-      rewardToken.rewardTokenSymbol === "SEAM"
+      rewardToken.rewardTokenSymbol === "esSEAM" || rewardToken.rewardTokenSymbol === "SEAM"
         ? seamPrice
         : normalizeDecimals(
             rewardToken.rewardPriceFeed,
             BigInt(rewardToken.priceFeedDecimals),
             18n
           );
-    const emissionPerYear =
-      rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
-    const rewardTokenApy =
-      (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
+    const emissionPerYear = rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
+    const rewardTokenApy = (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
 
     const rewardTokenApyFormatted = formatUnitsToNumber(rewardTokenApy, 18);
 
@@ -96,11 +93,7 @@ export function parseIncentives(
   seamPrice: bigint
 ): IncentiveApy {
   const result = incentives
-    ? parseRewardsTokenInformation(
-        incentives.rewardsTokenInformation,
-        totalUsd,
-        seamPrice
-      )
+    ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd, seamPrice)
     : {
         totalApy: 0,
         rewardTokens: [],
