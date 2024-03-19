@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
+import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
 import { useToken } from "../../common/metadataQueries/useToken";

@@ -1,9 +1,9 @@
-import { Address, Hex, decodeEventLog, parseEther } from "viem";
+import { Address, decodeEventLog, pad, parseEther } from "viem";
 import {
   createApproveTx,
   createDepositTx,
   createWithdrawTx,
-} from "./tenderlyHelpers";
+} from "./bundlesHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 
@@ -17,31 +17,28 @@ export interface PreviewWithdraw {
   assetsToReceive: bigint;
 }
 
-const tenderlyNodeAccessKey = import.meta.env.VITE_TENDERLY_NODE_ACCESS_KEY;
+const alchemySimulationRpc = import.meta.env.VITE_ALCHEMY_SIMULATION_RPC_URL;
 
 async function simulateBundle(functionCalls: any) {
   try {
-    const res = await fetch(
-      `https://base.gateway.tenderly.co/${tenderlyNodeAccessKey}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: 0,
-          jsonrpc: "2.0",
-          method: "tenderly_simulateBundle",
-          params: [functionCalls, "latest"],
-        }),
-      }
-    );
+    const res = await fetch(alchemySimulationRpc, {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        id: 1,
+        jsonrpc: "2.0",
+        method: "alchemy_simulateExecutionBundle",
+        params: [functionCalls],
+      }),
+    });
 
     if (!res.ok) {
       console.error("Failed to simulate transactions");
       return null;
     }
-
     return await res.json();
   } catch (e) {
     console.error("Failed to simulate transactions", e);
@@ -68,7 +65,7 @@ export async function simulateDeposit(
       createDepositTx(account, strategy, amount),
     ]);
 
-    if (!result || !result[1].status || !result[1].logs) {
+    if (!result || !result[1].logs) {
       return {
         isSuccess: false,
         sharesToReceive: 0n,
@@ -80,7 +77,7 @@ export async function simulateDeposit(
     // Deposit even is the last event
     const depositEvent = logs[logs?.length - 1];
 
-    if (!depositEvent || !depositEvent.raw) {
+    if (!depositEvent) {
       return {
         isSuccess: false,
         sharesToReceive: 0n,
@@ -89,8 +86,12 @@ export async function simulateDeposit(
 
     const decodedDepositEvent = decodeEventLog({
       abi: depositEventAbi,
-      data: depositEvent.raw.data as Hex,
-      topics: depositEvent.raw.topics as [],
+      data: depositEvent.data,
+      topics: [
+        depositEvent.topics[0],
+        pad(depositEvent.topics[1]),
+        pad(depositEvent.topics[2]),
+      ] as any,
     });
 
     const sharesToReceive = decodedDepositEvent.args.shares;
@@ -99,7 +100,7 @@ export async function simulateDeposit(
       sharesToReceive,
     };
   } catch (e) {
-    console.error("Failed to simulate deposit");
+    console.error("Failed to simulate deposit", e);
     return {
       isSuccess: false,
       sharesToReceive: 0n,
@@ -124,7 +125,7 @@ export async function simulateWithdraw(
       createWithdrawTx(account, strategy, amount),
     ]);
 
-    if (!result || !result[0].status || !result[0].logs) {
+    if (!result || !result[0].logs) {
       return {
         isSuccess: false,
         assetsToReceive: 0n,
@@ -135,7 +136,7 @@ export async function simulateWithdraw(
     // Withdraw event is the last event
     const withdrawEvent = logs[logs?.length - 1];
 
-    if (!withdrawEvent || !withdrawEvent.raw) {
+    if (!withdrawEvent) {
       return {
         isSuccess: false,
         assetsToReceive: 0n,
@@ -144,8 +145,13 @@ export async function simulateWithdraw(
 
     const decodedWithdrawEvent = decodeEventLog({
       abi: withdrawEventAbi,
-      data: withdrawEvent.raw.data as Hex,
-      topics: withdrawEvent.raw.topics as [],
+      data: withdrawEvent.data,
+      topics: [
+        withdrawEvent.topics[0],
+        pad(withdrawEvent.topics[1]),
+        pad(withdrawEvent.topics[2]),
+        pad(withdrawEvent.topics[3]),
+      ] as any,
     });
 
     return {
@@ -153,7 +159,7 @@ export async function simulateWithdraw(
       assetsToReceive: decodedWithdrawEvent.args.assets,
     };
   } catch (e) {
-    console.error("Failed to simulate withdraw");
+    console.error("Failed to simulate withdraw", e);
     return {
       isSuccess: false,
       assetsToReceive: 0n,
