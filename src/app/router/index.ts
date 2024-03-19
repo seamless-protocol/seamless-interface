@@ -8,7 +8,7 @@ const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol";
 
-const baseScan = "https://basescan.org/tx";
+const baseScan = "https://basescan.org";
 
 export const RouterConfig = {
   Routes: {
@@ -26,6 +26,7 @@ export const RouterConfig = {
     ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
     assetDetails: (id: number) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${baseAssets[id].address.toLowerCase()}&marketName=proto_base_v3`,
-    baseScan: (txHash: string) => `${baseScan}/${txHash}`,
+    baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,
+    baseScanAddress: (address: string) => `${baseScan}/address/${address}`,
   },
 };

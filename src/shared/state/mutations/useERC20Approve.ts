@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSeamlessContractWrite } from "../../../../shared";
+import { useSeamlessContractWrite } from "../../wagmi-wrapper/hooks/useSeamlessContractWrite";
 
 const ALWAYS_APPROVE_MAX = false;
 

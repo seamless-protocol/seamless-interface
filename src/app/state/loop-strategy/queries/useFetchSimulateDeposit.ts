@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
-import { useToken } from "../../common/metadataQueries/useToken";
+import { useToken } from "@shared";
 
 export const useFetchSimulateDeposit = (
   account: Address,

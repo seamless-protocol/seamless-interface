@@ -12,7 +12,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { useToken } from "../../common/metadataQueries/useToken";
+import { useToken } from "@shared";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;

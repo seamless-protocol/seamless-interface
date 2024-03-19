@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { simulateWithdraw } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
-import { useToken } from "../../common/metadataQueries/useToken";
+import { useToken } from "@shared";
 
 export const useFetchSimulateWithdraw = (
   account: Address,

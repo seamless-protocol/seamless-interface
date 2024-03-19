@@ -6,10 +6,10 @@ import React, {
 } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useDropdown } from "../../hooks/useDropdown";
+import { useDropdown } from "../../hooks/ui-hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
-import { useUserAvatar } from "../../hooks/useUserAvatar";
-import { useFetchIsAddressSanctioned } from "../../hooks/useFetchIsAddressSanctioned";
+import { useUserAvatar } from "../../hooks/wallet-hooks/useUserAvatar";
+import { useFetchIsAddressSanctioned } from "../../state/queries/useFetchIsAddressSanctioned";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -88,7 +88,7 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
 
   const handleViewItOnExplorer = () => {
     if (!address) return;
-    const url = RouterConfig.Builder.baseScan(address);
+    const url = RouterConfig.Builder.baseScanAddress(address);
     window.open(url, "_blank");
     dropdown.setIsDropdownVisible(false);
   };

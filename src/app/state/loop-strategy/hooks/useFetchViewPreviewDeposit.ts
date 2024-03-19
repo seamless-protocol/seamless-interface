@@ -6,13 +6,12 @@ import {
 } from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
-import { Displayable } from "../../../../shared";
+import { Displayable, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { useToken } from "../../common/metadataQueries/useToken";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;

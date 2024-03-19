@@ -1,8 +1,7 @@
 import { TypographyType } from "../text/Typography/mappers";
-import { DisplayableAmount } from "../../types/Displayable";
-import { DisplayValue } from "./DisplayValue";
+import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayPercentageProps extends DisplayableAmount {
+export interface DisplayPercentageProps extends DisplayValueProps {
   typography?: TypographyType;
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after" | undefined;
