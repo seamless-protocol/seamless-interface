@@ -2,17 +2,17 @@ import { DisplayPercentage, FlexRow, ViewNumber } from "../../../../../shared";
 import { ViewRewardToken } from "../../hooks/useFetchViewBaseAsset";
 
 interface IncentivesButtonProps {
-  totalApy?: ViewNumber;
+  totalApr?: ViewNumber;
   rewardTokens?: ViewRewardToken[];
 }
 
 export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
-  totalApy,
+  totalApr,
   rewardTokens,
 }) => {
   return (
     <FlexRow className="items-center gap-1 border border-slate-200 p-1 rounded bg-[#ded6fe]">
-      <DisplayPercentage {...totalApy} />
+      <DisplayPercentage {...totalApr} />
       <FlexRow className="object-cover ">
         {rewardTokens?.map((rewardToken, index) => {
           return (

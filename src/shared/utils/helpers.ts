@@ -127,13 +127,13 @@ export function formatFetchNumberToViewNumber(
   };
 }
 
-export function formatIncentiveApyToViewNumber(
-  apy: number | undefined
+export function formatIncentiveAprToViewNumber(
+  apr: number | undefined
 ): ViewNumber {
-  apy = apy || 0;
+  apr = apr || 0;
   return {
-    viewValue: formatToDisplayableOrPlaceholder(apy, ""),
-    symbol: apy > 0 ? "%" : "",
+    viewValue: formatToDisplayableOrPlaceholder(apr, ""),
+    symbol: apr > 0 ? "%" : "",
   };
 }
 

@@ -2,17 +2,17 @@ import { Address } from "viem";
 import { Displayable } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
 import {
-  IncentiveApy,
+  IncentiveApr,
   parseIncentives,
 } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { Fetch } from "../../../../shared/types/Fetch";
 import { ViewIncentives } from "../types/ViewIncentives";
-import { formatIncentiveApyToViewNumber } from "../../../../shared/utils/helpers";
+import { formatIncentiveAprToViewNumber } from "../../../../shared/utils/helpers";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
 import { useFetchRawReservesIncentivesDataByAsset } from "../queries/useFetchRawReservesIncentivesDataByAsset";
 
 interface SupplyIncentives {
-  supplyIncentives: IncentiveApy;
+  supplyIncentives: IncentiveApr;
 }
 
 export const useFetchSupplyIncentives = (
@@ -32,7 +32,7 @@ export const useFetchSupplyIncentives = (
 
   const seamPrice = useFetchCoinGeckoSeamPrice();
 
-  let supplyIncentives = { totalApy: 0, rewardTokens: [] } as IncentiveApy;
+  let supplyIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
   if (incentives && totalSuppliedUsd && seamPrice) {
     if (incentives && incentives.aIncentiveData) {
       supplyIncentives = parseIncentives(
@@ -60,7 +60,7 @@ export const useFetchViewSupplyIncentives = (
     isLoading,
     isFetched,
     data: {
-      totalApy: formatIncentiveApyToViewNumber(supplyIncentives.totalApy),
+      totalApr: formatIncentiveAprToViewNumber(supplyIncentives.totalApr),
       rewardTokens: supplyIncentives.rewardTokens,
     },
   };
