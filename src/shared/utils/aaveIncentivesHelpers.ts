@@ -72,7 +72,7 @@ function parseRewardsTokenInformation(
             18n
           );
     const emissionPerYear =
-      rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
+      normalizeDecimals(rewardToken.emissionPerSecond, BigInt(rewardToken.rewardTokenDecimals), 18n) * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApy =
       (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
 
