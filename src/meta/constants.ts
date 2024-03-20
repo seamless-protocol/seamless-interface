@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import { DecimalsOptions } from "src/shared/utils/helpers";
 
@@ -69,4 +70,5 @@ export const assetLogos: Map<string, string> = new Map([
   ["SEAM", seamLogo],
   ["esSEAM", seamLogo],
   ["OG Points", ogPointsLogo],
+  ["USDC", usdcLogo],
 ]);
