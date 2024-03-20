@@ -32,11 +32,11 @@ export interface Incentives {
 interface RewardToken {
   symbol: string;
   logo: string;
-  apy: number;
+  apr: number;
 }
 
-export interface IncentiveApy {
-  totalApy: number;
+export interface IncentiveApr {
+  totalApr: number;
   rewardTokens: RewardToken[];
 }
 
@@ -44,12 +44,12 @@ function parseRewardsTokenInformation(
   rewardsTokenInformation: RewardTokenInformation[],
   totalUsd: bigint,
   seamPrice: bigint
-): IncentiveApy {
-  let totalApy = 0;
+): IncentiveApr {
+  let totalApr = 0;
   const rewardTokens: RewardToken[] = [];
 
   if (totalUsd === 0n) {
-    return { totalApy, rewardTokens };
+    return { totalApr, rewardTokens };
   }
 
   const now = BigInt(Math.floor(Date.now() / 1000));
@@ -72,29 +72,29 @@ function parseRewardsTokenInformation(
             18n
           );
     const emissionPerYear =
-      rewardToken.emissionPerSecond * BigInt(SECONDS_PER_YEAR);
-    const rewardTokenApy =
+      normalizeDecimals(rewardToken.emissionPerSecond, BigInt(rewardToken.rewardTokenDecimals), 18n) * BigInt(SECONDS_PER_YEAR);
+    const rewardTokenApr =
       (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
 
-    const rewardTokenApyFormatted = formatUnitsToNumber(rewardTokenApy, 18);
+    const rewardTokenAprFormatted = formatUnitsToNumber(rewardTokenApr, 18);
 
     rewardTokens.push({
       symbol: rewardToken.rewardTokenSymbol,
       logo: assetLogos.get(rewardToken.rewardTokenSymbol) || "",
-      apy: rewardTokenApyFormatted,
+      apr: rewardTokenAprFormatted,
     });
 
-    totalApy += rewardTokenApyFormatted * 100;
+    totalApr += rewardTokenAprFormatted * 100;
   }
 
-  return { totalApy, rewardTokens };
+  return { totalApr, rewardTokens };
 }
 
 export function parseIncentives(
   incentives: IncentiveData,
   totalUsd: bigint,
   seamPrice: bigint
-): IncentiveApy {
+): IncentiveApr {
   const result = incentives
     ? parseRewardsTokenInformation(
         incentives.rewardsTokenInformation,
@@ -102,7 +102,7 @@ export function parseIncentives(
         seamPrice
       )
     : {
-        totalApy: 0,
+        totalApr: 0,
         rewardTokens: [],
       };
 
