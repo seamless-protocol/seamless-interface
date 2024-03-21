@@ -34,11 +34,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const showNotification = useCallback((notification: TNotificationProps) => {
-    console.log("uso");
     setNotification(notification);
-    console.log("setovao");
     setIsOpen(true);
-    console.log("otvorio");
   }, []);
 
   const closeNotification = useCallback(() => {
