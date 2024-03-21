@@ -19,15 +19,15 @@ export const CustomInput = forwardRef<HTMLInputElement, InputFieldProps>(
       <input
         ref={ref}
         type={type}
-        className={`bg-white border-none focus:outline-none focus:ring-0 ${className ? className : ""}`}
+        className={`bg-white border-none focus:outline-none focus:ring-0 ${className || ""}`}
         autoComplete="off"
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         value={value as any}
         name={name}
         onChange={onChange}
         placeholder={placeholder}
         step="any"
-        //todo min 0?
+        // todo min 0?
         min={rest.min || 0}
         {...rest}
       />

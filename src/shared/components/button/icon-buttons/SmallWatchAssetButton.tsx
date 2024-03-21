@@ -13,6 +13,7 @@ export const SmallWatchAssetButton: React.FC<{
     >
       <button
         onClick={onClick}
+        // eslint-disable-next-line react/no-invalid-html-attribute
         rel="noopener noreferrer"
         className="group bg-primary-main w-6 h-6 p-1 cursor-pointer rounded-full border-other-borderButton border-thin flex justify-center items-center"
       >
