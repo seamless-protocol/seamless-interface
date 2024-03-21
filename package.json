@@ -5,8 +5,8 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "node switch-config.js && vite",
+    "build": "node switch-config.js && tsc && vite build",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
