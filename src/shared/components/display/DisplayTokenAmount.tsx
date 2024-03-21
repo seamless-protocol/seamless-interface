@@ -1,14 +1,6 @@
-import { TypographyColor, TypographyType } from "../text/Typography/mappers";
-import { DisplayableAmount } from "../../types/Displayable";
-import { DisplayValue } from "./DisplayValue";
+import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayTokenAmountProps extends DisplayableAmount {
-  typography?: TypographyType;
-  symbolColor?: TypographyColor;
-  loaderSkeleton?: boolean;
-  symbolPosition?: "before" | "after" | undefined;
-  className?: string;
-}
+export interface DisplayTokenAmountProps extends DisplayValueProps {}
 /**
  * `DisplayTokenAmount` Component
  *

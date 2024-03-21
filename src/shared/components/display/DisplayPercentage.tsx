@@ -1,12 +1,6 @@
-import { TypographyType } from "../text/Typography/mappers";
 import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayPercentageProps extends DisplayValueProps {
-  typography?: TypographyType;
-  loaderSkeleton?: boolean;
-  symbolPosition?: "before" | "after" | undefined;
-  className?: string;
-}
+export interface DisplayPercentageProps extends DisplayValueProps {}
 /**
  * `DisplayPercentage` Component
  *

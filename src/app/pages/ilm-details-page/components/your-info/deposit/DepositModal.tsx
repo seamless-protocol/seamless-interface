@@ -16,6 +16,7 @@ import {
   Typography,
   useERC20Approve,
   useNotificationContext,
+  useToken,
 } from "@shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated/generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
@@ -36,6 +37,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
+
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
@@ -85,7 +90,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     You Supplied {data.amount}{" "}
                     {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet {...ilmStrategies[id]} />
+                  <AddCoinToWallet
+                    {...ilmStrategies[id]}
+                    symbol={strategySymbol}
+                  />
                 </FlexCol>
               ),
             });
@@ -127,6 +135,9 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                 <DisplayTokenAmount
                   {...previewDepositData?.sharesToReceive.tokenAmount}
                   typography="description"
+                  isTooltip={true}
+                  tooltipSize="small"
+                  className="w-32"
                   isLoading={isLoading}
                 />
               </FlexRow>

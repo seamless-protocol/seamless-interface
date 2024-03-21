@@ -7,7 +7,6 @@ import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
 import { Button } from "../button/Button";
 import { FlexRow } from "../containers/FlexRow";
-import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../app/router";
 
 import externalLinkIcon from "../../../assets/common/external-link.svg";
@@ -23,6 +22,7 @@ export const DisplayNotification = ({
   txHash,
   setModalOpen,
 }: Props) => {
+  console.log("route", RouterConfig.Builder.baseScanTx(txHash || ""));
   return (
     <ModalBody setModalOpen={setModalOpen}>
       <FlexCol className="items-center gap-2">
@@ -44,10 +44,7 @@ export const DisplayNotification = ({
           {status === "success" && txHash && (
             <FlexRow className="justify-between items-center">
               <span />
-              <Link
-                to={RouterConfig.Builder.baseScanTx(txHash || "")}
-                target="_blank"
-              >
+              <a href={RouterConfig.Builder.baseScanTx(txHash)} target="_blank">
                 <FlexRow className="justify-between items-center gap-0.5">
                   <Typography type="subheader2">Review tx details</Typography>
                   <Icon
@@ -57,7 +54,7 @@ export const DisplayNotification = ({
                     height={12}
                   />
                 </FlexRow>
-              </Link>
+              </a>
             </FlexRow>
           )}
           <Button fullWidth onClick={() => setModalOpen(false)}>

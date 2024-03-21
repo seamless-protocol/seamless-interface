@@ -1,6 +1,7 @@
 import { DisplayableAmount } from "../../types/Displayable";
 import { Typography } from "../text/Typography/Typography";
 import { TypographyType, TypographyColor } from "../text/Typography/mappers";
+import { Tooltip, TooltipSize } from "../tooltip/Tooltip";
 import { fontSizes } from "./mapper";
 
 export interface DisplayValueProps extends DisplayableAmount {
@@ -9,6 +10,8 @@ export interface DisplayValueProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
   className?: string;
+  isTooltip?: boolean;
+  tooltipSize?: TooltipSize;
 }
 /**
  * `DisplayValue` Component
@@ -50,17 +53,18 @@ export interface DisplayValueProps extends DisplayableAmount {
  * @returns The `DisplayValue` component.
  */
 
-export const DisplayValue: React.FC<DisplayValueProps> = ({
-  viewValue,
-  symbol,
-  isFetched,
-  isLoading,
-  symbolColor,
-  loaderSkeleton,
-  typography = "secondary12",
-  symbolPosition = "before",
-  className = "",
-}) => {
+export const DisplayValue: React.FC<DisplayValueProps> = (props) => {
+  const {
+    viewValue,
+    symbol,
+    isFetched,
+    isLoading,
+    loaderSkeleton,
+    typography = "secondary12",
+    isTooltip,
+    tooltipSize,
+  } = props;
+
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
       const { width, height } = getTypographySkeletonSize(
@@ -75,39 +79,48 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       return <div className="loading loading-spinner flex self-center"></div>;
     }
   } else {
-    return (
-      <Typography
-        type={typography}
-        className={`truncate hover:text-clip ${className}`}
-      >
-        {symbolPosition === "before" && symbol && (
-          <>
-            <Typography
-              type={typography}
-              tagOverride="span"
-              color={symbolColor}
-            >
-              {symbol}
-            </Typography>
-          </>
-        )}
-        {viewValue}
-
-        {symbolPosition === "after" && symbol && (
-          <>
-            {" "}
-            <Typography
-              type={typography}
-              tagOverride="span"
-              color={symbolColor}
-            >
-              {symbol}
-            </Typography>
-          </>
-        )}
-      </Typography>
+    return isTooltip ? (
+      <Tooltip tooltip={symbol || viewValue} size={tooltipSize}>
+        <DisplayValueSymbol {...props} />
+      </Tooltip>
+    ) : (
+      <DisplayValueSymbol {...props} />
     );
   }
+};
+
+const DisplayValueSymbol: React.FC<DisplayValueProps> = ({
+  viewValue,
+  symbol,
+  symbolColor,
+  typography = "secondary12",
+  symbolPosition = "before",
+  className = "",
+}) => {
+  return (
+    <Typography
+      type={typography}
+      className={`truncate hover:text-clip ${className}`}
+    >
+      {symbolPosition === "before" && symbol && (
+        <>
+          <Typography type={typography} tagOverride="span" color={symbolColor}>
+            {symbol}
+          </Typography>
+        </>
+      )}
+      {viewValue}
+
+      {symbolPosition === "after" && symbol && (
+        <>
+          {" "}
+          <Typography type={typography} tagOverride="span" color={symbolColor}>
+            {symbol}
+          </Typography>
+        </>
+      )}
+    </Typography>
+  );
 };
 
 /**

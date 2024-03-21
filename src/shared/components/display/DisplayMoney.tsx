@@ -1,14 +1,6 @@
-import { DisplayableAmount } from "../../types/Displayable";
-import { TypographyColor, TypographyType } from "../text/Typography/mappers";
-import { DisplayValue } from "./DisplayValue";
+import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayMoneyProps extends DisplayableAmount {
-  typography?: TypographyType;
-  symbolColor?: TypographyColor;
-  loaderSkeleton?: boolean;
-  symbolPosition?: "before" | "after" | undefined;
-  className?: string;
-}
+export interface DisplayMoneyProps extends DisplayValueProps {}
 
 /**
  * `DisplayMoney` Component

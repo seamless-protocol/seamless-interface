@@ -27,6 +27,10 @@ export const Heading: React.FC<{
 }> = ({ id }) => {
   const strategyConfig = ilmStrategies[id];
   const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
+
+  const {
     isLoading: isTargetMultipleLoading,
     isFetched: isTargetMultipleFetched,
     data: targetMultiple,
@@ -73,7 +77,7 @@ export const Heading: React.FC<{
                 <ViewAssetOnBaseScan
                   label="Strategy Asset"
                   {...strategyConfig}
-                  symbol={strategyConfig.symbol}
+                  symbol={strategySymbol}
                 />
               </ul>
             </Dropdown>
@@ -88,7 +92,7 @@ export const Heading: React.FC<{
                 <WatchAsset
                   label="Strategy Asset"
                   {...strategyConfig}
-                  symbol={strategyConfig.symbol}
+                  symbol={strategySymbol}
                 />
               </ul>
             </Dropdown>
@@ -163,9 +167,15 @@ const ViewAssetOnBaseScan: React.FC<{
         <Typography type="secondary12">{label}</Typography>
       </div>
       <a target="_blank" href={RouterConfig.Builder.baseScanAddress(address)}>
-        <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
+        <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover ">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
+          <DisplayText
+            typography="subheader1"
+            text={symbol}
+            isTooltip={true}
+            tooltipSize="small"
+            className="max-w-36"
+          />
         </FlexRow>
       </a>
     </div>
@@ -200,7 +210,13 @@ const WatchAsset: React.FC<{
       >
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
+          <DisplayText
+            typography="subheader1"
+            text={symbol}
+            isTooltip={true}
+            tooltipSize="small"
+            className="max-w-36"
+          />
         </FlexRow>
       </button>
     </div>

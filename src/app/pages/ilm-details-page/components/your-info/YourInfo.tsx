@@ -43,6 +43,8 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             <DisplayTokenAmount
               typography="main16"
               {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
+              isTooltip={true}
+              tooltipSize="small"
               isFetched={viewUserInfo.isFetched}
             />
             <DisplayMoney
@@ -72,6 +74,9 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             <DisplayTokenAmount
               typography="main16"
               {...viewUserInfo?.data?.strategyBalance.tokenAmount}
+              isTooltip={true}
+              tooltipSize="small"
+              className="w-36"
               isFetched={viewUserInfo.isFetched}
             />
             <DisplayMoney

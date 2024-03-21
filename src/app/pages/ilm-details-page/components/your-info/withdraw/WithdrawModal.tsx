@@ -69,12 +69,12 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
+          0n
         );
         modalRef.current?.close();
         showNotification({
           txHash,
-          content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
+          content: `You Withdrew ${data.amount}  `,
         });
         queryClient.invalidateQueries();
       } catch (e) {
@@ -114,6 +114,9 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 <DisplayTokenAmount
                   {...previewWithdrawData?.assetsToReceive.tokenAmount}
                   typography="description"
+                  isTooltip={true}
+                  tooltipSize="small"
+                  className="max-w-32"
                   isLoading={isLoading}
                 />
               </FlexRow>
