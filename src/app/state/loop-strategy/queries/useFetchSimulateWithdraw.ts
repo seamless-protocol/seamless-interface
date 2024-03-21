@@ -3,6 +3,7 @@ import { simulateWithdraw } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
 import { useToken } from "@shared";
+import { DebouncedDelayConfig } from "../config/DebouncedDelayConfig";
 
 export const useFetchSimulateWithdraw = (
   account: Address,
@@ -29,7 +30,7 @@ export const useFetchSimulateWithdraw = (
   } = useQuery({
     queryKey: ["simulateWithdraw", strategy, amount],
     queryFn: () => simulateWithdraw(account, strategy, amount),
-    staleTime: Infinity,
+    staleTime: DebouncedDelayConfig.staleTime,
   });
 
   return {
