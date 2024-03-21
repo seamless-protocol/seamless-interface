@@ -16,8 +16,7 @@ interface Asset {
 }
 
 export const watchAsset = async (token: Asset): Promise<boolean> => {
-  const logoUrl =
-    token.symbol in PublicAssetLogosConfig ? PublicAssetLogosConfig[token.symbol] : undefined;
+  const logoUrl = PublicAssetLogosConfig[token.symbol] || undefined;
 
   if (!logoUrl) {
     console.warn(
