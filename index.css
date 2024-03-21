@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply font-inter min-h-screen bg-background-default;
+  @apply font-primary min-h-screen bg-background-default;
 }

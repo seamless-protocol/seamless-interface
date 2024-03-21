@@ -9,7 +9,8 @@ export function pxToRem(px: number, baseFontSize = 16) {
   return `${px / baseFontSize}rem`;
 }
 
-const FONT = "Inter, Arial";
+const FONT_PRIMARY = "Titillium Web, Arial";
+const FONT_SECONDARY = "Nunito, Arial";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -121,13 +122,14 @@ export default {
         },
       },
       fontFamily: {
-        inter: [FONT],
+        primary: [FONT_PRIMARY],
+        secondary: [FONT_SECONDARY],
       },
       fontSize: {
         display1: [
           pxToRem(32),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: "123.5%",
             letterSpacing: pxToRem(0.25),
             fontWeight: 700,
@@ -136,7 +138,7 @@ export default {
         h1: [
           pxToRem(32), //28?
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 700,
             letterSpacing: pxToRem(0.25),
             lineHeight: "123.5%",
@@ -145,7 +147,7 @@ export default {
         h2: [
           pxToRem(21),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: "133.4%",
             letterSpacing: "unset",
             fontWeight: 600,
@@ -154,7 +156,7 @@ export default {
         h3: [
           pxToRem(18),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: "160%",
             letterSpacing: pxToRem(0.15),
             fontWeight: 600,
@@ -163,7 +165,7 @@ export default {
         h4: [
           pxToRem(16),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(24),
             letterSpacing: pxToRem(0.15),
             fontWeight: 600,
@@ -172,7 +174,7 @@ export default {
         body1: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(20),
             letterSpacing: pxToRem(0.15),
             fontWeight: 600,
@@ -181,7 +183,7 @@ export default {
         body2: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(20),
             letterSpacing: pxToRem(0.15),
             fontWeight: 400,
@@ -190,7 +192,7 @@ export default {
         subheader1: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(20),
             letterSpacing: pxToRem(0.15),
             fontWeight: 600,
@@ -199,7 +201,7 @@ export default {
         subheader2: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(16),
             letterSpacing: pxToRem(0.1),
             fontWeight: 500,
@@ -208,7 +210,7 @@ export default {
         subheader2Light: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(16),
             letterSpacing: pxToRem(0.1),
             color: "#0000FF",
@@ -218,7 +220,7 @@ export default {
         description: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: "143%",
             letterSpacing: pxToRem(0.15),
             fontWeight: 400,
@@ -227,7 +229,7 @@ export default {
         buttonL: [
           pxToRem(16),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(24),
             letterSpacing: pxToRem(0.46),
             fontWeight: 500,
@@ -237,7 +239,7 @@ export default {
         buttonS: [
           pxToRem(10),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(20),
             letterSpacing: pxToRem(0.46),
             textTransform: "uppercase",
@@ -247,7 +249,7 @@ export default {
         helperText: [
           pxToRem(10),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(12),
             letterSpacing: pxToRem(0.4),
             fontWeight: 400,
@@ -256,7 +258,7 @@ export default {
         tooltip: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: pxToRem(16),
             letterSpacing: pxToRem(0.15),
             fontWeight: 400,
@@ -265,7 +267,7 @@ export default {
         main21: [
           pxToRem(21),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             lineHeight: "133.4%",
             fontWeight: 800,
             fontSize: pxToRem(21),
@@ -274,7 +276,7 @@ export default {
         secondary21: [
           pxToRem(21),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 500,
             lineHeight: "133.4%",
             fontSize: pxToRem(21),
@@ -283,7 +285,7 @@ export default {
         main16: [
           pxToRem(16),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 600,
             letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(24),
@@ -293,7 +295,7 @@ export default {
         secondary16: [
           pxToRem(16),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 500,
             letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(24),
@@ -303,7 +305,7 @@ export default {
         main14: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 600,
             letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(20),
@@ -313,7 +315,7 @@ export default {
         secondary14: [
           pxToRem(14),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 500,
             letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(20),
@@ -323,7 +325,7 @@ export default {
         main12: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 600,
             letterSpacing: pxToRem(0.1),
             lineHeight: pxToRem(16),
@@ -333,7 +335,7 @@ export default {
         secondary12: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 500,
             letterSpacing: pxToRem(0.1),
             lineHeight: pxToRem(16),
@@ -343,7 +345,7 @@ export default {
         caption: [
           pxToRem(12),
           {
-            fontFamily: FONT,
+            fontFamily: FONT_PRIMARY,
             fontWeight: 400,
             letterSpacing: pxToRem(0.15),
             lineHeight: pxToRem(16),
