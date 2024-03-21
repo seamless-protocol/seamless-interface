@@ -19,7 +19,7 @@ import { Footer } from "./app/components/footer/Footer.tsx";
 import * as Sentry from "@sentry/react";
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
-function App() {
+export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
@@ -41,5 +41,3 @@ function App() {
     </Sentry.ErrorBoundary>
   );
 }
-
-export default App;

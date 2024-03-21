@@ -76,7 +76,7 @@ export default {
 
         background: {
           default: "#0000FF",
-          default2: "#0000FF",
+          default2: "#fff",
           paper: "#0000FF",
           surface: "#0000FF",
           surface2: "#0000FF",

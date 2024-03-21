@@ -1,0 +1,1 @@
+move old components, config, pages and app.tsx to this folder

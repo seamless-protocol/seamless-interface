@@ -20,7 +20,8 @@ import {
   LiFiWidgetWrapper,
   NotificationProvider,
 } from "@shared";
-import App from "./App.tsx";
+import { App as AppV1 } from "./App";
+import { App as AppV2 } from "./app/v2/App";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
             <NotificationProvider>
               <LifiWidgetProvider>
-                <App />
+                {import.meta.env.VITE_STYLE_VERSION === "v2" ? (
+                  <AppV2 />
+                ) : (
+                  <AppV1 />
+                )}
                 <LiFiWidgetWrapper />
               </LifiWidgetProvider>
             </NotificationProvider>
