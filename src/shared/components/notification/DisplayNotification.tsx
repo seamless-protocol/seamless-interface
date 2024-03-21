@@ -22,7 +22,6 @@ export const DisplayNotification = ({
   txHash,
   setModalOpen,
 }: Props) => {
-  console.log("route", RouterConfig.Builder.baseScanTx(txHash || ""));
   return (
     <ModalBody setModalOpen={setModalOpen}>
       <FlexCol className="items-center gap-2">
@@ -44,7 +43,10 @@ export const DisplayNotification = ({
           {status === "success" && txHash && (
             <FlexRow className="justify-between items-center">
               <span />
-              <a href={RouterConfig.Builder.baseScanTx(txHash)} target="_blank">
+              <a
+                href={RouterConfig.Builder.baseScanTx(txHash || "")}
+                target="_blank"
+              >
                 <FlexRow className="justify-between items-center gap-0.5">
                   <Typography type="subheader2">Review tx details</Typography>
                   <Icon
