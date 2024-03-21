@@ -9,7 +9,7 @@ import { Button } from "../button/Button";
 import { FlexRow } from "../containers/FlexRow";
 import { RouterConfig } from "../../../app/router";
 
-import externalLinkIcon from "../../../assets/common/external-link.svg";
+import externalLinkIcon from "@assets/common/external-link.svg";
 
 interface Props extends TNotificationProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
