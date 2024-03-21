@@ -9,7 +9,7 @@ import { ViewRewardToken } from "../../hooks/useFetchViewBaseAsset";
 
 interface IncentivesDetailCardProps {
   totalApr?: ViewNumber;
-  rewardTokens: ViewRewardToken[];
+  rewardTokens?: ViewRewardToken[];
 }
 
 export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({

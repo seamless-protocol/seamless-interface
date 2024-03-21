@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 import { IncentivesButton } from "../desktop/IncentivesButton";
 import { ViewBaseAsset } from "../../hooks/useFetchViewBaseAsset";
+import { IncentivesDetailCard } from "../desktop/IncentivesDetailCard";
 
 export const BaseAssetsMobileTableRow: React.FC<{
   index: number;
@@ -84,7 +85,9 @@ export const BaseAssetsMobileTableRow: React.FC<{
                 {...assets?.supplyApy}
                 isLoading={isLoading}
               />
-              <IncentivesButton {...assets?.supplyIncentives} />
+              <IncentivesButton {...assets?.supplyIncentives}>
+                <IncentivesDetailCard {...assets?.supplyIncentives} />
+              </IncentivesButton>
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
@@ -118,7 +121,9 @@ export const BaseAssetsMobileTableRow: React.FC<{
                 {...assets?.borrowApyVariable}
                 isLoading={isLoading}
               />
-              <IncentivesButton {...assets?.borrowVariableIncentives} />
+              <IncentivesButton {...assets?.borrowVariableIncentives}>
+                <IncentivesDetailCard {...assets?.borrowVariableIncentives} />
+              </IncentivesButton>
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
