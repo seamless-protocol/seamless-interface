@@ -27,7 +27,6 @@ function App() {
             <Route path={RouterConfig.Routes.markets} element={<IlmPage />} />
             <Route path={RouterConfig.Routes.ilmDetails} element={<IlmDetailsPage />} />
             <Route path="*" element={<PageNotFound />} />;
-            <Route path={RouterConfig.Routes.ilmDetails} element={<IlmDetailsPage />} />
           </SentryRoutes>
           <Footer />
         </FlexCol>
