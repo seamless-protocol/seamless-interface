@@ -19,7 +19,7 @@ export function App() {
         <FlexCol className="min-h-screen">
           <SentryRoutes>
             <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
-            <Route path="*" element={<PageNotFound />} />;
+            <Route path="*" element={<PageNotFound />} />
           </SentryRoutes>
         </FlexCol>
       </HashRouter>
