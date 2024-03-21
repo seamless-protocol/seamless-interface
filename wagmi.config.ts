@@ -5,6 +5,7 @@ import { LendingPoolAbi } from "./abis/LendingPool";
 import { react } from "@wagmi/cli/plugins";
 import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
+import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -32,6 +33,11 @@ export default defineConfig({
       name: "ProtocolDataProvider",
       address: "0x2A0979257105834789bC6b9E1B00446DFbA8dFBa",
       abi: ProtocolDataProviderAbi,
+    },
+    {
+      name: "PoolDataProvider",
+      address: "0xB7397f841a449793c634C06Cf12751d256b9bf50",
+      abi: PoolDataProviderAbi,
     },
   ],
   plugins: [react()],

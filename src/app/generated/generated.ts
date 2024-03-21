@@ -3165,6 +3165,377 @@ export const loopStrategyAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// PoolDataProvider
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const poolDataProviderAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      {
+        name: '_networkBaseTokenPriceInUsdProxyAggregator',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+      {
+        name: '_marketReferenceCurrencyPriceInUsdProxyAggregator',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ETH_CURRENCY_UNIT',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'MKR_ADDRESS',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_bytes32', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'bytes32ToString',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    name: 'getReservesData',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct IUiPoolDataProviderV3.AggregatedReserveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          { name: 'name', internalType: 'string', type: 'string' },
+          { name: 'symbol', internalType: 'string', type: 'string' },
+          { name: 'decimals', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'baseLTVasCollateral',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'reserveLiquidationThreshold',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'reserveLiquidationBonus',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'reserveFactor', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'usageAsCollateralEnabled',
+            internalType: 'bool',
+            type: 'bool',
+          },
+          { name: 'borrowingEnabled', internalType: 'bool', type: 'bool' },
+          {
+            name: 'stableBorrowRateEnabled',
+            internalType: 'bool',
+            type: 'bool',
+          },
+          { name: 'isActive', internalType: 'bool', type: 'bool' },
+          { name: 'isFrozen', internalType: 'bool', type: 'bool' },
+          { name: 'liquidityIndex', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'variableBorrowIndex',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          { name: 'liquidityRate', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'variableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'stableBorrowRate',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          {
+            name: 'lastUpdateTimestamp',
+            internalType: 'uint40',
+            type: 'uint40',
+          },
+          { name: 'aTokenAddress', internalType: 'address', type: 'address' },
+          {
+            name: 'stableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'variableDebtTokenAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'interestRateStrategyAddress',
+            internalType: 'address',
+            type: 'address',
+          },
+          {
+            name: 'availableLiquidity',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'totalPrincipalStableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'averageStableRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableDebtLastUpdateTimestamp',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'totalScaledVariableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'priceInMarketReferenceCurrency',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'priceOracle', internalType: 'address', type: 'address' },
+          {
+            name: 'variableRateSlope1',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'variableRateSlope2',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableRateSlope1',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableRateSlope2',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'baseStableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'baseVariableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'optimalUsageRatio',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'isPaused', internalType: 'bool', type: 'bool' },
+          { name: 'isSiloedBorrowing', internalType: 'bool', type: 'bool' },
+          {
+            name: 'accruedToTreasury',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          { name: 'unbacked', internalType: 'uint128', type: 'uint128' },
+          {
+            name: 'isolationModeTotalDebt',
+            internalType: 'uint128',
+            type: 'uint128',
+          },
+          { name: 'flashLoanEnabled', internalType: 'bool', type: 'bool' },
+          { name: 'debtCeiling', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'debtCeilingDecimals',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'eModeCategoryId', internalType: 'uint8', type: 'uint8' },
+          { name: 'borrowCap', internalType: 'uint256', type: 'uint256' },
+          { name: 'supplyCap', internalType: 'uint256', type: 'uint256' },
+          { name: 'eModeLtv', internalType: 'uint16', type: 'uint16' },
+          {
+            name: 'eModeLiquidationThreshold',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          {
+            name: 'eModeLiquidationBonus',
+            internalType: 'uint16',
+            type: 'uint16',
+          },
+          {
+            name: 'eModePriceSource',
+            internalType: 'address',
+            type: 'address',
+          },
+          { name: 'eModeLabel', internalType: 'string', type: 'string' },
+          { name: 'borrowableInIsolation', internalType: 'bool', type: 'bool' },
+        ],
+      },
+      {
+        name: '',
+        internalType: 'struct IUiPoolDataProviderV3.BaseCurrencyInfo',
+        type: 'tuple',
+        components: [
+          {
+            name: 'marketReferenceCurrencyUnit',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'marketReferenceCurrencyPriceInUsd',
+            internalType: 'int256',
+            type: 'int256',
+          },
+          {
+            name: 'networkBaseTokenPriceInUsd',
+            internalType: 'int256',
+            type: 'int256',
+          },
+          {
+            name: 'networkBaseTokenPriceDecimals',
+            internalType: 'uint8',
+            type: 'uint8',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+    ],
+    name: 'getReservesList',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'provider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserReservesData',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct IUiPoolDataProviderV3.UserReserveData[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'underlyingAsset', internalType: 'address', type: 'address' },
+          {
+            name: 'scaledATokenBalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'usageAsCollateralEnabledOnUser',
+            internalType: 'bool',
+            type: 'bool',
+          },
+          {
+            name: 'stableBorrowRate',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'scaledVariableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'principalStableDebt',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'stableBorrowLastUpdateTimestamp',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+        ],
+      },
+      { name: '', internalType: 'uint8', type: 'uint8' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'marketReferenceCurrencyPriceInUsdProxyAggregator',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'networkBaseTokenPriceInUsdProxyAggregator',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+] as const
+
+export const poolDataProviderAddress =
+  '0xB7397f841a449793c634C06Cf12751d256b9bf50' as const
+
+export const poolDataProviderConfig = {
+  address: poolDataProviderAddress,
+  abi: poolDataProviderAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ProtocolDataProvider
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -5273,6 +5644,94 @@ export const useWatchLoopStrategyWithdrawEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Withdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__
+ */
+export const useReadPoolDataProvider = /*#__PURE__*/ createUseReadContract({
+  abi: poolDataProviderAbi,
+  address: poolDataProviderAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"ETH_CURRENCY_UNIT"`
+ */
+export const useReadPoolDataProviderEthCurrencyUnit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'ETH_CURRENCY_UNIT',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"MKR_ADDRESS"`
+ */
+export const useReadPoolDataProviderMkrAddress =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'MKR_ADDRESS',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"bytes32ToString"`
+ */
+export const useReadPoolDataProviderBytes32ToString =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'bytes32ToString',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"getReservesData"`
+ */
+export const useReadPoolDataProviderGetReservesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'getReservesData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"getReservesList"`
+ */
+export const useReadPoolDataProviderGetReservesList =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'getReservesList',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"getUserReservesData"`
+ */
+export const useReadPoolDataProviderGetUserReservesData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'getUserReservesData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"marketReferenceCurrencyPriceInUsdProxyAggregator"`
+ */
+export const useReadPoolDataProviderMarketReferenceCurrencyPriceInUsdProxyAggregator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'marketReferenceCurrencyPriceInUsdProxyAggregator',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__ and `functionName` set to `"networkBaseTokenPriceInUsdProxyAggregator"`
+ */
+export const useReadPoolDataProviderNetworkBaseTokenPriceInUsdProxyAggregator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: poolDataProviderAbi,
+    address: poolDataProviderAddress,
+    functionName: 'networkBaseTokenPriceInUsdProxyAggregator',
   })
 
 /**
