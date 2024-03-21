@@ -3,11 +3,7 @@ import { Address } from "viem";
 
 const trmLabsApiUrl = import.meta.env.VITE_TRM_LABS_API_URL;
 
-const fetchIsAddressSanctioned = async ({
-  queryKey,
-}: {
-  queryKey: string[];
-}) => {
+const fetchIsAddressSanctioned = async ({ queryKey }: { queryKey: string[] }) => {
   const address = queryKey[1];
 
   try {
@@ -40,7 +36,7 @@ export const useFetchIsAddressSanctioned = (address?: Address) => {
     queryKey: ["fetchIsAddressSanctioned", address as string],
     queryFn: fetchIsAddressSanctioned,
     staleTime: 1000 * 60 * 60, // 1 hour
-    enabled: address != null,
+    enabled: !!address,
   });
 
   return { isSanctioned: data };
