@@ -22,7 +22,7 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({
     <FlexCol className="w-56 items-center gap-4">
       <Typography type="caption" className="text-left">
         {`Participating in this ${assetSymbol || ""} reserve gives annualized rewards.
-        APY refers solely to the annualized rate of earning reward tokens for
+        APR refers solely to the annualized rate of earning reward tokens for
         your participation in the Seamless ecosystem.`}
       </Typography>
 
