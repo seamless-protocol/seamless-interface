@@ -34,8 +34,8 @@ export const useFetchAssetBalance = (asset: Address) => {
     ...rest,
     data: {
       bigIntValue: balance || 0n,
-      symbol: symbol,
-      decimals: decimals,
+      symbol,
+      decimals,
     },
   };
 };

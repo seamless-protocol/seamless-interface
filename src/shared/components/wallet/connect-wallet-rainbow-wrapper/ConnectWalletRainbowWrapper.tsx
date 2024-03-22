@@ -89,6 +89,7 @@ export const ConnectWalletRainbowWrapper = () => {
                     </ConnectButtonStyled>
                     {isDropdownVisible && (
                       <div
+                        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                         tabIndex={0}
                         className="menu dropdown-content z-[1000] left-[-100px] shadow bg-base-100 rounded-md w-72 mt-4 p-0"
                       >

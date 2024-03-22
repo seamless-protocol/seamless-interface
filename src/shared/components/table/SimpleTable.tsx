@@ -115,9 +115,7 @@ export const SimpleTable = ({
                   : DefaultSettings.skeletonRowCount
               }
             />
-          ) : bodyComponent ? (
-            bodyComponent
-          ) : (
+          ) : bodyComponent || (
             <EmptyTable />
           )}
         </div>

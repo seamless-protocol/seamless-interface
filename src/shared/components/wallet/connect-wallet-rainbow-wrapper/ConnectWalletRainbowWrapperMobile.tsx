@@ -69,8 +69,7 @@ const WalletContent: React.FC<{
   isWalletMenuOpen?: boolean;
 }> = ({ accountDisplayName, chainName, isWalletMenuOpen: isMenuOpen }) => {
   return (
-    <>
-      <div
+    <div
         className={`md:hidden  ${isMenuOpen ? "fixed top-16 inset-0 z-50 bg-slate-800" : "hidden"} transform 
           transition-transform duration-300 ease-in-out`}
       >
@@ -84,6 +83,5 @@ const WalletContent: React.FC<{
           </div>
         </FlexCol>
       </div>
-    </>
   );
 };

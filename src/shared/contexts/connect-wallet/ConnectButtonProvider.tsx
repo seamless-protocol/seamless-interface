@@ -15,7 +15,7 @@ interface ConnectButtonContextType {
   isConnected: boolean;
   isDropdownVisible: boolean;
   setIsDropdownVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   toggleDropdown: (e: React.MouseEvent<any, MouseEvent>) => void;
   handleDisconnect: () => Promise<void>;
   handleSwitchWallet: () => Promise<void>;

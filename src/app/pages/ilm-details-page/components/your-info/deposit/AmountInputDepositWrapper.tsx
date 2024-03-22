@@ -10,9 +10,10 @@ interface AmountInputDepositWrapperProps {
   debouncedAmountInUsd: number;
 }
 
-export const AmountInputDepositWrapper: React.FC<
-  AmountInputDepositWrapperProps
-> = ({ id, debouncedAmountInUsd }) => {
+export const AmountInputDepositWrapper: React.FC<AmountInputDepositWrapperProps> = ({
+  id,
+  debouncedAmountInUsd,
+}) => {
   const {
     address: strategy,
     underlyingAsset: { address: assetAddress, symbol, logo },
@@ -35,5 +36,3 @@ export const AmountInputDepositWrapper: React.FC<
     />
   );
 };
-
-export default AmountInputDepositWrapper;

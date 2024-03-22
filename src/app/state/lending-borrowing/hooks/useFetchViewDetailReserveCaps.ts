@@ -13,21 +13,15 @@ interface DetailReserveCaps {
   borrowCapUsd: FetchBigInt;
 }
 
-export const useFetchDetailReserveCaps = (
-  asset: Address
-): FetchData<DetailReserveCaps> => {
+export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReserveCaps> => {
   const {
     isLoading: isCapsLoading,
     isFetched: isCapsFetched,
     data: { supplyCap, borrowCap },
   } = useFetchReserveCaps(asset);
 
-  let {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-    data: price,
-  } = useFetchAssetPrice(asset);
-  price = price || 0n;
+  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data } = useFetchAssetPrice(asset);
+  const price = data || 0n;
 
   return {
     isLoading: isCapsLoading || isPriceLoading,
@@ -35,17 +29,13 @@ export const useFetchDetailReserveCaps = (
     data: {
       supplyCap,
       supplyCapUsd: {
-        bigIntValue:
-          (supplyCap.bigIntValue * price.bigIntValue) /
-          BigInt(10 ** supplyCap.decimals),
+        bigIntValue: (supplyCap.bigIntValue * price.bigIntValue) / BigInt(10 ** supplyCap.decimals),
         symbol: price.symbol,
         decimals: price.decimals,
       },
       borrowCap,
       borrowCapUsd: {
-        bigIntValue:
-          (borrowCap.bigIntValue * price.bigIntValue) /
-          BigInt(10 ** borrowCap.decimals),
+        bigIntValue: (borrowCap.bigIntValue * price.bigIntValue) / BigInt(10 ** borrowCap.decimals),
         symbol: price.symbol,
         decimals: price.decimals,
       },

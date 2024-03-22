@@ -69,27 +69,25 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       );
 
       return (
-        <span style={{ width, height }} className="skeleton mb-[1px]"></span>
+        <span style={{ width, height }} className="skeleton mb-[1px]" />
       );
-    } else {
-      return <div className="loading loading-spinner flex self-center"></div>;
-    }
-  } else {
+    } 
+      return <div className="loading loading-spinner flex self-center" />;
+    
+  } 
     return (
       <Typography
         type={typography}
         className={`truncate hover:text-clip ${className}`}
       >
         {symbolPosition === "before" && symbol && (
-          <>
-            <Typography
+          <Typography
               type={typography}
               tagOverride="span"
               color={symbolColor}
             >
               {symbol}
             </Typography>
-          </>
         )}
         {viewValue}
 
@@ -107,7 +105,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
         )}
       </Typography>
     );
-  }
+  
 };
 
 /**
