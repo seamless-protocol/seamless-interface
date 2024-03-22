@@ -30,7 +30,7 @@ export const useFetchSimulateDeposit = (
   } = useQuery({
     queryKey: ["simulateDeposit", strategy, amount],
     queryFn: () => simulateDeposit(account, strategy, underlyingAsset, amount),
-    staleTime: DebouncedDelayConfig.staleTime,
+    ...DebouncedDelayConfig,
   });
 
   return {

@@ -30,7 +30,7 @@ export const useFetchSimulateWithdraw = (
   } = useQuery({
     queryKey: ["simulateWithdraw", strategy, amount],
     queryFn: () => simulateWithdraw(account, strategy, amount),
-    staleTime: DebouncedDelayConfig.staleTime,
+    ...DebouncedDelayConfig,
   });
 
   return {

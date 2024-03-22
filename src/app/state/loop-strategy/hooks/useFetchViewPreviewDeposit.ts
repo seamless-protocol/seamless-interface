@@ -41,7 +41,7 @@ export const useFetchPreviewDeposit = (
   const {
     isLoading: isStrategyAssetDataLoading,
     isFetched: isStrategyAssetDataFetched,
-    data: { decimals: strategyDecimals },
+    data: { symbol: strategySymbol, decimals: strategyDecimals },
   } = useToken(strategyConfig.address);
 
   const {
