@@ -80,7 +80,7 @@ const NavBar: React.FC<{
     const handleClickOutside = (event: MouseEvent) => {
       if (
         moreMenuRef.current &&
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         !(moreMenuRef.current as any).contains(event.target)
       ) {
         setIsMoreMenuOpen(false);
@@ -114,7 +114,7 @@ const NavBar: React.FC<{
                 >
                   <span
                     className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
-                  ></span>
+                   />
                   {item.isLifi ? (
                     <button onClick={() => toggleLifiWidget()}>
                       <Typography

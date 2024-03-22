@@ -5,10 +5,11 @@ import {
   FlexCol,
   FlexRow,
   Icon,
+  Image,
   Typography,
   VerticalDivider,
   ViewValueSymbolPair,
-} from "../../../../shared";
+} from "@shared";
 import { useFetchViewStrategyInfo } from "../hooks/useFetchViewStrategyInfo";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
 
@@ -61,19 +62,12 @@ export const StrategyStatusAndConfiguration: React.FC<{
               <FlexCol className="border-thin rounded-md border-divider p-2">
                 <Typography type="description">Loop Strategy</Typography>
                 <Link
-                  to={RouterConfig.Builder.baseScanAddress(
-                    strategyConfig.address
-                  )}
+                  to={RouterConfig.Builder.baseScanAddress(strategyConfig.address)}
                   target="_blank"
                 >
                   <FlexRow className="gap-1">
                     <Typography type="description">View contract</Typography>
-                    <Icon
-                      width={12}
-                      height={12}
-                      src={externalLink}
-                      alt="external-link"
-                    />
+                    <Icon width={12} height={12} src={externalLink} alt="external-link" />
                   </FlexRow>
                 </Link>
               </FlexCol>
@@ -89,24 +83,21 @@ export const StrategyStatusAndConfiguration: React.FC<{
           </Typography>
           <FlexCol>
             <Typography type="description">
-              This integrated Liquidity Market (ILM) uses{" "}
-              {ilmStrategies[id].underlyingAsset.symbol} deposits to borrow ETH,
-              which is used to purchase more{" "}
-              {ilmStrategies[id].underlyingAsset.symbol} to achieve the targeted
-              multiple.
+              This integrated Liquidity Market (ILM) uses {ilmStrategies[id].underlyingAsset.symbol}{" "}
+              deposits to borrow ETH, which is used to purchase more{" "}
+              {ilmStrategies[id].underlyingAsset.symbol} to achieve the targeted multiple.
             </Typography>
             <br />
             <Typography type="description">
-              This amplifies the participant's{" "}
-              {ilmStrategies[id].underlyingAsset.symbol} and ETH staking reward
-              exposure.
+              This amplifies the participant&apos;s {ilmStrategies[id].underlyingAsset.symbol} and
+              ETH staking reward exposure.
             </Typography>
           </FlexCol>
         </FlexCol>
 
         <Divider />
 
-        <img src={ilmStrategies[id].diagram} />
+        <Image src={ilmStrategies[id].diagram} alt="ilm-diagram" />
       </FlexCol>
     </FlexCol>
   );
@@ -123,17 +114,9 @@ const LocalValueComponent: React.FC<{
     <FlexCol>
       <Typography type="description">{title}</Typography>
       <FlexCol>
-        <DisplayTokenAmount
-          typography="main16"
-          {...mainValue}
-          isFetched={isFetched}
-        />
+        <DisplayTokenAmount typography="main16" {...mainValue} isFetched={isFetched} />
         {secondaryValue && (
-          <DisplayMoney
-            typography="secondary12"
-            {...secondaryValue}
-            isFetched={isFetched}
-          />
+          <DisplayMoney typography="secondary12" {...secondaryValue} isFetched={isFetched} />
         )}
       </FlexCol>
     </FlexCol>

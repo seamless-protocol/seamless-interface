@@ -67,14 +67,9 @@ export const DisplayValue: React.FC<DisplayValueProps> = (props) => {
 
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
-      const { width, height } = getTypographySkeletonSize(
-        typography,
-        viewValue
-      );
+      const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
-      return (
-        <span style={{ width, height }} className="skeleton mb-[1px]"></span>
-      );
+      return <span style={{ width, height }} className="skeleton mb-[1px]" />;
     } else {
       return <div className="loading loading-spinner flex self-center"></div>;
     }
@@ -98,10 +93,7 @@ const DisplayValueSymbol: React.FC<DisplayValueProps> = ({
   className = "",
 }) => {
   return (
-    <Typography
-      type={typography}
-      className={`truncate hover:text-clip ${className}`}
-    >
+    <Typography type={typography} className={`truncate hover:text-clip ${className}`}>
       {symbolPosition === "before" && symbol && (
         <>
           <Typography type={typography} tagOverride="span" color={symbolColor}>
@@ -130,10 +122,7 @@ const DisplayValueSymbol: React.FC<DisplayValueProps> = ({
  * @param {string} [value=""] - The text value to determine the width (default is an empty string).
  * @returns {{ width: string, height: string }} - An object containing the calculated width and height as CSS values.
  */
-const getTypographySkeletonSize = (
-  typographyType: TypographyType,
-  viewValue = ""
-) => {
+const getTypographySkeletonSize = (typographyType: TypographyType, viewValue = "") => {
   const fontSize = fontSizes[typographyType] || "1rem";
   const height = `calc(${fontSize} * 1.5)`;
 

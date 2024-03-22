@@ -54,7 +54,7 @@ export const useFetchPreviewDeposit = (
     data: assetPrice,
   } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
-  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  let sharesToReceive; let sharesToReceiveInUsd; let costInUnderlyingAsset; let costInUsd;
   if (shares && sharePrice && assetPrice) {
     sharesToReceive = (shares * 99n) / 100n;
     sharesToReceiveInUsd =
@@ -111,8 +111,8 @@ export const useFetchViewPreviewDeposit = (
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
   return {
-    isLoading: isLoading,
-    isFetched: isFetched,
+    isLoading,
+    isFetched,
     data: {
       sharesToReceive: {
         tokenAmount: formatFetchBigIntToViewBigInt(

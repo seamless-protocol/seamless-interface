@@ -1,5 +1,5 @@
 import { Address } from "viem";
-//TODO: Change this to strategy logo once it's known
+// TODO: Change this to strategy logo once it's known
 import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";

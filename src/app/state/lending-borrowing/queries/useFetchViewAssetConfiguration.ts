@@ -25,9 +25,7 @@ export const useFetchAssetConfiguration = (
     args: [asset],
   });
 
-  const [, ltv, liquidationThreshold, liquidationBonus, reserveFactor] = data
-    ? data
-    : [, 0n, 0n, 0n, 0n];
+  const [, ltv, liquidationThreshold, liquidationBonus, reserveFactor] = data || [, 0n, 0n, 0n, 0n];
 
   return {
     ...rest,

@@ -5,9 +5,9 @@ import {
   createUseWatchContractEvent,
 } from 'wagmi/codegen'
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AaveOracle
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const aaveOracleAbi = [
   {
@@ -161,9 +161,9 @@ export const aaveOracleConfig = {
   abi: aaveOracleAbi,
 } as const
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IncentiveDataProvider
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const incentiveDataProviderAbi = [
   {
@@ -1096,9 +1096,9 @@ export const incentiveDataProviderConfig = {
   abi: incentiveDataProviderAbi,
 } as const
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LendingPool
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const lendingPoolAbi = [
   {
@@ -2268,9 +2268,9 @@ export const lendingPoolConfig = {
   abi: lendingPoolAbi,
 } as const
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LoopStrategy
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const loopStrategyAbi = [
   { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
@@ -3164,9 +3164,9 @@ export const loopStrategyAbi = [
   },
 ] as const
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ProtocolDataProvider
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const protocolDataProviderAbi = [
   {
@@ -3419,14 +3419,14 @@ export const protocolDataProviderConfig = {
   abi: protocolDataProviderAbi,
 } as const
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__
  */
-export const useReadAaveOracle = /*#__PURE__*/ createUseReadContract({
+export const useReadAaveOracle = /* #__PURE__ */ createUseReadContract({
   abi: aaveOracleAbi,
   address: aaveOracleAddress,
 })
@@ -3435,7 +3435,7 @@ export const useReadAaveOracle = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
  */
 export const useReadAaveOracleAddressesProvider =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'ADDRESSES_PROVIDER',
@@ -3445,7 +3445,7 @@ export const useReadAaveOracleAddressesProvider =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"BASE_CURRENCY"`
  */
 export const useReadAaveOracleBaseCurrency =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'BASE_CURRENCY',
@@ -3455,7 +3455,7 @@ export const useReadAaveOracleBaseCurrency =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"BASE_CURRENCY_UNIT"`
  */
 export const useReadAaveOracleBaseCurrencyUnit =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'BASE_CURRENCY_UNIT',
@@ -3465,7 +3465,7 @@ export const useReadAaveOracleBaseCurrencyUnit =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getAssetPrice"`
  */
 export const useReadAaveOracleGetAssetPrice =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'getAssetPrice',
@@ -3475,7 +3475,7 @@ export const useReadAaveOracleGetAssetPrice =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getAssetsPrices"`
  */
 export const useReadAaveOracleGetAssetsPrices =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'getAssetsPrices',
@@ -3485,7 +3485,7 @@ export const useReadAaveOracleGetAssetsPrices =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getFallbackOracle"`
  */
 export const useReadAaveOracleGetFallbackOracle =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'getFallbackOracle',
@@ -3495,7 +3495,7 @@ export const useReadAaveOracleGetFallbackOracle =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"getSourceOfAsset"`
  */
 export const useReadAaveOracleGetSourceOfAsset =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'getSourceOfAsset',
@@ -3504,7 +3504,7 @@ export const useReadAaveOracleGetSourceOfAsset =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__
  */
-export const useWriteAaveOracle = /*#__PURE__*/ createUseWriteContract({
+export const useWriteAaveOracle = /* #__PURE__ */ createUseWriteContract({
   abi: aaveOracleAbi,
   address: aaveOracleAddress,
 })
@@ -3513,7 +3513,7 @@ export const useWriteAaveOracle = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setAssetSources"`
  */
 export const useWriteAaveOracleSetAssetSources =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'setAssetSources',
@@ -3523,7 +3523,7 @@ export const useWriteAaveOracleSetAssetSources =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setFallbackOracle"`
  */
 export const useWriteAaveOracleSetFallbackOracle =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'setFallbackOracle',
@@ -3532,7 +3532,7 @@ export const useWriteAaveOracleSetFallbackOracle =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__
  */
-export const useSimulateAaveOracle = /*#__PURE__*/ createUseSimulateContract({
+export const useSimulateAaveOracle = /* #__PURE__ */ createUseSimulateContract({
   abi: aaveOracleAbi,
   address: aaveOracleAddress,
 })
@@ -3541,7 +3541,7 @@ export const useSimulateAaveOracle = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setAssetSources"`
  */
 export const useSimulateAaveOracleSetAssetSources =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'setAssetSources',
@@ -3551,7 +3551,7 @@ export const useSimulateAaveOracleSetAssetSources =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aaveOracleAbi}__ and `functionName` set to `"setFallbackOracle"`
  */
 export const useSimulateAaveOracleSetFallbackOracle =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     functionName: 'setFallbackOracle',
@@ -3561,7 +3561,7 @@ export const useSimulateAaveOracleSetFallbackOracle =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__
  */
 export const useWatchAaveOracleEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
   })
@@ -3570,7 +3570,7 @@ export const useWatchAaveOracleEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"AssetSourceUpdated"`
  */
 export const useWatchAaveOracleAssetSourceUpdatedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'AssetSourceUpdated',
@@ -3580,7 +3580,7 @@ export const useWatchAaveOracleAssetSourceUpdatedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"BaseCurrencySet"`
  */
 export const useWatchAaveOracleBaseCurrencySetEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'BaseCurrencySet',
@@ -3590,7 +3590,7 @@ export const useWatchAaveOracleBaseCurrencySetEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aaveOracleAbi}__ and `eventName` set to `"FallbackOracleUpdated"`
  */
 export const useWatchAaveOracleFallbackOracleUpdatedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'FallbackOracleUpdated',
@@ -3599,7 +3599,7 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__
  */
-export const useReadIncentiveDataProvider = /*#__PURE__*/ createUseReadContract(
+export const useReadIncentiveDataProvider = /* #__PURE__ */ createUseReadContract(
   { abi: incentiveDataProviderAbi, address: incentiveDataProviderAddress },
 )
 
@@ -3607,7 +3607,7 @@ export const useReadIncentiveDataProvider = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getFullReservesIncentiveData"`
  */
 export const useReadIncentiveDataProviderGetFullReservesIncentiveData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: incentiveDataProviderAbi,
     address: incentiveDataProviderAddress,
     functionName: 'getFullReservesIncentiveData',
@@ -3617,7 +3617,7 @@ export const useReadIncentiveDataProviderGetFullReservesIncentiveData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getReservesIncentivesData"`
  */
 export const useReadIncentiveDataProviderGetReservesIncentivesData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: incentiveDataProviderAbi,
     address: incentiveDataProviderAddress,
     functionName: 'getReservesIncentivesData',
@@ -3627,7 +3627,7 @@ export const useReadIncentiveDataProviderGetReservesIncentivesData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link incentiveDataProviderAbi}__ and `functionName` set to `"getUserReservesIncentivesData"`
  */
 export const useReadIncentiveDataProviderGetUserReservesIncentivesData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: incentiveDataProviderAbi,
     address: incentiveDataProviderAddress,
     functionName: 'getUserReservesIncentivesData',
@@ -3636,7 +3636,7 @@ export const useReadIncentiveDataProviderGetUserReservesIncentivesData =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__
  */
-export const useReadLendingPool = /*#__PURE__*/ createUseReadContract({
+export const useReadLendingPool = /* #__PURE__ */ createUseReadContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
 })
@@ -3645,7 +3645,7 @@ export const useReadLendingPool = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
  */
 export const useReadLendingPoolAddressesProvider =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'ADDRESSES_PROVIDER',
@@ -3655,7 +3655,7 @@ export const useReadLendingPoolAddressesProvider =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"BRIDGE_PROTOCOL_FEE"`
  */
 export const useReadLendingPoolBridgeProtocolFee =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'BRIDGE_PROTOCOL_FEE',
@@ -3665,7 +3665,7 @@ export const useReadLendingPoolBridgeProtocolFee =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"FLASHLOAN_PREMIUM_TOTAL"`
  */
 export const useReadLendingPoolFlashloanPremiumTotal =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'FLASHLOAN_PREMIUM_TOTAL',
@@ -3675,7 +3675,7 @@ export const useReadLendingPoolFlashloanPremiumTotal =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"FLASHLOAN_PREMIUM_TO_PROTOCOL"`
  */
 export const useReadLendingPoolFlashloanPremiumToProtocol =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'FLASHLOAN_PREMIUM_TO_PROTOCOL',
@@ -3685,7 +3685,7 @@ export const useReadLendingPoolFlashloanPremiumToProtocol =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"MAX_NUMBER_RESERVES"`
  */
 export const useReadLendingPoolMaxNumberReserves =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'MAX_NUMBER_RESERVES',
@@ -3695,7 +3695,7 @@ export const useReadLendingPoolMaxNumberReserves =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"MAX_STABLE_RATE_BORROW_SIZE_PERCENT"`
  */
 export const useReadLendingPoolMaxStableRateBorrowSizePercent =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'MAX_STABLE_RATE_BORROW_SIZE_PERCENT',
@@ -3705,7 +3705,7 @@ export const useReadLendingPoolMaxStableRateBorrowSizePercent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"POOL_REVISION"`
  */
 export const useReadLendingPoolPoolRevision =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'POOL_REVISION',
@@ -3715,7 +3715,7 @@ export const useReadLendingPoolPoolRevision =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getConfiguration"`
  */
 export const useReadLendingPoolGetConfiguration =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getConfiguration',
@@ -3725,7 +3725,7 @@ export const useReadLendingPoolGetConfiguration =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getEModeCategoryData"`
  */
 export const useReadLendingPoolGetEModeCategoryData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getEModeCategoryData',
@@ -3735,7 +3735,7 @@ export const useReadLendingPoolGetEModeCategoryData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveAddressById"`
  */
 export const useReadLendingPoolGetReserveAddressById =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getReserveAddressById',
@@ -3745,7 +3745,7 @@ export const useReadLendingPoolGetReserveAddressById =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveData"`
  */
 export const useReadLendingPoolGetReserveData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getReserveData',
@@ -3755,7 +3755,7 @@ export const useReadLendingPoolGetReserveData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveNormalizedIncome"`
  */
 export const useReadLendingPoolGetReserveNormalizedIncome =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getReserveNormalizedIncome',
@@ -3765,7 +3765,7 @@ export const useReadLendingPoolGetReserveNormalizedIncome =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReserveNormalizedVariableDebt"`
  */
 export const useReadLendingPoolGetReserveNormalizedVariableDebt =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getReserveNormalizedVariableDebt',
@@ -3775,7 +3775,7 @@ export const useReadLendingPoolGetReserveNormalizedVariableDebt =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getReservesList"`
  */
 export const useReadLendingPoolGetReservesList =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getReservesList',
@@ -3785,7 +3785,7 @@ export const useReadLendingPoolGetReservesList =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserAccountData"`
  */
 export const useReadLendingPoolGetUserAccountData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getUserAccountData',
@@ -3795,7 +3795,7 @@ export const useReadLendingPoolGetUserAccountData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserConfiguration"`
  */
 export const useReadLendingPoolGetUserConfiguration =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getUserConfiguration',
@@ -3805,7 +3805,7 @@ export const useReadLendingPoolGetUserConfiguration =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"getUserEMode"`
  */
 export const useReadLendingPoolGetUserEMode =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'getUserEMode',
@@ -3814,7 +3814,7 @@ export const useReadLendingPoolGetUserEMode =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__
  */
-export const useWriteLendingPool = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLendingPool = /* #__PURE__ */ createUseWriteContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
 })
@@ -3823,7 +3823,7 @@ export const useWriteLendingPool = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"backUnbacked"`
  */
 export const useWriteLendingPoolBackUnbacked =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'backUnbacked',
@@ -3832,7 +3832,7 @@ export const useWriteLendingPoolBackUnbacked =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"borrow"`
  */
-export const useWriteLendingPoolBorrow = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLendingPoolBorrow = /* #__PURE__ */ createUseWriteContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
   functionName: 'borrow',
@@ -3842,7 +3842,7 @@ export const useWriteLendingPoolBorrow = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"configureEModeCategory"`
  */
 export const useWriteLendingPoolConfigureEModeCategory =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'configureEModeCategory',
@@ -3851,7 +3851,7 @@ export const useWriteLendingPoolConfigureEModeCategory =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"deposit"`
  */
-export const useWriteLendingPoolDeposit = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLendingPoolDeposit = /* #__PURE__ */ createUseWriteContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
   functionName: 'deposit',
@@ -3861,7 +3861,7 @@ export const useWriteLendingPoolDeposit = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"dropReserve"`
  */
 export const useWriteLendingPoolDropReserve =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'dropReserve',
@@ -3871,7 +3871,7 @@ export const useWriteLendingPoolDropReserve =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"finalizeTransfer"`
  */
 export const useWriteLendingPoolFinalizeTransfer =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'finalizeTransfer',
@@ -3881,7 +3881,7 @@ export const useWriteLendingPoolFinalizeTransfer =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoan"`
  */
 export const useWriteLendingPoolFlashLoan =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'flashLoan',
@@ -3891,7 +3891,7 @@ export const useWriteLendingPoolFlashLoan =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoanSimple"`
  */
 export const useWriteLendingPoolFlashLoanSimple =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'flashLoanSimple',
@@ -3901,7 +3901,7 @@ export const useWriteLendingPoolFlashLoanSimple =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initReserve"`
  */
 export const useWriteLendingPoolInitReserve =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'initReserve',
@@ -3911,7 +3911,7 @@ export const useWriteLendingPoolInitReserve =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initialize"`
  */
 export const useWriteLendingPoolInitialize =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'initialize',
@@ -3921,7 +3921,7 @@ export const useWriteLendingPoolInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"liquidationCall"`
  */
 export const useWriteLendingPoolLiquidationCall =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'liquidationCall',
@@ -3931,7 +3931,7 @@ export const useWriteLendingPoolLiquidationCall =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintToTreasury"`
  */
 export const useWriteLendingPoolMintToTreasury =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'mintToTreasury',
@@ -3941,7 +3941,7 @@ export const useWriteLendingPoolMintToTreasury =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintUnbacked"`
  */
 export const useWriteLendingPoolMintUnbacked =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'mintUnbacked',
@@ -3951,7 +3951,7 @@ export const useWriteLendingPoolMintUnbacked =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rebalanceStableBorrowRate"`
  */
 export const useWriteLendingPoolRebalanceStableBorrowRate =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'rebalanceStableBorrowRate',
@@ -3960,7 +3960,7 @@ export const useWriteLendingPoolRebalanceStableBorrowRate =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repay"`
  */
-export const useWriteLendingPoolRepay = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLendingPoolRepay = /* #__PURE__ */ createUseWriteContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
   functionName: 'repay',
@@ -3970,7 +3970,7 @@ export const useWriteLendingPoolRepay = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithATokens"`
  */
 export const useWriteLendingPoolRepayWithATokens =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'repayWithATokens',
@@ -3980,7 +3980,7 @@ export const useWriteLendingPoolRepayWithATokens =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithPermit"`
  */
 export const useWriteLendingPoolRepayWithPermit =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'repayWithPermit',
@@ -3990,7 +3990,7 @@ export const useWriteLendingPoolRepayWithPermit =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rescueTokens"`
  */
 export const useWriteLendingPoolRescueTokens =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'rescueTokens',
@@ -4000,7 +4000,7 @@ export const useWriteLendingPoolRescueTokens =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"resetIsolationModeTotalDebt"`
  */
 export const useWriteLendingPoolResetIsolationModeTotalDebt =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'resetIsolationModeTotalDebt',
@@ -4010,7 +4010,7 @@ export const useWriteLendingPoolResetIsolationModeTotalDebt =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setConfiguration"`
  */
 export const useWriteLendingPoolSetConfiguration =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setConfiguration',
@@ -4020,7 +4020,7 @@ export const useWriteLendingPoolSetConfiguration =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setReserveInterestRateStrategyAddress"`
  */
 export const useWriteLendingPoolSetReserveInterestRateStrategyAddress =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setReserveInterestRateStrategyAddress',
@@ -4030,7 +4030,7 @@ export const useWriteLendingPoolSetReserveInterestRateStrategyAddress =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserEMode"`
  */
 export const useWriteLendingPoolSetUserEMode =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setUserEMode',
@@ -4040,7 +4040,7 @@ export const useWriteLendingPoolSetUserEMode =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserUseReserveAsCollateral"`
  */
 export const useWriteLendingPoolSetUserUseReserveAsCollateral =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setUserUseReserveAsCollateral',
@@ -4049,7 +4049,7 @@ export const useWriteLendingPoolSetUserUseReserveAsCollateral =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supply"`
  */
-export const useWriteLendingPoolSupply = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLendingPoolSupply = /* #__PURE__ */ createUseWriteContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
   functionName: 'supply',
@@ -4059,7 +4059,7 @@ export const useWriteLendingPoolSupply = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supplyWithPermit"`
  */
 export const useWriteLendingPoolSupplyWithPermit =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'supplyWithPermit',
@@ -4069,7 +4069,7 @@ export const useWriteLendingPoolSupplyWithPermit =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"swapBorrowRateMode"`
  */
 export const useWriteLendingPoolSwapBorrowRateMode =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'swapBorrowRateMode',
@@ -4079,7 +4079,7 @@ export const useWriteLendingPoolSwapBorrowRateMode =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateBridgeProtocolFee"`
  */
 export const useWriteLendingPoolUpdateBridgeProtocolFee =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'updateBridgeProtocolFee',
@@ -4089,7 +4089,7 @@ export const useWriteLendingPoolUpdateBridgeProtocolFee =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateFlashloanPremiums"`
  */
 export const useWriteLendingPoolUpdateFlashloanPremiums =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'updateFlashloanPremiums',
@@ -4098,7 +4098,7 @@ export const useWriteLendingPoolUpdateFlashloanPremiums =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"withdraw"`
  */
-export const useWriteLendingPoolWithdraw = /*#__PURE__*/ createUseWriteContract(
+export const useWriteLendingPoolWithdraw = /* #__PURE__ */ createUseWriteContract(
   {
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
@@ -4109,7 +4109,7 @@ export const useWriteLendingPoolWithdraw = /*#__PURE__*/ createUseWriteContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__
  */
-export const useSimulateLendingPool = /*#__PURE__*/ createUseSimulateContract({
+export const useSimulateLendingPool = /* #__PURE__ */ createUseSimulateContract({
   abi: lendingPoolAbi,
   address: lendingPoolAddress,
 })
@@ -4118,7 +4118,7 @@ export const useSimulateLendingPool = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"backUnbacked"`
  */
 export const useSimulateLendingPoolBackUnbacked =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'backUnbacked',
@@ -4128,7 +4128,7 @@ export const useSimulateLendingPoolBackUnbacked =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"borrow"`
  */
 export const useSimulateLendingPoolBorrow =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'borrow',
@@ -4138,7 +4138,7 @@ export const useSimulateLendingPoolBorrow =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"configureEModeCategory"`
  */
 export const useSimulateLendingPoolConfigureEModeCategory =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'configureEModeCategory',
@@ -4148,7 +4148,7 @@ export const useSimulateLendingPoolConfigureEModeCategory =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"deposit"`
  */
 export const useSimulateLendingPoolDeposit =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'deposit',
@@ -4158,7 +4158,7 @@ export const useSimulateLendingPoolDeposit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"dropReserve"`
  */
 export const useSimulateLendingPoolDropReserve =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'dropReserve',
@@ -4168,7 +4168,7 @@ export const useSimulateLendingPoolDropReserve =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"finalizeTransfer"`
  */
 export const useSimulateLendingPoolFinalizeTransfer =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'finalizeTransfer',
@@ -4178,7 +4178,7 @@ export const useSimulateLendingPoolFinalizeTransfer =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoan"`
  */
 export const useSimulateLendingPoolFlashLoan =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'flashLoan',
@@ -4188,7 +4188,7 @@ export const useSimulateLendingPoolFlashLoan =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"flashLoanSimple"`
  */
 export const useSimulateLendingPoolFlashLoanSimple =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'flashLoanSimple',
@@ -4198,7 +4198,7 @@ export const useSimulateLendingPoolFlashLoanSimple =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initReserve"`
  */
 export const useSimulateLendingPoolInitReserve =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'initReserve',
@@ -4208,7 +4208,7 @@ export const useSimulateLendingPoolInitReserve =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"initialize"`
  */
 export const useSimulateLendingPoolInitialize =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'initialize',
@@ -4218,7 +4218,7 @@ export const useSimulateLendingPoolInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"liquidationCall"`
  */
 export const useSimulateLendingPoolLiquidationCall =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'liquidationCall',
@@ -4228,7 +4228,7 @@ export const useSimulateLendingPoolLiquidationCall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintToTreasury"`
  */
 export const useSimulateLendingPoolMintToTreasury =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'mintToTreasury',
@@ -4238,7 +4238,7 @@ export const useSimulateLendingPoolMintToTreasury =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"mintUnbacked"`
  */
 export const useSimulateLendingPoolMintUnbacked =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'mintUnbacked',
@@ -4248,7 +4248,7 @@ export const useSimulateLendingPoolMintUnbacked =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rebalanceStableBorrowRate"`
  */
 export const useSimulateLendingPoolRebalanceStableBorrowRate =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'rebalanceStableBorrowRate',
@@ -4258,7 +4258,7 @@ export const useSimulateLendingPoolRebalanceStableBorrowRate =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repay"`
  */
 export const useSimulateLendingPoolRepay =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'repay',
@@ -4268,7 +4268,7 @@ export const useSimulateLendingPoolRepay =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithATokens"`
  */
 export const useSimulateLendingPoolRepayWithATokens =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'repayWithATokens',
@@ -4278,7 +4278,7 @@ export const useSimulateLendingPoolRepayWithATokens =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"repayWithPermit"`
  */
 export const useSimulateLendingPoolRepayWithPermit =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'repayWithPermit',
@@ -4288,7 +4288,7 @@ export const useSimulateLendingPoolRepayWithPermit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"rescueTokens"`
  */
 export const useSimulateLendingPoolRescueTokens =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'rescueTokens',
@@ -4298,7 +4298,7 @@ export const useSimulateLendingPoolRescueTokens =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"resetIsolationModeTotalDebt"`
  */
 export const useSimulateLendingPoolResetIsolationModeTotalDebt =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'resetIsolationModeTotalDebt',
@@ -4308,7 +4308,7 @@ export const useSimulateLendingPoolResetIsolationModeTotalDebt =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setConfiguration"`
  */
 export const useSimulateLendingPoolSetConfiguration =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setConfiguration',
@@ -4318,7 +4318,7 @@ export const useSimulateLendingPoolSetConfiguration =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setReserveInterestRateStrategyAddress"`
  */
 export const useSimulateLendingPoolSetReserveInterestRateStrategyAddress =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setReserveInterestRateStrategyAddress',
@@ -4328,7 +4328,7 @@ export const useSimulateLendingPoolSetReserveInterestRateStrategyAddress =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserEMode"`
  */
 export const useSimulateLendingPoolSetUserEMode =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setUserEMode',
@@ -4338,7 +4338,7 @@ export const useSimulateLendingPoolSetUserEMode =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"setUserUseReserveAsCollateral"`
  */
 export const useSimulateLendingPoolSetUserUseReserveAsCollateral =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'setUserUseReserveAsCollateral',
@@ -4348,7 +4348,7 @@ export const useSimulateLendingPoolSetUserUseReserveAsCollateral =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supply"`
  */
 export const useSimulateLendingPoolSupply =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'supply',
@@ -4358,7 +4358,7 @@ export const useSimulateLendingPoolSupply =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"supplyWithPermit"`
  */
 export const useSimulateLendingPoolSupplyWithPermit =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'supplyWithPermit',
@@ -4368,7 +4368,7 @@ export const useSimulateLendingPoolSupplyWithPermit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"swapBorrowRateMode"`
  */
 export const useSimulateLendingPoolSwapBorrowRateMode =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'swapBorrowRateMode',
@@ -4378,7 +4378,7 @@ export const useSimulateLendingPoolSwapBorrowRateMode =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateBridgeProtocolFee"`
  */
 export const useSimulateLendingPoolUpdateBridgeProtocolFee =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'updateBridgeProtocolFee',
@@ -4388,7 +4388,7 @@ export const useSimulateLendingPoolUpdateBridgeProtocolFee =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"updateFlashloanPremiums"`
  */
 export const useSimulateLendingPoolUpdateFlashloanPremiums =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'updateFlashloanPremiums',
@@ -4398,7 +4398,7 @@ export const useSimulateLendingPoolUpdateFlashloanPremiums =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lendingPoolAbi}__ and `functionName` set to `"withdraw"`
  */
 export const useSimulateLendingPoolWithdraw =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     functionName: 'withdraw',
@@ -4408,7 +4408,7 @@ export const useSimulateLendingPoolWithdraw =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__
  */
 export const useWatchLendingPoolEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
   })
@@ -4417,7 +4417,7 @@ export const useWatchLendingPoolEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"BackUnbacked"`
  */
 export const useWatchLendingPoolBackUnbackedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'BackUnbacked',
@@ -4427,7 +4427,7 @@ export const useWatchLendingPoolBackUnbackedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Borrow"`
  */
 export const useWatchLendingPoolBorrowEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'Borrow',
@@ -4437,7 +4437,7 @@ export const useWatchLendingPoolBorrowEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"FlashLoan"`
  */
 export const useWatchLendingPoolFlashLoanEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'FlashLoan',
@@ -4447,7 +4447,7 @@ export const useWatchLendingPoolFlashLoanEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"IsolationModeTotalDebtUpdated"`
  */
 export const useWatchLendingPoolIsolationModeTotalDebtUpdatedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'IsolationModeTotalDebtUpdated',
@@ -4457,7 +4457,7 @@ export const useWatchLendingPoolIsolationModeTotalDebtUpdatedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"LiquidationCall"`
  */
 export const useWatchLendingPoolLiquidationCallEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'LiquidationCall',
@@ -4467,7 +4467,7 @@ export const useWatchLendingPoolLiquidationCallEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"MintUnbacked"`
  */
 export const useWatchLendingPoolMintUnbackedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'MintUnbacked',
@@ -4477,7 +4477,7 @@ export const useWatchLendingPoolMintUnbackedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"MintedToTreasury"`
  */
 export const useWatchLendingPoolMintedToTreasuryEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'MintedToTreasury',
@@ -4487,7 +4487,7 @@ export const useWatchLendingPoolMintedToTreasuryEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"RebalanceStableBorrowRate"`
  */
 export const useWatchLendingPoolRebalanceStableBorrowRateEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'RebalanceStableBorrowRate',
@@ -4497,7 +4497,7 @@ export const useWatchLendingPoolRebalanceStableBorrowRateEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Repay"`
  */
 export const useWatchLendingPoolRepayEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'Repay',
@@ -4507,7 +4507,7 @@ export const useWatchLendingPoolRepayEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveDataUpdated"`
  */
 export const useWatchLendingPoolReserveDataUpdatedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'ReserveDataUpdated',
@@ -4517,7 +4517,7 @@ export const useWatchLendingPoolReserveDataUpdatedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveUsedAsCollateralDisabled"`
  */
 export const useWatchLendingPoolReserveUsedAsCollateralDisabledEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'ReserveUsedAsCollateralDisabled',
@@ -4527,7 +4527,7 @@ export const useWatchLendingPoolReserveUsedAsCollateralDisabledEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"ReserveUsedAsCollateralEnabled"`
  */
 export const useWatchLendingPoolReserveUsedAsCollateralEnabledEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'ReserveUsedAsCollateralEnabled',
@@ -4537,7 +4537,7 @@ export const useWatchLendingPoolReserveUsedAsCollateralEnabledEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Supply"`
  */
 export const useWatchLendingPoolSupplyEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'Supply',
@@ -4547,7 +4547,7 @@ export const useWatchLendingPoolSupplyEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"SwapBorrowRateMode"`
  */
 export const useWatchLendingPoolSwapBorrowRateModeEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'SwapBorrowRateMode',
@@ -4557,7 +4557,7 @@ export const useWatchLendingPoolSwapBorrowRateModeEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"UserEModeSet"`
  */
 export const useWatchLendingPoolUserEModeSetEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'UserEModeSet',
@@ -4567,7 +4567,7 @@ export const useWatchLendingPoolUserEModeSetEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lendingPoolAbi}__ and `eventName` set to `"Withdraw"`
  */
 export const useWatchLendingPoolWithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'Withdraw',
@@ -4576,7 +4576,7 @@ export const useWatchLendingPoolWithdrawEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__
  */
-export const useReadLoopStrategy = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategy = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
 })
 
@@ -4584,7 +4584,7 @@ export const useReadLoopStrategy = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
  */
 export const useReadLoopStrategyDefaultAdminRole =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'DEFAULT_ADMIN_ROLE',
   })
@@ -4593,7 +4593,7 @@ export const useReadLoopStrategyDefaultAdminRole =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"MANAGER_ROLE"`
  */
 export const useReadLoopStrategyManagerRole =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'MANAGER_ROLE',
   })
@@ -4602,7 +4602,7 @@ export const useReadLoopStrategyManagerRole =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"PAUSER_ROLE"`
  */
 export const useReadLoopStrategyPauserRole =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'PAUSER_ROLE',
   })
@@ -4611,7 +4611,7 @@ export const useReadLoopStrategyPauserRole =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"UPGRADER_ROLE"`
  */
 export const useReadLoopStrategyUpgraderRole =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'UPGRADER_ROLE',
   })
@@ -4620,7 +4620,7 @@ export const useReadLoopStrategyUpgraderRole =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
  */
 export const useReadLoopStrategyUpgradeInterfaceVersion =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'UPGRADE_INTERFACE_VERSION',
   })
@@ -4628,14 +4628,14 @@ export const useReadLoopStrategyUpgradeInterfaceVersion =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"allowance"`
  */
-export const useReadLoopStrategyAllowance = /*#__PURE__*/ createUseReadContract(
+export const useReadLoopStrategyAllowance = /* #__PURE__ */ createUseReadContract(
   { abi: loopStrategyAbi, functionName: 'allowance' },
 )
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"asset"`
  */
-export const useReadLoopStrategyAsset = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyAsset = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'asset',
 })
@@ -4643,7 +4643,7 @@ export const useReadLoopStrategyAsset = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"balanceOf"`
  */
-export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
+export const useReadLoopStrategyBalanceOf = /* #__PURE__ */ createUseReadContract(
   { abi: loopStrategyAbi, functionName: 'balanceOf' },
 )
 
@@ -4651,7 +4651,7 @@ export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateral"`
  */
 export const useReadLoopStrategyCollateral =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'collateral',
   })
@@ -4660,7 +4660,7 @@ export const useReadLoopStrategyCollateral =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"convertToAssets"`
  */
 export const useReadLoopStrategyConvertToAssets =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'convertToAssets',
   })
@@ -4669,7 +4669,7 @@ export const useReadLoopStrategyConvertToAssets =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"convertToShares"`
  */
 export const useReadLoopStrategyConvertToShares =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'convertToShares',
   })
@@ -4678,7 +4678,7 @@ export const useReadLoopStrategyConvertToShares =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"currentCollateralRatio"`
  */
 export const useReadLoopStrategyCurrentCollateralRatio =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'currentCollateralRatio',
   })
@@ -4686,7 +4686,7 @@ export const useReadLoopStrategyCurrentCollateralRatio =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debt"`
  */
-export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyDebt = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'debt',
 })
@@ -4694,7 +4694,7 @@ export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"decimals"`
  */
-export const useReadLoopStrategyDecimals = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyDecimals = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'decimals',
 })
@@ -4702,7 +4702,7 @@ export const useReadLoopStrategyDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"equity"`
  */
-export const useReadLoopStrategyEquity = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyEquity = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'equity',
 })
@@ -4710,7 +4710,7 @@ export const useReadLoopStrategyEquity = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"equityUSD"`
  */
-export const useReadLoopStrategyEquityUsd = /*#__PURE__*/ createUseReadContract(
+export const useReadLoopStrategyEquityUsd = /* #__PURE__ */ createUseReadContract(
   { abi: loopStrategyAbi, functionName: 'equityUSD' },
 )
 
@@ -4718,7 +4718,7 @@ export const useReadLoopStrategyEquityUsd = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getCollateralRatioTargets"`
  */
 export const useReadLoopStrategyGetCollateralRatioTargets =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'getCollateralRatioTargets',
   })
@@ -4727,7 +4727,7 @@ export const useReadLoopStrategyGetCollateralRatioTargets =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRoleAdmin"`
  */
 export const useReadLoopStrategyGetRoleAdmin =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'getRoleAdmin',
   })
@@ -4735,7 +4735,7 @@ export const useReadLoopStrategyGetRoleAdmin =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"hasRole"`
  */
-export const useReadLoopStrategyHasRole = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyHasRole = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'hasRole',
 })
@@ -4744,7 +4744,7 @@ export const useReadLoopStrategyHasRole = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxDeposit"`
  */
 export const useReadLoopStrategyMaxDeposit =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'maxDeposit',
   })
@@ -4752,7 +4752,7 @@ export const useReadLoopStrategyMaxDeposit =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxMint"`
  */
-export const useReadLoopStrategyMaxMint = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyMaxMint = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'maxMint',
 })
@@ -4760,7 +4760,7 @@ export const useReadLoopStrategyMaxMint = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxRedeem"`
  */
-export const useReadLoopStrategyMaxRedeem = /*#__PURE__*/ createUseReadContract(
+export const useReadLoopStrategyMaxRedeem = /* #__PURE__ */ createUseReadContract(
   { abi: loopStrategyAbi, functionName: 'maxRedeem' },
 )
 
@@ -4768,7 +4768,7 @@ export const useReadLoopStrategyMaxRedeem = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"maxWithdraw"`
  */
 export const useReadLoopStrategyMaxWithdraw =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'maxWithdraw',
   })
@@ -4776,7 +4776,7 @@ export const useReadLoopStrategyMaxWithdraw =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"mint"`
  */
-export const useReadLoopStrategyMint = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyMint = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'mint',
 })
@@ -4784,7 +4784,7 @@ export const useReadLoopStrategyMint = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"name"`
  */
-export const useReadLoopStrategyName = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyName = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'name',
 })
@@ -4792,7 +4792,7 @@ export const useReadLoopStrategyName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"paused"`
  */
-export const useReadLoopStrategyPaused = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyPaused = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'paused',
 })
@@ -4801,7 +4801,7 @@ export const useReadLoopStrategyPaused = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewDeposit"`
  */
 export const useReadLoopStrategyPreviewDeposit =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'previewDeposit',
   })
@@ -4810,7 +4810,7 @@ export const useReadLoopStrategyPreviewDeposit =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewMint"`
  */
 export const useReadLoopStrategyPreviewMint =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'previewMint',
   })
@@ -4819,7 +4819,7 @@ export const useReadLoopStrategyPreviewMint =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewRedeem"`
  */
 export const useReadLoopStrategyPreviewRedeem =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'previewRedeem',
   })
@@ -4828,7 +4828,7 @@ export const useReadLoopStrategyPreviewRedeem =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"previewWithdraw"`
  */
 export const useReadLoopStrategyPreviewWithdraw =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'previewWithdraw',
   })
@@ -4837,7 +4837,7 @@ export const useReadLoopStrategyPreviewWithdraw =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"proxiableUUID"`
  */
 export const useReadLoopStrategyProxiableUuid =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'proxiableUUID',
   })
@@ -4846,7 +4846,7 @@ export const useReadLoopStrategyProxiableUuid =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalanceNeeded"`
  */
 export const useReadLoopStrategyRebalanceNeeded =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'rebalanceNeeded',
   })
@@ -4855,7 +4855,7 @@ export const useReadLoopStrategyRebalanceNeeded =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"supportsInterface"`
  */
 export const useReadLoopStrategySupportsInterface =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'supportsInterface',
   })
@@ -4863,7 +4863,7 @@ export const useReadLoopStrategySupportsInterface =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"symbol"`
  */
-export const useReadLoopStrategySymbol = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategySymbol = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'symbol',
 })
@@ -4872,7 +4872,7 @@ export const useReadLoopStrategySymbol = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"totalAssets"`
  */
 export const useReadLoopStrategyTotalAssets =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'totalAssets',
   })
@@ -4881,7 +4881,7 @@ export const useReadLoopStrategyTotalAssets =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"totalSupply"`
  */
 export const useReadLoopStrategyTotalSupply =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'totalSupply',
   })
@@ -4889,7 +4889,7 @@ export const useReadLoopStrategyTotalSupply =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"withdraw"`
  */
-export const useReadLoopStrategyWithdraw = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyWithdraw = /* #__PURE__ */ createUseReadContract({
   abi: loopStrategyAbi,
   functionName: 'withdraw',
 })
@@ -4897,7 +4897,7 @@ export const useReadLoopStrategyWithdraw = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__
  */
-export const useWriteLoopStrategy = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLoopStrategy = /* #__PURE__ */ createUseWriteContract({
   abi: loopStrategyAbi,
 })
 
@@ -4905,7 +4905,7 @@ export const useWriteLoopStrategy = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"LoopStrategy_init"`
  */
 export const useWriteLoopStrategyLoopStrategyInit =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'LoopStrategy_init',
   })
@@ -4913,14 +4913,14 @@ export const useWriteLoopStrategyLoopStrategyInit =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"approve"`
  */
-export const useWriteLoopStrategyApprove = /*#__PURE__*/ createUseWriteContract(
+export const useWriteLoopStrategyApprove = /* #__PURE__ */ createUseWriteContract(
   { abi: loopStrategyAbi, functionName: 'approve' },
 )
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"deposit"`
  */
-export const useWriteLoopStrategyDeposit = /*#__PURE__*/ createUseWriteContract(
+export const useWriteLoopStrategyDeposit = /* #__PURE__ */ createUseWriteContract(
   { abi: loopStrategyAbi, functionName: 'deposit' },
 )
 
@@ -4928,7 +4928,7 @@ export const useWriteLoopStrategyDeposit = /*#__PURE__*/ createUseWriteContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"grantRole"`
  */
 export const useWriteLoopStrategyGrantRole =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'grantRole',
   })
@@ -4936,7 +4936,7 @@ export const useWriteLoopStrategyGrantRole =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"pause"`
  */
-export const useWriteLoopStrategyPause = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLoopStrategyPause = /* #__PURE__ */ createUseWriteContract({
   abi: loopStrategyAbi,
   functionName: 'pause',
 })
@@ -4945,7 +4945,7 @@ export const useWriteLoopStrategyPause = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalance"`
  */
 export const useWriteLoopStrategyRebalance =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'rebalance',
   })
@@ -4953,7 +4953,7 @@ export const useWriteLoopStrategyRebalance =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"redeem"`
  */
-export const useWriteLoopStrategyRedeem = /*#__PURE__*/ createUseWriteContract({
+export const useWriteLoopStrategyRedeem = /* #__PURE__ */ createUseWriteContract({
   abi: loopStrategyAbi,
   functionName: 'redeem',
 })
@@ -4962,7 +4962,7 @@ export const useWriteLoopStrategyRedeem = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"renounceRole"`
  */
 export const useWriteLoopStrategyRenounceRole =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'renounceRole',
   })
@@ -4971,7 +4971,7 @@ export const useWriteLoopStrategyRenounceRole =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"revokeRole"`
  */
 export const useWriteLoopStrategyRevokeRole =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'revokeRole',
   })
@@ -4980,7 +4980,7 @@ export const useWriteLoopStrategyRevokeRole =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setCollateralRatioTargets"`
  */
 export const useWriteLoopStrategySetCollateralRatioTargets =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'setCollateralRatioTargets',
   })
@@ -4989,7 +4989,7 @@ export const useWriteLoopStrategySetCollateralRatioTargets =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setInterestRateMode"`
  */
 export const useWriteLoopStrategySetInterestRateMode =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'setInterestRateMode',
   })
@@ -4998,7 +4998,7 @@ export const useWriteLoopStrategySetInterestRateMode =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transfer"`
  */
 export const useWriteLoopStrategyTransfer =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'transfer',
   })
@@ -5007,7 +5007,7 @@ export const useWriteLoopStrategyTransfer =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transferFrom"`
  */
 export const useWriteLoopStrategyTransferFrom =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'transferFrom',
   })
@@ -5015,7 +5015,7 @@ export const useWriteLoopStrategyTransferFrom =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"unpause"`
  */
-export const useWriteLoopStrategyUnpause = /*#__PURE__*/ createUseWriteContract(
+export const useWriteLoopStrategyUnpause = /* #__PURE__ */ createUseWriteContract(
   { abi: loopStrategyAbi, functionName: 'unpause' },
 )
 
@@ -5023,7 +5023,7 @@ export const useWriteLoopStrategyUnpause = /*#__PURE__*/ createUseWriteContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"upgradeToAndCall"`
  */
 export const useWriteLoopStrategyUpgradeToAndCall =
-  /*#__PURE__*/ createUseWriteContract({
+  /* #__PURE__ */ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'upgradeToAndCall',
   })
@@ -5031,7 +5031,7 @@ export const useWriteLoopStrategyUpgradeToAndCall =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__
  */
-export const useSimulateLoopStrategy = /*#__PURE__*/ createUseSimulateContract({
+export const useSimulateLoopStrategy = /* #__PURE__ */ createUseSimulateContract({
   abi: loopStrategyAbi,
 })
 
@@ -5039,7 +5039,7 @@ export const useSimulateLoopStrategy = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"LoopStrategy_init"`
  */
 export const useSimulateLoopStrategyLoopStrategyInit =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'LoopStrategy_init',
   })
@@ -5048,7 +5048,7 @@ export const useSimulateLoopStrategyLoopStrategyInit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"approve"`
  */
 export const useSimulateLoopStrategyApprove =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'approve',
   })
@@ -5057,7 +5057,7 @@ export const useSimulateLoopStrategyApprove =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"deposit"`
  */
 export const useSimulateLoopStrategyDeposit =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'deposit',
   })
@@ -5066,7 +5066,7 @@ export const useSimulateLoopStrategyDeposit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"grantRole"`
  */
 export const useSimulateLoopStrategyGrantRole =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'grantRole',
   })
@@ -5075,7 +5075,7 @@ export const useSimulateLoopStrategyGrantRole =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"pause"`
  */
 export const useSimulateLoopStrategyPause =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'pause',
   })
@@ -5084,7 +5084,7 @@ export const useSimulateLoopStrategyPause =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"rebalance"`
  */
 export const useSimulateLoopStrategyRebalance =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'rebalance',
   })
@@ -5093,7 +5093,7 @@ export const useSimulateLoopStrategyRebalance =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"redeem"`
  */
 export const useSimulateLoopStrategyRedeem =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'redeem',
   })
@@ -5102,7 +5102,7 @@ export const useSimulateLoopStrategyRedeem =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"renounceRole"`
  */
 export const useSimulateLoopStrategyRenounceRole =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'renounceRole',
   })
@@ -5111,7 +5111,7 @@ export const useSimulateLoopStrategyRenounceRole =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"revokeRole"`
  */
 export const useSimulateLoopStrategyRevokeRole =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'revokeRole',
   })
@@ -5120,7 +5120,7 @@ export const useSimulateLoopStrategyRevokeRole =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setCollateralRatioTargets"`
  */
 export const useSimulateLoopStrategySetCollateralRatioTargets =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'setCollateralRatioTargets',
   })
@@ -5129,7 +5129,7 @@ export const useSimulateLoopStrategySetCollateralRatioTargets =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setInterestRateMode"`
  */
 export const useSimulateLoopStrategySetInterestRateMode =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'setInterestRateMode',
   })
@@ -5138,7 +5138,7 @@ export const useSimulateLoopStrategySetInterestRateMode =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transfer"`
  */
 export const useSimulateLoopStrategyTransfer =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'transfer',
   })
@@ -5147,7 +5147,7 @@ export const useSimulateLoopStrategyTransfer =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transferFrom"`
  */
 export const useSimulateLoopStrategyTransferFrom =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'transferFrom',
   })
@@ -5156,7 +5156,7 @@ export const useSimulateLoopStrategyTransferFrom =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"unpause"`
  */
 export const useSimulateLoopStrategyUnpause =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'unpause',
   })
@@ -5165,7 +5165,7 @@ export const useSimulateLoopStrategyUnpause =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"upgradeToAndCall"`
  */
 export const useSimulateLoopStrategyUpgradeToAndCall =
-  /*#__PURE__*/ createUseSimulateContract({
+  /* #__PURE__ */ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'upgradeToAndCall',
   })
@@ -5174,13 +5174,13 @@ export const useSimulateLoopStrategyUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__
  */
 export const useWatchLoopStrategyEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({ abi: loopStrategyAbi })
+  /* #__PURE__ */ createUseWatchContractEvent({ abi: loopStrategyAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Approval"`
  */
 export const useWatchLoopStrategyApprovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Approval',
   })
@@ -5189,7 +5189,7 @@ export const useWatchLoopStrategyApprovalEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Deposit"`
  */
 export const useWatchLoopStrategyDepositEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Deposit',
   })
@@ -5198,7 +5198,7 @@ export const useWatchLoopStrategyDepositEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Initialized"`
  */
 export const useWatchLoopStrategyInitializedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Initialized',
   })
@@ -5207,7 +5207,7 @@ export const useWatchLoopStrategyInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Paused"`
  */
 export const useWatchLoopStrategyPausedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Paused',
   })
@@ -5216,7 +5216,7 @@ export const useWatchLoopStrategyPausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleAdminChanged"`
  */
 export const useWatchLoopStrategyRoleAdminChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'RoleAdminChanged',
   })
@@ -5225,7 +5225,7 @@ export const useWatchLoopStrategyRoleAdminChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleGranted"`
  */
 export const useWatchLoopStrategyRoleGrantedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'RoleGranted',
   })
@@ -5234,7 +5234,7 @@ export const useWatchLoopStrategyRoleGrantedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"RoleRevoked"`
  */
 export const useWatchLoopStrategyRoleRevokedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'RoleRevoked',
   })
@@ -5243,7 +5243,7 @@ export const useWatchLoopStrategyRoleRevokedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Transfer"`
  */
 export const useWatchLoopStrategyTransferEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Transfer',
   })
@@ -5252,7 +5252,7 @@ export const useWatchLoopStrategyTransferEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Unpaused"`
  */
 export const useWatchLoopStrategyUnpausedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Unpaused',
   })
@@ -5261,7 +5261,7 @@ export const useWatchLoopStrategyUnpausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Upgraded"`
  */
 export const useWatchLoopStrategyUpgradedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Upgraded',
   })
@@ -5270,7 +5270,7 @@ export const useWatchLoopStrategyUpgradedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"Withdraw"`
  */
 export const useWatchLoopStrategyWithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
+  /* #__PURE__ */ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'Withdraw',
   })
@@ -5278,7 +5278,7 @@ export const useWatchLoopStrategyWithdrawEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__
  */
-export const useReadProtocolDataProvider = /*#__PURE__*/ createUseReadContract({
+export const useReadProtocolDataProvider = /* #__PURE__ */ createUseReadContract({
   abi: protocolDataProviderAbi,
   address: protocolDataProviderAddress,
 })
@@ -5287,7 +5287,7 @@ export const useReadProtocolDataProvider = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"ADDRESSES_PROVIDER"`
  */
 export const useReadProtocolDataProviderAddressesProvider =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'ADDRESSES_PROVIDER',
@@ -5297,7 +5297,7 @@ export const useReadProtocolDataProviderAddressesProvider =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getATokenTotalSupply"`
  */
 export const useReadProtocolDataProviderGetATokenTotalSupply =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getATokenTotalSupply',
@@ -5307,7 +5307,7 @@ export const useReadProtocolDataProviderGetATokenTotalSupply =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getAllATokens"`
  */
 export const useReadProtocolDataProviderGetAllATokens =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getAllATokens',
@@ -5317,7 +5317,7 @@ export const useReadProtocolDataProviderGetAllATokens =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getAllReservesTokens"`
  */
 export const useReadProtocolDataProviderGetAllReservesTokens =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getAllReservesTokens',
@@ -5327,7 +5327,7 @@ export const useReadProtocolDataProviderGetAllReservesTokens =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getDebtCeiling"`
  */
 export const useReadProtocolDataProviderGetDebtCeiling =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getDebtCeiling',
@@ -5337,7 +5337,7 @@ export const useReadProtocolDataProviderGetDebtCeiling =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getDebtCeilingDecimals"`
  */
 export const useReadProtocolDataProviderGetDebtCeilingDecimals =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getDebtCeilingDecimals',
@@ -5347,7 +5347,7 @@ export const useReadProtocolDataProviderGetDebtCeilingDecimals =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getFlashLoanEnabled"`
  */
 export const useReadProtocolDataProviderGetFlashLoanEnabled =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getFlashLoanEnabled',
@@ -5357,7 +5357,7 @@ export const useReadProtocolDataProviderGetFlashLoanEnabled =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getInterestRateStrategyAddress"`
  */
 export const useReadProtocolDataProviderGetInterestRateStrategyAddress =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getInterestRateStrategyAddress',
@@ -5367,7 +5367,7 @@ export const useReadProtocolDataProviderGetInterestRateStrategyAddress =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getLiquidationProtocolFee"`
  */
 export const useReadProtocolDataProviderGetLiquidationProtocolFee =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getLiquidationProtocolFee',
@@ -5377,7 +5377,7 @@ export const useReadProtocolDataProviderGetLiquidationProtocolFee =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getPaused"`
  */
 export const useReadProtocolDataProviderGetPaused =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getPaused',
@@ -5387,7 +5387,7 @@ export const useReadProtocolDataProviderGetPaused =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveCaps"`
  */
 export const useReadProtocolDataProviderGetReserveCaps =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getReserveCaps',
@@ -5397,7 +5397,7 @@ export const useReadProtocolDataProviderGetReserveCaps =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveConfigurationData"`
  */
 export const useReadProtocolDataProviderGetReserveConfigurationData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getReserveConfigurationData',
@@ -5407,7 +5407,7 @@ export const useReadProtocolDataProviderGetReserveConfigurationData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveData"`
  */
 export const useReadProtocolDataProviderGetReserveData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getReserveData',
@@ -5417,7 +5417,7 @@ export const useReadProtocolDataProviderGetReserveData =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveEModeCategory"`
  */
 export const useReadProtocolDataProviderGetReserveEModeCategory =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getReserveEModeCategory',
@@ -5427,7 +5427,7 @@ export const useReadProtocolDataProviderGetReserveEModeCategory =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getReserveTokensAddresses"`
  */
 export const useReadProtocolDataProviderGetReserveTokensAddresses =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getReserveTokensAddresses',
@@ -5437,7 +5437,7 @@ export const useReadProtocolDataProviderGetReserveTokensAddresses =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getSiloedBorrowing"`
  */
 export const useReadProtocolDataProviderGetSiloedBorrowing =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getSiloedBorrowing',
@@ -5447,7 +5447,7 @@ export const useReadProtocolDataProviderGetSiloedBorrowing =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getTotalDebt"`
  */
 export const useReadProtocolDataProviderGetTotalDebt =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getTotalDebt',
@@ -5457,7 +5457,7 @@ export const useReadProtocolDataProviderGetTotalDebt =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getUnbackedMintCap"`
  */
 export const useReadProtocolDataProviderGetUnbackedMintCap =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getUnbackedMintCap',
@@ -5467,7 +5467,7 @@ export const useReadProtocolDataProviderGetUnbackedMintCap =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link protocolDataProviderAbi}__ and `functionName` set to `"getUserReserveData"`
  */
 export const useReadProtocolDataProviderGetUserReserveData =
-  /*#__PURE__*/ createUseReadContract({
+  /* #__PURE__ */ createUseReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getUserReserveData',

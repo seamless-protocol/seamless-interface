@@ -8,8 +8,8 @@ import {
   WidgetDrawer,
 } from "@lifi/widget";
 import { UNSAFE_LocationContext } from "react-router-dom";
-import { useLifiWidgetContext } from "@shared";
-import { lifiConfig } from "../../../../lifi.config.ts";
+import { lifiConfig } from "../../../../lifi.config";
+import { useLifiWidgetContext } from "../../contexts/lifi/useLifiWidgetContext";
 
 export const LiFiWidgetWrapper = () => {
   const { isOpen, setIsOpen } = useLifiWidgetContext();
@@ -37,10 +37,7 @@ export const LiFiWidgetWrapper = () => {
     };
 
     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
-    widgetEvents.on(
-      WidgetEvent.RouteExecutionCompleted,
-      onRouteExecutionCompleted
-    );
+    widgetEvents.on(WidgetEvent.RouteExecutionCompleted, onRouteExecutionCompleted);
     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
     return () => widgetEvents.all.clear();
   }, [widgetEvents]);
@@ -57,6 +54,7 @@ export const LiFiWidgetWrapper = () => {
 
   return (
     // This is to force LiFi widget to use Memory router to not override the Browser history router
+    // eslint-disable-next-line react/jsx-pascal-case
     <UNSAFE_LocationContext.Provider value={null as any}>
       <LiFiWidget
         integrator={LifiConfigWidgetConfig.integrator}
