@@ -1,0 +1,95 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "warnOnUnsupportedTypeScriptVersion": false,
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+      },
+    },
+  },
+  "rules": {
+    "react/no-array-index-key": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "react/prop-types": "off",
+    "import/export": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-named-as-default": "off",
+    "no-plusplus": "off",
+    "react/no-unused-prop-types": "off",
+    "import/order": "off",
+    "arrow-body-style": "off",
+    "no-continue": "off",
+    "react/button-has-type": "off",
+    "no-sparse-arrays": "off",
+
+    "no-console": "warn",
+    "no-param-reassign": "warn",
+    "eqeqeq": ["warn", "smart"],
+    "no-nested-ternary": "warn",
+    "jsx-a11y/tabindex-no-positive": "warn",
+    "react/no-unescaped-entities": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "@typescript-eslint/no-unused-expressions": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "no-unsafe-optional-chaining": "warn",
+    "no-unused-vars": ["warn", { "args": "none" }],
+    "react/jsx-no-useless-fragment": [
+      "error",
+      {
+        "allowExpressions": true,
+      },
+    ],
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false,
+      },
+    ],
+    "react/no-unstable-nested-components": [
+      "error",
+      {
+        "allowAsProps": true,
+      },
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "none",
+      },
+    ],
+    "react/jsx-no-duplicate-props": [
+      "error",
+      {
+        "ignoreCase": false,
+      },
+    ],
+  },
+}

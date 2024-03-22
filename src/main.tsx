@@ -1,26 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-//** OTHER **/
-import "../global.d.ts";
-import "./app/config/sentry.config.ts";
-//** WAGMI **/
-import { rainbowConfig } from "./app/config/rainbow.config.ts";
+//* * OTHER **/
+import "../global.d";
+import "./app/config/sentry.config";
+//* * WAGMI **/
+import { rainbowConfig } from "./app/config/rainbow.config";
 import { WagmiProvider } from "wagmi";
-//** REACT QUERY **/
+//* * REACT QUERY **/
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-//** RAINBOW **/
-import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config.ts";
+//* * RAINBOW **/
+import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-//** SENTRY **/
+//* * SENTRY **/
 import * as Sentry from "@sentry/react";
-//** LIFI WIDGET **/
-import {
-  FallbackPage,
-  LifiWidgetProvider,
-  LiFiWidgetWrapper,
-  NotificationProvider,
-} from "@shared";
-import App from "./App.tsx";
+//* * LIFI WIDGET **/
+import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper, NotificationProvider } from "@shared";
+import App from "./App";
 
 const queryClient = new QueryClient();
 

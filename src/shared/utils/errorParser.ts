@@ -8,7 +8,6 @@ const defaultMessage =
  * @param e - error object
  * @returns {string} parsed error string
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getParsedError = (error: any | BaseError): string => {
   let message = defaultMessage;
   let errorKey = "";

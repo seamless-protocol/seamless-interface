@@ -81,7 +81,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         modalRef.current?.close();
         showNotification({
           status: "error",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           content: (e as any)?.shortMessage,
         });
       }

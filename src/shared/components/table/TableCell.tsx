@@ -43,7 +43,7 @@ export const TableCell: React.FC<{
 }> = ({ children, className, rest, alignItems = "items-center" }) => {
   return (
     <div
-      className={`flex flex-col text-center ${alignItems} ${className ? className : ""}`}
+      className={`flex flex-col text-center ${alignItems} ${className || ""}`}
       {...rest}
     >
       {children}

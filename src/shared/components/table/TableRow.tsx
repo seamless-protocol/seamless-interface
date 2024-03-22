@@ -49,7 +49,7 @@ export const TableRow: React.FC<{
     <div
       className={` px-6 items-center h-[76px] cursor-pointer hover:bg-action-hover 
       ${hideBorder ? "" : "border-solid border-b border-b-divider"} 
-      ${className ? className : ""}`}
+      ${className || ""}`}
       {...rest}
     >
       {children}

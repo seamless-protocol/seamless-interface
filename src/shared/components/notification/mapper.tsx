@@ -7,7 +7,7 @@ import {
 
 export const ENUM_STATUSES = {
   success: <CheckIcon className="text-success-main" width={32} height={32} />,
-  loading: <div className="loading loading-spinner"></div>,
+  loading: <div className="loading loading-spinner" />,
   error: <XMarkIcon className="text-error-main" width={32} height={32} />,
   info: (
     <InformationCircleIcon className="text-info-main" width={32} height={32} />

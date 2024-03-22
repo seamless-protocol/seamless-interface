@@ -1,5 +1,5 @@
 import { Address } from "viem";
-//TODO: Change this to strategy logo once it's known
+// TODO: Change this to strategy logo once it's known
 import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
@@ -28,7 +28,7 @@ export const ilmStrategies: StrategyConfig[] = [
   {
     name: "wstETH Booster",
     symbol: "ilmwstETH",
-    //0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
+    // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
     address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
