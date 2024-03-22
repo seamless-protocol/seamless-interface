@@ -14,7 +14,8 @@ import {
   MyFormProvider,
   Typography,
   useNotificationContext,
-} from "../../../../../../shared";
+  useToken,
+} from "@shared";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
@@ -33,6 +34,11 @@ interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
 
 export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
+
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
+
   const account = useAccount();
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
@@ -69,12 +75,12 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          0n
+          previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({
           txHash,
-          content: `You Withdrew ${data.amount}  `,
+          content: `You Withdrew ${data.amount} ${strategySymbol}`,
         });
         queryClient.invalidateQueries();
       } catch (e) {
