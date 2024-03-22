@@ -39,13 +39,12 @@ export type TooltipSize = "small" | "normal" | "big";
  */
 export const Tooltip: React.FC<{
   children: React.ReactElement;
-  tooltip: React.ReactNode;
+  tooltip?: React.ReactNode;
   place?: TooltipPlace;
   openOnClick?: boolean;
   theme?: TooltipTheme;
   size?: TooltipSize;
-  isLoading?: boolean;
-  isFetched?: boolean;
+  hidden?: boolean;
 }> = ({
   children,
   tooltip,
@@ -53,8 +52,7 @@ export const Tooltip: React.FC<{
   place = "top",
   theme = "light",
   size = "normal",
-  isLoading,
-  isFetched,
+  hidden = false,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
@@ -82,11 +80,9 @@ export const Tooltip: React.FC<{
     },
   };
 
-  if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
-    return children;
-  }
-
-  return (
+  return hidden ? (
+    children
+  ) : (
     <span
       data-tooltip-id={tooltipId}
       onMouseEnter={() => {

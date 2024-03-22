@@ -124,8 +124,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                     previewWithdrawData.assetsToReceive.tokenAmount.symbol
                   }
                   size="small"
-                  isLoading={isLoading}
-                  isFetched={isFetched}
+                  hidden={!isFetched}
                 >
                   <DisplayTokenAmount
                     {...previewWithdrawData?.assetsToReceive.tokenAmount}

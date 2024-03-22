@@ -139,7 +139,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     previewDepositData?.sharesToReceive.tokenAmount.symbol
                   }
                   size="small"
-                  isFetched={isFetched}
+                  hidden={!isFetched}
                 >
                   <DisplayTokenAmount
                     {...previewDepositData?.sharesToReceive.tokenAmount}
