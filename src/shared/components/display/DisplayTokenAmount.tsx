@@ -49,5 +49,11 @@ export const DisplayTokenAmount: React.FC<DisplayTokenAmountProps> = ({
   loaderSkeleton = true,
   ...props
 }) => {
-  return <DisplayValue symbolPosition={symbolPosition} loaderSkeleton={loaderSkeleton} {...props} />;
+  return (
+    <DisplayValue
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
+  );
 };

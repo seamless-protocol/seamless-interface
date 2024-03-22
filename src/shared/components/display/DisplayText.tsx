@@ -11,6 +11,12 @@ export interface DisplayTextProps {
   className?: string;
 }
 
-export const DisplayText: React.FC<DisplayTextProps> = ({ text, loaderSkeleton = true, ...props }) => {
-  return <DisplayValue viewValue={text} loaderSkeleton={loaderSkeleton} {...props} />;
+export const DisplayText: React.FC<DisplayTextProps> = ({
+  text,
+  loaderSkeleton = true,
+  ...props
+}) => {
+  return (
+    <DisplayValue viewValue={text} loaderSkeleton={loaderSkeleton} {...props} />
+  );
 };

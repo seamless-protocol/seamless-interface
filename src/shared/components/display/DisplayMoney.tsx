@@ -52,5 +52,12 @@ export const DisplayMoney: React.FC<DisplayMoneyProps> = ({
   loaderSkeleton = true,
   ...props
 }) => {
-  return <DisplayValue symbol={symbol} symbolPosition={symbolPosition} loaderSkeleton={loaderSkeleton} {...props} />;
+  return (
+    <DisplayValue
+      symbol={symbol}
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
+  );
 };
