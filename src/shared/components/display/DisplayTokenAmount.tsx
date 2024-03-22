@@ -8,7 +8,8 @@ export interface DisplayTokenAmountProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after" | undefined;
   className?: string;
-} /**
+}
+/**
  * `DisplayTokenAmount` Component
  *
  * The `DisplayTokenAmount` component is specifically designed for displaying token amounts, typically in cryptocurrency or similar applications. It extends the functionality of the `DisplayValue` component, allowing for additional customization specific to token amounts.
