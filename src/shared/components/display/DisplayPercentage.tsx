@@ -7,6 +7,7 @@ export interface DisplayPercentageProps extends DisplayValueProps {
   symbolPosition?: "before" | "after" | undefined;
   className?: string;
 }
+
 /**
  * `DisplayPercentage` Component
  *

@@ -6,8 +6,9 @@ import {
   FlexCol,
   FlexRow,
   Icon,
+  Tooltip,
   Typography,
-} from "../../../../../shared";
+} from "@shared";
 import { useFetchViewUserInfo } from "../../hooks/useFetchViewUserInfo";
 import { DepositModal } from "./deposit/DepositModal";
 import { WithdrawModal } from "./withdraw/WithdrawModal";
@@ -40,11 +41,17 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to deposit</Typography>
-            <DisplayTokenAmount
-              typography="main16"
-              {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
-              isFetched={viewUserInfo.isFetched}
-            />
+            <Tooltip
+              tooltip={
+                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.symbol
+              }
+            >
+              <DisplayTokenAmount
+                typography="main16"
+                {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
+                isFetched={viewUserInfo.isFetched}
+              />
+            </Tooltip>
             <DisplayMoney
               typography="secondary12"
               {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
@@ -69,11 +76,16 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to withdraw</Typography>
-            <DisplayTokenAmount
-              typography="main16"
-              {...viewUserInfo?.data?.strategyBalance.tokenAmount}
-              isFetched={viewUserInfo.isFetched}
-            />
+            <Tooltip
+              tooltip={viewUserInfo?.data?.strategyBalance.tokenAmount.symbol}
+            >
+              <DisplayTokenAmount
+                typography="main16"
+                {...viewUserInfo?.data?.strategyBalance.tokenAmount}
+                className="w-36"
+                isFetched={viewUserInfo.isFetched}
+              />
+            </Tooltip>
             <DisplayMoney
               typography="secondary12"
               {...viewUserInfo?.data?.strategyBalance.dollarAmount}

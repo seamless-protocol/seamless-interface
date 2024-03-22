@@ -12,9 +12,11 @@ import {
   Modal,
   ModalHandles,
   MyFormProvider,
+  Tooltip,
   Typography,
   useNotificationContext,
-} from "../../../../../../shared";
+  useToken,
+} from "@shared";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
@@ -33,6 +35,11 @@ interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
 
 export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const strategyConfig = ilmStrategies[id];
+
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
+
   const account = useAccount();
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
@@ -74,14 +81,14 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         modalRef.current?.close();
         showNotification({
           txHash,
-          content: `You Withdrew ${data.amount}  ${ilmStrategies[id].symbol}`,
+          content: `You Withdrew ${data.amount} ${strategySymbol}`,
         });
         queryClient.invalidateQueries();
       } catch (e) {
         modalRef.current?.close();
         showNotification({
           status: "error",
-           
+
           content: (e as any)?.shortMessage,
         });
       }
@@ -111,11 +118,19 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
             <FlexCol className="border-divider border-[0.667px] rounded-md  p-3 gap-1">
               <FlexRow className="justify-between">
                 <Typography type="description">Assets to receive</Typography>
-                <DisplayTokenAmount
-                  {...previewWithdrawData?.assetsToReceive.tokenAmount}
-                  typography="description"
-                  isLoading={isLoading}
-                />
+                <Tooltip
+                  tooltip={
+                    previewWithdrawData.assetsToReceive.tokenAmount.symbol
+                  }
+                  size="small"
+                >
+                  <DisplayTokenAmount
+                    {...previewWithdrawData?.assetsToReceive.tokenAmount}
+                    typography="description"
+                    className="max-w-32"
+                    isLoading={isLoading}
+                  />
+                </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
                 <Typography type="description">Value to receive</Typography>
