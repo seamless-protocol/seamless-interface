@@ -1,7 +1,14 @@
-import { DisplayValue, DisplayValueProps } from "./DisplayValue";
+import { TypographyColor, TypographyType } from "../text/Typography/mappers";
+import { DisplayableAmount } from "../../types/Displayable";
+import { DisplayValue } from "./DisplayValue";
 
-export interface DisplayTokenAmountProps extends DisplayValueProps {}
-/**
+export interface DisplayTokenAmountProps extends DisplayableAmount {
+  typography?: TypographyType;
+  symbolColor?: TypographyColor;
+  loaderSkeleton?: boolean;
+  symbolPosition?: "before" | "after" | undefined;
+  className?: string;
+} /**
  * `DisplayTokenAmount` Component
  *
  * The `DisplayTokenAmount` component is specifically designed for displaying token amounts, typically in cryptocurrency or similar applications. It extends the functionality of the `DisplayValue` component, allowing for additional customization specific to token amounts.
@@ -41,11 +48,5 @@ export const DisplayTokenAmount: React.FC<DisplayTokenAmountProps> = ({
   loaderSkeleton = true,
   ...props
 }) => {
-  return (
-    <DisplayValue
-      symbolPosition={symbolPosition}
-      loaderSkeleton={loaderSkeleton}
-      {...props}
-    />
-  );
+  return <DisplayValue symbolPosition={symbolPosition} loaderSkeleton={loaderSkeleton} {...props} />;
 };

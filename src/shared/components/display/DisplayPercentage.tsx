@@ -1,6 +1,13 @@
+import { TypographyType } from "../text/Typography/mappers";
 import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayPercentageProps extends DisplayValueProps {}
+export interface DisplayPercentageProps extends DisplayValueProps {
+  typography?: TypographyType;
+  loaderSkeleton?: boolean;
+  symbolPosition?: "before" | "after" | undefined;
+  className?: string;
+}
+
 /**
  * `DisplayPercentage` Component
  *
@@ -40,12 +47,5 @@ export const DisplayPercentage: React.FC<DisplayPercentageProps> = ({
   loaderSkeleton = true,
   ...props
 }) => {
-  return (
-    <DisplayValue
-      symbol={symbol}
-      symbolPosition={symbolPosition}
-      loaderSkeleton={loaderSkeleton}
-      {...props}
-    />
-  );
+  return <DisplayValue symbol={symbol} symbolPosition={symbolPosition} loaderSkeleton={loaderSkeleton} {...props} />;
 };

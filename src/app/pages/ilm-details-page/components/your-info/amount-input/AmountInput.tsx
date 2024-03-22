@@ -3,7 +3,7 @@ import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
 import { DepositModalFormData } from "../deposit/DepositModal";
-import { DisplayMoney, ViewBigInt, FlexRow, Typography, DisplayText } from "@shared";
+import { DisplayMoney, ViewBigInt, FlexRow, Typography, DisplayText, Tooltip } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
@@ -43,13 +43,9 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
 
         <div className="flex items-center space-x-2">
           <img src={assetLogo} alt="Logo" className="h-8" />
-          <DisplayText
-            typography="secondary16"
-            text={assetSymbol}
-            isTooltip={true}
-            tooltipSize="small"
-            className="max-w-28"
-          />
+          <Tooltip tooltip={assetSymbol} size="small">
+            <DisplayText typography="secondary16" text={assetSymbol} className="max-w-28" />
+          </Tooltip>
         </div>
       </div>
 

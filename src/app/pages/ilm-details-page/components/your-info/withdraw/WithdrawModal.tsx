@@ -12,6 +12,7 @@ import {
   Modal,
   ModalHandles,
   MyFormProvider,
+  Tooltip,
   Typography,
   useNotificationContext,
   useToken,
@@ -46,8 +47,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
 
   const { data: price } = useFetchAssetPrice(strategyConfig.address);
 
-  const { isPending: isWithdrawPending, withdrawAsync } =
-    useWriteStrategyWithdraw(id);
+  const { isPending: isWithdrawPending, withdrawAsync } = useWriteStrategyWithdraw(id);
 
   // FORM //
   const methods = useForm<WithdrawModalFormData>({
@@ -57,16 +57,9 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
-    amount,
-    price.bigIntValue,
-    500
-  );
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const { data: previewWithdrawData, isLoading } = useFetchViewPreviewWithdraw(
-    id,
-    debouncedAmount
-  );
+  const { data: previewWithdrawData, isLoading } = useFetchViewPreviewWithdraw(id, debouncedAmount);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
@@ -87,7 +80,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         modalRef.current?.close();
         showNotification({
           status: "error",
-           
+
           content: (e as any)?.shortMessage,
         });
       }
@@ -106,10 +99,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputWithdrawWrapper
-              id={id}
-              debouncedAmountInUsd={debouncedAmountInUsd}
-            />
+            <AmountInputWithdrawWrapper id={id} debouncedAmountInUsd={debouncedAmountInUsd} />
           </FlexCol>
 
           <FlexCol>
@@ -117,14 +107,14 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
             <FlexCol className="border-divider border-[0.667px] rounded-md  p-3 gap-1">
               <FlexRow className="justify-between">
                 <Typography type="description">Assets to receive</Typography>
-                <DisplayTokenAmount
-                  {...previewWithdrawData?.assetsToReceive.tokenAmount}
-                  typography="description"
-                  isTooltip={true}
-                  tooltipSize="small"
-                  className="max-w-32"
-                  isLoading={isLoading}
-                />
+                <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
+                  <DisplayTokenAmount
+                    {...previewWithdrawData?.assetsToReceive.tokenAmount}
+                    typography="description"
+                    className="max-w-32"
+                    isLoading={isLoading}
+                  />
+                </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
                 <Typography type="description">Value to receive</Typography>
@@ -144,11 +134,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
               </FlexRow>
             </FlexCol>
           </FlexCol>
-          <Button
-            type="submit"
-            loading={isWithdrawPending}
-            disabled={Number(amount) <= 0}
-          >
+          <Button type="submit" loading={isWithdrawPending} disabled={Number(amount) <= 0}>
             Withdraw
           </Button>
         </div>

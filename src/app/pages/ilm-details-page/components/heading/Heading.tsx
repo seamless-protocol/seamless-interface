@@ -13,6 +13,7 @@ import {
   Dropdown,
   useToken,
   useWatchAsset,
+  Tooltip,
 } from "@shared";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
@@ -134,13 +135,9 @@ const ViewAssetOnBaseScan: React.FC<{
       <a target="_blank" href={RouterConfig.Builder.baseScanAddress(address)} rel="noreferrer">
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <DisplayText
-            typography="subheader1"
-            text={symbol}
-            isTooltip={true}
-            tooltipSize="small"
-            className="max-w-36"
-          />
+          <Tooltip tooltip={symbol} size="small">
+            <DisplayText typography="subheader1" text={symbol} className="max-w-36" />
+          </Tooltip>
         </FlexRow>
       </a>
     </div>
@@ -172,13 +169,9 @@ const WatchAsset: React.FC<{
       <button onClick={handleWatchAsset} className="focus:outline-none w-full text-left">
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <DisplayText
-            typography="subheader1"
-            text={symbol}
-            isTooltip={true}
-            tooltipSize="small"
-            className="max-w-36"
-          />
+          <Tooltip tooltip={symbol} size="small">
+            <DisplayText typography="subheader1" text={symbol} className="max-w-36" />
+          </Tooltip>
         </FlexRow>
       </button>
     </div>

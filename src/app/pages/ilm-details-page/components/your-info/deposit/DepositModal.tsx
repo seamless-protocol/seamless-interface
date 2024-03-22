@@ -13,6 +13,7 @@ import {
   ModalHandles,
   MyFormProvider,
   StandardTooltip,
+  Tooltip,
   Typography,
   useERC20Approve,
   useNotificationContext,
@@ -81,10 +82,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   <Typography>
                     You Supplied {data.amount} {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet
-                    {...ilmStrategies[id]}
-                    symbol={strategySymbol}
-                  />
+                  <AddCoinToWallet {...ilmStrategies[id]} symbol={strategySymbol} />
                 </FlexCol>
               ),
             });
@@ -118,14 +116,14 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               <FlexRow className="justify-between">
                 <Typography type="description">Min shares to receive</Typography>
 
-                <DisplayTokenAmount
-                  {...previewDepositData?.sharesToReceive.tokenAmount}
-                  typography="description"
-                  isTooltip={true}
-                  tooltipSize="small"
-                  className="w-32"
-                  isLoading={isLoading}
-                />
+                <Tooltip tooltip={previewDepositData?.sharesToReceive.tokenAmount.symbol} size="small">
+                  <DisplayTokenAmount
+                    {...previewDepositData?.sharesToReceive.tokenAmount}
+                    typography="description"
+                    className="w-32"
+                    isLoading={isLoading}
+                  />
+                </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
                 <Typography type="description">Min value to receive</Typography>
@@ -140,8 +138,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   <Typography type="description">Max transaction cost</Typography>
                   <StandardTooltip width={1}>
                     <Typography type="subheader2">
-                      DEX fees incurred to keep the strategy <br /> at the target multiple after
-                      your deposit.
+                      DEX fees incurred to keep the strategy <br /> at the target multiple after your deposit.
                     </Typography>
                   </StandardTooltip>
                 </FlexRow>
@@ -154,19 +151,11 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
             </FlexCol>
           </FlexCol>
           {Number(amount) > 0 && (
-            <Button
-              onClick={() => approveAsync()}
-              loading={isApproving}
-              disabled={isApproved || Number(amount) <= 0}
-            >
+            <Button onClick={() => approveAsync()} loading={isApproving} disabled={isApproved || Number(amount) <= 0}>
               Approve to continue
             </Button>
           )}
-          <Button
-            type="submit"
-            loading={isDepositPending}
-            disabled={!isApproved || Number(amount) <= 0}
-          >
+          <Button type="submit" loading={isDepositPending} disabled={!isApproved || Number(amount) <= 0}>
             {Number(amount) > 0 ? "Deposit" : "Enter an amount"}
           </Button>
         </div>

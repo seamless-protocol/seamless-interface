@@ -6,8 +6,9 @@ import {
   FlexCol,
   FlexRow,
   Icon,
+  Tooltip,
   Typography,
-} from "../../../../../shared";
+} from "@shared";
 import { useFetchViewUserInfo } from "../../hooks/useFetchViewUserInfo";
 import { DepositModal } from "./deposit/DepositModal";
 import { WithdrawModal } from "./withdraw/WithdrawModal";
@@ -40,13 +41,13 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to deposit</Typography>
-            <DisplayTokenAmount
-              typography="main16"
-              {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
-              isTooltip={true}
-              tooltipSize="small"
-              isFetched={viewUserInfo.isFetched}
-            />
+            <Tooltip tooltip={viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.symbol}>
+              <DisplayTokenAmount
+                typography="main16"
+                {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
+                isFetched={viewUserInfo.isFetched}
+              />
+            </Tooltip>
             <DisplayMoney
               typography="secondary12"
               {...viewUserInfo?.data?.underlyingAssetBalance.dollarAmount}
@@ -56,12 +57,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
 
           <DepositModal
             id={id}
-            disabled={
-              !Number(
-                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
-                  .bigIntValue
-              )
-            }
+            disabled={!Number(viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.bigIntValue)}
             className="w-28"
           />
         </FlexRow>
@@ -71,14 +67,14 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to withdraw</Typography>
-            <DisplayTokenAmount
-              typography="main16"
-              {...viewUserInfo?.data?.strategyBalance.tokenAmount}
-              isTooltip={true}
-              tooltipSize="small"
-              className="w-36"
-              isFetched={viewUserInfo.isFetched}
-            />
+            <Tooltip tooltip={viewUserInfo?.data?.strategyBalance.tokenAmount.symbol}>
+              <DisplayTokenAmount
+                typography="main16"
+                {...viewUserInfo?.data?.strategyBalance.tokenAmount}
+                className="w-36"
+                isFetched={viewUserInfo.isFetched}
+              />
+            </Tooltip>
             <DisplayMoney
               typography="secondary12"
               {...viewUserInfo?.data?.strategyBalance.dollarAmount}
@@ -88,11 +84,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
 
           <WithdrawModal
             id={id}
-            disabled={
-              !Number(
-                viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue
-              )
-            }
+            disabled={!Number(viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue)}
             className="w-28"
           />
         </FlexRow>
