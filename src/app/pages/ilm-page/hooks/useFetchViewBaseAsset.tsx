@@ -11,7 +11,7 @@ import { useFetchViewDetailTotalBorrowed } from "../../../state/lending-borrowin
 export interface ViewRewardToken {
   symbol: string;
   logo: string;
-  apr: number;
+  apr: ViewNumber;
 }
 export interface ViewBaseAsset {
   depositAsset: {

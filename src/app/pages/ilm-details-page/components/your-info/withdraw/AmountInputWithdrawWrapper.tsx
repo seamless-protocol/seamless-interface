@@ -12,7 +12,7 @@ interface AmountInputWithdrawWrapperProps {
 export const AmountInputWithdrawWrapper: React.FC<
   AmountInputWithdrawWrapperProps
 > = ({ id, debouncedAmountInUsd }) => {
-  const { symbol, logo, address: assetAddress } = ilmStrategies[id];
+  const { logo, address: assetAddress } = ilmStrategies[id];
 
   // TODO: properly invallidate query!!!
   const {
@@ -23,7 +23,7 @@ export const AmountInputWithdrawWrapper: React.FC<
     <AmountInput
       walletBalance={balance}
       debouncedAmountInUsd={debouncedAmountInUsd}
-      assetSymbol={symbol}
+      assetSymbol={balance.symbol}
       assetLogo={logo}
       maxAssets={balance}
     />

@@ -2,8 +2,15 @@
 import React from "react";
 import { RHFInputField } from "../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../shared/utils/helpers";
-import type { DepositModalFormData } from "../deposit/DepositModal";
-import { DisplayMoney, ViewBigInt, FlexRow, Typography } from "@shared";
+import { DepositModalFormData } from "../deposit/DepositModal";
+import {
+  DisplayMoney,
+  ViewBigInt,
+  FlexRow,
+  Typography,
+  DisplayText,
+  Tooltip,
+} from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
@@ -12,7 +19,7 @@ interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
   maxAssets: ViewBigInt;
   debouncedAmountInUsd: number;
-  assetSymbol: string;
+  assetSymbol?: string;
   assetLogo: string;
 }
 
@@ -43,18 +50,33 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
 
         <div className="flex items-center space-x-2">
           <img src={assetLogo} alt="Logo" className="h-8" />
-          <span className="text-lg text-right">{assetSymbol}</span>
+          <Tooltip tooltip={assetSymbol} size="small">
+            <DisplayText
+              typography="secondary16"
+              text={assetSymbol}
+              className="max-w-28"
+            />
+          </Tooltip>
         </div>
       </div>
 
       <div className="flex justify-between">
         <DisplayMoney
-          viewValue={formatToDisplayable(debouncedAmountInUsd, walletBalanceDecimalsOptions)}
+          viewValue={formatToDisplayable(
+            debouncedAmountInUsd,
+            walletBalanceDecimalsOptions
+          )}
           typography="description"
         />
         <FlexRow className="items-center gap-1">
-          <span className="text-xs">Wallet balance {walletBalance.viewValue}</span>
-          <button type="button" className="outline-none text-text-light" onClick={handleMaxClick}>
+          <span className="text-xs">
+            Wallet balance {walletBalance.viewValue}
+          </span>
+          <button
+            type="button"
+            className="outline-none text-text-light"
+            onClick={handleMaxClick}
+          >
             <Typography type="buttonS">MAX</Typography>
           </button>
         </FlexRow>

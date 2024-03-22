@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../router";
 import { IncentivesButton } from "./IncentivesButton";
 import { ViewBaseAsset } from "../../hooks/useFetchViewBaseAsset";
+import { IncentivesDetailCard } from "./IncentivesDetailCard";
 
 export const BaseAssetsDesktopTableRow: React.FC<{
   index: number;
@@ -58,7 +59,12 @@ export const BaseAssetsDesktopTableRow: React.FC<{
               isLoading={isLoading}
             />
             {asset?.supplyIncentives.totalApr.value !== 0 && (
-              <IncentivesButton {...asset?.supplyIncentives} />
+              <IncentivesButton {...asset?.supplyIncentives}>
+                <IncentivesDetailCard
+                  {...asset?.supplyIncentives}
+                  assetSymbol={asset.depositAsset.symbol}
+                />
+              </IncentivesButton>
             )}
           </FlexCol>
         </TableCell>
@@ -82,7 +88,12 @@ export const BaseAssetsDesktopTableRow: React.FC<{
             isLoading={isLoading}
           />
           {asset?.borrowVariableIncentives.totalApr.value !== 0 && (
-            <IncentivesButton {...asset?.borrowVariableIncentives} />
+            <IncentivesButton {...asset?.borrowVariableIncentives}>
+              <IncentivesDetailCard
+                {...asset?.borrowVariableIncentives}
+                assetSymbol={asset.depositAsset.symbol}
+              />
+            </IncentivesButton>
           )}
         </TableCell>
 

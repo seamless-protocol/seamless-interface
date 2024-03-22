@@ -13,9 +13,11 @@ import {
   ModalHandles,
   MyFormProvider,
   StandardTooltip,
+  Tooltip,
   Typography,
   useERC20Approve,
   useNotificationContext,
+  useToken,
 } from "@shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated/generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
@@ -37,6 +39,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
 
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
+
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
   });
@@ -51,21 +57,29 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, assetPrice, 500);
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(
+    amount,
+    assetPrice,
+    500
+  );
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
     ilmStrategies[id].underlyingAsset.address,
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { data: previewDepositData, isLoading } = useFetchViewPreviewDeposit(id, debouncedAmount);
+  const { data: previewDepositData, isLoading } = useFetchViewPreviewDeposit(
+    id,
+    debouncedAmount
+  );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          sharesToReceive:
+            previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
@@ -74,9 +88,13 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               content: (
                 <FlexCol className="w-full items-center text-center justify-center">
                   <Typography>
-                    You Supplied {data.amount} {ilmStrategies[id].underlyingAsset.symbol}
+                    You Supplied {data.amount}{" "}
+                    {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet {...ilmStrategies[id]} />
+                  <AddCoinToWallet
+                    {...ilmStrategies[id]}
+                    symbol={strategySymbol}
+                  />
                 </FlexCol>
               ),
             });
@@ -101,20 +119,33 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
         <div className="flex flex-col gap-4">
           <FlexCol>
             <Typography type="description">Amount</Typography>
-            <AmountInputDepositWrapper id={id} debouncedAmountInUsd={debouncedAmountInUsd} />
+            <AmountInputDepositWrapper
+              id={id}
+              debouncedAmountInUsd={debouncedAmountInUsd}
+            />
           </FlexCol>
 
           <FlexCol>
             <Typography type="description">Transaction overview</Typography>
             <FlexCol className="border-divider border-[0.667px] rounded-md p-3 gap-1">
               <FlexRow className="justify-between">
-                <Typography type="description">Min shares to receive</Typography>
+                <Typography type="description">
+                  Min shares to receive
+                </Typography>
 
-                <DisplayTokenAmount
-                  {...previewDepositData?.sharesToReceive.tokenAmount}
-                  typography="description"
-                  isLoading={isLoading}
-                />
+                <Tooltip
+                  tooltip={
+                    previewDepositData?.sharesToReceive.tokenAmount.symbol
+                  }
+                  size="small"
+                >
+                  <DisplayTokenAmount
+                    {...previewDepositData?.sharesToReceive.tokenAmount}
+                    typography="description"
+                    className="w-32"
+                    isLoading={isLoading}
+                  />
+                </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
                 <Typography type="description">Min value to receive</Typography>
@@ -126,11 +157,13 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
               </FlexRow>
               <FlexRow className="justify-between">
                 <FlexRow className="items-center gap-1">
-                  <Typography type="description">Max transaction cost</Typography>
+                  <Typography type="description">
+                    Max transaction cost
+                  </Typography>
                   <StandardTooltip width={1}>
                     <Typography type="subheader2">
-                      DEX fees incurred to keep the strategy <br /> at the target multiple after
-                      your deposit.
+                      DEX fees incurred to keep the strategy <br /> at the
+                      target multiple after your deposit.
                     </Typography>
                   </StandardTooltip>
                 </FlexRow>

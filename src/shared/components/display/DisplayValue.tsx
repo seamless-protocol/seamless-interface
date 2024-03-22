@@ -55,9 +55,9 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbol,
   isFetched,
   isLoading,
-  symbolColor,
   loaderSkeleton,
   typography = "secondary12",
+  symbolColor,
   symbolPosition = "before",
   className = "",
 }) => {
@@ -68,44 +68,31 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
         viewValue
       );
 
-      return (
-        <span style={{ width, height }} className="skeleton mb-[1px]" />
-      );
-    } 
-      return <div className="loading loading-spinner flex self-center" />;
-    
-  } 
-    return (
-      <Typography
-        type={typography}
-        className={`truncate hover:text-clip ${className}`}
-      >
-        {symbolPosition === "before" && symbol && (
-          <Typography
-              type={typography}
-              tagOverride="span"
-              color={symbolColor}
-            >
-              {symbol}
-            </Typography>
-        )}
-        {viewValue}
-
-        {symbolPosition === "after" && symbol && (
-          <>
-            {" "}
-            <Typography
-              type={typography}
-              tagOverride="span"
-              color={symbolColor}
-            >
-              {symbol}
-            </Typography>
-          </>
-        )}
-      </Typography>
-    );
-  
+      return <span style={{ width, height }} className="skeleton mb-[1px]" />;
+    }
+    return <div className="loading loading-spinner flex self-center" />;
+  }
+  return (
+    <Typography
+      type={typography}
+      className={`truncate hover:text-clip ${className}`}
+    >
+      {symbolPosition === "before" && symbol && (
+        <Typography type={typography} tagOverride="span" color={symbolColor}>
+          {symbol}
+        </Typography>
+      )}
+      {viewValue}
+      {symbolPosition === "after" && symbol && (
+        <>
+          {" "}
+          <Typography type={typography} tagOverride="span" color={symbolColor}>
+            {symbol}
+          </Typography>
+        </>
+      )}
+    </Typography>
+  );
 };
 
 /**

@@ -1,6 +1,9 @@
 import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { ONE_ETHER, walletBalanceDecimalsOptions } from "../../../meta/constants";
+import {
+  ONE_ETHER,
+  walletBalanceDecimalsOptions,
+} from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable, useToken } from "@shared";
@@ -17,7 +20,10 @@ interface PreviewDeposit {
   costInUsd: FetchBigInt;
 }
 
-export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewDeposit> => {
+export const useFetchPreviewDeposit = (
+  strategyConfig: StrategyConfig,
+  amount: string
+): FetchData<PreviewDeposit> => {
   const account = useAccount();
 
   const {
@@ -42,7 +48,11 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     data: shares,
     isLoading: isSimulateDepositLoading,
     isFetched: isSimulateDepositFetched,
-  } = useFetchSimulateDeposit(account.address as Address, strategyConfig.address, amount);
+  } = useFetchSimulateDeposit(
+    account.address as Address,
+    strategyConfig.address,
+    amount
+  );
 
   const {
     isLoading: isShareValueLoading,
@@ -59,9 +69,11 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
   if (shares && shares.bigIntValue && sharePrice && assetPrice) {
     sharesToReceive = (shares.bigIntValue * 99n) / 100n;
-    sharesToReceiveInUsd = (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
+    sharesToReceiveInUsd =
+      (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
-    const depositValueInUsd = (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
+    const depositValueInUsd =
+      (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
 
     costInUsd = depositValueInUsd - sharesToReceiveInUsd;
     costInUnderlyingAsset = (costInUsd * ONE_ETHER) / assetPrice.bigIntValue;
@@ -86,7 +98,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
       sharesToReceive: {
         bigIntValue: sharesToReceive || 0n,
         decimals: strategyDecimals,
-        symbol: strategyConfig.symbol,
+        symbol: strategySymbol,
       },
       sharesToReceiveInUsd: {
         bigIntValue: sharesToReceiveInUsd || 0n,
@@ -107,11 +119,19 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   };
 };
 
-export const useFetchViewPreviewDeposit = (id: number, amount: string): Displayable<ViewPreviewDeposit> => {
+export const useFetchViewPreviewDeposit = (
+  id: number,
+  amount: string
+): Displayable<ViewPreviewDeposit> => {
   const {
     isLoading,
     isFetched,
-    data: { sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd },
+    data: {
+      sharesToReceive,
+      sharesToReceiveInUsd,
+      costInUnderlyingAsset,
+      costInUsd,
+    },
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
   return {
@@ -119,12 +139,24 @@ export const useFetchViewPreviewDeposit = (id: number, amount: string): Displaya
     isFetched,
     data: {
       sharesToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(sharesToReceive, walletBalanceDecimalsOptions),
-        dollarAmount: formatFetchBigIntToViewBigInt(sharesToReceiveInUsd, walletBalanceDecimalsOptions),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          sharesToReceive,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          sharesToReceiveInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
       cost: {
-        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset, walletBalanceDecimalsOptions),
-        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd, walletBalanceDecimalsOptions),
+        tokenAmount: formatFetchBigIntToViewBigInt(
+          costInUnderlyingAsset,
+          walletBalanceDecimalsOptions
+        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(
+          costInUsd,
+          walletBalanceDecimalsOptions
+        ),
       },
     },
   };
