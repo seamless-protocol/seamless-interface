@@ -64,10 +64,11 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
     500
   );
 
-  const { data: previewWithdrawData, isLoading } = useFetchViewPreviewWithdraw(
-    id,
-    debouncedAmount
-  );
+  const {
+    data: previewWithdrawData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewWithdraw(id, debouncedAmount);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
@@ -123,12 +124,15 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                     previewWithdrawData.assetsToReceive.tokenAmount.symbol
                   }
                   size="small"
+                  isLoading={isLoading}
+                  isFetched={isFetched}
                 >
                   <DisplayTokenAmount
                     {...previewWithdrawData?.assetsToReceive.tokenAmount}
                     typography="description"
                     className="max-w-32"
                     isLoading={isLoading}
+                    isFetched={isFetched}
                   />
                 </Tooltip>
               </FlexRow>

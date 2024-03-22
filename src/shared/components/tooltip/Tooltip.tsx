@@ -44,6 +44,8 @@ export const Tooltip: React.FC<{
   openOnClick?: boolean;
   theme?: TooltipTheme;
   size?: TooltipSize;
+  isLoading?: boolean;
+  isFetched?: boolean;
 }> = ({
   children,
   tooltip,
@@ -51,6 +53,8 @@ export const Tooltip: React.FC<{
   place = "top",
   theme = "light",
   size = "normal",
+  isLoading,
+  isFetched,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
@@ -77,6 +81,10 @@ export const Tooltip: React.FC<{
       padding: "24px 32px",
     },
   };
+
+  if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
+    return children;
+  }
 
   return (
     <span
