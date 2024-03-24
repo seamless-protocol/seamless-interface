@@ -11,7 +11,7 @@ import { useNotificationContext } from "../../contexts/notification/useNotificat
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   onError?: (e: any) => void;
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
@@ -95,7 +95,7 @@ export function useSeamlessContractWrite<
   const [isPending, setIsPending] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   useEffect(() => {
-    setErrorMessage(error?.message); //todo: might this override errorMessage set in error handler?
+    setErrorMessage(error?.message); // todo: might this override errorMessage set in error handler?
   }, [error?.message, setErrorMessage]);
   // ************ //
   // Notification //
@@ -111,31 +111,31 @@ export function useSeamlessContractWrite<
   ) => {
     try {
       setIsPending(true);
-      //1. write contract async
+      // 1. write contract async
       const txHash = await writeContractAsync(args);
 
-      //2. wait for transaction receipt
+      // 2. wait for transaction receipt
       const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
         hash: txHash,
       });
 
-      //3. throw if receipt is not valid
+      // 3. throw if receipt is not valid
       if (txReceipt.status === "reverted")
-        throw new Error("Execution reverted."); //todo: better way to handle reverted?
+        throw new Error("Execution reverted."); // todo: better way to handle reverted?
 
-      //4. invalidate queries
+      // 4. invalidate queries
       if (queriesToInvalidate) await invalidateMany(queriesToInvalidate);
 
-      //5. call onSuccess callback
+      // 5. call onSuccess callback
       settings?.onSuccess?.(txHash);
 
-      //6. log result
-      console.info("Operation successful:", txHash); //todo: add logging service
+      // 6. log result
+      console.info("Operation successful:", txHash); // todo: add logging service
 
-      //7. return result
+      // 7. return result
       return txHash;
     } catch (error) {
-      //1. log error
+      // 1. log error
       console.error(
         "UseSeamlessContractWrite Operation failed:",
         { error },
@@ -143,10 +143,10 @@ export function useSeamlessContractWrite<
       );
 
       const parsedError = getParsedError(error);
-      //2. set error message
+      // 2. set error message
       setErrorMessage(parsedError);
 
-      //3. show error notification
+      // 3. show error notification
       if (!settings?.hideDefaultErrorOnNotification) {
         showNotification({
           status: "error",
@@ -154,12 +154,12 @@ export function useSeamlessContractWrite<
         });
       }
 
-      //4. call callback
+      // 4. call callback
       settings?.onError?.(error);
-      //todo: display error notification always?
+      // todo: display error notification always?
     } finally {
       setIsPending(false);
-      //1. call callback
+      // 1. call callback
       settings?.onSettled?.();
     }
     return undefined;

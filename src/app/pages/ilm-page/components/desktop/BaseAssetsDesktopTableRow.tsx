@@ -60,7 +60,10 @@ export const BaseAssetsDesktopTableRow: React.FC<{
             />
             {asset?.supplyIncentives.totalApr.value !== 0 && (
               <IncentivesButton {...asset?.supplyIncentives}>
-                <IncentivesDetailCard {...asset?.supplyIncentives} />
+                <IncentivesDetailCard
+                  {...asset?.supplyIncentives}
+                  assetSymbol={asset.depositAsset.symbol}
+                />
               </IncentivesButton>
             )}
           </FlexCol>
@@ -86,7 +89,10 @@ export const BaseAssetsDesktopTableRow: React.FC<{
           />
           {asset?.borrowVariableIncentives.totalApr.value !== 0 && (
             <IncentivesButton {...asset?.borrowVariableIncentives}>
-              <IncentivesDetailCard {...asset?.borrowVariableIncentives} />
+              <IncentivesDetailCard
+                {...asset?.borrowVariableIncentives}
+                assetSymbol={asset.depositAsset.symbol}
+              />
             </IncentivesButton>
           )}
         </TableCell>

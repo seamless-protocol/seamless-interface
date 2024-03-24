@@ -58,9 +58,9 @@ export const Icon: React.FC<IconProps> = ({
             ? "skeleton min-h-10 min-w-10 rounded-full"
             : "loading loading-spinner w-32 h-32 flex self-center"
         }
-      ></span>
+       />
     );
-  } else {
+  } 
     return <img src={src} alt={alt} width={32} height={32} {...rest} />;
-  }
+  
 };

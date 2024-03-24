@@ -12,6 +12,7 @@ export const Dropdown: React.FC<Props> = ({ button, children }) => {
         {button}
       </div>
       <div
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         className="dropdown-content z-[1] menu p-0 shadow bg-base-100 rounded-[4px] min-w-52"
       >

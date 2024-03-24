@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 /**
@@ -52,6 +52,7 @@ export const Tooltip: React.FC<{
   theme = "light",
   size = "normal",
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
 
   const themeStyles = {
@@ -77,13 +78,17 @@ export const Tooltip: React.FC<{
     },
   };
 
-  const clonedChild = React.cloneElement(children, {
-    "data-tooltip-id": tooltipId,
-  });
-
   return (
-    <>
-      {clonedChild}
+    <span
+      data-tooltip-id={tooltipId}
+      onMouseEnter={() => {
+        setIsVisible(true);
+      }}
+      onMouseLeave={() => {
+        setIsVisible(false);
+      }}
+    >
+      {children}
       <ReactTooltip
         style={{
           ...themeStyles[theme],
@@ -92,6 +97,7 @@ export const Tooltip: React.FC<{
           boxShadow:
             "rgba(0, 0, 0, 0.2) 0px 0px 2px, rgba(0, 0, 0, 0.1) 0px 2px 10px",
         }}
+        className={isVisible ? "show-tooltip" : "hide-tooltip"}
         opacity={1}
         id={tooltipId}
         place={place}
@@ -99,6 +105,6 @@ export const Tooltip: React.FC<{
       >
         {tooltip}
       </ReactTooltip>
-    </>
+    </span>
   );
 };

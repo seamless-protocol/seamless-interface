@@ -28,6 +28,6 @@ export const PageContainer: React.FC<{
   className?: string;
 }> = ({ children, className }) => {
   return (
-    <div className={`flex-grow ${className ? className : ""}`}>{children}</div>
+    <div className={`flex-grow ${className || ""}`}>{children}</div>
   );
 };

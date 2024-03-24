@@ -47,7 +47,7 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
           {[...Array(colCount)].map((_, colIndex) => (
             <div key={colIndex} className="flex-1 px-4 py-2">
               <div className="flex w-full justify-center items-center">
-                <div className="skeleton w-1/2 h-10"></div>
+                <div className="skeleton w-1/2 h-10" />
               </div>
             </div>
           ))}

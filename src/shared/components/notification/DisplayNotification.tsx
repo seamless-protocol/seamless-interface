@@ -7,7 +7,6 @@ import { FlexCol } from "../containers/FlexCol";
 import { Typography } from "../text/Typography/Typography";
 import { Button } from "../button/Button";
 import { FlexRow } from "../containers/FlexRow";
-import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../app/router";
 
 import externalLinkIcon from "../../../assets/common/external-link.svg";
@@ -16,26 +15,16 @@ interface Props extends TNotificationProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DisplayNotification = ({
-  content,
-  status,
-  icon,
-  txHash,
-  setModalOpen,
-}: Props) => {
+export const DisplayNotification = ({ content, status, icon, txHash, setModalOpen }: Props) => {
   return (
     <ModalBody setModalOpen={setModalOpen}>
       <FlexCol className="items-center gap-2">
         <FlexCol className="items-center gap-6">
-          <div
-            className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}
-          >
-            {icon || (status ? ENUM_STATUSES[status] : <></>)}
+          <div className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}>
+            {icon || (status ? ENUM_STATUSES[status] : null)}
           </div>
 
-          <Typography type="main21">
-            {status ? ENUM_MESSAGES[status] : "Invalid status."}
-          </Typography>
+          <Typography type="main21">{status ? ENUM_MESSAGES[status] : "Invalid status."}</Typography>
         </FlexCol>
 
         <div>{content}</div>
@@ -44,20 +33,12 @@ export const DisplayNotification = ({
           {status === "success" && txHash && (
             <FlexRow className="justify-between items-center">
               <span />
-              <Link
-                to={RouterConfig.Builder.baseScanTx(txHash || "")}
-                target="_blank"
-              >
+              <a href={RouterConfig.Builder.baseScanTx(txHash || "")} target="_blank">
                 <FlexRow className="justify-between items-center gap-0.5">
                   <Typography type="subheader2">Review tx details</Typography>
-                  <Icon
-                    src={externalLinkIcon}
-                    alt="external-link"
-                    width={12}
-                    height={12}
-                  />
+                  <Icon src={externalLinkIcon} alt="external-link" width={12} height={12} />
                 </FlexRow>
-              </Link>
+              </a>
             </FlexRow>
           )}
           <Button fullWidth onClick={() => setModalOpen(false)}>

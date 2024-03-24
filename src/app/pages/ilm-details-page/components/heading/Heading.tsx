@@ -13,6 +13,7 @@ import {
   Dropdown,
   useToken,
   useWatchAsset,
+  Tooltip,
 } from "@shared";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
@@ -26,6 +27,10 @@ export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
   const strategyConfig = ilmStrategies[id];
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
+
   const {
     isLoading: isTargetMultipleLoading,
     isFetched: isTargetMultipleFetched,
@@ -73,7 +78,7 @@ export const Heading: React.FC<{
                 <ViewAssetOnBaseScan
                   label="Strategy Asset"
                   {...strategyConfig}
-                  symbol={strategyConfig.symbol}
+                  symbol={strategySymbol}
                 />
               </ul>
             </Dropdown>
@@ -88,7 +93,7 @@ export const Heading: React.FC<{
                 <WatchAsset
                   label="Strategy Asset"
                   {...strategyConfig}
-                  symbol={strategyConfig.symbol}
+                  symbol={strategySymbol}
                 />
               </ul>
             </Dropdown>
@@ -162,10 +167,20 @@ const ViewAssetOnBaseScan: React.FC<{
       <div className="px-4 py-3 pb-2">
         <Typography type="secondary12">{label}</Typography>
       </div>
-      <a target="_blank" href={RouterConfig.Builder.baseScanAddress(address)}>
+      <a
+        target="_blank"
+        href={RouterConfig.Builder.baseScanAddress(address)}
+        rel="noreferrer"
+      >
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
+          <Tooltip tooltip={symbol} size="small">
+            <DisplayText
+              typography="subheader1"
+              text={symbol}
+              className="max-w-36"
+            />
+          </Tooltip>
         </FlexRow>
       </a>
     </div>
@@ -200,7 +215,13 @@ const WatchAsset: React.FC<{
       >
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={logo} alt={symbol || ""} />
-          <Typography type="subheader1">{symbol}</Typography>
+          <Tooltip tooltip={symbol} size="small">
+            <DisplayText
+              typography="subheader1"
+              text={symbol}
+              className="max-w-36"
+            />
+          </Tooltip>
         </FlexRow>
       </button>
     </div>
