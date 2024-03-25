@@ -68,7 +68,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
         viewValue
       );
 
-      return <span style={{ width, height }} className="skeleton mb-[1px]" />;
+      return <span style={{ width, height }} className="skeleton flex" />;
     }
     return <div className="loading loading-spinner flex self-center" />;
   }

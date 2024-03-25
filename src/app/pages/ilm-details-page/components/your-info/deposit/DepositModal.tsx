@@ -139,12 +139,11 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     previewDepositData?.sharesToReceive.tokenAmount.symbol
                   }
                   size="small"
-                  hidden={!isFetched}
                 >
                   <DisplayTokenAmount
                     {...previewDepositData?.sharesToReceive.tokenAmount}
                     typography="description"
-                    className="w-32"
+                    className="max-w-32"
                     isLoading={isLoading}
                     isFetched={isFetched}
                   />

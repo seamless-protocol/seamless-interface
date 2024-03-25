@@ -52,7 +52,6 @@ export const Tooltip: React.FC<{
   place = "top",
   theme = "light",
   size = "normal",
-  hidden = false,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
@@ -80,9 +79,7 @@ export const Tooltip: React.FC<{
     },
   };
 
-  return hidden ? (
-    children
-  ) : (
+  return (
     <span
       data-tooltip-id={tooltipId}
       onMouseEnter={() => {
