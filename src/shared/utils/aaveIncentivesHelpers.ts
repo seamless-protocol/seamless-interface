@@ -4,7 +4,7 @@ import {
   formatUnitsToNumber,
   normalizeDecimals,
 } from "./helpers";
-import { SECONDS_PER_YEAR, assetLogos } from "../../app/meta";
+import { SECONDS_PER_YEAR, assetLogos } from "@meta";
 import { ViewNumber } from "../types/Displayable";
 
 interface RewardTokenInformation {
