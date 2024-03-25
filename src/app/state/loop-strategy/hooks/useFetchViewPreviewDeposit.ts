@@ -3,7 +3,7 @@ import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
-import { Displayable } from "../../../../shared";
+import { Displayable, useToken } from "../../../../shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
@@ -22,6 +22,13 @@ export const useFetchPreviewDeposit = (
   amount: string
 ): FetchData<PreviewDeposit> => {
   const account = useAccount();
+
+  const {
+    isLoading: isTokenDataLoading,
+    isFetched: isTokenDataFetched,
+    data: { symbol: strategySymbol, decimals: strategyDecimals },
+  } = useToken(strategyConfig.address);
+
   const [shares, setShares] = useState(0n);
 
   useEffect(() => {
@@ -44,7 +51,10 @@ export const useFetchPreviewDeposit = (
     data: assetPrice,
   } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
-  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  let sharesToReceive;
+  let sharesToReceiveInUsd;
+  let costInUnderlyingAsset;
+  let costInUsd;
   if (shares && sharePrice && assetPrice) {
     sharesToReceive = (shares * 99n) / 100n;
     sharesToReceiveInUsd =
@@ -58,13 +68,13 @@ export const useFetchPreviewDeposit = (
   }
 
   return {
-    isLoading: isShareValueLoading || isAssetPriceLoading,
-    isFetched: isShareValueFetched && isAssetPriceFetched,
+    isLoading: isShareValueLoading || isAssetPriceLoading || isTokenDataLoading,
+    isFetched: isShareValueFetched && isAssetPriceFetched && isTokenDataFetched,
     data: {
       sharesToReceive: {
         bigIntValue: sharesToReceive || 0n,
-        decimals: 18,
-        symbol: strategyConfig.symbol,
+        decimals: strategyDecimals,
+        symbol: strategySymbol,
       },
       sharesToReceiveInUsd: {
         bigIntValue: sharesToReceiveInUsd || 0n,
@@ -101,8 +111,8 @@ export const useFetchViewPreviewDeposit = (
   } = useFetchPreviewDeposit(ilmStrategies[id], amount);
 
   return {
-    isLoading: isLoading,
-    isFetched: isFetched,
+    isLoading,
+    isFetched,
     data: {
       sharesToReceive: {
         tokenAmount: formatFetchBigIntToViewBigInt(

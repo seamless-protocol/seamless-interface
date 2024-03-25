@@ -75,6 +75,7 @@ export * from "./components/form/rhf/RHFInputField";
 // Images //
 // ***** //
 export * from "./components/images/Icon";
+export * from "./components/images/Image";
 
 // **** //
 // lifi //

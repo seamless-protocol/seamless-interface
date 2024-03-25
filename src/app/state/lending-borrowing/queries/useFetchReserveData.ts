@@ -45,12 +45,12 @@ export const useFetchReserveData = (asset: Address) => {
     data: {
       totalSupplied: {
         bigIntValue: totalSupplied || 0n,
-        decimals: decimals,
+        decimals,
         symbol: "",
       },
       totalBorrowed: {
         bigIntValue: totalBorrowed || 0n,
-        decimals: decimals,
+        decimals,
         symbol: "",
       },
       liquidityRate: {

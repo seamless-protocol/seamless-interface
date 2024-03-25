@@ -56,7 +56,7 @@ export const variableDebtSeamWETH_ADDRESS: Address =
 export const variableDebtSeamwstETH_ADDRESS: Address =
   "0x51fB9021d61c464674b419C0e3082B5b9223Fc17";
 export const wstETHBooster_ADDRESS: Address =
-  "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; //0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
+  "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);

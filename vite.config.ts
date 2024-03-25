@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
         onLog(level, log, handler) {
           if (
             log.cause &&
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+             
             (log.cause as any).message ===
               `Can't resolve original location of error.`
           ) {

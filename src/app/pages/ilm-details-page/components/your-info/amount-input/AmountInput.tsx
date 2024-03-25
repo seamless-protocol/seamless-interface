@@ -7,17 +7,19 @@ import {
   ViewBigInt,
   FlexRow,
   Typography,
+  DisplayText,
+  Tooltip,
   RHFInputField,
 } from "@shared";
+import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
 import { formatUnits } from "viem";
-import { walletBalanceDecimalsOptions } from "@meta";
 
 interface AmountInputBoxProps {
   walletBalance: ViewBigInt;
   maxAssets: ViewBigInt;
   debouncedAmountInUsd: number;
-  assetSymbol: string;
+  assetSymbol?: string;
   assetLogo: string;
 }
 
@@ -48,7 +50,13 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
 
         <div className="flex items-center space-x-2">
           <img src={assetLogo} alt="Logo" className="h-8" />
-          <span className="text-lg text-right">{assetSymbol}</span>
+          <Tooltip tooltip={assetSymbol} size="small">
+            <DisplayText
+              typography="secondary16"
+              text={assetSymbol}
+              className="max-w-28"
+            />
+          </Tooltip>
         </div>
       </div>
 

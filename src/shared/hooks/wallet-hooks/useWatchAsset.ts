@@ -26,9 +26,7 @@ export function useWatchAsset() {
 
     if (!logoUrl) {
       console.warn(
-        "Warning: logoUrl not found for symbol " +
-          token.symbol +
-          ". Make sure to add your logo to PublicAssetLogosConfig."
+        `Warning: logoUrl not found for symbol ${token.symbol}. Make sure to add your logo to PublicAssetLogosConfig.`
       );
     }
 

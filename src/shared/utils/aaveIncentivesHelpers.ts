@@ -1,6 +1,11 @@
 import { Address } from "viem";
-import { formatUnitsToNumber, normalizeDecimals } from "./helpers";
-import { SECONDS_PER_YEAR, assetLogos } from "@meta";
+import {
+  formatFetchNumberToViewNumber,
+  formatUnitsToNumber,
+  normalizeDecimals,
+} from "./helpers";
+import { SECONDS_PER_YEAR, assetLogos } from "../../app/meta";
+import { ViewNumber } from "../types/Displayable";
 
 interface RewardTokenInformation {
   rewardTokenSymbol: string;
@@ -32,7 +37,7 @@ export interface Incentives {
 interface RewardToken {
   symbol: string;
   logo: string;
-  apr: number;
+  apr: ViewNumber;
 }
 
 export interface IncentiveApr {
@@ -72,7 +77,11 @@ function parseRewardsTokenInformation(
             18n
           );
     const emissionPerYear =
-      normalizeDecimals(rewardToken.emissionPerSecond, BigInt(rewardToken.rewardTokenDecimals), 18n) * BigInt(SECONDS_PER_YEAR);
+      normalizeDecimals(
+        rewardToken.emissionPerSecond,
+        BigInt(rewardToken.rewardTokenDecimals),
+        18n
+      ) * BigInt(SECONDS_PER_YEAR);
     const rewardTokenApr =
       (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
 
@@ -81,7 +90,10 @@ function parseRewardsTokenInformation(
     rewardTokens.push({
       symbol: rewardToken.rewardTokenSymbol,
       logo: assetLogos.get(rewardToken.rewardTokenSymbol) || "",
-      apr: rewardTokenAprFormatted,
+      apr: formatFetchNumberToViewNumber({
+        value: rewardTokenAprFormatted * 100,
+        symbol: "%",
+      }),
     });
 
     totalApr += rewardTokenAprFormatted * 100;

@@ -74,7 +74,7 @@ export async function simulateDeposit(
     }
 
     // Take logs from second transaction
-    const logs = result[1].logs;
+    const {logs} = result[1];
     // Deposit even is the last event
     const depositEvent = logs[logs?.length - 1];
 
@@ -122,7 +122,7 @@ export async function simulateWithdraw(
       };
     }
 
-    const logs = result[0].logs;
+    const {logs} = result[0];
     // Withdraw event is the last event
     const withdrawEvent = logs[logs?.length - 1];
 

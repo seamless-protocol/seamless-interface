@@ -14,6 +14,7 @@ export const SmallExternalLinkButton: React.FC<{
     >
       <button
         onClick={onClick}
+        // eslint-disable-next-line react/no-invalid-html-attribute
         rel="noopener noreferrer"
         className="group bg-primary-main w-6 h-6 p-1 cursor-pointer rounded-full border-other-borderButton border-thin flex justify-center items-center"
       >
@@ -29,7 +30,7 @@ export const SmallExternalLinkButton: React.FC<{
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          ></path>
+          />
         </svg>
       </button>
     </Tooltip>

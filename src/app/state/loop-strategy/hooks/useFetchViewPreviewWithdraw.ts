@@ -44,7 +44,7 @@ export const useFetchPreviewWithdraw = (
     data: underlyingAssetPrice,
   } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
 
-  let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  let assetsToReceive; let assetsToReceiveInUsd; let costInUnderlyingAsset; let costInUsd;
   if (assets && underlyingAssetPrice) {
     assetsToReceive = (assets * 99n) / 100n;
     assetsToReceiveInUsd =

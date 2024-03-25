@@ -3,7 +3,6 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { useFetchAssetPrice } from "../queries/useFetchViewAssetPrice";
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
 
@@ -29,17 +28,11 @@ export const useFetchDetailAssetBalance = (
     data: price,
   } = useFetchAssetPrice(token);
 
-  const strategy = ilmStrategies.find((strategy) => strategy.address === token);
-
   return {
     isLoading: isBalanceLoading || isPriceLoading,
     isFetched: isBalanceFetched && isPriceFetched,
     data: {
-      balance: {
-        bigIntValue: balance.bigIntValue,
-        symbol: strategy ? strategy.symbol : balance.symbol,
-        decimals: balance.decimals,
-      },
+      balance,
       balanceUsd: {
         bigIntValue:
           (balance.bigIntValue * price.bigIntValue) /

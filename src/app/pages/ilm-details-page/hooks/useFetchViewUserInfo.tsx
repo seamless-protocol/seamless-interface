@@ -3,6 +3,7 @@ import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfi
 import { Displayable, ViewBigInt } from "../../../../shared/types/Displayable";
 import { useFetchDetailAssetBalance } from "../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { walletBalanceDecimalsOptions } from "@meta";
+
 export interface ViewUserInfo {
   underlyingAssetBalance: {
     tokenAmount: ViewBigInt;
