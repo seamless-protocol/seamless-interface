@@ -58,7 +58,7 @@ export const WatchAssetComponent: React.FC<Token> = ({
     await mutateAsync({
       symbol,
       address,
-      decimals: decimals,
+      decimals,
       logo,
     });
   };

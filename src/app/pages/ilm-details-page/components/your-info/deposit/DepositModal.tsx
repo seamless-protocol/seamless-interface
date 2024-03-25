@@ -91,7 +91,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     You Supplied {data.amount}{" "}
                     {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet
+                  <WatchAssetComponent
                     {...ilmStrategies[id]}
                     symbol={strategySymbol}
                   />
