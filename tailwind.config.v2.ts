@@ -9,8 +9,7 @@ export function pxToRem(px: number, baseFontSize = 16) {
   return `${px / baseFontSize}rem`;
 }
 
-const FONT_PRIMARY = "Titillium Web, Arial";
-const FONT_SECONDARY = "Nunito, Arial";
+const FONT_PRIMARY = "Satoshi Variable, Arial";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -30,76 +29,30 @@ export default {
         xxl: "1536px",
         xxxl: "1800px",
       },
-      borderWidth: {
-        thinest: "0.1px",
-        thin: "0.67px",
+      borderWidth: {},
+      borderRadius: {
+        card: "16px",
       },
       colors: {
-        primary: {
-          main: "#0000FF",
-          light: "#0000FF",
-          dark: "#0000FF",
-          contrast: "#0000FFFFF",
-        },
-        secondary: {
-          main: "#0000FF",
-          light: "#0000FF",
-          dark: "#0000FF",
-        },
-        error: {
-          main: "#0000FF",
-          light: "#0000FF",
-          dark: "#0000FF",
-          100: "#0000FF",
-          200: "#0000FF",
-        },
-        warning: {
-          main: "#0000FF",
-          light: "#0000FF",
-          dark: "#C67F15",
-          100: "#63400A",
-          200: "#FEF5E8",
-        },
-        info: {
-          main: "#0000FF",
-          light: "#0000FF",
-          dark: "#0288D1",
-          100: "#002754",
-          200: "#E5EFFB",
-        },
-        success: {
-          main: "#4CAF50",
-          light: "#90FF95",
-          dark: "#388E3C",
-          100: "#1C4B1E",
-          200: "#ECF8ED",
-        },
-
         background: {
-          default: "#0000FF",
-          default2: "#fff",
-          paper: "#0000FF",
-          surface: "#0000FF",
-          surface2: "#0000FF",
-          surfaceLight: "#0000FF",
-          subscribe: "#0000FF",
-          base: "#0000FF",
-          lifi: "#0000FF",
-          header: "#0000FF",
-          hover: "#0000FF",
-          footer: "#0000FF",
-          disabled: "#0000FF",
+          default: "#F3F7FB",
         },
-        text: {
-          primary: "#0000FF",
-          secondary: "#000",
-          disabled: "#D2D4DC",
-          muted: "#000",
-          highlight: "#383D51",
-          links: "#0000FF",
-          hover: "#0000FF",
-          light: "#A5A8B6",
-          dark: "#62677B",
+        neutral: {
+          1000: "#000",
+          100: "#F3F7FB",
+          0: "#FFF",
+        },
+        navy: {
+          1000: "#0B254F",
+          600: "rgba(11, 37, 79, 0.60)",
+          400: "rgba(11, 37, 79, 0.40)",
+          100: "rgba(11, 37, 79, 0.10)",
+        },
+        green: {
+          1000: "#1F662C",
+          900: "#2A863B",
+          600: "#6EBD70",
+          100: "#E4F7E6",
         },
         gradients: {
           seamless:
@@ -107,23 +60,9 @@ export default {
           seamlessFooter:
             "linear-gradient(248.86deg, #506FF3 1%, #CDF3A2 15%, #21E1E1 30%, #D69BDF 50%, #506FF3 81%)",
         },
-        divider: "#EAEBEF",
-        action: {
-          active: "#8E92A3",
-          hover: "#3AB0FF",
-          selected: "#EAEBEF",
-          disabled: "#BBBECA",
-          disabledBackground: "#EAEBEF",
-          focus: "#F1F1F3",
-        },
-        other: {
-          standardInputLine: "#383D511F",
-          borderButton: "#EBEBED1F",
-        },
       },
       fontFamily: {
         primary: [FONT_PRIMARY],
-        secondary: [FONT_SECONDARY],
       },
       fontSize: {
         display1: [
