@@ -16,7 +16,7 @@ export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
-        <FlexCol className="min-h-screen ">
+        <FlexCol className="min-h-screen text-navy-1000">
           <SentryRoutes>
             <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
             <Route path="*" element={<PageNotFound />} />
