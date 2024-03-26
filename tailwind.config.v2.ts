@@ -29,7 +29,9 @@ export default {
         xxl: "1536px",
         xxxl: "1800px",
       },
-      borderWidth: {},
+      borderWidth: {
+        thin: "1.3px",
+      },
       borderRadius: {
         card: "16px",
       },

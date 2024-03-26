@@ -27,6 +27,7 @@ export * from "./components/auth/AuthGuard";
 export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
+export * from "./components/button/TabButton";
 
 // ********** //
 // containers //
