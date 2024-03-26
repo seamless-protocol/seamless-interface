@@ -7,7 +7,7 @@ export const useWalletName = (): WalletName => {
 
   if (connector?.name === "Coinbase Wallet") return "Coinbase Wallet";
   if (connector?.name === "MetaMask") return "MetaMask";
-  //todo: for rest connectors
+  // todo: for rest connectors
 
   return undefined;
 };

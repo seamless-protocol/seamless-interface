@@ -45,8 +45,8 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     contracts: multicallParams,
   });
 
-  let totalSuppliedUsd = 0n,
-    totalBorrowedUsd = 0n;
+  let totalSuppliedUsd = 0n;
+    let totalBorrowedUsd = 0n;
   if (results) {
     for (let i = 0; i < results.length; i += 4) {
       const totalSupplied = BigInt(results[i].result || 0);

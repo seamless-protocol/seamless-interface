@@ -66,16 +66,16 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 // TODO: IMPLEMENT COMPONENT PROPERLY!!!
 export const Button: React.FC<ButtonProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   color = "primary",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   size = "normal",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   variant = "contained",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   fullWidth = false,
   type = "button",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   className = "",
   loading,
   children,

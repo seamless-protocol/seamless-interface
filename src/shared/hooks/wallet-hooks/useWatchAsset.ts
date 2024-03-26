@@ -3,7 +3,7 @@ import { Address, createWalletClient, custom } from "viem";
 import { PublicAssetLogosConfig } from "../../../app/config/public-asset-logos.config";
 import { base } from "viem/chains";
 
-//todo: move this somewhere else
+// todo: move this somewhere else
 export const walletClient = createWalletClient({
   chain: base,
   transport: custom(window.ethereum!),
@@ -16,10 +16,7 @@ interface Asset {
 }
 
 export const watchAsset = async (token: Asset): Promise<boolean> => {
-  const logoUrl =
-    token.symbol in PublicAssetLogosConfig
-      ? PublicAssetLogosConfig[token.symbol]
-      : undefined;
+  const logoUrl = PublicAssetLogosConfig[token.symbol] || undefined;
 
   if (!logoUrl) {
     console.warn(

@@ -10,7 +10,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
       props.min !== undefined ? props.min : Number.MIN_SAFE_INTEGER;
 
     // todo: resolve this properly
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const withValueCap = (inputObj: { floatValue: any }) => {
       const { floatValue } = inputObj;
       return (

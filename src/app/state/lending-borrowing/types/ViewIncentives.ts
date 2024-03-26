@@ -3,10 +3,10 @@ import { ViewNumber } from "../../../../shared";
 interface RewardToken {
   symbol: string;
   logo: string;
-  apy: number;
+  apr: ViewNumber;
 }
 
 export interface ViewIncentives {
-  totalApy: ViewNumber;
+  totalApr: ViewNumber;
   rewardTokens: RewardToken[];
 }
