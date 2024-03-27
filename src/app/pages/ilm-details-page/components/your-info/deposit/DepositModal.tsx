@@ -68,10 +68,11 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { data: previewDepositData, isLoading } = useFetchViewPreviewDeposit(
-    id,
-    debouncedAmount
-  );
+  const {
+    data: previewDepositData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewDeposit(id, debouncedAmount);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
@@ -142,8 +143,9 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   <DisplayTokenAmount
                     {...previewDepositData?.sharesToReceive.tokenAmount}
                     typography="description"
-                    className="w-32"
+                    className="max-w-32"
                     isLoading={isLoading}
+                    isFetched={isFetched}
                   />
                 </Tooltip>
               </FlexRow>
