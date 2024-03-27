@@ -45,6 +45,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
               tooltip={
                 viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.symbol
               }
+              size="small"
             >
               <DisplayTokenAmount
                 typography="main16"
@@ -78,6 +79,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             <Typography type="subheader2">Available to withdraw</Typography>
             <Tooltip
               tooltip={viewUserInfo?.data?.strategyBalance.tokenAmount.symbol}
+              size="small"
             >
               <DisplayTokenAmount
                 typography="main16"

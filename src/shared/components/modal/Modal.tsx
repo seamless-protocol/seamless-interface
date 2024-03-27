@@ -1,6 +1,5 @@
 import { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
 import { Button, ButtonProps } from "../button/Button";
-
 import { ModalBody } from "./ModalBody";
 
 interface ModalProps {
@@ -38,7 +37,9 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
     useImperativeHandle(ref, () => ({
       close: () => {
         setModalOpen(false);
-        if (onClose) onClose();
+        if (onClose) {
+          onClose();
+        }
       },
     }));
 
@@ -60,6 +61,7 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
             header={header}
             fullScreen={fullScreen}
             setModalOpen={setModalOpen}
+            onClose={onClose}
             className={className}
           >
             {children}

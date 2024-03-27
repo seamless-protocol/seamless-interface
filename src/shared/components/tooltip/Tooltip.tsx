@@ -39,7 +39,7 @@ export type TooltipSize = "small" | "normal" | "big";
  */
 export const Tooltip: React.FC<{
   children: React.ReactElement;
-  tooltip: React.ReactNode;
+  tooltip?: React.ReactNode;
   place?: TooltipPlace;
   openOnClick?: boolean;
   theme?: TooltipTheme;

@@ -19,10 +19,12 @@ export interface AssetPrice {
 
 const fetchAssetPriceInBlock = async (
   config: Config,
-  asset: Address,
+  asset?: Address,
   blockNumber?: bigint,
   underlyingAsset?: Address
-): Promise<bigint> => {
+): Promise<bigint | undefined> => {
+  if (!asset) return undefined;
+
   const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   let price = 0n;
@@ -60,6 +62,9 @@ const fetchAssetPriceInBlock = async (
       underlyingAsset,
       blockNumber
     );
+
+    if (!underlyingPrice) return undefined;
+
     price = (price * ONE_USD) / underlyingPrice;
   }
 
@@ -67,7 +72,7 @@ const fetchAssetPriceInBlock = async (
 };
 
 export const useFetchAssetPriceInBlock = (
-  asset: Address,
+  asset?: Address,
   blockNumber?: bigint,
   underlyingAsset?: Address
 ) => {
@@ -96,7 +101,7 @@ export const useFetchAssetPriceInBlock = (
 };
 
 export const useFetchAssetPrice = (
-  asset: Address,
+  asset?: Address,
   underlyingAsset?: Address
 ) => {
   return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);

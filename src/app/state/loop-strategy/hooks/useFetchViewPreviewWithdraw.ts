@@ -1,14 +1,17 @@
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
+import {
+  ONE_ETHER,
+  walletBalanceDecimalsOptions,
+} from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable } from "../../../../shared";
+import { Displayable, useToken } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
+import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
+import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -22,15 +25,28 @@ export const useFetchPreviewWithdraw = (
   amount: string
 ): FetchData<PreviewWithdraw> => {
   const account = useAccount();
-  const [assets, setAssets] = useState(0n);
 
-  useEffect(() => {
-    if (!account.address) return;
+  const {
+    data: underlyingAsset,
+    isLoading: isUnderlyingAssetLoading,
+    isFetched: isUnderlyingAssetFetched,
+  } = useFetchStrategyAsset(strategyConfig.address);
 
-    simulateWithdraw(account.address, amount, strategyConfig).then((result) => {
-      result.isSuccess && setAssets(result.assetsToReceive);
-    });
-  }, [amount]);
+  const {
+    data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+    isLoading: isUnderlyingAssetDataLoading,
+    isFetched: isUnderlyingAssetDataFetched,
+  } = useToken(underlyingAsset);
+
+  const {
+    data: assets,
+    isLoading: isSimulateWithdrawLoading,
+    isFetched: isSimulateWithdrawFetched,
+  } = useFetchSimulateWithdraw(
+    account.address as Address,
+    strategyConfig.address,
+    amount
+  );
 
   const {
     isLoading: isShareValueLoading,
@@ -42,11 +58,14 @@ export const useFetchPreviewWithdraw = (
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: underlyingAssetPrice,
-  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchAssetPrice(underlyingAsset);
 
-  let assetsToReceive; let assetsToReceiveInUsd; let costInUnderlyingAsset; let costInUsd;
-  if (assets && underlyingAssetPrice) {
-    assetsToReceive = (assets * 99n) / 100n;
+  let assetsToReceive;
+  let assetsToReceiveInUsd;
+  let costInUnderlyingAsset;
+  let costInUsd;
+  if (assets && assets.bigIntValue && underlyingAssetPrice) {
+    assetsToReceive = (assets.bigIntValue * 99n) / 100n;
     assetsToReceiveInUsd =
       (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
 
@@ -59,13 +78,23 @@ export const useFetchPreviewWithdraw = (
   }
 
   return {
-    isLoading: isAssetPriceLoading || isShareValueLoading,
-    isFetched: isAssetPriceFetched && isShareValueFetched,
+    isLoading:
+      isAssetPriceLoading ||
+      isUnderlyingAssetLoading ||
+      isUnderlyingAssetDataLoading ||
+      isShareValueLoading ||
+      isSimulateWithdrawLoading,
+    isFetched:
+      isUnderlyingAssetDataFetched &&
+      isUnderlyingAssetFetched &&
+      isAssetPriceFetched &&
+      isShareValueFetched &&
+      isSimulateWithdrawFetched,
     data: {
       assetsToReceive: {
         bigIntValue: assetsToReceive || 0n,
-        decimals: 18,
-        symbol: strategyConfig.underlyingAsset.symbol,
+        decimals: underlyingAssetDecimals,
+        symbol: underlyingAssetSymbol,
       },
       assetsToReceiveInUsd: {
         bigIntValue: assetsToReceiveInUsd || 0n,
@@ -74,7 +103,7 @@ export const useFetchPreviewWithdraw = (
       },
       costInUnderlyingAsset: {
         bigIntValue: costInUnderlyingAsset || 0n,
-        decimals: 18,
+        decimals: underlyingAssetDecimals,
         symbol: strategyConfig.underlyingAsset.symbol,
       },
       costInUsd: {
