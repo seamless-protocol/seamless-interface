@@ -2,7 +2,7 @@ import React from "react";
 import { AmountInput } from "../amount-input/AmountInput";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
-import { walletBalanceDecimalsOptions } from "../../../../../meta";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 interface AmountInputWithdrawWrapperProps {
   id: number;
