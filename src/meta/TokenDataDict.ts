@@ -13,9 +13,7 @@ interface ITokenDataDict {
   [address: Address]: {
     name: string;
     shortName?: string;
-    logo?: string;
-    symbol?: string;
-    decimals?: number;
+    logo: string;
   };
 }
 
@@ -23,18 +21,14 @@ export const TokenDataDict: ITokenDataDict = {
   [WETH_ADDRESS]: {
     name: "Wrapped Ethereum",
     shortName: "WETH",
-    symbol: "WETH",
     logo: wethLogo,
-    decimals: 18,
   },
   [WSTETH_ADDRESS]: {
     name: "Wrapped liquid staked ETH",
-    symbol: "wstETH",
     logo: WstEthLogo,
   },
   [wstETHBooster_ADDRESS]: {
     name: "wstETH Booster",
-    symbol: "ilmwstETH",
     logo: ilmwstETHLogo,
   },
 };

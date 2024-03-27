@@ -16,9 +16,13 @@ export const WatchAssetButton: React.FC<{
   const { data: tokenData } = useFullTokenData(address);
 
   const handleWatchAsset = async () => {
+    if (!tokenData.decimals || !tokenData.symbol) return;
+
     await mutateAsync({
       address,
       ...tokenData,
+      decimals: tokenData.decimals,
+      symbol: tokenData.symbol,
     });
   };
 

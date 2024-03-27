@@ -5,8 +5,8 @@ import { TokenDataDict } from "@meta";
 import { metadataQueryConfig } from "../settings/config";
 
 export interface FullTokenData {
-  symbol: string;
-  decimals: number;
+  symbol?: string;
+  decimals?: number;
   logo?: string;
   name?: string;
   shortName?: string;
@@ -42,8 +42,8 @@ export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
     isFetched: isDecimalsFetched && isSymbolFetched,
     data: {
       ...data,
-      symbol: symbol || data.symbol || "",
-      decimals: decimals || data.decimals || 18,
+      symbol,
+      decimals,
     },
   };
 };
