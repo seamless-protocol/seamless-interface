@@ -1,11 +1,8 @@
 import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import {
-  ONE_ETHER,
-  walletBalanceDecimalsOptions,
-} from "../../../meta/constants";
+import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable, useToken } from "../../../../shared";
+import { Displayable, useToken } from "@shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
