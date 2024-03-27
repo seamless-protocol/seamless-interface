@@ -20,7 +20,7 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamcbETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
-} from "../../../meta/constants";
+} from "@meta";
 import ethLogo from "@assets/tokens/eth.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import cbethLogo from "@assets/tokens/cbeth.svg";

@@ -3,9 +3,9 @@ import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { walletBalanceDecimalsOptions } from "../../../meta";
-import { Displayable, ViewBigInt } from "../../../../shared";
+import { Displayable, ViewBigInt } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { walletBalanceDecimalsOptions } from "@meta";
 
 export const useFetchMaxUserDeposit = (
   strategy: Address
