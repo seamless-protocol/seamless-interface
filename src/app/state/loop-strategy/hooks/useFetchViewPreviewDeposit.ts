@@ -1,4 +1,4 @@
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import {
   ONE_ETHER,
@@ -6,12 +6,12 @@ import {
 } from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
-import { Displayable, useToken } from "../../../../shared";
+import { Displayable, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
-import { simulateDeposit } from "../../../../shared/utils/tenderlyBundles";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
+import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
+import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -27,20 +27,32 @@ export const useFetchPreviewDeposit = (
   const account = useAccount();
 
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
+    isLoading: isStrategyAssetLoading,
+    isFetched: isStrategyAssetFetched,
+    data: underlyingAsset,
+  } = useFetchStrategyAsset(strategyConfig.address);
+
+  const {
+    isLoading: isUnderlyingAssetDataLoading,
+    isFetched: isUnderlyingAssetDataFetched,
+    data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+  } = useToken(underlyingAsset);
+
+  const {
+    isLoading: isStrategyAssetDataLoading,
+    isFetched: isStrategyAssetDataFetched,
     data: { symbol: strategySymbol, decimals: strategyDecimals },
   } = useToken(strategyConfig.address);
 
-  const [shares, setShares] = useState(0n);
-
-  useEffect(() => {
-    if (!account.address) return;
-
-    simulateDeposit(account.address, amount, strategyConfig).then((result) => {
-      result.isSuccess && setShares(result.sharesToReceive);
-    });
-  }, [amount]);
+  const {
+    data: shares,
+    isLoading: isSimulateDepositLoading,
+    isFetched: isSimulateDepositFetched,
+  } = useFetchSimulateDeposit(
+    account.address as Address,
+    strategyConfig.address,
+    amount
+  );
 
   const {
     isLoading: isShareValueLoading,
@@ -52,14 +64,11 @@ export const useFetchPreviewDeposit = (
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: assetPrice,
-  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchAssetPrice(underlyingAsset);
 
-  let sharesToReceive;
-  let sharesToReceiveInUsd;
-  let costInUnderlyingAsset;
-  let costInUsd;
-  if (shares && sharePrice && assetPrice) {
-    sharesToReceive = (shares * 99n) / 100n;
+  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  if (shares && shares.bigIntValue && sharePrice && assetPrice) {
+    sharesToReceive = (shares.bigIntValue * 99n) / 100n;
     sharesToReceiveInUsd =
       (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
@@ -71,8 +80,20 @@ export const useFetchPreviewDeposit = (
   }
 
   return {
-    isLoading: isShareValueLoading || isAssetPriceLoading || isTokenDataLoading,
-    isFetched: isShareValueFetched && isAssetPriceFetched && isTokenDataFetched,
+    isLoading:
+      isStrategyAssetLoading ||
+      isUnderlyingAssetDataLoading ||
+      isStrategyAssetDataLoading ||
+      isShareValueLoading ||
+      isAssetPriceLoading ||
+      isSimulateDepositLoading,
+    isFetched:
+      isStrategyAssetFetched &&
+      isUnderlyingAssetDataFetched &&
+      isStrategyAssetDataFetched &&
+      isShareValueFetched &&
+      isAssetPriceFetched &&
+      isSimulateDepositFetched,
     data: {
       sharesToReceive: {
         bigIntValue: sharesToReceive || 0n,
@@ -86,8 +107,8 @@ export const useFetchPreviewDeposit = (
       },
       costInUnderlyingAsset: {
         bigIntValue: costInUnderlyingAsset || 0n,
-        decimals: 18,
-        symbol: strategyConfig.underlyingAsset.symbol,
+        decimals: underlyingAssetDecimals,
+        symbol: underlyingAssetSymbol,
       },
       costInUsd: {
         bigIntValue: costInUsd || 0n,

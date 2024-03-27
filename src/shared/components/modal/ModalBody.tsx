@@ -9,6 +9,7 @@ interface ModalBodyProps {
   header?: string;
   fullScreen?: boolean;
   setModalOpen: (isOpen: boolean) => void;
+  onClose?: () => void;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   header,
   fullScreen,
   setModalOpen,
+  onClose,
   className = "",
 }) => {
   const handleOverlayMouseDown = (
@@ -24,6 +26,8 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   ) => {
     if (event.target === event.currentTarget) {
       setModalOpen(false);
+
+      if (onClose) onClose();
     }
   };
 
@@ -49,7 +53,10 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
           <button
             className="hover:bg-action-focus rounded-full p-2"
             type="button"
-            onClick={() => setModalOpen(false)}
+            onClick={() => {
+              setModalOpen(false);
+              onClose && onClose();
+            }}
           >
             <Icon src={xButton} alt="button-x" width={20} height={20} />
           </button>
