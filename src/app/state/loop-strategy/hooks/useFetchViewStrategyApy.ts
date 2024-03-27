@@ -92,7 +92,7 @@ export const useFetchStrategyApy = (
       isLatestBlockFetched &&
       isPrevBlockFetched,
     data: {
-      value: apy ? apy : strategyConfig.defaultApy,
+      value: apy || strategyConfig.defaultApy,
       symbol: "%",
     },
   };
@@ -101,7 +101,7 @@ export const useFetchStrategyApy = (
 export const useFetchViewStrategyApy = (
   index: number
 ): Displayable<ViewNumber> => {
-  //TODO: uncomment when enough time passes to present real data
+  // TODO: uncomment when enough time passes to present real data
   // const { apy, isLoading, isFetched } = useFetchStrategyApy(
   //   ilmStrategies[index]
   // );

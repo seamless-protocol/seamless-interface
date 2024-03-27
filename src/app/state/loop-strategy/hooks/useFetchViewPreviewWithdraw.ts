@@ -1,17 +1,15 @@
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import {
-  ONE_ETHER,
-  walletBalanceDecimalsOptions,
-} from "../../../meta/constants";
+import { ONE_ETHER, walletBalanceDecimalsOptions } from "../../../meta/constants";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { simulateWithdraw } from "../../../../shared/utils/tenderlyBundles";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
+import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
+import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { useToken } from "@shared";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -20,20 +18,26 @@ interface PreviewWithdraw {
   costInUsd: FetchBigInt;
 }
 
-export const useFetchPreviewWithdraw = (
-  strategyConfig: StrategyConfig,
-  amount: string
-): FetchData<PreviewWithdraw> => {
+export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewWithdraw> => {
   const account = useAccount();
-  const [assets, setAssets] = useState(0n);
 
-  useEffect(() => {
-    if (!account.address) return;
+  const {
+    data: underlyingAsset,
+    isLoading: isUnderlyingAssetLoading,
+    isFetched: isUnderlyingAssetFetched,
+  } = useFetchStrategyAsset(strategyConfig.address);
 
-    simulateWithdraw(account.address, amount, strategyConfig).then((result) => {
-      result.isSuccess && setAssets(result.assetsToReceive);
-    });
-  }, [amount]);
+  const {
+    data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+    isLoading: isUnderlyingAssetDataLoading,
+    isFetched: isUnderlyingAssetDataFetched,
+  } = useToken(underlyingAsset);
+
+  const {
+    data: assets,
+    isLoading: isSimulateWithdrawLoading,
+    isFetched: isSimulateWithdrawFetched,
+  } = useFetchSimulateWithdraw(account.address as Address, strategyConfig.address, amount);
 
   const {
     isLoading: isShareValueLoading,
@@ -45,30 +49,37 @@ export const useFetchPreviewWithdraw = (
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: underlyingAssetPrice,
-  } = useFetchAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchAssetPrice(underlyingAsset);
 
   let assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd;
-  if (assets && underlyingAssetPrice) {
-    assetsToReceive = (assets * 99n) / 100n;
-    assetsToReceiveInUsd =
-      (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
+  if (assets && assets.bigIntValue && underlyingAssetPrice) {
+    assetsToReceive = (assets.bigIntValue * 99n) / 100n;
+    assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
 
-    const withdrawAmountInUsd =
-      (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
+    const withdrawAmountInUsd = (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
 
     costInUsd = withdrawAmountInUsd - assetsToReceiveInUsd;
-    costInUnderlyingAsset =
-      (costInUsd * ONE_ETHER) / underlyingAssetPrice.bigIntValue;
+    costInUnderlyingAsset = (costInUsd * ONE_ETHER) / underlyingAssetPrice.bigIntValue;
   }
 
   return {
-    isLoading: isAssetPriceLoading || isShareValueLoading,
-    isFetched: isAssetPriceFetched && isShareValueFetched,
+    isLoading:
+      isAssetPriceLoading ||
+      isUnderlyingAssetLoading ||
+      isUnderlyingAssetDataLoading ||
+      isShareValueLoading ||
+      isSimulateWithdrawLoading,
+    isFetched:
+      isUnderlyingAssetDataFetched &&
+      isUnderlyingAssetFetched &&
+      isAssetPriceFetched &&
+      isShareValueFetched &&
+      isSimulateWithdrawFetched,
     data: {
       assetsToReceive: {
         bigIntValue: assetsToReceive || 0n,
-        decimals: 18,
-        symbol: strategyConfig.underlyingAsset.symbol,
+        decimals: underlyingAssetDecimals,
+        symbol: underlyingAssetSymbol,
       },
       assetsToReceiveInUsd: {
         bigIntValue: assetsToReceiveInUsd || 0n,
@@ -77,7 +88,7 @@ export const useFetchPreviewWithdraw = (
       },
       costInUnderlyingAsset: {
         bigIntValue: costInUnderlyingAsset || 0n,
-        decimals: 18,
+        decimals: underlyingAssetDecimals,
         symbol: strategyConfig.underlyingAsset.symbol,
       },
       costInUsd: {
@@ -89,19 +100,11 @@ export const useFetchPreviewWithdraw = (
   };
 };
 
-export const useFetchViewPreviewWithdraw = (
-  index: number,
-  amount: string
-): Displayable<ViewPreviewWithdraw> => {
+export const useFetchViewPreviewWithdraw = (index: number, amount: string): Displayable<ViewPreviewWithdraw> => {
   const {
     isLoading,
     isFetched,
-    data: {
-      assetsToReceive,
-      assetsToReceiveInUsd,
-      costInUnderlyingAsset,
-      costInUsd,
-    },
+    data: { assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd },
   } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
 
   return {
@@ -109,24 +112,12 @@ export const useFetchViewPreviewWithdraw = (
     isFetched,
     data: {
       assetsToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          assetsToReceive,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          assetsToReceiveInUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(assetsToReceive, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(assetsToReceiveInUsd, walletBalanceDecimalsOptions),
       },
       cost: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          costInUnderlyingAsset,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          costInUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd, walletBalanceDecimalsOptions),
       },
     },
   };

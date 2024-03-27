@@ -2,6 +2,7 @@ import React from "react";
 import { AmountInput } from "../amount-input/AmountInput";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { walletBalanceDecimalsOptions } from "../../../../../meta";
 
 interface AmountInputWithdrawWrapperProps {
   id: number;
@@ -11,18 +12,18 @@ interface AmountInputWithdrawWrapperProps {
 export const AmountInputWithdrawWrapper: React.FC<
   AmountInputWithdrawWrapperProps
 > = ({ id, debouncedAmountInUsd }) => {
-  const { symbol, logo, address: assetAddress } = ilmStrategies[id];
+  const { logo, address: assetAddress } = ilmStrategies[id];
 
   // TODO: properly invallidate query!!!
   const {
     data: { balance },
-  } = useFetchViewAssetBalance(assetAddress);
+  } = useFetchViewAssetBalance(assetAddress, walletBalanceDecimalsOptions);
 
   return (
     <AmountInput
       walletBalance={balance}
       debouncedAmountInUsd={debouncedAmountInUsd}
-      assetSymbol={symbol}
+      assetSymbol={balance.symbol}
       assetLogo={logo}
       maxAssets={balance}
     />

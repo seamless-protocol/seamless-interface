@@ -13,16 +13,18 @@ import {
   ModalHandles,
   MyFormProvider,
   StandardTooltip,
+  Tooltip,
   Typography,
   useERC20Approve,
   useNotificationContext,
+  useToken,
 } from "@shared";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated/generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
-import AmountInputDepositWrapper from "./AmountInputDepositWrapper";
+import { AmountInputDepositWrapper } from "./AmountInputDepositWrapper";
 
 export interface DepositModalFormData {
   amount: string;
@@ -36,6 +38,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const strategyConfig = ilmStrategies[id];
   const { showNotification } = useNotificationContext();
   const modalRef = useRef<ModalHandles | null>(null);
+
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategyConfig.address);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategyConfig.underlyingAsset.address],
@@ -62,10 +68,11 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { data: previewDepositData, isLoading } = useFetchViewPreviewDeposit(
-    id,
-    debouncedAmount
-  );
+  const {
+    data: previewDepositData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewDeposit(id, debouncedAmount);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
@@ -85,7 +92,10 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                     You Supplied {data.amount}{" "}
                     {ilmStrategies[id].underlyingAsset.symbol}
                   </Typography>
-                  <AddCoinToWallet {...ilmStrategies[id]} />
+                  <AddCoinToWallet
+                    {...ilmStrategies[id]}
+                    symbol={strategySymbol}
+                  />
                 </FlexCol>
               ),
             });
@@ -124,11 +134,20 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   Min shares to receive
                 </Typography>
 
-                <DisplayTokenAmount
-                  {...previewDepositData?.sharesToReceive.tokenAmount}
-                  typography="description"
-                  isLoading={isLoading}
-                />
+                <Tooltip
+                  tooltip={
+                    previewDepositData?.sharesToReceive.tokenAmount.symbol
+                  }
+                  size="small"
+                >
+                  <DisplayTokenAmount
+                    {...previewDepositData?.sharesToReceive.tokenAmount}
+                    typography="description"
+                    className="max-w-32"
+                    isLoading={isLoading}
+                    isFetched={isFetched}
+                  />
+                </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
                 <Typography type="description">Min value to receive</Typography>

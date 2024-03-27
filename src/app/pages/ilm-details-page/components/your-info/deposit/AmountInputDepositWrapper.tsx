@@ -3,15 +3,17 @@ import { AmountInput } from "../amount-input/AmountInput";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { walletBalanceDecimalsOptions } from "../../../../../meta";
 
 interface AmountInputDepositWrapperProps {
   id: number;
   debouncedAmountInUsd: number;
 }
 
-export const AmountInputDepositWrapper: React.FC<
-  AmountInputDepositWrapperProps
-> = ({ id, debouncedAmountInUsd }) => {
+export const AmountInputDepositWrapper: React.FC<AmountInputDepositWrapperProps> = ({
+  id,
+  debouncedAmountInUsd,
+}) => {
   const {
     address: strategy,
     underlyingAsset: { address: assetAddress, symbol, logo },
@@ -20,7 +22,7 @@ export const AmountInputDepositWrapper: React.FC<
   // TODO: properly invallidate query!!!
   const {
     data: { balance },
-  } = useFetchViewAssetBalance(assetAddress);
+  } = useFetchViewAssetBalance(assetAddress, walletBalanceDecimalsOptions);
 
   const { data: maxUserDeposit } = useFetchViewMaxUserDeposit(strategy);
 
@@ -34,5 +36,3 @@ export const AmountInputDepositWrapper: React.FC<
     />
   );
 };
-
-export default AmountInputDepositWrapper;

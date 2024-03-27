@@ -35,7 +35,7 @@ export const Card: React.FC<CardProps> = ({
   const styles = IS_STYLE_VERSION_2 ? stylesv2 : stylesv1;
 
   return (
-    <div className={`${styles.root} ${className ? className : ""}`} {...props}>
+    <div className={`${styles.root} ${className || ""}`} {...props}>
       {children}
     </div>
   );
