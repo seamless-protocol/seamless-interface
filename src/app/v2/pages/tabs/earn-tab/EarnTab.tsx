@@ -2,7 +2,22 @@ import { Heading } from "./Heading";
 import { AssetCard, AssetCardProps } from "./AssetCard";
 
 import randomAsset from "@assets/tokens/wsteth.svg";
-import { FlexRow, TypographyV2 } from "@shared";
+import diagramPng from "@assets/wsteth-diagram.svg";
+
+import {
+  Accordion,
+  AccordionItem,
+  FlexCol,
+  FlexRow,
+  MyFormProvider,
+  RHFAmountInput,
+  RHFInputSliderField,
+  TypographyV2,
+} from "@shared";
+import { useForm } from "react-hook-form";
+import { Address } from "viem";
+import { sWETH_ADDRESS } from "@meta";
+import { useState } from "react";
 
 const mockAssets: AssetCardProps[] = [
   {
@@ -31,7 +46,38 @@ const mockAssets: AssetCardProps[] = [
   },
 ];
 
+const mockProps = {
+  name: "amount",
+  assetAddress: sWETH_ADDRESS as Address,
+  walletBalance: {
+    value: "1.0",
+    viewValue: "1",
+    bigIntValue: BigInt("1000000000000000000"),
+    symbol: "ETH",
+  },
+  maxAssets: {
+    value: "0.5",
+    viewValue: "0.5",
+    bigIntValue: BigInt("500000000000000000"),
+    symbol: "ETH",
+  },
+  usdValue: "2000 USD",
+};
+
 export const EarnTab = () => {
+  const [selectedAssetIndex, setSelectedAssetIndex] = useState<
+    number | undefined
+  >(undefined);
+
+  const methods = useForm<{
+    amount: string;
+  }>({
+    defaultValues: {
+      amount: "",
+    },
+  });
+  const { handleSubmit } = methods;
+
   return (
     <div>
       <Heading />
@@ -48,22 +94,99 @@ export const EarnTab = () => {
                 <TypographyV2 type="bold1">APY, up to</TypographyV2>
               </FlexRow>
               {mockAssets.map((asset, index) => (
-                <AssetCard
+                <div
                   key={index}
-                  icon={asset.icon}
-                  title={asset.title}
-                  subTitle={asset.subTitle}
-                  tags={asset.tags}
-                  apy={asset.apy}
-                  type={asset.type}
-                  hideBorder={index === mockAssets.length - 1}
-                />
+                  onClick={() =>
+                    setSelectedAssetIndex(
+                      selectedAssetIndex === index ? undefined : index
+                    )
+                  }
+                  className={`relative overflow-hidden
+                            ${selectedAssetIndex === index ? "rounded-r-lg after:content-[''] after:block after:absolute after:inset-0 after:border-r-4 after:border-navy-600 after:rounded-r-lg" : ""}`}
+                >
+                  <AssetCard
+                    isSelected={selectedAssetIndex === index}
+                    icon={asset.icon}
+                    title={asset.title}
+                    subTitle={asset.subTitle}
+                    tags={asset.tags}
+                    apy={asset.apy}
+                    type={asset.type}
+                    hideBorder={index === mockAssets.length - 1}
+                  />
+                </div>
               ))}
             </div>
           </div>
           <div className="col-span-7">
-            <div className="bg-neutral-0 px-8 shadow-card rounded-2xl py-6">
-              xx
+            <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
+              <MyFormProvider
+                methods={methods}
+                onSubmit={handleSubmit(() => {})}
+              >
+                <FlexCol className="gap-8">
+                  <FlexCol className="gap-6">
+                    <FlexCol className="gap-">
+                      <TypographyV2 type="bold4">Add to strategy</TypographyV2>
+                      <TypographyV2 type="regular3">
+                        Multiply wstETH staking rewards
+                      </TypographyV2>
+                    </FlexCol>
+                    <RHFAmountInput {...mockProps} />
+                  </FlexCol>
+
+                  <FlexCol className="gap-4">
+                    <TypographyV2 type="bold3">Multiplier</TypographyV2>
+                    <FlexCol>
+                      <RHFInputSliderField name="test" min="1" max="3" />
+                      <FlexRow className="justify-between pl-1">
+                        <TypographyV2 type="medium3">3x</TypographyV2>
+                        <TypographyV2 type="medium3">5x</TypographyV2>
+                        <TypographyV2 type="medium3">10x</TypographyV2>
+                      </FlexRow>
+                    </FlexCol>
+                  </FlexCol>
+
+                  <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+                    <TypographyV2 type="bold3">Summary</TypographyV2>
+                    <FlexRow className="text-navy-600 justify-between">
+                      <TypographyV2 type="bold2">Estimated APY</TypographyV2>
+                      <TypographyV2 type="medium2" className="text-navy-1000">
+                        9.33%
+                      </TypographyV2>
+                    </FlexRow>
+                    <FlexRow className="text-navy-600 justify-between">
+                      <TypographyV2 type="bold2">Rewards APR</TypographyV2>
+                      <TypographyV2 type="medium2" className="text-navy-1000">
+                        9.33%
+                      </TypographyV2>
+                    </FlexRow>
+                    <FlexRow className="text-navy-600 justify-between">
+                      <TypographyV2 type="bold2">
+                        Est. time to break even
+                      </TypographyV2>
+                      <TypographyV2 type="medium2" className="text-navy-1000">
+                        3 days
+                      </TypographyV2>
+                    </FlexRow>
+                  </FlexCol>
+
+                  <button
+                    className="text-bold3 bg-metalic text-neutral-0 rounded-[100px]
+                  py-4 px-32 items-center text-center"
+                  >
+                    Add to strategy
+                  </button>
+                </FlexCol>
+              </MyFormProvider>
+            </div>
+
+            <div className="bg-neutral-0 shadow-card rounded-card py-6 px-8 mt-4">
+              <Accordion>
+                <AccordionItem title="Learn more about this strategy">
+                  <img src={diagramPng} alt="ilmDiagram" />
+                </AccordionItem>
+              </Accordion>
             </div>
           </div>
         </div>

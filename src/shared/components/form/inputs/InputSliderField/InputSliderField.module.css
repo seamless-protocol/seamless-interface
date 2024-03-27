@@ -1,0 +1,47 @@
+.sliderContainer {
+  width: 100%;
+  padding: 10px 0; /* Increases clickable area without affecting the slider's visual thin track */
+  display: flex;
+  flex-direction: column;
+  gap: 11.4px;
+  cursor: pointer; /* Ensures cursor is a pointer over the entire slider */
+}
+
+.sliderInput {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent; /* Makes the padding area transparent */
+  border-radius: 4px;
+  height: 4px; /* Keeps the visual track thin */
+  outline: none;
+  padding: 10px 0; /* Adds padding to increase clickable area */
+  cursor: pointer; /* Ensures the cursor is a pointer when hovering over the slider */
+}
+
+.sliderInput::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px; /* Visual height of the track */
+  background: linear-gradient(
+    to right,
+    #0b254f 0%,
+    #0b254f var(--slider-percentage),
+    #e5ebf1 var(--slider-percentage),
+    #e5ebf1 100%
+  );
+  border-radius: 4px;
+  cursor: pointer; /* Ensure the cursor is a pointer on the track */
+}
+
+.sliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -8px; /* Adjust this value as needed to center the thumb vertically */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #22457e;
+  cursor: pointer;
+  position: relative;
+  z-index: 2; /* Ensures the thumb is above the track */
+}

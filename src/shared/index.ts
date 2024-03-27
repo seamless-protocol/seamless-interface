@@ -37,6 +37,7 @@ export * from "./components/containers/FlexRow";
 export * from "./components/containers/PageContainer";
 export * from "./components/containers/Card";
 export * from "./components/containers/TabContent";
+export * from "./components/containers/Accordion";
 
 // **** //
 // text //
@@ -66,6 +67,9 @@ export * from "./components/dropdown/Dropdown";
 // **** //
 export * from "./components/form/MyFormProvider";
 export * from "./components/form/inputs/CustomInput";
+export * from "./components/form/rhf/RHFInputField";
+export * from "./components/form/rhf/RHFAmountInput";
+export * from "./components/form/rhf/RHFInputSliderField";
 
 // ***** //
 // Images //

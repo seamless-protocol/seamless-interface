@@ -12,6 +12,7 @@ export interface AssetCardProps {
   type?: AssetType;
   apy?: string;
   incentivesButton?: React.ReactNode;
+  isSelected?: boolean;
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({
@@ -22,11 +23,13 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   tags,
   apy,
   incentivesButton,
+  isSelected,
   type = "LEND",
 }) => {
   return (
     <div
-      className={`p-6 pr-8 ${type === "LEND" ? "bg-neutral-0" : "bg-neutral-100"} ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}`}
+      className={`p-6 pr-8 ${type === "LEND" ? "bg-neutral-0" : "bg-neutral-100"} ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
+        ${isSelected ? "bg-blue-300" : ""} cursor-pointer`}
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">

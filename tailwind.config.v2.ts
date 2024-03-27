@@ -38,6 +38,9 @@ export default {
       borderRadius: {
         card: "16px",
       },
+      rotate: {
+        "180": "180deg",
+      },
       colors: {
         background: {
           default: "#F3F7FB",

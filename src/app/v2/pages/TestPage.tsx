@@ -12,7 +12,7 @@ type Tabs = "Earn" | "Borrow" | "My Positions";
 
 export const TestPage = () => {
   return (
-    <PageContainer className="flex justify-center">
+    <PageContainer className="flex justify-center pb-10">
       <TabProvider<Tabs> defaultTab="Earn" disableUrlSyncing={false}>
         {/* todo: responsive */}
         <FlexCol className="gap-1 w-full max-w-[1020px]">
@@ -26,6 +26,12 @@ export const TestPage = () => {
             <div className="mt-8">
               <EarnTab />
             </div>
+          </TabContent>
+          <TabContent<Tabs> tab="Borrow">
+            <div className="mt-8">Coming soon...</div>
+          </TabContent>
+          <TabContent<Tabs> tab="My Positions">
+            <div className="mt-8">Coming soon...</div>
           </TabContent>
         </FlexCol>
       </TabProvider>
