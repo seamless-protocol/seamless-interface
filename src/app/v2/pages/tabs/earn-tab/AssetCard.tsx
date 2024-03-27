@@ -29,7 +29,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   return (
     <div
       className={`p-6 pr-8 ${type === "LEND" ? "bg-neutral-0" : "bg-neutral-100"} ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
-        ${isSelected ? "bg-blue-300" : ""} cursor-pointer`}
+        ${isSelected ? "bg-blue-400" : ""} cursor-pointer`}
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
