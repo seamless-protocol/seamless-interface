@@ -44,7 +44,6 @@ export const Tooltip: React.FC<{
   openOnClick?: boolean;
   theme?: TooltipTheme;
   size?: TooltipSize;
-  hidden?: boolean;
 }> = ({
   children,
   tooltip,
