@@ -8,6 +8,7 @@ export interface Token {
   decimals: number;
 }
 
+// todo reconsider optional param token
 export const useToken = (token?: Address): FetchData<Token> => {
   const {
     data: decimals,
