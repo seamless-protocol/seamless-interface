@@ -21,6 +21,7 @@ export const useFetchDetailUserReserveData = (
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
   } = useFetchAssetPrice(reserve);
+  // todo: Can we just call getUserAccountData here instead so we don't need to do the math for USD here? #219
 
   const {
     data: { aTokenBalance, variableDebtTokenBalance },
@@ -28,7 +29,8 @@ export const useFetchDetailUserReserveData = (
     isFetched: isUserReserveDataFetched,
   } = useFetchUserReserveData(reserve);
 
-  let aTokenBalanceUsd, variableDebtTokenBalanceUsd;
+  let aTokenBalanceUsd;
+  let variableDebtTokenBalanceUsd;
   if (aTokenBalance && variableDebtTokenBalance && price) {
     aTokenBalanceUsd =
       (aTokenBalance.bigIntValue * price.bigIntValue) /

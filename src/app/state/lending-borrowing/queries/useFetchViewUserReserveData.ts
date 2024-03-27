@@ -34,6 +34,7 @@ export const useFetchUserReserveData = (reserve: Address) => {
   });
 
   const [aTokenBalance, , variableDebtTokenBalance] = data || [];
+  // todo: Should we also return usageAsCollateralEnabled? #219
 
   return {
     ...rest,
@@ -44,6 +45,7 @@ export const useFetchUserReserveData = (reserve: Address) => {
         bigIntValue: aTokenBalance || 0n,
         decimals,
         symbol: "",
+        // todo: Does useToken also give us the symbol? #219
       },
       variableDebtTokenBalance: {
         bigIntValue: variableDebtTokenBalance || 0n,
