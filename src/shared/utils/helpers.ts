@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import { ONE_USD, SECONDS_PER_YEAR } from "../../app/meta/constants";
+import { ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 

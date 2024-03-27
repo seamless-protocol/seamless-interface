@@ -6,18 +6,19 @@ import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
 import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
+import { useToken } from "../../../state/meta-data-queries/useToken";
 
-interface Coin {
+interface Token {
   symbol: string;
   address: Address;
   logo?: string;
   decimals?: number;
 }
 /**
- * `AddCoinToWallet` Component
+ * `WatchAssetComponent` Component
  *
  * This component provides a user interface for adding a specified coin to the user's MetaMask wallet.
- * It utilizes the `useAddCoinToWallet` hook to perform the addition operation.
+ * It utilizes the `useWatchAssetComponent` hook to perform the addition operation.
  *
  * * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
  *
@@ -29,7 +30,7 @@ interface Coin {
  * ## Usage:
  *
  * ```jsx
- * <AddCoinToWallet
+ * <WatchAssetComponent
  *   symbol="ETH"
  *   address="0x123..."
  *   logo={assets/token/yourLogo}
@@ -38,18 +39,20 @@ interface Coin {
  * ```
  *
  * IMPORTANT Note: Logo in wallet will be overriden from public-wallet-logos.config file. Make sure to update it.
- * In this example, the `AddCoinToWallet` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
+ * In this example, the `WatchAssetComponent` component renders an interface for adding Ethereum to the wallet, using the provided logo and details.
  *
- * @param {Coin} props The coin details.
+ * @param {Token} props The Token details.
  * @returns {React.FC} A React functional component.
  */
-export const AddCoinToWallet: React.FC<Coin> = ({
+export const WatchAssetComponent: React.FC<Token> = ({
   symbol,
   address,
   logo,
-  decimals,
 }) => {
   const { mutateAsync, isPending } = useWatchAsset();
+  const {
+    data: { decimals },
+  } = useToken(address);
 
   const handleAddToWalletClick = async () => {
     await mutateAsync({

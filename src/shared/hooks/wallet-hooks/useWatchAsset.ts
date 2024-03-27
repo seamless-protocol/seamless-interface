@@ -1,46 +1,54 @@
 import { useMutation } from "@tanstack/react-query";
-import { Address, createWalletClient, custom } from "viem";
+import { Address } from "viem";
 import { PublicAssetLogosConfig } from "../../../app/config/public-asset-logos.config";
-import { base } from "viem/chains";
+import { useWalletClient } from "wagmi";
 
-// todo: move this somewhere else
-export const walletClient = createWalletClient({
-  chain: base,
-  transport: custom(window.ethereum!),
-});
 interface Asset {
   symbol: string;
   address: Address;
   logo?: string;
-  decimals?: number;
+  decimals: number;
 }
 
-export const watchAsset = async (token: Asset): Promise<boolean> => {
-  const logoUrl = PublicAssetLogosConfig[token.symbol] || undefined;
-
-  if (!logoUrl) {
-    console.warn(
-      "Warning: logoUrl not found in addCoinToWallet. Make sure to add your logo to PublicAssetLogosConfig."
-    );
-  }
-
-  const success = await walletClient.watchAsset({
-    type: "ERC20",
-    options: {
-      address: token.address,
-      symbol: token.symbol,
-      decimals: token.decimals || 18,
-      image: logoUrl,
-    },
-  });
-
-  return success;
-};
-
 export function useWatchAsset() {
-  return useMutation({
-    mutationFn: (token: Asset) => {
-      return watchAsset(token);
-    },
+  const { data: walletClient } = useWalletClient();
+
+  const mutationFn = async (token: Asset): Promise<boolean> => {
+    if (!walletClient) {
+      console.warn("Wallet client is not available.");
+      return false;
+    }
+
+    const logoUrl =
+      token.symbol in PublicAssetLogosConfig
+        ? PublicAssetLogosConfig[token.symbol]
+        : undefined;
+
+    if (!logoUrl) {
+      console.warn(
+        `Warning: logoUrl not found for symbol ${token.symbol}. Make sure to add your logo to PublicAssetLogosConfig.`
+      );
+    }
+
+    try {
+      const success = await walletClient.watchAsset({
+        type: "ERC20",
+        options: {
+          address: token.address,
+          symbol: token.symbol,
+          decimals: token.decimals,
+          image: logoUrl,
+        },
+      });
+
+      return success ?? false;
+    } catch (error) {
+      console.error("Error watching asset:", error);
+      return false;
+    }
+  };
+
+  return useMutation<boolean, Error, Asset>({
+    mutationFn,
   });
 }

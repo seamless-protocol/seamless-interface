@@ -6,7 +6,7 @@ import {
   loopStrategyAbi,
 } from "../../../generated";
 import { Address, erc20Abi } from "viem";
-import { ONE_ETHER, ONE_USD } from "../../../meta";
+import { ONE_ETHER, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";

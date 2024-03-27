@@ -3,7 +3,7 @@ import { lendingPoolAbi, lendingPoolAddress } from "../../../generated";
 import { Address } from "viem";
 import { Displayable, useSeamlessContractRead } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { ONE_ETHER } from "../../../meta";
+import { ONE_ETHER } from "@meta";
 import { ViewUserAccountData } from "../types/ViewUserAccountData";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 

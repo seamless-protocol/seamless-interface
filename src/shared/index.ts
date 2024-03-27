@@ -27,6 +27,7 @@ export * from "./components/auth/AuthGuard";
 export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
+export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 
 // ********** //
 // containers //
@@ -58,11 +59,17 @@ export * from "./components/divider/VerticalDivider";
 // ******** //
 export * from "./components/dropdown/Dropdown";
 
+// ******** //
+// Dropdown //
+// ******** //
+export * from "./components/dropdown/Dropdown";
+
 // **** //
 // form //
 // **** //
 export * from "./components/form/MyFormProvider";
 export * from "./components/form/inputs/CustomInput";
+export * from "./components/form/rhf/RHFInputField";
 
 // ***** //
 // Images //
@@ -74,6 +81,11 @@ export * from "./components/images/Image";
 // lifi //
 // **** //
 export * from "./components/lifi/LiFiWidgetWrapper";
+
+// **** //
+// links //
+// **** //
+export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 
 // **** //
 // links //
@@ -117,7 +129,7 @@ export * from "./components/table/TableRow";
 // ****** //
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
-export * from "./components/wallet/add-coin-to-wallet/AddCointToWallet";
+export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
 
 // ************** //
 // wagmi wrappers //
