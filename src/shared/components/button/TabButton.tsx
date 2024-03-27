@@ -16,10 +16,10 @@ export const TabButton = <T extends string>({
   return (
     <button
       onClick={() => setActiveTab(tab)}
-      className={`min-w-32 relative ${
+      className={`min-w-32 relative py-4 text-bold3 ${
         activeTab === tab
           ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin"
-          : "text-navy-400"
+          : "text-navy-400 text-"
       }`}
     >
       {children}

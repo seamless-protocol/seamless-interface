@@ -36,11 +36,13 @@ export * from "./components/containers/FlexCol";
 export * from "./components/containers/FlexRow";
 export * from "./components/containers/PageContainer";
 export * from "./components/containers/Card";
+export * from "./components/containers/TabContent";
 
 // **** //
 // text //
 // **** //
 export * from "./components/text/Typography/Typography";
+export * from "./components/text/TypographyV2/TypographyV2";
 
 // ******* //
 // tooltip //

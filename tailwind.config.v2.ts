@@ -9,7 +9,7 @@ export function pxToRem(px: number, baseFontSize = 16) {
   return `${px / baseFontSize}rem`;
 }
 
-const FONT_PRIMARY = "Satoshi Variable, Arial";
+const FONT_PRIMARY = "Satoshi, Arial";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -26,11 +26,14 @@ export default {
         md: "768px",
         lg: "1024px",
         xl: "1280px",
-        xxl: "1536px",
+        xxl: "1440px",
         xxxl: "1800px",
       },
       borderWidth: {
         thin: "1.3px",
+      },
+      boxShadow: {
+        card: "shadow-[0px_4px_16px_0px_rgba(162,162,162,0.08)]",
       },
       borderRadius: {
         card: "16px",
@@ -56,242 +59,163 @@ export default {
           600: "#6EBD70",
           100: "#E4F7E6",
         },
-        gradients: {
-          seamless:
-            "linear-gradient(248.86deg, #CDF3A2 5%, #21E1E1 15%, #D69BDF 40%, #506FF3 91%)",
-          seamlessFooter:
-            "linear-gradient(248.86deg, #506FF3 1%, #CDF3A2 15%, #21E1E1 30%, #D69BDF 50%, #506FF3 81%)",
+        gradient: {
+          start: "#D53BD9",
+          middle: "#7770DA",
+          end: "#5CBDE6",
         },
+        metallicBorder: "#0C2752",
       },
+      backgroundImage: () => ({
+        metalic:
+          "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
+        purpleRadial:
+          "radial-gradient(131.63% 131.63% at 17.5% 0%, #FFBFFF 0%, #4F68F7 100%)",
+        holographic:
+          "linear-gradient(97deg, #D53BD9 2.08%, #7770DA 50.55%, #5CBDE6 100%)",
+      }),
       fontFamily: {
         primary: [FONT_PRIMARY],
       },
       fontSize: {
-        display1: [
+        bold7: [
+          pxToRem(40),
+          {
+            fontFamily: FONT_PRIMARY,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
+          },
+        ],
+        bold6: [
           pxToRem(32),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: "123.5%",
-            letterSpacing: pxToRem(0.25),
+            fontStyle: "normal",
             fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        h1: [
-          pxToRem(32), //28?
+        bold5: [
+          pxToRem(24),
           {
             fontFamily: FONT_PRIMARY,
+            fontStyle: "normal",
             fontWeight: 700,
-            letterSpacing: pxToRem(0.25),
-            lineHeight: "123.5%",
+            lineHeight: "130%",
           },
         ],
-        h2: [
-          pxToRem(21),
+        bold4: [
+          pxToRem(20),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: "133.4%",
-            letterSpacing: "unset",
-            fontWeight: 600,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        h3: [
-          pxToRem(18),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: "160%",
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 600,
-          },
-        ],
-        h4: [
+        bold3: [
           pxToRem(16),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(24),
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 600,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        body1: [
+        bold2: [
           pxToRem(14),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(20),
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 600,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        body2: [
-          pxToRem(14),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(20),
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 400,
-          },
-        ],
-        subheader1: [
-          pxToRem(14),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(20),
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 600,
-          },
-        ],
-        subheader2: [
+        bold1: [
           pxToRem(12),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(16),
-            letterSpacing: pxToRem(0.1),
-            fontWeight: 500,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        subheader2Light: [
-          pxToRem(12),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(16),
-            letterSpacing: pxToRem(0.1),
-            color: "#0000FF",
-            fontWeight: 500,
-          },
-        ],
-        description: [
-          pxToRem(14),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: "143%",
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 400,
-          },
-        ],
-        buttonL: [
-          pxToRem(16),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(24),
-            letterSpacing: pxToRem(0.46),
-            fontWeight: 500,
-          },
-        ],
-        buttonM: [pxToRem(14), { lineHeight: pxToRem(24), fontWeight: 500 }],
-        buttonS: [
+        bold: [
           pxToRem(10),
           {
             fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(20),
-            letterSpacing: pxToRem(0.46),
-            textTransform: "uppercase",
-            fontWeight: 600,
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "130%",
           },
         ],
-        helperText: [
+
+        medium7: [
+          pxToRem(40),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium6: [
+          pxToRem(32),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium5: [
+          pxToRem(24),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium4: [
+          pxToRem(20),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium3: [
+          pxToRem(16),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium2: [
+          pxToRem(14),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium1: [
+          pxToRem(12),
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
+        ],
+        medium: [
           pxToRem(10),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(12),
-            letterSpacing: pxToRem(0.4),
-            fontWeight: 400,
-          },
+          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
         ],
-        tooltip: [
-          pxToRem(12),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: pxToRem(16),
-            letterSpacing: pxToRem(0.15),
-            fontWeight: 400,
-          },
+
+        // Regular configurations
+        regular7: [
+          pxToRem(40),
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        main21: [
-          pxToRem(21),
-          {
-            fontFamily: FONT_PRIMARY,
-            lineHeight: "133.4%",
-            fontWeight: 800,
-            fontSize: pxToRem(21),
-          },
+        regular6: [
+          pxToRem(32),
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        secondary21: [
-          pxToRem(21),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 500,
-            lineHeight: "133.4%",
-            fontSize: pxToRem(21),
-          },
+        regular5: [
+          pxToRem(24),
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        main16: [
+        regular4: [
+          pxToRem(20),
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
+        ],
+        regular3: [
           pxToRem(16),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 600,
-            letterSpacing: pxToRem(0.15),
-            lineHeight: pxToRem(24),
-            fontSize: pxToRem(16),
-          },
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        secondary16: [
-          pxToRem(16),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 500,
-            letterSpacing: pxToRem(0.15),
-            lineHeight: pxToRem(24),
-            fontSize: pxToRem(16),
-          },
-        ],
-        main14: [
+        regular2: [
           pxToRem(14),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 600,
-            letterSpacing: pxToRem(0.15),
-            lineHeight: pxToRem(20),
-            fontSize: pxToRem(14),
-          },
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        secondary14: [
-          pxToRem(14),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 500,
-            letterSpacing: pxToRem(0.15),
-            lineHeight: pxToRem(20),
-            fontSize: pxToRem(14),
-          },
-        ],
-        main12: [
+        regular1: [
           pxToRem(12),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 600,
-            letterSpacing: pxToRem(0.1),
-            lineHeight: pxToRem(16),
-            fontSize: pxToRem(12),
-          },
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        secondary12: [
-          pxToRem(12),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 500,
-            letterSpacing: pxToRem(0.1),
-            lineHeight: pxToRem(16),
-            fontSize: pxToRem(12),
-          },
-        ],
-        caption: [
-          pxToRem(12),
-          {
-            fontFamily: FONT_PRIMARY,
-            fontWeight: 400,
-            letterSpacing: pxToRem(0.15),
-            lineHeight: pxToRem(16),
-            fontSize: pxToRem(12),
-          },
+        regular0: [
+          pxToRem(10),
+          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
       },
     },
