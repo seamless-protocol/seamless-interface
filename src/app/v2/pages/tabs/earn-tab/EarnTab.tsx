@@ -132,7 +132,7 @@ export const EarnTab = () => {
                   <FlexCol className="gap-4">
                     <TypographyV2 type="bold3">Multiplier</TypographyV2>
                     <FlexCol>
-                      <RHFInputSliderField name="test" min="1" max="10" />
+                      <RHFInputSliderField name="test" min="0" max="2" />
                       <FlexRow className="justify-between pl-1">
                         <TypographyV2 type="medium3">3x</TypographyV2>
                         <TypographyV2 type="medium3">5x</TypographyV2>
