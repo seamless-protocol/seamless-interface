@@ -1,5 +1,4 @@
 .sliderContainer {
-  position: relative;
   @apply relative w-full flex flex-col gap-[11.4px] cursor-pointer px-0 py-2.5;
 }
 

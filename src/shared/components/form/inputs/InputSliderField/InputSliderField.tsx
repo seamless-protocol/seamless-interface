@@ -58,7 +58,7 @@ export const InputSliderField = React.forwardRef<
 
   return (
     <div className={classes} style={sliderStyle as React.CSSProperties}>
-      <div>{renderMarkers(Number(min), Number(max), onChange, value)}</div>
+      {renderMarkers(Number(min), Number(max), onChange, value)}
       <input
         ref={ref}
         className={sliderClasses}
