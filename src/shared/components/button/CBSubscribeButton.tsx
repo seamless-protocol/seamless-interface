@@ -19,15 +19,12 @@ export const CBSubscribeButton: React.FC<{
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // provider && !readOnlyMode &&
-    if (isConnected && window.CBWSubscribe) {
+    if (isConnected && isCoinbaseWallet && window.CBWSubscribe) {
       window.CBWSubscribe.createSubscriptionUI({
         onSubscriptionChange: setISubscribed,
         onLoading: setIsLoading,
         ...config,
       });
-    } else {
-      console.error("window.CBWSubscribe is not defined");
     }
   }, [isConnected, window.CBWSubscribe, isCoinbaseWallet]);
 
@@ -35,7 +32,7 @@ export const CBSubscribeButton: React.FC<{
     if (window && window.CBWSubscribe) {
       window.CBWSubscribe.toggleSubscription();
     }
-  }, []);
+  }, [window.CBWSubscribe]);
 
   const subscribeButtonText = isLoading
     ? "Loading..."
