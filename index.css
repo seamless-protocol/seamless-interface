@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Satoshi";
+  src:
+    local("Satoshi"),
+    url("./src/assets/fonts/Satoshi-Variable.ttf") format("truetype");
+}
+
 body {
-  @apply font-inter min-h-screen bg-background-default;
+  @apply font-primary min-h-screen bg-background-default;
 }

@@ -1,20 +1,23 @@
-import { InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes } from "react";
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 import { Typography } from "../../text/Typography/Typography";
 import { InputField } from "../inputs/InputField";
 
 type IProps<T> = {
   name: keyof T;
-  rightLabel?: ReactNode;
-  leftLabel?: ReactNode;
   rules?: RegisterOptions;
   defaultValue?: string | number | null;
   fullWidth?: boolean;
 };
 
-type Props<T> = IProps<T> & InputHTMLAttributes<HTMLInputElement>;
+export type RHFInputFieldProps<T> = IProps<T> &
+  InputHTMLAttributes<HTMLInputElement>;
 
-export function RHFInputField<T>({ name, rules, ...other }: Props<T>) {
+export function RHFInputField<T>({
+  name,
+  rules,
+  ...other
+}: RHFInputFieldProps<T>) {
   const { control } = useFormContext();
 
   return (

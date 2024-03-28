@@ -121,7 +121,7 @@ export default {
         },
       },
       fontFamily: {
-        inter: [FONT],
+        primary: [FONT],
       },
       fontSize: {
         display1: [
