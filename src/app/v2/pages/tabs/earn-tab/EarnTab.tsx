@@ -26,7 +26,6 @@ const mockAssets: AssetCardProps[] = [
     subTitle: "Wrapped Liquid Staked ETH",
     tags: ["ILM"],
     apy: "12.74%",
-    type: "ILM",
   },
   {
     icon: randomAsset,
@@ -34,7 +33,6 @@ const mockAssets: AssetCardProps[] = [
     subTitle: "Ethereum",
     tags: ["LEND"],
     apy: "3.2%",
-    type: "LEND",
   },
   {
     icon: randomAsset,
@@ -42,7 +40,6 @@ const mockAssets: AssetCardProps[] = [
     subTitle: "Ethereum",
     tags: ["LEND"],
     apy: "3.2%",
-    type: "LEND",
   },
 ];
 
@@ -95,8 +92,6 @@ export const EarnTab = () => {
                       selectedAssetIndex === index ? undefined : index
                     )
                   }
-                  className={`relative overflow-hidden
-                            ${selectedAssetIndex === index ? "rounded-r-lg after:content-[''] after:block after:absolute after:inset-0 after:border-r-4 after:border-navy-600 after:rounded-r-lg" : ""}`}
                 >
                   <AssetCard
                     isSelected={selectedAssetIndex === index}
@@ -105,7 +100,6 @@ export const EarnTab = () => {
                     subTitle={asset.subTitle}
                     tags={asset.tags}
                     apy={asset.apy}
-                    type={asset.type}
                     hideBorder={index === mockAssets.length - 1}
                   />
                 </div>
@@ -178,7 +172,11 @@ export const EarnTab = () => {
             <div className="bg-neutral-0 shadow-card rounded-card py-6 px-8 mt-4">
               <Accordion>
                 <AccordionItem title="Learn more about this strategy">
-                  <img src={diagramPng} alt="ilmDiagram" />
+                  <img
+                    src={diagramPng}
+                    alt="ilmDiagram"
+                    className="hover:scale-125 ease-in duration-150"
+                  />
                 </AccordionItem>
               </Accordion>
             </div>

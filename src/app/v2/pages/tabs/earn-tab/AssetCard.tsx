@@ -1,15 +1,12 @@
 import { FlexRow, FlexCol, TypographyV2, Icon } from "@shared";
 import { TagType, Tag } from "./Tag";
 
-export type AssetType = "LEND" | "ILM";
-
 export interface AssetCardProps {
   icon: string;
   hideBorder?: boolean;
   title: string;
   subTitle: string;
   tags?: TagType[];
-  type?: AssetType;
   apy?: string;
   incentivesButton?: React.ReactNode;
   isSelected?: boolean;
@@ -24,16 +21,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   apy,
   incentivesButton,
   isSelected,
-  type = "LEND",
 }) => {
   return (
     <div
       className={`p-6 pr-8  ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
-        ${
-          isSelected
-            ? "bg-blue-200"
-            : `${type === "LEND" ? "bg-neutral-0" : "bg-neutral-100"}`
-        } cursor-pointer`}
+        ${isSelected ? "bg-neutral-100" : "bg-neutral-0"} cursor-pointer`}
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">

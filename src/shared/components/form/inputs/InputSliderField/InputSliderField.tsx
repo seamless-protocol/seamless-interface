@@ -1,4 +1,3 @@
-import cn from "classnames";
 import React, {
   CSSProperties,
   ChangeEventHandler,
@@ -48,8 +47,8 @@ export const InputSliderField = React.forwardRef<
   HTMLInputElement,
   InputSliderFieldProps
 >(({ min, max, value, label, onChange, ...rest }, ref) => {
-  const classes = cn(styles.sliderContainer);
-  const sliderClasses = cn(styles.sliderInput);
+  const classes = styles.sliderContainer;
+  const sliderClasses = styles.sliderInput;
 
   const sliderPercentage = `${((Number(value) - Number(min)) / (Number(max) - Number(min))) * 100}%`;
   const sliderStyle: CustomStyle = {
