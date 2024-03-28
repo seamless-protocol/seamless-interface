@@ -216,7 +216,7 @@ export default {
           pxToRem(12),
           { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
-        regular0: [
+        regular: [
           pxToRem(10),
           { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
         ],
@@ -224,5 +224,6 @@ export default {
     },
   },
   // require("@tailwindcss/typography"), require("daisyui")
+  // eslint-disable-next-line global-require
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };

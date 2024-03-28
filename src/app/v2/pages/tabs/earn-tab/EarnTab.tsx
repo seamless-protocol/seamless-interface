@@ -12,7 +12,7 @@ import {
   MyFormProvider,
   RHFAmountInput,
   RHFInputSliderField,
-  TypographyV2,
+  TypographyVX,
 } from "@shared";
 import { useForm } from "react-hook-form";
 import { Address } from "viem";
@@ -81,8 +81,8 @@ export const EarnTab = () => {
                 className="py-2 px-6 pr-8 bg-neutral-100 justify-between 
                 border-solid border-b border-b-navy-100"
               >
-                <TypographyV2 type="bold1">Strategy</TypographyV2>
-                <TypographyV2 type="bold1">APY, up to</TypographyV2>
+                <TypographyVX type="bold1">Strategy</TypographyVX>
+                <TypographyVX type="bold1">APY, up to</TypographyVX>
               </FlexRow>
               {mockAssets.map((asset, index) => (
                 <div
@@ -115,47 +115,47 @@ export const EarnTab = () => {
                 <FlexCol className="gap-8">
                   <FlexCol className="gap-6">
                     <FlexCol className="gap-">
-                      <TypographyV2 type="bold4">Add to strategy</TypographyV2>
-                      <TypographyV2 type="regular3">
+                      <TypographyVX type="bold4">Add to strategy</TypographyVX>
+                      <TypographyVX type="regular3">
                         Multiply wstETH staking rewards
-                      </TypographyV2>
+                      </TypographyVX>
                     </FlexCol>
                     <RHFAmountInput {...mockProps} />
                   </FlexCol>
 
                   <FlexCol className="gap-4">
-                    <TypographyV2 type="bold3">Multiplier</TypographyV2>
+                    <TypographyVX type="bold3">Multiplier</TypographyVX>
                     <FlexCol>
                       <RHFInputSliderField name="test" min="0" max="2" />
                       <FlexRow className="justify-between pl-1">
-                        <TypographyV2 type="medium3">3x</TypographyV2>
-                        <TypographyV2 type="medium3">5x</TypographyV2>
-                        <TypographyV2 type="medium3">10x</TypographyV2>
+                        <TypographyVX type="medium3">3x</TypographyVX>
+                        <TypographyVX type="medium3">5x</TypographyVX>
+                        <TypographyVX type="medium3">10x</TypographyVX>
                       </FlexRow>
                     </FlexCol>
                   </FlexCol>
 
                   <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
-                    <TypographyV2 type="bold3">Summary</TypographyV2>
+                    <TypographyVX type="bold3">Summary</TypographyVX>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyV2 type="bold2">Estimated APY</TypographyV2>
-                      <TypographyV2 type="medium2" className="text-navy-1000">
+                      <TypographyVX type="bold2">Estimated APY</TypographyVX>
+                      <TypographyVX type="medium2" className="text-navy-1000">
                         9.33%
-                      </TypographyV2>
+                      </TypographyVX>
                     </FlexRow>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyV2 type="bold2">Rewards APR</TypographyV2>
-                      <TypographyV2 type="medium2" className="text-navy-1000">
+                      <TypographyVX type="bold2">Rewards APR</TypographyVX>
+                      <TypographyVX type="medium2" className="text-navy-1000">
                         9.33%
-                      </TypographyV2>
+                      </TypographyVX>
                     </FlexRow>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyV2 type="bold2">
+                      <TypographyVX type="bold2">
                         Est. time to break even
-                      </TypographyV2>
-                      <TypographyV2 type="medium2" className="text-navy-1000">
+                      </TypographyVX>
+                      <TypographyVX type="medium2" className="text-navy-1000">
                         3 days
-                      </TypographyV2>
+                      </TypographyVX>
                     </FlexRow>
                   </FlexCol>
 

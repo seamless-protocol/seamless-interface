@@ -1,7 +1,7 @@
 type Text = "bold" | "medium" | "regular";
 type Size = "" | "1" | "2" | "3" | "4" | "5" | "6" | "7";
 
-export type TypographyType = `${Text}${Size}`;
+export type TypographyTypeV2 = `${Text}${Size}`;
 
 export type TypographyColor =
   | "primary"
@@ -14,7 +14,7 @@ export type TypographyColor =
   | "light"
   | "dark";
 
-export const tailwindStyles: { [key in TypographyType]: string } = {
+export const tailwindStyles: { [key in TypographyTypeV2]: string } = {
   bold7: "text-bold7",
   bold6: "text-bold6",
   bold5: "text-bold5",
@@ -41,7 +41,7 @@ export const tailwindStyles: { [key in TypographyType]: string } = {
   regular: "text-regular",
 };
 
-export const ComponentMap: { [key in TypographyType]: React.ElementType } = {
+export const ComponentMap: { [key in TypographyTypeV2]: React.ElementType } = {
   bold7: "h1",
   bold6: "h2",
   bold5: "h3",

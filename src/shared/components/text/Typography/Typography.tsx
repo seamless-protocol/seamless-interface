@@ -6,7 +6,7 @@ import {
   textColorStyles,
 } from "./mappers";
 
-interface TypographyProps {
+export interface TypographyProps {
   type?: TypographyType;
   className?: string;
   color?: TypographyColor;
@@ -33,7 +33,7 @@ interface TypographyProps {
  * - `tagOverride`: Optionally overrides the default HTML tag (like `div`, `span`) or remains undefined for default behavior.
  *
  * ## Usage:
- * 
+ *
  * ```jsx
  * <Typography type="h1" color="primary">
  *   Hello World
@@ -46,6 +46,7 @@ interface TypographyProps {
  * @returns The `Typography` component.
  */
 
+// todo: rename to typographyV1
 export const Typography: React.FC<TypographyProps> = ({
   type = "main16",
   className = "",

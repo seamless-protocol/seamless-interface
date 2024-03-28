@@ -1,12 +1,12 @@
 import {
   ComponentMap,
   TypographyColor,
-  TypographyType,
+  TypographyTypeV2,
   tailwindStyles,
 } from "./mappers";
 
-interface TypographyProps {
-  type?: TypographyType;
+export interface TypographyPropsv2 {
+  type?: TypographyTypeV2;
   className?: string;
   color?: TypographyColor;
   children: React.ReactNode;
@@ -45,13 +45,13 @@ interface TypographyProps {
  * @returns The `Typography` component.
  */
 
-export const TypographyV2: React.FC<TypographyProps> = ({
+export const TypographyV2: React.FC<TypographyPropsv2> = ({
   type = "regular6",
   className = "",
   tagOverride,
   children,
 }) => {
-  const Tag = tagOverride || ComponentMap[type];
+  const Tag = tagOverride || ComponentMap[type] || "p";
   const styleClass = tailwindStyles[type] || "";
   const combinedClassNames = `${styleClass} ${className}`;
 
