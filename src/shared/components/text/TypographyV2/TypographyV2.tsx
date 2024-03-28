@@ -3,7 +3,6 @@ import {
   TypographyColor,
   TypographyType,
   tailwindStyles,
-  textColorStyles,
 } from "./mappers";
 
 interface TypographyProps {
@@ -49,14 +48,12 @@ interface TypographyProps {
 export const TypographyV2: React.FC<TypographyProps> = ({
   type = "regular6",
   className = "",
-  color,
   tagOverride,
   children,
 }) => {
-  const Tag = tagOverride ? tagOverride : ComponentMap[type];
+  const Tag = tagOverride || ComponentMap[type];
   const styleClass = tailwindStyles[type] || "";
-  const colorClass = color ? textColorStyles[color] : "";
-  const combinedClassNames = `${styleClass} ${colorClass} ${className}`;
+  const combinedClassNames = `${styleClass} ${className}`;
 
   return <Tag className={combinedClassNames}>{children}</Tag>;
 };

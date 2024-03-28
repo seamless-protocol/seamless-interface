@@ -41,18 +41,6 @@ export const tailwindStyles: { [key in TypographyType]: string } = {
   regular: "text-regular",
 };
 
-export const textColorStyles: { [key in TypographyColor]: string } = {
-  primary: "text-text-primary",
-  secondary: "text-text-secondary",
-  disabled: "text-text-disabled",
-  muted: "text-text-muted",
-  highlight: "text-text-highlight",
-  links: "text-text-links",
-  hover: "text-text-hover",
-  light: "text-text-light",
-  dark: "text-text-dark",
-};
-
 export const ComponentMap: { [key in TypographyType]: React.ElementType } = {
   bold7: "h1",
   bold6: "h2",
