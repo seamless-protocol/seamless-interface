@@ -55,12 +55,6 @@ const mockProps = {
     bigIntValue: BigInt("1000000000000000000"),
     symbol: "ETH",
   },
-  maxAssets: {
-    value: "0.5",
-    viewValue: "0.5",
-    bigIntValue: BigInt("500000000000000000"),
-    symbol: "ETH",
-  },
   usdValue: "2000 USD",
 };
 
@@ -85,7 +79,7 @@ export const EarnTab = () => {
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-5">
             <div className="bg-neutral-0 shadow-card rounded-2xl py-6">
-              <div className="h-12"></div>
+              <div className="h-12" />
               <FlexRow
                 className="py-2 px-6 pr-8 bg-neutral-100 justify-between 
                 border-solid border-b border-b-navy-100"
@@ -138,7 +132,7 @@ export const EarnTab = () => {
                   <FlexCol className="gap-4">
                     <TypographyV2 type="bold3">Multiplier</TypographyV2>
                     <FlexCol>
-                      <RHFInputSliderField name="test" min="1" max="3" />
+                      <RHFInputSliderField name="test" min="1" max="10" />
                       <FlexRow className="justify-between pl-1">
                         <TypographyV2 type="medium3">3x</TypographyV2>
                         <TypographyV2 type="medium3">5x</TypographyV2>

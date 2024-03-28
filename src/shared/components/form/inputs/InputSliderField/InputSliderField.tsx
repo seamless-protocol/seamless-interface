@@ -17,6 +17,33 @@ interface CustomStyle extends CSSProperties {
   "--slider-percentage": string;
 }
 
+const renderMarkers = (
+  min: number,
+  max: number,
+  onChange: ChangeEventHandler<HTMLInputElement>,
+  value?: string | number | readonly string[] | undefined
+) => {
+  const markers = [];
+  const numberOfSteps = max - min;
+  for (let i = min; i <= max; i++) {
+    const leftPercentage = ((i - min) / numberOfSteps) * 100;
+    const adjustment = `calc(${leftPercentage}% + (${leftPercentage} * -12px / 100))`;
+
+    markers.push(
+      <button
+        key={i}
+        style={{
+          left: adjustment,
+        }}
+        className={`bottom-3.5 w-3 h-3 absolute rounded-full border-2 border-navy-1000
+          ${(Number(value) || 0) > i ? "bg-navy-1000" : "bg-neutral-0"}`}
+        onClick={() => onChange({ target: { value: i.toString() } } as any)}
+      />
+    );
+  }
+  return markers;
+};
+
 export const InputSliderField = React.forwardRef<
   HTMLInputElement,
   InputSliderFieldProps
@@ -30,13 +57,13 @@ export const InputSliderField = React.forwardRef<
   };
 
   return (
-    <div className={classes}>
+    <div className={classes} style={sliderStyle as React.CSSProperties}>
+      <div>{renderMarkers(Number(min), Number(max), onChange, value)}</div>
       <input
         ref={ref}
         className={sliderClasses}
         type="range"
         title={label || ""}
-        style={sliderStyle as React.CSSProperties}
         min={min}
         max={max}
         value={value}
