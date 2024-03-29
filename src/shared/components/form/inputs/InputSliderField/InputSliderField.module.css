@@ -1,0 +1,25 @@
+.sliderContainer {
+  @apply relative w-full flex flex-col gap-[11.4px] cursor-pointer px-0 py-2.5;
+}
+
+.sliderInput {
+  @apply w-full appearance-none rounded h-1 cursor-pointer px-0 py-2.5;
+  background: transparent;
+  outline: none;
+}
+
+.sliderInput::-webkit-slider-runnable-track {
+  @apply w-full h-1 rounded cursor-pointer;
+  background: linear-gradient(
+    to right,
+    #0b254f 0%,
+    #0b254f var(--slider-percentage),
+    #e5ebf1 var(--slider-percentage),
+    #e5ebf1 100%
+  );
+}
+
+.sliderInput::-webkit-slider-thumb {
+  @apply w-5 h-5 appearance-none cursor-pointer relative z-[2] -mt-2 rounded-[50%];
+  background: #22457e;
+}

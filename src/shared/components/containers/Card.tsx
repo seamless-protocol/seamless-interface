@@ -1,5 +1,9 @@
 import React, { HTMLAttributes } from "react";
 
+import stylesv1 from "./styles/Card.v1.module.css";
+import stylesv2 from "./styles/Card.v2.module.css";
+import { IS_STYLE_VERSION_2 } from "../../../globals";
+
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * The content of the card.
@@ -28,11 +32,10 @@ export const Card: React.FC<CardProps> = ({
   className = "",
   ...props
 }) => {
+  const styles = IS_STYLE_VERSION_2 ? stylesv2 : stylesv1;
+
   return (
-    <div
-      className={`bg-white transition-shadow duration-300 ease-in-out delay-[0ms] rounded shadow-[rgba(0,0,0,0.05)_0px_2px_1px,rgba(0,0,0,0.25)_0px_0px_1px] border mt-0 border-solid border-[rgb(234,235,239)] ${className || ""}`}
-      {...props}
-    >
+    <div className={`${styles.root} ${className || ""}`} {...props}>
       {children}
     </div>
   );

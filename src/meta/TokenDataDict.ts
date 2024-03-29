@@ -1,6 +1,7 @@
 import {
   WETH_ADDRESS,
   WSTETH_ADDRESS,
+  sWETH_ADDRESS,
   wstETHBooster_ADDRESS,
 } from "./constants";
 import { Address } from "viem";
@@ -22,6 +23,11 @@ export const TokenDataDict: ITokenDataDict = {
     name: "Wrapped Ethereum",
     shortName: "WETH",
     logo: wethLogo,
+  },
+  [sWETH_ADDRESS]: {
+    name: "Wrapped Ethereum",
+    shortName: "WETH",
+    logo: WstEthLogo,
   },
   [WSTETH_ADDRESS]: {
     name: "Wrapped liquid staked ETH",

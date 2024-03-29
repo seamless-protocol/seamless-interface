@@ -1,14 +1,7 @@
-import { TypographyType } from "../text/Typography/mappers";
-import { DisplayValue } from "./DisplayValue";
+import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayTextProps {
+export interface DisplayTextProps extends DisplayValueProps {
   text?: string;
-  typography?: TypographyType;
-  loaderSkeleton?: boolean;
-  isLoading?: boolean;
-  isFetched?: boolean;
-  skeletonFitParentMaxWidth?: boolean;
-  className?: string;
 }
 
 export const DisplayText: React.FC<DisplayTextProps> = ({
