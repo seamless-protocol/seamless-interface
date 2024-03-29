@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "../../text/Typography/Typography";
 import { Tooltip } from "../../tooltip/Tooltip";
+import { Typography } from "../../text/Typography/Typography";
 
 export const SmallExternalLinkButton: React.FC<{
   onClick?: () => void;

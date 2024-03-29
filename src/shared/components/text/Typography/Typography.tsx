@@ -1,57 +1,17 @@
-import { ComponentMap, TypographyColor, TypographyType, tailwindStyles, textColorStyles } from "./mappers";
+import { IS_STYLE_VERSION_2 } from "../../../../globals";
+import { TypographyPropsV1, TypographyV1 } from "../TypographyV1/Typography";
+import { TypographyType } from "../TypographyV1/mappers";
+import { TypographyPropsv2, TypographyV2 } from "../TypographyV2/TypographyV2";
+import { TypographyTypeV2 } from "../TypographyV2/mappers";
 
-export interface TypographyProps {
-  type?: TypographyType;
-  className?: string;
-  color?: TypographyColor;
-  children: React.ReactNode;
-  tagOverride?: "span" | "div" | undefined;
+export type CombinedTypographyType = TypographyType | TypographyTypeV2;
+
+interface TypographyVXProps extends Omit<TypographyPropsV1 & TypographyPropsv2, "type"> {
+  type?: CombinedTypographyType;
 }
 
-/**
- * `Typography` Component
- *
- * The `Typography` component is a versatile text styling tool designed to apply consistent typography styles across your application. It allows for easy implementation of various text styles and colors, adhering to a predefined design system.
- *
- * ## Key Features:
- * - **Predefined Typography Styles**: Supports a range of typography styles defined in `TypographyType`.
- * - **Color Customization**: Allows text color to be set using predefined options from `TypographyColor`.
- * - **Tag Flexibility**: Offers the option to override the default HTML tag associated with each typography style.
- * - **Extensibility with Custom Classes**: Accepts custom CSS classes for further styling flexibility.
- *
- * ## Props:
- * - `type`: A `TypographyType` value defining the style of the text (e.g., size, weight).
- * - `className`: Optional string for additional custom CSS classes.
- * - `color`: A `TypographyColor` value to set the text color.
- * - `children`: The text or content to be rendered.
- * - `tagOverride`: Optionally overrides the default HTML tag (like `div`, `span`) or remains undefined for default behavior.
- *
- * ## Usage:
- *
- * ```jsx
- * <Typography type="h1" color="primary">
- *   Hello World
- * </Typography>
- * ```
- *
- * In this example, the `Typography` component renders "Hello World" as a header with the primary color styling.
- *
- * @param props Props for the `Typography` component.
- * @returns The `Typography` component.
- */
-
-// todo: rename to typographyV1
-export const Typography: React.FC<TypographyProps> = ({
-  type = "main16",
-  className = "",
-  color,
-  tagOverride,
-  children,
-}) => {
-  const Tag = tagOverride || ComponentMap[type];
-  const styleClass = tailwindStyles[type] || "";
-  const colorClass = color ? textColorStyles[color] : "";
-  const combinedClassNames = `${styleClass} ${colorClass} ${className}`;
-
-  return <Tag className={combinedClassNames}>{children}</Tag>;
+// todo rename to main Typography and use it everywhare (next PR)
+export const Typography: React.FC<TypographyVXProps> = (props) => {
+  if (IS_STYLE_VERSION_2) return <TypographyV2 {...props} type={props.type as any} />;
+  return <TypographyV1 {...props} type={props.type as any} />;
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import { useAccount } from "wagmi";
 import { FlexCol } from "../containers/FlexCol";
-import { Typography } from "../text/Typography/Typography";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ConnectButtonStyled } from "../wallet/connect-wallet-rainbow-wrapper/components/ConnectButton";
+import { Typography } from "../text/Typography/Typography";
 
 /**
  * `AuthGuard` Component Documentation
