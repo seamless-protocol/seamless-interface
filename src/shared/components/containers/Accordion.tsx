@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-import { CombinedTypographyType, TypographyVX } from "../text/TypographyX/TypographyX";
+import { CombinedTypographyType, Typography } from "../text/Typography/Typography";
 
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
@@ -47,9 +47,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({ title, children, typogra
   return (
     <div className="">
       <button className="w-full flex justify-between items-center gap-6" onClick={() => setIsOpen(!isOpen)}>
-        <TypographyVX type={typography || "bold3"} className="text-start">
+        <Typography type={typography || "bold3"} className="text-start">
           {title}
-        </TypographyVX>
+        </Typography>
         <div
           className={`rounded-full border border-navy-600 p-1 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""}`}
         >

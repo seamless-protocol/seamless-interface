@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react";
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
-import { Typography } from "../../text/Typography/Typography";
 import { InputField } from "../inputs/InputField";
+import { Typography } from "../../text/Typography/Typography";
 
 type IProps<T> = {
   name: keyof T;

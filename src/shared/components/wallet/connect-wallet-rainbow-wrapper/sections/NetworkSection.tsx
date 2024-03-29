@@ -1,7 +1,7 @@
 import React from "react";
 import { FlexCol } from "../../../containers/FlexCol";
-import { Typography } from "../../../text/Typography/Typography";
 import { DisplayChain } from "../components/ChainName";
+import { Typography } from "../../../text/Typography/Typography";
 
 export const NetworkSection: React.FC<{
   chainName?: string | undefined;

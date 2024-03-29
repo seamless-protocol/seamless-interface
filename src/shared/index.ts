@@ -44,8 +44,6 @@ export * from "./components/containers/Accordion";
 // text //
 // **** //
 export * from "./components/text/Typography/Typography";
-export * from "./components/text/TypographyV2/TypographyV2";
-export * from "./components/text/TypographyX/TypographyX";
 
 // ******* //
 // tooltip //

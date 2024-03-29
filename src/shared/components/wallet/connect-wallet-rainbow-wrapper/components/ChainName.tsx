@@ -1,8 +1,8 @@
 import React from "react";
-import { Typography } from "../../../text/Typography/Typography";
 import greenDotImage from "@assets/common/green-dot.svg";
 import { FlexRow } from "../../../containers/FlexRow";
 import { Icon } from "../../../images/Icon";
+import { Typography } from "../../../text/Typography/Typography";
 
 export const DisplayChain: React.FC<{
   chainName?: string;

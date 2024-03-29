@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 import xButton from "../../../assets/common/x-button.svg";
 import { Icon } from "../images/Icon";
-import { Typography } from "../text/Typography/Typography";
 
 import modalStylesV1 from "./styles/Modal.v1.module.css";
 import modalStylesV2 from "./styles/Modal.v2.module.css";
 import { IS_STYLE_VERSION_2 } from "../../../globals";
+import { Typography } from "../text/Typography/Typography";
 
 interface ModalBodyProps {
   children: ReactNode;

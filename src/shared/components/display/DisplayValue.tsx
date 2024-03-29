@@ -1,6 +1,6 @@
 import { DisplayableAmount } from "../../types/Displayable";
-import { TypographyColor } from "../text/Typography/mappers";
-import { CombinedTypographyType, TypographyVX } from "../text/TypographyX/TypographyX";
+import { TypographyColor } from "../text/TypographyV1/mappers";
+import { CombinedTypographyType, Typography } from "../text/Typography/Typography";
 import { fontSizes } from "./mapper";
 
 export interface DisplayValueProps extends DisplayableAmount {
@@ -70,22 +70,22 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     return <div className="loading loading-spinner flex self-center" />;
   }
   return (
-    <TypographyVX type={typography} className={`truncate hover:text-clip ${className}`}>
+    <Typography type={typography} className={`truncate hover:text-clip ${className}`}>
       {symbolPosition === "before" && symbol && (
-        <TypographyVX type={typography} tagOverride="span" color={symbolColor}>
+        <Typography type={typography} tagOverride="span" color={symbolColor}>
           {symbol}
-        </TypographyVX>
+        </Typography>
       )}
       {viewValue}
       {symbolPosition === "after" && symbol && (
         <>
           {" "}
-          <TypographyVX type={typography} tagOverride="span" color={symbolColor}>
+          <Typography type={typography} tagOverride="span" color={symbolColor}>
             {symbol}
-          </TypographyVX>
+          </Typography>
         </>
       )}
-    </TypographyVX>
+    </Typography>
   );
 };
 

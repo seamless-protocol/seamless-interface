@@ -2,9 +2,9 @@ import React from "react";
 import { FlexCol } from "../../../containers/FlexCol";
 import { FlexRow } from "../../../containers/FlexRow";
 import { Icon } from "../../../images/Icon";
-import { Typography } from "../../../text/Typography/Typography";
 import { MicroButton } from "../components/MicroButton";
 import { useConnectButtonContext } from "../../../../contexts/connect-wallet/useConnectButtonContext";
+import { Typography } from "../../../text/Typography/Typography";
 
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;

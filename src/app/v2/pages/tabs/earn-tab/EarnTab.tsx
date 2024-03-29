@@ -12,7 +12,7 @@ import {
   MyFormProvider,
   RHFAmountInput,
   RHFInputSliderField,
-  TypographyVX,
+  Typography,
 } from "@shared";
 import { useForm } from "react-hook-form";
 import { Address } from "viem";
@@ -79,8 +79,8 @@ export const EarnTab = () => {
                 className="py-2 px-6 pr-8 bg-neutral-100 justify-between 
                 border-solid border-b border-b-navy-100"
               >
-                <TypographyVX type="bold1">Strategy</TypographyVX>
-                <TypographyVX type="bold1">APY, up to</TypographyVX>
+                <Typography type="bold1">Strategy</Typography>
+                <Typography type="bold1">APY, up to</Typography>
               </FlexRow>
               {mockAssets.map((asset, index) => (
                 <div
@@ -106,43 +106,43 @@ export const EarnTab = () => {
                 <FlexCol className="gap-8">
                   <FlexCol className="gap-6">
                     <FlexCol className="gap-">
-                      <TypographyVX type="bold4">Add to strategy</TypographyVX>
-                      <TypographyVX type="regular3">Multiply wstETH staking rewards</TypographyVX>
+                      <Typography type="bold4">Add to strategy</Typography>
+                      <Typography type="regular3">Multiply wstETH staking rewards</Typography>
                     </FlexCol>
                     <RHFAmountInput {...mockProps} />
                   </FlexCol>
 
                   <FlexCol className="gap-4">
-                    <TypographyVX type="bold3">Multiplier</TypographyVX>
+                    <Typography type="bold3">Multiplier</Typography>
                     <FlexCol>
                       <RHFInputSliderField name="test" min="0" max="2" />
                       <FlexRow className="justify-between pl-1">
-                        <TypographyVX type="medium3">3x</TypographyVX>
-                        <TypographyVX type="medium3">5x</TypographyVX>
-                        <TypographyVX type="medium3">10x</TypographyVX>
+                        <Typography type="medium3">3x</Typography>
+                        <Typography type="medium3">5x</Typography>
+                        <Typography type="medium3">10x</Typography>
                       </FlexRow>
                     </FlexCol>
                   </FlexCol>
 
                   <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
-                    <TypographyVX type="bold3">Summary</TypographyVX>
+                    <Typography type="bold3">Summary</Typography>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyVX type="bold2">Estimated APY</TypographyVX>
-                      <TypographyVX type="medium2" className="text-navy-1000">
+                      <Typography type="bold2">Estimated APY</Typography>
+                      <Typography type="medium2" className="text-navy-1000">
                         9.33%
-                      </TypographyVX>
+                      </Typography>
                     </FlexRow>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyVX type="bold2">Rewards APR</TypographyVX>
-                      <TypographyVX type="medium2" className="text-navy-1000">
+                      <Typography type="bold2">Rewards APR</Typography>
+                      <Typography type="medium2" className="text-navy-1000">
                         9.33%
-                      </TypographyVX>
+                      </Typography>
                     </FlexRow>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyVX type="bold2">Est. time to break even</TypographyVX>
-                      <TypographyVX type="medium2" className="text-navy-1000">
+                      <Typography type="bold2">Est. time to break even</Typography>
+                      <Typography type="medium2" className="text-navy-1000">
                         3 days
-                      </TypographyVX>
+                      </Typography>
                     </FlexRow>
                   </FlexCol>
 

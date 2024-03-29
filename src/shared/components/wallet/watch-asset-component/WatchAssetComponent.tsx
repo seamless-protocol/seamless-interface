@@ -2,11 +2,11 @@ import React from "react";
 import { Address } from "viem";
 import { FlexCol } from "../../containers/FlexCol";
 import { Icon } from "../../images/Icon";
-import { Typography } from "../../text/Typography/Typography";
 import { Button } from "../../button/Button";
 import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
 import { useToken } from "../../../state/meta-data-queries/useToken";
+import { Typography } from "../../text/Typography/Typography";
 
 interface Token {
   symbol: string;

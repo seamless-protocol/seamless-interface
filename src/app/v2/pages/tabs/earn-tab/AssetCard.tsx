@@ -1,4 +1,4 @@
-import { FlexRow, FlexCol, TypographyV2, Icon } from "@shared";
+import { FlexRow, FlexCol, Typography, Icon } from "@shared";
 import { TagType, Tag } from "./Tag";
 
 export interface AssetCardProps {
@@ -32,8 +32,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           <Icon width={40} src={icon} alt={icon} />
           <FlexCol className="gap-2 max-w-48">
             <FlexCol className="gap-[2px]">
-              <TypographyV2 type="bold3">{title}</TypographyV2>
-              <TypographyV2 type="regular1">{subTitle}</TypographyV2>
+              <Typography type="bold3">{title}</Typography>
+              <Typography type="regular1">{subTitle}</Typography>
             </FlexCol>
             <FlexRow>
               {tags?.map((t, index) => {
@@ -43,7 +43,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
-          <TypographyV2 type="bold3">{apy}</TypographyV2>
+          <Typography type="bold3">{apy}</Typography>
           {incentivesButton && incentivesButton}
         </FlexCol>
       </FlexRow>
