@@ -6,9 +6,8 @@ import { FlexRow } from "../../containers/FlexRow";
 import { Icon } from "../../images/Icon";
 import { TypographyV2 } from "../../text/TypographyV2/TypographyV2";
 import { RHFInputFieldProps, RHFInputField } from "./RHFInputField";
-import { useToken } from "../../../state/meta-data-queries/useToken";
 
-import randomAsset from "@assets/tokens/wsteth.svg"; //todo fetch from useFullTokenData
+import { useFullTokenData } from "../../../state";
 
 interface IProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
@@ -24,12 +23,17 @@ export function RHFAmountInput<T>({
   ...other
 }: IProps<T>) {
   const { setValue } = useFormContext();
-  const { data: tokenData } = useToken(assetAddress); //todo get asset as well
+  const { data: tokenData } = useFullTokenData(assetAddress); // todo get asset as well
 
   const handleMaxClick = () => {
+    if (!tokenData?.decimals) {
+      // eslint-disable-next-line no-console
+      console.warn("Token data coulnd't be loaded.");
+      return;
+    }
     setValue(
       name as string,
-      formatUnits(walletBalance.bigIntValue || 0n, tokenData?.decimals || 18)
+      formatUnits(walletBalance.bigIntValue || 0n, tokenData?.decimals)
     );
   };
 
@@ -42,7 +46,7 @@ export function RHFAmountInput<T>({
         </FlexCol>
         <FlexCol className="text-right gap-2">
           <div className="flex items-center space-x-2">
-            <Icon width={24} src={randomAsset} alt="input-field-asset" />
+            <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
             <TypographyV2 type="medium4">{tokenData?.symbol}</TypographyV2>
           </div>
 

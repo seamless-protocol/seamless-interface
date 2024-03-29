@@ -1,6 +1,6 @@
-import { FlexCol, TypographyV2, FlexRow, Icon } from "@shared";
+import { FlexCol, TypographyV2, FlexRow } from "@shared";
 
-import filledArrow from "@assets/common/filled-arrow.svg";
+import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 export const Heading = () => {
   return (
@@ -14,13 +14,13 @@ export const Heading = () => {
             <TypographyV2 type="regular1">
               This integrated Liquidity Market (ILM) uses wstETH deposits to
               borrow ETH, which is used to purchase more wstETH to achieve the
-              targeted multiple. This amplifies the participant's wstETH and ETH
+              targeted multiple. This amplifies the participant&apos;s wstETH and ETH
               staking reward exposure.
             </TypographyV2>
           </FlexCol>
           <FlexRow className="gap-2">
             <TypographyV2 type="medium3">Learn more</TypographyV2>
-            <Icon width={16} src={filledArrow} alt="filled-arrow" />
+            <ArrowRightCircleIcon  width={22} />
           </FlexRow>
         </FlexCol>
       </div>
