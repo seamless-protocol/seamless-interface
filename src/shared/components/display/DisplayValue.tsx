@@ -1,10 +1,13 @@
 import { DisplayableAmount } from "../../types/Displayable";
-import { Typography } from "../text/Typography/Typography";
-import { TypographyType, TypographyColor } from "../text/Typography/mappers";
+import { TypographyColor } from "../text/Typography/mappers";
+import {
+  CombinedTypographyType,
+  TypographyVX,
+} from "../text/TypographyX/TypographyX";
 import { fontSizes } from "./mapper";
 
 export interface DisplayValueProps extends DisplayableAmount {
-  typography?: TypographyType;
+  typography?: CombinedTypographyType;
   symbolColor?: TypographyColor;
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
@@ -75,25 +78,29 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     return <div className="loading loading-spinner flex self-center" />;
   }
   return (
-    <Typography
+    <TypographyVX
       type={typography}
       className={`truncate hover:text-clip ${className}`}
     >
       {symbolPosition === "before" && symbol && (
-        <Typography type={typography} tagOverride="span" color={symbolColor}>
+        <TypographyVX type={typography} tagOverride="span" color={symbolColor}>
           {symbol}
-        </Typography>
+        </TypographyVX>
       )}
       {viewValue}
       {symbolPosition === "after" && symbol && (
         <>
           {" "}
-          <Typography type={typography} tagOverride="span" color={symbolColor}>
+          <TypographyVX
+            type={typography}
+            tagOverride="span"
+            color={symbolColor}
+          >
             {symbol}
-          </Typography>
+          </TypographyVX>
         </>
       )}
-    </Typography>
+    </TypographyVX>
   );
 };
 
@@ -105,7 +112,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
  * @returns {{ width: string, height: string }} - An object containing the calculated width and height as CSS values.
  */
 const getTypographySkeletonSize = (
-  typographyType: TypographyType,
+  typographyType: CombinedTypographyType,
   viewValue = ""
 ) => {
   const fontSize = fontSizes[typographyType] || "1rem";

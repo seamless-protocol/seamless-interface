@@ -28,6 +28,7 @@ export * from "./components/button/Button";
 export * from "./components/button/CBSubscribeButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
+export * from "./components/button/TabButton";
 
 // ********** //
 // containers //
@@ -36,11 +37,15 @@ export * from "./components/containers/FlexCol";
 export * from "./components/containers/FlexRow";
 export * from "./components/containers/PageContainer";
 export * from "./components/containers/Card";
+export * from "./components/containers/TabContent";
+export * from "./components/containers/Accordion";
 
 // **** //
 // text //
 // **** //
 export * from "./components/text/Typography/Typography";
+export * from "./components/text/TypographyV2/TypographyV2";
+export * from "./components/text/TypographyX/TypographyX";
 
 // ******* //
 // tooltip //
@@ -70,6 +75,8 @@ export * from "./components/dropdown/Dropdown";
 export * from "./components/form/MyFormProvider";
 export * from "./components/form/inputs/CustomInput";
 export * from "./components/form/rhf/RHFInputField";
+export * from "./components/form/rhf/RHFAmountInput";
+export * from "./components/form/rhf/RHFInputSliderField";
 
 // ***** //
 // Images //
