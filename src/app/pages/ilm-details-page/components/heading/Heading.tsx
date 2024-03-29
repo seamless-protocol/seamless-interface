@@ -50,7 +50,7 @@ export const Heading: React.FC<{
       <FlexRow className="gap-3 text-start">
         <Icon src={strategyConfig.logo} alt={strategyConfig.underlyingAsset.symbol || "asset"} width={40} height={40} />
         <FlexCol>
-          <FlexRow className="gap-2">
+          <FlexRow className="gap-2 md:max-w-full max-w-[80%]">
             <DisplayText typography="main21" text={strategyConfig.underlyingAsset?.name} />
             <Dropdown button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}>
               <ul className="py-1">
