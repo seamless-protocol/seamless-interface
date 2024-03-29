@@ -1,12 +1,7 @@
 import React, { useState, FC } from "react";
-import {
-  CombinedTypographyType,
-  TypographyVX,
-} from "../text/TypographyX/TypographyX";
+import { CombinedTypographyType, TypographyVX } from "../text/TypographyX/TypographyX";
 
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 type AccordionItemProps = {
   title: string;
@@ -46,19 +41,12 @@ type AccordionItemProps = {
  * @returns The `AccordionItem` component with collapsible content functionality.
  */
 
-export const AccordionItem: FC<AccordionItemProps> = ({
-  title,
-  children,
-  typography,
-}) => {
+export const AccordionItem: FC<AccordionItemProps> = ({ title, children, typography }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="">
-      <button
-        className="w-full flex justify-between items-center gap-6"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <button className="w-full flex justify-between items-center gap-6" onClick={() => setIsOpen(!isOpen)}>
         <TypographyVX type={typography || "bold3"} className="text-start">
           {title}
         </TypographyVX>

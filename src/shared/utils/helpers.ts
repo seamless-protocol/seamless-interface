@@ -17,10 +17,7 @@ const defaultDecimalsOptions: DecimalsOptions = {
   fourDigitNumberDecimals: 2,
 };
 
-export function formatUnitsToNumber(
-  value: string | bigint | undefined,
-  decimals: number
-) {
+export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number) {
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
 
@@ -34,10 +31,7 @@ function format(value: number, decimals: number) {
   return formatter.format(value);
 }
 
-export function formatToDisplayable(
-  value: number | undefined,
-  decimalsOptions: Partial<DecimalsOptions>
-) {
+export function formatToDisplayable(value: number | undefined, decimalsOptions: Partial<DecimalsOptions>) {
   if (!value) return format(0, 2);
 
   const decimalsFormattingOptions = {
@@ -75,9 +69,7 @@ export function formatToDisplayableOrPlaceholder(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  return value && value != 0
-    ? formatToDisplayable(value, decimalsFormattingOptions)
-    : placeholder;
+  return value && value != 0 ? formatToDisplayable(value, decimalsFormattingOptions) : placeholder;
 }
 
 /**
@@ -127,9 +119,7 @@ export function formatFetchNumberToViewNumber(
   };
 }
 
-export function formatIncentiveAprToViewNumber(
-  apr: number | undefined
-): ViewNumber {
+export function formatIncentiveAprToViewNumber(apr: number | undefined): ViewNumber {
   apr = apr || 0;
   return {
     viewValue: formatToDisplayableOrPlaceholder(apr, ""),
@@ -145,11 +135,7 @@ export function convertAprToApy(apr: number): number {
   return ((1 + apr / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR - 1) * 100;
 }
 
-export function normalizeDecimals(
-  value: bigint,
-  valueDecimals: bigint,
-  toDecimals: bigint
-): bigint {
+export function normalizeDecimals(value: bigint, valueDecimals: bigint, toDecimals: bigint): bigint {
   if (valueDecimals <= toDecimals) {
     return value * 10n ** (toDecimals - valueDecimals);
   } else {

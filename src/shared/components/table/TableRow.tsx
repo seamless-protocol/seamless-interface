@@ -40,10 +40,7 @@ export const TableRow: React.FC<{
   children?: React.ReactNode;
   className?: string;
   hideBorder?: boolean;
-  rest?: React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLTableRowElement>,
-    HTMLTableRowElement
-  >;
+  rest?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
 }> = ({ children, className, hideBorder, rest }) => {
   return (
     <div

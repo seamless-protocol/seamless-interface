@@ -26,9 +26,9 @@
       // "@state": ["src/app/state/*"],
       // "@app-components": ["src/app/components/*"],
       "@router": ["src/app/router/index"],
-      "@meta": ["src/meta/index"],
-    },
+      "@meta": ["src/meta/index"]
+    }
   },
   "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

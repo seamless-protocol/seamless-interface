@@ -5,11 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToken } from "@shared";
 import { DebouncedDelayConfig } from "../config/DebouncedDelayConfig";
 
-export const useFetchSimulateDeposit = (
-  account: Address,
-  strategy: Address,
-  amount: string
-) => {
+export const useFetchSimulateDeposit = (account: Address, strategy: Address, amount: string) => {
   const {
     isLoading: isTokenDataLoading,
     isFetched: isTokenDataFetched,
@@ -35,14 +31,8 @@ export const useFetchSimulateDeposit = (
 
   return {
     ...rest,
-    isLoading:
-      isTokenDataLoading ||
-      isUnderlyingAssetLoading ||
-      isSimulateDepositLoading,
-    isFetched:
-      isTokenDataFetched &&
-      isUnderlyingAssetFetched &&
-      isSimulateDepositFetched,
+    isLoading: isTokenDataLoading || isUnderlyingAssetLoading || isSimulateDepositLoading,
+    isFetched: isTokenDataFetched && isUnderlyingAssetFetched && isSimulateDepositFetched,
     data: {
       bigIntValue: data?.sharesToReceive,
       decimals,

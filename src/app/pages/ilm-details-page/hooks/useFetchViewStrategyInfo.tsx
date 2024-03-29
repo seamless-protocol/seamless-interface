@@ -1,13 +1,6 @@
 import { useReadContracts } from "wagmi";
-import {
-  convertRatioToMultiple,
-  formatFetchBigIntToViewBigInt,
-} from "../../../../shared/utils/helpers";
-import {
-  aaveOracleAbi,
-  aaveOracleAddress,
-  loopStrategyAbi,
-} from "../../../generated/generated";
+import { convertRatioToMultiple, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
+import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated/generated";
 import { ONE_ETHER, ONE_USD } from "@meta";
 import { Address } from "viem";
 import { ilmStrategies } from "../../../state/loop-strategy/config/StrategyConfig";
@@ -63,11 +56,11 @@ export const useFetchStrategyInfo = (
   });
 
   let collateral;
-    let collateralUSD;
-    let equity;
-    let equityUSD;
-    let currentMultiple;
-    let targetMultiple;
+  let collateralUSD;
+  let equity;
+  let equityUSD;
+  let currentMultiple;
+  let targetMultiple;
 
   if (results) {
     const collateralRatioTargets = results[0].result;
@@ -76,9 +69,7 @@ export const useFetchStrategyInfo = (
 
     collateralUSD = BigInt(results[1].result || 0);
     const collateralAssetPrice = BigInt(results[4].result || 0);
-    collateral = collateralAssetPrice
-      ? (collateralUSD * ONE_ETHER) / collateralAssetPrice
-      : 0n;
+    collateral = collateralAssetPrice ? (collateralUSD * ONE_ETHER) / collateralAssetPrice : 0n;
 
     equity = BigInt(results[2].result || 0);
     equityUSD = BigInt(results[3].result || 0);
@@ -135,23 +126,10 @@ export interface ViewStrategyInfo {
   };
 }
 
-export const useFetchViewStrategyInfo = (
-  index: number
-): Displayable<ViewStrategyInfo> => {
+export const useFetchViewStrategyInfo = (index: number): Displayable<ViewStrategyInfo> => {
   const strategyConfig = ilmStrategies[index];
-  const {
-    isLoading,
-    isFetched,
-    collateral,
-    collateralUSD,
-    equity,
-    equityUSD,
-    currentMultiple,
-    targetMultiple,
-  } = useFetchStrategyInfo(
-    strategyConfig.address,
-    strategyConfig.underlyingAsset.address
-  );
+  const { isLoading, isFetched, collateral, collateralUSD, equity, equityUSD, currentMultiple, targetMultiple } =
+    useFetchStrategyInfo(strategyConfig.address, strategyConfig.underlyingAsset.address);
 
   return {
     isLoading,

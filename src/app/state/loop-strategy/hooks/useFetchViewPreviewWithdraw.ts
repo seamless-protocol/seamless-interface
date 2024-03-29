@@ -17,10 +17,7 @@ interface PreviewWithdraw {
   costInUsd: FetchBigInt;
 }
 
-export const useFetchPreviewWithdraw = (
-  strategyConfig: StrategyConfig,
-  amount: string
-): FetchData<PreviewWithdraw> => {
+export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewWithdraw> => {
   const account = useAccount();
 
   const {
@@ -39,11 +36,7 @@ export const useFetchPreviewWithdraw = (
     data: assets,
     isLoading: isSimulateWithdrawLoading,
     isFetched: isSimulateWithdrawFetched,
-  } = useFetchSimulateWithdraw(
-    account.address as Address,
-    strategyConfig.address,
-    amount
-  );
+  } = useFetchSimulateWithdraw(account.address as Address, strategyConfig.address, amount);
 
   const {
     isLoading: isShareValueLoading,
@@ -63,15 +56,12 @@ export const useFetchPreviewWithdraw = (
   let costInUsd;
   if (assets && assets.bigIntValue && underlyingAssetPrice) {
     assetsToReceive = (assets.bigIntValue * 99n) / 100n;
-    assetsToReceiveInUsd =
-      (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
+    assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
 
-    const withdrawAmountInUsd =
-      (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
+    const withdrawAmountInUsd = (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
 
     costInUsd = withdrawAmountInUsd - assetsToReceiveInUsd;
-    costInUnderlyingAsset =
-      (costInUsd * ONE_ETHER) / underlyingAssetPrice.bigIntValue;
+    costInUnderlyingAsset = (costInUsd * ONE_ETHER) / underlyingAssetPrice.bigIntValue;
   }
 
   return {
@@ -112,19 +102,11 @@ export const useFetchPreviewWithdraw = (
   };
 };
 
-export const useFetchViewPreviewWithdraw = (
-  index: number,
-  amount: string
-): Displayable<ViewPreviewWithdraw> => {
+export const useFetchViewPreviewWithdraw = (index: number, amount: string): Displayable<ViewPreviewWithdraw> => {
   const {
     isLoading,
     isFetched,
-    data: {
-      assetsToReceive,
-      assetsToReceiveInUsd,
-      costInUnderlyingAsset,
-      costInUsd,
-    },
+    data: { assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd },
   } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
 
   return {
@@ -132,24 +114,12 @@ export const useFetchViewPreviewWithdraw = (
     isFetched,
     data: {
       assetsToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          assetsToReceive,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          assetsToReceiveInUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(assetsToReceive, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(assetsToReceiveInUsd, walletBalanceDecimalsOptions),
       },
       cost: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          costInUnderlyingAsset,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          costInUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(costInUsd, walletBalanceDecimalsOptions),
       },
     },
   };

@@ -41,9 +41,7 @@ export interface ViewBaseAsset {
   };
 }
 
-export const useFetchViewBaseAsset = (
-  index: number
-): Displayable<ViewBaseAsset> => {
+export const useFetchViewBaseAsset = (index: number): Displayable<ViewBaseAsset> => {
   const baseAsset = baseAssets[index];
 
   const {

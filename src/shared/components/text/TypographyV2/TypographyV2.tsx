@@ -1,9 +1,4 @@
-import {
-  ComponentMap,
-  TypographyColor,
-  TypographyTypeV2,
-  tailwindStyles,
-} from "./mappers";
+import { ComponentMap, TypographyColor, TypographyTypeV2, tailwindStyles } from "./mappers";
 
 export interface TypographyPropsv2 {
   type?: TypographyTypeV2;

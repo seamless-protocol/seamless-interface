@@ -1,5 +1,5 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -36,12 +36,7 @@ export default defineConfig(({ mode }) => {
 
       rollupOptions: {
         onLog(level, log, handler) {
-          if (
-            log.cause &&
-             
-            (log.cause as any).message ===
-              `Can't resolve original location of error.`
-          ) {
+          if (log.cause && (log.cause as any).message === `Can't resolve original location of error.`) {
             return;
           }
           handler(level, log);

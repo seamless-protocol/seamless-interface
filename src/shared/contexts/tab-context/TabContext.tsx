@@ -13,9 +13,7 @@ export interface TabContextType<T> {
   setActiveTab: (tab: T) => void;
 }
 
-export const TabContext = createContext<TabContextType<any> | undefined>(
-  undefined
-);
+export const TabContext = createContext<TabContextType<any> | undefined>(undefined);
 
 export const TabProvider = <T extends string>({
   children,
@@ -39,9 +37,5 @@ export const TabProvider = <T extends string>({
     }
   }, [activeTab, disableUrlSyncing, navigate, location.search]);
 
-  return (
-    <TabContext.Provider value={{ activeTab, setActiveTab }}>
-      {children}
-    </TabContext.Provider>
-  );
+  return <TabContext.Provider value={{ activeTab, setActiveTab }}>{children}</TabContext.Provider>;
 };

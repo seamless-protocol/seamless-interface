@@ -1,8 +1,4 @@
-import React, {
-  CSSProperties,
-  ChangeEventHandler,
-  InputHTMLAttributes,
-} from "react";
+import React, { CSSProperties, ChangeEventHandler, InputHTMLAttributes } from "react";
 
 import styles from "./InputSliderField.module.css";
 
@@ -43,34 +39,33 @@ const renderMarkers = (
   return markers;
 };
 
-export const InputSliderField = React.forwardRef<
-  HTMLInputElement,
-  InputSliderFieldProps
->(({ min, max, value, label, onChange, ...rest }, ref) => {
-  const classes = styles.sliderContainer;
-  const sliderClasses = styles.sliderInput;
+export const InputSliderField = React.forwardRef<HTMLInputElement, InputSliderFieldProps>(
+  ({ min, max, value, label, onChange, ...rest }, ref) => {
+    const classes = styles.sliderContainer;
+    const sliderClasses = styles.sliderInput;
 
-  const sliderPercentage = `${((Number(value) - Number(min)) / (Number(max) - Number(min))) * 100}%`;
-  const sliderStyle: CustomStyle = {
-    "--slider-percentage": sliderPercentage,
-  };
+    const sliderPercentage = `${((Number(value) - Number(min)) / (Number(max) - Number(min))) * 100}%`;
+    const sliderStyle: CustomStyle = {
+      "--slider-percentage": sliderPercentage,
+    };
 
-  return (
-    <div className={classes} style={sliderStyle as React.CSSProperties}>
-      {renderMarkers(Number(min), Number(max), onChange, value)}
-      <input
-        ref={ref}
-        className={sliderClasses}
-        type="range"
-        title={label || ""}
-        min={min}
-        max={max}
-        value={value}
-        onChange={onChange}
-        {...rest}
-      />
-    </div>
-  );
-});
+    return (
+      <div className={classes} style={sliderStyle as React.CSSProperties}>
+        {renderMarkers(Number(min), Number(max), onChange, value)}
+        <input
+          ref={ref}
+          className={sliderClasses}
+          type="range"
+          title={label || ""}
+          min={min}
+          max={max}
+          value={value}
+          onChange={onChange}
+          {...rest}
+        />
+      </div>
+    );
+  }
+);
 
 InputSliderField.displayName = "InputSliderField";

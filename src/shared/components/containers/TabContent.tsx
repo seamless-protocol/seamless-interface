@@ -44,10 +44,7 @@ interface TabContentProps<T> {
  * @param props The props for the `TabContent` component, including the tab identifier and the children to display.
  * @returns A component that renders the children content if its associated tab is the current active tab, otherwise renders nothing.
  */
-export const TabContent = <T extends string>({
-  tab,
-  children,
-}: TabContentProps<T>) => {
+export const TabContent = <T extends string>({ tab, children }: TabContentProps<T>) => {
   const { activeTab } = useTab<T>();
 
   return activeTab === tab ? <>{children}</> : null;

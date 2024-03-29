@@ -8,14 +8,10 @@ import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentiv
  * @param asset Asset to fetch incentives for
  * @returns Returns raw incentives data for given asset from smart contract. Data is not formatted due to complexity of structure
  */
-export const useFetchRawReservesIncentivesDataByAsset = (
-  asset: string
-): FetchData<Incentives | undefined> => {
+export const useFetchRawReservesIncentivesDataByAsset = (asset: string): FetchData<Incentives | undefined> => {
   const { data, isLoading, isFetched } = useFetchRawReservesIncentivesData();
 
-  const incentives = data?.find((e: any) => e.underlyingAsset === asset) as
-    | Incentives
-    | undefined;
+  const incentives = data?.find((e: any) => e.underlyingAsset === asset) as Incentives | undefined;
 
   return {
     isLoading,

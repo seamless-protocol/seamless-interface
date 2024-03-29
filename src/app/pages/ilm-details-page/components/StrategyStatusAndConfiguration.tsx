@@ -47,24 +47,13 @@ export const StrategyStatusAndConfiguration: React.FC<{
                 isFetched={isFetched}
               />
               <VerticalDivider />
-              <LocalValueComponent
-                title="Current multiple"
-                mainValue={data.currentMultiple}
-                isFetched={isFetched}
-              />
+              <LocalValueComponent title="Current multiple" mainValue={data.currentMultiple} isFetched={isFetched} />
               <VerticalDivider />
-              <LocalValueComponent
-                title="Target multiple"
-                mainValue={data?.targetMultiple}
-                isFetched={isFetched}
-              />
+              <LocalValueComponent title="Target multiple" mainValue={data?.targetMultiple} isFetched={isFetched} />
               <VerticalDivider />
               <FlexCol className="border-thin rounded-md border-divider p-2">
                 <Typography type="description">Loop Strategy</Typography>
-                <Link
-                  to={RouterConfig.Builder.baseScanAddress(strategyConfig.address)}
-                  target="_blank"
-                >
+                <Link to={RouterConfig.Builder.baseScanAddress(strategyConfig.address)} target="_blank">
                   <FlexRow className="gap-1">
                     <Typography type="description">View contract</Typography>
                     <Icon width={12} height={12} src={externalLink} alt="external-link" />
@@ -83,14 +72,14 @@ export const StrategyStatusAndConfiguration: React.FC<{
           </Typography>
           <FlexCol>
             <Typography type="description">
-              This integrated Liquidity Market (ILM) uses {ilmStrategies[id].underlyingAsset.symbol}{" "}
-              deposits to borrow ETH, which is used to purchase more{" "}
-              {ilmStrategies[id].underlyingAsset.symbol} to achieve the targeted multiple.
+              This integrated Liquidity Market (ILM) uses {ilmStrategies[id].underlyingAsset.symbol} deposits to borrow
+              ETH, which is used to purchase more {ilmStrategies[id].underlyingAsset.symbol} to achieve the targeted
+              multiple.
             </Typography>
             <br />
             <Typography type="description">
-              This amplifies the participant&apos;s {ilmStrategies[id].underlyingAsset.symbol} and
-              ETH staking reward exposure.
+              This amplifies the participant&apos;s {ilmStrategies[id].underlyingAsset.symbol} and ETH staking reward
+              exposure.
             </Typography>
           </FlexCol>
         </FlexCol>
@@ -115,9 +104,7 @@ const LocalValueComponent: React.FC<{
       <Typography type="description">{title}</Typography>
       <FlexCol>
         <DisplayTokenAmount typography="main16" {...mainValue} isFetched={isFetched} />
-        {secondaryValue && (
-          <DisplayMoney typography="secondary12" {...secondaryValue} isFetched={isFetched} />
-        )}
+        {secondaryValue && <DisplayMoney typography="secondary12" {...secondaryValue} isFetched={isFetched} />}
       </FlexCol>
     </FlexCol>
   );

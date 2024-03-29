@@ -17,8 +17,7 @@ const rpcConfig = [
 
 export const rainbowConfig = getDefaultConfig({
   appName: "Seamless Protocol",
-  appDescription:
-    "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
+  appDescription: "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
   appUrl: "https://app.seamlessprotocol.com/",
   appIcon: logoSeamless,
   projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
@@ -26,9 +25,7 @@ export const rainbowConfig = getDefaultConfig({
   chains: [base],
   transports: {
     [base.id]: fallback(
-      rpcConfig.map(({ url, isWebSocket }) =>
-        isWebSocket ? webSocket(url) : http(url)
-      ),
+      rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
       { rank: true }
     ),
   },

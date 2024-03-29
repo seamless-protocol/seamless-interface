@@ -1,15 +1,10 @@
 import { Address } from "viem";
-import {
-  convertRatioToMultiple,
-  formatFetchBigIntToViewBigInt,
-} from "../../../../shared/utils/helpers";
+import { convertRatioToMultiple, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useFetchCollateralRatioTargets } from "../metadataQueries/useFetchViewCollateralRatioTargets";
 
-export const useFetchTargetMultiple = (
-  strategy: Address
-): FetchData<FetchBigInt> => {
+export const useFetchTargetMultiple = (strategy: Address): FetchData<FetchBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -27,14 +22,8 @@ export const useFetchTargetMultiple = (
   };
 };
 
-export const useFetchViewTargetMultiple = (
-  strategy: Address
-): Displayable<ViewBigInt> => {
-  const {
-    isLoading,
-    isFetched,
-    data: targetMultiple,
-  } = useFetchTargetMultiple(strategy);
+export const useFetchViewTargetMultiple = (strategy: Address): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: targetMultiple } = useFetchTargetMultiple(strategy);
 
   return {
     isLoading,

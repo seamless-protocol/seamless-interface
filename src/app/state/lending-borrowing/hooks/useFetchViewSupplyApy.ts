@@ -1,8 +1,4 @@
-import {
-  convertAprToApy,
-  formatFetchNumberToViewNumber,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
+import { convertAprToApy, formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "../../../../shared/types/Fetch";
 import { Address } from "viem";
 import { Displayable } from "../../../../shared";
@@ -18,10 +14,7 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
 
   let supplyApy = 0;
   if (liquidityRate) {
-    const supplyApr = formatUnitsToNumber(
-      liquidityRate.bigIntValue,
-      liquidityRate.decimals
-    );
+    const supplyApr = formatUnitsToNumber(liquidityRate.bigIntValue, liquidityRate.decimals);
     supplyApy = convertAprToApy(supplyApr);
   }
 

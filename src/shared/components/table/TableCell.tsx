@@ -35,17 +35,11 @@
 export const TableCell: React.FC<{
   children?: React.ReactNode;
   className?: string;
-  rest?: React.DetailedHTMLProps<
-    React.TdHTMLAttributes<HTMLTableCellElement>,
-    HTMLTableCellElement
-  >;
+  rest?: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
   alignItems?: string;
 }> = ({ children, className, rest, alignItems = "items-center" }) => {
   return (
-    <div
-      className={`flex flex-col text-center ${alignItems} ${className || ""}`}
-      {...rest}
-    >
+    <div className={`flex flex-col text-center ${alignItems} ${className || ""}`} {...rest}>
       {children}
     </div>
   );

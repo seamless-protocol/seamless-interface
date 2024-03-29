@@ -1,9 +1,5 @@
 import { Address } from "viem";
-import {
-  formatFetchNumberToViewNumber,
-  formatUnitsToNumber,
-  normalizeDecimals,
-} from "./helpers";
+import { formatFetchNumberToViewNumber, formatUnitsToNumber, normalizeDecimals } from "./helpers";
 import { SECONDS_PER_YEAR, assetLogos } from "@meta";
 import { ViewNumber } from "../types/Displayable";
 
@@ -68,22 +64,13 @@ function parseRewardsTokenInformation(
     }
 
     const rewardTokenPrice =
-      rewardToken.rewardTokenSymbol === "esSEAM" ||
-      rewardToken.rewardTokenSymbol === "SEAM"
+      rewardToken.rewardTokenSymbol === "esSEAM" || rewardToken.rewardTokenSymbol === "SEAM"
         ? seamPrice
-        : normalizeDecimals(
-            rewardToken.rewardPriceFeed,
-            BigInt(rewardToken.priceFeedDecimals),
-            18n
-          );
+        : normalizeDecimals(rewardToken.rewardPriceFeed, BigInt(rewardToken.priceFeedDecimals), 18n);
     const emissionPerYear =
-      normalizeDecimals(
-        rewardToken.emissionPerSecond,
-        BigInt(rewardToken.rewardTokenDecimals),
-        18n
-      ) * BigInt(SECONDS_PER_YEAR);
-    const rewardTokenApr =
-      (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
+      normalizeDecimals(rewardToken.emissionPerSecond, BigInt(rewardToken.rewardTokenDecimals), 18n) *
+      BigInt(SECONDS_PER_YEAR);
+    const rewardTokenApr = (emissionPerYear * rewardTokenPrice) / totalUsd / BigInt(10 ** 10);
 
     const rewardTokenAprFormatted = formatUnitsToNumber(rewardTokenApr, 18);
 
@@ -102,17 +89,9 @@ function parseRewardsTokenInformation(
   return { totalApr, rewardTokens };
 }
 
-export function parseIncentives(
-  incentives: IncentiveData,
-  totalUsd: bigint,
-  seamPrice: bigint
-): IncentiveApr {
+export function parseIncentives(incentives: IncentiveData, totalUsd: bigint, seamPrice: bigint): IncentiveApr {
   const result = incentives
-    ? parseRewardsTokenInformation(
-        incentives.rewardsTokenInformation,
-        totalUsd,
-        seamPrice
-      )
+    ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd, seamPrice)
     : {
         totalApr: 0,
         rewardTokens: [],

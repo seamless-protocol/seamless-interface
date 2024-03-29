@@ -27,11 +27,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
  * ```
  */
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  className = "",
-  ...props
-}) => {
+export const Card: React.FC<CardProps> = ({ children, className = "", ...props }) => {
   const styles = IS_STYLE_VERSION_2 ? stylesv2 : stylesv1;
 
   return (

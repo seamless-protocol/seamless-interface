@@ -1,12 +1,5 @@
 import { useEffect, useRef } from "react";
-import {
-  LiFiWidget,
-  type WidgetConfig,
-  useWidgetEvents,
-  WidgetEvent,
-  HiddenUI,
-  WidgetDrawer,
-} from "@lifi/widget";
+import { LiFiWidget, type WidgetConfig, useWidgetEvents, WidgetEvent, HiddenUI, WidgetDrawer } from "@lifi/widget";
 import { UNSAFE_LocationContext } from "react-router-dom";
 import { lifiConfig } from "../../../../lifi.config";
 import { useLifiWidgetContext } from "../../contexts/lifi/useLifiWidgetContext";

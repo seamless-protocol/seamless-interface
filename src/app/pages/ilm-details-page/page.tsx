@@ -13,9 +13,7 @@ type PageParams = {
 
 export const IlmDetailsPage = () => {
   const { id } = useParams<PageParams>();
-  const [selectedCard, setSelectedCard] = useState<"overview" | "yourInfo">(
-    "overview"
-  );
+  const [selectedCard, setSelectedCard] = useState<"overview" | "yourInfo">("overview");
 
   return (
     <PageContainer>
@@ -25,15 +23,10 @@ export const IlmDetailsPage = () => {
       </HeadingContainer>
       <div className="flex flex-col xxl:items-center mt-[-46px]">
         <div className="mx-2 lg:mx-10 xl:mx-24 xxl:w-[1440px]">
-          <TabSelector
-            selectedCard={selectedCard}
-            setSelectedCard={setSelectedCard}
-          />
+          <TabSelector selectedCard={selectedCard} setSelectedCard={setSelectedCard} />
 
           <div className="flex flex-row gap-4 pt-4">
-            <div
-              className={`w-full text-text-secondary lg:block ${selectedCard === "overview" ? "" : "hidden"}`}
-            >
+            <div className={`w-full text-text-secondary lg:block ${selectedCard === "overview" ? "" : "hidden"}`}>
               <Card>
                 <StrategyStatusAndConfiguration id={Number(id || 0)} />
               </Card>

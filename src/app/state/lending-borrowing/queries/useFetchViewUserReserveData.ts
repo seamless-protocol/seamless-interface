@@ -1,13 +1,6 @@
 import { Address } from "viem";
-import {
-  Displayable,
-  useSeamlessContractRead,
-  useToken,
-} from "../../../../shared";
-import {
-  protocolDataProviderAbi,
-  protocolDataProviderAddress,
-} from "../../../generated";
+import { Displayable, useSeamlessContractRead, useToken } from "../../../../shared";
+import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { useAccount } from "wagmi";
 import { ViewUserReserveData } from "../types/ViewUserReserveData";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -56,9 +49,7 @@ export const useFetchUserReserveData = (reserve: Address) => {
   };
 };
 
-export const useFetchViewUserReserveData = (
-  reserve: Address
-): Displayable<ViewUserReserveData> => {
+export const useFetchViewUserReserveData = (reserve: Address): Displayable<ViewUserReserveData> => {
   const {
     isLoading,
     isFetched,
@@ -70,9 +61,7 @@ export const useFetchViewUserReserveData = (
     isFetched,
     data: {
       aTokenBalance: formatFetchBigIntToViewBigInt(aTokenBalance),
-      variableDebtTokenBalance: formatFetchBigIntToViewBigInt(
-        variableDebtTokenBalance
-      ),
+      variableDebtTokenBalance: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),
     },
   };
 };

@@ -10,12 +10,7 @@ type IProps<T> = {
 
 type Props<T> = IProps<T> & InputHTMLAttributes<HTMLInputElement>;
 
-export function RHFInputSliderField<T>({
-  name,
-  rules,
-  label,
-  ...other
-}: Props<T>) {
+export function RHFInputSliderField<T>({ name, rules, label, ...other }: Props<T>) {
   const { control } = useFormContext();
 
   return (
@@ -23,14 +18,7 @@ export function RHFInputSliderField<T>({
       name={name}
       control={control}
       rules={rules}
-      render={({ field }) => (
-        <InputSliderField
-          label={label}
-          {...field}
-          value={field.value || 0}
-          {...other}
-        />
-      )}
+      render={({ field }) => <InputSliderField label={label} {...field} value={field.value || 0} {...other} />}
     />
   );
 }

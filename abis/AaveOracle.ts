@@ -132,9 +132,7 @@ export const AaveOracleAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "fallbackOracle", type: "address" },
-    ],
+    inputs: [{ internalType: "address", name: "fallbackOracle", type: "address" }],
     name: "setFallbackOracle",
     outputs: [],
     stateMutability: "nonpayable",

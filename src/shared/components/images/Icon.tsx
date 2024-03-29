@@ -1,11 +1,5 @@
 interface IconProps
-  extends Omit<
-    React.DetailedHTMLProps<
-      React.ImgHTMLAttributes<HTMLImageElement>,
-      HTMLImageElement
-    >,
-    "alt"
-  > {
+  extends Omit<React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>, "alt"> {
   alt: string;
   isLoading?: boolean;
   isFetched?: boolean;
@@ -38,14 +32,7 @@ interface IconProps
  * @returns The `Icon` component.
  */
 
-export const Icon: React.FC<IconProps> = ({
-  src = "",
-  alt,
-  isLoading,
-  isFetched,
-  loaderSkeleton = true,
-  ...rest
-}) => {
+export const Icon: React.FC<IconProps> = ({ src = "", alt, isLoading, isFetched, loaderSkeleton = true, ...rest }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     return (
       <span
@@ -58,9 +45,8 @@ export const Icon: React.FC<IconProps> = ({
             ? "skeleton min-h-10 min-w-10 rounded-full"
             : "loading loading-spinner w-32 h-32 flex self-center"
         }
-       />
+      />
     );
-  } 
-    return <img src={src} alt={alt} width={32} height={32} {...rest} />;
-  
+  }
+  return <img src={src} alt={alt} width={32} height={32} {...rest} />;
 };

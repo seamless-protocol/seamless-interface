@@ -239,8 +239,7 @@ export const UIIncentiveDataProviderAbi = [
             type: "tuple",
           },
         ],
-        internalType:
-          "struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]",
+        internalType: "struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]",
         name: "",
         type: "tuple[]",
       },
@@ -302,8 +301,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -367,8 +365,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -432,8 +429,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -443,8 +439,7 @@ export const UIIncentiveDataProviderAbi = [
             type: "tuple",
           },
         ],
-        internalType:
-          "struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]",
+        internalType: "struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]",
         name: "",
         type: "tuple[]",
       },
@@ -691,8 +686,7 @@ export const UIIncentiveDataProviderAbi = [
             type: "tuple",
           },
         ],
-        internalType:
-          "struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]",
+        internalType: "struct IUiIncentiveDataProviderV3.AggregatedReserveIncentiveData[]",
         name: "",
         type: "tuple[]",
       },
@@ -769,8 +763,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -834,8 +827,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -899,8 +891,7 @@ export const UIIncentiveDataProviderAbi = [
                     type: "uint8",
                   },
                 ],
-                internalType:
-                  "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
+                internalType: "struct IUiIncentiveDataProviderV3.UserRewardInfo[]",
                 name: "userRewardsInformation",
                 type: "tuple[]",
               },
@@ -910,8 +901,7 @@ export const UIIncentiveDataProviderAbi = [
             type: "tuple",
           },
         ],
-        internalType:
-          "struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]",
+        internalType: "struct IUiIncentiveDataProviderV3.UserReserveIncentiveData[]",
         name: "",
         type: "tuple[]",
       },

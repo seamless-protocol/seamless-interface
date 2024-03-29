@@ -643,9 +643,7 @@ export const LendingPoolAbi = [
     name: "getConfiguration",
     outputs: [
       {
-        components: [
-          { internalType: "uint256", name: "data", type: "uint256" },
-        ],
+        components: [{ internalType: "uint256", name: "data", type: "uint256" }],
         internalType: "struct DataTypes.ReserveConfigurationMap",
         name: "",
         type: "tuple",
@@ -692,9 +690,7 @@ export const LendingPoolAbi = [
       {
         components: [
           {
-            components: [
-              { internalType: "uint256", name: "data", type: "uint256" },
-            ],
+            components: [{ internalType: "uint256", name: "data", type: "uint256" }],
             internalType: "struct DataTypes.ReserveConfigurationMap",
             name: "configuration",
             type: "tuple",
@@ -810,9 +806,7 @@ export const LendingPoolAbi = [
     name: "getUserConfiguration",
     outputs: [
       {
-        components: [
-          { internalType: "uint256", name: "data", type: "uint256" },
-        ],
+        components: [{ internalType: "uint256", name: "data", type: "uint256" }],
         internalType: "struct DataTypes.UserConfigurationMap",
         name: "",
         type: "tuple",
@@ -1003,9 +997,7 @@ export const LendingPoolAbi = [
     inputs: [
       { internalType: "address", name: "asset", type: "address" },
       {
-        components: [
-          { internalType: "uint256", name: "data", type: "uint256" },
-        ],
+        components: [{ internalType: "uint256", name: "data", type: "uint256" }],
         internalType: "struct DataTypes.ReserveConfigurationMap",
         name: "configuration",
         type: "tuple",

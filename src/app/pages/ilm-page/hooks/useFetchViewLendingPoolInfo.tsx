@@ -46,7 +46,7 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   });
 
   let totalSuppliedUsd = 0n;
-    let totalBorrowedUsd = 0n;
+  let totalBorrowedUsd = 0n;
   if (results) {
     for (let i = 0; i < results.length; i += 4) {
       const totalSupplied = BigInt(results[i].result || 0);
@@ -54,11 +54,9 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
       const assetPrice = BigInt(results[i + 2].result || 0);
       const assetDecimals = Number(results[i + 3].result || 0);
 
-      totalSuppliedUsd +=
-        (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
+      totalSuppliedUsd += (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
 
-      totalBorrowedUsd +=
-        (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
+      totalBorrowedUsd += (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
     }
   }
 
@@ -89,23 +87,16 @@ export interface ViewLendingPoolInfo {
   totalBorrowsUsd: ViewBigInt;
 }
 
-export const useFetchViewLendingPoolInfo =
-  (): Displayable<ViewLendingPoolInfo> => {
-    const {
-      isLoading,
-      isFetched,
-      totalMarketSizeUsd,
-      totalAvailableUsd,
-      totalBorrowsUsd,
-    } = useFetchLendingPoolInfo();
+export const useFetchViewLendingPoolInfo = (): Displayable<ViewLendingPoolInfo> => {
+  const { isLoading, isFetched, totalMarketSizeUsd, totalAvailableUsd, totalBorrowsUsd } = useFetchLendingPoolInfo();
 
-    return {
-      isLoading,
-      isFetched,
-      data: {
-        totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
-        totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
-        totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
-      },
-    };
+  return {
+    isLoading,
+    isFetched,
+    data: {
+      totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
+      totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),
+      totalBorrowsUsd: formatFetchBigIntToViewBigInt(totalBorrowsUsd),
+    },
   };
+};

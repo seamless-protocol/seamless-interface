@@ -37,21 +37,14 @@ export const useDropdown = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
 
-  const toggleDropdown = (
-     
-    e: React.MouseEvent<any>
-  ) => {
+  const toggleDropdown = (e: React.MouseEvent<any>) => {
     e.stopPropagation();
     setIsDropdownVisible(!isDropdownVisible);
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-         
-        !(dropdownRef.current as any).contains(event.target)
-      ) {
+      if (dropdownRef.current && !(dropdownRef.current as any).contains(event.target)) {
         setIsDropdownVisible(false);
       }
     };

@@ -1,9 +1,6 @@
 import { useAccount } from "wagmi";
 import { useSeamlessContractRead } from "../../../../shared";
-import {
-  poolDataProviderAbi,
-  poolDataProviderAddress,
-} from "../../../generated";
+import { poolDataProviderAbi, poolDataProviderAddress } from "../../../generated";
 import { AAVE_ADDRESS_PROVIDER } from "@meta";
 import { Address } from "viem";
 

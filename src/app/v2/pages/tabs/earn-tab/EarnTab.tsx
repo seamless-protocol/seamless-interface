@@ -56,9 +56,7 @@ const mockProps = {
 };
 
 export const EarnTab = () => {
-  const [selectedAssetIndex, setSelectedAssetIndex] = useState<
-    number | undefined
-  >(undefined);
+  const [selectedAssetIndex, setSelectedAssetIndex] = useState<number | undefined>(undefined);
 
   const methods = useForm<{
     amount: string;
@@ -87,11 +85,7 @@ export const EarnTab = () => {
               {mockAssets.map((asset, index) => (
                 <div
                   key={index}
-                  onClick={() =>
-                    setSelectedAssetIndex(
-                      selectedAssetIndex === index ? undefined : index
-                    )
-                  }
+                  onClick={() => setSelectedAssetIndex(selectedAssetIndex === index ? undefined : index)}
                 >
                   <AssetCard
                     isSelected={selectedAssetIndex === index}
@@ -108,17 +102,12 @@ export const EarnTab = () => {
           </div>
           <div className="col-span-7">
             <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
-              <MyFormProvider
-                methods={methods}
-                onSubmit={handleSubmit(() => {})}
-              >
+              <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
                 <FlexCol className="gap-8">
                   <FlexCol className="gap-6">
                     <FlexCol className="gap-">
                       <TypographyVX type="bold4">Add to strategy</TypographyVX>
-                      <TypographyVX type="regular3">
-                        Multiply wstETH staking rewards
-                      </TypographyVX>
+                      <TypographyVX type="regular3">Multiply wstETH staking rewards</TypographyVX>
                     </FlexCol>
                     <RHFAmountInput {...mockProps} />
                   </FlexCol>
@@ -150,9 +139,7 @@ export const EarnTab = () => {
                       </TypographyVX>
                     </FlexRow>
                     <FlexRow className="text-navy-600 justify-between">
-                      <TypographyVX type="bold2">
-                        Est. time to break even
-                      </TypographyVX>
+                      <TypographyVX type="bold2">Est. time to break even</TypographyVX>
                       <TypographyVX type="medium2" className="text-navy-1000">
                         3 days
                       </TypographyVX>
@@ -172,11 +159,7 @@ export const EarnTab = () => {
             <div className="bg-neutral-0 shadow-card rounded-card py-6 px-8 mt-4">
               <Accordion>
                 <AccordionItem title="Learn more about this strategy">
-                  <img
-                    src={diagramPng}
-                    alt="ilmDiagram"
-                    className="hover:scale-125 ease-in duration-150"
-                  />
+                  <img src={diagramPng} alt="ilmDiagram" className="hover:scale-125 ease-in duration-150" />
                 </AccordionItem>
               </Accordion>
             </div>

@@ -78,11 +78,7 @@ const NavBar: React.FC<{
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        moreMenuRef.current &&
-         
-        !(moreMenuRef.current as any).contains(event.target)
-      ) {
+      if (moreMenuRef.current && !(moreMenuRef.current as any).contains(event.target)) {
         setIsMoreMenuOpen(false);
       }
     };
@@ -97,10 +93,7 @@ const NavBar: React.FC<{
     <div className="bg-background-header border-b border-slate-600 px-2 md:px-6 lg:px-8 flex flex-row items-center justify-between min-h-12">
       <FlexRow className="items-center justify-between w-full">
         <FlexRow className="items-center justify-start">
-          <Link
-            to={RouterConfig.Routes.markets}
-            className="flex items-center gap-2"
-          >
+          <Link to={RouterConfig.Routes.markets} className="flex items-center gap-2">
             <img src={SeamlessLogo} alt="logo" className="h-6 w-6" />
             <span className="text-primary-contrast">Seamless</span>
           </Link>
@@ -108,30 +101,19 @@ const NavBar: React.FC<{
           <div className="hidden md:ml-6 md:flex md:flex-row md:items-center">
             <div className="flex space-x-4">
               {navigation.map((item, index) => (
-                <div
-                  key={index}
-                  className="group relative px-4 py-3.5 flex items-center"
-                >
+                <div key={index} className="group relative px-4 py-3.5 flex items-center">
                   <span
                     className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
-                   />
+                  />
                   {item.isLifi ? (
                     <button onClick={() => toggleLifiWidget()}>
-                      <Typography
-                        className="text-base text-center"
-                        type="description"
-                        color="primary"
-                      >
+                      <Typography className="text-base text-center" type="description" color="primary">
                         {item.name}
                       </Typography>
                     </button>
                   ) : (
                     <Link to={item.href} className="h-max flex items-center">
-                      <Typography
-                        className="text-base text-center"
-                        type="description"
-                        color="primary"
-                      >
+                      <Typography className="text-base text-center" type="description" color="primary">
                         {item.name}
                       </Typography>
                     </Link>
@@ -153,12 +135,7 @@ const NavBar: React.FC<{
               {isMoreMenuOpen && (
                 <div className="absolute py-1 text-text-secondary left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   {moreMenuItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      to={item.href}
-                      target="_blank"
-                      className="block px-4 py-3 hover:bg-action-hover"
-                    >
+                    <Link key={index} to={item.href} target="_blank" className="block px-4 py-3 hover:bg-action-hover">
                       <FlexRow className="items-center gap-2">
                         {item.icon}
                         <Typography type="subheader1">{item.name}</Typography>
@@ -172,9 +149,7 @@ const NavBar: React.FC<{
         </FlexRow>
         <FlexRow className="justify-end gap-1 md:gap-4 items-center px-2">
           <span className="">
-            {typeof window !== "undefined" && (
-              <CBSubscribeButton config={{ ...CbSubscribeConfig }} />
-            )}
+            {typeof window !== "undefined" && <CBSubscribeButton config={{ ...CbSubscribeConfig }} />}
           </span>
           <div className="md:block hidden">
             <ConnectWalletRainbowWrapper />
@@ -186,9 +161,7 @@ const NavBar: React.FC<{
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <span className="sr-only">
-                {isMenuOpen ? "Close menu" : "Open menu"}
-              </span>
+              <span className="sr-only">{isMenuOpen ? "Close menu" : "Open menu"}</span>
               {isMenuOpen ? (
                 <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
               ) : (
@@ -207,10 +180,7 @@ export function NavigationBar() {
 
   return (
     <nav className=" border-b border-slate-600 text-white">
-      <NavBar
-        isMenuOpen={isMobileMenuOpen}
-        setIsMenuOpen={setIsMobileMenuOpen}
-      />
+      <NavBar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
 
       <MobileMenuContent isMenuOpen={isMobileMenuOpen} />
     </nav>
@@ -230,11 +200,7 @@ const MobileMenuContent: React.FC<{
           Menu
         </Typography>
         {navigation.map((item, index) => (
-          <Link
-            key={index}
-            to={item.href}
-            className="block py-4 rounded-md text-white hover:bg-slate-700"
-          >
+          <Link key={index} to={item.href} className="block py-4 rounded-md text-white hover:bg-slate-700">
             <Typography type="h2">{item.name}</Typography>
           </Link>
         ))}
@@ -243,11 +209,7 @@ const MobileMenuContent: React.FC<{
           Links
         </Typography>
         {moreMenuItems.map((item, index) => (
-          <Link
-            key={index}
-            to={item.href}
-            className="block py-4 rounded-md text-white hover:bg-slate-700"
-          >
+          <Link key={index} to={item.href} className="block py-4 rounded-md text-white hover:bg-slate-700">
             <Typography type="body1">{item.name}</Typography>
           </Link>
         ))}

@@ -1,8 +1,5 @@
 import { Address } from "viem";
-import {
-  protocolDataProviderAbi,
-  protocolDataProviderAddress,
-} from "../../../generated";
+import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -38,9 +35,7 @@ export const useFetchReserveCaps = (asset: Address): FetchData<AssetCaps> => {
   };
 };
 
-export const useFetchViewReserveCaps = (
-  asset: Address
-): Displayable<ViewReserveCaps> => {
+export const useFetchViewReserveCaps = (asset: Address): Displayable<ViewReserveCaps> => {
   const {
     isLoading,
     isFetched,

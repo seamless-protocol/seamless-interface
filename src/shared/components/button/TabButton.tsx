@@ -43,19 +43,14 @@ interface TabButtonProps<T> {
  * @returns A button that, when clicked, sets its associated tab as the active one within a tabbed interface.
  */
 
-export const TabButton = <T extends string>({
-  tab,
-  children,
-}: TabButtonProps<T>) => {
+export const TabButton = <T extends string>({ tab, children }: TabButtonProps<T>) => {
   const { activeTab, setActiveTab } = useTab<T>();
 
   return (
     <button
       onClick={() => setActiveTab(tab)}
       className={`min-w-32 relative py-4 text-bold3 ${
-        activeTab === tab
-          ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin"
-          : "text-navy-400"
+        activeTab === tab ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin" : "text-navy-400"
       }`}
     >
       {children}

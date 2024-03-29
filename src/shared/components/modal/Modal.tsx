@@ -18,20 +18,7 @@ export interface ModalHandles {
 }
 
 export const Modal = forwardRef<ModalHandles, ModalProps>(
-  (
-    {
-      children,
-      buttonProps,
-      buttonText,
-      icon,
-      onOpen,
-      onClose,
-      fullScreen,
-      header,
-      className,
-    },
-    ref
-  ) => {
+  ({ children, buttonProps, buttonText, icon, onOpen, onClose, fullScreen, header, className }, ref) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     useImperativeHandle(ref, () => ({

@@ -6,11 +6,7 @@ export const SmallWatchAssetButton: React.FC<{
   onClick?: () => void;
 }> = ({ onClick }) => {
   return (
-    <Tooltip
-      tooltip={<Typography type="description">Add Token To Wallet</Typography>}
-      size="small"
-      theme="dark"
-    >
+    <Tooltip tooltip={<Typography type="description">Add Token To Wallet</Typography>} size="small" theme="dark">
       <button
         onClick={onClick}
         // eslint-disable-next-line react/no-invalid-html-attribute

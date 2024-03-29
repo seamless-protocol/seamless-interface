@@ -10,26 +10,13 @@ export const Heading = () => {
       <FlexCol>
         <Typography type="h1">Seamless Markets</Typography>
         <Typography type="description" color="light">
-          Paving the way for Modern DeFi with lending, borrowing, and automated
-          strategies
+          Paving the way for Modern DeFi with lending, borrowing, and automated strategies
         </Typography>
       </FlexCol>
       <FlexRow className="gap-8">
-        <HeadingColumn
-          title="Total market size"
-          {...data?.totalMarketSizeUsd}
-          isFetched={isFetched}
-        />
-        <HeadingColumn
-          title="Total available"
-          {...data?.totalAvailableUsd}
-          isFetched={isFetched}
-        />
-        <HeadingColumn
-          title="Total borrows"
-          {...data?.totalBorrowsUsd}
-          isFetched={isFetched}
-        />
+        <HeadingColumn title="Total market size" {...data?.totalMarketSizeUsd} isFetched={isFetched} />
+        <HeadingColumn title="Total available" {...data?.totalAvailableUsd} isFetched={isFetched} />
+        <HeadingColumn title="Total borrows" {...data?.totalBorrowsUsd} isFetched={isFetched} />
       </FlexRow>
     </FlexCol>
   );

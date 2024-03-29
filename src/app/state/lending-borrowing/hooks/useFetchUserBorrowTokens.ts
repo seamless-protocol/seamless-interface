@@ -5,9 +5,6 @@ export const useFetchUserBorrowTokens = () => {
 
   return {
     ...rest,
-    data:
-      data?.[0]
-        .filter((reserve) => reserve.scaledVariableDebt > 0)
-        .map((reserve) => reserve.underlyingAsset) || [],
+    data: data?.[0].filter((reserve) => reserve.scaledVariableDebt > 0).map((reserve) => reserve.underlyingAsset) || [],
   };
 };

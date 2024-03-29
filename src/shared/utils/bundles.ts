@@ -1,9 +1,5 @@
 import { Address, decodeEventLog, pad, parseEther } from "viem";
-import {
-  createApproveTx,
-  createDepositTx,
-  createWithdrawTx,
-} from "./bundlesHelpers";
+import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 
@@ -73,7 +69,7 @@ export async function simulateDeposit(
     }
 
     // Take logs from second transaction
-    const {logs} = result[1];
+    const { logs } = result[1];
     // Deposit even is the last event
     const depositEvent = logs[logs?.length - 1];
 
@@ -87,11 +83,7 @@ export async function simulateDeposit(
     const decodedDepositEvent = decodeEventLog({
       abi: depositEventAbi,
       data: depositEvent.data,
-      topics: [
-        depositEvent.topics[0],
-        pad(depositEvent.topics[1]),
-        pad(depositEvent.topics[2]),
-      ] as any,
+      topics: [depositEvent.topics[0], pad(depositEvent.topics[1]), pad(depositEvent.topics[2])] as any,
     });
 
     const sharesToReceive = decodedDepositEvent.args.shares;
@@ -108,11 +100,7 @@ export async function simulateDeposit(
   }
 }
 
-export async function simulateWithdraw(
-  account: Address,
-  strategy: Address,
-  amount: string
-): Promise<PreviewWithdraw> {
+export async function simulateWithdraw(account: Address, strategy: Address, amount: string): Promise<PreviewWithdraw> {
   if (parseEther(amount) === 0n) {
     return {
       isSuccess: true,
@@ -121,9 +109,7 @@ export async function simulateWithdraw(
   }
 
   try {
-    const { result } = await simulateBundle([
-      createWithdrawTx(account, strategy, amount),
-    ]);
+    const { result } = await simulateBundle([createWithdrawTx(account, strategy, amount)]);
 
     if (!result || !result[0].logs) {
       return {
@@ -132,7 +118,7 @@ export async function simulateWithdraw(
       };
     }
 
-    const {logs} = result[0];
+    const { logs } = result[0];
     // Withdraw event is the last event
     const withdrawEvent = logs[logs?.length - 1];
 

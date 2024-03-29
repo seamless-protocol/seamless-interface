@@ -15,13 +15,7 @@ interface IProps<T> extends RHFInputFieldProps<T> {
   usdValue: string;
 }
 
-export function RHFAmountInput<T>({
-  name,
-  assetAddress,
-  walletBalance,
-  usdValue,
-  ...other
-}: IProps<T>) {
+export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue, ...other }: IProps<T>) {
   const { setValue } = useFormContext();
   const { data: tokenData } = useFullTokenData(assetAddress); // todo get asset as well
 
@@ -31,10 +25,7 @@ export function RHFAmountInput<T>({
       console.warn("Token data coulnd't be loaded.");
       return;
     }
-    setValue(
-      name as string,
-      formatUnits(walletBalance.bigIntValue || 0n, tokenData?.decimals)
-    );
+    setValue(name as string, formatUnits(walletBalance.bigIntValue || 0n, tokenData?.decimals));
   };
 
   return (
@@ -51,9 +42,7 @@ export function RHFAmountInput<T>({
           </div>
 
           <FlexRow className="gap-2">
-            <TypographyV2 type="medium2">
-              Balance: {walletBalance.viewValue}
-            </TypographyV2>
+            <TypographyV2 type="medium2">Balance: {walletBalance.viewValue}</TypographyV2>
 
             <button type="button" onClick={handleMaxClick}>
               <TypographyV2 type="bold2">MAX</TypographyV2>

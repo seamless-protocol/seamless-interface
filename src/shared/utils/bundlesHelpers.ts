@@ -1,12 +1,7 @@
 import { loopStrategyAbi } from "@generated";
 import { Address, encodeFunctionData, erc20Abi, parseUnits } from "viem";
 
-export function createApproveTx(
-  account: Address,
-  asset: Address,
-  spender: Address,
-  amount: string
-) {
+export function createApproveTx(account: Address, asset: Address, spender: Address, amount: string) {
   return {
     from: account,
     to: asset,
@@ -18,11 +13,7 @@ export function createApproveTx(
   };
 }
 
-export function createDepositTx(
-  account: Address,
-  strategyAddress: Address,
-  amount: string
-) {
+export function createDepositTx(account: Address, strategyAddress: Address, amount: string) {
   return {
     from: account,
     to: strategyAddress,
@@ -34,11 +25,7 @@ export function createDepositTx(
   };
 }
 
-export function createWithdrawTx(
-  account: Address,
-  strategyAddress: Address,
-  amount: string
-) {
+export function createWithdrawTx(account: Address, strategyAddress: Address, amount: string) {
   return {
     from: account,
     to: strategyAddress,

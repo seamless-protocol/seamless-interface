@@ -11,20 +11,14 @@ interface TotalSupplied {
   totalSuppliedUsd: FetchBigInt;
 }
 
-export const useFetchDetailTotalSupplied = (
-  asset: Address
-): FetchData<TotalSupplied> => {
+export const useFetchDetailTotalSupplied = (asset: Address): FetchData<TotalSupplied> => {
   const {
     isLoading: isReserveDataLoading,
     isFetched: isReserveDataFetched,
     data: { totalSupplied },
   } = useFetchReserveData(asset);
 
-  const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-    data: price,
-  } = useFetchAssetPrice(asset);
+  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(asset);
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,
@@ -34,9 +28,7 @@ export const useFetchDetailTotalSupplied = (
         ...totalSupplied,
       },
       totalSuppliedUsd: {
-        bigIntValue:
-          (totalSupplied.bigIntValue * price.bigIntValue) /
-          BigInt(10 ** totalSupplied.decimals),
+        bigIntValue: (totalSupplied.bigIntValue * price.bigIntValue) / BigInt(10 ** totalSupplied.decimals),
         symbol: "$",
         decimals: 8,
       },
@@ -44,9 +36,7 @@ export const useFetchDetailTotalSupplied = (
   };
 };
 
-export const useFetchViewDetailTotalSupplied = (
-  asset: Address
-): Displayable<ViewDetailTotalSupplied> => {
+export const useFetchViewDetailTotalSupplied = (asset: Address): Displayable<ViewDetailTotalSupplied> => {
   const {
     isLoading,
     isFetched,

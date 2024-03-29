@@ -62,12 +62,7 @@ const StrategiesTableRow: React.FC<{ index: number }> = ({ index }) => {
         strategy={strategy}
         isFetched={isFetched}
       />
-      <StrategiesMobileTableRow
-        index={index}
-        isFetched={isFetched}
-        columnNames={columnNames}
-        strategy={strategy}
-      />
+      <StrategiesMobileTableRow index={index} isFetched={isFetched} columnNames={columnNames} strategy={strategy} />
     </>
   );
 };

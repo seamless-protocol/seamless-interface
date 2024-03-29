@@ -2,11 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const ConnectButtonStyled: React.FC<ButtonProps> = ({
-  className = "",
-  children,
-  ...other
-}) => {
+export const ConnectButtonStyled: React.FC<ButtonProps> = ({ className = "", children, ...other }) => {
   return (
     <button
       {...other}

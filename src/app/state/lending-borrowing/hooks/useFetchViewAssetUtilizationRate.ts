@@ -5,9 +5,7 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { ONE_ETHER } from "@meta";
 
-export const useFetchAssetUtilizationRate = (
-  asset: Address
-): FetchData<FetchBigInt> => {
+export const useFetchAssetUtilizationRate = (asset: Address): FetchData<FetchBigInt> => {
   const {
     isLoading,
     isFetched,
@@ -16,9 +14,7 @@ export const useFetchAssetUtilizationRate = (
 
   let utilizationRate;
   if (totalSupplied.bigIntValue && totalBorrowed.bigIntValue) {
-    utilizationRate =
-      (totalBorrowed.bigIntValue * ONE_ETHER * 100n) /
-      totalSupplied.bigIntValue;
+    utilizationRate = (totalBorrowed.bigIntValue * ONE_ETHER * 100n) / totalSupplied.bigIntValue;
   }
 
   return {
@@ -32,14 +28,8 @@ export const useFetchAssetUtilizationRate = (
   };
 };
 
-export const useFetchViewAssetUtilizationRate = (
-  asset: Address
-): Displayable<ViewBigInt> => {
-  const {
-    isLoading,
-    isFetched,
-    data: utilizationRate,
-  } = useFetchAssetUtilizationRate(asset);
+export const useFetchViewAssetUtilizationRate = (asset: Address): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: utilizationRate } = useFetchAssetUtilizationRate(asset);
 
   return {
     isLoading,

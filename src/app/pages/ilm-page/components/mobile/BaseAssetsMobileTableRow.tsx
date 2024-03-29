@@ -31,112 +31,60 @@ export const BaseAssetsMobileTableRow: React.FC<{
   return (
     <FlexCol className="md:hidden p-4 pb-6">
       <FlexRow className="justify-start items-start gap-3 text-start mb-4">
-        <Icon
-          isLoading={isLoading}
-          src={assets?.depositAsset.logo}
-          alt={assets?.depositAsset.name || "asset"}
-        />
+        <Icon isLoading={isLoading} src={assets?.depositAsset.logo} alt={assets?.depositAsset.name || "asset"} />
 
         <div className="min-h-14 w-full">
           <span className="skeleton w-full h-full" />
-          <DisplayText
-            typography="h4"
-            text={assets?.depositAsset.name}
-            isLoading={isLoading}
-          />
-          <DisplayText
-            typography="subheader2"
-            text={assets?.depositAsset.symbol}
-            isLoading={isLoading}
-          />
+          <DisplayText typography="h4" text={assets?.depositAsset.name} isLoading={isLoading} />
+          <DisplayText typography="subheader2" text={assets?.depositAsset.symbol} isLoading={isLoading} />
         </div>
       </FlexRow>
 
       <FlexCol className="gap-2">
         <FlexCol className="gap-4">
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_2}
-              isLoading={isLoading}
-            />
+            <DisplayText typography="description" text={columnNames.c_2} isLoading={isLoading} />
             <FlexCol>
               <DisplayTokenAmount
                 typography="secondary14"
                 isLoading={isLoading}
                 {...assets?.totalSupplied?.tokenAmount}
               />
-              <DisplayMoney
-                typography="secondary12"
-                isLoading={isLoading}
-                {...assets?.totalSupplied?.dollarAmount}
-              />
+              <DisplayMoney typography="secondary12" isLoading={isLoading} {...assets?.totalSupplied?.dollarAmount} />
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_3}
-              isLoading={isLoading}
-            />
+            <DisplayText typography="description" text={columnNames.c_3} isLoading={isLoading} />
             <FlexCol className="items-end">
-              <DisplayPercentage
-                typography="secondary14"
-                {...assets?.supplyApy}
-                isLoading={isLoading}
-              />
+              <DisplayPercentage typography="secondary14" {...assets?.supplyApy} isLoading={isLoading} />
               <IncentivesButton {...assets?.supplyIncentives}>
                 <IncentivesDetailCard {...assets?.supplyIncentives} />
               </IncentivesButton>
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_4}
-              isLoading={isLoading}
-            />
+            <DisplayText typography="description" text={columnNames.c_4} isLoading={isLoading} />
             <FlexCol>
               <DisplayTokenAmount
                 typography="secondary14"
                 isLoading={isLoading}
                 {...assets?.totalBorrowed?.tokenAmount}
               />
-              <DisplayMoney
-                typography="secondary12"
-                isLoading={isLoading}
-                {...assets?.totalBorrowed?.dollarAmount}
-              />
+              <DisplayMoney typography="secondary12" isLoading={isLoading} {...assets?.totalBorrowed?.dollarAmount} />
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_5}
-              isLoading={isLoading}
-            />
+            <DisplayText typography="description" text={columnNames.c_5} isLoading={isLoading} />
             <FlexCol className="items-end">
-              <DisplayPercentage
-                typography="secondary14"
-                {...assets?.borrowApyVariable}
-                isLoading={isLoading}
-              />
+              <DisplayPercentage typography="secondary14" {...assets?.borrowApyVariable} isLoading={isLoading} />
               <IncentivesButton {...assets?.borrowVariableIncentives}>
                 <IncentivesDetailCard {...assets?.borrowVariableIncentives} />
               </IncentivesButton>
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_6}
-              isLoading={isLoading}
-            />
-            <DisplayPercentage
-              typography="secondary14"
-              {...assets?.borrowApyStable}
-              isLoading={isLoading}
-            />
+            <DisplayText typography="description" text={columnNames.c_6} isLoading={isLoading} />
+            <DisplayPercentage typography="secondary14" {...assets?.borrowApyStable} isLoading={isLoading} />
           </LocalMobileTableRow>
         </FlexCol>
         <LocalMobileTableRow>

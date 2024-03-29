@@ -9,9 +9,7 @@ interface AmountInputWithdrawWrapperProps {
   debouncedAmountInUsd: number;
 }
 
-export const AmountInputWithdrawWrapper: React.FC<
-  AmountInputWithdrawWrapperProps
-> = ({ id, debouncedAmountInUsd }) => {
+export const AmountInputWithdrawWrapper: React.FC<AmountInputWithdrawWrapperProps> = ({ id, debouncedAmountInUsd }) => {
   const { logo, address: assetAddress } = ilmStrategies[id];
 
   // TODO: properly invallidate query!!!

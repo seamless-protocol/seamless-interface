@@ -6,8 +6,6 @@ export const useFetchUserSupplyTokens = () => {
   return {
     ...rest,
     data:
-      data?.[0]
-        .filter((reserve) => reserve.scaledATokenBalance > 0)
-        .map((reserve) => reserve.underlyingAsset) || [],
+      data?.[0].filter((reserve) => reserve.scaledATokenBalance > 0).map((reserve) => reserve.underlyingAsset) || [],
   };
 };

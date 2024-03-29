@@ -1,13 +1,7 @@
 import React from "react";
 
 interface ImageProps
-  extends Omit<
-    React.DetailedHTMLProps<
-      React.ImgHTMLAttributes<HTMLImageElement>,
-      HTMLImageElement
-    >,
-    "alt"
-  > {
+  extends Omit<React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>, "alt"> {
   alt: string;
   isLoading?: boolean;
   isFetched?: boolean;

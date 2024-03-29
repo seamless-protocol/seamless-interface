@@ -25,9 +25,7 @@ export interface ViewStrategy {
   };
 }
 
-export const useFetchViewStrategy = (
-  index: number
-): Displayable<ViewStrategy> => {
+export const useFetchViewStrategy = (index: number): Displayable<ViewStrategy> => {
   const strategyConfig = ilmStrategies[index];
 
   const {
@@ -48,23 +46,11 @@ export const useFetchViewStrategy = (
     isFetched: isUserBalanceFetched,
   } = useFetchViewDetailAssetBalance(strategyConfig.underlyingAsset.address);
 
-  const {
-    isLoading: isApyLoading,
-    isFetched: isApyFetched,
-    data: apy,
-  } = useFetchViewStrategyApy(index);
+  const { isLoading: isApyLoading, isFetched: isApyFetched, data: apy } = useFetchViewStrategyApy(index);
 
   return {
-    isLoading:
-      isTargetMultipleLoading ||
-      isStrategyBalanceLoading ||
-      isApyLoading ||
-      isUserBalanceLoading,
-    isFetched:
-      isTargetMultipleFetched &&
-      isStrategyBalanceFetched &&
-      isApyFetched &&
-      isUserBalanceFetched,
+    isLoading: isTargetMultipleLoading || isStrategyBalanceLoading || isApyLoading || isUserBalanceLoading,
+    isFetched: isTargetMultipleFetched && isStrategyBalanceFetched && isApyFetched && isUserBalanceFetched,
     data: {
       strategyName: strategyConfig.name,
       depositAsset: {

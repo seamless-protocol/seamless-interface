@@ -1,10 +1,7 @@
 import { Address } from "viem";
 import { Displayable } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
-import {
-  IncentiveApr,
-  parseIncentives,
-} from "../../../../shared/utils/aaveIncentivesHelpers";
+import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveAprToViewNumber } from "../../../../shared/utils/helpers";
 import { Fetch } from "../../../../shared/types/Fetch";
@@ -15,9 +12,7 @@ interface BorrowIncentives {
   borrowIncentives: IncentiveApr;
 }
 
-export const useFetchBorrowIncentives = (
-  asset: Address
-): Fetch<BorrowIncentives> => {
+export const useFetchBorrowIncentives = (asset: Address): Fetch<BorrowIncentives> => {
   const {
     isLoading: isIncentivesLoading,
     isFetched: isIncentivesFetched,
@@ -35,11 +30,7 @@ export const useFetchBorrowIncentives = (
   let borrowIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
   if (incentives && totalBorrowedUsd && seamPrice) {
     if (incentives && incentives.vIncentiveData) {
-      borrowIncentives = parseIncentives(
-        incentives?.vIncentiveData,
-        totalBorrowedUsd.bigIntValue,
-        seamPrice
-      );
+      borrowIncentives = parseIncentives(incentives?.vIncentiveData, totalBorrowedUsd.bigIntValue, seamPrice);
     }
   }
 
@@ -50,11 +41,8 @@ export const useFetchBorrowIncentives = (
   };
 };
 
-export const useFetchViewBorrowIncentives = (
-  asset: Address
-): Displayable<ViewIncentives> => {
-  const { isLoading, isFetched, borrowIncentives } =
-    useFetchBorrowIncentives(asset);
+export const useFetchViewBorrowIncentives = (asset: Address): Displayable<ViewIncentives> => {
+  const { isLoading, isFetched, borrowIncentives } = useFetchBorrowIncentives(asset);
 
   return {
     isLoading,

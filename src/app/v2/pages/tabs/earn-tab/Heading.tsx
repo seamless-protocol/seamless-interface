@@ -8,19 +8,16 @@ export const Heading = () => {
       <div className="col-span-5">
         <FlexCol className="gap-3">
           <FlexCol className="gap-2">
-            <TypographyV2 type="bold5">
-              Multiply wstETH staking rewards
-            </TypographyV2>
+            <TypographyV2 type="bold5">Multiply wstETH staking rewards</TypographyV2>
             <TypographyV2 type="regular1">
-              This integrated Liquidity Market (ILM) uses wstETH deposits to
-              borrow ETH, which is used to purchase more wstETH to achieve the
-              targeted multiple. This amplifies the participant&apos;s wstETH and ETH
-              staking reward exposure.
+              This integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more
+              wstETH to achieve the targeted multiple. This amplifies the participant&apos;s wstETH and ETH staking
+              reward exposure.
             </TypographyV2>
           </FlexCol>
           <FlexRow className="gap-2">
             <TypographyV2 type="medium3">Learn more</TypographyV2>
-            <ArrowRightCircleIcon  width={22} />
+            <ArrowRightCircleIcon width={22} />
           </FlexRow>
         </FlexCol>
       </div>

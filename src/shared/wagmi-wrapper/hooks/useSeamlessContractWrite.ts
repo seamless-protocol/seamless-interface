@@ -33,10 +33,7 @@ export type SeamlessWriteAsyncParams = {
  * - {Function} writeContractAsync - Function to trigger the write operation.
  */
 
-
-export function useSeamlessContractWrite(
-  settings?: SeamlessWriteAsyncParams,
-) {
+export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
   const wagmiConfig = useConfig();
 
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -54,39 +51,34 @@ export function useSeamlessContractWrite(
       onSettled: async (txHash, error, args) => {
         try {
           if (error) throw error;
-    
+
           // 1. wait for transaction receipt
           const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
             hash: txHash!,
           });
-    
+
           // 2. throw if receipt is not valid
-          if (txReceipt.status === "reverted")
-            throw new Error("Execution reverted."); // todo: better way to handle reverted?
-    
+          if (txReceipt.status === "reverted") throw new Error("Execution reverted."); // todo: better way to handle reverted?
+
           // 3. invalidate queries
           if (settings?.queriesToInvalidate) await invalidateMany(settings?.queriesToInvalidate);
-    
+
           // 4. call onSuccess callback
           settings?.onSuccess?.(txHash!);
-    
+
           // 5. log result
           console.info("Operation successful:", txHash); // todo: add logging service
-    
+
           // 6. return result
           return txHash;
         } catch (error) {
           // 1. log error
-          console.error(
-            "UseSeamlessContractWrite Operation failed:",
-            { error },
-            { args }
-          );
-    
+          console.error("UseSeamlessContractWrite Operation failed:", { error }, { args });
+
           const parsedError = getParsedError(error);
           // 2. set error message
           setErrorMessage(parsedError);
-    
+
           // 3. show error notification
           if (!settings?.hideDefaultErrorOnNotification) {
             showNotification({
@@ -94,7 +86,7 @@ export function useSeamlessContractWrite(
               content: parsedError,
             });
           }
-    
+
           // 4. call callback
           settings?.onError?.(error);
           // todo: display error notification always?
