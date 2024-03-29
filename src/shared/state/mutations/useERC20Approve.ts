@@ -1,49 +1,31 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSeamlessContractWrite } from "../../wagmi-wrapper/hooks/useSeamlessContractWrite";
 
 const ALWAYS_APPROVE_MAX = false;
 
 /**
- * Custom hook to manage ERC-20 token approval process in Ethereum-based networks.
+ * Custom hook for approving ERC20 token transfers.
  *
- * This hook abstracts the logic to check if a spender is already approved to spend a specific amount of tokens on behalf of the token owner.
- * If the spender is not approved or the approved amount is below a certain threshold, the hook provides a method to approve the spender.
+ * This hook provides functionality for approving ERC20 token transfers, checking the current allowance, and handling the approval transaction using Wagmi.
  *
- * @param {Address} tokenAddress - The Ethereum address of the ERC-20 token contract.
- * @param {Address} spenderAddress - The Ethereum address of the spender contract or account to approve.
- * @param {bigint} [amount=parseUnits(0)] - The minimum amount of tokens that should be approved for the spender. Defaults to 0.
- * @returns {Object} An object containing the approval state (`isApproved`), whether an approval transaction is in progress (`isApproving`),
- * a method to trigger the approval process (`approveAsync`), and a method to check the current approval status (`checkApproval`).
- *
- * @example
- * const { isApproved, isApproving, approveAsync, checkApproval } = useERC20Approve(tokenAddress, spenderAddress, BigInt(1000));
- *
- * useEffect(() => {
- *   checkApproval();
- * }, [checkApproval]);
- *
- * const handleApprove = async () => {
- *   await approveAsync(parseUnits(2000));
- * };
+ * @param {Address} tokenAddress - The address of the ERC20 token contract.
+ * @param {Address} spenderAddress - The address of the spender to approve the transfer to.
+ * @param {bigint} [amount=BigInt(0)] - The amount of tokens to approve for transfer. Defaults to 0.
+ * @returns {Object} Object containing the following properties:
+ * - {boolean} isApproved - Indicates whether the spender is already approved to transfer the specified amount of tokens.
+ * - {boolean} isApproving - Indicates whether an approval transaction is currently pending.
+ * - {Function} approveAsync - Function to trigger the approval transaction.
  */
+
 export const useERC20Approve = (
   tokenAddress: Address,
   spenderAddress: Address,
   amount: bigint = BigInt(0)
 ) => {
-  const queryClient = useQueryClient();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
-  const [isApproving, setIsApproving] = useState(false);
-
-  const { seamlessWriteAsync: approveTokenAsync } = useSeamlessContractWrite({
-    address: tokenAddress,
-    abi: erc20Abi,
-    functionName: "approve",
-  });
 
   const { data: allowance, queryKey } = useReadContract({
     address: tokenAddress,
@@ -52,7 +34,11 @@ export const useERC20Approve = (
     args: [address as Address, spenderAddress],
   });
 
-  const checkApproval = useCallback(async () => {
+  const { writeContractAsync: approveTokenAsync, isPending } = useSeamlessContractWrite({
+    queriesToInvalidate: [queryKey]
+  });
+
+  useEffect(() => {
     if (allowance && allowance >= amount) {
       setIsApproved(true);
     } else {
@@ -60,30 +46,22 @@ export const useERC20Approve = (
     }
   }, [allowance, amount]);
 
-  useEffect(() => {
-    checkApproval();
-  }, [checkApproval]);
-
   const approveAsync = async () => {
-    const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
-
-    setIsApproving(true);
+    const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount;
 
     await approveTokenAsync(
       {
+        address: tokenAddress,
+        abi: erc20Abi,
+        functionName: "approve",
         args: [spenderAddress, amountToApprove],
       },
-      {
-        onSuccess: () => queryClient.invalidateQueries({ queryKey }),
-        onSettled: () => setIsApproving(false),
-      }
     );
   };
 
   return {
     isApproved,
-    isApproving,
+    isApproving: isPending,
     approveAsync,
-    checkApproval,
   };
 };

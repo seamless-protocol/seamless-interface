@@ -15,15 +15,9 @@ export const useMutateDepositStrategy = (id: number) => {
   );
 
   // hook call
-  const { seamlessWriteAsync, ...rest } = useSeamlessContractWrite(
-    {
-      address: ilmStrategies[id].address,
-      abi: loopStrategyAbi,
-      functionName: "deposit",
-    },
-    // array of query keys to invalidate, when mutation happens!
-    [accountAssetBalanceQK]
-  );
+  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    queriesToInvalidate: [accountAssetBalanceQK], // array of query keys to invalidate, when mutation happens!
+  });
 
   // mutation wrapper
   const depositAsync = async (
@@ -35,9 +29,12 @@ export const useMutateDepositStrategy = (id: number) => {
     settings?: SeamlessWriteAsyncParams
   ) => {
     // todo: bugfix fetch sharesToReceive here instead of using it from props to avoid race condition bug.
-    await seamlessWriteAsync(
+    await writeContractAsync(
       {
         // ui -> contract arguments
+        address: ilmStrategies[id].address,
+        abi: loopStrategyAbi,
+        functionName: "deposit",
         args: [
           parseUnits(args.amount, 18),
           address as Address,
