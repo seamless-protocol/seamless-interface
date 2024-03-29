@@ -17,7 +17,7 @@ export const LiFiWidgetWrapper = () => {
 
   const LifiConfigWidgetConfig: WidgetConfig = {
     ...lifiConfig,
-    hiddenUI: [HiddenUI.DrawerButton],
+    hiddenUI: [HiddenUI.DrawerCloseButton],
   };
 
   const notifyStart = () => console.log("Swap started");

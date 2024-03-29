@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSeamlessContractWrite } from "../../wagmi-wrapper/hooks/useSeamlessContractWrite";
 
 const ALWAYS_APPROVE_MAX = false;
@@ -34,16 +33,8 @@ export const useERC20Approve = (
   spenderAddress: Address,
   amount: bigint = BigInt(0)
 ) => {
-  const queryClient = useQueryClient();
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
-  const [isApproving, setIsApproving] = useState(false);
-
-  const { seamlessWriteAsync: approveTokenAsync } = useSeamlessContractWrite({
-    address: tokenAddress,
-    abi: erc20Abi,
-    functionName: "approve",
-  });
 
   const { data: allowance, queryKey } = useReadContract({
     address: tokenAddress,
@@ -52,7 +43,11 @@ export const useERC20Approve = (
     args: [address as Address, spenderAddress],
   });
 
-  const checkApproval = useCallback(async () => {
+  const { writeContractAsync: approveTokenAsync, isPending } = useSeamlessContractWrite({
+    queriesToInvalidate: [queryKey]
+  });
+
+  useEffect(() => {
     if (allowance && allowance >= amount) {
       setIsApproved(true);
     } else {
@@ -60,30 +55,22 @@ export const useERC20Approve = (
     }
   }, [allowance, amount]);
 
-  useEffect(() => {
-    checkApproval();
-  }, [checkApproval]);
-
   const approveAsync = async () => {
-    const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount || 0n;
-
-    setIsApproving(true);
+    const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount;
 
     await approveTokenAsync(
       {
+        address: tokenAddress,
+        abi: erc20Abi,
+        functionName: "approve",
         args: [spenderAddress, amountToApprove],
       },
-      {
-        onSuccess: () => queryClient.invalidateQueries({ queryKey }),
-        onSettled: () => setIsApproving(false),
-      }
     );
   };
 
   return {
     isApproved,
-    isApproving,
+    isApproving: isPending,
     approveAsync,
-    checkApproval,
   };
 };

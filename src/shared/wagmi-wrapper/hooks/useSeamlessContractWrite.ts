@@ -1,9 +1,7 @@
-import { Abi, Address, ContractFunctionName } from "viem";
-import { createUseWriteContract } from "wagmi/codegen";
-import { CreateUseWriteContractParameters } from "wagmi/dist/types/hooks/codegen/createUseWriteContract";
-import { useConfig } from "wagmi";
-import { waitForTransactionReceipt } from "@wagmi/core";
-import { useEffect, useState } from "react";
+import { Address } from "viem";
+import { useConfig, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "wagmi/actions";
+import { useState } from "react";
 import { getParsedError } from "../../utils/errorParser";
 import { useInvalidateQueries } from "./useInvalidateQueries";
 import { QueryKey } from "@tanstack/query-core";
@@ -11,10 +9,11 @@ import { useNotificationContext } from "../../contexts/notification/useNotificat
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
-   
+
   onError?: (e: any) => void;
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
+  queriesToInvalidate?: (QueryKey | undefined)[];
 };
 
 /**
@@ -66,109 +65,84 @@ export type SeamlessWriteAsyncParams = {
  * @returns An object with the `seamlessWriteAsync` function for executing the write operation, along with `errorMessage` for any errors that occurred, and other properties from the underlying `createUseWriteContract` hook.
  */
 
-export function useSeamlessContractWrite<
-  TAbi extends Abi | readonly unknown[],
-  TAddress extends Address | Record<number, Address> | undefined = undefined,
-  TFunctionName extends
-    | ContractFunctionName<TAbi, "nonpayable" | "payable">
-    | undefined = undefined,
->(
-  config: CreateUseWriteContractParameters<TAbi, TAddress, TFunctionName>,
-  queriesToInvalidate?: (QueryKey | undefined)[]
+export function useSeamlessContractWrite(
+  settings?: SeamlessWriteAsyncParams,
 ) {
-  // ********** //
-  // Write hook //
-  // ********** //
-  const writeHook = createUseWriteContract({ ...config });
-  const { writeContractAsync, error, ...rest } = writeHook();
-  // *********** //
-  // Query cache //
-  // *********** //
-  const { invalidateMany } = useInvalidateQueries();
-  // ****** //
-  // Config //
-  // ****** //
   const wagmiConfig = useConfig();
-  // *********** //
-  // Local state //
-  // *********** //
+
   const [isPending, setIsPending] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  useEffect(() => {
-    setErrorMessage(error?.message); // todo: might this override errorMessage set in error handler?
-  }, [error?.message, setErrorMessage]);
-  // ************ //
-  // Notification //
-  // ************ //
+
+  const { invalidateMany } = useInvalidateQueries();
+
+  const onMutate = async () => setIsPending(true);
+
   const { showNotification } = useNotificationContext();
 
-  // ********************** //
-  // Write contract wrapper //
-  // ********************** //
-  const seamlessWriteAsync = async (
-    args: Parameters<typeof writeContractAsync>[0],
-    settings?: SeamlessWriteAsyncParams
-  ) => {
-    try {
-      setIsPending(true);
-      // 1. write contract async
-      const txHash = await writeContractAsync(args);
-
-      // 2. wait for transaction receipt
-      const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
-        hash: txHash,
-      });
-
-      // 3. throw if receipt is not valid
-      if (txReceipt.status === "reverted")
-        throw new Error("Execution reverted."); // todo: better way to handle reverted?
-
-      // 4. invalidate queries
-      if (queriesToInvalidate) await invalidateMany(queriesToInvalidate);
-
-      // 5. call onSuccess callback
-      settings?.onSuccess?.(txHash);
-
-      // 6. log result
-      console.info("Operation successful:", txHash); // todo: add logging service
-
-      // 7. return result
-      return txHash;
-    } catch (error) {
-      // 1. log error
-      console.error(
-        "UseSeamlessContractWrite Operation failed:",
-        { error },
-        { args }
-      );
-
-      const parsedError = getParsedError(error);
-      // 2. set error message
-      setErrorMessage(parsedError);
-
-      // 3. show error notification
-      if (!settings?.hideDefaultErrorOnNotification) {
-        showNotification({
-          status: "error",
-          content: parsedError,
-        });
-      }
-
-      // 4. call callback
-      settings?.onError?.(error);
-      // todo: display error notification always?
-    } finally {
-      setIsPending(false);
-      // 1. call callback
-      settings?.onSettled?.();
-    }
-    return undefined;
-  };
+  const { writeContractAsync, ...rest } = useWriteContract({
+    mutation: {
+      onMutate,
+      onSettled: async (txHash, error, args) => {
+        try {
+          if (error) throw error;
+    
+          // 1. wait for transaction receipt
+          const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
+            hash: txHash!,
+          });
+    
+          // 2. throw if receipt is not valid
+          if (txReceipt.status === "reverted")
+            throw new Error("Execution reverted."); // todo: better way to handle reverted?
+    
+          // 3. invalidate queries
+          if (settings?.queriesToInvalidate) await invalidateMany(settings?.queriesToInvalidate);
+    
+          // 4. call onSuccess callback
+          settings?.onSuccess?.(txHash!);
+    
+          // 5. log result
+          console.info("Operation successful:", txHash); // todo: add logging service
+    
+          // 6. return result
+          return txHash;
+        } catch (error) {
+          // 1. log error
+          console.error(
+            "UseSeamlessContractWrite Operation failed:",
+            { error },
+            { args }
+          );
+    
+          const parsedError = getParsedError(error);
+          // 2. set error message
+          setErrorMessage(parsedError);
+    
+          // 3. show error notification
+          if (!settings?.hideDefaultErrorOnNotification) {
+            showNotification({
+              status: "error",
+              content: parsedError,
+            });
+          }
+    
+          // 4. call callback
+          settings?.onError?.(error);
+          // todo: display error notification always?
+        } finally {
+          setIsPending(false);
+          // 1. call callback
+          settings?.onSettled?.();
+        }
+        return undefined;
+      },
+    },
+  });
 
   return {
     ...rest,
     errorMessage,
     isPending,
-    seamlessWriteAsync,
+    writeContractAsync,
   };
 }

@@ -9,9 +9,9 @@ import {
 import { IS_DEV_MODE } from "../../globals";
 
 if (!IS_DEV_MODE) {
-  const PROD_URLS = [
-    "https://app.seamlessprotocol.com",
-    /^https:\/\/app\.seamlessprotocol\.com\/.*/,
+  const BLOCKED_URLS = [
+    "localhost",
+    /.*vercel\.app/
   ];
 
   Sentry.init({
@@ -33,11 +33,10 @@ if (!IS_DEV_MODE) {
         matchRoutes,
       }),
     ],
-    allowUrls: PROD_URLS,
+    denyUrls: BLOCKED_URLS,
     // Performance Monitoring
     tracesSampleRate: 0.5, //  Capture 50% of the transactions
-    // https://app.seamlessprotocol.com/
-    tracePropagationTargets: PROD_URLS,
+    tracePropagationTargets: [],
     // Session Replay
     replaysSessionSampleRate: 0.0, // This sets the sample rate at 0%.
     replaysOnErrorSampleRate: 1.0, // Monitoring 100% sessions where error occur.
