@@ -14,12 +14,7 @@ export const useWriteStrategyWithdraw = (id: number) => {
 
   return {
     isPending,
-    withdrawAsync: async (
-      shares: bigint,
-      from: Address,
-      receiver: Address,
-      minToReceive: bigint
-    ) => {
+    withdrawAsync: async (shares: bigint, from: Address, receiver: Address, minToReceive: bigint) => {
       setIsPending(true);
 
       const ret = await waitForTransaction(config, async () => {

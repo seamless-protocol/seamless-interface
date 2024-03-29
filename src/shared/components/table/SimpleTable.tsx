@@ -109,14 +109,10 @@ export const SimpleTable = ({
           {isLoading ? (
             <TableSkeleton
               colCount={columns.length}
-              rowCount={
-                settings.skeletonRowCount
-                  ? settings.skeletonRowCount
-                  : DefaultSettings.skeletonRowCount
-              }
+              rowCount={settings.skeletonRowCount ? settings.skeletonRowCount : DefaultSettings.skeletonRowCount}
             />
-          ) : bodyComponent || (
-            <EmptyTable />
+          ) : (
+            bodyComponent || <EmptyTable />
           )}
         </div>
       </div>

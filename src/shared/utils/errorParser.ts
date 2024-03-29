@@ -1,7 +1,6 @@
 import { BaseError, ContractFunctionRevertedError } from "viem";
 
-const defaultMessage =
-  "An unknown error occurred, use the Support channel in Discord for assistance.";
+const defaultMessage = "An unknown error occurred, use the Support channel in Discord for assistance.";
 
 /**
  * @dev utility function to parse error
@@ -12,15 +11,9 @@ export const getParsedError = (error: any | BaseError): string => {
   let message = defaultMessage;
   let errorKey = "";
 
-  const revertedError = error?.walk
-    ? error.walk((err: unknown) => err instanceof ContractFunctionRevertedError)
-    : null;
+  const revertedError = error?.walk ? error.walk((err: unknown) => err instanceof ContractFunctionRevertedError) : null;
   if (revertedError instanceof ContractFunctionRevertedError) {
-    errorKey =
-      revertedError.data?.errorName ??
-      revertedError.signature ??
-      revertedError.reason ??
-      "";
+    errorKey = revertedError.data?.errorName ?? revertedError.signature ?? revertedError.reason ?? "";
     if (errorMapping[errorKey]) return errorMapping[errorKey];
   }
 
@@ -31,15 +24,10 @@ export const getParsedError = (error: any | BaseError): string => {
 
 export const errorMapping: Record<string, string> = {
   EnforcedPause: "Temporary pause in effect, please check Discord for updates.",
-  ErrorNotEnoughAllowance:
-    "Not enough allowance, did you approve your tokens first?",
+  ErrorNotEnoughAllowance: "Not enough allowance, did you approve your tokens first?",
   "0xc2139725": "Not enough allowance, did you approve your tokens first?",
-  ERC4626ExceededMaxDeposit:
-    "This ILM is currently at capacity, please try again later",
-  SharesReceivedBelowMinimum:
-    "Action exceeded safe slippage parameters, please try again later",
-  "0xea8d7f02":
-    "Action exceeded safe slippage parameters, please try again later",
-  MaxSlippageExceeded:
-    "Action exceeded safe slippage parameters, please try again later",
+  ERC4626ExceededMaxDeposit: "This ILM is currently at capacity, please try again later",
+  SharesReceivedBelowMinimum: "Action exceeded safe slippage parameters, please try again later",
+  "0xea8d7f02": "Action exceeded safe slippage parameters, please try again later",
+  MaxSlippageExceeded: "Action exceeded safe slippage parameters, please try again later",
 };

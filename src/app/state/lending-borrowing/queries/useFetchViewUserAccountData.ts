@@ -28,19 +28,12 @@ export const useFetchUserAccountData = (): FetchData<FetchUserAccountData> => {
     args: [account.address as Address],
   });
 
-  const [
-    totalCollateralUsd,
-    totalDebtUsd,
-    availableBorrowUsd,
-    currentLiquidationThreshold,
-    ltv,
-    healthFactor,
-  ] = data || [0n, 0n, 0n, 0n, 0n, 0n];
+  const [totalCollateralUsd, totalDebtUsd, availableBorrowUsd, currentLiquidationThreshold, ltv, healthFactor] =
+    data || [0n, 0n, 0n, 0n, 0n, 0n];
 
   const borrowPowerUsed =
     totalDebtUsd !== 0n && availableBorrowUsd !== 0n
-      ? ((totalDebtUsd * ONE_ETHER) / (totalDebtUsd + availableBorrowUsd)) *
-        100n
+      ? ((totalDebtUsd * ONE_ETHER) / (totalDebtUsd + availableBorrowUsd)) * 100n
       : 0n;
 
   return {
@@ -90,37 +83,34 @@ export const useFetchUserAccountData = (): FetchData<FetchUserAccountData> => {
   };
 };
 
-export const useFetchViewUserAccountData =
-  (): Displayable<ViewUserAccountData> => {
-    const {
-      isLoading,
-      isFetched,
-      data: {
-        balance,
-        totalCollateralUsd,
-        totalDebtUsd,
-        availableBorrowUsd,
-        borrowPowerUsed,
-        currentLiquidationThreshold,
-        ltv,
-        healthFactor,
-      },
-    } = useFetchUserAccountData();
+export const useFetchViewUserAccountData = (): Displayable<ViewUserAccountData> => {
+  const {
+    isLoading,
+    isFetched,
+    data: {
+      balance,
+      totalCollateralUsd,
+      totalDebtUsd,
+      availableBorrowUsd,
+      borrowPowerUsed,
+      currentLiquidationThreshold,
+      ltv,
+      healthFactor,
+    },
+  } = useFetchUserAccountData();
 
-    return {
-      isLoading,
-      isFetched,
-      data: {
-        balance: formatFetchBigIntToViewBigInt(balance),
-        totalCollateral: formatFetchBigIntToViewBigInt(totalCollateralUsd),
-        totalDebt: formatFetchBigIntToViewBigInt(totalDebtUsd),
-        availableBorrow: formatFetchBigIntToViewBigInt(availableBorrowUsd),
-        borrowPowerUsed: formatFetchBigIntToViewBigInt(borrowPowerUsed),
-        currentLiquidationThreshold: formatFetchBigIntToViewBigInt(
-          currentLiquidationThreshold
-        ),
-        ltv: formatFetchBigIntToViewBigInt(ltv),
-        healthFactor: formatFetchBigIntToViewBigInt(healthFactor),
-      },
-    };
+  return {
+    isLoading,
+    isFetched,
+    data: {
+      balance: formatFetchBigIntToViewBigInt(balance),
+      totalCollateral: formatFetchBigIntToViewBigInt(totalCollateralUsd),
+      totalDebt: formatFetchBigIntToViewBigInt(totalDebtUsd),
+      availableBorrow: formatFetchBigIntToViewBigInt(availableBorrowUsd),
+      borrowPowerUsed: formatFetchBigIntToViewBigInt(borrowPowerUsed),
+      currentLiquidationThreshold: formatFetchBigIntToViewBigInt(currentLiquidationThreshold),
+      ltv: formatFetchBigIntToViewBigInt(ltv),
+      healthFactor: formatFetchBigIntToViewBigInt(healthFactor),
+    },
   };
+};

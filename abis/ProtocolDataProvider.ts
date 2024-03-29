@@ -88,9 +88,7 @@ export const ProtocolDataProviderAbi = [
   {
     inputs: [{ internalType: "address", name: "asset", type: "address" }],
     name: "getInterestRateStrategyAddress",
-    outputs: [
-      { internalType: "address", name: "irStrategyAddress", type: "address" },
-    ],
+    outputs: [{ internalType: "address", name: "irStrategyAddress", type: "address" }],
     stateMutability: "view",
     type: "function",
   },

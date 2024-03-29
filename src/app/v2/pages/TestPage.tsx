@@ -1,10 +1,4 @@
-import {
-  FlexCol,
-  FlexRow,
-  PageContainer,
-  TabButton,
-  TabContent,
-} from "@shared";
+import { FlexCol, FlexRow, PageContainer, TabButton, TabContent } from "@shared";
 import { TabProvider } from "../../../shared/contexts/tab-context/TabContext";
 import { EarnTab } from "./tabs/earn-tab/EarnTab";
 

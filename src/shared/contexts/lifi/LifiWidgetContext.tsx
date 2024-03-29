@@ -12,25 +12,18 @@ const defaultContextValue: LiFiWidgetContextType = {
   setIsOpen: (_) => {},
 };
 
-export const LifiWidgetContext =
-  createContext<LiFiWidgetContextType>(defaultContextValue);
+export const LifiWidgetContext = createContext<LiFiWidgetContextType>(defaultContextValue);
 
-export const LifiWidgetProvider: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
+export const LifiWidgetProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const contextValue = {
     isOpen,
     toggle: () => {
-        setIsOpen(v => !v);
+      setIsOpen((v) => !v);
     },
     setIsOpen,
   };
 
-  return (
-    <LifiWidgetContext.Provider value={contextValue}>
-      {children}
-    </LifiWidgetContext.Provider>
-  );
+  return <LifiWidgetContext.Provider value={contextValue}>{children}</LifiWidgetContext.Provider>;
 };

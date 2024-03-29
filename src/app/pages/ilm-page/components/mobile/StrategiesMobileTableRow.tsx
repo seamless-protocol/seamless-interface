@@ -31,73 +31,33 @@ export const StrategiesMobileTableRow: React.FC<{
   return (
     <FlexCol className="md:hidden p-4 pb-6">
       <FlexRow className="justify-start items-start gap-3 text-start mb-4">
-        <Icon
-          isFetched={isFetched}
-          src={strategy?.depositAsset.logo}
-          alt={strategy?.depositAsset.name || "asset"}
-        />
+        <Icon isFetched={isFetched} src={strategy?.depositAsset.logo} alt={strategy?.depositAsset.name || "asset"} />
 
         <div className="min-h-14 w-full">
           <span className="skeleton w-full h-full" />
-          <DisplayText
-            typography="h4"
-            text={strategy?.depositAsset.name}
-            isFetched={isFetched}
-          />
-          <DisplayText
-            typography="subheader2"
-            text={strategy?.depositAsset.symbol}
-            isFetched={isFetched}
-          />
+          <DisplayText typography="h4" text={strategy?.depositAsset.name} isFetched={isFetched} />
+          <DisplayText typography="subheader2" text={strategy?.depositAsset.symbol} isFetched={isFetched} />
         </div>
       </FlexRow>
 
       <FlexCol className="gap-2">
         <FlexCol className="gap-4">
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_2_strategyName}
-              isFetched={isFetched}
-            />
-            <DisplayText
-              typography="secondary14"
-              text={strategy?.strategyName}
-              isFetched={isFetched}
-            />
+            <DisplayText typography="description" text={columnNames.c_2_strategyName} isFetched={isFetched} />
+            <DisplayText typography="secondary14" text={strategy?.strategyName} isFetched={isFetched} />
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_3_targetMultiple}
-              isFetched={isFetched}
-            />
-            <DisplayText
-              typography="main16"
-              {...strategy?.targetMultiple}
-              isFetched={isFetched}
-            />
+            <DisplayText typography="description" text={columnNames.c_3_targetMultiple} isFetched={isFetched} />
+            <DisplayText typography="main16" {...strategy?.targetMultiple} isFetched={isFetched} />
           </LocalMobileTableRow>
           <LocalMobileTableRow>
-            <DisplayText
-              typography="description"
-              text={columnNames.c_4_loopAPY}
-              isFetched={isFetched}
-            />
-            <DisplayPercentage
-              typography="secondary14"
-              {...strategy?.loopApy}
-              isFetched={isFetched}
-            />
+            <DisplayText typography="description" text={columnNames.c_4_loopAPY} isFetched={isFetched} />
+            <DisplayPercentage typography="secondary14" {...strategy?.loopApy} isFetched={isFetched} />
           </LocalMobileTableRow>
         </FlexCol>
         <Divider />
         <LocalMobileTableRow>
-          <DisplayText
-            typography="description"
-            text={columnNames.c_5_availableToDeposit}
-            isFetched={isFetched}
-          />
+          <DisplayText typography="description" text={columnNames.c_5_availableToDeposit} isFetched={isFetched} />
           <FlexCol>
             <DisplayTokenAmount
               typography="secondary14"
@@ -112,22 +72,14 @@ export const StrategiesMobileTableRow: React.FC<{
           </FlexCol>
         </LocalMobileTableRow>
         <LocalMobileTableRow>
-          <DisplayText
-            typography="description"
-            text={columnNames.c_6_yourPosition}
-            isFetched={isFetched}
-          />
+          <DisplayText typography="description" text={columnNames.c_6_yourPosition} isFetched={isFetched} />
           <FlexCol>
             <DisplayTokenAmount
               typography="secondary14"
               isFetched={isFetched}
               {...strategy?.yourPosition?.tokenAmount}
             />
-            <DisplayMoney
-              typography="secondary12"
-              isFetched={isFetched}
-              {...strategy?.yourPosition?.dollarAmount}
-            />
+            <DisplayMoney typography="secondary12" isFetched={isFetched} {...strategy?.yourPosition?.dollarAmount} />
           </FlexCol>
         </LocalMobileTableRow>
         <LocalMobileTableRow>

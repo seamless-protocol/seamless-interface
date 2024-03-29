@@ -1,8 +1,5 @@
 import { useSeamlessContractRead } from "../../../../shared";
-import {
-  incentiveDataProviderAbi,
-  incentiveDataProviderAddress,
-} from "../../../generated";
+import { incentiveDataProviderAbi, incentiveDataProviderAddress } from "../../../generated";
 import { AAVE_ADDRESS_PROVIDER } from "@meta";
 
 /**

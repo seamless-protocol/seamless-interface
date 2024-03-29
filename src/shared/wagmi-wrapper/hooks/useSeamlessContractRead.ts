@@ -1,10 +1,5 @@
 import { Abi, ContractFunctionArgs, ContractFunctionName } from "viem";
-import {
-  Config,
-  ResolvedRegister,
-  UseReadContractParameters,
-  useReadContract,
-} from "wagmi";
+import { Config, ResolvedRegister, UseReadContractParameters, useReadContract } from "wagmi";
 import { ReadContractData } from "wagmi/query";
 
 /**
@@ -46,15 +41,7 @@ export function useSeamlessContractRead<
   TArgs extends ContractFunctionArgs<TAbi, "pure" | "view", TFunctionName>,
   config extends Config = ResolvedRegister["config"],
   selectData = ReadContractData<TAbi, TFunctionName, TArgs>,
->(
-  parameters = {} as UseReadContractParameters<
-    TAbi,
-    TFunctionName,
-    TArgs,
-    config,
-    selectData
-  >
-) {
+>(parameters = {} as UseReadContractParameters<TAbi, TFunctionName, TArgs, config, selectData>) {
   // ************* //
   // Read contract //
   // ************* //

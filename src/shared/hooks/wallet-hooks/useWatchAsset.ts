@@ -19,10 +19,7 @@ export function useWatchAsset() {
       return false;
     }
 
-    const logoUrl =
-      token.symbol in PublicAssetLogosConfig
-        ? PublicAssetLogosConfig[token.symbol]
-        : undefined;
+    const logoUrl = token.symbol in PublicAssetLogosConfig ? PublicAssetLogosConfig[token.symbol] : undefined;
 
     if (!logoUrl) {
       console.warn(

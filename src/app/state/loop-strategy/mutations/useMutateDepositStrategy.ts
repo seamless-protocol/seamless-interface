@@ -10,9 +10,7 @@ export const useMutateDepositStrategy = (id: number) => {
   const { address } = useAccount();
 
   // cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(
-    ilmStrategies[id].underlyingAsset.address
-  );
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(ilmStrategies[id].underlyingAsset.address);
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
@@ -35,11 +33,7 @@ export const useMutateDepositStrategy = (id: number) => {
         address: ilmStrategies[id].address,
         abi: loopStrategyAbi,
         functionName: "deposit",
-        args: [
-          parseUnits(args.amount, 18),
-          address as Address,
-          args.sharesToReceive,
-        ],
+        args: [parseUnits(args.amount, 18), address as Address, args.sharesToReceive],
       },
       { ...settings }
     );

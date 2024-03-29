@@ -1,10 +1,6 @@
 import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { readContract } from "wagmi/actions";
-import {
-  aaveOracleAbi,
-  aaveOracleAddress,
-  loopStrategyAbi,
-} from "../../../generated";
+import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
@@ -57,11 +53,7 @@ const fetchAssetPriceInBlock = async (
   }
 
   if (underlyingAsset) {
-    const underlyingPrice = await fetchAssetPriceInBlock(
-      config,
-      underlyingAsset,
-      blockNumber
-    );
+    const underlyingPrice = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
 
     if (!underlyingPrice) return undefined;
 
@@ -71,22 +63,12 @@ const fetchAssetPriceInBlock = async (
   return price;
 };
 
-export const useFetchAssetPriceInBlock = (
-  asset?: Address,
-  blockNumber?: bigint,
-  underlyingAsset?: Address
-) => {
+export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint, underlyingAsset?: Address) => {
   const config = useConfig();
 
   const { data: price, ...rest } = useQuery({
-    queryFn: () =>
-      fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
-    queryKey: [
-      "fetchAssetPriceInBlock",
-      asset,
-      underlyingAsset,
-      { blockNumber: blockNumber?.toString() },
-    ],
+    queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
+    queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? Infinity : undefined,
   });
 
@@ -100,22 +82,12 @@ export const useFetchAssetPriceInBlock = (
   };
 };
 
-export const useFetchAssetPrice = (
-  asset?: Address,
-  underlyingAsset?: Address
-) => {
+export const useFetchAssetPrice = (asset?: Address, underlyingAsset?: Address) => {
   return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
-export const useFetchViewAssetPrice = (
-  asset: Address,
-  underlyingAsset?: Address
-): Displayable<ViewBigInt> => {
-  const {
-    isLoading,
-    isFetched,
-    data: price,
-  } = useFetchAssetPrice(asset, underlyingAsset);
+export const useFetchViewAssetPrice = (asset: Address, underlyingAsset?: Address): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: price } = useFetchAssetPrice(asset, underlyingAsset);
 
   return {
     isLoading,

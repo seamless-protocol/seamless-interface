@@ -7,12 +7,7 @@ interface HeadingColumnProps {
   isFetched: boolean | undefined;
 }
 
-export const HeadingColumn: React.FC<HeadingColumnProps> = ({
-  title,
-  viewValue,
-  symbol,
-  isFetched,
-}) => {
+export const HeadingColumn: React.FC<HeadingColumnProps> = ({ title, viewValue, symbol, isFetched }) => {
   return (
     <FlexCol className="min-h-14">
       <Typography type="description" color="light">

@@ -19,11 +19,7 @@ const ALWAYS_APPROVE_MAX = false;
  * - {Function} approveAsync - Function to trigger the approval transaction.
  */
 
-export const useERC20Approve = (
-  tokenAddress: Address,
-  spenderAddress: Address,
-  amount: bigint = BigInt(0)
-) => {
+export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, amount: bigint = BigInt(0)) => {
   const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
 
@@ -35,7 +31,7 @@ export const useERC20Approve = (
   });
 
   const { writeContractAsync: approveTokenAsync, isPending } = useSeamlessContractWrite({
-    queriesToInvalidate: [queryKey]
+    queriesToInvalidate: [queryKey],
   });
 
   useEffect(() => {
@@ -49,14 +45,12 @@ export const useERC20Approve = (
   const approveAsync = async () => {
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount;
 
-    await approveTokenAsync(
-      {
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: "approve",
-        args: [spenderAddress, amountToApprove],
-      },
-    );
+    await approveTokenAsync({
+      address: tokenAddress,
+      abi: erc20Abi,
+      functionName: "approve",
+      args: [spenderAddress, amountToApprove],
+    });
   };
 
   return {

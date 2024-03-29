@@ -14,12 +14,7 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 //** LIFI WIDGET **/
-import {
-  FallbackPage,
-  LifiWidgetProvider,
-  LiFiWidgetWrapper,
-  NotificationProvider,
-} from "@shared";
+import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper, NotificationProvider } from "@shared";
 import { App as AppV1 } from "./App";
 import { App as AppV2 } from "./app/v2/App";
 
@@ -33,11 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <RainbowKitProvider theme={myRainbowkitThemeConfig}>
             <NotificationProvider>
               <LifiWidgetProvider>
-                {import.meta.env.VITE_STYLE_VERSION === "v2" ? (
-                  <AppV2 />
-                ) : (
-                  <AppV1 />
-                )}
+                {import.meta.env.VITE_STYLE_VERSION === "v2" ? <AppV2 /> : <AppV1 />}
                 <LiFiWidgetWrapper />
               </LifiWidgetProvider>
             </NotificationProvider>

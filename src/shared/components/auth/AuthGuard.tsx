@@ -49,11 +49,7 @@ export const AuthGuard: React.FC<{
   className?: string;
 }> = ({
   children,
-  message = (
-    <Typography type="description">
-      Please connect a wallet to view your personal information here.
-    </Typography>
-  ),
+  message = <Typography type="description">Please connect a wallet to view your personal information here.</Typography>,
   className = "",
 }) => {
   const { isConnected } = useAccount();
@@ -65,11 +61,7 @@ export const AuthGuard: React.FC<{
         <div className="">
           <ConnectButton.Custom>
             {({ openConnectModal }) => {
-              return (
-                <ConnectButtonStyled onClick={openConnectModal}>
-                  Connect wallet
-                </ConnectButtonStyled>
-              );
+              return <ConnectButtonStyled onClick={openConnectModal}>Connect wallet</ConnectButtonStyled>;
             }}
           </ConnectButton.Custom>
         </div>

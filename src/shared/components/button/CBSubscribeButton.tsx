@@ -34,11 +34,7 @@ export const CBSubscribeButton: React.FC<{
     }
   }, [window.CBWSubscribe]);
 
-  const subscribeButtonText = isLoading
-    ? "Loading..."
-    : isSubscribed
-      ? "Unsubscribe"
-      : "Subscribe";
+  const subscribeButtonText = isLoading ? "Loading..." : isSubscribed ? "Unsubscribe" : "Subscribe";
 
   if (!isCoinbaseWallet) return null;
 

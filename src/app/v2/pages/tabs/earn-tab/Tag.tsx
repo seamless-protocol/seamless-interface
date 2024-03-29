@@ -9,9 +9,7 @@ const ColorByTypeDict = {
 
 export const Tag: React.FC<{ tag: TagType }> = ({ tag }) => {
   return (
-    <div
-      className={`py-1 px-2 rounded-lg border border-solid ${ColorByTypeDict[tag]}`}
-    >
+    <div className={`py-1 px-2 rounded-lg border border-solid ${ColorByTypeDict[tag]}`}>
       <TypographyV2 type="bold">{tag}</TypographyV2>
     </div>
   );

@@ -9,13 +9,7 @@ import { useConnectButtonContext } from "../../../contexts/connect-wallet/useCon
 import { Icon } from "../../images/Icon";
 
 export const ConnectWalletRainbowWrapperMobile = () => {
-  const {
-    userAvatar,
-    setEnsAvatar,
-    isConnected,
-    isDropdownVisible,
-    toggleDropdown,
-  } = useConnectButtonContext();
+  const { userAvatar, setEnsAvatar, isConnected, isDropdownVisible, toggleDropdown } = useConnectButtonContext();
 
   return (
     <ConnectButton.Custom>
@@ -70,18 +64,18 @@ const WalletContent: React.FC<{
 }> = ({ accountDisplayName, chainName, isWalletMenuOpen: isMenuOpen }) => {
   return (
     <div
-        className={`md:hidden  ${isMenuOpen ? "fixed top-16 inset-0 z-50 bg-slate-800" : "hidden"} transform 
+      className={`md:hidden  ${isMenuOpen ? "fixed top-16 inset-0 z-50 bg-slate-800" : "hidden"} transform 
           transition-transform duration-300 ease-in-out`}
-      >
-        <FlexCol className="gap-2">
-          <div className="border-b">
-            <AvatarSection accountDisplayName={accountDisplayName} />
-          </div>
-          <NetworkSection chainName={chainName} />
-          <div className="border-t">
-            <ActionSection />
-          </div>
-        </FlexCol>
-      </div>
+    >
+      <FlexCol className="gap-2">
+        <div className="border-b">
+          <AvatarSection accountDisplayName={accountDisplayName} />
+        </div>
+        <NetworkSection chainName={chainName} />
+        <div className="border-t">
+          <ActionSection />
+        </div>
+      </FlexCol>
+    </div>
   );
 };

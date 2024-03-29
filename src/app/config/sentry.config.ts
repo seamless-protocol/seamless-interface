@@ -1,18 +1,10 @@
 import * as Sentry from "@sentry/react";
 import React from "react";
-import {
-  useLocation,
-  useNavigationType,
-  createRoutesFromChildren,
-  matchRoutes,
-} from "react-router-dom";
+import { useLocation, useNavigationType, createRoutesFromChildren, matchRoutes } from "react-router-dom";
 import { IS_DEV_MODE } from "../../globals";
 
 if (!IS_DEV_MODE) {
-  const BLOCKED_URLS = [
-    "localhost",
-    /.*vercel\.app/
-  ];
+  const BLOCKED_URLS = ["localhost", /.*vercel\.app/];
 
   Sentry.init({
     dsn: "https://f078a84aea6485ab874269be898bad60@o4506877073555456.ingest.us.sentry.io/4506877076242432",

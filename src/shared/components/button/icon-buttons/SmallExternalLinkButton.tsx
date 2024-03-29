@@ -7,11 +7,7 @@ export const SmallExternalLinkButton: React.FC<{
   tooltipText?: string;
 }> = ({ onClick, tooltipText }) => {
   return (
-    <Tooltip
-      tooltip={<Typography type="description">{tooltipText}</Typography>}
-      size="small"
-      theme="dark"
-    >
+    <Tooltip tooltip={<Typography type="description">{tooltipText}</Typography>} size="small" theme="dark">
       <button
         onClick={onClick}
         // eslint-disable-next-line react/no-invalid-html-attribute

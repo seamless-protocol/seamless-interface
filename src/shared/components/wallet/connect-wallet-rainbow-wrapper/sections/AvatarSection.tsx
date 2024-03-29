@@ -9,8 +9,7 @@ import { useConnectButtonContext } from "../../../../contexts/connect-wallet/use
 export const AvatarSection: React.FC<{
   accountDisplayName?: string;
 }> = ({ accountDisplayName }) => {
-  const { handleDisconnect, handleSwitchWallet, userAvatar } =
-    useConnectButtonContext();
+  const { handleDisconnect, handleSwitchWallet, userAvatar } = useConnectButtonContext();
 
   return (
     <FlexCol className="p-4 gap-2 md:text-primary-dark text-primary-contrast">
@@ -20,10 +19,7 @@ export const AvatarSection: React.FC<{
             <Icon src={userAvatar} alt={`user-avatar-${accountDisplayName}`} />
           </div>
         </div>
-        <Typography
-          type="h4"
-          className="md:text-primary-dark text-primary-contrast"
-        >
+        <Typography type="h4" className="md:text-primary-dark text-primary-contrast">
           {accountDisplayName}
         </Typography>
       </FlexRow>

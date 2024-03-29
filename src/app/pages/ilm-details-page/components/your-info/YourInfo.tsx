@@ -41,12 +41,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to deposit</Typography>
-            <Tooltip
-              tooltip={
-                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.symbol
-              }
-              size="small"
-            >
+            <Tooltip tooltip={viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.symbol} size="small">
               <DisplayTokenAmount
                 typography="main16"
                 {...viewUserInfo?.data?.underlyingAssetBalance.tokenAmount}
@@ -62,12 +57,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
 
           <DepositModal
             id={id}
-            disabled={
-              !Number(
-                viewUserInfo?.data?.underlyingAssetBalance.tokenAmount
-                  .bigIntValue
-              )
-            }
+            disabled={!Number(viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.bigIntValue)}
             className="w-28"
           />
         </FlexRow>
@@ -77,10 +67,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
         <FlexRow className="justify-between items-center">
           <FlexCol>
             <Typography type="subheader2">Available to withdraw</Typography>
-            <Tooltip
-              tooltip={viewUserInfo?.data?.strategyBalance.tokenAmount.symbol}
-              size="small"
-            >
+            <Tooltip tooltip={viewUserInfo?.data?.strategyBalance.tokenAmount.symbol} size="small">
               <DisplayTokenAmount
                 typography="main16"
                 {...viewUserInfo?.data?.strategyBalance.tokenAmount}
@@ -97,11 +84,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
 
           <WithdrawModal
             id={id}
-            disabled={
-              !Number(
-                viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue
-              )
-            }
+            disabled={!Number(viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue)}
             className="w-28"
           />
         </FlexRow>

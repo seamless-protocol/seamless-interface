@@ -46,12 +46,7 @@ export function useSeamlessContractReads<
   config extends Config = ResolvedRegister["config"],
   selectData = ReadContractsData<contracts, allowFailure>,
 >(
-  parameters: UseReadContractsParameters<
-    contracts,
-    allowFailure,
-    config,
-    selectData
-  > = {}
+  parameters: UseReadContractsParameters<contracts, allowFailure, config, selectData> = {}
 ): UseReadContractsReturnType<contracts, allowFailure, selectData> {
   // ************* //
   // Read contract //

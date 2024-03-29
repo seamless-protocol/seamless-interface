@@ -1,24 +1,11 @@
-import {
-  CheckIcon,
-  XMarkIcon,
-  InformationCircleIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { CheckIcon, XMarkIcon, InformationCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export const ENUM_STATUSES = {
   success: <CheckIcon className="text-success-main" width={32} height={32} />,
   loading: <div className="loading loading-spinner" />,
   error: <XMarkIcon className="text-error-main" width={32} height={32} />,
-  info: (
-    <InformationCircleIcon className="text-info-main" width={32} height={32} />
-  ),
-  warning: (
-    <ExclamationCircleIcon
-      className="text-warning-main"
-      width={32}
-      height={32}
-    />
-  ),
+  info: <InformationCircleIcon className="text-info-main" width={32} height={32} />,
+  warning: <ExclamationCircleIcon className="text-warning-main" width={32} height={32} />,
 };
 
 export const ENUM_COLORS = {

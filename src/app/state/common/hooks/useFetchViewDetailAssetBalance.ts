@@ -13,20 +13,10 @@ export interface DetailAssetBalance {
   };
 }
 
-export const useFetchDetailAssetBalance = (
-  token: Address
-): Fetch<DetailAssetBalance> => {
-  const {
-    isLoading: isBalanceLoading,
-    isFetched: isBalanceFetched,
-    data: balance,
-  } = useFetchAssetBalance(token);
+export const useFetchDetailAssetBalance = (token: Address): Fetch<DetailAssetBalance> => {
+  const { isLoading: isBalanceLoading, isFetched: isBalanceFetched, data: balance } = useFetchAssetBalance(token);
 
-  const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-    data: price,
-  } = useFetchAssetPrice(token);
+  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(token);
 
   return {
     isLoading: isBalanceLoading || isPriceLoading,
@@ -34,9 +24,7 @@ export const useFetchDetailAssetBalance = (
     data: {
       balance,
       balanceUsd: {
-        bigIntValue:
-          (balance.bigIntValue * price.bigIntValue) /
-          BigInt(10 ** balance.decimals),
+        bigIntValue: (balance.bigIntValue * price.bigIntValue) / BigInt(10 ** balance.decimals),
         symbol: "$",
         decimals: 8,
       },
@@ -44,9 +32,7 @@ export const useFetchDetailAssetBalance = (
   };
 };
 
-export const useFetchViewDetailAssetBalance = (
-  token: Address
-): Displayable<ViewDetailAssetBalance> => {
+export const useFetchViewDetailAssetBalance = (token: Address): Displayable<ViewDetailAssetBalance> => {
   const {
     isLoading,
     isFetched,

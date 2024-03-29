@@ -1,9 +1,6 @@
 import { Address } from "viem";
 import { useSeamlessContractRead, useToken } from "@shared";
-import {
-  protocolDataProviderAbi,
-  protocolDataProviderAddress,
-} from "../../../generated";
+import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 
 export const useFetchReserveData = (asset: Address) => {
   const {

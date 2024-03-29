@@ -18,19 +18,14 @@ const defaultContextValue: NotificationContextType = {
   closeNotification: () => {},
 };
 
-export const NotificationContext =
-  createContext<NotificationContextType>(defaultContextValue);
+export const NotificationContext = createContext<NotificationContextType>(defaultContextValue);
 
 interface NotificationProviderProps {
   children: ReactNode;
 }
 
-export const NotificationProvider: React.FC<NotificationProviderProps> = ({
-  children,
-}) => {
-  const [notification, setNotification] = useState<
-    TNotificationProps | undefined
-  >(undefined);
+export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
+  const [notification, setNotification] = useState<TNotificationProps | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
 
   const showNotification = useCallback((notification: TNotificationProps) => {
@@ -44,16 +39,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   }, []);
 
   return (
-    <NotificationContext.Provider
-      value={{ showNotification, closeNotification }}
-    >
+    <NotificationContext.Provider value={{ showNotification, closeNotification }}>
       {children}
       {isOpen && notification && (
-        <DisplayNotification
-          {...defaultNotificationSettings}
-          {...notification}
-          setModalOpen={setIsOpen}
-        />
+        <DisplayNotification {...defaultNotificationSettings} {...notification} setModalOpen={setIsOpen} />
       )}
     </NotificationContext.Provider>
   );

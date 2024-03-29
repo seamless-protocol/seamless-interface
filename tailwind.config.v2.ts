@@ -70,12 +70,9 @@ export default {
         metallicBorder: "#0C2752",
       },
       backgroundImage: () => ({
-        metalic:
-          "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
-        purpleRadial:
-          "radial-gradient(131.63% 131.63% at 17.5% 0%, #FFBFFF 0%, #4F68F7 100%)",
-        holographic:
-          "linear-gradient(97deg, #D53BD9 2.08%, #7770DA 50.55%, #5CBDE6 100%)",
+        metalic: "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
+        purpleRadial: "radial-gradient(131.63% 131.63% at 17.5% 0%, #FFBFFF 0%, #4F68F7 100%)",
+        holographic: "linear-gradient(97deg, #D53BD9 2.08%, #7770DA 50.55%, #5CBDE6 100%)",
       }),
       fontFamily: {
         primary: [FONT_PRIMARY],
@@ -154,72 +151,24 @@ export default {
           },
         ],
 
-        medium7: [
-          pxToRem(40),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium6: [
-          pxToRem(32),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium5: [
-          pxToRem(24),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium4: [
-          pxToRem(20),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium3: [
-          pxToRem(16),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium2: [
-          pxToRem(14),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium1: [
-          pxToRem(12),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
-        medium: [
-          pxToRem(10),
-          { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" },
-        ],
+        medium7: [pxToRem(40), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium6: [pxToRem(32), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium5: [pxToRem(24), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium4: [pxToRem(20), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium3: [pxToRem(16), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium2: [pxToRem(14), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium1: [pxToRem(12), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
+        medium: [pxToRem(10), { fontFamily: FONT_PRIMARY, fontWeight: 500, lineHeight: "130%" }],
 
         // Regular configurations
-        regular7: [
-          pxToRem(40),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular6: [
-          pxToRem(32),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular5: [
-          pxToRem(24),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular4: [
-          pxToRem(20),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular3: [
-          pxToRem(16),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular2: [
-          pxToRem(14),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular1: [
-          pxToRem(12),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
-        regular: [
-          pxToRem(10),
-          { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" },
-        ],
+        regular7: [pxToRem(40), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular6: [pxToRem(32), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular5: [pxToRem(24), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular4: [pxToRem(20), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular3: [pxToRem(16), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular2: [pxToRem(14), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular1: [pxToRem(12), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
+        regular: [pxToRem(10), { fontFamily: FONT_PRIMARY, fontWeight: 400, lineHeight: "130%" }],
       },
     },
   },

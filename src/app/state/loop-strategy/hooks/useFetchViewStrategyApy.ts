@@ -1,23 +1,12 @@
 import { useBlock } from "wagmi";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import {
-  APY_BLOCK_FRAME,
-  COMPOUNDING_PERIODS_APY,
-  SECONDS_PER_YEAR,
-} from "@meta";
-import {
-  formatFetchNumberToViewNumber,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
+import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@meta";
+import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
 import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
-export function calculateApy(
-  endValue: bigint,
-  startValue: bigint,
-  timeWindow: bigint
-): number {
+export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: bigint): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
     return 0;
   }
@@ -26,32 +15,19 @@ export function calculateApy(
   const startValueNumber = formatUnitsToNumber(startValue, 18);
   const timeWindowNumber = Number(timeWindow);
 
-  const apr =
-    (endValueNumber / startValueNumber) **
-      (SECONDS_PER_YEAR / timeWindowNumber) -
-    1;
+  const apr = (endValueNumber / startValueNumber) ** (SECONDS_PER_YEAR / timeWindowNumber) - 1;
 
-  return (
-    ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100
-  );
+  return ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100;
 }
 
-export const useFetchStrategyApy = (
-  strategyConfig: StrategyConfig
-): FetchData<FetchNumber> => {
-  const {
-    data: latestBlockData,
-    isLoading: isLatestBlockLoading,
-    isFetched: isLatestBlockFetched,
-  } = useBlock();
+export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<FetchNumber> => {
+  const { data: latestBlockData, isLoading: isLatestBlockLoading, isFetched: isLatestBlockFetched } = useBlock();
   const {
     data: prevBlockData,
     isLoading: isPrevBlockLoading,
     isFetched: isPrevBlockFetched,
   } = useBlock({
-    blockNumber: latestBlockData
-      ? latestBlockData?.number - APY_BLOCK_FRAME
-      : 0n,
+    blockNumber: latestBlockData ? latestBlockData?.number - APY_BLOCK_FRAME : 0n,
   });
 
   const {
@@ -82,15 +58,9 @@ export const useFetchStrategyApy = (
 
   return {
     isLoading:
-      isLatestBlockShareValueLoading ||
-      isPrevBlockShareValueLoading ||
-      isLatestBlockLoading ||
-      isPrevBlockLoading,
+      isLatestBlockShareValueLoading || isPrevBlockShareValueLoading || isLatestBlockLoading || isPrevBlockLoading,
     isFetched:
-      isLatestBlockShareValueFetched &&
-      isPrevBlockShareValueFetched &&
-      isLatestBlockFetched &&
-      isPrevBlockFetched,
+      isLatestBlockShareValueFetched && isPrevBlockShareValueFetched && isLatestBlockFetched && isPrevBlockFetched,
     data: {
       value: apy || strategyConfig.defaultApy,
       symbol: "%",
@@ -98,9 +68,7 @@ export const useFetchStrategyApy = (
   };
 };
 
-export const useFetchViewStrategyApy = (
-  index: number
-): Displayable<ViewNumber> => {
+export const useFetchViewStrategyApy = (index: number): Displayable<ViewNumber> => {
   // TODO: uncomment when enough time passes to present real data
   // const { apy, isLoading, isFetched } = useFetchStrategyApy(
   //   ilmStrategies[index]

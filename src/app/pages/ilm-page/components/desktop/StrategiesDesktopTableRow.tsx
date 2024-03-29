@@ -42,53 +42,25 @@ export const StrategiesDesktopTableRow: React.FC<{
         />
       </TableCell>
       <TableCell>
-        <DisplayText
-          typography="h4"
-          text={strategy?.strategyName}
-          isFetched={isFetched}
-        />
+        <DisplayText typography="h4" text={strategy?.strategyName} isFetched={isFetched} />
       </TableCell>
 
       <TableCell>
-        <DisplayText
-          typography="main16"
-          {...strategy?.targetMultiple}
-          isFetched={isFetched}
-        />
+        <DisplayText typography="main16" {...strategy?.targetMultiple} isFetched={isFetched} />
       </TableCell>
 
       <TableCell>
-        <DisplayPercentage
-          {...strategy?.loopApy}
-          typography="main16"
-          isFetched={isFetched}
-        />
+        <DisplayPercentage {...strategy?.loopApy} typography="main16" isFetched={isFetched} />
       </TableCell>
 
       <TableCell>
-        <DisplayTokenAmount
-          {...strategy?.availableToDeposit?.tokenAmount}
-          typography="main16"
-          isFetched={isFetched}
-        />
-        <DisplayMoney
-          {...strategy?.availableToDeposit?.dollarAmount}
-          typography="subheader2"
-          isFetched={isFetched}
-        />
+        <DisplayTokenAmount {...strategy?.availableToDeposit?.tokenAmount} typography="main16" isFetched={isFetched} />
+        <DisplayMoney {...strategy?.availableToDeposit?.dollarAmount} typography="subheader2" isFetched={isFetched} />
       </TableCell>
 
       <TableCell>
-        <DisplayTokenAmount
-          {...strategy?.yourPosition?.tokenAmount}
-          typography="main16"
-          isFetched={isFetched}
-        />
-        <DisplayMoney
-          {...strategy?.yourPosition?.dollarAmount}
-          typography="subheader2"
-          isFetched={isFetched}
-        />
+        <DisplayTokenAmount {...strategy?.yourPosition?.tokenAmount} typography="main16" isFetched={isFetched} />
+        <DisplayMoney {...strategy?.yourPosition?.dollarAmount} typography="subheader2" isFetched={isFetched} />
       </TableCell>
 
       <TableCell>

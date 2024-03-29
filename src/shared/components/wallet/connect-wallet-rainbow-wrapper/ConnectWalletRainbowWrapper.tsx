@@ -11,32 +11,16 @@ import { Icon } from "../../images/Icon";
 import { ConnectButtonStyled } from "./components/ConnectButton";
 
 export const ConnectWalletRainbowWrapper = () => {
-  const {
-    userAvatar,
-    dropdownRef,
-    isDropdownVisible,
-    toggleDropdown,
-    setEnsAvatar,
-  } = useConnectButtonContext();
+  const { userAvatar, dropdownRef, isDropdownVisible, toggleDropdown, setEnsAvatar } = useConnectButtonContext();
 
   return (
     <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openChainModal,
-        openConnectModal,
-        authenticationStatus,
-        mounted,
-      }) => {
+      {({ account, chain, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
         setEnsAvatar?.(account?.ensAvatar);
 
         const ready = mounted && authenticationStatus !== "loading";
         const connected =
-          ready &&
-          account &&
-          chain &&
-          (!authenticationStatus || authenticationStatus === "authenticated");
+          ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
         return (
           <div
             {...(!ready && {
@@ -50,11 +34,7 @@ export const ConnectWalletRainbowWrapper = () => {
           >
             {(() => {
               if (!connected) {
-                return (
-                  <ConnectButtonStyled onClick={openConnectModal}>
-                    Connect wallet
-                  </ConnectButtonStyled>
-                );
+                return <ConnectButtonStyled onClick={openConnectModal}>Connect wallet</ConnectButtonStyled>;
               }
               if (chain.unsupported) {
                 return (
@@ -66,11 +46,7 @@ export const ConnectWalletRainbowWrapper = () => {
               return (
                 <div style={{ display: "flex", gap: 12 }}>
                   <div className="dropdown dropdown-end" ref={dropdownRef}>
-                    <ConnectButtonStyled
-                      tabIndex={0}
-                      role="button"
-                      onClick={toggleDropdown}
-                    >
+                    <ConnectButtonStyled tabIndex={0} role="button" onClick={toggleDropdown}>
                       <FlexRow className="gap-2 items-center">
                         {userAvatar && (
                           <Icon
@@ -95,9 +71,7 @@ export const ConnectWalletRainbowWrapper = () => {
                       >
                         <FlexCol className="gap-2">
                           <div className="border-b">
-                            <AvatarSection
-                              accountDisplayName={account.displayName}
-                            />
+                            <AvatarSection accountDisplayName={account.displayName} />
                           </div>
                           <NetworkSection chainName={chain.name} />
                           <div className="border-t">

@@ -1,10 +1,4 @@
-import {
-  useWatchAsset,
-  useFullTokenData,
-  Typography,
-  FlexRow,
-  Icon,
-} from "@shared";
+import { useWatchAsset, useFullTokenData, Typography, FlexRow, Icon } from "@shared";
 import { Address } from "viem";
 
 export const WatchAssetButton: React.FC<{
@@ -31,10 +25,7 @@ export const WatchAssetButton: React.FC<{
       <div className="px-4 py-3 pb-2">
         <Typography type="secondary12">{label}</Typography>
       </div>
-      <button
-        onClick={handleWatchAsset}
-        className="focus:outline-none w-full text-left"
-      >
+      <button onClick={handleWatchAsset} className="focus:outline-none w-full text-left">
         <FlexRow className="items-center gap-3 px-4 py-3 hover:bg-action-hover">
           <Icon width={16} src={tokenData.logo} alt={tokenData.symbol || ""} />
           <Typography type="subheader1">{tokenData.symbol}</Typography>

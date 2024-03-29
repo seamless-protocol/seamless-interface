@@ -1,8 +1,1 @@
-export type Color =
-  | "primary"
-  | "secondary"
-  | "info"
-  | "success"
-  | "warning"
-  | "error"
-  | "disabled";
+export type Color = "primary" | "secondary" | "info" | "success" | "warning" | "error" | "disabled";

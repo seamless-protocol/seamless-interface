@@ -44,14 +44,7 @@ export const Tooltip: React.FC<{
   openOnClick?: boolean;
   theme?: TooltipTheme;
   size?: TooltipSize;
-}> = ({
-  children,
-  tooltip,
-  openOnClick,
-  place = "top",
-  theme = "light",
-  size = "normal",
-}) => {
+}> = ({ children, tooltip, openOnClick, place = "top", theme = "light", size = "normal" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
 
@@ -94,8 +87,7 @@ export const Tooltip: React.FC<{
           ...themeStyles[theme],
           ...sizeStyles[size],
           zIndex: 99999999,
-          boxShadow:
-            "rgba(0, 0, 0, 0.2) 0px 0px 2px, rgba(0, 0, 0, 0.1) 0px 2px 10px",
+          boxShadow: "rgba(0, 0, 0, 0.2) 0px 0px 2px, rgba(0, 0, 0, 0.1) 0px 2px 10px",
         }}
         className={isVisible ? "show-tooltip" : "hide-tooltip"}
         opacity={1}

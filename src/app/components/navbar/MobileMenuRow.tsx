@@ -6,17 +6,10 @@ interface MobileMenuRowProps {
   href: string;
 }
 
-export const MobileMenuRow: React.FC<MobileMenuRowProps> = ({
-  label,
-  href,
-}) => {
+export const MobileMenuRow: React.FC<MobileMenuRowProps> = ({ label, href }) => {
   return (
     <Link to={href}>
-      <Typography
-        className="text-base text-gray-300 block rounded-md px-4 py-3 h1"
-        type="h3"
-        color="primary"
-      >
+      <Typography className="text-base text-gray-300 block rounded-md px-4 py-3 h1" type="h3" color="primary">
         {label}
       </Typography>
     </Link>

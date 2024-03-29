@@ -1,4 +1,4 @@
-import { WidgetConfig } from '@lifi/widget';
+import { WidgetConfig } from "@lifi/widget";
 import { base, mainnet } from "wagmi/chains";
 
 export const lifiConfig: WidgetConfig = {

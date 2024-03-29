@@ -1,9 +1,6 @@
 import { DisplayableAmount } from "../../types/Displayable";
 import { TypographyColor } from "../text/Typography/mappers";
-import {
-  CombinedTypographyType,
-  TypographyVX,
-} from "../text/TypographyX/TypographyX";
+import { CombinedTypographyType, TypographyVX } from "../text/TypographyX/TypographyX";
 import { fontSizes } from "./mapper";
 
 export interface DisplayValueProps extends DisplayableAmount {
@@ -66,22 +63,14 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
 }) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
-      const { width, height } = getTypographySkeletonSize(
-        typography,
-        viewValue
-      );
+      const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
-      return (
-        <span style={{ width, height }} className="skeleton flex mb-[0.5px]" />
-      );
+      return <span style={{ width, height }} className="skeleton flex mb-[0.5px]" />;
     }
     return <div className="loading loading-spinner flex self-center" />;
   }
   return (
-    <TypographyVX
-      type={typography}
-      className={`truncate hover:text-clip ${className}`}
-    >
+    <TypographyVX type={typography} className={`truncate hover:text-clip ${className}`}>
       {symbolPosition === "before" && symbol && (
         <TypographyVX type={typography} tagOverride="span" color={symbolColor}>
           {symbol}
@@ -91,11 +80,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       {symbolPosition === "after" && symbol && (
         <>
           {" "}
-          <TypographyVX
-            type={typography}
-            tagOverride="span"
-            color={symbolColor}
-          >
+          <TypographyVX type={typography} tagOverride="span" color={symbolColor}>
             {symbol}
           </TypographyVX>
         </>
@@ -111,10 +96,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
  * @param {string} [value=""] - The text value to determine the width (default is an empty string).
  * @returns {{ width: string, height: string }} - An object containing the calculated width and height as CSS values.
  */
-const getTypographySkeletonSize = (
-  typographyType: CombinedTypographyType,
-  viewValue = ""
-) => {
+const getTypographySkeletonSize = (typographyType: CombinedTypographyType, viewValue = "") => {
   const fontSize = fontSizes[typographyType] || "1rem";
   const height = `calc(${fontSize} * 1.5)`;
 

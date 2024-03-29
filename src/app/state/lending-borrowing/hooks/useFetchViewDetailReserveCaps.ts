@@ -43,9 +43,7 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
   };
 };
 
-export const useFetchViewDetailReserveCaps = (
-  asset: Address
-): Displayable<ViewDetailReserveCaps> => {
+export const useFetchViewDetailReserveCaps = (asset: Address): Displayable<ViewDetailReserveCaps> => {
   const {
     isLoading,
     isFetched,

@@ -9,16 +9,10 @@ interface CoinGeckoAssetPrice {
 
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
 
-export const fetchCoinGeckoAssetPrice = async ({
-  queryKey,
-}: {
-  queryKey: string[];
-}): Promise<number> => {
+export const fetchCoinGeckoAssetPrice = async ({ queryKey }: { queryKey: string[] }): Promise<number> => {
   const coinGeckoAssetId = queryKey[1];
 
-  const res = await fetch(
-    `${coinGeckoApiUrl}/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`
-  );
+  const res = await fetch(`${coinGeckoApiUrl}/simple/price?ids=${coinGeckoAssetId}&vs_currencies=usd&precision=18`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch asset price");

@@ -36,10 +36,7 @@ interface TableSkeletonProps {
  * @returns The `TableSkeleton` component.
  */
 
-export const TableSkeleton: React.FC<TableSkeletonProps> = ({
-  rowCount = 5,
-  colCount = 6,
-}) => {
+export const TableSkeleton: React.FC<TableSkeletonProps> = ({ rowCount = 5, colCount = 6 }) => {
   return (
     <div>
       {[...Array(rowCount)].map((_, rowIndex) => (

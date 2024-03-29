@@ -44,11 +44,7 @@ interface Token {
  * @param {Token} props The Token details.
  * @returns {React.FC} A React functional component.
  */
-export const WatchAssetComponent: React.FC<Token> = ({
-  symbol,
-  address,
-  logo,
-}) => {
+export const WatchAssetComponent: React.FC<Token> = ({ symbol, address, logo }) => {
   const { mutateAsync, isPending } = useWatchAsset();
   const {
     data: { decimals },
@@ -69,11 +65,7 @@ export const WatchAssetComponent: React.FC<Token> = ({
       <Typography>
         Add <strong>{symbol}</strong> to wallet to track your balance.
       </Typography>
-      <Button
-        loading={isPending}
-        onClick={handleAddToWalletClick}
-        className="flex flex-row gap-3"
-      >
+      <Button loading={isPending} onClick={handleAddToWalletClick} className="flex flex-row gap-3">
         <Icon src={walletIconWhite} width={20} alt="wallet-icon-white" />
         Add to wallet
       </Button>

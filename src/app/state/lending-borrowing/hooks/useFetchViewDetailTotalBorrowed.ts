@@ -11,20 +11,14 @@ interface TotalBorrowed {
   totalBorrowedUsd: FetchBigInt;
 }
 
-export const useFetchDetailTotalBorrowed = (
-  asset: Address
-): FetchData<TotalBorrowed> => {
+export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorrowed> => {
   const {
     isLoading: isReserveDataLoading,
     isFetched: isReserveDataFetched,
     data: { totalBorrowed },
   } = useFetchReserveData(asset);
 
-  const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-    data: price,
-  } = useFetchAssetPrice(asset);
+  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(asset);
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,
@@ -34,9 +28,7 @@ export const useFetchDetailTotalBorrowed = (
         ...totalBorrowed,
       },
       totalBorrowedUsd: {
-        bigIntValue:
-          (totalBorrowed.bigIntValue * price.bigIntValue) /
-          BigInt(10 ** totalBorrowed.decimals),
+        bigIntValue: (totalBorrowed.bigIntValue * price.bigIntValue) / BigInt(10 ** totalBorrowed.decimals),
         symbol: "$",
         decimals: 8,
       },
@@ -44,9 +36,7 @@ export const useFetchDetailTotalBorrowed = (
   };
 };
 
-export const useFetchViewDetailTotalBorrowed = (
-  asset: Address
-): Displayable<ViewDetailTotalBorrowed> => {
+export const useFetchViewDetailTotalBorrowed = (asset: Address): Displayable<ViewDetailTotalBorrowed> => {
   const {
     isLoading,
     isFetched,

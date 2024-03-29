@@ -16,18 +16,13 @@ export interface ViewUserInfo {
   };
 }
 
-export const useFetchViewUserInfo = (
-  index: number
-): Displayable<ViewUserInfo> => {
+export const useFetchViewUserInfo = (index: number): Displayable<ViewUserInfo> => {
   const strategyConfig = ilmStrategies[index];
 
   const {
     isLoading: isUnderlyingAssetBalanceLoading,
     isFetched: isUnderlyingAssetBalanceFetched,
-    data: {
-      balance: underlyingAssetBalance,
-      balanceUsd: underlyingAssetBalanceUsd,
-    },
+    data: { balance: underlyingAssetBalance, balanceUsd: underlyingAssetBalanceUsd },
   } = useFetchDetailAssetBalance(strategyConfig.underlyingAsset.address);
   const {
     isLoading: isStrategyBalanceLoading,
@@ -40,24 +35,12 @@ export const useFetchViewUserInfo = (
     isFetched: isUnderlyingAssetBalanceFetched && isStrategyBalanceFetched,
     data: {
       underlyingAssetBalance: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          underlyingAssetBalance,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          underlyingAssetBalanceUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(underlyingAssetBalance, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(underlyingAssetBalanceUsd, walletBalanceDecimalsOptions),
       },
       strategyBalance: {
-        tokenAmount: formatFetchBigIntToViewBigInt(
-          strategyBalance,
-          walletBalanceDecimalsOptions
-        ),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          strategyBalanceUsd,
-          walletBalanceDecimalsOptions
-        ),
+        tokenAmount: formatFetchBigIntToViewBigInt(strategyBalance, walletBalanceDecimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(strategyBalanceUsd, walletBalanceDecimalsOptions),
       },
     },
   };

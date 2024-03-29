@@ -101,10 +101,8 @@ export default {
           dark: "#62677B",
         },
         gradients: {
-          seamless:
-            "linear-gradient(248.86deg, #CDF3A2 5%, #21E1E1 15%, #D69BDF 40%, #506FF3 91%)",
-          seamlessFooter:
-            "linear-gradient(248.86deg, #506FF3 1%, #CDF3A2 15%, #21E1E1 30%, #D69BDF 50%, #506FF3 81%)",
+          seamless: "linear-gradient(248.86deg, #CDF3A2 5%, #21E1E1 15%, #D69BDF 40%, #506FF3 91%)",
+          seamlessFooter: "linear-gradient(248.86deg, #506FF3 1%, #CDF3A2 15%, #21E1E1 30%, #D69BDF 50%, #506FF3 81%)",
         },
         divider: "#EAEBEF",
         action: {

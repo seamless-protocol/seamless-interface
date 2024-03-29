@@ -7,9 +7,7 @@ import { Displayable, ViewBigInt } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { walletBalanceDecimalsOptions } from "@meta";
 
-export const useFetchMaxUserDeposit = (
-  strategy: Address
-): FetchData<FetchBigInt> => {
+export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt> => {
   const {
     data: underlyingAsset,
     isLoading: isUnderlyingAssetLoading,
@@ -29,32 +27,18 @@ export const useFetchMaxUserDeposit = (
   } = useFetchAssetBalance(underlyingAsset as Address);
 
   return {
-    isLoading:
-      isMaxDepositLoading || isAssetBalanceLoading || isUnderlyingAssetLoading,
-    isFetched:
-      isMaxDepositFetched && isAssetBalanceFetched && isUnderlyingAssetFetched,
-    data:
-      maxDeposit.bigIntValue > assetBalance.bigIntValue
-        ? assetBalance
-        : maxDeposit,
+    isLoading: isMaxDepositLoading || isAssetBalanceLoading || isUnderlyingAssetLoading,
+    isFetched: isMaxDepositFetched && isAssetBalanceFetched && isUnderlyingAssetFetched,
+    data: maxDeposit.bigIntValue > assetBalance.bigIntValue ? assetBalance : maxDeposit,
   };
 };
 
-export const useFetchViewMaxUserDeposit = (
-  strategy: Address
-): Displayable<ViewBigInt> => {
-  const {
-    isLoading,
-    isFetched,
-    data: maxUserDeposit,
-  } = useFetchMaxUserDeposit(strategy);
+export const useFetchViewMaxUserDeposit = (strategy: Address): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: maxUserDeposit } = useFetchMaxUserDeposit(strategy);
 
   return {
     isLoading,
     isFetched,
-    data: formatFetchBigIntToViewBigInt(
-      maxUserDeposit,
-      walletBalanceDecimalsOptions
-    ),
+    data: formatFetchBigIntToViewBigInt(maxUserDeposit, walletBalanceDecimalsOptions),
   };
 };

@@ -1,9 +1,6 @@
 import { Address } from "viem";
 import { Displayable, useSeamlessContractRead } from "../../../../shared";
-import {
-  protocolDataProviderAbi,
-  protocolDataProviderAddress,
-} from "../../../generated";
+import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewAssetConfiguration } from "../types/ViewAssetConfiguration";
@@ -15,9 +12,7 @@ interface AssetConfiguration {
   reserveFactor: FetchBigInt;
 }
 
-export const useFetchAssetConfiguration = (
-  asset: Address
-): FetchData<AssetConfiguration> => {
+export const useFetchAssetConfiguration = (asset: Address): FetchData<AssetConfiguration> => {
   const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
@@ -54,9 +49,7 @@ export const useFetchAssetConfiguration = (
   };
 };
 
-export const useFetchViewAssetConfiguration = (
-  asset: Address
-): Displayable<ViewAssetConfiguration> => {
+export const useFetchViewAssetConfiguration = (asset: Address): Displayable<ViewAssetConfiguration> => {
   const {
     isLoading,
     isFetched,

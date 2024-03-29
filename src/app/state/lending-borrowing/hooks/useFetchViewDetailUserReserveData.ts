@@ -13,14 +13,8 @@ export interface DetailUserReserveData {
   variableDebtTokenBalanceUsd: FetchBigInt;
 }
 
-export const useFetchDetailUserReserveData = (
-  reserve: Address
-): FetchData<DetailUserReserveData> => {
-  const {
-    data: price,
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-  } = useFetchAssetPrice(reserve);
+export const useFetchDetailUserReserveData = (reserve: Address): FetchData<DetailUserReserveData> => {
+  const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice(reserve);
   // todo: Can we just call getUserAccountData here instead so we don't need to do the math for USD here? #219
 
   const {
@@ -32,13 +26,10 @@ export const useFetchDetailUserReserveData = (
   let aTokenBalanceUsd;
   let variableDebtTokenBalanceUsd;
   if (aTokenBalance && variableDebtTokenBalance && price) {
-    aTokenBalanceUsd =
-      (aTokenBalance.bigIntValue * price.bigIntValue) /
-      BigInt(10 ** aTokenBalance.decimals);
+    aTokenBalanceUsd = (aTokenBalance.bigIntValue * price.bigIntValue) / BigInt(10 ** aTokenBalance.decimals);
 
     variableDebtTokenBalanceUsd =
-      (variableDebtTokenBalance.bigIntValue * price.bigIntValue) /
-      BigInt(10 ** variableDebtTokenBalance.decimals);
+      (variableDebtTokenBalance.bigIntValue * price.bigIntValue) / BigInt(10 ** variableDebtTokenBalance.decimals);
   }
 
   return {
@@ -61,18 +52,11 @@ export const useFetchDetailUserReserveData = (
   };
 };
 
-export const useFetchViewDetailUserReserveData = (
-  reserve: Address
-): Displayable<ViewDetailUserReserveData> => {
+export const useFetchViewDetailUserReserveData = (reserve: Address): Displayable<ViewDetailUserReserveData> => {
   const {
     isLoading,
     isFetched,
-    data: {
-      aTokenBalance,
-      aTokenBalanceUsd,
-      variableDebtTokenBalance,
-      variableDebtTokenBalanceUsd,
-    },
+    data: { aTokenBalance, aTokenBalanceUsd, variableDebtTokenBalance, variableDebtTokenBalanceUsd },
   } = useFetchDetailUserReserveData(reserve);
 
   return {
@@ -85,9 +69,7 @@ export const useFetchViewDetailUserReserveData = (
       },
       borrowed: {
         tokenAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),
-        dollarAmount: formatFetchBigIntToViewBigInt(
-          variableDebtTokenBalanceUsd
-        ),
+        dollarAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalanceUsd),
       },
     },
   };

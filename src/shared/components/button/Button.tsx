@@ -66,16 +66,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 // TODO: IMPLEMENT COMPONENT PROPERLY!!!
 export const Button: React.FC<ButtonProps> = ({
-   
   color = "primary",
-   
+
   size = "normal",
-   
+
   variant = "contained",
-   
+
   fullWidth = false,
   type = "button",
-   
+
   className = "",
   loading,
   children,

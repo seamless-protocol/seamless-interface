@@ -12,9 +12,7 @@ export interface CollateralRatioTargets {
   };
 }
 
-export const useFetchCollateralRatioTargets = (
-  strategy: Address
-): Fetch<CollateralRatioTargets> => {
+export const useFetchCollateralRatioTargets = (strategy: Address): Fetch<CollateralRatioTargets> => {
   const result = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
@@ -34,9 +32,7 @@ export const useFetchCollateralRatioTargets = (
   };
 };
 
-export const useFetchViewCollateralRatioTargets = (
-  strategy: Address
-): Displayable<ViewCollateralRatioTargets> => {
+export const useFetchViewCollateralRatioTargets = (strategy: Address): Displayable<ViewCollateralRatioTargets> => {
   const {
     isLoading,
     isFetched,

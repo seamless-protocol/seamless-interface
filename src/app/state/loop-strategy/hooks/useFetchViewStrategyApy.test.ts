@@ -8,20 +8,12 @@ const formatter = Intl.NumberFormat("en", {
   maximumFractionDigits: 2,
 });
 
-export function formatOnTwoDecimals(
-  input: number | bigint | undefined
-): string {
+export function formatOnTwoDecimals(input: number | bigint | undefined): string {
   return formatter.format(input || 0);
 }
 
-function calculateApyWrapper(
-  endValue: bigint,
-  startValue: bigint,
-  timeWindows: bigint
-) {
-  return Number(
-    formatOnTwoDecimals(calculateApy(endValue, startValue, timeWindows))
-  );
+function calculateApyWrapper(endValue: bigint, startValue: bigint, timeWindows: bigint) {
+  return Number(formatOnTwoDecimals(calculateApy(endValue, startValue, timeWindows)));
 }
 
 test("calculateApy", async () => {

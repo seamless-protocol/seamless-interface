@@ -1,9 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { Displayable, useSeamlessContractRead, useToken } from "@shared";
-import {
-  DecimalsOptions,
-  formatFetchBigIntToViewBigInt,
-} from "../../../../shared/utils/helpers";
+import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 

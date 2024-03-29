@@ -1,8 +1,4 @@
-import {
-  convertAprToApy,
-  formatFetchNumberToViewNumber,
-  formatUnitsToNumber,
-} from "../../../../shared/utils/helpers";
+import { convertAprToApy, formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "../../../../shared/types/Fetch";
 import { Address } from "viem";
 import { Displayable } from "../../../../shared";
@@ -18,10 +14,7 @@ export const useFetchBorrowApy = (asset: Address): FetchData<FetchNumber> => {
 
   let borrowApy = 0;
   if (variableBorrowRate) {
-    const borrowApr = formatUnitsToNumber(
-      variableBorrowRate.bigIntValue,
-      variableBorrowRate.decimals
-    );
+    const borrowApr = formatUnitsToNumber(variableBorrowRate.bigIntValue, variableBorrowRate.decimals);
     borrowApy = convertAprToApy(borrowApr);
   }
 

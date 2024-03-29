@@ -1,9 +1,4 @@
-import {
-  WETH_ADDRESS,
-  WSTETH_ADDRESS,
-  sWETH_ADDRESS,
-  wstETHBooster_ADDRESS,
-} from "./constants";
+import { WETH_ADDRESS, WSTETH_ADDRESS, sWETH_ADDRESS, wstETHBooster_ADDRESS } from "./constants";
 import { Address } from "viem";
 
 import wethLogo from "@assets/tokens/weth.svg";

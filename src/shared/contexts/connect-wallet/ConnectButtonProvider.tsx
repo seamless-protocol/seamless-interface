@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  PropsWithChildren,
-} from "react";
+import React, { createContext, useState, useEffect, PropsWithChildren } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useDropdown } from "../../hooks/ui-hooks/useDropdown";
@@ -15,7 +10,7 @@ interface ConnectButtonContextType {
   isConnected: boolean;
   isDropdownVisible: boolean;
   setIsDropdownVisible: React.Dispatch<React.SetStateAction<boolean>>;
-   
+
   toggleDropdown: (e: React.MouseEvent<any, MouseEvent>) => void;
   handleDisconnect: () => Promise<void>;
   handleSwitchWallet: () => Promise<void>;
@@ -38,12 +33,9 @@ const defaultContextValue: ConnectButtonContextType = {
   dropdownRef: { current: null },
 };
 
-export const ConnectButtonContext =
-  createContext<ConnectButtonContextType>(defaultContextValue);
+export const ConnectButtonContext = createContext<ConnectButtonContextType>(defaultContextValue);
 
-export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
+export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { isConnected, address } = useAccount();
   const { isSanctioned } = useFetchIsAddressSanctioned(address);
   const { avatar } = useUserAvatar();
@@ -109,9 +101,5 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({
     userAvatar: ensAvatar || avatar,
   };
 
-  return (
-    <ConnectButtonContext.Provider value={contextValue}>
-      {children}
-    </ConnectButtonContext.Provider>
-  );
+  return <ConnectButtonContext.Provider value={contextValue}>{children}</ConnectButtonContext.Provider>;
 };

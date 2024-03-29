@@ -10,14 +10,9 @@ type IProps<T> = {
   fullWidth?: boolean;
 };
 
-export type RHFInputFieldProps<T> = IProps<T> &
-  InputHTMLAttributes<HTMLInputElement>;
+export type RHFInputFieldProps<T> = IProps<T> & InputHTMLAttributes<HTMLInputElement>;
 
-export function RHFInputField<T>({
-  name,
-  rules,
-  ...other
-}: RHFInputFieldProps<T>) {
+export function RHFInputField<T>({ name, rules, ...other }: RHFInputFieldProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -30,7 +25,7 @@ export function RHFInputField<T>({
           <InputField
             {...field}
             // todo: resolve this properly
-             
+
             value={(field.value as any) || ""}
             {...other}
             type="text"

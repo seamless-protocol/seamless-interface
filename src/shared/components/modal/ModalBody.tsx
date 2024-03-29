@@ -26,9 +26,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
 }) => {
   const styles = IS_STYLE_VERSION_2 ? modalStylesV2 : modalStylesV1;
 
-  const handleOverlayMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (event.target === event.currentTarget) {
       setModalOpen(false);
 
@@ -42,10 +40,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
       style={{ opacity: 1 }}
       onMouseDown={handleOverlayMouseDown}
     >
-      <div
-        className={`${styles.root} ${fullScreen ? "w-full h-full" : ""}`}
-        style={{ opacity: 1 }}
-      >
+      <div className={`${styles.root} ${fullScreen ? "w-full h-full" : ""}`} style={{ opacity: 1 }}>
         <div className={styles.header}>
           <Typography type="h2">{header}</Typography>
           <button
