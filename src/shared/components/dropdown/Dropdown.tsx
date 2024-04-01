@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 interface Props {
   button?: React.ReactNode;
@@ -13,7 +13,6 @@ interface Props {
  * The `Dropdown` component is an adaptable dropdown menu that intelligently adjusts its positioning based on the viewport's available space. This ensures that the dropdown content is always visible within the viewport, enhancing the user interface experience across various device sizes. The component is highly customizable, supporting dynamic content for both the dropdown trigger and menu.
  *
  * ## Key Features:
- * - **Dynamic Positioning**: The component calculates the available space on the right of the dropdown trigger. If insufficient space is detected, it dynamically adjusts its position to fit within the viewport, preventing overflow.
  * - **Customizable Trigger and Content**: Accepts any React node for the `button` (dropdown trigger) and `children` (dropdown content), offering flexibility in content design and layout.
  * - **Configurable Width**: Allows specification of the dropdown content's width through the `width` prop, accommodating various content sizes.
  * - **CSS Customization**: Supports additional custom CSS classes via the `className` prop, enabling further styling and theming flexibility.
@@ -40,29 +39,9 @@ interface Props {
  * @returns The `Dropdown` component with dynamically adjustable positioning.
  */
 
-export const Dropdown: React.FC<Props> = ({ button, children, width = 208 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [positionClass, setPositionClass] = useState("");
-
-  const updateDropdownPosition = () => {
-    if (dropdownRef.current) {
-      const dropdownRect = dropdownRef.current.getBoundingClientRect();
-      const rightSpace = window.innerWidth - dropdownRect.right;
-      const haveEnoughSpace = rightSpace >= width;
-
-      setPositionClass(haveEnoughSpace ? "" : "dropdown-end");
-    }
-  };
-
-  useEffect(() => {
-    updateDropdownPosition();
-    window.addEventListener("resize", updateDropdownPosition);
-
-    return () => window.removeEventListener("resize", updateDropdownPosition);
-  }, []);
-
+export const Dropdown: React.FC<Props> = ({ button, children, width = 208, className = "" }) => {
   return (
-    <div ref={dropdownRef} className={`dropdown ${positionClass}`}>
+    <div className={`dropdown ${className}`}>
       <div tabIndex={0} role="button" className="cursor-pointer">
         {button}
       </div>
