@@ -100,7 +100,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
       <Modal
         ref={modalRef}
         header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
-        buttonText="Deposit"
         onClose={reset}
         buttonProps={{ ...buttonProps }}
       >
