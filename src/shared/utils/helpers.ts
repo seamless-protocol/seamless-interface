@@ -69,7 +69,7 @@ export function formatToDisplayableOrPlaceholder(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  return value && value != 0 ? formatToDisplayable(value, decimalsFormattingOptions) : placeholder;
+  return value && value !== 0 ? formatToDisplayable(value, decimalsFormattingOptions) : placeholder;
 }
 
 /**
@@ -92,7 +92,7 @@ export function formatFetchBigIntToViewBigInt(
   return {
     value: formatUnits(bigIntValue, decimals),
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
-    bigIntValue: bigIntValue,
+    bigIntValue,
     symbol,
   };
 }
@@ -120,10 +120,9 @@ export function formatFetchNumberToViewNumber(
 }
 
 export function formatIncentiveAprToViewNumber(apr: number | undefined): ViewNumber {
-  apr = apr || 0;
   return {
     viewValue: formatToDisplayableOrPlaceholder(apr, ""),
-    symbol: apr > 0 ? "%" : "",
+    symbol: (apr || 0) > 0 ? "%" : "",
   };
 }
 
@@ -138,7 +137,6 @@ export function convertAprToApy(apr: number): number {
 export function normalizeDecimals(value: bigint, valueDecimals: bigint, toDecimals: bigint): bigint {
   if (valueDecimals <= toDecimals) {
     return value * 10n ** (toDecimals - valueDecimals);
-  } else {
-    return value / 10n ** (valueDecimals - toDecimals);
   }
+  return value / 10n ** (valueDecimals - toDecimals);
 }

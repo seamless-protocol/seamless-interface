@@ -13,8 +13,11 @@ export const LiFiWidgetWrapper = () => {
     hiddenUI: [HiddenUI.DrawerCloseButton],
   };
 
+  // eslint-disable-next-line no-console
   const notifyStart = () => console.log("Swap started");
+  // eslint-disable-next-line no-console
   const notifyComplete = () => console.log("Swap complete");
+  // eslint-disable-next-line no-console
   const notifyError = () => console.log("Something went wrong");
 
   useEffect(() => {

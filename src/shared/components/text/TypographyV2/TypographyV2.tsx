@@ -1,3 +1,4 @@
+import React from "react";
 import { ComponentMap, TypographyColor, TypographyTypeV2, tailwindStyles } from "./mappers";
 
 export interface TypographyPropsv2 {
@@ -50,5 +51,6 @@ export const TypographyV2: React.FC<TypographyPropsv2> = ({
   const styleClass = tailwindStyles[type] || "";
   const combinedClassNames = `${styleClass} ${className}`;
 
-  return <Tag className={combinedClassNames}>{children}</Tag>;
+  // return <Tag className={combinedClassNames}>{children}</Tag>;
+  return React.createElement(Tag, { className: combinedClassNames }, children);
 };

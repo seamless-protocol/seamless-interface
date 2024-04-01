@@ -27,7 +27,7 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<F
     isLoading: isPrevBlockLoading,
     isFetched: isPrevBlockFetched,
   } = useBlock({
-    blockNumber: latestBlockData ? latestBlockData?.number - APY_BLOCK_FRAME : 0n,
+    blockNumber: latestBlockData ? (latestBlockData?.number || 0n) - APY_BLOCK_FRAME : 0n,
   });
 
   const {

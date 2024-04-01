@@ -15,6 +15,7 @@ export function useWatchAsset() {
 
   const mutationFn = async (token: Asset): Promise<boolean> => {
     if (!walletClient) {
+      // eslint-disable-next-line no-console
       console.warn("Wallet client is not available.");
       return false;
     }
@@ -22,6 +23,7 @@ export function useWatchAsset() {
     const logoUrl = token.symbol in PublicAssetLogosConfig ? PublicAssetLogosConfig[token.symbol] : undefined;
 
     if (!logoUrl) {
+      // eslint-disable-next-line no-console
       console.warn(
         `Warning: logoUrl not found for symbol ${token.symbol}. Make sure to add your logo to PublicAssetLogosConfig.`
       );
@@ -40,6 +42,7 @@ export function useWatchAsset() {
 
       return success ?? false;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error watching asset:", error);
       return false;
     }
