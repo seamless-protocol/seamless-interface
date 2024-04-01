@@ -27,7 +27,7 @@ import { aaveOracleAddress } from "@generated";
 export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
-  const isSmallSize = useIsSmallScreen();
+  const isSmallScreen = useIsSmallScreen();
   const strategyConfig = ilmStrategies[id];
   const {
     data: { symbol: strategySymbol },
@@ -55,7 +55,7 @@ export const Heading: React.FC<{
           <FlexRow className="gap-2 md:max-w-full max-w-[80%]">
             <DisplayText typography="main21" text={strategyConfig.underlyingAsset?.name} />
             <Dropdown
-              className={isSmallSize ? "dropdown-end" : ""}
+              className={isSmallScreen ? "dropdown-end" : ""}
               button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}
             >
               <ul className="py-1">
@@ -68,7 +68,7 @@ export const Heading: React.FC<{
               </ul>
             </Dropdown>
 
-            <Dropdown className={isSmallSize ? "dropdown-end" : ""} button={<SmallWatchAssetButton />}>
+            <Dropdown className={isSmallScreen ? "dropdown-end" : ""} button={<SmallWatchAssetButton />}>
               <ul className="py-1">
                 <WatchAsset
                   className="border-b border-divider"
