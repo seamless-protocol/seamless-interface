@@ -9,13 +9,13 @@ import { WagmiProvider } from "wagmi";
 //* * REACT QUERY **/
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //* * RAINBOW **/
-import { myRainbowkitThemeConfig } from "./app/config/rainbow-modal.config";
+import { myRainbowkitThemeConfig } from "./app/v1/config/rainbow-modal.config";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
-//** LIFI WIDGET **/
+//* * LIFI WIDGET **/
 import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper, NotificationProvider } from "@shared";
-import { App as AppV1 } from "./App";
+import { App as AppV1 } from "./app/v1/App";
 import { App as AppV2 } from "./app/v2/App";
 
 const queryClient = new QueryClient();
