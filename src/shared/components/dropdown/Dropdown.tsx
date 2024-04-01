@@ -10,7 +10,7 @@ interface Props {
 /**
  * `Dropdown` Component
  *
- * The `Dropdown` component is an adaptable dropdown menu that intelligently adjusts its positioning based on the viewport's available space. This ensures that the dropdown content is always visible within the viewport, enhancing the user interface experience across various device sizes. The component is highly customizable, supporting dynamic content for both the dropdown trigger and menu.
+ * The `Dropdown` component.
  *
  * ## Key Features:
  * - **Customizable Trigger and Content**: Accepts any React node for the `button` (dropdown trigger) and `children` (dropdown content), offering flexibility in content design and layout.
