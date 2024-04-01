@@ -132,7 +132,7 @@ export default {
           },
         ],
         h1: [
-          pxToRem(32), //28?
+          pxToRem(32), // 28?
           {
             fontFamily: FONT,
             fontWeight: 700,

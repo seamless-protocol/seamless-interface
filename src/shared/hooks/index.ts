@@ -2,6 +2,7 @@
 // ui hooks //
 // ******** //
 export * from "./ui-hooks/useDropdown";
+export * from "./ui-hooks/useIsSmallScreen";
 
 // ************ //
 // wallet hooks //

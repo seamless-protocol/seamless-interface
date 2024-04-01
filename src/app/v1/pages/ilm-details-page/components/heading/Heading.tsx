@@ -14,6 +14,7 @@ import {
   useToken,
   useWatchAsset,
   Tooltip,
+  useIsSmallScreen,
 } from "@shared";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
@@ -26,6 +27,7 @@ import { aaveOracleAddress } from "@generated";
 export const Heading: React.FC<{
   id: number;
 }> = ({ id }) => {
+  const isSmallSize = useIsSmallScreen();
   const strategyConfig = ilmStrategies[id];
   const {
     data: { symbol: strategySymbol },
@@ -52,7 +54,10 @@ export const Heading: React.FC<{
         <FlexCol>
           <FlexRow className="gap-2 md:max-w-full max-w-[80%]">
             <DisplayText typography="main21" text={strategyConfig.underlyingAsset?.name} />
-            <Dropdown button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}>
+            <Dropdown
+              className={isSmallSize ? "dropdown-end" : ""}
+              button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}
+            >
               <ul className="py-1">
                 <ViewAssetOnBaseScan
                   className="border-b border-divider"
@@ -63,7 +68,7 @@ export const Heading: React.FC<{
               </ul>
             </Dropdown>
 
-            <Dropdown button={<SmallWatchAssetButton />}>
+            <Dropdown className={isSmallSize ? "dropdown-end" : ""} button={<SmallWatchAssetButton />}>
               <ul className="py-1">
                 <WatchAsset
                   className="border-b border-divider"
