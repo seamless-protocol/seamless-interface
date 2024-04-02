@@ -9,6 +9,11 @@ interface Props {
   modalBody: string;
 }
 
+function getSubscribeButtonText(isLoading: boolean, isSubscribed: boolean) {
+  if (isLoading) return "Loading...";
+  return isSubscribed ? "Unsubscribe" : "Subscribe";
+}
+
 export const CBSubscribeButton: React.FC<{
   config: Props;
 }> = ({ config }) => {
@@ -34,7 +39,7 @@ export const CBSubscribeButton: React.FC<{
     }
   }, [window.CBWSubscribe]);
 
-  const subscribeButtonText = isLoading ? "Loading..." : isSubscribed ? "Unsubscribe" : "Subscribe";
+  const subscribeButtonText = getSubscribeButtonText(isLoading, isSubscribed);
 
   if (!isCoinbaseWallet) return null;
 
