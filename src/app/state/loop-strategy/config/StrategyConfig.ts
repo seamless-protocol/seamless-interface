@@ -29,7 +29,7 @@ export const ilmStrategies: StrategyConfig[] = [
     address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
-    defaultApy: 7.74,
+    defaultApy: 0,
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",
