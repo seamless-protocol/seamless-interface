@@ -12,7 +12,7 @@ export const PageNotFound = () => {
         </Typography>
         <br />
         <Typography type="body1" className="text-text-secondary">
-          We're sorry, but the page you are looking for doesn't exist or has been moved.
+          We&apos;re sorry, but the page you are looking for doesn&apos;t exist or has been moved.
           <br />
           Please check the URL or go back to the homepage.
         </Typography>

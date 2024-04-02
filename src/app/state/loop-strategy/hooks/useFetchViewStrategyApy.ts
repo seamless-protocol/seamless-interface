@@ -27,7 +27,10 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<F
     isLoading: isPrevBlockLoading,
     isFetched: isPrevBlockFetched,
   } = useBlock({
-    blockNumber: latestBlockData ? latestBlockData?.number - APY_BLOCK_FRAME : 0n,
+    query: { enabled: !!latestBlockData },
+    blockNumber: latestBlockData
+      ? latestBlockData?.number - APY_BLOCK_FRAME
+      : 0n,
   });
 
   const {
@@ -36,8 +39,8 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<F
     isFetched: isLatestBlockShareValueFetched,
   } = useFetchAssetPriceInBlock(
     strategyConfig.address,
-    latestBlockData?.number || 0n,
-    strategyConfig.underlyingAsset.address
+    latestBlockData?.number,
+    strategyConfig.debtAsset.address
   );
 
   const {
@@ -46,15 +49,21 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<F
     isFetched: isPrevBlockShareValueFetched,
   } = useFetchAssetPriceInBlock(
     strategyConfig.address,
-    prevBlockData?.number || 0n,
-    strategyConfig.underlyingAsset.address
+    prevBlockData?.number,
+    strategyConfig.debtAsset.address
   );
 
-  const apy = calculateApy(
-    shareValueInLatestBlock.bigIntValue || 0n,
-    shareValueInPrevBlock.bigIntValue || 0n,
-    (latestBlockData?.timestamp || 0n) - (prevBlockData?.timestamp || 0n)
-  );
+  const apy =
+    latestBlockData?.timestamp &&
+    prevBlockData?.timestamp &&
+    shareValueInLatestBlock.bigIntValue &&
+    shareValueInPrevBlock.bigIntValue
+      ? calculateApy(
+          shareValueInLatestBlock.bigIntValue,
+          shareValueInPrevBlock.bigIntValue,
+          latestBlockData?.timestamp - prevBlockData?.timestamp
+        )
+      : 0;
 
   return {
     isLoading:
@@ -62,24 +71,22 @@ export const useFetchStrategyApy = (strategyConfig: StrategyConfig): FetchData<F
     isFetched:
       isLatestBlockShareValueFetched && isPrevBlockShareValueFetched && isLatestBlockFetched && isPrevBlockFetched,
     data: {
-      value: apy || strategyConfig.defaultApy,
+      value: strategyConfig.defaultApy ? strategyConfig.defaultApy : apy,
       symbol: "%",
     },
   };
 };
 
-export const useFetchViewStrategyApy = (index: number): Displayable<ViewNumber> => {
-  // TODO: uncomment when enough time passes to present real data
-  // const { apy, isLoading, isFetched } = useFetchStrategyApy(
-  //   ilmStrategies[index]
-  // );
+export const useFetchViewStrategyApy = (
+  index: number
+): Displayable<ViewNumber> => {
+  const { data, isLoading, isFetched } = useFetchStrategyApy(
+    ilmStrategies[index]
+  );
 
   return {
-    isLoading: false,
-    isFetched: true,
-    data: formatFetchNumberToViewNumber({
-      value: ilmStrategies[index].defaultApy,
-      symbol: "%",
-    }),
+    isLoading,
+    isFetched,
+    data: formatFetchNumberToViewNumber(data),
   };
 };

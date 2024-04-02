@@ -56,7 +56,7 @@ const fetchAssetPriceInBlock = async (
     const underlyingPrice = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
 
     if (!underlyingPrice) return undefined;
-
+    
     price = (price * ONE_USD) / underlyingPrice;
   }
 
