@@ -121,7 +121,7 @@ export function formatFetchNumberToViewNumber(
 
 export function formatIncentiveAprToViewNumber(apr: number | undefined): ViewNumber {
   return {
-    viewValue: formatToDisplayableOrPlaceholder(apr, ""),
+    viewValue: formatToDisplayableOrPlaceholder(apr || 0, ""),
     symbol: (apr || 0) > 0 ? "%" : "",
   };
 }
