@@ -48,7 +48,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
             type="button"
             onClick={() => {
               setModalOpen(false);
-              onClose && onClose();
+              onClose?.();
             }}
           >
             <Icon src={xButton} alt="button-x" width={20} height={20} />

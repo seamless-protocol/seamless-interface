@@ -172,7 +172,5 @@ export default {
       },
     },
   },
-  // require("@tailwindcss/typography"), require("daisyui")
-  // eslint-disable-next-line global-require
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };

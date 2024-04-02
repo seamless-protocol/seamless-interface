@@ -63,7 +63,7 @@ export const tailwindStyles = {
   caption: "text-caption",
 };
 
-export const textColorStyles: { [key in TypographyColor]: string } = {
+export const textColorStyles = {
   primary: "text-text-primary",
   secondary: "text-text-secondary",
   disabled: "text-text-disabled",
@@ -75,7 +75,7 @@ export const textColorStyles: { [key in TypographyColor]: string } = {
   dark: "text-text-dark",
 };
 
-export const ComponentMap: { [key in TypographyType]: React.ElementType } = {
+export const ComponentMap = {
   display1: "h1",
   h1: "h1",
   h2: "h2",

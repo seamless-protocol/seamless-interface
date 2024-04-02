@@ -14,7 +14,7 @@ export type TypographyColor =
   | "light"
   | "dark";
 
-export const tailwindStyles: { [key in TypographyTypeV2]: string } = {
+export const tailwindStyles = {
   bold7: "text-bold7",
   bold6: "text-bold6",
   bold5: "text-bold5",
@@ -41,7 +41,7 @@ export const tailwindStyles: { [key in TypographyTypeV2]: string } = {
   regular: "text-regular",
 };
 
-export const ComponentMap: { [key in TypographyTypeV2]: React.ElementType } = {
+export const ComponentMap = {
   bold7: "h1",
   bold6: "h2",
   bold5: "h3",

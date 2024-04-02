@@ -132,7 +132,7 @@ export default {
           },
         ],
         h1: [
-          pxToRem(32), //28?
+          pxToRem(32), // 28?
           {
             fontFamily: FONT,
             fontWeight: 700,
@@ -351,6 +351,5 @@ export default {
       },
     },
   },
-  // require("@tailwindcss/typography"), require("daisyui")
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };

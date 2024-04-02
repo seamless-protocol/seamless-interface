@@ -56,7 +56,10 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     data: assetPrice,
   } = useFetchAssetPrice(underlyingAsset);
 
-  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  let sharesToReceive;
+  let sharesToReceiveInUsd;
+  let costInUnderlyingAsset;
+  let costInUsd;
   if (shares && shares.bigIntValue && sharePrice && assetPrice) {
     sharesToReceive = (shares.bigIntValue * 99n) / 100n;
     sharesToReceiveInUsd = (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
