@@ -2,9 +2,8 @@ import { Heading } from "./Heading";
 import { AssetCard, AssetCardProps } from "./AssetCard";
 
 import randomAsset from "@assets/tokens/wsteth.svg";
-import diagramPng from "@assets/wsteth-diagram.svg";
 
-import { Accordion, AccordionItem, FlexRow, Typography } from "@shared";
+import { FlexRow, Typography } from "@shared";
 import { useState } from "react";
 import { FormWrapper } from "./form/FormWrapper";
 
@@ -71,14 +70,6 @@ export const EarnTab = () => {
           <div className="col-span-7">
             <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
               <FormWrapper />
-            </div>
-
-            <div className="bg-neutral-0 shadow-card rounded-card py-6 px-8 mt-4">
-              <Accordion>
-                <AccordionItem title="Learn more about this strategy">
-                  <img src={diagramPng} alt="ilmDiagram" className="hover:scale-125 ease-in duration-150" />
-                </AccordionItem>
-              </Accordion>
             </div>
           </div>
         </div>

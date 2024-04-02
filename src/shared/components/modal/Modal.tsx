@@ -13,7 +13,7 @@ interface ModalProps {
   onClose?: () => void;
   fullScreen?: boolean;
   className?: string;
-  size?: "small" | "normal" | "big";
+  size?: "small" | "normal" | "big" | "biger";
 }
 export interface ModalHandles {
   close: () => void;

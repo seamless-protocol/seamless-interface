@@ -13,13 +13,14 @@ interface ModalBodyProps {
   setModalOpen: (isOpen: boolean) => void;
   onClose?: () => void;
   className?: string;
-  size?: "small" | "normal" | "big";
+  size?: "small" | "normal" | "big" | "biger";
 }
 
 const sizeMapper = {
   small: "max-w-[420px]",
   normal: "max-w-[540px]",
-  big: "max-w-[660px]",
+  big: "max-w-[690px]",
+  biger: "max-w-[920px]",
 };
 
 export const ModalBody: React.FC<ModalBodyProps> = ({
