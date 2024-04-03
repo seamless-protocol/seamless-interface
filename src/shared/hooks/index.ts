@@ -1,3 +1,8 @@
+// ************ //
+// other hooks //
+// ********** //
+export * from "./other-hooks/useUrlSearchParams";
+
 // ******** //
 // ui hooks //
 // ******** //

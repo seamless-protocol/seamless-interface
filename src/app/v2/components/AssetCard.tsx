@@ -1,7 +1,10 @@
 import { FlexRow, FlexCol, Typography, Icon } from "@shared";
-import { TagType, Tag } from "./Tag";
+import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
+import { Address } from "viem";
 
 export interface AssetCardProps {
+  address: Address;
+  isStrategy?: boolean;
   icon: string;
   hideBorder?: boolean;
   title: string;
@@ -13,6 +16,7 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({
+  address,
   icon,
   hideBorder,
   title,

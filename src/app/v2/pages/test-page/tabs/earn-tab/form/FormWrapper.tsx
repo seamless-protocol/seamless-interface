@@ -1,8 +1,9 @@
 import { Address } from "viem";
 import { sWETH_ADDRESS } from "@meta";
-import { MyFormProvider, FlexCol, Typography, RHFAmountInput, RHFInputSliderField, FlexRow } from "@shared";
+import { MyFormProvider, FlexCol, Typography, RHFAmountInput, RHFInputSliderField, FlexRow, Modal } from "@shared";
 import { useForm } from "react-hook-form";
 import { AddStrategyModal } from "./AddStrategyModal";
+import { AssetPicker } from "../../../../../components/AssetPicker";
 
 const mockProps = {
   name: "amount",
@@ -28,6 +29,15 @@ export const FormWrapper = () => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
+      <Modal
+        buttonProps={{
+          children: <>Test</>,
+        }}
+      >
+        <div className="mx-[-24px]">
+          <AssetPicker />
+        </div>
+      </Modal>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-">

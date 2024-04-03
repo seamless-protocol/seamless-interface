@@ -51,7 +51,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
     >
       <div
         className={`relative ${sizeMapper[size]} w-full rounded-md mx-auto bg-white shadow-lg p-6 
-      transition-opacity duration-200 ease-in-out ${fullScreen ? "w-full h-full" : ""}`}
+      transition-opacity duration-200 ease-in-out max-h-[92%] overflow-y-scroll ${fullScreen ? "w-full h-full" : ""}`}
         style={{ opacity: 1 }}
       >
         <div className="flex flex-row items-start justify-between mb-6">
