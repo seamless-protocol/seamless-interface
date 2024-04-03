@@ -15,7 +15,6 @@ export interface DetailUserReserveData {
 
 export const useFetchDetailUserReserveData = (reserve: Address): FetchData<DetailUserReserveData> => {
   const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice(reserve);
-  // todo: Can we just call getUserAccountData here instead so we don't need to do the math for USD here? #219
 
   const {
     data: { aTokenBalance, variableDebtTokenBalance },
