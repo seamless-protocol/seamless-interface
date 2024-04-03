@@ -48,7 +48,7 @@ export const useFetchUserReserveData = (reserve: Address): FetchData<UserReserve
       variableDebtTokenBalance: {
         bigIntValue: variableDebtTokenBalance || 0n,
         decimals,
-        symbol: "",
+        symbol,
       },
       usageAsCollateralEnabled,
     },
