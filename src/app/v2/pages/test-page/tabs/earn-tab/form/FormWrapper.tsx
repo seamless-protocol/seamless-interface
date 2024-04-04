@@ -1,9 +1,20 @@
 import { Address } from "viem";
 import { sWETH_ADDRESS } from "@meta";
-import { MyFormProvider, FlexCol, Typography, RHFAmountInput, RHFInputSliderField, FlexRow, Modal } from "@shared";
+import {
+  MyFormProvider,
+  FlexCol,
+  Typography,
+  RHFAmountInput,
+  RHFInputSliderField,
+  FlexRow,
+  Modal,
+  ModalHandles,
+} from "@shared";
 import { useForm } from "react-hook-form";
 import { AddStrategyModal } from "./AddStrategyModal";
 import { AssetPicker } from "../../../../../components/AssetPicker";
+import { useEffect, useRef } from "react";
+import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 
 const mockProps = {
   name: "amount",
@@ -18,6 +29,13 @@ const mockProps = {
 };
 
 export const FormWrapper = () => {
+  const modalRef = useRef<ModalHandles | null>(null);
+  const { asset, isStrategy } = useAssetPickerState({});
+
+  useEffect(() => {
+    modalRef.current?.close();
+  }, [asset, isStrategy]);
+
   const methods = useForm<{
     amount: string;
   }>({
@@ -30,6 +48,7 @@ export const FormWrapper = () => {
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
       <Modal
+        ref={modalRef}
         buttonProps={{
           children: <>Test</>,
         }}
