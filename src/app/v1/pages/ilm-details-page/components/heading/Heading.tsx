@@ -43,7 +43,11 @@ export const Heading: React.FC<{
     data: oraclePrice,
   } = useFetchViewAssetPrice(strategyConfig.underlyingAsset.address);
 
-  const { isLoading: isApyLoading, isFetched: isApyFetched, data: apy } = useFetchViewStrategyApy(id);
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    data: apy,
+  } = useFetchViewStrategyApy(ilmStrategies[id].address);
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
