@@ -19,14 +19,15 @@ import { useEffect, useRef } from "react";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { TypographyV2 } from "../../../../../../../shared/components/text/TypographyV2/TypographyV2";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Tag } from "../Tag";
 
 const mockProps = {
   name: "amount",
   assetAddress: sWETH_ADDRESS as Address,
   walletBalance: {
-    value: "1.011111",
-    viewValue: "11111111111111111",
-    bigIntValue: BigInt("1000000000000000000"),
+    value: "234,925.00",
+    viewValue: "234,925.00",
+    bigIntValue: BigInt("234925000000000000000000"),
     symbol: "ETH",
   },
   usdValue: "2000 USD",
@@ -54,10 +55,18 @@ export const FormWrapper = () => {
     <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
-          <FlexCol className="gap-">
-            <Typography type="bold4">Add to strategy</Typography>
-            <Typography type="regular3">Multiply wstETH staking rewards</Typography>
-          </FlexCol>
+          <FlexRow className="justify-between items-start">
+            <FlexCol className="gap-1 min-h-14">
+              {asset ? (
+                <Typography type="bold4">{isStrategy ? "Add to strategy" : "Supply"}</Typography>
+              ) : (
+                <Typography type="bold4">Choose your strategy</Typography>
+              )}
+              <Typography type="regular3">{tokenData.name}</Typography>
+            </FlexCol>
+
+            {asset != null && <LocalTag isStrategy={isStrategy} />}
+          </FlexRow>
           <RHFAmountInput
             {...mockProps}
             assetButton={
@@ -73,7 +82,7 @@ export const FormWrapper = () => {
                   ),
                 }}
               >
-                <div className="mx-[-24px]">
+                <div className="mx-[-24px] mt-[-80px]">
                   <AssetPicker />
                 </div>
               </Modal>
@@ -81,17 +90,19 @@ export const FormWrapper = () => {
           />
         </FlexCol>
 
-        <FlexCol className="gap-4">
-          <Typography type="bold3">Multiplier</Typography>
-          <FlexCol>
-            <RHFInputSliderField name="test" min="0" max="2" />
-            <FlexRow className="justify-between pl-1">
-              <Typography type="medium3">3x</Typography>
-              <Typography type="medium3">5x</Typography>
-              <Typography type="medium3">10x</Typography>
-            </FlexRow>
+        {isStrategy && (
+          <FlexCol className="gap-4">
+            <Typography type="bold3">Multiplier</Typography>
+            <FlexCol>
+              <RHFInputSliderField name="test" min="0" max="2" />
+              <FlexRow className="justify-between pl-1">
+                <Typography type="medium3">3x</Typography>
+                <Typography type="medium3">5x</Typography>
+                <Typography type="medium3">10x</Typography>
+              </FlexRow>
+            </FlexCol>
           </FlexCol>
-        </FlexCol>
+        )}
 
         <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
           <Typography type="bold3">Summary</Typography>
@@ -119,4 +130,10 @@ export const FormWrapper = () => {
       </FlexCol>
     </MyFormProvider>
   );
+};
+
+const LocalTag: React.FC<{
+  isStrategy: boolean;
+}> = ({ isStrategy }) => {
+  return isStrategy ? <Tag tag="ILM" /> : <Tag tag="LEND" />;
 };

@@ -1,4 +1,4 @@
-import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
+import { FlexRow, FlexCol, Typography, Icon, useFullTokenData, getMarketTitle } from "@shared";
 import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
@@ -22,7 +22,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   isStrategy,
 }) => {
   const {
-    data: { logo: icon, name, shortName },
+    data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
 
   return (
@@ -35,8 +35,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           <Icon width={40} src={icon} alt={icon || ""} />
           <FlexCol className="gap-2 max-w-48 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{name}</Typography>
-              <Typography type="regular1">{shortName}</Typography>
+              <Typography type="bold3">{getMarketTitle(symbol, isStrategy)}</Typography>
+              <Typography type="regular1">{name}</Typography>
             </FlexCol>
             <FlexRow>
               {tags?.map((t, index) => {
@@ -47,7 +47,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
           <AssetApy asset={address} isStrategy={isStrategy} />
-          {/* <Typography type="bold3">{apy}</Typography> */}
           {incentivesButton && incentivesButton}
         </FlexCol>
       </FlexRow>

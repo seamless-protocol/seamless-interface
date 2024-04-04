@@ -15,7 +15,7 @@ export const Heading = () => {
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-5">
         <FlexCol className="gap-3">
-          <FlexCol className="gap-2">
+          <FlexCol className="gap-2 min-h-20">
             <Typography type="bold5">{tokenData.name || "Choose your strategy to earn APY"}</Typography>
             <Typography type="regular1">{description}</Typography>
           </FlexCol>

@@ -1,5 +1,5 @@
 import { useBlock } from "wagmi";
-import { StrategyData, ilmAssetStrategiesMap } from "../config/StrategyConfig";
+import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@meta";
 import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";

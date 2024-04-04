@@ -19,6 +19,7 @@ interface IProps<T> extends RHFInputFieldProps<T> {
 export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue, assetButton, ...other }: IProps<T>) {
   const { setValue } = useFormContext();
   const { data: tokenData } = useFullTokenData(assetAddress);
+
   // get user balance
   // convert to dollar value
 
