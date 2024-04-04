@@ -15,7 +15,7 @@ export type Fetch<T> = T & {
 };
 
 export type FetchData<T> = {
-  data: T | undefined;
+  data: T;
   isFetched: boolean;
   isLoading: boolean;
 };

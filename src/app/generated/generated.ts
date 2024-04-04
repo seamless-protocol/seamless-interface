@@ -2865,7 +2865,7 @@ export const loopStrategyAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'collateralUSD',
+    name: 'collateral',
     outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
@@ -2893,7 +2893,7 @@ export const loopStrategyAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'debtUSD',
+    name: 'debt',
     outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
@@ -3045,7 +3045,7 @@ export const loopStrategyAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'getRatioMargin',
+    name: 'getRatioMagin',
     outputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
@@ -3061,6 +3061,13 @@ export const loopStrategyAbi = [
     inputs: [],
     name: 'getSwapper',
     outputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getUSDMargin',
+    outputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
   {
@@ -3296,6 +3303,13 @@ export const loopStrategyAbi = [
     type: 'function',
     inputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
     name: 'setSwapper',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
+    name: 'setUSDMargin',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -5233,12 +5247,12 @@ export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
 )
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateralUSD"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateral"`
  */
-export const useReadLoopStrategyCollateralUsd =
+export const useReadLoopStrategyCollateral =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    functionName: 'collateralUSD',
+    functionName: 'collateral',
   })
 
 /**
@@ -5269,11 +5283,11 @@ export const useReadLoopStrategyCurrentCollateralRatio =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debtUSD"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debt"`
  */
-export const useReadLoopStrategyDebtUsd = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  functionName: 'debtUSD',
+  functionName: 'debt',
 })
 
 /**
@@ -5350,12 +5364,12 @@ export const useReadLoopStrategyGetPoolAddressProvider =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRatioMargin"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRatioMagin"`
  */
-export const useReadLoopStrategyGetRatioMargin =
+export const useReadLoopStrategyGetRatioMagin =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    functionName: 'getRatioMargin',
+    functionName: 'getRatioMagin',
   })
 
 /**
@@ -5374,6 +5388,15 @@ export const useReadLoopStrategyGetSwapper =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'getSwapper',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getUSDMargin"`
+ */
+export const useReadLoopStrategyGetUsdMargin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    functionName: 'getUSDMargin',
   })
 
 /**
@@ -5675,6 +5698,15 @@ export const useWriteLoopStrategySetSwapper =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setUSDMargin"`
+ */
+export const useWriteLoopStrategySetUsdMargin =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    functionName: 'setUSDMargin',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"transfer"`
  */
 export const useWriteLoopStrategyTransfer =
@@ -5848,6 +5880,15 @@ export const useSimulateLoopStrategySetSwapper =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'setSwapper',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setUSDMargin"`
+ */
+export const useSimulateLoopStrategySetUsdMargin =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    functionName: 'setUSDMargin',
   })
 
 /**

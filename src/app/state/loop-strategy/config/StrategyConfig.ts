@@ -23,7 +23,7 @@ export interface StrategyConfig {
   debtAsset: AssetConfig;
 }
 
-//TODO: Remove this array when new design is implemented
+// TODO: Remove this array when new design is implemented
 export const ilmStrategies: StrategyConfig[] = [
   {
     name: "wstETH Booster",
@@ -55,7 +55,7 @@ export interface StrategyData {
   };
 }
 
-//TODO: Remove this when dynamic fetching from contracts/subgraph is implemented
+// TODO: Remove this when dynamic fetching from contracts/subgraph is implemented
 // Strategy with highest multiple needs to be last in the array
 export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
   [
