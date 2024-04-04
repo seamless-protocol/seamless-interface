@@ -56,12 +56,16 @@ export const FormWrapper = () => {
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1">
-              <Typography type="bold4">Add to strategy</Typography>
-              <Typography type="regular3">Multiply wstETH staking rewards</Typography>
+            <FlexCol className="gap-1 min-h-14">
+              {asset ? (
+                <Typography type="bold4">{isStrategy ? "Add to strategy" : "Supply"}</Typography>
+              ) : (
+                <Typography type="bold4">Choose your strategy</Typography>
+              )}
+              <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {isStrategy ? <Tag tag="ILM" /> : <Tag tag="LEND" />}
+            {asset != null && <LocalTag isStrategy={isStrategy} />}
           </FlexRow>
           <RHFAmountInput
             {...mockProps}
@@ -126,4 +130,10 @@ export const FormWrapper = () => {
       </FlexCol>
     </MyFormProvider>
   );
+};
+
+const LocalTag: React.FC<{
+  isStrategy: boolean;
+}> = ({ isStrategy }) => {
+  return isStrategy ? <Tag tag="ILM" /> : <Tag tag="LEND" />;
 };

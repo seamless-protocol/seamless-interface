@@ -74,7 +74,7 @@ export const AssetPicker = () => {
             onClick={() => {
               const { address, isStrategy } = item;
               setAsset(asset === address ? undefined : address);
-              setIsStrategy(isStrategy);
+              setIsStrategy(asset === address ? undefined : isStrategy);
             }}
           >
             <AssetCard isSelected={item.address === asset && Boolean(item.isStrategy) === isStrategy} {...item} />
