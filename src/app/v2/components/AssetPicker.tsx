@@ -77,11 +77,7 @@ export const AssetPicker = () => {
               setIsStrategy(isStrategy);
             }}
           >
-            <AssetCard
-              isSelected={item.address === asset && Boolean(item.isStrategy) === isStrategy}
-              {...item}
-              hideBorder={index === mockAssets.length - 1}
-            />
+            <AssetCard isSelected={item.address === asset && Boolean(item.isStrategy) === isStrategy} {...item} />
           </div>
         ))}
       </div>
