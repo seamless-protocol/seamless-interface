@@ -1,21 +1,23 @@
-import { FlexCol, Typography, FlexRow, Modal } from "@shared";
+import { FlexCol, Typography, FlexRow, Modal, useFullTokenData } from "@shared";
 
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 import diagramPng from "@assets/wsteth-diagram.svg";
+import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
+import { useTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 
 export const Heading = () => {
+  const { asset } = useAssetPickerState({});
+  const { data: tokenData } = useFullTokenData(asset);
+  const description = useTokenDescription(asset);
+
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-5">
         <FlexCol className="gap-3">
           <FlexCol className="gap-2">
-            <Typography type="bold5">Multiply wstETH staking rewards</Typography>
-            <Typography type="regular1">
-              This integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more
-              wstETH to achieve the targeted multiple. This amplifies the participant&apos;s wstETH and ETH staking
-              reward exposure.
-            </Typography>
+            <Typography type="bold5">{tokenData.name || "Choose your strategy to earn APY"}</Typography>
+            <Typography type="regular1">{description}</Typography>
           </FlexCol>
           <Modal
             size="biger"

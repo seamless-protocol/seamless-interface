@@ -9,19 +9,23 @@ import {
   FlexRow,
   Modal,
   ModalHandles,
+  Icon,
+  useFullTokenData,
 } from "@shared";
 import { useForm } from "react-hook-form";
 import { AddStrategyModal } from "./AddStrategyModal";
 import { AssetPicker } from "../../../../../components/AssetPicker";
 import { useEffect, useRef } from "react";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
+import { TypographyV2 } from "../../../../../../../shared/components/text/TypographyV2/TypographyV2";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 const mockProps = {
   name: "amount",
   assetAddress: sWETH_ADDRESS as Address,
   walletBalance: {
-    value: "1.0",
-    viewValue: "1",
+    value: "1.011111",
+    viewValue: "11111111111111111",
     bigIntValue: BigInt("1000000000000000000"),
     symbol: "ETH",
   },
@@ -31,6 +35,7 @@ const mockProps = {
 export const FormWrapper = () => {
   const modalRef = useRef<ModalHandles | null>(null);
   const { asset, isStrategy } = useAssetPickerState({});
+  const { data: tokenData } = useFullTokenData(asset);
 
   useEffect(() => {
     modalRef.current?.close();
@@ -47,23 +52,33 @@ export const FormWrapper = () => {
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
-      <Modal
-        ref={modalRef}
-        buttonProps={{
-          children: <>Test</>,
-        }}
-      >
-        <div className="mx-[-24px]">
-          <AssetPicker />
-        </div>
-      </Modal>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-">
             <Typography type="bold4">Add to strategy</Typography>
             <Typography type="regular3">Multiply wstETH staking rewards</Typography>
           </FlexCol>
-          <RHFAmountInput {...mockProps} />
+          <RHFAmountInput
+            {...mockProps}
+            assetButton={
+              <Modal
+                ref={modalRef}
+                buttonProps={{
+                  children: (
+                    <div className="flex justify-between min-w-28 min-h-7 space-x-2 border rounded-lg p-1 hover:bg-neutral-50">
+                      {tokenData?.logo && <Icon width={18} src={tokenData?.logo} alt="input-field-asset" />}
+                      <TypographyV2 type="bold3">{tokenData?.symbol || "Choose asset"}</TypographyV2>
+                      <ChevronDownIcon width={12} />
+                    </div>
+                  ),
+                }}
+              >
+                <div className="mx-[-24px]">
+                  <AssetPicker />
+                </div>
+              </Modal>
+            }
+          />
         </FlexCol>
 
         <FlexCol className="gap-4">

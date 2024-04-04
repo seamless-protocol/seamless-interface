@@ -1,63 +1,60 @@
 import { FlexRow, Typography } from "@shared";
 
-import randomAsset from "@assets/tokens/wsteth.svg";
 import { AssetCardProps, AssetCard } from "./AssetCard";
 import { useAssetPickerState } from "../hooks/useAssetPickerState";
+import {
+  CBETH_ADDRESS,
+  DAI_ADDRESS,
+  USDBC_ADDRESS,
+  USDC_ADDRESS,
+  WETH_ADDRESS,
+  WSTETH_ADDRESS,
+  rwstETH_ADDRESS,
+} from "@meta";
 
 const mockAssets: AssetCardProps[] = [
   {
-    address: "0x1",
+    address: WSTETH_ADDRESS,
     isStrategy: true,
-    icon: randomAsset,
-    title: "Multiply wstETH staking rewards",
-    subTitle: "Wrapped Liquid Staked ETH",
     tags: ["ILM"],
     apy: "12.74%",
   },
   {
-    address: "0x2",
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: WETH_ADDRESS,
     tags: ["LEND"],
     apy: "3.2%",
   },
   {
-    address: "0x3",
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: CBETH_ADDRESS,
     tags: ["LEND"],
-    apy: "3.2%",
+    apy: "4.5%",
   },
   {
-    address: "0x4",
+    address: USDBC_ADDRESS,
     isStrategy: true,
-    icon: randomAsset,
-    title: "Multiply wstETH staking rewards",
-    subTitle: "Wrapped Liquid Staked ETH",
     tags: ["ILM"],
-    apy: "12.74%",
+    apy: "8.2%",
   },
   {
-    address: "0x5",
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: DAI_ADDRESS,
     tags: ["LEND"],
-    apy: "3.2%",
+    apy: "2.5%",
   },
   {
-    address: "0x6",
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: USDC_ADDRESS,
     tags: ["LEND"],
-    apy: "3.2%",
+    apy: "3.5%",
+  },
+  {
+    address: rwstETH_ADDRESS,
+    tags: ["LEND"],
+    isStrategy: true,
+    apy: "10%",
   },
 ];
 
 export const AssetPicker = () => {
+  // get all assets
   const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({});
 
   return (
@@ -76,7 +73,7 @@ export const AssetPicker = () => {
             key={index}
             onClick={() => {
               const { address, isStrategy } = item;
-              setAsset(address);
+              setAsset(asset === address ? undefined : address);
               setIsStrategy(isStrategy);
             }}
           >

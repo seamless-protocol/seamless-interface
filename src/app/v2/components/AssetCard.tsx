@@ -1,14 +1,11 @@
-import { FlexRow, FlexCol, Typography, Icon } from "@shared";
+import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
 import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 
 export interface AssetCardProps {
   address: Address;
   isStrategy?: boolean;
-  icon: string;
   hideBorder?: boolean;
-  title: string;
-  subTitle: string;
   tags?: TagType[];
   apy?: string;
   incentivesButton?: React.ReactNode;
@@ -17,15 +14,16 @@ export interface AssetCardProps {
 
 export const AssetCard: React.FC<AssetCardProps> = ({
   address,
-  icon,
   hideBorder,
-  title,
-  subTitle,
   tags,
   apy,
   incentivesButton,
   isSelected,
 }) => {
+  const {
+    data: { logo: icon, name, shortName },
+  } = useFullTokenData(address);
+
   return (
     <div
       className={`p-6 pr-8  ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
@@ -33,11 +31,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
-          <Icon width={40} src={icon} alt={icon} />
-          <FlexCol className="gap-2 max-w-48">
+          <Icon width={40} src={icon} alt={icon || ""} />
+          <FlexCol className="gap-2 max-w-48 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{title}</Typography>
-              <Typography type="regular1">{subTitle}</Typography>
+              <Typography type="bold3">{name}</Typography>
+              <Typography type="regular1">{shortName}</Typography>
             </FlexCol>
             <FlexRow>
               {tags?.map((t, index) => {
