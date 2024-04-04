@@ -1,6 +1,11 @@
 export const LoopStrategyAbi = [
   {
     inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
     name: "AccessControlBadConfirmation",
     type: "error",
   },
@@ -40,11 +45,6 @@ export const LoopStrategyAbi = [
       },
     ],
     name: "AddressInsufficientBalance",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "DepositStaticcallReverted",
     type: "error",
   },
   {
@@ -250,7 +250,17 @@ export const LoopStrategyAbi = [
   },
   {
     inputs: [],
+    name: "InvalidCollateralRatioTargets",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidInitialization",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MarginOutsideRange",
     type: "error",
   },
   {
@@ -371,6 +381,59 @@ export const LoopStrategyAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "uint256",
+        name: "assetsCap",
+        type: "uint256",
+      },
+    ],
+    name: "AssetsCapSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "target",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "minForRebalance",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "maxForRebalance",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "minForWithdrawRebalance",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "maxForDepositRebalance",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct CollateralRatio",
+        name: "targets",
+        type: "tuple",
+      },
+    ],
+    name: "CollateralRatioTargetsSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "sender",
@@ -416,12 +479,38 @@ export const LoopStrategyAbi = [
     inputs: [
       {
         indexed: false,
+        internalType: "uint16",
+        name: "iterations",
+        type: "uint16",
+      },
+    ],
+    name: "MaxIterationsSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "address",
         name: "account",
         type: "address",
       },
     ],
     name: "Paused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "margin",
+        type: "uint256",
+      },
+    ],
+    name: "RatioMarginSet",
     type: "event",
   },
   {
@@ -503,6 +592,19 @@ export const LoopStrategyAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "address",
+        name: "swapper",
+        type: "address",
+      },
+    ],
+    name: "SwapperSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "from",
@@ -522,6 +624,19 @@ export const LoopStrategyAbi = [
       },
     ],
     name: "Transfer",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "margin",
+        type: "uint256",
+      },
+    ],
+    name: "USDMarginSet",
     type: "event",
   },
   {
@@ -602,6 +717,16 @@ export const LoopStrategyAbi = [
   },
   {
     inputs: [
+      {
+        internalType: "string",
+        name: "_erc20name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_erc20symbol",
+        type: "string",
+      },
       {
         internalType: "address",
         name: "_initialAdmin",
@@ -826,7 +951,7 @@ export const LoopStrategyAbi = [
   },
   {
     inputs: [],
-    name: "collateral",
+    name: "collateralUSD",
     outputs: [
       {
         internalType: "uint256",
@@ -890,7 +1015,7 @@ export const LoopStrategyAbi = [
   },
   {
     inputs: [],
-    name: "debt",
+    name: "debtUSD",
     outputs: [
       {
         internalType: "uint256",
@@ -995,6 +1120,36 @@ export const LoopStrategyAbi = [
   },
   {
     inputs: [],
+    name: "getAssets",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "contract IERC20",
+            name: "underlying",
+            type: "address",
+          },
+          {
+            internalType: "contract IERC20",
+            name: "collateral",
+            type: "address",
+          },
+          {
+            internalType: "contract IERC20",
+            name: "debt",
+            type: "address",
+          },
+        ],
+        internalType: "struct StrategyAssets",
+        name: "assets",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getCollateralRatioTargets",
     outputs: [
       {
@@ -1034,6 +1189,88 @@ export const LoopStrategyAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getLendingPool",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "contract IPool",
+            name: "pool",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "interestRateMode",
+            type: "uint256",
+          },
+          {
+            internalType: "contract IAToken",
+            name: "sTokenCollateral",
+            type: "address",
+          },
+        ],
+        internalType: "struct LendingPool",
+        name: "pool",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMaxIterations",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "iterations",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getOracle",
+    outputs: [
+      {
+        internalType: "address",
+        name: "oracle",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getPoolAddressProvider",
+    outputs: [
+      {
+        internalType: "address",
+        name: "poolAddressProvider",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getRatioMargin",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "marginUSD",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes32",
@@ -1047,6 +1284,19 @@ export const LoopStrategyAbi = [
         internalType: "bytes32",
         name: "",
         type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getSwapper",
+    outputs: [
+      {
+        internalType: "address",
+        name: "swapper",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -1129,7 +1379,7 @@ export const LoopStrategyAbi = [
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -1155,7 +1405,7 @@ export const LoopStrategyAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
     ],
@@ -1167,7 +1417,7 @@ export const LoopStrategyAbi = [
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -1288,7 +1538,7 @@ export const LoopStrategyAbi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "assets",
+        name: "",
         type: "uint256",
       },
     ],
@@ -1444,6 +1694,19 @@ export const LoopStrategyAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "assetsCap",
+        type: "uint256",
+      },
+    ],
+    name: "setAssetsCap",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         components: [
           {
             internalType: "uint256",
@@ -1472,7 +1735,7 @@ export const LoopStrategyAbi = [
           },
         ],
         internalType: "struct CollateralRatio",
-        name: "_collateralRatioTargets",
+        name: "targets",
         type: "tuple",
       },
     ],
@@ -1490,6 +1753,45 @@ export const LoopStrategyAbi = [
       },
     ],
     name: "setInterestRateMode",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint16",
+        name: "iterations",
+        type: "uint16",
+      },
+    ],
+    name: "setMaxIterations",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "marginUSD",
+        type: "uint256",
+      },
+    ],
+    name: "setRatioMargin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "swapper",
+        type: "address",
+      },
+    ],
+    name: "setSwapper",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

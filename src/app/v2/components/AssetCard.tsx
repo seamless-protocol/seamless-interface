@@ -1,10 +1,11 @@
 import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
 import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
+import { AssetApy } from "./AssetApy";
 
 export interface AssetCardProps {
   address: Address;
-  isStrategy?: boolean;
+  isStrategy: boolean;
   hideBorder?: boolean;
   tags?: TagType[];
   apy?: string;
@@ -16,9 +17,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   address,
   hideBorder,
   tags,
-  apy,
   incentivesButton,
   isSelected,
+  isStrategy,
 }) => {
   const {
     data: { logo: icon, name, shortName },
@@ -45,7 +46,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
-          <Typography type="bold3">{apy}</Typography>
+          <AssetApy asset={address} isStrategy={isStrategy} />
+          {/* <Typography type="bold3">{apy}</Typography> */}
           {incentivesButton && incentivesButton}
         </FlexCol>
       </FlexRow>

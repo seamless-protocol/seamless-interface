@@ -56,7 +56,7 @@ const fetchAssetPriceInBlock = async (
     const underlyingPrice = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
 
     if (!underlyingPrice) return undefined;
-    
+
     price = (price * ONE_USD) / underlyingPrice;
   }
 
@@ -70,6 +70,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? Infinity : undefined,
+    enabled: !!asset,
   });
 
   return {
