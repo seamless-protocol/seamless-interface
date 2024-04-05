@@ -51,6 +51,13 @@ type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | 
  */
 
 export function RHFAmountInputWrapper<T>({ overrideUrlSlug, assetAddress, ...other }: IProps<T>) {
+  if (!overrideUrlSlug && !assetAddress) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "RHFAmountInputWrapper requires either 'overrideUrlSlug' or 'assetAddress' prop to be passed for proper functionality."
+    );
+  }
+
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
 
