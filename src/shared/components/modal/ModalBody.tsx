@@ -4,15 +4,26 @@ import { Icon } from "../images/Icon";
 
 import { IS_STYLE_VERSION_2 } from "../../../globals";
 import { Typography } from "../text/Typography/Typography";
+import { size } from "viem";
 
 interface ModalBodyProps {
   children: ReactNode;
   header?: string;
   headerComponent?: ReactNode;
+  headerComponent?: ReactNode;
   fullScreen?: boolean;
   setModalOpen: (isOpen: boolean) => void;
   onClose?: () => void;
   className?: string;
+  size?: "small" | "normal" | "big" | "biger";
+}
+
+const sizeMapper = {
+  small: "max-w-[420px]",
+  normal: "max-w-[540px]",
+  big: "max-w-[690px]",
+  biger: "max-w-[920px]",
+};
   size?: "small" | "normal" | "big" | "biger";
 }
 
@@ -28,8 +39,10 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   header,
   fullScreen,
   headerComponent,
+  headerComponent,
   setModalOpen,
   onClose,
+  size = "small",
   size = "small",
   className = "",
 }) => {
@@ -43,6 +56,9 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
 
   return (
     <div
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto 
+      transition-opacity duration-200 ease-in-out bg-black bg-opacity-50
+      ${fullScreen ? "w-full h-full" : ""} ${className}`}
       className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto 
       transition-opacity duration-200 ease-in-out bg-black bg-opacity-50
       ${fullScreen ? "w-full h-full" : ""} ${className}`}

@@ -20,9 +20,6 @@ export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue,
   const { setValue } = useFormContext();
   const { data: tokenData } = useFullTokenData(assetAddress);
 
-  // get user balance
-  // convert to dollar value
-
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
       // eslint-disable-next-line no-console
