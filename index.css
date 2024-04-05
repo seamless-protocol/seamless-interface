@@ -12,3 +12,9 @@
 body {
   @apply font-primary min-h-screen bg-background-default;
 }
+
+@media (max-width: 640px) {
+  .mobile-dropdown-end {
+    @apply dropdown-end;
+  }
+}
