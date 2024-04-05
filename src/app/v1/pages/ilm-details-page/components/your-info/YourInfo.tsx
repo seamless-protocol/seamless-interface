@@ -58,8 +58,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <DepositModal
             id={id}
             disabled={!Number(viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.bigIntValue)}
-            className="w-28"
-          />
+            className="w-28 flex items-center rounded-[4px] justify-center space-x-2rounded-[4px] py-[10px] px-6 
+            text-text-primary text-description hover:bg-primary-dark bg-primary-main"
+            type="button"
+          >
+            Deposit
+          </DepositModal>
         </FlexRow>
 
         <Divider />
@@ -85,8 +89,12 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
           <WithdrawModal
             id={id}
             disabled={!Number(viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue)}
-            className="w-28"
-          />
+            className="w-28 flex items-center rounded-[4px] justify-center space-x-2rounded-[4px] py-[10px] px-6 
+            text-text-primary text-description hover:bg-primary-dark bg-primary-main"
+            type="button"
+          >
+            Withdraw
+          </WithdrawModal>
         </FlexRow>
       </AuthGuard>
     </FlexCol>

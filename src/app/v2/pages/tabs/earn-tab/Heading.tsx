@@ -1,6 +1,8 @@
-import { FlexCol, Typography, FlexRow } from "@shared";
+import { FlexCol, Typography, FlexRow, Modal } from "@shared";
 
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
+
+import diagramPng from "@assets/wsteth-diagram.svg";
 
 export const Heading = () => {
   return (
@@ -15,10 +17,19 @@ export const Heading = () => {
               reward exposure.
             </Typography>
           </FlexCol>
-          <FlexRow className="gap-2">
-            <Typography type="medium3">Learn more</Typography>
-            <ArrowRightCircleIcon width={22} />
-          </FlexRow>
+          <Modal
+            size="biger"
+            buttonProps={{
+              children: (
+                <FlexRow className="gap-2">
+                  <Typography type="medium3">Learn more</Typography>
+                  <ArrowRightCircleIcon width={22} />
+                </FlexRow>
+              ),
+            }}
+          >
+            <img src={diagramPng} alt="ilmDiagram" />
+          </Modal>
         </FlexCol>
       </div>
       <div className="col-span-7">
