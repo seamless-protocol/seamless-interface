@@ -1,31 +1,23 @@
 import { Heading } from "./Heading";
-import { AssetCard, AssetCardProps } from "./AssetCard";
-
-import randomAsset from "@assets/tokens/wsteth.svg";
 
 import { FlexRow, Typography } from "@shared";
 import { useState } from "react";
 import { FormWrapper } from "./form/FormWrapper";
+import { AssetCardProps, AssetCard } from "../../../components/AssetCard";
 
 const mockAssets: AssetCardProps[] = [
   {
-    icon: randomAsset,
-    title: "Multiply wstETH staking rewards",
-    subTitle: "Wrapped Liquid Staked ETH",
     tags: ["ILM"],
     apy: "12.74%",
+    address: "0x1",
   },
   {
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: "0x1",
     tags: ["LEND"],
     apy: "3.2%",
   },
   {
-    icon: randomAsset,
-    title: "Supply ETH",
-    subTitle: "Ethereum",
+    address: "0x1",
     tags: ["LEND"],
     apy: "3.2%",
   },
@@ -56,11 +48,7 @@ export const EarnTab = () => {
                 >
                   <AssetCard
                     isSelected={selectedAssetIndex === index}
-                    icon={asset.icon}
-                    title={asset.title}
-                    subTitle={asset.subTitle}
-                    tags={asset.tags}
-                    apy={asset.apy}
+                    {...asset}
                     hideBorder={index === mockAssets.length - 1}
                   />
                 </div>
