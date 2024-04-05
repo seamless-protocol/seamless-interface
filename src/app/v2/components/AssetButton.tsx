@@ -2,11 +2,11 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef } from "react";
 import { Modal, Icon, ModalHandles, useFullTokenData, Typography } from "@shared";
 import { AssetPicker } from "./AssetPicker";
-import { useAssetPickerState } from "../hooks/useAssetPickerState";
+import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
 
-export const AssetButton = () => {
+export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
   const modalRef = useRef<ModalHandles | null>(null);
-  const { asset, isStrategy } = useAssetPickerState({});
+  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug });
   const { data: tokenData } = useFullTokenData(asset);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const AssetButton = () => {
       }}
     >
       <div className="mx-[-24px] mt-[-80px]">
-        <AssetPicker />
+        <AssetPicker overrideUrlSlug={overrideUrlSlug} />
       </div>
     </Modal>
   );

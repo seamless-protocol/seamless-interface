@@ -1,7 +1,7 @@
 import { FlexRow, Typography } from "@shared";
 
 import { AssetCardProps, AssetCard } from "./AssetCard";
-import { useAssetPickerState } from "../hooks/useAssetPickerState";
+import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
 import {
   CBETH_ADDRESS,
   DAI_ADDRESS,
@@ -53,9 +53,9 @@ const mockAssets: AssetCardProps[] = [
   },
 ];
 
-export const AssetPicker = () => {
+export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
   // get all assets
-  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({});
+  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
 
   return (
     <div>

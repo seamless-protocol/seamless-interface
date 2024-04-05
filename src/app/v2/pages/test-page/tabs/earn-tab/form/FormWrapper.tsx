@@ -4,11 +4,11 @@ import { AddStrategyModal } from "./AddStrategyModal";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { Tag } from "../Tag";
 import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
+import { assetSlugConfig } from "../config/SlugConfig";
 
 export const FormWrapper = () => {
-  const { asset, isStrategy } = useAssetPickerState({});
+  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
-
   const methods = useForm<{
     amount: string;
   }>({
@@ -34,7 +34,7 @@ export const FormWrapper = () => {
 
             {asset != null && <LocalTag isStrategy={isStrategy} />}
           </FlexRow>
-          <RHFAmountInputWrapper name="amount" />
+          <RHFAmountInputWrapper name="amount" overrideUrlSlug={assetSlugConfig} />
         </FlexCol>
 
         {isStrategy && (

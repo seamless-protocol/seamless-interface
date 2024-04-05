@@ -5,9 +5,10 @@ import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import diagramPng from "@assets/wsteth-diagram.svg";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { assetSlugConfig } from "./config/SlugConfig";
 
 export const Heading = () => {
-  const { asset } = useAssetPickerState({});
+  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
   const description = useTokenDescription(asset);
 
