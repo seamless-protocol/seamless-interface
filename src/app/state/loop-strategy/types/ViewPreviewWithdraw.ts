@@ -9,4 +9,5 @@ export interface ViewPreviewWithdraw {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  simulationSlippage: ViewBigInt | undefined;
 }

@@ -12,6 +12,7 @@ import {
   Modal,
   ModalHandles,
   MyFormProvider,
+  RHFInputField,
   Tooltip,
   Typography,
   useNotificationContext,
@@ -27,6 +28,7 @@ import { useFetchAssetPrice } from "../../../../../../state/common/queries/useFe
 
 export interface WithdrawModalFormData {
   amount: string;
+  slippage: string;
 }
 
 interface WithdrawModalProps extends Omit<ButtonProps, "id"> {
@@ -53,13 +55,21 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const methods = useForm<WithdrawModalFormData>({
     defaultValues: {
       amount: "",
+      slippage: "",
     },
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
-  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, price.bigIntValue, 500);
+  const slippage = watch("slippage");
 
-  const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(id, debouncedAmount);
+  const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, price.bigIntValue, 500);
+  const { debouncedAmount: debouncedSlippage } = useWrappedDebounce(slippage, undefined, 500);
+
+  const {
+    data: previewWithdrawData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewWithdraw(id, debouncedAmount, debouncedSlippage);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
@@ -130,6 +140,16 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                   {...previewWithdrawData?.cost.dollarAmount}
                   typography="description"
                   isLoading={isLoading}
+                />
+              </FlexRow>
+              <FlexRow className="justify-between w-full">
+                <Typography type="description">Slippage tolerance (%)</Typography>
+                <RHFInputField<WithdrawModalFormData>
+                  name="slippage"
+                  type="number"
+                  placeholder={previewWithdrawData?.simulationSlippage?.viewValue}
+                  className="flex align-right ml-auto text-sm text-right"
+                  max={"100"}
                 />
               </FlexRow>
             </FlexCol>
