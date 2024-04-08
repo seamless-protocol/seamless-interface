@@ -106,7 +106,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
             <Typography type="description">Transaction overview</Typography>
             <FlexCol className="border-divider border-[0.667px] rounded-md  p-3 gap-1">
               <FlexRow className="justify-between">
-                <Typography type="description">Assets to receive</Typography>
+                <Typography type="description">Min Assets to receive</Typography>
                 <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
                   <DisplayTokenAmount
                     {...previewWithdrawData?.assetsToReceive.tokenAmount}
@@ -117,7 +117,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 </Tooltip>
               </FlexRow>
               <FlexRow className="justify-between">
-                <Typography type="description">Value to receive</Typography>
+                <Typography type="description">Min Value to receive</Typography>
                 <DisplayMoney
                   {...previewWithdrawData?.assetsToReceive.dollarAmount}
                   typography="description"
@@ -125,7 +125,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 />
               </FlexRow>
               <FlexRow className="justify-between">
-                <Typography type="description">Transaction cost</Typography>
+                <Typography type="description">Max Transaction cost</Typography>
                 <DisplayMoney
                   {...previewWithdrawData?.cost.dollarAmount}
                   typography="description"
