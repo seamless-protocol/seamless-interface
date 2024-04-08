@@ -1,6 +1,6 @@
-import { Address, parseEther } from "viem";
+import { Address, parseEther, parseUnits } from "viem";
 import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
-import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
+import { ONE_ETHER, ONE_USD, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable, useToken } from "@shared";
@@ -15,9 +15,14 @@ interface PreviewDeposit {
   sharesToReceiveInUsd: FetchBigInt;
   costInUnderlyingAsset: FetchBigInt;
   costInUsd: FetchBigInt;
+  simulationSlippage: FetchBigInt | undefined;
 }
 
-export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewDeposit> => {
+export const useFetchPreviewDeposit = (
+  strategyConfig: StrategyConfig,
+  amount: string,
+  slippage?: string
+): FetchData<PreviewDeposit> => {
   const account = useAccount();
 
   const {
@@ -43,6 +48,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isLoading: isSimulateDepositLoading,
     isFetched: isSimulateDepositFetched,
   } = useFetchSimulateDeposit(account.address as Address, strategyConfig.address, amount);
+  console.log("shares", shares);
 
   const {
     isLoading: isShareValueLoading,
@@ -56,12 +62,19 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     data: assetPrice,
   } = useFetchAssetPrice(underlyingAsset);
 
-  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd;
+  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd, simulationSlippage;
   if (shares && shares.bigIntValue && sharePrice && assetPrice) {
-    sharesToReceive = (shares.bigIntValue * 99n) / 100n;
-    sharesToReceiveInUsd = (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
-
     const depositValueInUsd = (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
+
+    if (slippage && Number(slippage) >= 0) {
+      sharesToReceiveInUsd =
+        (parseEther(amount) * assetPrice.bigIntValue * (100n - BigInt(parseUnits(slippage, 0)))) / (ONE_ETHER * 100n);
+      sharesToReceive = (sharesToReceiveInUsd * ONE_ETHER) / sharePrice.bigIntValue;
+    } else {
+      sharesToReceive = (shares.bigIntValue * 99n) / 100n;
+      sharesToReceiveInUsd = (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
+      simulationSlippage = ((depositValueInUsd - sharesToReceiveInUsd) * ONE_USD) / depositValueInUsd;
+    }
 
     costInUsd = depositValueInUsd - sharesToReceiveInUsd;
     costInUnderlyingAsset = (costInUsd * ONE_ETHER) / assetPrice.bigIntValue;
@@ -93,6 +106,13 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
         decimals: 8,
         symbol: "$",
       },
+      simulationSlippage: simulationSlippage
+        ? {
+            bigIntValue: simulationSlippage,
+            decimals: 6, // 6 decimal places for percentage
+            symbol: "%",
+          }
+        : undefined,
       costInUnderlyingAsset: {
         bigIntValue: costInUnderlyingAsset || 0n,
         decimals: underlyingAssetDecimals,
@@ -107,12 +127,16 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   };
 };
 
-export const useFetchViewPreviewDeposit = (id: number, amount: string): Displayable<ViewPreviewDeposit> => {
+export const useFetchViewPreviewDeposit = (
+  id: number,
+  amount: string,
+  slippage: string
+): Displayable<ViewPreviewDeposit> => {
   const {
     isLoading,
     isFetched,
-    data: { sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd },
-  } = useFetchPreviewDeposit(ilmStrategies[id], amount);
+    data: { sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd, simulationSlippage },
+  } = useFetchPreviewDeposit(ilmStrategies[id], amount, slippage);
 
   return {
     isLoading,
@@ -126,6 +150,7 @@ export const useFetchViewPreviewDeposit = (id: number, amount: string): Displaya
         tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset, walletBalanceDecimalsOptions),
         dollarAmount: formatFetchBigIntToViewBigInt(costInUsd, walletBalanceDecimalsOptions),
       },
+      simulationSlippage: simulationSlippage ? formatFetchBigIntToViewBigInt(simulationSlippage) : undefined,
     },
   };
 };

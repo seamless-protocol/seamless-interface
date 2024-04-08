@@ -11,6 +11,7 @@ import {
   Modal,
   ModalHandles,
   MyFormProvider,
+  RHFInputField,
   StandardTooltip,
   Tooltip,
   Typography,
@@ -28,6 +29,7 @@ import { AmountInputDepositWrapper } from "./AmountInputDepositWrapper";
 
 export interface DepositModalFormData {
   amount: string;
+  slippage: string;
 }
 
 interface DepositModalProps extends Omit<ButtonProps, "id"> {
@@ -53,18 +55,26 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
   const methods = useForm<DepositModalFormData>({
     defaultValues: {
       amount: "",
+      slippage: "",
     },
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount");
+  const slippage = watch("slippage");
+
   const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, assetPrice, 500);
+  const { debouncedAmount: debouncedSlippage } = useWrappedDebounce(slippage, undefined, 500);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
     ilmStrategies[id].underlyingAsset.address,
     ilmStrategies[id].address,
     parseUnits(amount || "0", etherUnits.wei)
   );
-  const { data: previewDepositData, isLoading, isFetched } = useFetchViewPreviewDeposit(id, debouncedAmount);
+  const {
+    data: previewDepositData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewDeposit(id, debouncedAmount, debouncedSlippage);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     if (previewDepositData) {
@@ -147,6 +157,16 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   {...previewDepositData?.cost.dollarAmount}
                   typography="description"
                   isLoading={isLoading}
+                />
+              </FlexRow>
+              <FlexRow className="justify-between w-full">
+                <Typography type="description">Slippage tolerance (%)</Typography>
+                <RHFInputField<DepositModalFormData>
+                  name="slippage"
+                  type="number"
+                  placeholder={previewDepositData?.simulationSlippage?.viewValue}
+                  className="flex align-right ml-auto text-sm text-right"
+                  max={"100"}
                 />
               </FlexRow>
             </FlexCol>

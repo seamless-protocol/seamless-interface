@@ -9,4 +9,5 @@ export interface ViewPreviewDeposit {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  simulationSlippage: ViewBigInt | undefined;
 }
