@@ -140,9 +140,3 @@ export function normalizeDecimals(value: bigint, valueDecimals: bigint, toDecima
   }
   return value / 10n ** (valueDecimals - toDecimals);
 }
-
-export function getMarketTitle(symbol: string | undefined, isStrategy: boolean): string | undefined {
-  if (!symbol) return undefined;
-
-  return isStrategy ? `Multiply ${symbol} staking rewards` : `Supply ${symbol}`;
-}

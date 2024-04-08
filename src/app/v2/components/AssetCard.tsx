@@ -1,7 +1,8 @@
-import { FlexRow, FlexCol, Typography, Icon, useFullTokenData, getMarketTitle } from "@shared";
+import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
 import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
+import { useTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 
 export interface AssetCardProps {
   address: Address;
@@ -22,7 +23,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   isStrategy,
 }) => {
   const {
-    data: { logo: icon, name, symbol },
+    data: { logo: icon, name },
   } = useFullTokenData(address);
 
   return (
@@ -35,7 +36,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           <Icon width={40} src={icon} alt={icon || ""} />
           <FlexCol className="gap-2 max-w-48 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{getMarketTitle(symbol, isStrategy)}</Typography>
+              <Typography type="bold3">{useTokenTitle(address, isStrategy)}</Typography>
               <Typography type="regular1">{name}</Typography>
             </FlexCol>
             <FlexRow>

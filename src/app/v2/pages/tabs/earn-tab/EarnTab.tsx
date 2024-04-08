@@ -7,19 +7,16 @@ import { AssetCardProps, AssetCard } from "../../../components/AssetCard";
 
 const mockAssets: AssetCardProps[] = [
   {
-    tags: ["ILM"],
-    apy: "12.74%",
     address: "0x1",
+    isStrategy: false,
   },
   {
     address: "0x1",
-    tags: ["LEND"],
-    apy: "3.2%",
+    isStrategy: false,
   },
   {
     address: "0x1",
-    tags: ["LEND"],
-    apy: "3.2%",
+    isStrategy: false,
   },
 ];
 
