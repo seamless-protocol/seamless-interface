@@ -35,6 +35,7 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
     return (
       <>
         <button
+          type="button"
           {...buttonProps}
           onClick={() => {
             setModalOpen(true);

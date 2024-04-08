@@ -13,9 +13,10 @@ interface IProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
   walletBalance: ViewBigInt;
   usdValue: string;
+  assetButton?: React.ReactNode;
 }
 
-export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue, ...other }: IProps<T>) {
+export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue, assetButton, ...other }: IProps<T>) {
   const { setValue } = useFormContext();
   const { data: tokenData } = useFullTokenData(assetAddress);
 
@@ -35,20 +36,20 @@ export function RHFAmountInput<T>({ name, assetAddress, walletBalance, usdValue,
           <RHFInputField<T> name={name} placeholder="0.00" {...other} />
           <TypographyV2 type="medium2">~ {usdValue}</TypographyV2>
         </FlexCol>
-        <FlexCol className="text-right gap-2">
-          <div className="flex items-center space-x-2">
-            <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
-            <TypographyV2 type="medium4">{tokenData?.symbol}</TypographyV2>
-          </div>
-
-          <FlexRow className="gap-2">
+        <div className="flex flex-col items-end gap-2">
+          {assetButton || (
+            <div className="inline-flex items-center space-x-2">
+              <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
+              <TypographyV2 type="medium4">{tokenData?.symbol}</TypographyV2>
+            </div>
+          )}
+          <div className="inline-flex gap-2 items-center">
             <TypographyV2 type="medium2">Balance: {walletBalance.viewValue}</TypographyV2>
-
             <button type="button" onClick={handleMaxClick}>
               <TypographyV2 type="bold2">MAX</TypographyV2>
             </button>
-          </FlexRow>
-        </FlexCol>
+          </div>
+        </div>
       </FlexRow>
     </div>
   );
