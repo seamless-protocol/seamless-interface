@@ -28,7 +28,7 @@ export const AddStrategyModal = () => {
           <LocalRow label="Starting Asset">wstETH</LocalRow>
           <LocalRow label="Deposit Size">
             <FlexRow className="gap-2 items-center">
-              0.1 wstETH <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
+              0.1 wstETH <Icon src={tokenData?.logo} alt={tokenData?.symbol || ""} width={16} />
             </FlexRow>
           </LocalRow>
           <LocalRow label="Ending Asset">wstETH</LocalRow>
