@@ -1,4 +1,4 @@
-import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "../../../../../../shared";
+import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "@shared";
 import { ViewRewardToken } from "../../hooks/useFetchViewBaseAsset";
 
 interface IncentivesDetailCardProps {
@@ -20,11 +20,11 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
           return (
             <FlexRow className=" justify-between">
               <FlexRow key={index} className="items-center gap-1">
-                <img src={rewardToken.logo} className="w-5 h-5" />
+                <img src={rewardToken.logo} alt="reward-token" className="w-5 h-5" />
                 <Typography type="secondary12">{rewardToken.symbol}</Typography>
               </FlexRow>
               <FlexRow>
-                <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={rewardToken.apr.symbol + " APR"} />
+                <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol} APR`} />
               </FlexRow>
             </FlexRow>
           );

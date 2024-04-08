@@ -67,12 +67,14 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
           settings?.onSuccess?.(txHash!);
 
           // 5. log result
+          // eslint-disable-next-line no-console
           console.info("Operation successful:", txHash); // todo: add logging service
 
           // 6. return result
           return txHash;
         } catch (error) {
           // 1. log error
+          // eslint-disable-next-line no-console
           console.error("UseSeamlessContractWrite Operation failed:", { error }, { args });
 
           const parsedError = getParsedError(error);

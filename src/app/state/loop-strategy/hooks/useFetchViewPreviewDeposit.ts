@@ -61,7 +61,11 @@ export const useFetchPreviewDeposit = (
     data: assetPrice,
   } = useFetchAssetPrice(underlyingAsset);
 
-  let sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd, simulationSlippage;
+  let sharesToReceive;
+  let sharesToReceiveInUsd;
+  let costInUnderlyingAsset;
+  let costInUsd;
+  let simulationSlippage;
   if (shares && shares.bigIntValue && sharePrice && assetPrice) {
     const depositValueInUsd = (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
 

@@ -1,4 +1,5 @@
 {
+  "ignorePatterns": ["src/app/generated/generated.ts"],
   "root": true,
   "env": {
     "browser": true,
@@ -25,6 +26,8 @@
   },
   "rules": {
     "react/destructuring-assignment": "off",
+    "global-require": "off",
+    "@typescript-eslint/no-throw-literal": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "react/no-array-index-key": "off",

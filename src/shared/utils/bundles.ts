@@ -32,11 +32,13 @@ async function simulateBundle(functionCalls: any) {
     });
 
     if (!res.ok) {
+      // eslint-disable-next-line no-console
       console.error("Failed to simulate transactions");
       return null;
     }
     return await res.json();
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Failed to simulate transactions", e);
     return null;
   }
@@ -92,6 +94,7 @@ export async function simulateDeposit(
       sharesToReceive,
     };
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Failed to simulate deposit", e);
     return {
       isSuccess: false,
@@ -145,6 +148,7 @@ export async function simulateWithdraw(account: Address, strategy: Address, amou
       assetsToReceive: decodedWithdrawEvent.args.assets,
     };
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Failed to simulate withdraw", e);
     return {
       isSuccess: false,

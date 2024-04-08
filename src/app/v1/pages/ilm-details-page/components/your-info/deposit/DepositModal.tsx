@@ -110,7 +110,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
       <Modal
         ref={modalRef}
         header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
-        buttonText="Deposit"
         onClose={reset}
         buttonProps={{ ...buttonProps }}
       >
@@ -166,7 +165,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   type="number"
                   placeholder={previewDepositData?.simulationSlippage?.viewValue}
                   className="flex align-right ml-auto text-sm text-right"
-                  max={"100"}
+                  max="100"
                 />
               </FlexRow>
             </FlexCol>
