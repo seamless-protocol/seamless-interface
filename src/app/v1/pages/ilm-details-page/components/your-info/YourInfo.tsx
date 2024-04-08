@@ -59,7 +59,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={!Number(viewUserInfo?.data?.underlyingAssetBalance.tokenAmount.bigIntValue)}
             className="w-28 flex items-center rounded-[4px] justify-center space-x-2rounded-[4px] py-[10px] px-6 
-            text-text-primary text-description hover:bg-primary-dark bg-primary-main disabled:bg-action-disabled bg-disabled"
+            text-text-primary text-description hover:bg-primary-dark bg-primary-main disabled:bg-action-disabled disabled:bg-disabled"
             type="button"
           >
             Deposit
@@ -90,7 +90,7 @@ export const YourInfo: React.FC<YourInfoProps> = ({ id }: YourInfoProps) => {
             id={id}
             disabled={!Number(viewUserInfo?.data?.strategyBalance.tokenAmount.bigIntValue)}
             className="w-28 flex items-center rounded-[4px] justify-center space-x-2rounded-[4px] py-[10px] px-6 
-            text-text-primary text-description hover:bg-primary-dark bg-primary-main disabled:bg-action-disabled bg-disabled"
+            text-text-primary text-description hover:bg-primary-dark bg-primary-main disabled:bg-action-disabled disabled:bg-disabled"
             type="button"
           >
             Withdraw
