@@ -21,7 +21,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   isSelected,
 }) => {
   const {
-    data: { logo: icon, name, shortName },
+    data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
 
   return (
@@ -35,7 +35,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           <FlexCol className="gap-2 max-w-48 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{name}</Typography>
-              <Typography type="regular1">{shortName}</Typography>
+              <Typography type="regular1">{symbol}</Typography>
             </FlexCol>
             <FlexRow>
               {tags?.map((t, index) => {

@@ -4,6 +4,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
+
 //* * PAGES **/
 
 //* * LAYOUT **/
