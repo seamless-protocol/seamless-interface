@@ -15,6 +15,7 @@ import {
   useWatchAsset,
   Tooltip,
 } from "@shared";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
@@ -94,9 +95,23 @@ export const Heading: React.FC<{
           />
         </FlexCol>
         <FlexCol>
-          <Typography type="description" color="light">
-            APY estimate
-          </Typography>
+          <FlexRow className="gap-2">
+            <Typography type="description" color="light">
+              APY estimate
+            </Typography>
+            <Tooltip
+              openOnClick
+              tooltip={
+                <Typography type="description">
+                  30 day moving average denominated in {strategyConfig?.debtAsset?.symbol}
+                </Typography>
+              }
+              size="small"
+              theme="dark"
+            >
+              <InformationCircleIcon className="cursor-pointer" width={15} />
+            </Tooltip>
+          </FlexRow>
           <DisplayPercentage typography="main21" {...apy} isLoading={isApyLoading} isFetched={isApyFetched} />
         </FlexCol>
         <FlexCol>
