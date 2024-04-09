@@ -59,7 +59,7 @@ export interface StrategyData {
 // Strategy with highest multiple needs to be last in the array
 export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
   [
-    "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452", // wstETH
+    WSTETH_ADDRESS,
     [
       {
         address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",

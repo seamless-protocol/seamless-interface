@@ -12,14 +12,14 @@ export interface Market {
 export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
   const { data: lendingAssets, isLoading, isFetched } = useFetchRawReservesList();
 
-  let lendingMarkets: Market[] | undefined = lendingAssets?.map((asset) => ({
-    address: asset,
-    isStrategy: false,
-  }));
-
-  lendingMarkets = lendingMarkets?.filter((market) => {
-    return lendingAssetToHide.indexOf(market.address) === -1;
-  });
+  const lendingMarkets: Market[] | undefined = lendingAssets
+    ?.filter((asset) => {
+      return lendingAssetToHide.indexOf(asset) === -1;
+    })
+    .map((asset) => ({
+      address: asset,
+      isStrategy: false,
+    }));
 
   const ilmMarkets: Market[] = [];
 
