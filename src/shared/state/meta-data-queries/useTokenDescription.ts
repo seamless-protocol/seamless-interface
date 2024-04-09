@@ -47,10 +47,10 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
   },
 };
 
-export const useTokenDescription = (token: Address): string => {
+export const getTokenDescription = (token: Address): string => {
   return TokenDescriptionDict[token]?.description;
 };
 
-export const useTokenTitle = (token: Address, isStrategy: boolean): string => {
+export const getTokenTitle = (token: Address, isStrategy: boolean): string => {
   return isStrategy ? TokenDescriptionDict[token].strategyTitle : TokenDescriptionDict[token].lendingTitle;
 };
