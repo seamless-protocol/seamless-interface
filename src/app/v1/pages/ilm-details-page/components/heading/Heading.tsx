@@ -95,15 +95,24 @@ export const Heading: React.FC<{
           />
         </FlexCol>
         <FlexCol>
-          <Typography type="description" color="light">
-            APY estimate
-          </Typography>
           <FlexRow className="gap-2">
-            <DisplayPercentage typography="main21" {...apy} isLoading={isApyLoading} isFetched={isApyFetched} />
-            <Tooltip tooltip={<Typography type="description">30 day moving average denominated in {strategyConfig?.debtAsset?.symbol}</Typography>} size="small" theme="dark">
+            <Typography type="description" color="light">
+              APY estimate
+            </Typography>
+            <Tooltip
+              openOnClick
+              tooltip={
+                <Typography type="description">
+                  30 day moving average denominated in {strategyConfig?.debtAsset?.symbol}
+                </Typography>
+              }
+              size="small"
+              theme="dark"
+            >
               <InformationCircleIcon width={15} />
             </Tooltip>
           </FlexRow>
+          <DisplayPercentage typography="main21" {...apy} isLoading={isApyLoading} isFetched={isApyFetched} />
         </FlexCol>
         <FlexCol>
           <Typography type="description" color="light">
