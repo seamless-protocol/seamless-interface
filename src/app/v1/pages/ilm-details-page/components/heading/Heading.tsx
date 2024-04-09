@@ -109,7 +109,7 @@ export const Heading: React.FC<{
               size="small"
               theme="dark"
             >
-              <InformationCircleIcon width={15} />
+              <InformationCircleIcon className="cursor-pointer" width={15} />
             </Tooltip>
           </FlexRow>
           <DisplayPercentage typography="main21" {...apy} isLoading={isApyLoading} isFetched={isApyFetched} />
