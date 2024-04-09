@@ -55,7 +55,7 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
   let costInUnderlyingAsset;
   let costInUsd;
   if (assets && assets.bigIntValue && underlyingAssetPrice) {
-    assetsToReceive = (assets.bigIntValue * 99n) / 100n;
+    assetsToReceive = (assets.bigIntValue * 999n) / 1000n;
     assetsToReceiveInUsd = (assetsToReceive * underlyingAssetPrice.bigIntValue) / ONE_ETHER;
 
     const withdrawAmountInUsd = (parseEther(amount) * sharePrice.bigIntValue) / ONE_ETHER;
