@@ -46,7 +46,11 @@ export const useFetchViewStrategy = (index: number): Displayable<ViewStrategy> =
     isFetched: isUserBalanceFetched,
   } = useFetchViewDetailAssetBalance(strategyConfig.underlyingAsset.address);
 
-  const { isLoading: isApyLoading, isFetched: isApyFetched, data: apy } = useFetchViewStrategyApy(index);
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    data: apy,
+  } = useFetchViewStrategyApy(ilmStrategies[index].address);
 
   return {
     isLoading: isTargetMultipleLoading || isStrategyBalanceLoading || isApyLoading || isUserBalanceLoading,
