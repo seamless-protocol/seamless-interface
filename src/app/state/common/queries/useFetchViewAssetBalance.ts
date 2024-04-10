@@ -7,11 +7,7 @@ import { useAccount } from "wagmi";
 export const useFetchAssetBalance = (asset: Address) => {
   const account = useAccount();
 
-  const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
-    data: { symbol, decimals },
-  } = useToken(asset);
+  const { isLoading: isTokenDataLoading, isFetched: isTokenDataFetched, data: tokenData } = useToken(asset);
 
   const {
     data: balance,
@@ -31,8 +27,8 @@ export const useFetchAssetBalance = (asset: Address) => {
     ...rest,
     data: {
       bigIntValue: balance || 0n,
-      symbol,
-      decimals,
+      symbol: tokenData?.symbol,
+      decimals: tokenData?.decimals,
     },
   };
 };

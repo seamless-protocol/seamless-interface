@@ -4,13 +4,13 @@ import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 import diagramPng from "@assets/wsteth-diagram.svg";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { useTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
+import { getTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 
 export const Heading = () => {
   const { asset } = useAssetPickerState({});
   const { data: tokenData } = useFullTokenData(asset);
-  const description = useTokenDescription(asset);
+  const description = getTokenDescription(asset);
 
   const {
     data: oraclePrice,

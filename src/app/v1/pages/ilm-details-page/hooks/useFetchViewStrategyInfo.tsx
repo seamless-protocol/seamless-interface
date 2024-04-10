@@ -24,6 +24,7 @@ export const useFetchStrategyInfo = (
     data: results,
     isLoading,
     isFetched,
+    // @ts-ignore
   } = useReadContracts({
     contracts: [
       {
