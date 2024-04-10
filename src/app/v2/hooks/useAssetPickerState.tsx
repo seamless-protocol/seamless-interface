@@ -13,13 +13,13 @@ export interface AssetPickerStateHookProps {
 
 export const useAssetPickerState = ({ overrideUrlSlug }: AssetPickerStateHookProps) => {
   const [asset, setAsset] = useQueryParam<string | undefined>(overrideUrlSlug?.asset || "");
-  const [isStrategyParam, setIsStrategyQueryParam] = useQueryParam<boolean | undefined>(
+  const [isStrategyParam, setIsStrategyQueryParam] = useQueryParam<string | undefined>(
     overrideUrlSlug?.isStrategy || ""
   );
 
   return {
     asset: asset as Address,
-    isStrategy: Boolean(isStrategyParam),
+    isStrategy: isStrategyParam === "true",
     setAsset,
     setIsStrategy: setIsStrategyQueryParam,
   };
