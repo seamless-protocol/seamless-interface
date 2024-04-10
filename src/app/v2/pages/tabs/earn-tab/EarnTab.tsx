@@ -1,9 +1,8 @@
-import { Heading } from "./Heading";
-
 import { FlexRow, Typography } from "@shared";
 import { useState } from "react";
-import { FormWrapper } from "./form/FormWrapper";
 import { AssetCardProps, AssetCard } from "../../../components/AssetCard";
+import { Heading } from "../../test-page/tabs/earn-tab/Heading";
+import { FormWrapper } from "../../test-page/tabs/earn-tab/form/FormWrapper";
 
 const mockAssets: AssetCardProps[] = [
   {
