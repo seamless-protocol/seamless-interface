@@ -1,15 +1,24 @@
-import { FlexCol, Typography, FlexRow, Modal, useFullTokenData } from "@shared";
+import { FlexCol, Typography, FlexRow, Modal, useFullTokenData, DisplayMoney } from "@shared";
 
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 import diagramPng from "@assets/wsteth-diagram.svg";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 
 export const Heading = () => {
   const { asset } = useAssetPickerState({});
   const { data: tokenData } = useFullTokenData(asset);
   const description = useTokenDescription(asset);
+
+  const {
+    data: oraclePrice,
+    isLoading: isOraclePriceLoading,
+    isFetched: isOraclePriceFetched,
+  } = useFetchViewAssetPrice(asset);
+
+  console.log("asset", asset);
 
   return (
     <div className="grid grid-cols-12 gap-6">
@@ -46,7 +55,12 @@ export const Heading = () => {
           </FlexCol>
           <FlexCol className="gap-1 text-center">
             <Typography type="regular3">Oracle price</Typography>
-            <Typography type="bold5">$2.36k</Typography>
+            <DisplayMoney
+              typography="bold5"
+              {...oraclePrice}
+              isLoading={isOraclePriceLoading}
+              isFetched={isOraclePriceFetched}
+            />
           </FlexCol>
         </FlexRow>
       </div>
