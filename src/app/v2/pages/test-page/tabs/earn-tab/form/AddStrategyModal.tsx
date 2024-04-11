@@ -4,6 +4,7 @@ import { sWETH_ADDRESS } from "@meta";
 
 export const AddStrategyModal = () => {
   const { data: tokenData } = useFullTokenData(sWETH_ADDRESS);
+
   return (
     <Modal
       size="normal"

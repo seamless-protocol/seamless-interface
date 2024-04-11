@@ -6,8 +6,6 @@ import { isEqualMarket, useFetchAllMarkets } from "../../state/common/hooks/useF
 
 export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
   const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
-export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
-  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
 
   const { data: allMarkets } = useFetchAllMarkets();
 
