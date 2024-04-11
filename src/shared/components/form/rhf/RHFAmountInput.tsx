@@ -40,6 +40,8 @@ export function RHFAmountInput<T>({
     }
 
     setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
+
+    setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
   };
 
   useEffect(() => {
