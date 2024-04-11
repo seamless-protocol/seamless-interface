@@ -9,6 +9,10 @@ export interface Market {
   isStrategy: boolean;
 }
 
+export const isEqualMarket = (market: Market, otherMarket: Market) => {
+  return market.address === otherMarket.address && market.isStrategy === otherMarket.isStrategy;
+};
+
 export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
   const { data: lendingAssets, isLoading, isFetched } = useFetchRawReservesList();
 
