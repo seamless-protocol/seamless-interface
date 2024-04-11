@@ -1,5 +1,5 @@
 import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
-import { TagType, Tag } from "../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
 import { getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
@@ -8,7 +8,6 @@ export interface AssetCardProps {
   address: Address;
   isStrategy: boolean;
   hideBorder?: boolean;
-  tags?: TagType[];
   apy?: string;
   incentivesButton?: React.ReactNode;
   isSelected?: boolean;
@@ -17,7 +16,6 @@ export interface AssetCardProps {
 export const AssetCard: React.FC<AssetCardProps> = ({
   address,
   hideBorder,
-  tags,
   incentivesButton,
   isSelected,
   isStrategy,
@@ -40,9 +38,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
               <Typography type="regular1">{name}</Typography>
             </FlexCol>
             <FlexRow>
-              {tags?.map((t, index) => {
-                return <Tag tag={t} key={index} />;
-              })}
+              <Tag tag={isStrategy ? "ILM" : "LEND"} />
             </FlexRow>
           </FlexCol>
         </FlexRow>
