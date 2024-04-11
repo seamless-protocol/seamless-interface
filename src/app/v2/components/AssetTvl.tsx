@@ -13,9 +13,9 @@ interface AssetTvlProps extends DisplayPercentageProps {
 const StrategyTvl: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
   const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
   const {
+    data: { dollarAmount },
     isLoading,
     isFetched,
-    data: { dollarAmount },
   } = useFetchViewDetailEquity(strategies[strategies?.length - 1].address);
 
   return <DisplayMoney isLoading={isLoading} isFetched={isFetched} {...dollarAmount} {...rest} />;
@@ -34,5 +34,5 @@ const LendingTvl: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
 };
 
 export const AssetTvl: React.FC<AssetTvlProps> = ({ asset, isStrategy, ...rest }) => {
-  return isStrategy ? <LendingTvl asset={asset} {...rest} /> : <LendingTvl asset={asset} {...rest} />;
+  return isStrategy ? <StrategyTvl asset={asset} {...rest} /> : <LendingTvl asset={asset} {...rest} />;
 };

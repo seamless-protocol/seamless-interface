@@ -1,4 +1,4 @@
-import { ViewBigInt } from "../../../../shared";
+import { ViewBigInt } from "@shared";
 
 export interface ViewAssetBalance {
   balance: ViewBigInt;

@@ -1,6 +1,6 @@
 import { FlexCol, FlexRow, PageContainer, TabButton, TabContent } from "@shared";
 import { TabProvider } from "../../../../shared/contexts/tab-context/TabContext";
-import { EarnTab } from "./earn-tab/EarnTab";
+import { EarnTab } from "./tabs/earn-tab/EarnTab";
 
 type Tabs = "Earn" | "Borrow" | "My Positions";
 

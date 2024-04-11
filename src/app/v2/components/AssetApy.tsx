@@ -26,7 +26,6 @@ const StrategyApy: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
 };
 
 const LendingApy: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
-  console.log("pre");
   const {
     isLoading,
     isFetched,
@@ -37,6 +36,5 @@ const LendingApy: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
 };
 
 export const AssetApy: React.FC<AssetApyProps> = ({ asset, isStrategy, ...rest }) => {
-  return <LendingApy asset={asset} {...rest} />;
-  // return isStrategy ? <StrategyApy asset={asset} {...rest} /> : <LendingApy asset={asset} {...rest} />;
+  return isStrategy ? <StrategyApy asset={asset} {...rest} /> : <LendingApy asset={asset} {...rest} />;
 };

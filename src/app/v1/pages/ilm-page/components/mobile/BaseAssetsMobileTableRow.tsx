@@ -57,9 +57,11 @@ export const BaseAssetsMobileTableRow: React.FC<{
             <DisplayText typography="description" text={columnNames.c_3} isLoading={isLoading} />
             <FlexCol className="items-end">
               <DisplayPercentage typography="secondary14" {...assets?.supplyApy} isLoading={isLoading} />
-              <IncentivesButton {...assets?.supplyIncentives}>
-                <IncentivesDetailCard {...assets?.supplyIncentives} />
-              </IncentivesButton>
+              {!!assets?.supplyIncentives.totalApr.viewValue && (
+                <IncentivesButton {...assets?.supplyIncentives}>
+                  <IncentivesDetailCard {...assets?.supplyIncentives} assetSymbol={assets.depositAsset.symbol} />
+                </IncentivesButton>
+              )}
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>
@@ -77,9 +79,14 @@ export const BaseAssetsMobileTableRow: React.FC<{
             <DisplayText typography="description" text={columnNames.c_5} isLoading={isLoading} />
             <FlexCol className="items-end">
               <DisplayPercentage typography="secondary14" {...assets?.borrowApyVariable} isLoading={isLoading} />
-              <IncentivesButton {...assets?.borrowVariableIncentives}>
-                <IncentivesDetailCard {...assets?.borrowVariableIncentives} />
-              </IncentivesButton>
+              {!!assets?.borrowVariableIncentives.totalApr.viewValue && (
+                <IncentivesButton {...assets?.borrowVariableIncentives}>
+                  <IncentivesDetailCard
+                    {...assets?.borrowVariableIncentives}
+                    assetSymbol={assets.depositAsset.symbol}
+                  />
+                </IncentivesButton>
+              )}
             </FlexCol>
           </LocalMobileTableRow>
           <LocalMobileTableRow>

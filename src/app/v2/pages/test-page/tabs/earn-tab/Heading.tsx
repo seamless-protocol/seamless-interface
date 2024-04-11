@@ -6,11 +6,13 @@ import diagramPng from "@assets/wsteth-diagram.svg";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { getTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
 
+
 export const Heading = () => {
-  const { asset, isStrategy } = useAssetPickerState({});
+  const { asset ,isStrategy} = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
   const description = getTokenDescription(asset);
 
