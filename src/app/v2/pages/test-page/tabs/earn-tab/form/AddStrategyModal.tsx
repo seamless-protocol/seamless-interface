@@ -1,11 +1,105 @@
-import { FlexCol, FlexRow, Icon, Modal, Typography, useFullTokenData } from "@shared";
+import {
+  Buttonv2,
+  FlexCol,
+  FlexRow,
+  Icon,
+  Modal,
+  ModalHandles,
+  Typography,
+  WatchAssetComponent,
+  useERC20Approve,
+  useFullTokenData,
+  useNotificationContext,
+  useToken,
+} from "@shared";
 
-import { sWETH_ADDRESS } from "@meta";
+import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
+import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
+import { useFormContext } from "react-hook-form";
+import { parseUnits, etherUnits, Address } from "viem";
+import { useReadAaveOracleGetAssetPrice } from "../../../../../../generated";
+import { useWrappedDebounce } from "../../../../../../state/common/hooks/useWrappedDebounce";
+import { useFetchViewPreviewDeposit } from "../../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
+import { useMutateDepositStrategy } from "../../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import { DepositModalFormData } from "../../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
+import { StrategyConfig, findILMStrategyByAddress } from "../../../../../../state/loop-strategy/config/StrategyConfig";
+import { useRef } from "react";
 
-export const AddStrategyModal = () => {
-  const { data: tokenData } = useFullTokenData(sWETH_ADDRESS);
+export const AddStrategyModalWrapper: React.FC<{
+  asset: Address;
+}> = ({ asset }) => {
+  const strategy = findILMStrategyByAddress(asset);
+  // eslint-disable-next-line no-console
+  console.warn("Strategy not found!!!");
+
+  if (!strategy) return <>Strategy not found!</>;
+
+  return <AddStrategyModal strategy={strategy} />;
+};
+
+const AddStrategyModal: React.FC<{
+  strategy: StrategyConfig;
+}> = ({ strategy }) => {
+  const modalRef = useRef<ModalHandles>(null);
+
+  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { data: tokenData } = useFullTokenData(asset);
+
+  const { showNotification } = useNotificationContext();
+
+  const {
+    data: { symbol: strategySymbol },
+  } = useToken(strategy.address);
+
+  const { watch } = useFormContext();
+  const amount = watch(earnInputConfig.name);
+
+  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+    strategy.underlyingAsset?.address || "0x1", // todo: remove 0x1
+    strategy.address,
+    parseUnits(amount || "0", etherUnits.wei)
+  );
+
+  const { depositAsync, isDepositPending } = useMutateDepositStrategy(strategy.id);
+
+  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
+    args: [strategy?.underlyingAsset.address || ""],
+  });
+  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
+  const { data: previewDepositData } = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+
+  const onSubmitAsync = async (data: DepositModalFormData) => {
+    if (previewDepositData) {
+      await depositAsync(
+        {
+          amount: data.amount,
+          sharesToReceive: previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+        },
+        {
+          onSuccess: (txHash) => {
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol className="w-full items-center text-center justify-center">
+                  <Typography>
+                    You Supplied {data.amount} {strategy?.underlyingAsset.symbol}
+                  </Typography>
+                  {strategy && <WatchAssetComponent {...strategy} symbol={strategySymbol} />}
+                </FlexCol>
+              ),
+            });
+          },
+          onSettled: () => {
+            modalRef.current?.close();
+          },
+        }
+      );
+    }
+  };
+
   return (
     <Modal
+      ref={modalRef}
       size="normal"
       buttonProps={{
         children: "Add to strategy",
@@ -35,9 +129,25 @@ export const AddStrategyModal = () => {
           <LocalRow label="Network Fee">0.0054 ETH</LocalRow>
           <LocalRow label="Est. time to break even">3 days</LocalRow>
         </FlexCol>
-        <button className="text-bold3 w-full bg-metalic text-neutral-0 rounded-[100px] py-4 px-32 items-center text-center">
-          Confirm
-        </button>
+
+        <FlexCol className="gap-2">
+          <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
+            Approve
+          </Buttonv2>
+          <Buttonv2
+            className="text-bold3"
+            type="submit"
+            disabled={!isApproved}
+            loading={isDepositPending}
+            onClick={() =>
+              onSubmitAsync({
+                amount,
+              })
+            }
+          >
+            Submit
+          </Buttonv2>
+        </FlexCol>
       </FlexCol>
     </Modal>
   );

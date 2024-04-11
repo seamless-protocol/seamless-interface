@@ -14,6 +14,7 @@ interface AssetConfig {
 }
 
 export interface StrategyConfig {
+  id: number;
   name: string;
   address: Address;
   logo: string;
@@ -26,6 +27,7 @@ export interface StrategyConfig {
 // TODO: Remove this array when new design is implemented
 export const ilmStrategies: StrategyConfig[] = [
   {
+    id: 0,
     name: "wstETH Booster",
     address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
@@ -45,6 +47,10 @@ export const ilmStrategies: StrategyConfig[] = [
     },
   },
 ];
+
+export const findILMStrategyByAddress = (address: Address) => {
+  return ilmStrategies.find((strategy) => strategy.underlyingAsset.address === address);
+};
 
 export interface StrategyData {
   address: Address;

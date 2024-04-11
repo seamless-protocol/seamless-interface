@@ -1,10 +1,11 @@
 import { MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, useFullTokenData } from "@shared";
 import { useForm } from "react-hook-form";
-import { AddStrategyModal } from "./AddStrategyModal";
+import { AddStrategyModalWrapper } from "./AddStrategyModal";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { Tag } from "../Tag";
 import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
-import { assetSlugConfig } from "../config/SlugConfig";
+import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
+import { SupplyModal } from "./SupplyModal";
 
 export const FormWrapper = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -34,7 +35,7 @@ export const FormWrapper = () => {
 
             {asset != null && <LocalTag isStrategy={isStrategy} />}
           </FlexRow>
-          <RHFAmountInputWrapper name="amount" overrideUrlSlug={assetSlugConfig} />
+          <RHFAmountInputWrapper {...earnInputConfig} />
         </FlexCol>
 
         {isStrategy && (
@@ -73,7 +74,7 @@ export const FormWrapper = () => {
           </FlexRow>
         </FlexCol>
 
-        <AddStrategyModal />
+        {isStrategy ? <AddStrategyModalWrapper asset={asset} /> : <SupplyModal />}
       </FlexCol>
     </MyFormProvider>
   );
