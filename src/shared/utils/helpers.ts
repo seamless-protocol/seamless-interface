@@ -81,14 +81,38 @@ export function formatToDisplayableOrPlaceholder(
  * @returns
  */
 export function formatFetchBigIntToViewBigInt(
-  { bigIntValue, decimals, symbol = "" }: FetchBigInt,
+  data: FetchBigInt,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewBigInt {
+  const { bigIntValue, decimals, symbol = "" } = data;
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
   const value = formatUnitsToNumber(bigIntValue, decimals);
+
+  return {
+    value: formatUnits(bigIntValue, decimals),
+    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
+    bigIntValue,
+    symbol,
+  };
+}
+
+// This is temporary copy of formatFetchBigIntToViewBigInt that can return undefined, over time this one should be used on all places and renamed
+export function formatFetchBigIntToViewBigIntTemp(
+  data: FetchBigInt | undefined,
+  decimalsOptions?: Partial<DecimalsOptions>
+): ViewBigInt | undefined {
+  if (!data) return undefined;
+
+  const { bigIntValue, decimals, symbol = "" } = data;
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
+  const value = formatUnitsToNumber(bigIntValue, decimals);
+
   return {
     value: formatUnits(bigIntValue, decimals),
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),

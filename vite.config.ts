@@ -43,5 +43,12 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+
+    optimizeDeps: {
+      exclude: [
+        "/Users/blockchainengineer/Desktop/Seashell/seamless-interface/node_modules/.vite/deps/chunk-5ZCGINCM.js?v=f1bd6cf3",
+        "/Users/blockchainengineer/Desktop/Seashell/seamless-interface/node_modules/.vite/deps/chunk-2JXFHJW4.js?v=0cc57c5c",
+      ],
+    },
   };
 });
