@@ -1,11 +1,11 @@
 import { FlexRow, Typography } from "@shared";
 
 import { AssetCard } from "./AssetCard";
-import { useAssetPickerState } from "../hooks/useAssetPickerState";
+import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
 import { useFetchAllMarkets } from "../../state/common/hooks/useFetchAllMarkets";
 
-export const AssetPicker = () => {
-  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({});
+export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
+  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
 
   const { data: allMarkets } = useFetchAllMarkets();
 

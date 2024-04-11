@@ -1,47 +1,14 @@
-import { Address } from "viem";
-import { sWETH_ADDRESS } from "@meta";
-import {
-  MyFormProvider,
-  FlexCol,
-  Typography,
-  RHFAmountInput,
-  RHFInputSliderField,
-  FlexRow,
-  Modal,
-  ModalHandles,
-  Icon,
-  useFullTokenData,
-} from "@shared";
+import { MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, useFullTokenData } from "@shared";
 import { useForm } from "react-hook-form";
 import { AddStrategyModal } from "./AddStrategyModal";
-import { AssetPicker } from "../../../../../components/AssetPicker";
-import { useEffect, useRef } from "react";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
-import { TypographyV2 } from "../../../../../../../shared/components/text/TypographyV2/TypographyV2";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Tag } from "../Tag";
-
-const mockProps = {
-  name: "amount",
-  assetAddress: sWETH_ADDRESS as Address,
-  walletBalance: {
-    value: "234,925.00",
-    viewValue: "234,925.00",
-    bigIntValue: BigInt("234925000000000000000000"),
-    symbol: "ETH",
-  },
-  usdValue: "2000 USD",
-};
+import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
+import { assetSlugConfig } from "../config/SlugConfig";
 
 export const FormWrapper = () => {
-  const modalRef = useRef<ModalHandles | null>(null);
-  const { asset, isStrategy } = useAssetPickerState({});
+  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
-
-  useEffect(() => {
-    modalRef.current?.close();
-  }, [asset, isStrategy]);
-
   const methods = useForm<{
     amount: string;
   }>({
@@ -67,27 +34,7 @@ export const FormWrapper = () => {
 
             {asset != null && <LocalTag isStrategy={isStrategy} />}
           </FlexRow>
-          <RHFAmountInput
-            {...mockProps}
-            assetButton={
-              <Modal
-                ref={modalRef}
-                buttonProps={{
-                  children: (
-                    <div className="flex justify-between min-w-28 min-h-7 space-x-2 border rounded-lg p-1 hover:bg-neutral-50">
-                      {tokenData?.logo && <Icon width={18} src={tokenData?.logo} alt="input-field-asset" />}
-                      <TypographyV2 type="bold3">{tokenData?.symbol || "Choose asset"}</TypographyV2>
-                      <ChevronDownIcon width={12} />
-                    </div>
-                  ),
-                }}
-              >
-                <div className="mx-[-24px] mt-[-80px]">
-                  <AssetPicker />
-                </div>
-              </Modal>
-            }
-          />
+          <RHFAmountInputWrapper name="amount" overrideUrlSlug={assetSlugConfig} />
         </FlexCol>
 
         {isStrategy && (
