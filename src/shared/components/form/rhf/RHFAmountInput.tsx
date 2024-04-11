@@ -40,8 +40,6 @@ export function RHFAmountInput<T>({
     }
 
     setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
-
-    setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
   };
 
   useEffect(() => {
@@ -53,8 +51,12 @@ export function RHFAmountInput<T>({
 
     if (!tokenData?.decimals) {
       setValue(name as string, "");
-    } else if ((isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) || 0n)
+    } else if (
+      (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
+      0n
+    ) {
       setValue(name as string, "");
+    }
   }, [isConnected]);
 
   return (
