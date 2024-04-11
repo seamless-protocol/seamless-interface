@@ -2274,150 +2274,674 @@ export const lendingPoolConfig = {
 
 export const loopStrategyAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
-  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
   {
-    type: 'error',
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' },
+      { name: '_erc20name', internalType: 'string', type: 'string' },
+      { name: '_erc20symbol', internalType: 'string', type: 'string' },
+      { name: '_initialAdmin', internalType: 'address', type: 'address' },
+      {
+        name: '_strategyAssets',
+        internalType: 'struct StrategyAssets',
+        type: 'tuple',
+        components: [
+          {
+            name: 'underlying',
+            internalType: 'contract IERC20',
+            type: 'address',
+          },
+          {
+            name: 'collateral',
+            internalType: 'contract IERC20',
+            type: 'address',
+          },
+          { name: 'debt', internalType: 'contract IERC20', type: 'address' },
+        ],
+      },
+      {
+        name: '_collateralRatioTargets',
+        internalType: 'struct CollateralRatio',
+        type: 'tuple',
+        components: [
+          { name: 'target', internalType: 'uint256', type: 'uint256' },
+          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
+          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'minForWithdrawRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'maxForDepositRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: '_poolAddressProvider',
+        internalType: 'contract IPoolAddressesProvider',
+        type: 'address',
+      },
+      {
+        name: '_oracle',
+        internalType: 'contract IPriceOracleGetter',
+        type: 'address',
+      },
+      { name: '_swapper', internalType: 'contract ISwapper', type: 'address' },
+      { name: '_ratioMargin', internalType: 'uint256', type: 'uint256' },
+      { name: '_maxIterations', internalType: 'uint16', type: 'uint16' },
     ],
-    name: 'AccessControlUnauthorizedAccount',
+    name: 'LoopStrategy_init',
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    type: 'error',
-    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
-    name: 'AddressEmptyCode',
+    type: 'function',
+    inputs: [],
+    name: 'MANAGER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'AddressInsufficientBalance',
+    type: 'function',
+    inputs: [],
+    name: 'PAUSER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    type: 'error',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
-      { name: 'implementation', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
     ],
-    name: 'ERC1967InvalidImplementation',
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
-  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
   {
-    type: 'error',
+    type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'ERC20InsufficientAllowance',
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    type: 'error',
+    type: 'function',
+    inputs: [],
+    name: 'asset',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'collateralUSD',
+    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToShares',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'currentCollateralRatio',
+    outputs: [{ name: 'ratio', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'debtUSD',
+    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
-      { name: 'balance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20InsufficientBalance',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidApprover',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidReceiver',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSpender',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'receiver', internalType: 'address', type: 'address' },
       { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxDeposit',
-  },
-  {
-    type: 'error',
-    inputs: [
       { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'ERC4626ExceededMaxMint',
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
   },
   {
-    type: 'error',
+    type: 'function',
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxRedeem',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxWithdraw',
-  },
-  { type: 'error', inputs: [], name: 'EnforcedPause' },
-  { type: 'error', inputs: [], name: 'ExpectedPause' },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
-  { type: 'error', inputs: [], name: 'InvalidCollateralRatioTargets' },
-  { type: 'error', inputs: [], name: 'InvalidInitialization' },
-  { type: 'error', inputs: [], name: 'MarginOutsideRange' },
-  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
-  { type: 'error', inputs: [], name: 'MintDisabled' },
-  { type: 'error', inputs: [], name: 'NotInitializing' },
-  { type: 'error', inputs: [], name: 'RebalanceNotNeeded' },
-  { type: 'error', inputs: [], name: 'RedeemerNotOwner' },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'sharesReceived', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
       { name: 'minSharesReceived', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'SharesReceivedBelowMinimum',
-  },
-  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
-  {
-    type: 'error',
-    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'UUPSUnsupportedProxiableUUID',
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
   },
   {
-    type: 'error',
-    inputs: [
-      { name: 'underlyingReceived', internalType: 'uint256', type: 'uint256' },
+    type: 'function',
+    inputs: [],
+    name: 'equity',
+    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'equityUSD',
+    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAssets',
+    outputs: [
       {
-        name: 'minUnderlyingReceived',
-        internalType: 'uint256',
-        type: 'uint256',
+        name: 'assets',
+        internalType: 'struct StrategyAssets',
+        type: 'tuple',
+        components: [
+          {
+            name: 'underlying',
+            internalType: 'contract IERC20',
+            type: 'address',
+          },
+          {
+            name: 'collateral',
+            internalType: 'contract IERC20',
+            type: 'address',
+          },
+          { name: 'debt', internalType: 'contract IERC20', type: 'address' },
+        ],
       },
     ],
-    name: 'UnderlyingReceivedBelowMinimum',
+    stateMutability: 'view',
   },
-  { type: 'error', inputs: [], name: 'WithdrawDisabled' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAssetsCap',
+    outputs: [{ name: 'assetsCap', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCollateralRatioTargets',
+    outputs: [
+      {
+        name: 'ratio',
+        internalType: 'struct CollateralRatio',
+        type: 'tuple',
+        components: [
+          { name: 'target', internalType: 'uint256', type: 'uint256' },
+          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
+          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'minForWithdrawRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'maxForDepositRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getLendingPool',
+    outputs: [
+      {
+        name: 'pool',
+        internalType: 'struct LendingPool',
+        type: 'tuple',
+        components: [
+          { name: 'pool', internalType: 'contract IPool', type: 'address' },
+          {
+            name: 'interestRateMode',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'sTokenCollateral',
+            internalType: 'contract IAToken',
+            type: 'address',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getMaxIterations',
+    outputs: [{ name: 'iterations', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getMaxSlippageOnRebalance',
+    outputs: [
+      { name: 'maxslippage', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getOracle',
+    outputs: [{ name: 'oracle', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getPoolAddressProvider',
+    outputs: [
+      { name: 'poolAddressProvider', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getRatioMargin',
+    outputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getSwapper',
+    outputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'address', type: 'address' },
+    ],
+    name: 'mint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'pause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rebalance',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rebalanceNeeded',
+    outputs: [{ name: 'shouldRebalance', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'minUnderlyingAsset', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assetsCap', internalType: 'uint256', type: 'uint256' }],
+    name: 'setAssetsCap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'targets',
+        internalType: 'struct CollateralRatio',
+        type: 'tuple',
+        components: [
+          { name: 'target', internalType: 'uint256', type: 'uint256' },
+          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
+          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
+          {
+            name: 'minForWithdrawRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'maxForDepositRebalance',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+        ],
+      },
+    ],
+    name: 'setCollateralRatioTargets',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_interestRateMode', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setInterestRateMode',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'iterations', internalType: 'uint16', type: 'uint16' }],
+    name: 'setMaxIterations',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'maxSlippage', internalType: 'uint256', type: 'uint256' }],
+    name: 'setMaxSlippageOnRebalance',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
+    name: 'setRatioMargin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
+    name: 'setSwapper',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unpause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
   {
     type: 'event',
     anonymous: false,
@@ -2540,6 +3064,19 @@ export const loopStrategyAbi = [
       },
     ],
     name: 'MaxIterationsSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'maxSlippage',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MaxSlippageOnRebalanceSet',
   },
   {
     type: 'event',
@@ -2731,665 +3268,151 @@ export const loopStrategyAbi = [
     ],
     name: 'Withdraw',
   },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
   {
-    type: 'function',
-    inputs: [],
-    name: 'DEFAULT_ADMIN_ROLE',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
+    type: 'error',
     inputs: [
-      { name: '_erc20name', internalType: 'string', type: 'string' },
-      { name: '_erc20symbol', internalType: 'string', type: 'string' },
-      { name: '_initialAdmin', internalType: 'address', type: 'address' },
-      {
-        name: '_strategyAssets',
-        internalType: 'struct StrategyAssets',
-        type: 'tuple',
-        components: [
-          {
-            name: 'underlying',
-            internalType: 'contract IERC20',
-            type: 'address',
-          },
-          {
-            name: 'collateral',
-            internalType: 'contract IERC20',
-            type: 'address',
-          },
-          { name: 'debt', internalType: 'contract IERC20', type: 'address' },
-        ],
-      },
-      {
-        name: '_collateralRatioTargets',
-        internalType: 'struct CollateralRatio',
-        type: 'tuple',
-        components: [
-          { name: 'target', internalType: 'uint256', type: 'uint256' },
-          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
-          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
-          {
-            name: 'minForWithdrawRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-          {
-            name: 'maxForDepositRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-        ],
-      },
-      {
-        name: '_poolAddressProvider',
-        internalType: 'contract IPoolAddressesProvider',
-        type: 'address',
-      },
-      {
-        name: '_oracle',
-        internalType: 'contract IPriceOracleGetter',
-        type: 'address',
-      },
-      { name: '_swapper', internalType: 'contract ISwapper', type: 'address' },
-      { name: '_ratioMargin', internalType: 'uint256', type: 'uint256' },
-      { name: '_maxIterations', internalType: 'uint16', type: 'uint16' },
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' },
     ],
-    name: 'LoopStrategy_init',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    name: 'AccessControlUnauthorizedAccount',
   },
   {
-    type: 'function',
-    inputs: [],
-    name: 'MANAGER_ROLE',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
   },
   {
-    type: 'function',
-    inputs: [],
-    name: 'PAUSER_ROLE',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance',
   },
   {
-    type: 'function',
-    inputs: [],
-    name: 'UPGRADER_ROLE',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
+    type: 'error',
+    inputs: [
+      { name: 'implementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'ERC1967InvalidImplementation',
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientAllowance',
   },
   {
-    type: 'function',
-    inputs: [],
-    name: 'UPGRADE_INTERFACE_VERSION',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientBalance',
   },
   {
-    type: 'function',
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxDeposit',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxMint',
+  },
+  {
+    type: 'error',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
+    name: 'ERC4626ExceededMaxRedeem',
   },
   {
-    type: 'function',
+    type: 'error',
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'asset',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'collateral',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToShares',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'currentCollateralRatio',
-    outputs: [{ name: 'ratio', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'debt',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'decimals',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'deposit',
-    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
+    name: 'ERC4626ExceededMaxWithdraw',
+  },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidCollateralRatioTargets' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'MarginOutsideRange' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'MaxSlippageOutOfRange' },
+  { type: 'error', inputs: [], name: 'MintDisabled' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'RebalanceNotNeeded' },
+  { type: 'error', inputs: [], name: 'RedeemerNotOwner' },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
   },
   {
-    type: 'function',
+    type: 'error',
     inputs: [
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'sharesReceived', internalType: 'uint256', type: 'uint256' },
       { name: 'minSharesReceived', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'deposit',
-    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
+    name: 'SharesReceivedBelowMinimum',
+  },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID',
   },
   {
-    type: 'function',
-    inputs: [],
-    name: 'equity',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'equityUSD',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getAssets',
-    outputs: [
+    type: 'error',
+    inputs: [
+      { name: 'underlyingReceived', internalType: 'uint256', type: 'uint256' },
       {
-        name: 'assets',
-        internalType: 'struct StrategyAssets',
-        type: 'tuple',
-        components: [
-          {
-            name: 'underlying',
-            internalType: 'contract IERC20',
-            type: 'address',
-          },
-          {
-            name: 'collateral',
-            internalType: 'contract IERC20',
-            type: 'address',
-          },
-          { name: 'debt', internalType: 'contract IERC20', type: 'address' },
-        ],
+        name: 'minUnderlyingReceived',
+        internalType: 'uint256',
+        type: 'uint256',
       },
     ],
-    stateMutability: 'view',
+    name: 'UnderlyingReceivedBelowMinimum',
   },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getCollateralRatioTargets',
-    outputs: [
-      {
-        name: 'ratio',
-        internalType: 'struct CollateralRatio',
-        type: 'tuple',
-        components: [
-          { name: 'target', internalType: 'uint256', type: 'uint256' },
-          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
-          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
-          {
-            name: 'minForWithdrawRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-          {
-            name: 'maxForDepositRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-        ],
-      },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getLendingPool',
-    outputs: [
-      {
-        name: 'pool',
-        internalType: 'struct LendingPool',
-        type: 'tuple',
-        components: [
-          { name: 'pool', internalType: 'contract IPool', type: 'address' },
-          {
-            name: 'interestRateMode',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-          {
-            name: 'sTokenCollateral',
-            internalType: 'contract IAToken',
-            type: 'address',
-          },
-        ],
-      },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getMaxIterations',
-    outputs: [{ name: 'iterations', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getOracle',
-    outputs: [{ name: 'oracle', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getPoolAddressProvider',
-    outputs: [
-      { name: 'poolAddressProvider', internalType: 'address', type: 'address' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getRatioMagin',
-    outputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'getRoleAdmin',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getSwapper',
-    outputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getUSDMargin',
-    outputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
-    ],
-    name: 'grantRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
-    ],
-    name: 'hasRole',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'pure',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'maxRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxWithdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'pure',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'uint256', type: 'uint256' },
-      { name: '', internalType: 'address', type: 'address' },
-    ],
-    name: 'mint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'pause',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewWithdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rebalance',
-    outputs: [{ name: 'ratio', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rebalanceNeeded',
-    outputs: [{ name: 'shouldRebalance', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'minUnderlyingAsset', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'redeem',
-    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'redeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'callerConfirmation', internalType: 'address', type: 'address' },
-    ],
-    name: 'renounceRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
-    ],
-    name: 'revokeRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assetsCap', internalType: 'uint256', type: 'uint256' }],
-    name: 'setAssetsCap',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'targets',
-        internalType: 'struct CollateralRatio',
-        type: 'tuple',
-        components: [
-          { name: 'target', internalType: 'uint256', type: 'uint256' },
-          { name: 'minForRebalance', internalType: 'uint256', type: 'uint256' },
-          { name: 'maxForRebalance', internalType: 'uint256', type: 'uint256' },
-          {
-            name: 'minForWithdrawRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-          {
-            name: 'maxForDepositRebalance',
-            internalType: 'uint256',
-            type: 'uint256',
-          },
-        ],
-      },
-    ],
-    name: 'setCollateralRatioTargets',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: '_interestRateMode', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'setInterestRateMode',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'iterations', internalType: 'uint16', type: 'uint16' }],
-    name: 'setMaxIterations',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
-    name: 'setRatioMargin',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'swapper', internalType: 'address', type: 'address' }],
-    name: 'setSwapper',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'marginUSD', internalType: 'uint256', type: 'uint256' }],
-    name: 'setUSDMargin',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
-    name: 'supportsInterface',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'unpause',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'upgradeToAndCall',
-    outputs: [],
-    stateMutability: 'payable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'uint256', type: 'uint256' },
-      { name: '', internalType: 'address', type: 'address' },
-      { name: '', internalType: 'address', type: 'address' },
-    ],
-    name: 'withdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
+  { type: 'error', inputs: [], name: 'WithdrawDisabled' },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5247,12 +5270,12 @@ export const useReadLoopStrategyBalanceOf = /*#__PURE__*/ createUseReadContract(
 )
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateral"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"collateralUSD"`
  */
-export const useReadLoopStrategyCollateral =
+export const useReadLoopStrategyCollateralUsd =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    functionName: 'collateral',
+    functionName: 'collateralUSD',
   })
 
 /**
@@ -5283,11 +5306,11 @@ export const useReadLoopStrategyCurrentCollateralRatio =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debt"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"debtUSD"`
  */
-export const useReadLoopStrategyDebt = /*#__PURE__*/ createUseReadContract({
+export const useReadLoopStrategyDebtUsd = /*#__PURE__*/ createUseReadContract({
   abi: loopStrategyAbi,
-  functionName: 'debt',
+  functionName: 'debtUSD',
 })
 
 /**
@@ -5321,6 +5344,15 @@ export const useReadLoopStrategyGetAssets = /*#__PURE__*/ createUseReadContract(
 )
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getAssetsCap"`
+ */
+export const useReadLoopStrategyGetAssetsCap =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    functionName: 'getAssetsCap',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getCollateralRatioTargets"`
  */
 export const useReadLoopStrategyGetCollateralRatioTargets =
@@ -5348,6 +5380,15 @@ export const useReadLoopStrategyGetMaxIterations =
   })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getMaxSlippageOnRebalance"`
+ */
+export const useReadLoopStrategyGetMaxSlippageOnRebalance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: loopStrategyAbi,
+    functionName: 'getMaxSlippageOnRebalance',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getOracle"`
  */
 export const useReadLoopStrategyGetOracle = /*#__PURE__*/ createUseReadContract(
@@ -5364,12 +5405,12 @@ export const useReadLoopStrategyGetPoolAddressProvider =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRatioMagin"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getRatioMargin"`
  */
-export const useReadLoopStrategyGetRatioMagin =
+export const useReadLoopStrategyGetRatioMargin =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
-    functionName: 'getRatioMagin',
+    functionName: 'getRatioMargin',
   })
 
 /**
@@ -5388,15 +5429,6 @@ export const useReadLoopStrategyGetSwapper =
   /*#__PURE__*/ createUseReadContract({
     abi: loopStrategyAbi,
     functionName: 'getSwapper',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"getUSDMargin"`
- */
-export const useReadLoopStrategyGetUsdMargin =
-  /*#__PURE__*/ createUseReadContract({
-    abi: loopStrategyAbi,
-    functionName: 'getUSDMargin',
   })
 
 /**
@@ -5680,6 +5712,15 @@ export const useWriteLoopStrategySetMaxIterations =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setMaxSlippageOnRebalance"`
+ */
+export const useWriteLoopStrategySetMaxSlippageOnRebalance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: loopStrategyAbi,
+    functionName: 'setMaxSlippageOnRebalance',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setRatioMargin"`
  */
 export const useWriteLoopStrategySetRatioMargin =
@@ -5695,15 +5736,6 @@ export const useWriteLoopStrategySetSwapper =
   /*#__PURE__*/ createUseWriteContract({
     abi: loopStrategyAbi,
     functionName: 'setSwapper',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setUSDMargin"`
- */
-export const useWriteLoopStrategySetUsdMargin =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: loopStrategyAbi,
-    functionName: 'setUSDMargin',
   })
 
 /**
@@ -5865,6 +5897,15 @@ export const useSimulateLoopStrategySetMaxIterations =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setMaxSlippageOnRebalance"`
+ */
+export const useSimulateLoopStrategySetMaxSlippageOnRebalance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: loopStrategyAbi,
+    functionName: 'setMaxSlippageOnRebalance',
+  })
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setRatioMargin"`
  */
 export const useSimulateLoopStrategySetRatioMargin =
@@ -5880,15 +5921,6 @@ export const useSimulateLoopStrategySetSwapper =
   /*#__PURE__*/ createUseSimulateContract({
     abi: loopStrategyAbi,
     functionName: 'setSwapper',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link loopStrategyAbi}__ and `functionName` set to `"setUSDMargin"`
- */
-export const useSimulateLoopStrategySetUsdMargin =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: loopStrategyAbi,
-    functionName: 'setUSDMargin',
   })
 
 /**
@@ -5985,6 +6017,15 @@ export const useWatchLoopStrategyMaxIterationsSetEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: loopStrategyAbi,
     eventName: 'MaxIterationsSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link loopStrategyAbi}__ and `eventName` set to `"MaxSlippageOnRebalanceSet"`
+ */
+export const useWatchLoopStrategyMaxSlippageOnRebalanceSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: loopStrategyAbi,
+    eventName: 'MaxSlippageOnRebalanceSet',
   })
 
 /**
