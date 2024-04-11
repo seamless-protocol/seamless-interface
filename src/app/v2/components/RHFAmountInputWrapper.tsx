@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFetchAssetPrice } from "../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../hooks/useAssetPickerState";
 import { useFetchViewAssetBalance } from "../../state/common/queries/useFetchViewAssetBalance";
@@ -63,13 +63,16 @@ export function RHFAmountInputWrapper<T>({ overrideUrlSlug, assetAddress, ...oth
 
   const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
+  const {
+    data: { decimals },
+  } = useToken(asset);
 
   const { watch } = useFormContext();
   const value = watch(other.name);
 
   const dollarValueData = useMemo(() => {
-    const valueBigInt = parseUnits(value || "", price.decimals);
-    const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** price.decimals);
+    const valueBigInt = parseUnits(value || "", decimals);
+    const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
