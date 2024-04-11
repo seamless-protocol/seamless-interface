@@ -13,6 +13,7 @@ import {
   ModalHandles,
   MyFormProvider,
   Tooltip,
+  StandardTooltip,
   Typography,
   useNotificationContext,
   useToken,
@@ -125,7 +126,14 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                 />
               </FlexRow>
               <FlexRow className="justify-between">
-                <Typography type="description">Max Transaction cost</Typography>
+                <FlexRow className="items-center gap-1">
+                  <Typography type="description">Max Transaction cost</Typography>
+                  <StandardTooltip width={1}>
+                    <Typography type="subheader2">
+                      DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your withdrawal.
+                    </Typography>
+                  </StandardTooltip>
+                </FlexRow>
                 <DisplayMoney
                   {...previewWithdrawData?.cost.dollarAmount}
                   typography="description"
