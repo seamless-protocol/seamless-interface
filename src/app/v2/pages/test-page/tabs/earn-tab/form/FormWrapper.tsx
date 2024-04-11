@@ -6,6 +6,8 @@ import { Tag } from "../Tag";
 import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
 import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
 import { SupplyModal } from "./SupplyModal";
+import { AssetApy } from "../../../../../components/AssetApy";
+import { AssetApr } from "../../../../../components/AssetApr";
 
 export const FormWrapper = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -56,22 +58,14 @@ export const FormWrapper = () => {
           <Typography type="bold3">Summary</Typography>
           <FlexRow className="text-navy-600 justify-between">
             <Typography type="bold2">Estimated APY</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              9.33%
-            </Typography>
+            <AssetApy asset={asset} isStrategy={isStrategy} className="text-navy-1000" typography="medium2" />
           </FlexRow>
-          <FlexRow className="text-navy-600 justify-between">
-            <Typography type="bold2">Rewards APR</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              9.33%
-            </Typography>
-          </FlexRow>
-          <FlexRow className="text-navy-600 justify-between">
-            <Typography type="bold2">Est. time to break even</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              3 days
-            </Typography>
-          </FlexRow>
+          {!isStrategy && (
+            <FlexRow className="text-navy-600 justify-between">
+              <Typography type="bold2">Rewards APR</Typography>
+              <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />
+            </FlexRow>
+          )}
         </FlexCol>
 
         {isStrategy ? <AddStrategyModalWrapper asset={asset} /> : <SupplyModal />}

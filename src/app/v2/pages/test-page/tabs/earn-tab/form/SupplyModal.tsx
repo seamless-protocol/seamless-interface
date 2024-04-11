@@ -2,6 +2,7 @@ import {
   Buttonv2,
   FlexCol,
   FlexRow,
+  Icon,
   Modal,
   ModalHandles,
   Typography,
@@ -20,12 +21,19 @@ import { useWrappedDebounce } from "../../../../../../state/common/hooks/useWrap
 import { DepositModalFormData } from "../../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { useRef } from "react";
 import { useMutateSupplyLending } from "../../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
+import { TokenDescriptionDict } from "../../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchReserveTokenAddresses } from "../../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
 export const SupplyModal = () => {
   const modalRef = useRef<ModalHandles>(null);
 
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
+  const {
+    data: { aTokenAddress },
+  } = useFetchReserveTokenAddresses(asset);
+
+  const { data: aTokenData } = useFullTokenData(aTokenAddress);
 
   const { showNotification } = useNotificationContext();
 
@@ -82,8 +90,8 @@ export const SupplyModal = () => {
       }}
       headerComponent={
         <FlexCol className="gap-1">
-          <Typography type="bold4">Supply to asset</Typography>
-          <Typography type="regular3">{tokenData.shortName}</Typography>
+          <Typography type="bold4">Add to strategy</Typography>
+          <Typography type="regular3">{TokenDescriptionDict[asset].lendingTitle}</Typography>
         </FlexCol>
       }
     >
@@ -91,7 +99,15 @@ export const SupplyModal = () => {
         <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
           <Typography type="bold3">Overview</Typography>
 
-          <LocalRow label="todo">todo</LocalRow>
+          <LocalRow label="Action">Deposit</LocalRow>
+          <LocalRow label="Strategy">{TokenDescriptionDict[asset].lendingTitle}</LocalRow>
+          <LocalRow label="Starting Asset">{tokenData.symbol}</LocalRow>
+          <LocalRow label="Deposit Size">
+            <FlexRow className="gap-1">
+              {`${amount} ${tokenData.symbol}`} <Icon width={18} src={tokenData.logo} alt={tokenData.logo || ""} />
+            </FlexRow>
+          </LocalRow>
+          <LocalRow label="Ending Asset">{aTokenData.symbol}</LocalRow>
         </FlexCol>
 
         <FlexCol className="gap-2">
