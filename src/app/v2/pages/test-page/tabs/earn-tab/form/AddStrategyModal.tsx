@@ -55,7 +55,7 @@ const AddStrategyModal: React.FC<{
   const amount = watch(earnInputConfig.name);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
-    strategy.underlyingAsset?.address || "0x1", // todo: remove 0x1
+    strategy.underlyingAsset.address,
     strategy.address,
     parseUnits(amount || "0", etherUnits.wei)
   );
