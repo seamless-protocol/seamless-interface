@@ -32,6 +32,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
       type="text"
       value={value}
       allowLeadingZeros
+      thousandSeparator=","
       customInput={CustomInput}
       onChange={handleChange}
       isAllowed={withValueCap}
