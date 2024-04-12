@@ -80,6 +80,7 @@ export const Tooltip: React.FC<{
       onMouseLeave={() => {
         setIsVisible(false);
       }}
+      className="cursor-help"
     >
       {children}
       <ReactTooltip

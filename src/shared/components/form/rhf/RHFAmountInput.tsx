@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { Displayable, ViewBigInt } from "src/shared/types/Displayable";
 import { Address, formatUnits, parseUnits } from "viem";
+
 import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
 import { Icon } from "../../images/Icon";
@@ -12,6 +13,8 @@ import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
+
+
 
 export interface IRHFAmountInputProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
@@ -59,6 +62,19 @@ export function RHFAmountInput<T>({
     }
   }, [isConnected]);
 
+  useEffect(() => {
+    const value = getValues(name as string);
+
+    if (!tokenData?.decimals) {
+      setValue(name as string, "");
+    } else if (
+      (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
+      0n
+    ) {
+      setValue(name as string, "");
+    }
+  }, [isConnected]);
+
   return (
     <div className="border bg-neutral-0 rounded-2xl p-4">
       <FlexRow className="items-center w-full">
@@ -83,7 +99,7 @@ export function RHFAmountInput<T>({
               <Typography type="medium4">{tokenData?.symbol}</Typography>
             </div>
           )}
-          {isConnected && (
+          {(isConnected && assetAddress) && (
             <div className="inline-flex gap-2 items-center">
               <DisplayTokenAmount {...walletBalance} {...walletBalance?.data} typography="medium2" />
               <button type="button" onClick={handleMaxClick}>
@@ -91,7 +107,7 @@ export function RHFAmountInput<T>({
               </button>
             </div>
           )}
-          {!isConnected && <span className="min-h-[18px]" />}
+          {(!isConnected || !assetAddress) && <span className="min-h-[18px]" />}
         </div>
       </FlexRow>
     </div>

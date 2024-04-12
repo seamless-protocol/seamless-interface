@@ -2,10 +2,12 @@ import React, { CSSProperties, ChangeEventHandler, InputHTMLAttributes } from "r
 
 import styles from "./InputSliderField.module.css";
 
-interface InputSliderFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  onChange: ChangeEventHandler<HTMLInputElement>;
+export interface InputSliderFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: string | number | readonly string[] | undefined;
   label?: string;
+  enabledMin?: number;
+  enabledMax?: number;
 }
 
 interface CustomStyle extends CSSProperties {
@@ -15,7 +17,9 @@ interface CustomStyle extends CSSProperties {
 const renderMarkers = (
   min: number,
   max: number,
-  onChange: ChangeEventHandler<HTMLInputElement>,
+  enabledMin: number,
+  enabledMax: number,
+  onChange?: ChangeEventHandler<HTMLInputElement>,
   value?: string | number | readonly string[] | undefined
 ) => {
   const markers = [];
@@ -30,9 +34,15 @@ const renderMarkers = (
         style={{
           left: adjustment,
         }}
-        className={`bottom-3.5 w-3 h-3 absolute rounded-full border-2 border-navy-1000
-          ${(Number(value) || 0) > i ? "bg-navy-1000" : "bg-neutral-0"}`}
-        onClick={() => onChange({ target: { value: i.toString() } } as any)}
+        className={`bottom-3.5 w-3 h-3 absolute rounded-full border-2 
+                    ${i >= enabledMin && i <= enabledMax ? "border-navy-1000" : "border-gray-400"}
+                    ${(Number(value) || 0) >= i ? "bg-navy-1000" : "bg-neutral-0"}`}
+        onClick={() => {
+          if (i >= enabledMin && i <= enabledMax) {
+            onChange?.({ target: { value: i.toString() } } as any);
+          }
+        }}
+        disabled={i < enabledMin || i > enabledMax}
       />
     );
   }
@@ -40,7 +50,7 @@ const renderMarkers = (
 };
 
 export const InputSliderField = React.forwardRef<HTMLInputElement, InputSliderFieldProps>(
-  ({ min, max, value, label, onChange, ...rest }, ref) => {
+  ({ min, max, enabledMin = min, enabledMax = max, value, label, onChange, ...rest }, ref) => {
     const classes = styles.sliderContainer;
     const sliderClasses = styles.sliderInput;
 
@@ -51,14 +61,14 @@ export const InputSliderField = React.forwardRef<HTMLInputElement, InputSliderFi
 
     return (
       <div className={classes} style={sliderStyle as React.CSSProperties}>
-        {renderMarkers(Number(min), Number(max), onChange, value)}
+        {renderMarkers(Number(min), Number(max), Number(enabledMin), Number(enabledMax), onChange, value)}
         <input
           ref={ref}
           className={sliderClasses}
           type="range"
           title={label || ""}
-          min={min}
-          max={max}
+          min={enabledMin}
+          max={enabledMax}
           value={value}
           onChange={onChange}
           {...rest}
@@ -67,5 +77,7 @@ export const InputSliderField = React.forwardRef<HTMLInputElement, InputSliderFi
     );
   }
 );
+
+InputSliderField.displayName = "InputSliderField";
 
 InputSliderField.displayName = "InputSliderField";

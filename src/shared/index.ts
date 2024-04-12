@@ -20,6 +20,7 @@ export * from "./pages/PageNotFound";
 // auth //
 // ****** //
 export * from "./components/auth/AuthGuard";
+export * from "./components/auth/AuthGuardv2";
 
 // ****** //
 // button //

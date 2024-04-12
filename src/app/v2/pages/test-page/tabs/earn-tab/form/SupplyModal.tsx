@@ -1,4 +1,5 @@
 import {
+  AuthGuardv2,
   Buttonv2,
   FlexCol,
   FlexRow,
@@ -37,7 +38,7 @@ export const SupplyModal = () => {
 
   const { showNotification } = useNotificationContext();
 
-  const { watch } = useFormContext();
+  const { watch, reset } = useFormContext();
   const amount = watch(earnInputConfig.name);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
@@ -75,6 +76,7 @@ export const SupplyModal = () => {
         },
         onSettled: () => {
           modalRef.current?.close();
+          reset();
         },
       }
     );
@@ -111,9 +113,11 @@ export const SupplyModal = () => {
         </FlexCol>
 
         <FlexCol className="gap-2">
-          <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
-            Approve
-          </Buttonv2>
+          <AuthGuardv2 message="">
+            <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
+              Approve
+            </Buttonv2> 
+          </AuthGuardv2>
           <Buttonv2
             className="text-bold3"
             type="submit"
