@@ -1,5 +1,6 @@
 import {
   Buttonv2,
+  DisplayValue,
   FlexCol,
   FlexRow,
   Icon,
@@ -24,6 +25,8 @@ import { useMutateDepositStrategy } from "../../../../../../state/loop-strategy/
 import { DepositModalFormData } from "../../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { StrategyConfig, findILMStrategyByAddress } from "../../../../../../state/loop-strategy/config/StrategyConfig";
 import { useRef } from "react";
+import { TokenDescriptionDict } from "../../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchViewTargetMultiple } from "../../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 
 export const AddStrategyModalWrapper: React.FC<{
   asset: Address;
@@ -47,7 +50,15 @@ const AddStrategyModal: React.FC<{
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
 
+  const { data: strategyTokenData } = useFullTokenData(strategy.address);
+
   const { showNotification } = useNotificationContext();
+
+  const {
+    data: targetMultiple,
+    isLoading: isTargetMultipleLoading,
+    isFetched: isTargetMultipleFetched,
+  } = useFetchViewTargetMultiple(strategy.address);
 
   const {
     data: { symbol: strategySymbol },
@@ -110,7 +121,7 @@ const AddStrategyModal: React.FC<{
       headerComponent={
         <FlexCol className="gap-1">
           <Typography type="bold4">Add to strategy</Typography>
-          <Typography type="regular3">Multiply wstETH staking rewards</Typography>
+          <Typography type="regular3">{TokenDescriptionDict[asset]?.strategyTitle}</Typography>
         </FlexCol>
       }
     >
@@ -119,17 +130,18 @@ const AddStrategyModal: React.FC<{
           <Typography type="bold3">Overview</Typography>
 
           <LocalRow label="Action">Deposit</LocalRow>
-          <LocalRow label="Strategy">Multiply wstETH staking rewards</LocalRow>
-          <LocalRow label="Multiplier">5x</LocalRow>
-          <LocalRow label="Starting Asset">wstETH</LocalRow>
+          <LocalRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</LocalRow>
+          <LocalRow label="Multiplier">
+            <DisplayValue {...targetMultiple} isLoading={isTargetMultipleLoading} isFetched={isTargetMultipleFetched} />
+          </LocalRow>
+          <LocalRow label="Starting Asset">{tokenData.symbol}</LocalRow>
           <LocalRow label="Deposit Size">
             <FlexRow className="gap-2 items-center">
-              0.1 wstETH <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
+              {`${amount} ${tokenData.symbol}`}
+              <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
             </FlexRow>
           </LocalRow>
-          <LocalRow label="Ending Asset">wstETH</LocalRow>
-          <LocalRow label="Network Fee">0.0054 ETH</LocalRow>
-          <LocalRow label="Est. time to break even">3 days</LocalRow>
+          <LocalRow label="Ending Asset">{strategyTokenData.symbol}</LocalRow>
         </FlexCol>
 
         <FlexCol className="gap-2">
