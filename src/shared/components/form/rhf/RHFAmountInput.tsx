@@ -33,8 +33,6 @@ export function RHFAmountInput<T>({
 }: IRHFAmountInputProps<T>) {
   const { setValue, getValues } = useFormContext();
   const { isConnected } = useAccount();
-  const { setValue, getValues } = useFormContext();
-  const { isConnected } = useAccount();
   const { data: tokenData } = useFullTokenData(assetAddress);
 
   const handleMaxClick = () => {
