@@ -1,4 +1,4 @@
-import { MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, useFullTokenData, Tooltip } from "@shared";
+import { MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, useFullTokenData } from "@shared";
 import { useForm } from "react-hook-form";
 import { AddStrategyModalWrapper } from "./AddStrategyModal";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
@@ -6,6 +6,8 @@ import { Tag } from "../Tag";
 import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
 import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
 import { SupplyModal } from "./SupplyModal";
+import { AssetApy } from "../../../../../components/AssetApy";
+import { AssetApr } from "../../../../../components/AssetApr";
 
 export const FormWrapper = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -42,19 +44,11 @@ export const FormWrapper = () => {
           <FlexCol className="gap-4">
             <Typography type="bold3">Multiplier</Typography>
             <FlexCol>
-              <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
+              <RHFInputSliderField name="test" min="0" max="2" />
               <FlexRow className="justify-between pl-1">
                 <Typography type="medium3">3x</Typography>
-                <Tooltip size="small" tooltip={<Typography type="regular3">Coming soon...</Typography>}>
-                  <Typography type="medium3" className="text-neutral-400">
-                    5x
-                  </Typography>
-                </Tooltip>
-                <Tooltip size="small" tooltip={<Typography type="regular3">Coming soon...</Typography>}>
-                  <Typography type="medium3" className="text-neutral-400">
-                    10x
-                  </Typography>
-                </Tooltip>
+                <Typography type="medium3">5x</Typography>
+                <Typography type="medium3">10x</Typography>
               </FlexRow>
             </FlexCol>
           </FlexCol>
@@ -64,22 +58,16 @@ export const FormWrapper = () => {
           <Typography type="bold3">Summary</Typography>
           <FlexRow className="text-navy-600 justify-between">
             <Typography type="bold2">Estimated APY</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              9.33%
-            </Typography>
+            {asset && (
+              <AssetApy asset={asset} isStrategy={isStrategy} className="text-navy-1000" typography="medium2" />
+            )}
           </FlexRow>
-          <FlexRow className="text-navy-600 justify-between">
-            <Typography type="bold2">Rewards APR</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              9.33%
-            </Typography>
-          </FlexRow>
-          <FlexRow className="text-navy-600 justify-between">
-            <Typography type="bold2">Est. time to break even</Typography>
-            <Typography type="medium2" className="text-navy-1000">
-              3 days
-            </Typography>
-          </FlexRow>
+          {!isStrategy && (
+            <FlexRow className="text-navy-600 justify-between">
+              <Typography type="bold2">Rewards APR</Typography>
+              {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
+            </FlexRow>
+          )}
         </FlexCol>
 
         {isStrategy ? <AddStrategyModalWrapper asset={asset} /> : <SupplyModal />}

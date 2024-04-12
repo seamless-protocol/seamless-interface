@@ -6,6 +6,10 @@ export interface OverrideUrlSlug {
   asset: string;
   isStrategy: string;
 }
+export interface OverrideUrlSlug {
+  asset: string;
+  isStrategy: string;
+}
 
 export interface AssetPickerStateHookProps {
   overrideUrlSlug?: OverrideUrlSlug;

@@ -12,8 +12,8 @@ export interface FullTokenData {
   shortName?: string;
 }
 
-export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
-  const data = TokenDataDict[token];
+export const useFullTokenData = (token: Address | undefined): FetchData<FullTokenData> => {
+  const data = token ? TokenDataDict[token] : undefined;
 
   const {
     data: decimals,

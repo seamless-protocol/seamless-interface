@@ -35,7 +35,7 @@ export const useFetchStrategyInfo = (
       {
         address: strategyAddress,
         abi: loopStrategyAbi,
-        functionName: "collateral",
+        functionName: "collateralUSD",
       },
       {
         address: strategyAddress,
