@@ -91,18 +91,6 @@ export function RHFAmountInput<T>({
           ) : (
             <span className="min-h-[18px]" />
           )}
-          <RHFInputField<T>
-            name={name}
-            min={0}
-            max={isConnected ? walletBalance?.data?.value || "0" : String(MAX_NUMBER)}
-            placeholder="0.00"
-            {...other}
-          />
-          {assetAddress ? (
-            <DisplayMoney {...dollarValue} {...dollarValue?.data} typography="medium2" />
-          ) : (
-            <span className="min-h-[18px]" />
-          )}
         </FlexCol>
         <div className="flex flex-col items-end gap-2">
           {assetButton || (
