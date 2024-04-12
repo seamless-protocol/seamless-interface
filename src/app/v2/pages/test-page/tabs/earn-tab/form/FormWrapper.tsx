@@ -44,7 +44,7 @@ export const FormWrapper = () => {
           <FlexCol className="gap-4">
             <Typography type="bold3">Multiplier</Typography>
             <FlexCol>
-              <RHFInputSliderField name="test" min="0" max="2" />
+              <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
               <FlexRow className="justify-between pl-1">
                 <Typography type="medium3">3x</Typography>
                 <Typography type="medium3">5x</Typography>
