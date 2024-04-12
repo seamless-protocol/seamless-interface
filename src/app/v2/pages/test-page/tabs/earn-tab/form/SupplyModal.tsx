@@ -91,7 +91,7 @@ export const SupplyModal = () => {
       headerComponent={
         <FlexCol className="gap-1">
           <Typography type="bold4">Add to strategy</Typography>
-          <Typography type="regular3">{TokenDescriptionDict[asset].lendingTitle}</Typography>
+          <Typography type="regular3">{TokenDescriptionDict[asset]?.lendingTitle}</Typography>
         </FlexCol>
       }
     >
@@ -100,7 +100,7 @@ export const SupplyModal = () => {
           <Typography type="bold3">Overview</Typography>
 
           <LocalRow label="Action">Deposit</LocalRow>
-          <LocalRow label="Strategy">{TokenDescriptionDict[asset].lendingTitle}</LocalRow>
+          <LocalRow label="Strategy">{TokenDescriptionDict[asset]?.lendingTitle}</LocalRow>
           <LocalRow label="Starting Asset">{tokenData.symbol}</LocalRow>
           <LocalRow label="Deposit Size">
             <FlexRow className="gap-1">

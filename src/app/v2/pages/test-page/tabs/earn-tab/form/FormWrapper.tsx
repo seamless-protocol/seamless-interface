@@ -58,12 +58,14 @@ export const FormWrapper = () => {
           <Typography type="bold3">Summary</Typography>
           <FlexRow className="text-navy-600 justify-between">
             <Typography type="bold2">Estimated APY</Typography>
-            <AssetApy asset={asset} isStrategy={isStrategy} className="text-navy-1000" typography="medium2" />
+            {asset && (
+              <AssetApy asset={asset} isStrategy={isStrategy} className="text-navy-1000" typography="medium2" />
+            )}
           </FlexRow>
           {!isStrategy && (
             <FlexRow className="text-navy-600 justify-between">
               <Typography type="bold2">Rewards APR</Typography>
-              <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />
+              {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
             </FlexRow>
           )}
         </FlexCol>

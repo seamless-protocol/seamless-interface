@@ -119,7 +119,7 @@ const AddStrategyModal: React.FC<{
       headerComponent={
         <FlexCol className="gap-1">
           <Typography type="bold4">Add to strategy</Typography>
-          <Typography type="regular3">{TokenDescriptionDict[asset].strategyTitle}</Typography>
+          <Typography type="regular3">{TokenDescriptionDict[asset]?.strategyTitle}</Typography>
         </FlexCol>
       }
     >
@@ -128,7 +128,7 @@ const AddStrategyModal: React.FC<{
           <Typography type="bold3">Overview</Typography>
 
           <LocalRow label="Action">Deposit</LocalRow>
-          <LocalRow label="Strategy">{TokenDescriptionDict[asset].strategyTitle}</LocalRow>
+          <LocalRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</LocalRow>
           <LocalRow label="Multiplier">
             <DisplayValue {...targetMultiple} isLoading={isTargetMultipleLoading} isFetched={isTargetMultipleFetched} />
           </LocalRow>
