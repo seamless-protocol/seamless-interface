@@ -6,7 +6,7 @@ import {
   Modal,
   ModalHandles,
   Typography,
-  WatchAssetComponent,
+  WatchAssetComponentv2,
   useERC20Approve,
   useFullTokenData,
   useNotificationContext,
@@ -29,10 +29,12 @@ export const AddStrategyModalWrapper: React.FC<{
   asset: Address;
 }> = ({ asset }) => {
   const strategy = findILMStrategyByAddress(asset);
-  // eslint-disable-next-line no-console
-  console.warn("Strategy not found!!!");
 
-  if (!strategy) return <>Strategy not found!</>;
+  if (!strategy) {
+    // eslint-disable-next-line no-console
+    console.warn("Strategy not found!!!");
+    return <>Strategy not found!</>;
+  }
 
   return <AddStrategyModal strategy={strategy} />;
 };
@@ -84,7 +86,7 @@ const AddStrategyModal: React.FC<{
                   <Typography>
                     You Supplied {data.amount} {strategy?.underlyingAsset.symbol}
                   </Typography>
-                  {strategy && <WatchAssetComponent {...strategy} symbol={strategySymbol} />}
+                  {strategy && <WatchAssetComponentv2 {...strategy} symbol={strategySymbol} />}
                 </FlexCol>
               ),
             });

@@ -5,7 +5,7 @@ import {
   Modal,
   ModalHandles,
   Typography,
-  WatchAssetComponent,
+  WatchAssetComponentv2,
   useERC20Approve,
   useFullTokenData,
   useNotificationContext,
@@ -60,7 +60,7 @@ export const SupplyModal = () => {
                 <Typography>
                   You Supplied {data.amount} {tokenData.symbol}
                 </Typography>
-                {tokenData && <WatchAssetComponent {...tokenData} symbol={tokenData.symbol || ""} address={asset} />}
+                {tokenData && <WatchAssetComponentv2 {...tokenData} symbol={tokenData.symbol || ""} address={asset} />}
               </FlexCol>
             ),
           });
