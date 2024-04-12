@@ -81,6 +81,15 @@ export const StrategyStatusAndConfiguration: React.FC<{
               This amplifies the participant&apos;s {ilmStrategies[id].underlyingAsset.symbol} and ETH staking reward
               exposure.
             </Typography>
+            <br />
+            {strategyConfig.vaultsFyiLink && (
+              <Link to={strategyConfig.vaultsFyiLink} target="_blank" className="flex gap-1">
+                <FlexRow className="gap-1">
+                  <Typography type="secondary14">View Historical APY charts on vaults.fyi</Typography>
+                  <Icon width={12} height={12} src={externalLink} alt="external-link" />
+                </FlexRow>
+              </Link>
+            )}
           </FlexCol>
         </FlexCol>
 
