@@ -1,4 +1,5 @@
 import {
+  AuthGuardv2,
   Buttonv2,
   DisplayValue,
   FlexCol,
@@ -64,7 +65,7 @@ const AddStrategyModal: React.FC<{
     data: { symbol: strategySymbol },
   } = useToken(strategy.address);
 
-  const { watch } = useFormContext();
+  const { watch, reset } = useFormContext();
   const amount = watch(earnInputConfig.name);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
@@ -104,6 +105,7 @@ const AddStrategyModal: React.FC<{
           },
           onSettled: () => {
             modalRef.current?.close();
+            reset();
           },
         }
       );
@@ -145,9 +147,11 @@ const AddStrategyModal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-2">
-          <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
-            Approve
-          </Buttonv2>
+          <AuthGuardv2 message="">
+            <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
+              Approve
+            </Buttonv2> 
+          </AuthGuardv2>
           <Buttonv2
             className="text-bold3"
             type="submit"
