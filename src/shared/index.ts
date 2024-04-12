@@ -122,6 +122,7 @@ export * from "./components/modal/Modal";
 // notification //
 // ************ //
 export * from "./components/notification/DisplayNotification";
+export * from "./components/notification/DisplayNotificationv2";
 
 // ***** //
 // Table //
@@ -136,6 +137,7 @@ export * from "./components/table/TableRow";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
+export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2";
 
 // ************** //
 // wagmi wrappers //
