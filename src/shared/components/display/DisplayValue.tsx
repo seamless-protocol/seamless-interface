@@ -70,7 +70,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     return <div className="loading loading-spinner flex self-center" />;
   }
   return (
-    <Typography type={typography} className={`md:truncate md:hover:text-clip ${className} max-w-full`}>
+    <Typography type={typography} className={`md:truncate md:hover:text-clip ${className}`}>
       {symbolPosition === "before" && symbol && (
         <Typography type={typography} tagOverride="span" color={symbolColor}>
           {symbol}
