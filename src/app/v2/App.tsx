@@ -22,7 +22,8 @@ export function App() {
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
-          <NavigationBar />
+          <div className="text-black">
+          <NavigationBar /></div>
           <FlexCol className="min-h-screen">
             <SentryRoutes>
               <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
