@@ -1,5 +1,5 @@
 import { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
-import { Button, ButtonProps } from "../button/Button";
+import { ButtonProps } from "../button/Button";
 import { ModalBody } from "./ModalBody";
 
 interface ModalProps {
@@ -7,18 +7,20 @@ interface ModalProps {
   buttonProps?: ButtonProps;
   buttonText?: string;
   header?: string;
+  headerComponent?: React.ReactNode;
   icon?: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
   fullScreen?: boolean;
   className?: string;
+  size?: "small" | "normal" | "big" | "biger";
 }
 export interface ModalHandles {
   close: () => void;
 }
 
 export const Modal = forwardRef<ModalHandles, ModalProps>(
-  ({ children, buttonProps, buttonText, icon, onOpen, onClose, fullScreen, header, className }, ref) => {
+  ({ children, buttonProps, headerComponent, onOpen, onClose, fullScreen, header, className, size }, ref) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -32,20 +34,22 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
 
     return (
       <>
-        <Button
+        <button
+          type="button"
           {...buttonProps}
           onClick={() => {
             setModalOpen(true);
             if (onOpen) onOpen();
           }}
         >
-          {buttonText}
-          {icon && icon}
-        </Button>
+          {buttonProps?.children}
+        </button>
 
         {isModalOpen && (
           <ModalBody
+            size={size}
             header={header}
+            headerComponent={headerComponent}
             fullScreen={fullScreen}
             setModalOpen={setModalOpen}
             onClose={onClose}

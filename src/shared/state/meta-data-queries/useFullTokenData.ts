@@ -12,8 +12,8 @@ export interface FullTokenData {
   shortName?: string;
 }
 
-export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
-  const data = TokenDataDict[token];
+export const useFullTokenData = (token: Address | undefined): FetchData<FullTokenData> => {
+  const data = token ? TokenDataDict[token] : undefined;
 
   const {
     data: decimals,
@@ -37,12 +37,24 @@ export const useFullTokenData = (token: Address): FetchData<FullTokenData> => {
     query: metadataQueryConfig,
   });
 
+  const {
+    data: name,
+    isLoading: isNameLoading,
+    isFetched: isNameFetched,
+  } = useSeamlessContractRead({
+    address: token,
+    abi: erc20Abi,
+    functionName: "name",
+    query: metadataQueryConfig,
+  });
+
   return {
-    isLoading: isDecimalsLoading || isSymbolLoading,
-    isFetched: isDecimalsFetched && isSymbolFetched,
+    isLoading: isDecimalsLoading || isSymbolLoading || isNameLoading,
+    isFetched: isDecimalsFetched && isSymbolFetched && isNameFetched,
     data: {
       ...data,
       symbol,
+      name,
       decimals,
     },
   };

@@ -42,7 +42,7 @@ export interface TypographyPropsv2 {
  */
 
 export const TypographyV2: React.FC<TypographyPropsv2> = ({
-  type = "regular6",
+  type = "regular4",
   className = "",
   tagOverride,
   children,

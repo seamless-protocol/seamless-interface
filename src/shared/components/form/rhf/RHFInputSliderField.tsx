@@ -1,6 +1,5 @@
-import { InputHTMLAttributes } from "react";
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
-import { InputSliderField } from "../inputs/InputSliderField/InputSliderField";
+import { InputSliderField, InputSliderFieldProps } from "../inputs/InputSliderField/InputSliderField";
 
 type IProps<T> = {
   name: keyof T;
@@ -8,7 +7,7 @@ type IProps<T> = {
   label?: string;
 };
 
-type Props<T> = IProps<T> & InputHTMLAttributes<HTMLInputElement>;
+type Props<T> = IProps<T> & InputSliderFieldProps;
 
 export function RHFInputSliderField<T>({ name, rules, label, ...other }: Props<T>) {
   const { control } = useFormContext();

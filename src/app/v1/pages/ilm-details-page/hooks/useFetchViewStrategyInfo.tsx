@@ -24,6 +24,7 @@ export const useFetchStrategyInfo = (
     data: results,
     isLoading,
     isFetched,
+    // @ts-ignore
   } = useReadContracts({
     contracts: [
       {
@@ -34,7 +35,7 @@ export const useFetchStrategyInfo = (
       {
         address: strategyAddress,
         abi: loopStrategyAbi,
-        functionName: "collateral",
+        functionName: "collateralUSD",
       },
       {
         address: strategyAddress,

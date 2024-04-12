@@ -10,7 +10,7 @@ export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
 };
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
-export const COMPOUNDING_PERIODS_APY = 360;
+export const COMPOUNDING_PERIODS_APY = 1;
 
 export const WETH_ADDRESS: Address = "0x4200000000000000000000000000000000000006";
 export const CBETH_ADDRESS: Address = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
@@ -41,7 +41,7 @@ export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 
 // OP Bedrock based chains produce a block every 2 seconds
-export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n;  // 30 days
+export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days
 
 export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0";
 
@@ -51,3 +51,5 @@ export const assetLogos: Map<string, string> = new Map([
   ["OG Points", ogPointsLogo],
   ["USDC", usdcLogo],
 ]);
+
+export const lendingAssetToHide: Address[] = ["0xc9ae3B5673341859D3aC55941D27C8Be4698C9e4"];

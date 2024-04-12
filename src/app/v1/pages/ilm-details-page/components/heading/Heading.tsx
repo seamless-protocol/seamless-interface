@@ -15,6 +15,7 @@ import {
   useWatchAsset,
   Tooltip,
 } from "@shared";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
@@ -43,16 +44,23 @@ export const Heading: React.FC<{
     data: oraclePrice,
   } = useFetchViewAssetPrice(strategyConfig.underlyingAsset.address);
 
-  const { isLoading: isApyLoading, isFetched: isApyFetched, data: apy } = useFetchViewStrategyApy(id);
+  const {
+    isLoading: isApyLoading,
+    isFetched: isApyFetched,
+    data: apy,
+  } = useFetchViewStrategyApy(ilmStrategies[id].address);
 
   return (
     <div className="gap-10 md:gap-48 text-text-primary flex md:flex-row flex-col">
       <FlexRow className="gap-3 text-start">
         <Icon src={strategyConfig.logo} alt={strategyConfig.underlyingAsset.symbol || "asset"} width={40} height={40} />
         <FlexCol>
-          <FlexRow className="gap-2">
+          <FlexRow className="gap-2 md:max-w-full max-w-[80%]">
             <DisplayText typography="main21" text={strategyConfig.underlyingAsset?.name} />
-            <Dropdown button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}>
+            <Dropdown
+              className="mobile-dropdown-end"
+              button={<SmallExternalLinkButton tooltipText="View Token Contracts" />}
+            >
               <ul className="py-1">
                 <ViewAssetOnBaseScan
                   className="border-b border-divider"
@@ -63,7 +71,7 @@ export const Heading: React.FC<{
               </ul>
             </Dropdown>
 
-            <Dropdown button={<SmallWatchAssetButton />}>
+            <Dropdown className="mobile-dropdown-end" button={<SmallWatchAssetButton />}>
               <ul className="py-1">
                 <WatchAsset
                   className="border-b border-divider"
@@ -91,9 +99,23 @@ export const Heading: React.FC<{
           />
         </FlexCol>
         <FlexCol>
-          <Typography type="description" color="light">
-            APY estimate
-          </Typography>
+          <FlexRow className="gap-2">
+            <Typography type="description" color="light">
+              APY estimate
+            </Typography>
+            <Tooltip
+              openOnClick
+              tooltip={
+                <Typography type="description">
+                  30 day moving average denominated in {strategyConfig?.debtAsset?.symbol}
+                </Typography>
+              }
+              size="small"
+              theme="dark"
+            >
+              <InformationCircleIcon className="cursor-pointer" width={15} />
+            </Tooltip>
+          </FlexRow>
           <DisplayPercentage typography="main21" {...apy} isLoading={isApyLoading} isFetched={isApyFetched} />
         </FlexCol>
         <FlexCol>

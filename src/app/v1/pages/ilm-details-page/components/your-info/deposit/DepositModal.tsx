@@ -100,7 +100,6 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
       <Modal
         ref={modalRef}
         header={`Deposit ${strategyConfig.underlyingAsset.symbol}`}
-        buttonText="Deposit"
         onClose={reset}
         buttonProps={{ ...buttonProps }}
       >
@@ -139,7 +138,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
                   <Typography type="description">Max transaction cost</Typography>
                   <StandardTooltip width={1}>
                     <Typography type="subheader2">
-                      DEX fees incurred to keep the strategy <br /> at the target multiple after your deposit.
+                      DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your deposit.
                     </Typography>
                   </StandardTooltip>
                 </FlexRow>
