@@ -22,6 +22,7 @@ export interface StrategyConfig {
   defaultApy: number;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
+  vaultsFyiLink?: string;
 }
 
 // TODO: Remove this array when new design is implemented
@@ -45,6 +46,7 @@ export const ilmStrategies: StrategyConfig[] = [
       address: WETH_ADDRESS,
       logo: EthLogo,
     },
+    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day"
   },
 ];
 

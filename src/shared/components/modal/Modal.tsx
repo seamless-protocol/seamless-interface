@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
+import React, { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
 import { ButtonProps } from "../button/Button";
 import { ModalBody } from "./ModalBody";
 
