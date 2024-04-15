@@ -33,7 +33,7 @@ export default {
         thin: "1.3px",
       },
       boxShadow: {
-        card: "shadow-[0px_4px_16px_0px_rgba(162,162,162,0.08)]",
+        card: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
       },
       borderRadius: {
         card: "16px",
