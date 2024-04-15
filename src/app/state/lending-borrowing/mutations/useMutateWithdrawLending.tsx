@@ -21,7 +21,7 @@ export const useMutateWithdrawLending = (asset: Address) => {
   });
 
   // mutation wrapper
-  const supplyAsync = async (
+  const withdrawAsync = async (
     args: {
       amount: string;
     },
@@ -43,5 +43,5 @@ export const useMutateWithdrawLending = (asset: Address) => {
     );
   };
 
-  return { ...rest, isSupplyPending: rest.isPending, supplyAsync };
+  return { ...rest, isWithdrawPending: rest.isPending, supplyAsync: withdrawAsync };
 };
