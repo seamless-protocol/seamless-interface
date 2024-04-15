@@ -50,6 +50,9 @@ export default {
           100: "#F3F7FB",
           0: "#FFF",
         },
+        text: {
+          footer: "#FAFAFA"
+        },
         navy: {
           1000: "#0B254F",
           600: "rgba(11, 37, 79, 0.60)",
