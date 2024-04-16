@@ -4,12 +4,19 @@ import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../g
 import { useAccount } from "wagmi";
 import { ViewUserReserveData } from "../types/ViewUserReserveData";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 
-export const useFetchUserReserveData = (reserve: Address) => {
+interface UserReserveData {
+  aTokenBalance: FetchBigInt;
+  variableDebtTokenBalance: FetchBigInt;
+  usageAsCollateralEnabled?: boolean;
+}
+
+export const useFetchUserReserveData = (reserve: Address): FetchData<UserReserveData> => {
   const account = useAccount();
 
   const {
-    data: { decimals },
+    data: { decimals, symbol },
     isLoading: isTokenDataLoading,
     isFetched: isTokenDataFetched,
   } = useToken(reserve);
@@ -26,8 +33,7 @@ export const useFetchUserReserveData = (reserve: Address) => {
     args: [reserve, account.address as Address],
   });
 
-  const [aTokenBalance, , variableDebtTokenBalance] = data || [];
-  // todo: Should we also return usageAsCollateralEnabled? #219
+  const [aTokenBalance, , variableDebtTokenBalance, , , , , , usageAsCollateralEnabled] = data || [];
 
   return {
     ...rest,
@@ -37,14 +43,14 @@ export const useFetchUserReserveData = (reserve: Address) => {
       aTokenBalance: {
         bigIntValue: aTokenBalance || 0n,
         decimals,
-        symbol: "",
-        // todo: Does useToken also give us the symbol? #219
+        symbol,
       },
       variableDebtTokenBalance: {
         bigIntValue: variableDebtTokenBalance || 0n,
         decimals,
-        symbol: "",
+        symbol,
       },
+      usageAsCollateralEnabled,
     },
   };
 };
@@ -53,7 +59,7 @@ export const useFetchViewUserReserveData = (reserve: Address): Displayable<ViewU
   const {
     isLoading,
     isFetched,
-    data: { aTokenBalance, variableDebtTokenBalance },
+    data: { aTokenBalance, variableDebtTokenBalance, usageAsCollateralEnabled },
   } = useFetchUserReserveData(reserve);
 
   return {
@@ -62,6 +68,7 @@ export const useFetchViewUserReserveData = (reserve: Address): Displayable<ViewU
     data: {
       aTokenBalance: formatFetchBigIntToViewBigInt(aTokenBalance),
       variableDebtTokenBalance: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),
+      usageAsCollateralEnabled,
     },
   };
 };
