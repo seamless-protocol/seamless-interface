@@ -3,6 +3,9 @@ import { Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
 import { getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
+import { IncentivesButton } from "./IncentivesButton";
+import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
+import { IncentivesDetailCard } from "./IncentivesDetailCard";
 
 export interface AssetCardProps {
   address: Address;
@@ -13,16 +16,12 @@ export interface AssetCardProps {
   isSelected?: boolean;
 }
 
-export const AssetCard: React.FC<AssetCardProps> = ({
-  address,
-  hideBorder,
-  incentivesButton,
-  isSelected,
-  isStrategy,
-}) => {
+export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
   const {
-    data: { logo: icon, name },
+    data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
+
+  const { data: supplyIncentives } = useFetchViewSupplyIncentives(address);
 
   return (
     <div
@@ -43,8 +42,12 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
-          <AssetApy asset={address} isStrategy={isStrategy} />
-          {incentivesButton && incentivesButton}
+          <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
+          {!isStrategy && (
+            <IncentivesButton {...supplyIncentives}>
+              <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
+            </IncentivesButton>
+          )}
         </FlexCol>
       </FlexRow>
     </div>
