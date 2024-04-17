@@ -3,8 +3,8 @@ import { Heading } from "./Heading";
 import { AssetPicker } from "../../../../components/AssetPicker";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { StrategyForm } from "../../../../components/forms/earn-form/deposit-strategy-form/StrategyForm";
-import { SupplyForm } from "../../../../components/forms/earn-form/supply-form/SupplyForm";
+import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
+import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
 import { EarnFormProvider } from "../../../../components/forms/earn-form/contexts/EarnFormContext";
 
 export const EarnTab = () => {

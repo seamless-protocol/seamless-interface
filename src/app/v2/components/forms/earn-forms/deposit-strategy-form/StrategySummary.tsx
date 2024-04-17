@@ -3,10 +3,9 @@ import { useFullTokenData, DisplayValue, FlexRow, Icon, Typography, FlexCol } fr
 import { TokenDescriptionDict } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
-import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { assetSlugConfig } from "../../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
 import { AssetApr } from "../../../AssetApr";
 import { StrategyApy } from "../../../AssetApy";
+import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
 export const StrategySummary: React.FC<{
   asset: Address;
@@ -25,8 +24,8 @@ export const StrategySummary: React.FC<{
 const StrategySummaryLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
+  const { asset } = useEarnFormContext();
 
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
 
   const { data: strategyTokenData } = useFullTokenData(strategy.address);
@@ -41,7 +40,7 @@ const StrategySummaryLocal: React.FC<{
 
 
   return (
-    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
       <Typography type="bold3">Summary</Typography>
       <LocalRow label="Estimated APY">
         {asset && (

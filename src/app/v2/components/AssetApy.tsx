@@ -16,7 +16,8 @@ interface StrategyApyProps extends DisplayPercentageProps {
 
 export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, ...rest }) => {
   const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
-  const { isLoading, isFetched, data: apy } = useFetchViewStrategyApy(strategies[strategies?.length - 1].address);
+  // todo remove 0x1
+  const { isLoading, isFetched, data: apy } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : '0x1');
 
   return (
     <DisplayPercentage
