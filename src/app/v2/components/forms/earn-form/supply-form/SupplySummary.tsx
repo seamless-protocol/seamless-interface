@@ -6,15 +6,16 @@ import {
   useFullTokenData,
 } from "@shared";
 
-import { TokenDescriptionDict } from "../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { useFetchReserveTokenAddresses } from "../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
-import { Address } from "viem";
-import { LendingApy } from "../../AssetApy";
-import { AssetApr } from "../../AssetApr";
+import { TokenDescriptionDict } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
-export const SupplySummary: React.FC<{
-  asset: Address
-}> = ({ asset }) => {
+import { LendingApy } from "../../../AssetApy";
+import { AssetApr } from "../../../AssetApr";
+import { useEarnFormContext } from "../contexts/useEarnFormContext";
+
+export const SupplySummary = () => {
+  const { asset } = useEarnFormContext();
+
   const { data: tokenData } = useFullTokenData(asset);
   const {
     data: { aTokenAddress },

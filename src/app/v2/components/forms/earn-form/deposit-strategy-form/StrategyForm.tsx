@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
-import { useFullTokenData, MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, Tooltip, WatchAssetComponentv2, useNotificationContext, useToken } from "../../../../../shared";
-import { useAssetPickerState } from "../../../hooks/useAssetPickerState";
-import { assetSlugConfig, earnInputConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
-import { AddToStrategyButtonsWrapper } from "./AddToStrategyButtons";
+import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
+import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
+import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
+import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
+import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { RHFAmountInputWrapper } from "../../../RHFAmountInputWrapper";
+import { AddToStrategyButtons } from "./AddToStrategyButtons";
 import { StrategySummary } from "./StrategySummary";
-import { RHFAmountInputWrapper } from "../../RHFAmountInputWrapper";
-import { useReadAaveOracleGetAssetPrice } from "../../../../generated";
-import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
-import { useFetchViewPreviewDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
-import { DepositModalFormData } from "../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
-import React from "react";
-import { StrategyConfig, findILMStrategyByAddress } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { Tag } from "../../../pages/test-page/tabs/earn-tab/Tag";
+import { useFullTokenData, useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, RHFInputSliderField, Tooltip, useToken } from "@shared";
+import { useEarnFormContext } from "../contexts/useEarnFormContext";
+
 
 export const StrategyForm = () => {
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset } = useEarnFormContext();
+
   const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
@@ -30,7 +30,7 @@ export const StrategyForm = () => {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig
 }> = ({ strategy }) => {
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useEarnFormContext();
   const { data: tokenData } = useFullTokenData(asset);
   const methods = useForm({
     defaultValues: {
@@ -93,9 +93,12 @@ const StrategyFormLocal: React.FC<{
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && <Tag tag="ILM" />}
+            {(asset != null && !hideTag) && <Tag tag="ILM" />}
           </FlexRow>
-          <RHFAmountInputWrapper {...earnInputConfig} />
+          <RHFAmountInputWrapper
+            overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
+            assetAddress={disableAssetPicker ? asset : undefined}
+            name="amount" />
         </FlexCol>
 
         <FlexCol className="gap-4">
@@ -115,7 +118,7 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <StrategySummary asset={asset} />
-        <AddToStrategyButtonsWrapper asset={asset} />
+        <AddToStrategyButtons strategy={strategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>
   );

@@ -1,32 +1,48 @@
-import { Modal, FlexCol, Typography } from '../../../../../../shared'
-import { TokenDescriptionDict } from '../../../../../../shared/state/meta-data-queries/useTokenDescription'
+import { FlexRow, Modal, ModalHandles } from '../../../../../../shared'
+import { Address } from 'viem'
+import { StrategyForm } from '../../../../components/forms/earn-form/deposit-strategy-form/StrategyForm'
+import { SupplyForm } from '../../../../components/forms/earn-form/supply-form/SupplyForm'
+import { useRef } from 'react'
+import { EarnFormProvider } from '../../../../components/forms/earn-form/contexts/EarnFormContext'
 
-export const TableButtons = () => {
-  const buttonProps = {
-    disabled: {
-      children: "Enter amount",
-      className: "border border-black text-bold3 text-black bg-neutral-100 rounded-[100px] py-4 px-32 items-center text-center",
-    },
-    enabled: {
-      children: "Add to strategy",
-      className: "text-bold3 bg-metalic text-neutral-0 rounded-[100px] py-4 px-32 items-center text-center",
-    }
+export const TableButtons: React.FC<{
+  asset: Address;
+  isStrategy: boolean;
+}> = ({
+  asset,
+  isStrategy
+}) => {
+    const addModal = useRef<ModalHandles>(null);
+
+    return (
+      <FlexRow className="gap-2 text-start">
+        <Modal
+          ref={addModal}
+          size="normal"
+          buttonProps={{
+            children: "Add",
+            className: "text-bold3 bg-metalic text-neutral-0 rounded-[100px] p-2 px-8 items-center",
+          }}
+        >
+          <div className='mt-[-60px]'>
+            <EarnFormProvider
+              defaultAsset={asset}
+              onTransaction={() => { addModal.current?.close(); }}
+              disableAssetPicker
+              hideTag>
+              {isStrategy ? <StrategyForm /> : <SupplyForm />}
+            </EarnFormProvider>
+          </div>
+        </Modal>
+        <Modal
+          size="normal"
+          buttonProps={{
+            children: "Remove",
+            className: "text-bold3 bg-transparent hover:bg-gray-100 text-metalic border border-metalic text-metalic rounded-[100px] p-2 px-8 items-center text-center",
+          }}
+        >
+          todo: withdraw forms
+        </Modal>
+      </FlexRow>
+    )
   }
-
-  return (
-    <Modal
-      ref={modalRef}
-      size="normal"
-      buttonProps={{
-        ...(Number(amount) ? buttonProps.enabled : buttonProps.disabled),
-        disabled: !Number(amount)
-      }}
-      headerComponent={
-        <FlexCol className="gap-1 ">
-          <Typography type="bold4">Add to strategy</Typography>
-          <Typography type="regular3">{TokenDescriptionDict[asset]?.strategyTitle}</Typography>
-        </FlexCol>
-      }
-    >x</Modal>
-  )
-}

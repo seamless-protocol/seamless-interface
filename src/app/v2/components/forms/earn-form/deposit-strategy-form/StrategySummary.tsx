@@ -1,12 +1,12 @@
 import { Address } from "viem";
 import { useFullTokenData, DisplayValue, FlexRow, Icon, Typography, FlexCol } from "@shared";
-import { TokenDescriptionDict } from "../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { findILMStrategyByAddress, StrategyConfig } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
-import { useAssetPickerState } from "../../../hooks/useAssetPickerState";
-import { assetSlugConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
-import { AssetApr } from "../../AssetApr";
-import { StrategyApy } from "../../AssetApy";
+import { TokenDescriptionDict } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
+import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
+import { assetSlugConfig } from "../../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
+import { AssetApr } from "../../../AssetApr";
+import { StrategyApy } from "../../../AssetApy";
 
 export const StrategySummary: React.FC<{
   asset: Address;

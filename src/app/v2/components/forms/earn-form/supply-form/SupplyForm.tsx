@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
-import { useFullTokenData, MyFormProvider, FlexCol, Typography, WatchAssetComponentv2, useNotificationContext, FlexRow } from "../../../../../shared";
-import { RHFAmountInputWrapper } from "../../RHFAmountInputWrapper";
-import { useAssetPickerState } from "../../../hooks/useAssetPickerState";
-import { assetSlugConfig, earnInputConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
+import { useFullTokenData, MyFormProvider, FlexCol, Typography, WatchAssetComponentv2, useNotificationContext, FlexRow } from "../../../../../../shared";
+import { RHFAmountInputWrapper } from "../../../RHFAmountInputWrapper";
 import { SupplyButtons } from "./SupplyButtons";
 import { SupplySummary } from "./SupplySummary";
-import { useMutateSupplyLending } from "../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
-import { DepositModalFormData } from "../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
-import { Tag } from "../../../pages/test-page/tabs/earn-tab/Tag";
+import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
+import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
+import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
 export const SupplyForm = () => {
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useEarnFormContext();
+
   const { data: tokenData } = useFullTokenData(asset);
 
   const methods = useForm({
@@ -44,6 +44,7 @@ export const SupplyForm = () => {
           });
         },
         onSettled: () => {
+          onTransaction?.();
           reset();
         },
       }
@@ -60,12 +61,15 @@ export const SupplyForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && <Tag tag="LEND" />}
+            {(asset != null && !hideTag) && <Tag tag="LEND" />}
           </FlexRow>
-          <RHFAmountInputWrapper {...earnInputConfig} />
+          <RHFAmountInputWrapper
+            overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
+            assetAddress={disableAssetPicker ? asset : undefined}
+            name="amount" />
         </FlexCol>
 
-        <SupplySummary asset={asset} />
+        <SupplySummary />
         <SupplyButtons />
       </FlexCol>
     </MyFormProvider>

@@ -6,27 +6,14 @@ import {
 } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { parseUnits, etherUnits, Address } from "viem";
-import { earnInputConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
-import { findILMStrategyByAddress, StrategyConfig } from "../../../../state/loop-strategy/config/StrategyConfig";
-
-export const AddToStrategyButtonsWrapper: React.FC<{
-  asset: Address;
-}> = ({ asset }) => {
-  const strategy = findILMStrategyByAddress(asset);
-
-  if (!strategy) {
-    // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
-    return <>Strategy not found!</>;
-  }
-
-  return <AddToStrategyButtons strategy={strategy} />;
-};
+import { parseUnits, etherUnits } from "viem";
+import { earnInputConfig } from "../../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
+import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
 export const AddToStrategyButtons: React.FC<{
   strategy: StrategyConfig;
-}> = ({ strategy }) => {
+  onTransaction?: () => void;
+}> = ({ strategy, onTransaction }) => {
   const { watch, formState: {
     isSubmitting
   } } = useFormContext();
@@ -47,7 +34,13 @@ export const AddToStrategyButtons: React.FC<{
   return (
     <FlexCol className="gap-2">
       <AuthGuardv2 message="">
-        <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
+        <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={async () => {
+          try {
+            await approveAsync();
+          } finally {
+            onTransaction?.();
+          }
+        }}>
           Approve
         </Buttonv2>
       </AuthGuardv2>

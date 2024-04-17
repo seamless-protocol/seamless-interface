@@ -7,11 +7,11 @@ import {
 } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
-import { assetSlugConfig, earnInputConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
-import { useAssetPickerState } from "../../../hooks/useAssetPickerState";
+import { earnInputConfig } from "../../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
+import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
 export const SupplyButtons = () => {
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, onTransaction } = useEarnFormContext();
 
   const { watch, formState: {
     isSubmitting
@@ -34,7 +34,13 @@ export const SupplyButtons = () => {
   return (
     <FlexCol className="gap-2">
       <AuthGuardv2 message="">
-        <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={approveAsync}>
+        <Buttonv2 className="text-bold3" disabled={isApproved} loading={isApproving} onClick={async () => {
+          try {
+            await approveAsync();
+          } finally {
+            onTransaction?.();
+          }
+        }}>
           Approve
         </Buttonv2>
       </AuthGuardv2>
