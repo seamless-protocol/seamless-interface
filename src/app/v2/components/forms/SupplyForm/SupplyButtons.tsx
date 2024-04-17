@@ -24,8 +24,6 @@ export const SupplyButtons = () => {
     parseUnits(amount || "0", etherUnits.wei)
   );
 
-  // const { isSupplyPending } = useMutateSupplyLending(asset);
-
   if (!amount) {
     return (<Buttonv2 className="text-bold3" disabled>
       Enter amount
