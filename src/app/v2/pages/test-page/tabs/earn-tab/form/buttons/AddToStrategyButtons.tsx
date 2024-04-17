@@ -11,13 +11,27 @@ import {
 } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { useWrappedDebounce } from "src/app/state/common/hooks/useWrappedDebounce";
-import { useFetchViewPreviewDeposit } from "src/app/state/loop-strategy/hooks/useFetchViewPreviewDeposit";
-import { useMutateDepositStrategy } from "src/app/state/loop-strategy/mutations/useMutateDepositStrategy";
-import { DepositModalFormData } from "src/app/v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
-import { parseUnits, etherUnits } from "viem";
-import { earnInputConfig } from "../config/SlugConfig";
-import { StrategyConfig } from "src/app/state/loop-strategy/config/StrategyConfig";
+import { parseUnits, etherUnits, Address } from "viem";
+import { earnInputConfig } from "../../config/SlugConfig";
+import { useWrappedDebounce } from "../../../../../../../state/common/hooks/useWrappedDebounce";
+import { useFetchViewPreviewDeposit } from "../../../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
+import { useMutateDepositStrategy } from "../../../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
+import { DepositModalFormData } from "../../../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
+import { findILMStrategyByAddress, StrategyConfig } from "../../../../../../../state/loop-strategy/config/StrategyConfig";
+
+export const AddToStrategyButtonsWrapper: React.FC<{
+  asset: Address;
+}> = ({ asset }) => {
+  const strategy = findILMStrategyByAddress(asset);
+
+  if (!strategy) {
+    // eslint-disable-next-line no-console
+    console.warn("Strategy not found!!!");
+    return <>Strategy not found!</>;
+  }
+
+  return <AddToStrategyButtons strategy={strategy} />;
+};
 
 export const AddToStrategyButtons: React.FC<{
   strategy: StrategyConfig;
@@ -73,6 +87,12 @@ export const AddToStrategyButtons: React.FC<{
       );
     }
   };
+
+  if (!amount) {
+    return (<Buttonv2 className="text-bold3" disabled>
+      Enter amount
+    </Buttonv2>);
+  }
 
   return (
     <FlexCol className="gap-2">

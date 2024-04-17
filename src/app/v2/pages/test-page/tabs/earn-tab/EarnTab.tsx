@@ -15,6 +15,7 @@ export const EarnTab = () => {
           </div>
           <div className="col-span-12 md:col-span-7">
             <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
+              {/* <FormWrapper /> */}
               <FormWrapper />
             </div>
           </div>

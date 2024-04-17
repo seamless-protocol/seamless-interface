@@ -10,11 +10,11 @@ import {
   Buttonv2,
 } from "@shared";
 import { useFormContext } from "react-hook-form";
-import { useMutateSupplyLending } from "src/app/state/lending-borrowing/mutations/useMutateSupplyLending";
-import { DepositModalFormData } from "src/app/v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
-import { useAssetPickerState } from "src/app/v2/hooks/useAssetPickerState";
 import { parseUnits, etherUnits } from "viem";
-import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
+import { assetSlugConfig, earnInputConfig } from "../../config/SlugConfig";
+import { useMutateSupplyLending } from "../../../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
+import { DepositModalFormData } from "../../../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
+import { useAssetPickerState } from "../../../../../../hooks/useAssetPickerState";
 
 export const SupplyButtons = () => {
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -58,6 +58,14 @@ export const SupplyButtons = () => {
       }
     );
   };
+
+  if (!amount) {
+    return (<Buttonv2 className="text-bold3" disabled>
+      Enter amount
+    </Buttonv2>);
+  }
+
+
   return (
     <FlexCol className="gap-2">
       <AuthGuardv2 message="">
