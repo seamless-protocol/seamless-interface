@@ -3,7 +3,7 @@ import { Address } from 'viem'
 import { StrategyForm } from '../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm'
 import { SupplyForm } from '../../../../components/forms/earn-forms/supply-form/SupplyForm'
 import { useRef } from 'react'
-import { EarnFormProvider } from '../../../../components/forms/earn-form/contexts/EarnFormContext'
+import { EarnFormProvider } from '../../../../components/forms/earn-forms/contexts/EarnFormContext'
 
 export const TableButtons: React.FC<{
   asset: Address;

@@ -5,7 +5,7 @@ import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
 import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
-import { EarnFormProvider } from "../../../../components/forms/earn-form/contexts/EarnFormContext";
+import { EarnFormProvider } from "../../../../components/forms/earn-forms/contexts/EarnFormContext";
 
 export const EarnTab = () => {
   const { isStrategy, asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
