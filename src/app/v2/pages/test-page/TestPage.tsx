@@ -26,7 +26,9 @@ export const TestPage = () => {
             <div className="mt-8">Coming soon...</div>
           </TabContent>
           <TabContent<Tabs> tab="My Positions">
-            <MyPositionsTab />
+            <div className="mt-8">
+              <MyPositionsTab />
+            </div>
           </TabContent>
         </FlexCol>
       </TabProvider>

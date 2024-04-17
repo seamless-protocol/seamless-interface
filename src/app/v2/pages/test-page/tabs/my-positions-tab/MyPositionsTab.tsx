@@ -27,7 +27,7 @@ export const MyPositionsTab: React.FC = () => {
 
         {strategies?.map((strategy, index) => (
           <div key={index}>
-            <MyStrategiesDesktopTableRow {...strategy} hideBorder={index != strategies.length} />
+            <MyStrategiesDesktopTableRow {...strategy} hideBorder={index !== strategies.length} />
           </div>
         ))}
       </div>
