@@ -76,7 +76,7 @@ export function RHFAmountInput<T>({
   }, [isConnected]);
 
   return (
-    <div className="border bg-neutral-0 rounded-2xl p-4">
+    <div className="border bg-neutral-0 rounded-2xl p-4 cursor-default">
       <FlexRow className="items-center w-full">
         <FlexCol className="flex-grow gap-2 text-medium4">
           <RHFInputField<T>
