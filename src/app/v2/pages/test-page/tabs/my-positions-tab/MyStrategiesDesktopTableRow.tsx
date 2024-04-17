@@ -71,7 +71,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
             <Buttonv2 className="w-24 h-7">
               <Typography type="bold3">Add</Typography>
             </Buttonv2>
-            <Buttonv2 className="w-24 h-7 border border-1 border-navy-1000" variant="text">
+            <Buttonv2 className="w-24 h-7 border border-1 border-navy-1000" variant="outlined">
               <Typography type="bold3">Remove</Typography>
             </Buttonv2>
           </FlexRow>
