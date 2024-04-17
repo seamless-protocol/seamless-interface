@@ -1,6 +1,7 @@
 import { FlexCol, FlexRow, PageContainer, TabButton, TabContent } from "@shared";
 import { TabProvider } from "../../../../shared/contexts/tab-context/TabContext";
 import { EarnTab } from "./tabs/earn-tab/EarnTab";
+import { MyPositionsTab } from "./tabs/my-positions-tab/MyPositionsTab";
 
 type Tabs = "Earn" | "Borrow" | "My Positions";
 
@@ -25,7 +26,9 @@ export const TestPage = () => {
             <div className="mt-8">Coming soon...</div>
           </TabContent>
           <TabContent<Tabs> tab="My Positions">
-            <div className="mt-8">Coming soon...</div>
+            <div className="mt-8">
+              <MyPositionsTab />
+            </div>
           </TabContent>
         </FlexCol>
       </TabProvider>
