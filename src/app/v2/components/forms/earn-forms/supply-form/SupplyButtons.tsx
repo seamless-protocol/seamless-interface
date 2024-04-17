@@ -7,7 +7,6 @@ import {
 } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
-import { earnInputConfig } from "../../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
 export const SupplyButtons = () => {
@@ -16,7 +15,7 @@ export const SupplyButtons = () => {
   const { watch, formState: {
     isSubmitting
   } } = useFormContext();
-  const amount = watch(earnInputConfig.name);
+  const amount = watch("amount");
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
     asset,
