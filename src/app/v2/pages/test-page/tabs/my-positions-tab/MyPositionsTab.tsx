@@ -7,8 +7,10 @@ export const MyPositionsTab: React.FC = () => {
 
   return (
     <div>
-      <div className="bg-neutral-0 shadow-card rounded-2xl py-6">
-        <div className="h-12 px-4" />
+      <div className="bg-neutral-0 shadow-card rounded-2xl">
+        <div className="flex h-20 px-6 items-center">
+          <Typography type="bold4">My earn positions</Typography>
+        </div>
         <TableRow className="grid grid-cols-12 bg-neutral-100 border-solid border-b border-b-navy-100 mt-0 py-0.5 max-h-7 justify-center">
           <TableCell className="col-span-4 justify-center" alignItems="items-start">
             <Typography type="bold2">Strategy</Typography>
