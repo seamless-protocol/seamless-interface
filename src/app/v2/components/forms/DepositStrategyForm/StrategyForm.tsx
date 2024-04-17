@@ -12,6 +12,7 @@ import { useMutateDepositStrategy } from "../../../../state/loop-strategy/mutati
 import { DepositModalFormData } from "../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import React from "react";
 import { StrategyConfig, findILMStrategyByAddress } from "../../../../state/loop-strategy/config/StrategyConfig";
+import { Tag } from "../../../pages/test-page/tabs/earn-tab/Tag";
 
 export const StrategyForm = () => {
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -85,9 +86,17 @@ const StrategyFormLocal: React.FC<{
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
-        <Typography type="bold4">{asset ? "Add to strategy" : "Choose your strategy"}</Typography>
-        <Typography type="regular3">{tokenData.name}</Typography>
-        <RHFAmountInputWrapper {...earnInputConfig} />
+        <FlexCol className="gap-6">
+          <FlexRow className="justify-between items-start">
+            <FlexCol className="gap-1 min-h-14">
+              <Typography type="bold4">{asset ? "Add to strategy" : "Select Asset"}</Typography>
+              <Typography type="regular3">{tokenData.name}</Typography>
+            </FlexCol>
+
+            {asset != null && <Tag tag="ILM" />}
+          </FlexRow>
+          <RHFAmountInputWrapper {...earnInputConfig} />
+        </FlexCol>
 
         <FlexCol className="gap-4">
           <Typography type="bold3">Multiplier</Typography>
