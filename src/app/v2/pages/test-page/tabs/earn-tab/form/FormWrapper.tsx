@@ -6,10 +6,10 @@ import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputW
 import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
 import { AssetApy } from "../../../../../components/AssetApy";
 import { AssetApr } from "../../../../../components/AssetApr";
-import { AddToStrategyButtonsWrapper } from "./buttons/AddToStrategyButtons";
-import { SupplyButtons } from "./buttons/SupplyButtons";
-import { SupplySummary } from "./summary/SupplySummary";
-import { StrategySummaryWrapper } from "./summary/StrategySummary";
+import { AddToStrategyButtonsWrapper } from "../../../../../components/forms/DepositStrategyForm/AddToStrategyButtons";
+import { SupplyButtons } from "../../../../../components/forms/SupplyForm/SupplyButtons";
+import { SupplySummary } from "../../../../../components/forms/SupplyForm/SupplySummary";
+import { StrategySummary } from "../../../../../components/forms/DepositStrategyForm/StrategySummary";
 
 export const FormWrapper = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -70,7 +70,7 @@ export const FormWrapper = () => {
               {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
             </FlexRow>
           )}
-          {isStrategy ? <StrategySummaryWrapper asset={asset} /> : <SupplySummary asset={asset} />}
+          {isStrategy ? <StrategySummary asset={asset} /> : <SupplySummary asset={asset} />}
         </FlexCol>
 
         {isStrategy ? <AddToStrategyButtonsWrapper asset={asset} /> : <SupplyButtons />}

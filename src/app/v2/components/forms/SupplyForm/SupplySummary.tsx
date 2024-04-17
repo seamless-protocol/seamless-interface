@@ -1,13 +1,16 @@
 import {
+  FlexCol,
   FlexRow,
   Icon,
   Typography,
   useFullTokenData,
 } from "@shared";
 
-import { TokenDescriptionDict } from "../../../../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { useFetchReserveTokenAddresses } from "../../../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
+import { TokenDescriptionDict } from "../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchReserveTokenAddresses } from "../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 import { Address } from "viem";
+import { LendingApy } from "../../AssetApy";
+import { AssetApr } from "../../AssetApr";
 
 export const SupplySummary: React.FC<{
   asset: Address
@@ -20,7 +23,14 @@ export const SupplySummary: React.FC<{
   const { data: aTokenData } = useFullTokenData(aTokenAddress);
 
   return (
-    <>
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+      <Typography type="bold3">Summary</Typography>
+      <LocalRow label="Estimated APY">
+        {asset && <LendingApy asset={asset} className="text-navy-1000" typography="medium2" />}
+      </LocalRow>
+      <LocalRow label="Rewards APR">
+        {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
+      </LocalRow>
       <LocalRow label="Action">
         {asset && "Deposit"}
       </LocalRow>
@@ -31,7 +41,7 @@ export const SupplySummary: React.FC<{
         </FlexRow>}
       </LocalRow>
       <LocalRow label="Ending Asset">{aTokenData.symbol}</LocalRow>
-    </>
+    </FlexCol>
   );
 };
 
