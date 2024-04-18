@@ -22,6 +22,10 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamcbETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
+  variableDebtSeamrwstETH_ADDRESS,
+  variableDebtSeamDEGEN_ADDRESS,
+  variableDebtSeamSEAM_ADDRESS,
+  variableDebtSeamrWETH_ADDRESS,
   SEAM_ADDRESS,
   sSEAM_ADDRESS,
   DEGEN_ADDRESS,
@@ -109,7 +113,7 @@ export const baseAssets: BaseAssetConfig[] = [
     hide: false,
     address: DEGEN_ADDRESS,
     sTokenAddress: sDEGEN_ADDRESS,
-    debtTokenAddress: zeroAddress,
+    debtTokenAddress: variableDebtSeamDEGEN_ADDRESS,
     useCoinGeckoPrice: true,
   },
   {
@@ -119,20 +123,20 @@ export const baseAssets: BaseAssetConfig[] = [
     hide: false,
     address: SEAM_ADDRESS,
     sTokenAddress: sSEAM_ADDRESS,
-    debtTokenAddress: zeroAddress,
+    debtTokenAddress: variableDebtSeamSEAM_ADDRESS,
     useCoinGeckoPrice: true,
   },
   {
     hide: true,
     address: rwstETH_ADDRESS,
     sTokenAddress: srwstETH_ADDRESS,
-    debtTokenAddress: zeroAddress,
+    debtTokenAddress: variableDebtSeamrwstETH_ADDRESS,
   },
   {
     hide: true,
     address: rWETH_ADDRESS,
     sTokenAddress: srWETH_ADDRESS,
-    debtTokenAddress: zeroAddress,
+    debtTokenAddress: variableDebtSeamrWETH_ADDRESS,
   },
 ];
 

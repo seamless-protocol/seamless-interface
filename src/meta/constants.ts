@@ -41,6 +41,10 @@ export const variableDebtSeamUSDC_ADDRESS: Address = "0x27Ce7E89312708FB54121ce7
 export const variableDebtSeamUSDbC_ADDRESS: Address = "0x326441fA5016d946e6E82e807875fDfdc3041B3B";
 export const variableDebtSeamWETH_ADDRESS: Address = "0x4cebC6688faa595537444068996ad9A207A19f13";
 export const variableDebtSeamwstETH_ADDRESS: Address = "0x51fB9021d61c464674b419C0e3082B5b9223Fc17";
+export const variableDebtSeamrwstETH_ADDRESS = "0xf2306020Be299477fdd387BeFd47C6140B03e195";
+export const variableDebtSeamDEGEN_ADDRESS = "0xfb4acbf586010670b9454d3fd4e7a31e1c8e0d98";
+export const variableDebtSeamSEAM_ADDRESS = "0x269eff46ba6ab639f5dbd745191bd987ba03de3b";
+export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba71d02506";
 export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 
 export const ONE_USD = BigInt(10 ** 8);
