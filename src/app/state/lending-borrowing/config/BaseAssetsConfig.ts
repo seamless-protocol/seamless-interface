@@ -1,4 +1,4 @@
-import { Address, zeroAddress } from "viem";
+import { Address } from "viem";
 import {
   CBETH_ADDRESS,
   DAI_ADDRESS,
