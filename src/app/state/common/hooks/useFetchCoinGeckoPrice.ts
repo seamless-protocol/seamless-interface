@@ -8,7 +8,7 @@ interface CoinGeckoAssetPrice {
   };
 }
 
-interface fetchCoinGeckoAssetPriceByAddress {
+interface fetchCoinGeckoAssetPriceByAddressParams {
   address?: Address;
   precision: number;
 }
@@ -18,7 +18,7 @@ const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
 export const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
-}: fetchCoinGeckoAssetPriceByAddress): Promise<bigint> => {
+}: fetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
   if (!address) {
     return 0n;
   }
@@ -38,17 +38,17 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
   return parseUnits(price.toString(), precision);
 };
 
-interface useFetchCoinGeckoPriceByAddress {
+interface useFetchCoinGeckoPriceByAddressParams {
   address?: Address;
   precision: number;
   enabled: boolean;
 }
 
-export const useFetchCoinGeckoPriceByAddress = ({ address, precision, enabled }: useFetchCoinGeckoPriceByAddress) =>
+export const useFetchCoinGeckoPriceByAddress = ({ address, precision, enabled }: useFetchCoinGeckoPriceByAddressParams) =>
   useQuery({
     enabled,
     queryKey: ["fetchCoinGeckoAssetPriceByAddress", address?.toLowerCase(), precision],
-    queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: address, precision }),
+    queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address, precision }),
 
     // Very aggressive caching due to rate limits
     staleTime: 60 * 60 * 1000, // 60 min
