@@ -10,15 +10,15 @@ import { StrategyConfig, findILMStrategyByAddress } from '../../../../../state/l
 import { useFetchViewPreviewWithdraw } from '../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw';
 import { useWriteStrategyWithdraw } from '../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw';
 import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal';
-import { useWithdrawFormContext } from '../contexts/useWithdrawFormContext';
 import { FormButtons } from './FormButtons';
 import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
 import { Summary } from './Summary';
-import { RHFAmountInputWrapper } from '../../../RHFAmountInputWrapper';
+import { RHFWithdrawStrategyAmountField } from './RHFWithdrawStrategyAmountField';
+import { useFormSettingsContext } from '../../contexts/useFormSettingsContext';
 
 
 export const WithdrawStrategyForm = () => {
-  const { asset } = useWithdrawFormContext();
+  const { asset } = useFormSettingsContext();
 
   const strategy = findILMStrategyByAddress(asset);
 
@@ -35,7 +35,7 @@ export const WithdrawStrategyForm = () => {
 const WithdrawStrategyLocal: React.FC<{
   strategy: StrategyConfig
 }> = ({ strategy }) => {
-  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useWithdrawFormContext();
+  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
 
   const {
@@ -105,7 +105,7 @@ const WithdrawStrategyLocal: React.FC<{
 
             {(asset != null && !hideTag) && <Tag tag="ILM" />}
           </FlexRow>
-          <RHFAmountInputWrapper
+          <RHFWithdrawStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? strategy.address : undefined}
             name="amount" />

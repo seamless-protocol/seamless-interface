@@ -9,11 +9,11 @@ import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useFullTokenData, useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, RHFInputSliderField, Tooltip, useToken } from "@shared";
-import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 
 export const StrategyForm = () => {
-  const { asset } = useEarnFormContext();
+  const { asset } = useFormSettingsContext();
 
   const strategy = findILMStrategyByAddress(asset);
 
@@ -29,7 +29,7 @@ export const StrategyForm = () => {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig
 }> = ({ strategy }) => {
-  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useEarnFormContext();
+  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
   const methods = useForm({
     defaultValues: {

@@ -1,8 +1,8 @@
 import React, { useState, ReactNode, createContext, useEffect } from "react";
 import { Address } from "viem";
-import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
+import { OverrideUrlSlug, useAssetPickerState } from "../../../hooks/useAssetPickerState";
 
-export interface EarnFormContextType {
+export interface FormSettingsContextType {
   hideTag?: boolean;
   onTransaction?: () => void;
   asset: Address;
@@ -11,10 +11,9 @@ export interface EarnFormContextType {
   disableAssetPicker?: boolean;
 }
 
-export const EarnFormContext = createContext<EarnFormContextType | undefined>(undefined);
+export const FormSettingsContext = createContext<FormSettingsContextType | undefined>(undefined);
 
-
-interface EarnFormProviderProps {
+interface FormSettingsProviderProps {
   children: ReactNode;
   defaultAsset: Address;
   onTransaction?: () => void;
@@ -23,7 +22,7 @@ interface EarnFormProviderProps {
   disableAssetPicker?: boolean;
 }
 
-export const EarnFormProvider: React.FC<EarnFormProviderProps> = ({
+export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   children,
   defaultAsset,
   onTransaction,
@@ -41,7 +40,7 @@ export const EarnFormProvider: React.FC<EarnFormProviderProps> = ({
   }, [assetFromUrl])
 
   return (
-    <EarnFormContext.Provider value={{
+    <FormSettingsContext.Provider value={{
       asset,
       setAsset,
       onTransaction,
@@ -50,6 +49,6 @@ export const EarnFormProvider: React.FC<EarnFormProviderProps> = ({
       disableAssetPicker
     }}>
       {children}
-    </EarnFormContext.Provider>
+    </FormSettingsContext.Provider>
   );
 };

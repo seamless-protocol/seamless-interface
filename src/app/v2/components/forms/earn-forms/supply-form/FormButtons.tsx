@@ -7,10 +7,10 @@ import {
 } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
-import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 
 export const FormButtons = () => {
-  const { asset, onTransaction } = useEarnFormContext();
+  const { asset, onTransaction } = useFormSettingsContext();
 
   const { watch, formState: {
     isSubmitting

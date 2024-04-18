@@ -5,11 +5,11 @@ import { Summary } from "./Summary";
 import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
-import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 
 export const SupplyForm = () => {
-  const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useEarnFormContext();
+  const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
 

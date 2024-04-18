@@ -5,7 +5,7 @@ import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
 import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
-import { EarnFormProvider } from "../../../../components/forms/earn-forms/contexts/EarnFormContext";
+import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 
 export const EarnTab = () => {
   const { isStrategy, asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -21,11 +21,11 @@ export const EarnTab = () => {
           <div className="col-span-12 md:col-span-7">
             <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
 
-              <EarnFormProvider
+              <FormSettingsProvider
                 defaultAsset={asset}
                 overrideUrlSlug={assetSlugConfig}>
                 {isStrategy ? <StrategyForm /> : <SupplyForm />}
-              </EarnFormProvider>
+              </FormSettingsProvider>
             </div>
           </div>
         </div>

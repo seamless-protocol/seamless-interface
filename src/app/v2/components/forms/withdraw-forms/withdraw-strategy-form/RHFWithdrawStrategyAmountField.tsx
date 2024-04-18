@@ -7,14 +7,13 @@ import { useFetchViewAssetBalance } from "../../../../../state/common/queries/us
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
-import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
 type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };
 /**
- * `RHFWithdrawAmountField` Component Documentation
+ * `RHFWithdrawStrategyAmountField` Component Documentation
  *
  * Wraps input functionality for assets by incorporating features for fetching asset prices, displaying wallet balances,
  * and converting input values into their equivalent dollar amounts based on the current asset prices. This component is
@@ -33,37 +32,36 @@ type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | 
  *
  * ## Usage Example:
  * ```jsx
- * <RHFWithdrawAmountField
+ * <RHFWithdrawStrategyAmountField
  *   name="amount1"
  *   overrideUrlSlug={{
  *     asset: "supplyAsset",
  *     isStrategy: "false",
  *   }}
  * />
- * <RHFWithdrawAmountField
+ * <RHFWithdrawStrategyAmountField
  *   name="amount2"
  *   assetAddress="0x123...abc"
  * />
  * ```
  * In the first instance, an `overrideUrlSlug` is used for dynamic asset selection through the UI. In the second instance, a specific `assetAddress` is provided, disabling the asset selection button and focusing the input on the specified asset.
  *
- * @param {IProps<T>} props - The props for configuring the `RHFWithdrawAmountField` component.
- * @returns {React.ReactElement} The `RHFWithdrawAmountField` component, integrated with functionalities for asset price fetching and balance display.
+ * @param {IProps<T>} props - The props for configuring the `RHFWithdrawStrategyAmountField` component.
+ * @returns {React.ReactElement} The `RHFWithdrawStrategyAmountField` component, integrated with functionalities for asset price fetching and balance display.
  */
 
-export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...other }: IProps<T>) {
+export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddress, ...other }: IProps<T>) {
   // *** warning *** //
   if (!overrideUrlSlug && !assetAddress) {
     // eslint-disable-next-line no-console
     console.warn(
-      "RHFWithdrawAmountField requires either 'overrideUrlSlug' or 'assetAddress' prop to be passed for proper functionality."
+      "RHFWithdrawStrategyAmountField requires either 'overrideUrlSlug' or 'assetAddress' prop to be passed for proper functionality."
     );
   }
 
   // *** asset *** //
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
-  const { data: { aTokenAddress } } = useFetchReserveTokenAddresses(asset);
 
   // *** metadata *** //
   const {
@@ -78,8 +76,7 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
   const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
 
   // *** balance *** //
-  // todo remove 0x1
-  const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(aTokenAddress || '0x1', walletBalanceDecimalsOptions);
+  const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
     const valueBigInt = parseUnits(value || "", decimals);
     const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);

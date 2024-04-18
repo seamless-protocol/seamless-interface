@@ -1,19 +1,17 @@
 import { useForm } from 'react-hook-form';
 import { useNotificationContext, FlexCol, FlexRow, MyFormProvider, Typography, useFullTokenData, WatchAssetComponentv2 } from '../../../../../../shared';
 import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal';
-import { useWithdrawFormContext } from '../contexts/useWithdrawFormContext';
 import { FormButtons } from './FormButtons';
 import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
 import { Summary } from './Summary';
 import { useMutateWithdrawLending } from '../../../../../state/lending-borrowing/mutations/useMutateWithdrawLending';
-import { useFetchReserveTokenAddresses } from '../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses';
 import { RHFWithdrawAmountField } from './RHFWithdrawAmountField';
+import { useFormSettingsContext } from '../../contexts/useFormSettingsContext';
 
 
 export const WithdrawForm = () => {
-  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useWithdrawFormContext();
+  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
-  const { data: { aTokenAddress } } = useFetchReserveTokenAddresses(asset);
 
   const {
     data: { symbol, decimals, logo },
@@ -76,7 +74,7 @@ export const WithdrawForm = () => {
           </FlexRow>
           <RHFWithdrawAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
-            assetAddress={disableAssetPicker ? aTokenAddress : undefined}
+            assetAddress={disableAssetPicker ? asset : undefined}
             name="amount" />
         </FlexCol>
 

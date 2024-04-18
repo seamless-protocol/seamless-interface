@@ -3,9 +3,8 @@ import { Address } from 'viem'
 import { StrategyForm } from '../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm'
 import { SupplyForm } from '../../../../components/forms/earn-forms/supply-form/SupplyForm'
 import { useRef } from 'react'
-import { EarnFormProvider } from '../../../../components/forms/earn-forms/contexts/EarnFormContext'
+import { FormSettingsProvider } from '../../../../components/forms/contexts/FormSettingsContext'
 import { WithdrawStrategyForm } from '../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm'
-import { WithdrawFormProvider } from '../../../../components/forms/withdraw-forms/contexts/WithdrawFormContext'
 import { WithdrawForm } from '../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm'
 
 export const TableButtons: React.FC<{
@@ -29,13 +28,13 @@ export const TableButtons: React.FC<{
           }}
         >
           <div className='mt-[-60px]'>
-            <EarnFormProvider
+            <FormSettingsProvider
               defaultAsset={asset}
               onTransaction={() => { addModal.current?.close(); }}
               disableAssetPicker
               hideTag>
               {isStrategy ? <StrategyForm /> : <SupplyForm />}
-            </EarnFormProvider>
+            </FormSettingsProvider>
           </div>
         </Modal>
         <Modal
@@ -47,13 +46,13 @@ export const TableButtons: React.FC<{
           }}
         >
           <div className='mt-[-60px]'>
-            <WithdrawFormProvider
+            <FormSettingsProvider
               defaultAsset={asset}
               onTransaction={() => { removeModal.current?.close(); }}
               disableAssetPicker
               hideTag>
               {isStrategy ? <WithdrawStrategyForm /> : <WithdrawForm />}
-            </WithdrawFormProvider>
+            </FormSettingsProvider>
           </div>
         </Modal>
       </FlexRow>

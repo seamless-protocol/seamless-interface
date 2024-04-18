@@ -38,15 +38,15 @@ export function RHFAmountInput<T>({
   const tokenDataResult = useFullTokenData(assetAddress);
   const { data: tokenData } = tokenDataResult;
 
-  const isProtocolValueBigger = useMemo(() => {
-    if (walletBalance?.data.value === undefined) {
-      return true;
-    }
+  const isUsingWalletMax = useMemo(() => {
+    if (walletBalance?.data.value === undefined) return false;
+    if (protocolMaxValue?.data.value === undefined) return true;
+
     const result = Number(protocolMaxValue?.data.value) > Number(walletBalance?.data.value);
     return result;
   }, [protocolMaxValue?.data.bigIntValue, walletBalance?.data?.bigIntValue]);
 
-  const max = isProtocolValueBigger ? walletBalance?.data.value : protocolMaxValue?.data.value;
+  const max = isUsingWalletMax ? walletBalance?.data.value : protocolMaxValue?.data.value;
 
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
@@ -55,7 +55,6 @@ export function RHFAmountInput<T>({
       return;
     }
 
-    // todo check decimals, do parseUnits here?
     setValue(name as string, max);
   };
 

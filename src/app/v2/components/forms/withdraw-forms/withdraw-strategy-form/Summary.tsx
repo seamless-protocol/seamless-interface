@@ -1,6 +1,7 @@
 import React from 'react'
-import { FlexCol, Typography, FlexRow, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, Displayable } from '@shared'
+import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, Displayable, FlexRow } from '@shared'
 import { ViewPreviewWithdraw } from '../../../../../state/loop-strategy/types/ViewPreviewWithdraw'
+import { DataRow } from '../../DataRow'
 
 export const Summary: React.FC<{
   displayablePreviewData: Displayable<ViewPreviewWithdraw>
@@ -9,10 +10,9 @@ export const Summary: React.FC<{
 
   return (
     <FlexCol>
-      <Typography type="description">Transaction overview</Typography>
-      <FlexCol className="border-divider border-[0.667px] rounded-md  p-3 gap-1">
-        <FlexRow className="justify-between">
-          <Typography type="description">Min Assets to receive</Typography>
+      <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+        <Typography type="bold3">Summary</Typography>
+        <DataRow label="Min Assets to receive">
           <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
             <DisplayTokenAmount
               {...previewWithdrawData?.assetsToReceive.tokenAmount}
@@ -21,27 +21,29 @@ export const Summary: React.FC<{
               isFetched={isFetched}
             />
           </Tooltip>
-        </FlexRow>
-        <FlexRow className="justify-between">
-          <Typography type="description">Min Value to receive</Typography>
-          <DisplayMoney
-            {...previewWithdrawData?.assetsToReceive.dollarAmount}
-            typography="description"
-            isLoading={isLoading}
-          />
-        </FlexRow>
-        <FlexRow className="justify-between">
-          <FlexRow className="items-center gap-1">
-            <Typography type="description">Max Transaction cost</Typography>
+        </DataRow>
+        <DataRow label="Min Value to receive">
+          <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
+            <DisplayMoney
+              {...previewWithdrawData?.assetsToReceive.dollarAmount}
+              typography="description"
+              isLoading={isLoading}
+            />
+          </Tooltip>
+        </DataRow>
+
+        <FlexRow className="justify-between text-navy-600">
+          <FlexRow className='gap-1 items-center'>
+            <Typography type="bold2">Max Transaction cost</Typography>
             <StandardTooltip width={1}>
-              <Typography type="subheader2">
+              <Typography type="medium2">
                 DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your withdrawal.
               </Typography>
             </StandardTooltip>
           </FlexRow>
           <DisplayMoney
             {...previewWithdrawData?.cost.dollarAmount}
-            typography="description"
+            typography="medium2"
             isLoading={isLoading}
           />
         </FlexRow>

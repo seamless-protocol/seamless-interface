@@ -5,7 +5,8 @@ import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/l
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { AssetApr } from "../../../AssetApr";
 import { StrategyApy } from "../../../AssetApy";
-import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { DataRow } from "../../DataRow";
 
 export const Summary: React.FC<{
   asset: Address;
@@ -24,7 +25,7 @@ export const Summary: React.FC<{
 const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
-  const { asset } = useEarnFormContext();
+  const { asset } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
 
@@ -42,41 +43,28 @@ const SummaryLocal: React.FC<{
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
       <Typography type="bold3">Summary</Typography>
-      <LocalRow label="Estimated APY">
+      <DataRow label="Estimated APY">
         {asset && (
           <StrategyApy asset={asset} className="text-navy-1000" typography="medium2" />
         )}
-      </LocalRow>
+      </DataRow>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
         {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      <LocalRow label="Action">Deposit</LocalRow>
-      <LocalRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</LocalRow>
-      <LocalRow label="Multiplier">
+      <DataRow label="Action">Deposit</DataRow>
+      <DataRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</DataRow>
+      <DataRow label="Multiplier">
         <DisplayValue {...targetMultiple} isLoading={isTargetMultipleLoading} isFetched={isTargetMultipleFetched} loaderSkeleton />
-      </LocalRow>
-      <LocalRow label="Starting Asset">
+      </DataRow>
+      <DataRow label="Starting Asset">
         <FlexRow className="gap-2 items-center">
           {`${tokenData.symbol}`}
           <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
         </FlexRow>
-      </LocalRow>
-      <LocalRow label="Ending Asset">{strategyTokenData.symbol}</LocalRow>
+      </DataRow>
+      <DataRow label="Ending Asset">{strategyTokenData.symbol}</DataRow>
     </FlexCol>
   );
 };
 
-const LocalRow: React.FC<{
-  label: string;
-  children?: React.ReactNode;
-}> = ({ label, children }) => {
-  return (
-    <FlexRow className="text-navy-600 justify-between">
-      <Typography type="bold2">{label}</Typography>
-      <Typography type="medium2" className="text-navy-1000">
-        {children}
-      </Typography>
-    </FlexRow>
-  );
-};
