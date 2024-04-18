@@ -9,7 +9,7 @@ interface CoinGeckoAssetPrice {
 }
 
 interface fetchCoinGeckoAssetPriceByAddress {
-  address: Address;
+  address?: Address;
   precision: number;
 }
 
@@ -19,6 +19,10 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
 }: fetchCoinGeckoAssetPriceByAddress): Promise<bigint> => {
+  if (!address) {
+    return 0n;
+  }
+
   const res = await fetch(
     `${coinGeckoApiUrl}/simple/token_price/base?contract_addresses=${address.toLowerCase()}&vs_currencies=usd&precision=${precision}`
   );
@@ -37,12 +41,14 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
 interface useFetchCoinGeckoPriceByAddress {
   address?: Address;
   precision: number;
+  enabled: boolean;
 }
 
-export const useFetchCoinGeckoPriceByAddress = ({ address, precision }: useFetchCoinGeckoPriceByAddress) =>
+export const useFetchCoinGeckoPriceByAddress = ({ address, precision, enabled }: useFetchCoinGeckoPriceByAddress) =>
   useQuery({
+    enabled,
     queryKey: ["fetchCoinGeckoAssetPriceByAddress", address?.toLowerCase(), precision],
-    queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: address!, precision }),
+    queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: address, precision }),
 
     // Very aggressive caching due to rate limits
     staleTime: 60 * 60 * 1000, // 60 min
@@ -56,7 +62,7 @@ export const useFetchCoinGeckoPriceByAddress = ({ address, precision }: useFetch
   });
 
 export const useFetchCoinGeckoSeamPrice = () => {
-  const { data } = useFetchCoinGeckoPriceByAddress({ address: SEAM_ADDRESS, precision: 18 });
+  const { data } = useFetchCoinGeckoPriceByAddress({ address: SEAM_ADDRESS, precision: 18, enabled: true });
 
   return data;
 };

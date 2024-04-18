@@ -91,9 +91,20 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset, useCoinGeckoPrice }: useFetchAssetPriceParams) => {
-  console.log("useFetchAssetPrice - asset: ", asset, ", useCoinGeckoPrice: ", useCoinGeckoPrice);
+  const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
+    address: asset,
+    precision: 8,
+    enabled: !!useCoinGeckoPrice,
+  });
+
+  const assetPriceInBlock = useFetchAssetPriceInBlock(
+    useCoinGeckoPrice ? undefined : asset,
+    undefined,
+    underlyingAsset
+  );
+
   if (useCoinGeckoPrice) {
-    const { data: price, ...rest } = useFetchCoinGeckoPriceByAddress({ address: asset, precision: 8 });
+    const { data: price, ...rest } = coingeckoPrice;
 
     return {
       ...rest,
@@ -105,7 +116,7 @@ export const useFetchAssetPrice = ({ asset, underlyingAsset, useCoinGeckoPrice }
     };
   }
 
-  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
+  return assetPriceInBlock;
 };
 
 type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
