@@ -9,6 +9,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
+import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -87,10 +88,10 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
 interface useFetchAssetPriceParams {
   asset?: Address;
   underlyingAsset?: Address;
-  useCoinGeckoPrice?: boolean;
 }
 
-export const useFetchAssetPrice = ({ asset, underlyingAsset, useCoinGeckoPrice }: useFetchAssetPriceParams) => {
+export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
+  const useCoinGeckoPrice = getBaseAssetConfig(asset)?.useCoinGeckoPrice;
   const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
     address: asset,
     precision: 8,
@@ -124,9 +125,8 @@ type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
 export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
-  useCoinGeckoPrice,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset, useCoinGeckoPrice });
+  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {
     isLoading,

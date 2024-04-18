@@ -145,4 +145,5 @@ const baseAssetsMapping: { [address: string]: BaseAssetConfig } = baseAssets.red
   {}
 );
 
-export const getBaseAssetConfig = (address: string) => baseAssetsMapping[address.toLowerCase()];
+export const getBaseAssetConfig = (address?: string) =>
+  address ? baseAssetsMapping[address.toLowerCase()] : undefined;

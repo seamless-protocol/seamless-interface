@@ -47,7 +47,7 @@ const WithdrawStrategyLocal: React.FC<{
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: price } = useFetchAssetPrice(strategy.address);
+  const { data: price } = useFetchAssetPrice({ asset: strategy.address });
 
   const { withdrawAsync } = useWriteStrategyWithdraw(strategy.id);
 

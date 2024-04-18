@@ -5,7 +5,6 @@ import { Displayable } from "../../../../shared";
 import { useFetchAssetPrice } from "../queries/useFetchViewAssetPrice";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
-import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 export interface DetailAssetBalance {
   data: {
@@ -21,7 +20,7 @@ export const useFetchDetailAssetBalance = (token: Address): Fetch<DetailAssetBal
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
     data: price,
-  } = useFetchAssetPrice({ asset: token, useCoinGeckoPrice: getBaseAssetConfig(token)?.useCoinGeckoPrice });
+  } = useFetchAssetPrice({ asset: token });
 
   return {
     isLoading: isBalanceLoading || isPriceLoading,

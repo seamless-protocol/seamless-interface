@@ -75,7 +75,7 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
   const value = watch(other.name);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
+  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
 
   // *** balance *** //
   // todo remove 0x1

@@ -5,7 +5,6 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
-import { getBaseAssetConfig } from "../config/BaseAssetsConfig";
 
 interface TotalSupplied {
   totalSupplied: FetchBigInt;
@@ -23,7 +22,7 @@ export const useFetchDetailTotalSupplied = (asset: Address): FetchData<TotalSupp
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
     data: price,
-  } = useFetchAssetPrice({ asset, useCoinGeckoPrice: getBaseAssetConfig(asset)?.useCoinGeckoPrice });
+  } = useFetchAssetPrice({ asset });
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,

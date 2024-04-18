@@ -9,7 +9,6 @@ import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 interface PreviewWithdraw {
   assetsToReceive: FetchBigInt;
@@ -45,7 +44,6 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
     data: sharePrice,
   } = useFetchAssetPrice({
     asset: strategyConfig.address,
-    useCoinGeckoPrice: getBaseAssetConfig(strategyConfig.address)?.useCoinGeckoPrice,
   });
 
   const {
@@ -54,7 +52,6 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
     data: underlyingAssetPrice,
   } = useFetchAssetPrice({
     asset: underlyingAsset,
-    useCoinGeckoPrice: underlyingAsset && getBaseAssetConfig(underlyingAsset)?.useCoinGeckoPrice,
   });
 
   let assetsToReceive;

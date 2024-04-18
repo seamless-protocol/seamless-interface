@@ -9,7 +9,6 @@ import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 interface PreviewDeposit {
   sharesToReceive: FetchBigInt;
@@ -50,8 +49,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isShareValueFetched,
     data: sharePrice,
   } = useFetchAssetPrice({
-    asset: strategyConfig.address,
-    useCoinGeckoPrice: getBaseAssetConfig(strategyConfig.address)?.useCoinGeckoPrice,
+    asset: strategyConfig.address
   });
 
   const {
@@ -59,8 +57,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isAssetPriceFetched,
     data: assetPrice,
   } = useFetchAssetPrice({
-    asset: underlyingAsset,
-    useCoinGeckoPrice: underlyingAsset && getBaseAssetConfig(underlyingAsset)?.useCoinGeckoPrice,
+    asset: underlyingAsset
   });
 
   let sharesToReceive;

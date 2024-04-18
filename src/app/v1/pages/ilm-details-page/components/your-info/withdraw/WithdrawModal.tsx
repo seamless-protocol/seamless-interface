@@ -25,7 +25,6 @@ import { useWriteStrategyWithdraw } from "../../../../../../state/loop-strategy/
 import { AmountInputWithdrawWrapper } from "./AmountInputWithdrawWrapper";
 import { useQueryClient } from "@tanstack/react-query";
 import { useFetchAssetPrice } from "../../../../../../state/common/queries/useFetchViewAssetPrice";
-import { getBaseAssetConfig } from "../../../../../../state/lending-borrowing/config/BaseAssetsConfig";
 
 export interface WithdrawModalFormData {
   amount: string;
@@ -49,7 +48,6 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
 
   const { data: price } = useFetchAssetPrice({
     asset: strategyConfig.address,
-    useCoinGeckoPrice: getBaseAssetConfig(strategyConfig.address)?.useCoinGeckoPrice,
   });
 
   const { isPending: isWithdrawPending, withdrawAsync } = useWriteStrategyWithdraw(id);

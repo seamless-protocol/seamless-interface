@@ -5,7 +5,6 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Displayable } from "../../../../shared";
 import { ViewDetailUserReserveData } from "../types/ViewDetailUserReserveData";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { getBaseAssetConfig } from "../config/BaseAssetsConfig";
 
 export interface DetailUserReserveData {
   aTokenBalance: FetchBigInt;
@@ -19,7 +18,7 @@ export const useFetchDetailUserReserveData = (reserve: Address): FetchData<Detai
     data: price,
     isLoading: isPriceLoading,
     isFetched: isPriceFetched,
-  } = useFetchAssetPrice({ asset: reserve, useCoinGeckoPrice: getBaseAssetConfig(reserve)?.useCoinGeckoPrice });
+  } = useFetchAssetPrice({ asset: reserve });
 
   const {
     data: { aTokenBalance, variableDebtTokenBalance },
