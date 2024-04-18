@@ -16,9 +16,10 @@ export const Summary: React.FC<{
           <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
             <DisplayTokenAmount
               {...previewWithdrawData?.assetsToReceive.tokenAmount}
-              typography="description"
+              typography="medium2"
               isLoading={isLoading}
               isFetched={isFetched}
+              className='text-navy-1000'
             />
           </Tooltip>
         </DataRow>
@@ -26,8 +27,9 @@ export const Summary: React.FC<{
           <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
             <DisplayMoney
               {...previewWithdrawData?.assetsToReceive.dollarAmount}
-              typography="description"
+              typography="medium2"
               isLoading={isLoading}
+              className='text-navy-1000'
             />
           </Tooltip>
         </DataRow>
@@ -36,7 +38,7 @@ export const Summary: React.FC<{
           <FlexRow className='gap-1 items-center'>
             <Typography type="bold2">Max Transaction cost</Typography>
             <StandardTooltip width={1}>
-              <Typography type="medium2">
+              <Typography type="medium2" className='text-navy-1000'>
                 DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your withdrawal.
               </Typography>
             </StandardTooltip>
@@ -44,6 +46,7 @@ export const Summary: React.FC<{
           <DisplayMoney
             {...previewWithdrawData?.cost.dollarAmount}
             typography="medium2"
+            className='text-navy-1000'
             isLoading={isLoading}
           />
         </FlexRow>

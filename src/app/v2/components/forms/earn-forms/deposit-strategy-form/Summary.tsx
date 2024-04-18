@@ -58,7 +58,7 @@ const SummaryLocal: React.FC<{
       <DataRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</DataRow>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Multiplier</Typography>
-        <DisplayValue {...targetMultiple} isLoading={isTargetMultipleLoading} isFetched={isTargetMultipleFetched} loaderSkeleton />
+        <DisplayValue {...targetMultiple} isLoading={isTargetMultipleLoading} isFetched={isTargetMultipleFetched} loaderSkeleton className="text-navy-1000" />
       </FlexRow>
       <DataRow label="Starting Asset">
         <FlexRow className="gap-2 items-center">

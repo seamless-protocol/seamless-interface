@@ -40,7 +40,7 @@ export const Summary = () => {
       </DataRow>
       <DataRow label="Strategy">{TokenDescriptionDict[asset]?.lendingTitle}</DataRow>
       <DataRow label="Starting Asset">
-        {asset && <FlexRow className="gap-1">
+        {asset && <FlexRow className="gap-1 text-navy-1000">
           {`${tokenData.symbol}`} <Icon width={18} src={tokenData.logo} alt={tokenData.logo || ""} />
         </FlexRow>}
       </DataRow>
