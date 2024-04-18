@@ -20,8 +20,8 @@ export const Footer = () => {
 
 
       <FlexRow className='gap-10 items-start'>
-        {navigation.map((x) => {
-          return <Link target='_blank' className='text-medium3' to={x.to}>{x.label}</Link>
+        {navigation.map((x, index) => {
+          return <Link target='_blank' key={index} className='text-medium3' to={x.to}>{x.label}</Link>
         })}
       </FlexRow>
 

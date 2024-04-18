@@ -3,7 +3,7 @@ import { TabProvider } from "../../../../shared/contexts/tab-context/TabContext"
 import { EarnTab } from "./tabs/earn-tab/EarnTab";
 import { MyPositionsTab } from "./tabs/my-positions-tab/MyPositionsTab";
 
-type Tabs = "Earn" | "Borrow" | "My Positions";
+type Tabs = "Earn" | "My Positions";
 
 export const TestPage = () => {
   return (
@@ -13,7 +13,6 @@ export const TestPage = () => {
         <FlexCol className="gap-1 w-full max-w-[1020px]">
           <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin">
             <TabButton<Tabs> tab="Earn">Earn</TabButton>
-            <TabButton<Tabs> tab="Borrow">Borrow</TabButton>
             <TabButton<Tabs> tab="My Positions">My Positions</TabButton>
           </FlexRow>
 
@@ -21,9 +20,6 @@ export const TestPage = () => {
             <div className="mt-8">
               <EarnTab />
             </div>
-          </TabContent>
-          <TabContent<Tabs> tab="Borrow">
-            <div className="mt-8">Coming soon...</div>
           </TabContent>
           <TabContent<Tabs> tab="My Positions">
             <div className="mt-8">

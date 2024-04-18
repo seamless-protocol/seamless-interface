@@ -22,22 +22,19 @@ export const useFetchUserStrategies = (): FetchData<UserStrategies[] | undefined
   } = useFetchUserDepositStrategies();
 
   let strategies: UserStrategies[] | undefined;
-  if (supplyTokens && depositStrategies) {
-    strategies = supplyTokens
-      .map((token) => ({
-        asset: token,
-      }))
-      .concat(
-        depositStrategies.map((strategy) => ({
-          asset: strategy.asset,
-          strategy: strategy.strategy,
-        }))
-      );
+  if (depositStrategies) {
+    strategies = depositStrategies ? depositStrategies.map((strategy) => ({
+      asset: strategy!.asset,
+      strategy: strategy!.strategy,
+    })) : []
   }
 
   return {
     isLoading: isSupplyTokensLoading || isDepositStrategiesLoading,
     isFetched: isSupplyTokensFetched && isDepositStrategiesFetched,
-    data: strategies,
+    data: strategies?.concat(supplyTokens
+      .map((token) => ({
+        asset: token,
+      }))),
   };
 };

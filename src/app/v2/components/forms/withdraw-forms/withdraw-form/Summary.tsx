@@ -1,7 +1,6 @@
-import { FlexCol, Typography, DisplayTokenAmount } from '@shared'
+import { FlexCol, Typography, DisplayTokenAmount, FlexRow } from '@shared'
 import { Address } from 'viem';
 import { useFetchViewDetailUserReserveData } from '../../../../../state/lending-borrowing/hooks/useFetchViewDetailUserReserveData';
-import { DataRow } from '../../DataRow';
 
 export const Summary: React.FC<{
   asset: Address;
@@ -14,12 +13,14 @@ export const Summary: React.FC<{
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
       <Typography type="bold3">Summary</Typography>
-      <DataRow label="Remaining supply"><DisplayTokenAmount
-        {...rest}
-        {...supplied.tokenAmount}
-        typography="medium2"
-      />
-      </DataRow>
-    </FlexCol>
+      <FlexRow className='gap-1 items-center'>
+        <Typography type="bold2">Remaining supply</Typography>
+        <DisplayTokenAmount
+          {...rest}
+          {...supplied.tokenAmount}
+          typography="medium2"
+        />
+      </FlexRow>
+    </FlexCol >
   )
 }

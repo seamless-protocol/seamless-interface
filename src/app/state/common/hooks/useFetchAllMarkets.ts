@@ -37,6 +37,6 @@ export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
   return {
     isLoading,
     isFetched,
-    data: lendingAssets ? [...(lendingMarkets || []), ...ilmMarkets] : undefined,
+    data: lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : undefined,
   };
 };
