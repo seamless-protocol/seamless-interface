@@ -20,7 +20,11 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
     data: { supplyCap, borrowCap },
   } = useFetchReserveCaps(asset);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data,
+  } = useFetchAssetPrice({ asset });
   const price = data || 0n;
 
   return {

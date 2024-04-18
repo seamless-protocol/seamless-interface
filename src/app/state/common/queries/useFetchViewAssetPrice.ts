@@ -7,7 +7,9 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
+import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
+import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -83,12 +85,48 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   };
 };
 
-export const useFetchAssetPrice = (asset?: Address, underlyingAsset?: Address) => {
-  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
+interface useFetchAssetPriceParams {
+  asset?: Address;
+  underlyingAsset?: Address;
+}
+
+export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
+  const useCoinGeckoPrice = getBaseAssetConfig(asset)?.useCoinGeckoPrice;
+  const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
+    address: asset,
+    precision: 8,
+    enabled: !!useCoinGeckoPrice,
+  });
+
+  const assetPriceInBlock = useFetchAssetPriceInBlock(
+    useCoinGeckoPrice ? undefined : asset,
+    undefined,
+    underlyingAsset
+  );
+
+  if (useCoinGeckoPrice) {
+    const { data: price, ...rest } = coingeckoPrice;
+
+    return {
+      ...rest,
+      data: {
+        bigIntValue: price || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+    };
+  }
+
+  return assetPriceInBlock;
 };
 
-export const useFetchViewAssetPrice = (asset: Address, underlyingAsset?: Address): Displayable<ViewBigInt> => {
-  const { isLoading, isFetched, data: price } = useFetchAssetPrice(asset, underlyingAsset);
+type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
+
+export const useFetchViewAssetPrice = ({
+  asset,
+  underlyingAsset,
+}: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {
     isLoading,

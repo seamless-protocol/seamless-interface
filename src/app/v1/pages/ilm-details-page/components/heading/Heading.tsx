@@ -42,7 +42,9 @@ export const Heading: React.FC<{
     isLoading: isOraclePriceLoading,
     isFetched: isOraclePriceFetched,
     data: oraclePrice,
-  } = useFetchViewAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchViewAssetPrice({
+    asset: strategyConfig.underlyingAsset.address,
+  });
 
   const {
     isLoading: isApyLoading,

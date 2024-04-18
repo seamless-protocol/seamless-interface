@@ -48,13 +48,17 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
     data: sharePrice,
-  } = useFetchAssetPrice(strategyConfig.address);
+  } = useFetchAssetPrice({
+    asset: strategyConfig.address
+  });
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: assetPrice,
-  } = useFetchAssetPrice(underlyingAsset);
+  } = useFetchAssetPrice({
+    asset: underlyingAsset
+  });
 
   let sharesToReceive;
   let sharesToReceiveInUsd;

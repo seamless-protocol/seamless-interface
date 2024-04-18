@@ -14,7 +14,11 @@ export interface DetailUserReserveData {
 }
 
 export const useFetchDetailUserReserveData = (reserve: Address): FetchData<DetailUserReserveData> => {
-  const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice(reserve);
+  const {
+    data: price,
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+  } = useFetchAssetPrice({ asset: reserve });
 
   const {
     data: { aTokenBalance, variableDebtTokenBalance },

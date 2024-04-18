@@ -18,7 +18,11 @@ export const useFetchDetailTotalSupplied = (asset: Address): FetchData<TotalSupp
     data: { totalSupplied },
   } = useFetchReserveData(asset);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data: price,
+  } = useFetchAssetPrice({ asset });
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,

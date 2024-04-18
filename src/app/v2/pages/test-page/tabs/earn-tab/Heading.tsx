@@ -19,7 +19,7 @@ export const Heading = () => {
     data: oraclePrice,
     isLoading: isOraclePriceLoading,
     isFetched: isOraclePriceFetched,
-  } = useFetchViewAssetPrice(asset);
+  } = useFetchViewAssetPrice({ asset });
 
   return (
     <div className="grid grid-cols-12 gap-6">

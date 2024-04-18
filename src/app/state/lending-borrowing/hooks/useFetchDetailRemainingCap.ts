@@ -13,14 +13,18 @@ interface RemainingCap {
 
 export const useFetchDetailRemainingCap = (asset: Address): FetchData<RemainingCap> => {
   const { isLoading: isLoadingCaps, isFetched: isFetchedCaps, data: supplyCap } = useFetchReserveCaps(asset);
-  const { isLoading: isLoadingSupplied, isFetched: isFetchedSupplied, data: totalSupplied } = useFetchDetailTotalSupplied(asset);
-  const { isLoading: isLoadingPrice, isFetched: isFetchedPrice, data: price } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isLoadingSupplied,
+    isFetched: isFetchedSupplied,
+    data: totalSupplied,
+  } = useFetchDetailTotalSupplied(asset);
+  const { isLoading: isLoadingPrice, isFetched: isFetchedPrice, data: price } = useFetchAssetPrice({ asset });
 
   const remainingCapData = useMemo(() => {
     if (!supplyCap?.supplyCap.bigIntValue || !totalSupplied?.totalSupplied.bigIntValue || !price?.bigIntValue) {
       return {
         remainingCap: undefined,
-        remainingCapUsd: undefined
+        remainingCapUsd: undefined,
       };
     }
 
@@ -31,20 +35,20 @@ export const useFetchDetailRemainingCap = (asset: Address): FetchData<RemainingC
       remainingCap: {
         bigIntValue: remaining,
         decimals: supplyCap.supplyCap.decimals,
-        symbol: supplyCap.supplyCap.symbol
+        symbol: supplyCap.supplyCap.symbol,
       },
       remainingCapUsd: {
         bigIntValue: remainingUsd,
         decimals: price.decimals,
-        symbol: "$"
-      }
+        symbol: "$",
+      },
     };
   }, [supplyCap.supplyCap.bigIntValue, totalSupplied.totalSupplied.bigIntValue, price]);
 
   return {
     data: remainingCapData,
     isLoading: isLoadingCaps || isLoadingSupplied || isLoadingPrice,
-    isFetched: isFetchedCaps && isFetchedSupplied && isFetchedPrice
+    isFetched: isFetchedCaps && isFetchedSupplied && isFetchedPrice,
   };
 };
 
@@ -56,7 +60,7 @@ export const useViewDetailRemainingCap = (asset: Address): Displayable<ViewDetai
   const {
     isLoading,
     isFetched,
-    data: { remainingCap, remainingCapUsd }
+    data: { remainingCap, remainingCapUsd },
   } = useFetchDetailRemainingCap(asset);
 
   return {
@@ -64,7 +68,7 @@ export const useViewDetailRemainingCap = (asset: Address): Displayable<ViewDetai
     isFetched,
     data: {
       tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
-      dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined
-    }
+      dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,
+    },
   };
 };

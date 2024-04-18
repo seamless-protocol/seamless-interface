@@ -61,7 +61,9 @@ export function RHFAmountInputWrapper<T>({ overrideUrlSlug, assetAddress, ...oth
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
 
-  const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
+  const { data: price, ...otherPrice } = useFetchAssetPrice({
+    asset,
+  });
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
   const {
     data: { decimals },

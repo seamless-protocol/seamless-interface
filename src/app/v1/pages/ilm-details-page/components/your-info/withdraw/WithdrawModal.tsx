@@ -46,7 +46,9 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: price } = useFetchAssetPrice(strategyConfig.address);
+  const { data: price } = useFetchAssetPrice({
+    asset: strategyConfig.address,
+  });
 
   const { isPending: isWithdrawPending, withdrawAsync } = useWriteStrategyWithdraw(id);
 
@@ -130,7 +132,8 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
                   <Typography type="description">Max Transaction cost</Typography>
                   <StandardTooltip width={1}>
                     <Typography type="subheader2">
-                      DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your withdrawal.
+                      DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your
+                      withdrawal.
                     </Typography>
                   </StandardTooltip>
                 </FlexRow>

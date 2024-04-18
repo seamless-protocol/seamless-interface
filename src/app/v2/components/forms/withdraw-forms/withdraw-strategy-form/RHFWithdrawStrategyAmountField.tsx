@@ -73,7 +73,7 @@ export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddres
   const value = watch(other.name);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
+  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
 
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
