@@ -9,7 +9,7 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
 import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
-export const AddToStrategyButtons: React.FC<{
+export const FormButtons: React.FC<{
   strategy: StrategyConfig;
   onTransaction?: () => void;
 }> = ({ strategy, onTransaction }) => {

@@ -4,6 +4,8 @@ import { StrategyForm } from '../../../../components/forms/earn-forms/deposit-st
 import { SupplyForm } from '../../../../components/forms/earn-forms/supply-form/SupplyForm'
 import { useRef } from 'react'
 import { EarnFormProvider } from '../../../../components/forms/earn-forms/contexts/EarnFormContext'
+import { WithdrawStrategyForm } from '../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm'
+import { WithdrawFormProvider } from '../../../../components/forms/withdraw-forms/contexts/WithdrawFormContext'
 
 export const TableButtons: React.FC<{
   asset: Address;
@@ -13,6 +15,7 @@ export const TableButtons: React.FC<{
   isStrategy
 }) => {
     const addModal = useRef<ModalHandles>(null);
+    const removeModal = useRef<ModalHandles>(null);
 
     return (
       <FlexRow className="gap-2 text-start">
@@ -35,13 +38,22 @@ export const TableButtons: React.FC<{
           </div>
         </Modal>
         <Modal
+          ref={removeModal}
           size="normal"
           buttonProps={{
             children: "Remove",
             className: "text-bold3 bg-transparent hover:bg-gray-100 text-metalic border border-metalic text-metalic rounded-[100px] p-2 px-8 items-center text-center",
           }}
         >
-          todo: withdraw forms
+          <div className='mt-[-60px]'>
+            <WithdrawFormProvider
+              defaultAsset={asset}
+              onTransaction={() => { removeModal.current?.close(); }}
+              disableAssetPicker
+              hideTag>
+              {isStrategy ? <WithdrawStrategyForm /> : <>todo withdraw</>}
+            </WithdrawFormProvider>
+          </div>
         </Modal>
       </FlexRow>
     )

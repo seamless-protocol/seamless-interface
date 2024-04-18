@@ -7,11 +7,10 @@ import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mut
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { RHFAmountInputWrapper } from "../../../RHFAmountInputWrapper";
-import { AddToStrategyButtons } from "./AddToStrategyButtons";
-import { StrategySummary } from "./StrategySummary";
+import { FormButtons } from "./FormButtons";
+import { Summary } from "./Summary";
 import { useFullTokenData, useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, RHFInputSliderField, Tooltip, useToken } from "@shared";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
-
 
 export const StrategyForm = () => {
   const { asset } = useEarnFormContext();
@@ -117,8 +116,8 @@ const StrategyFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <StrategySummary asset={asset} />
-        <AddToStrategyButtons strategy={strategy} onTransaction={onTransaction} />
+        <Summary asset={asset} />
+        <FormButtons strategy={strategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>
   );

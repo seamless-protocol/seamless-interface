@@ -9,7 +9,7 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
-export const SupplyButtons = () => {
+export const FormButtons = () => {
   const { asset, onTransaction } = useEarnFormContext();
 
   const { watch, formState: {

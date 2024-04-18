@@ -80,7 +80,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       {symbolPosition === "after" && symbol && (
         <>
           {" "}
-          <Typography type={typography} tagOverride="span" color={symbolColor}>
+          <Typography className={`md:truncate md:hover:text-clip ${className}`} type={typography} tagOverride="span" color={symbolColor}>
             {symbol}
           </Typography>
         </>

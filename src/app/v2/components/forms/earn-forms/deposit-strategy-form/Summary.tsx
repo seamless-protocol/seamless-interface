@@ -7,7 +7,7 @@ import { AssetApr } from "../../../AssetApr";
 import { StrategyApy } from "../../../AssetApy";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
-export const StrategySummary: React.FC<{
+export const Summary: React.FC<{
   asset: Address;
 }> = ({ asset }) => {
   const strategy = findILMStrategyByAddress(asset);
@@ -18,10 +18,10 @@ export const StrategySummary: React.FC<{
     return <>Strategy not found!</>;
   }
 
-  return <StrategySummaryLocal strategy={strategy} />;
+  return <SummaryLocal strategy={strategy} />;
 };
 
-const StrategySummaryLocal: React.FC<{
+const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset } = useEarnFormContext();

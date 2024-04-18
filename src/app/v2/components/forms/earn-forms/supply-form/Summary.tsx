@@ -13,7 +13,7 @@ import { LendingApy } from "../../../AssetApy";
 import { AssetApr } from "../../../AssetApr";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
 
-export const SupplySummary = () => {
+export const Summary = () => {
   const { asset } = useEarnFormContext();
 
   const { data: tokenData } = useFullTokenData(asset);

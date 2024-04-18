@@ -13,6 +13,8 @@ import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
+import { DisplayText } from "../../display/DisplayText";
+import { Tooltip } from "../../tooltip/Tooltip";
 
 
 
@@ -33,7 +35,8 @@ export function RHFAmountInput<T>({
 }: IRHFAmountInputProps<T>) {
   const { setValue, getValues } = useFormContext();
   const { isConnected } = useAccount();
-  const { data: tokenData } = useFullTokenData(assetAddress);
+  const tokenDataResult = useFullTokenData(assetAddress);
+  const { data: tokenData } = tokenDataResult;
 
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
@@ -93,16 +96,20 @@ export function RHFAmountInput<T>({
             <span className="min-h-[18px]" />
           )}
         </FlexCol>
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-col items-end gap-2 flex-grow-0">
           {assetButton || (
             <div className="inline-flex items-center space-x-2">
               <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
-              <Typography type="medium4">{tokenData?.symbol}</Typography>
+              <Tooltip tooltip={tokenData?.symbol}>
+                <DisplayText className="max-w-32 text-start" typography="medium4" text={tokenData?.symbol} {...tokenDataResult} />
+              </Tooltip>
             </div>
           )}
           {(isConnected && assetAddress) && (
             <div className="inline-flex gap-2 items-center">
-              <DisplayTokenAmount {...walletBalance} {...walletBalance?.data} typography="medium2" />
+              <Tooltip tooltip={walletBalance?.data.symbol}>
+                <DisplayTokenAmount className="max-w-32" {...walletBalance} {...walletBalance?.data} typography="medium2" />
+              </Tooltip>
               <button type="button" onClick={handleMaxClick}>
                 <Typography type="bold2">MAX</Typography>
               </button>

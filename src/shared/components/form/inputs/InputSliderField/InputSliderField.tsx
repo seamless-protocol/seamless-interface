@@ -35,7 +35,7 @@ const renderMarkers = (
           left: adjustment,
         }}
         className={`bottom-3.5 w-3 h-3 absolute rounded-full border-2 
-                    ${i >= enabledMin && i <= enabledMax ? "border-navy-1000" : "border-gray-400"}
+                    ${i >= enabledMin && i <= enabledMax ? "border-navy-1000" : "border-gray-400 cursor-default"}
                     ${(Number(value) || 0) >= i ? "bg-navy-1000" : "bg-neutral-0"}`}
         onClick={() => {
           if (i >= enabledMin && i <= enabledMax) {
