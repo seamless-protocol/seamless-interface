@@ -13,8 +13,8 @@ import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/
 import { useWithdrawFormContext } from '../contexts/useWithdrawFormContext';
 import { FormButtons } from './FormButtons';
 import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
-import { RHFAmountInputWrapper } from '../../../RHFAmountInputWrapper';
 import { Summary } from './Summary';
+import { RHFAmountInputWrapper } from '../../../RHFAmountInputWrapper';
 
 
 export const WithdrawStrategyForm = () => {

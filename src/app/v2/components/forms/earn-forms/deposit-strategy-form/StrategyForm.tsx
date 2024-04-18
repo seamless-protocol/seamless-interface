@@ -6,11 +6,11 @@ import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/h
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
-import { RHFAmountInputWrapper } from "../../../RHFAmountInputWrapper";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useFullTokenData, useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, RHFInputSliderField, Tooltip, useToken } from "@shared";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 
 export const StrategyForm = () => {
   const { asset } = useEarnFormContext();
@@ -94,7 +94,7 @@ const StrategyFormLocal: React.FC<{
 
             {(asset != null && !hideTag) && <Tag tag="ILM" />}
           </FlexRow>
-          <RHFAmountInputWrapper
+          <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
             name="amount" />

@@ -6,6 +6,7 @@ import { useRef } from 'react'
 import { EarnFormProvider } from '../../../../components/forms/earn-forms/contexts/EarnFormContext'
 import { WithdrawStrategyForm } from '../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm'
 import { WithdrawFormProvider } from '../../../../components/forms/withdraw-forms/contexts/WithdrawFormContext'
+import { WithdrawForm } from '../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm'
 
 export const TableButtons: React.FC<{
   asset: Address;
@@ -18,7 +19,7 @@ export const TableButtons: React.FC<{
     const removeModal = useRef<ModalHandles>(null);
 
     return (
-      <FlexRow className="gap-2 text-start">
+      <FlexRow className="gap-2 text-start cursor-default">
         <Modal
           ref={addModal}
           size="normal"
@@ -51,7 +52,7 @@ export const TableButtons: React.FC<{
               onTransaction={() => { removeModal.current?.close(); }}
               disableAssetPicker
               hideTag>
-              {isStrategy ? <WithdrawStrategyForm /> : <>todo withdraw</>}
+              {isStrategy ? <WithdrawStrategyForm /> : <WithdrawForm />}
             </WithdrawFormProvider>
           </div>
         </Modal>

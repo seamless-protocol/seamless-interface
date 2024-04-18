@@ -1,37 +1,27 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useRef } from 'react'
 import { useForm } from 'react-hook-form';
-import { parseUnits, Address } from 'viem';
-import { useAccount } from 'wagmi';
-import { useNotificationContext, ModalHandles, useToken, FlexCol, FlexRow, MyFormProvider, Typography, useFullTokenData } from '../../../../../../shared';
-import { useWrappedDebounce } from '../../../../../state/common/hooks/useWrappedDebounce';
-import { useFetchAssetPrice } from '../../../../../state/common/queries/useFetchViewAssetPrice';
-import { useFetchViewPreviewWithdraw } from '../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw';
-import { useWriteStrategyWithdraw } from '../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw';
+import { useNotificationContext, FlexCol, FlexRow, MyFormProvider, Typography, useFullTokenData, WatchAssetComponentv2 } from '../../../../../../shared';
 import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal';
 import { useWithdrawFormContext } from '../contexts/useWithdrawFormContext';
 import { FormButtons } from './FormButtons';
 import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
-import { RHFAmountInputWrapper } from '../../../RHFAmountInputWrapper';
 import { Summary } from './Summary';
+import { useMutateWithdrawLending } from '../../../../../state/lending-borrowing/mutations/useMutateWithdrawLending';
+import { useFetchReserveTokenAddresses } from '../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses';
+import { RHFWithdrawAmountField } from './RHFWithdrawAmountField';
 
 
 export const WithdrawForm = () => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useWithdrawFormContext();
   const { data: tokenData } = useFullTokenData(asset);
+  const { data: { aTokenAddress } } = useFetchReserveTokenAddresses(asset);
 
   const {
-    data: { symbol },
-  } = useToken(asset);
+    data: { symbol, decimals, logo },
+  } = useFullTokenData(asset);
 
-  const account = useAccount();
   const { showNotification } = useNotificationContext();
-  const modalRef = useRef<ModalHandles | null>(null);
-  const queryClient = useQueryClient();
 
-  const { data: price } = useFetchAssetPrice(strategy.address);
-
-  const { withdrawAsync } = useWriteStrategyWithdraw(strategy.id);
+  const { withdrawAsync } = useMutateWithdrawLending(asset);
 
   // FORM //
   const methods = useForm<WithdrawModalFormData>({
@@ -39,41 +29,38 @@ export const WithdrawForm = () => {
       amount: "",
     },
   });
-  const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
-  const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
+  const { handleSubmit, reset } = methods;
 
-  const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(strategy.id, debouncedAmount);
 
-  const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    if (previewWithdrawData) {
-      // todo refactor in separate pr, create mutation
-      try {
-        const { txHash } = await withdrawAsync(
-          parseUnits(data.amount, 18),
-          account.address as Address,
-          account.address as Address,
-          previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
-        );
-        modalRef.current?.close();
-        showNotification({
-          txHash,
-          content: `You Withdrew ${data.amount} ${strategySymbol}`,
-        });
-        queryClient.invalidateQueries();
-      } catch (e) {
-        modalRef.current?.close();
-        showNotification({
-          status: "error",
-
-          content: (e as any)?.shortMessage,
-        });
-      } finally {
-        reset();
-        onTransaction?.();
+  const onSubmitAsync = async (data: {
+    amount: string
+  }) => {
+    await withdrawAsync(
+      {
+        amount: data.amount,
+      },
+      {
+        onSuccess: (txHash) => {
+          showNotification({
+            txHash,
+            content: (
+              <FlexCol className="w-full items-center text-center justify-center">
+                <Typography>
+                  You Withdrew {data.amount} {symbol}
+                </Typography>
+                {(asset && symbol) && <WatchAssetComponentv2 address={asset} decimals={decimals} logo={logo} symbol={symbol} />}
+              </FlexCol>
+            ),
+          });
+        },
+        onSettled: () => {
+          reset();
+          onTransaction?.();
+        },
       }
-    }
+    );
   };
+
 
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
@@ -87,17 +74,13 @@ export const WithdrawForm = () => {
 
             {(asset != null && !hideTag) && <Tag tag="ILM" />}
           </FlexRow>
-          <RHFAmountInputWrapper
+          <RHFWithdrawAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
-            assetAddress={disableAssetPicker ? strategy.address : undefined}
+            assetAddress={disableAssetPicker ? aTokenAddress : undefined}
             name="amount" />
         </FlexCol>
 
-        <Summary displayablePreviewData={{
-          data: previewWithdrawData,
-          isFetched,
-          isLoading
-        }} />
+        <Summary asset={asset} />
 
         <FormButtons />
       </FlexCol>

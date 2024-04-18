@@ -43,5 +43,5 @@ export const useMutateWithdrawLending = (asset: Address) => {
     );
   };
 
-  return { ...rest, isWithdrawPending: rest.isPending, supplyAsync: withdrawAsync };
+  return { ...rest, isWithdrawPending: rest.isPending, withdrawAsync };
 };

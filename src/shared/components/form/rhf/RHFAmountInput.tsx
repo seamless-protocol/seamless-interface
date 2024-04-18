@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { Displayable, ViewBigInt } from "src/shared/types/Displayable";
-import { Address, formatUnits, parseUnits } from "viem";
+import { Address, parseUnits } from "viem";
 
 import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
@@ -10,17 +10,16 @@ import { useFullTokenData } from "../../../state";
 import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
 
-
-
 export interface IRHFAmountInputProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
   walletBalance?: Displayable<ViewBigInt>;
+  protocolMaxValue?: Displayable<ViewBigInt>;
   dollarValue?: Displayable<ViewBigInt>;
   assetButton?: React.ReactNode;
 }
@@ -30,6 +29,7 @@ export function RHFAmountInput<T>({
   assetAddress,
   walletBalance,
   dollarValue,
+  protocolMaxValue,
   assetButton,
   ...other
 }: IRHFAmountInputProps<T>) {
@@ -38,6 +38,16 @@ export function RHFAmountInput<T>({
   const tokenDataResult = useFullTokenData(assetAddress);
   const { data: tokenData } = tokenDataResult;
 
+  const isProtocolValueBigger = useMemo(() => {
+    if (walletBalance?.data.value === undefined) {
+      return true;
+    }
+    const result = Number(protocolMaxValue?.data.value) > Number(walletBalance?.data.value);
+    return result;
+  }, [protocolMaxValue?.data.bigIntValue, walletBalance?.data?.bigIntValue]);
+
+  const max = isProtocolValueBigger ? walletBalance?.data.value : protocolMaxValue?.data.value;
+
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
       // eslint-disable-next-line no-console
@@ -45,25 +55,13 @@ export function RHFAmountInput<T>({
       return;
     }
 
-    setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
+    // todo check decimals, do parseUnits here?
+    setValue(name as string, max);
   };
 
   useEffect(() => {
     setValue(name as string, "");
   }, [assetAddress]);
-
-  useEffect(() => {
-    const value = getValues(name as string);
-
-    if (!tokenData?.decimals) {
-      setValue(name as string, "");
-    } else if (
-      (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
-      0n
-    ) {
-      setValue(name as string, "");
-    }
-  }, [isConnected]);
 
   useEffect(() => {
     const value = getValues(name as string);
@@ -85,7 +83,7 @@ export function RHFAmountInput<T>({
           <RHFInputField<T>
             name={name}
             min={0}
-            max={isConnected ? walletBalance?.data?.value || "0" : String(MAX_NUMBER)}
+            max={isConnected ? max || "0" : String(MAX_NUMBER)}
             placeholder="0.00"
             {...other}
             disabled={other.disabled || !assetAddress}

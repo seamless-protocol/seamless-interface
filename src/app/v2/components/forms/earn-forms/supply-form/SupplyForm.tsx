@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useFullTokenData, MyFormProvider, FlexCol, Typography, WatchAssetComponentv2, useNotificationContext, FlexRow } from "../../../../../../shared";
-import { RHFAmountInputWrapper } from "../../../RHFAmountInputWrapper";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { useEarnFormContext } from "../contexts/useEarnFormContext";
+import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useEarnFormContext();
@@ -63,7 +63,7 @@ export const SupplyForm = () => {
 
             {(asset != null && !hideTag) && <Tag tag="LEND" />}
           </FlexRow>
-          <RHFAmountInputWrapper
+          <RHFSupplyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
             name="amount" />
