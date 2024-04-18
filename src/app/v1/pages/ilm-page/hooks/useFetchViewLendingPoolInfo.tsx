@@ -50,13 +50,14 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   let coinGeckoAllIsFetched = true;
   let coinGeckoAllIsLoading = false;
 
+  // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
   for (let i = 0; i < baseAssets.length; i++) {
     const enabled = !!baseAssets[i].useCoinGeckoPrice;
     const {
       data: price,
       isLoading: coinGeckoIsLoading,
       isFetched: coinGeckoIsFetched,
-    } = useFetchCoinGeckoPriceByAddress({
+    } = useFetchCoinGeckoPriceByAddress({ // eslint-disable-line react-hooks/rules-of-hooks
       address: baseAssets[i].address,
       precision: 8,
       enabled,
