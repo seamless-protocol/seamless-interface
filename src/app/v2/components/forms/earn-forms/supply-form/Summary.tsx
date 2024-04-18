@@ -1,0 +1,48 @@
+import {
+  FlexCol,
+  FlexRow,
+  Icon,
+  Typography,
+  useFullTokenData,
+} from "@shared";
+
+import { TokenDescriptionDict } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
+
+import { LendingApy } from "../../../AssetApy";
+import { AssetApr } from "../../../AssetApr";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { DataRow } from "../../DataRow";
+
+export const Summary = () => {
+  const { asset } = useFormSettingsContext();
+
+  const { data: tokenData } = useFullTokenData(asset);
+  const {
+    data: { aTokenAddress },
+  } = useFetchReserveTokenAddresses(asset);
+
+  const { data: aTokenData } = useFullTokenData(aTokenAddress);
+
+  return (
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+      <Typography type="bold3">Summary</Typography>
+      <DataRow label="Estimated APY">
+        {asset && <LendingApy asset={asset} className="text-navy-1000" typography="medium2" />}
+      </DataRow>
+      <DataRow label="Rewards APR">
+        {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
+      </DataRow>
+      <DataRow label="Action">
+        {asset && "Deposit"}
+      </DataRow>
+      <DataRow label="Strategy">{TokenDescriptionDict[asset]?.lendingTitle}</DataRow>
+      <DataRow label="Starting Asset">
+        {asset && <FlexRow className="gap-1">
+          {`${tokenData.symbol}`} <Icon width={18} src={tokenData.logo} alt={tokenData.logo || ""} />
+        </FlexRow>}
+      </DataRow>
+      <DataRow label="Ending Asset">{aTokenData.symbol}</DataRow>
+    </FlexCol>
+  );
+};

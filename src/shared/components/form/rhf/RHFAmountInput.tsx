@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { Displayable, ViewBigInt } from "src/shared/types/Displayable";
-import { Address, formatUnits, parseUnits } from "viem";
+import { Address, parseUnits } from "viem";
 
 import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
@@ -10,15 +10,16 @@ import { useFullTokenData } from "../../../state";
 import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
-
-
+import { DisplayText } from "../../display/DisplayText";
+import { Tooltip } from "../../tooltip/Tooltip";
 
 export interface IRHFAmountInputProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
   walletBalance?: Displayable<ViewBigInt>;
+  protocolMaxValue?: Displayable<ViewBigInt>;
   dollarValue?: Displayable<ViewBigInt>;
   assetButton?: React.ReactNode;
 }
@@ -28,12 +29,24 @@ export function RHFAmountInput<T>({
   assetAddress,
   walletBalance,
   dollarValue,
+  protocolMaxValue,
   assetButton,
   ...other
 }: IRHFAmountInputProps<T>) {
   const { setValue, getValues } = useFormContext();
   const { isConnected } = useAccount();
-  const { data: tokenData } = useFullTokenData(assetAddress);
+  const tokenDataResult = useFullTokenData(assetAddress);
+  const { data: tokenData } = tokenDataResult;
+
+  const isUsingWalletMax = useMemo(() => {
+    if (walletBalance?.data.value === undefined) return false;
+    if (protocolMaxValue?.data.value === undefined) return true;
+
+    const result = Number(protocolMaxValue?.data.value) > Number(walletBalance?.data.value);
+    return result;
+  }, [protocolMaxValue?.data.bigIntValue, walletBalance?.data?.bigIntValue]);
+
+  const max = isUsingWalletMax ? walletBalance?.data.value : protocolMaxValue?.data.value;
 
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
@@ -42,7 +55,7 @@ export function RHFAmountInput<T>({
       return;
     }
 
-    setValue(name as string, formatUnits(walletBalance?.data?.bigIntValue || 0n, tokenData?.decimals));
+    setValue(name as string, max);
   };
 
   useEffect(() => {
@@ -62,27 +75,14 @@ export function RHFAmountInput<T>({
     }
   }, [isConnected]);
 
-  useEffect(() => {
-    const value = getValues(name as string);
-
-    if (!tokenData?.decimals) {
-      setValue(name as string, "");
-    } else if (
-      (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
-      0n
-    ) {
-      setValue(name as string, "");
-    }
-  }, [isConnected]);
-
   return (
-    <div className="border bg-neutral-0 rounded-2xl p-4">
+    <div className="border bg-neutral-0 rounded-2xl p-4 cursor-default">
       <FlexRow className="items-center w-full">
         <FlexCol className="flex-grow gap-2 text-medium4">
           <RHFInputField<T>
             name={name}
             min={0}
-            max={isConnected ? walletBalance?.data?.value || "0" : String(MAX_NUMBER)}
+            max={isConnected ? max || "0" : String(MAX_NUMBER)}
             placeholder="0.00"
             {...other}
             disabled={other.disabled || !assetAddress}
@@ -93,16 +93,20 @@ export function RHFAmountInput<T>({
             <span className="min-h-[18px]" />
           )}
         </FlexCol>
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-col items-end gap-2 flex-grow-0">
           {assetButton || (
             <div className="inline-flex items-center space-x-2">
               <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
-              <Typography type="medium4">{tokenData?.symbol}</Typography>
+              <Tooltip tooltip={tokenData?.symbol}>
+                <DisplayText className="max-w-32 text-start" typography="medium4" text={tokenData?.symbol} {...tokenDataResult} />
+              </Tooltip>
             </div>
           )}
           {(isConnected && assetAddress) && (
             <div className="inline-flex gap-2 items-center">
-              <DisplayTokenAmount {...walletBalance} {...walletBalance?.data} typography="medium2" />
+              <Tooltip tooltip={walletBalance?.data.symbol}>
+                <DisplayTokenAmount className="max-w-32" {...walletBalance} {...walletBalance?.data} typography="medium2" />
+              </Tooltip>
               <button type="button" onClick={handleMaxClick}>
                 <Typography type="bold2">MAX</Typography>
               </button>

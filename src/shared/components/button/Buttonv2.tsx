@@ -24,7 +24,7 @@ export const Buttonv2: React.FC<ButtonProps2> = ({
   };
 
   const variantClasses = {
-    text: "bg-transparent hover:bg-gray-100 text-metalic border-none",
+    text: "bg-transparent hover:bg-gray-100 text-metalic",
     outlined: "bg-transparent hover:bg-gray-100 text-metalic border border-metalic",
     contained: "hover:bg-primary-dark bg-metalic text-neutral-0",
   };

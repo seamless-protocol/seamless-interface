@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import {
-  Buttonv2,
   FlexCol,
   FlexRow,
   Icon,
@@ -16,6 +15,7 @@ import { AssetApy } from "../../../../components/AssetApy";
 import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
+import { TableButtons } from "./TableButtons";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -63,18 +63,11 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-">
-          <input type="checkbox" checked={!isStrategy} className="toggle" onChange={() => {}} />
+          <input type="checkbox" checked={!isStrategy} className="toggle" onChange={() => { }} />
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-end">
-          <FlexRow className="gap-2">
-            <Buttonv2 className="w-24 h-7">
-              <Typography type="bold3">Add</Typography>
-            </Buttonv2>
-            <Buttonv2 className="w-24 h-7 border border-1 border-navy-1000" variant="outlined">
-              <Typography type="bold3">Remove</Typography>
-            </Buttonv2>
-          </FlexRow>
+          <TableButtons asset={asset} isStrategy={isStrategy} />
         </TableCell>
       </TableRow>
     </div>

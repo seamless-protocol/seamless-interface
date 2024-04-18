@@ -58,7 +58,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
         <div className="flex flex-row items-start justify-between mb-6">
           {headerComponent || <Typography type={IS_STYLE_VERSION_2 ? "bold4" : "h2"}>{header}</Typography>}
           <button
-            className="hover:bg-action-focus rounded-full p-2"
+            className="hover:bg-action-focus relative z-50 rounded-full p-2"
             type="button"
             onClick={() => {
               setModalOpen(false);
