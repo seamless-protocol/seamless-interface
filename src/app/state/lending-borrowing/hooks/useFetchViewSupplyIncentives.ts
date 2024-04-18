@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { Displayable } from "../../../../shared";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoSeamPrice";
+import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { Fetch } from "../../../../shared/types/Fetch";
 import { ViewIncentives } from "../types/ViewIncentives";

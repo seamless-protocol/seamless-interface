@@ -5,6 +5,7 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalBorrowed } from "../types/ViewDetailTotalBorrowed";
+import { getBaseAssetConfig } from "../config/BaseAssetsConfig";
 
 interface TotalBorrowed {
   totalBorrowed: FetchBigInt;
@@ -18,7 +19,11 @@ export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorr
     data: { totalBorrowed },
   } = useFetchReserveData(asset);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data: price,
+  } = useFetchAssetPrice({ asset, useCoinGeckoPrice: getBaseAssetConfig(asset)?.useCoinGeckoPrice });
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,

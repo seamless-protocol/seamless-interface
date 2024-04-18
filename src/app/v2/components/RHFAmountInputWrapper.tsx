@@ -7,6 +7,7 @@ import { Address, parseUnits } from "viem";
 import { useMemo } from "react";
 import { AssetButton } from "./AssetButton";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { getBaseAssetConfig } from "../../state/lending-borrowing/config/BaseAssetsConfig";
 
 type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
@@ -61,7 +62,10 @@ export function RHFAmountInputWrapper<T>({ overrideUrlSlug, assetAddress, ...oth
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
 
-  const { data: price, ...otherPrice } = useFetchAssetPrice(asset);
+  const { data: price, ...otherPrice } = useFetchAssetPrice({
+    asset,
+    useCoinGeckoPrice: getBaseAssetConfig(asset)?.useCoinGeckoPrice,
+  });
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
   const {
     data: { decimals },

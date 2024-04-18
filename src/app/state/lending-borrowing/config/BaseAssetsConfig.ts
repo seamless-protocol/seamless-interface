@@ -7,12 +7,14 @@ import {
   WETH_ADDRESS,
   WSTETH_ADDRESS,
   rwstETH_ADDRESS,
+  rWETH_ADDRESS,
   sDAI_ADDRESS,
   sUSDC_ADDRESS,
   sUSDbC_ADDRESS,
   sWETH_ADDRESS,
   scbETH_ADDRESS,
   srwstETH_ADDRESS,
+  srWETH_ADDRESS,
   swstETH_ADDRESS,
   variableDebtSeamDAI_ADDRESS,
   variableDebtSeamUSDC_ADDRESS,
@@ -20,6 +22,10 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamcbETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
+  SEAM_ADDRESS,
+  sSEAM_ADDRESS,
+  DEGEN_ADDRESS,
+  sDEGEN_ADDRESS,
 } from "@meta";
 import ethLogo from "@assets/tokens/eth.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
@@ -27,6 +33,8 @@ import cbethLogo from "@assets/tokens/cbeth.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import daiLogo from "@assets/tokens/dai.svg";
 import wstethLogo from "@assets/tokens/wsteth.svg";
+import seamLogo from "@assets/tokens/seam.svg";
+import degenLogo from "@assets/tokens/degen.svg";
 
 export interface BaseAssetConfig {
   name?: string;
@@ -36,6 +44,7 @@ export interface BaseAssetConfig {
   address: Address;
   sTokenAddress: Address;
   debtTokenAddress: Address; // Variable debt token address because stable borrow rate is not supported
+  useCoinGeckoPrice?: boolean;
 }
 
 export const baseAssets: BaseAssetConfig[] = [
@@ -94,9 +103,42 @@ export const baseAssets: BaseAssetConfig[] = [
     debtTokenAddress: variableDebtSeamwstETH_ADDRESS,
   },
   {
+    name: "Degen",
+    symbol: "DEGEN",
+    logo: degenLogo,
+    hide: false,
+    address: DEGEN_ADDRESS,
+    sTokenAddress: sDEGEN_ADDRESS,
+    debtTokenAddress: zeroAddress,
+    useCoinGeckoPrice: true,
+  },
+  {
+    name: "Seamless",
+    symbol: "SEAM",
+    logo: seamLogo,
+    hide: false,
+    address: SEAM_ADDRESS,
+    sTokenAddress: sSEAM_ADDRESS,
+    debtTokenAddress: zeroAddress,
+    useCoinGeckoPrice: true,
+  },
+  {
     hide: true,
     address: rwstETH_ADDRESS,
     sTokenAddress: srwstETH_ADDRESS,
     debtTokenAddress: zeroAddress,
   },
+  {
+    hide: true,
+    address: rWETH_ADDRESS,
+    sTokenAddress: srWETH_ADDRESS,
+    debtTokenAddress: zeroAddress,
+  },
 ];
+
+const baseAssetsMapping: { [address: string]: BaseAssetConfig } = baseAssets.reduce(
+  (a, v) => ({ ...a, [v.address.toLowerCase()]: v }),
+  {}
+);
+
+export const getBaseAssetConfig = (address: string) => baseAssetsMapping[address.toLowerCase()];

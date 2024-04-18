@@ -23,6 +23,7 @@ import { useFetchViewStrategyApy } from "../../../../../state/loop-strategy/hook
 import { RouterConfig } from "@router";
 import { Address } from "viem";
 import { aaveOracleAddress } from "@generated";
+import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
 
 export const Heading: React.FC<{
   id: number;
@@ -42,7 +43,10 @@ export const Heading: React.FC<{
     isLoading: isOraclePriceLoading,
     isFetched: isOraclePriceFetched,
     data: oraclePrice,
-  } = useFetchViewAssetPrice(strategyConfig.underlyingAsset.address);
+  } = useFetchViewAssetPrice({
+    asset: strategyConfig.underlyingAsset.address,
+    useCoinGeckoPrice: getBaseAssetConfig(strategyConfig.underlyingAsset.address)?.useCoinGeckoPrice,
+  });
 
   const {
     isLoading: isApyLoading,

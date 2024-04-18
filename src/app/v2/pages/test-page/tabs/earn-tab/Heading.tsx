@@ -9,6 +9,7 @@ import { getTokenDescription } from "../../../../../../shared/state/meta-data-qu
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
+import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -19,7 +20,7 @@ export const Heading = () => {
     data: oraclePrice,
     isLoading: isOraclePriceLoading,
     isFetched: isOraclePriceFetched,
-  } = useFetchViewAssetPrice(asset);
+  } = useFetchViewAssetPrice({ asset, useCoinGeckoPrice: getBaseAssetConfig(asset)?.useCoinGeckoPrice });
 
   return (
     <div className="grid grid-cols-12 gap-6">

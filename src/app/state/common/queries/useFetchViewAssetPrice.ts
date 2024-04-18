@@ -7,6 +7,7 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
+import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
 
 export interface AssetPrice {
@@ -83,12 +84,38 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   };
 };
 
-export const useFetchAssetPrice = (asset?: Address, underlyingAsset?: Address) => {
+interface useFetchAssetPriceParams {
+  asset?: Address;
+  underlyingAsset?: Address;
+  useCoinGeckoPrice?: boolean;
+}
+
+export const useFetchAssetPrice = ({ asset, underlyingAsset, useCoinGeckoPrice }: useFetchAssetPriceParams) => {
+  console.log("useFetchAssetPrice - asset: ", asset, ", useCoinGeckoPrice: ", useCoinGeckoPrice);
+  if (useCoinGeckoPrice) {
+    const { data: price, ...rest } = useFetchCoinGeckoPriceByAddress({ address: asset, precision: 8 });
+
+    return {
+      ...rest,
+      data: {
+        bigIntValue: price || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+    };
+  }
+
   return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
-export const useFetchViewAssetPrice = (asset: Address, underlyingAsset?: Address): Displayable<ViewBigInt> => {
-  const { isLoading, isFetched, data: price } = useFetchAssetPrice(asset, underlyingAsset);
+type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
+
+export const useFetchViewAssetPrice = ({
+  asset,
+  underlyingAsset,
+  useCoinGeckoPrice,
+}: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
+  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset, useCoinGeckoPrice });
 
   return {
     isLoading,

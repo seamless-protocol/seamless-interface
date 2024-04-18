@@ -5,6 +5,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { ViewDetailReserveCaps } from "../types/ViewDetailReserveCaps";
+import { getBaseAssetConfig } from "../config/BaseAssetsConfig";
 
 interface DetailReserveCaps {
   supplyCap: FetchBigInt;
@@ -20,7 +21,11 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
     data: { supplyCap, borrowCap },
   } = useFetchReserveCaps(asset);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data,
+  } = useFetchAssetPrice({ asset, useCoinGeckoPrice: getBaseAssetConfig(asset)?.useCoinGeckoPrice });
   const price = data || 0n;
 
   return {
