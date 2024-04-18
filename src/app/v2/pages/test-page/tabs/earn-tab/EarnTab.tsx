@@ -2,9 +2,13 @@ import { Heading } from "./Heading";
 
 import { AssetPicker } from "../../../../components/AssetPicker";
 import { assetSlugConfig } from "./config/SlugConfig";
-import { FormWrapper } from "./form/FormWrapper";
+import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
+import { StrategyForm } from "../../../../components/forms/DepositStrategyForm/StrategyForm";
+import { SupplyForm } from "../../../../components/forms/SupplyForm/SupplyForm";
 
 export const EarnTab = () => {
+  const { isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+
   return (
     <div>
       <Heading />
@@ -15,7 +19,7 @@ export const EarnTab = () => {
           </div>
           <div className="col-span-12 md:col-span-7">
             <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
-              <FormWrapper />
+              {isStrategy ? <StrategyForm /> : <SupplyForm />}
             </div>
           </div>
         </div>

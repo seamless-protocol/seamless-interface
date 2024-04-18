@@ -18,8 +18,8 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
       <FlexCol className="gap-2 w-full">
         {rewardTokens?.map((rewardToken, index) => {
           return (
-            <FlexRow className=" justify-between">
-              <FlexRow key={index} className="items-center gap-1">
+            <FlexRow className=" justify-between" key={index}>
+              <FlexRow className="items-center gap-1">
                 <img src={rewardToken.logo} alt="reward-token" className="w-5 h-5" />
                 <Typography type="secondary12">{rewardToken.symbol}</Typography>
               </FlexRow>

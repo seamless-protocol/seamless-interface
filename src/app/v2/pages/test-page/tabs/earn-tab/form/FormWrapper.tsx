@@ -1,13 +1,15 @@
 import { MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, useFullTokenData } from "@shared";
 import { useForm } from "react-hook-form";
-import { AddStrategyModalWrapper } from "./AddStrategyModal";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { Tag } from "../Tag";
 import { RHFAmountInputWrapper } from "../../../../../components/RHFAmountInputWrapper";
 import { assetSlugConfig, earnInputConfig } from "../config/SlugConfig";
-import { SupplyModal } from "./SupplyModal";
 import { AssetApy } from "../../../../../components/AssetApy";
 import { AssetApr } from "../../../../../components/AssetApr";
+import { AddToStrategyButtonsWrapper } from "../../../../../components/forms/DepositStrategyForm/AddToStrategyButtons";
+import { SupplyButtons } from "../../../../../components/forms/SupplyForm/SupplyButtons";
+import { SupplySummary } from "../../../../../components/forms/SupplyForm/SupplySummary";
+import { StrategySummary } from "../../../../../components/forms/DepositStrategyForm/StrategySummary";
 
 export const FormWrapper = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -22,7 +24,7 @@ export const FormWrapper = () => {
   const { handleSubmit } = methods;
 
   return (
-    <MyFormProvider methods={methods} onSubmit={handleSubmit(() => {})}>
+    <MyFormProvider methods={methods} onSubmit={handleSubmit(() => { })}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
@@ -68,9 +70,10 @@ export const FormWrapper = () => {
               {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
             </FlexRow>
           )}
+          {isStrategy ? <StrategySummary asset={asset} /> : <SupplySummary asset={asset} />}
         </FlexCol>
 
-        {isStrategy ? <AddStrategyModalWrapper asset={asset} /> : <SupplyModal />}
+        {isStrategy ? <AddToStrategyButtonsWrapper asset={asset} /> : <SupplyButtons />}
       </FlexCol>
     </MyFormProvider>
   );
