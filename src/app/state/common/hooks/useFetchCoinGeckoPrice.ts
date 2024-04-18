@@ -3,7 +3,7 @@ import { Address, parseUnits } from "viem";
 import { SEAM_ADDRESS } from "@meta";
 
 interface CoinGeckoAssetPrice {
-  [assetId: string]: {
+  [address: string]: {
     usd: number;
   };
 }

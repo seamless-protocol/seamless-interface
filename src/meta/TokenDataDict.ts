@@ -7,6 +7,8 @@ import {
   WSTETH_ADDRESS,
   sWETH_ADDRESS,
   wstETHBooster_ADDRESS,
+  DEGEN_ADDRESS,
+  SEAM_ADDRESS,
 } from "./constants";
 import { Address } from "viem";
 
@@ -17,6 +19,8 @@ import cbethLogo from "@assets/tokens/cbeth.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import daiLogo from "@assets/tokens/dai.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
+import degenLogo from "@assets/tokens/degen.svg";
+import seamLogo from "@assets/tokens/seam.svg";
 
 interface ITokenDataDict {
   [address: Address]: {
@@ -51,5 +55,11 @@ export const TokenDataDict: ITokenDataDict = {
   },
   [USDC_ADDRESS]: {
     logo: usdcLogo,
+  },
+  [DEGEN_ADDRESS]: {
+    logo: degenLogo
+  },
+  [SEAM_ADDRESS]: {
+    logo: seamLogo
   },
 };
