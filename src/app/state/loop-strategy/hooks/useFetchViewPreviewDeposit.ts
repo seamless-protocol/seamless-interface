@@ -49,7 +49,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isShareValueFetched,
     data: sharePrice,
   } = useFetchAssetPrice({
-    asset: strategyConfig.address
+    asset: strategyConfig.address,
   });
 
   const {
@@ -57,7 +57,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isAssetPriceFetched,
     data: assetPrice,
   } = useFetchAssetPrice({
-    asset: underlyingAsset
+    asset: underlyingAsset,
   });
 
   let sharesToReceive;
@@ -65,7 +65,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   let costInUnderlyingAsset;
   let costInUsd;
   if (shares && shares.bigIntValue && sharePrice && assetPrice) {
-    sharesToReceive = (shares.bigIntValue * 999n) / 1000n;
+    sharesToReceive = (shares.bigIntValue * 99n) / 100n;
     sharesToReceiveInUsd = (sharesToReceive * sharePrice.bigIntValue) / ONE_ETHER;
 
     const depositValueInUsd = (parseEther(amount) * assetPrice.bigIntValue) / ONE_ETHER;
