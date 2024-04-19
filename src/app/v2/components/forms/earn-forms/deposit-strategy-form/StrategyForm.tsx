@@ -8,7 +8,18 @@ import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/c
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
-import { useFullTokenData, useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, RHFInputSliderField, Tooltip, useToken } from "@shared";
+import {
+  useFullTokenData,
+  useNotificationContext,
+  FlexCol,
+  Typography,
+  WatchAssetComponentv2,
+  MyFormProvider,
+  FlexRow,
+  RHFInputSliderField,
+  Tooltip,
+  useToken,
+} from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 
@@ -27,7 +38,7 @@ export const StrategyForm = () => {
 };
 
 const StrategyFormLocal: React.FC<{
-  strategy: StrategyConfig
+  strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
@@ -75,6 +86,7 @@ const StrategyFormLocal: React.FC<{
             });
           },
           onSettled: () => {
+            onTransaction?.();
             reset();
           },
         }
@@ -92,12 +104,13 @@ const StrategyFormLocal: React.FC<{
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {(asset != null && !hideTag) && <Tag tag="ILM" />}
+            {asset != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
           <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
-            name="amount" />
+            name="amount"
+          />
         </FlexCol>
 
         <FlexCol className="gap-4">

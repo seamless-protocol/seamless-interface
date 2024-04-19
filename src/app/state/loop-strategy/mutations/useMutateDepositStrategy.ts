@@ -4,6 +4,7 @@ import { ilmStrategies } from "../config/StrategyConfig";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
+import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 
 export const useMutateDepositStrategy = (id: number) => {
   // meta data
@@ -11,10 +12,14 @@ export const useMutateDepositStrategy = (id: number) => {
 
   // cache data
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(ilmStrategies[id].underlyingAsset.address);
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
+    asset: ilmStrategies[id].underlyingAsset.address,
+    spender: ilmStrategies[id].address,
+  });
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [accountAssetBalanceQK], // array of query keys to invalidate, when mutation happens!
+    queriesToInvalidate: [accountAssetBalanceQK, assetAllowanceQK], // array of query keys to invalidate, when mutation happens!
   });
 
   // mutation wrapper

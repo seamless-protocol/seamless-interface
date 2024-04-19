@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useSeamlessContractWrite } from "../../wagmi-wrapper/hooks/useSeamlessContractWrite";
+import { useFetchAssetAllowance } from "../queries/useFetchAssetAllowance";
 
 const ALWAYS_APPROVE_MAX = false;
 
@@ -20,14 +20,11 @@ const ALWAYS_APPROVE_MAX = false;
  */
 
 export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, amount: bigint = BigInt(0)) => {
-  const { address } = useAccount();
   const [isApproved, setIsApproved] = useState(false);
 
-  const { data: allowance, queryKey } = useReadContract({
-    address: tokenAddress,
-    abi: erc20Abi,
-    functionName: "allowance",
-    args: [address as Address, spenderAddress],
+  const { data: allowance, queryKey } = useFetchAssetAllowance({
+    asset: tokenAddress,
+    spender: spenderAddress,
   });
 
   const { writeContractAsync: approveTokenAsync, isPending } = useSeamlessContractWrite({
@@ -35,7 +32,7 @@ export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, 
   });
 
   useEffect(() => {
-    if (allowance && allowance >= amount) {
+    if (allowance && allowance.bigIntValue >= amount) {
       setIsApproved(true);
     } else {
       setIsApproved(false);

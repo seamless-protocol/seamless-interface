@@ -62,4 +62,4 @@ export const assetLogos: Map<string, string> = new Map([
   ["USDC", usdcLogo],
 ]);
 
-export const lendingAssetToHide: Address[] = ["0xc9ae3B5673341859D3aC55941D27C8Be4698C9e4", "0x3e8707557d4ad25d6042f590bcf8a06071da2c5f"];
+export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase()];

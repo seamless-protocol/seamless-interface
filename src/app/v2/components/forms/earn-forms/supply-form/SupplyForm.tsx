@@ -1,5 +1,14 @@
 import { useForm } from "react-hook-form";
-import { useFullTokenData, MyFormProvider, FlexCol, Typography, WatchAssetComponentv2, useNotificationContext, FlexRow } from "../../../../../../shared";
+import {
+  useFullTokenData,
+  MyFormProvider,
+  FlexCol,
+  Typography,
+  WatchAssetComponentv2,
+  useNotificationContext,
+  FlexRow,
+  useToken,
+} from "../../../../../../shared";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
@@ -7,11 +16,15 @@ import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/c
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
+import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
+
+  const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
+  const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
 
   const methods = useForm({
     defaultValues: {
@@ -38,7 +51,14 @@ export const SupplyForm = () => {
                 <Typography>
                   You Supplied {data.amount} {tokenData.symbol}
                 </Typography>
-                {tokenData && <WatchAssetComponentv2 {...tokenData} symbol={tokenData.symbol || ""} address={asset} />}
+                {sTokenData && (
+                  <WatchAssetComponentv2
+                    {...sTokenData}
+                    logo={tokenData.logo}
+                    symbol={sTokenData.symbol || ""}
+                    address={reserveTokenAddresses.aTokenAddress}
+                  />
+                )}
               </FlexCol>
             ),
           });
@@ -61,12 +81,13 @@ export const SupplyForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {(asset != null && !hideTag) && <Tag tag="LEND" />}
+            {asset != null && !hideTag && <Tag tag="LEND" />}
           </FlexRow>
           <RHFSupplyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
-            name="amount" />
+            name="amount"
+          />
         </FlexCol>
 
         <Summary />

@@ -1,13 +1,20 @@
-import { useForm } from 'react-hook-form';
-import { useNotificationContext, FlexCol, FlexRow, MyFormProvider, Typography, useFullTokenData, WatchAssetComponentv2 } from '../../../../../../shared';
-import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal';
-import { FormButtons } from './FormButtons';
-import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
-import { Summary } from './Summary';
-import { useMutateWithdrawLending } from '../../../../../state/lending-borrowing/mutations/useMutateWithdrawLending';
-import { RHFWithdrawAmountField } from './RHFWithdrawAmountField';
-import { useFormSettingsContext } from '../../contexts/useFormSettingsContext';
-
+import { useForm } from "react-hook-form";
+import {
+  useNotificationContext,
+  FlexCol,
+  FlexRow,
+  MyFormProvider,
+  Typography,
+  useFullTokenData,
+  WatchAssetComponentv2,
+} from "../../../../../../shared";
+import { WithdrawModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal";
+import { FormButtons } from "./FormButtons";
+import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Summary } from "./Summary";
+import { useMutateWithdrawLending } from "../../../../../state/lending-borrowing/mutations/useMutateWithdrawLending";
+import { RHFWithdrawAmountField } from "./RHFWithdrawAmountField";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 
 export const WithdrawForm = () => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
@@ -29,10 +36,7 @@ export const WithdrawForm = () => {
   });
   const { handleSubmit, reset } = methods;
 
-
-  const onSubmitAsync = async (data: {
-    amount: string
-  }) => {
+  const onSubmitAsync = async (data: { amount: string }) => {
     await withdrawAsync(
       {
         amount: data.amount,
@@ -46,7 +50,9 @@ export const WithdrawForm = () => {
                 <Typography>
                   You Withdrew {data.amount} {symbol}
                 </Typography>
-                {(asset && symbol) && <WatchAssetComponentv2 address={asset} decimals={decimals} logo={logo} symbol={symbol} />}
+                {asset && symbol && (
+                  <WatchAssetComponentv2 address={asset} decimals={decimals} logo={logo} symbol={symbol} />
+                )}
               </FlexCol>
             ),
           });
@@ -59,7 +65,6 @@ export const WithdrawForm = () => {
     );
   };
 
-
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
@@ -70,12 +75,13 @@ export const WithdrawForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {(asset != null && !hideTag) && <Tag tag="ILM" />}
+            {asset != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
           <RHFWithdrawAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
-            name="amount" />
+            name="amount"
+          />
         </FlexCol>
 
         <Summary asset={asset} />
@@ -83,5 +89,5 @@ export const WithdrawForm = () => {
         <FormButtons />
       </FlexCol>
     </MyFormProvider>
-  )
-}
+  );
+};

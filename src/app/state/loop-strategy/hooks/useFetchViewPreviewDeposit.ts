@@ -49,7 +49,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isShareValueFetched,
     data: sharePrice,
   } = useFetchAssetPrice({
-    asset: strategyConfig.address
+    asset: strategyConfig.address,
   });
 
   const {
@@ -57,7 +57,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isAssetPriceFetched,
     data: assetPrice,
   } = useFetchAssetPrice({
-    asset: underlyingAsset
+    asset: underlyingAsset,
   });
 
   let sharesToReceive;

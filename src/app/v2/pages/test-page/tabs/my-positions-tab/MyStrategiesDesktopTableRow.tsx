@@ -1,13 +1,5 @@
 import { Address } from "viem";
-import {
-  FlexCol,
-  FlexRow,
-  Icon,
-  TableCell,
-  TableRow,
-  Typography,
-  useFullTokenData,
-} from "../../../../../../shared";
+import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography, useFullTokenData } from "../../../../../../shared";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { Tag } from "../earn-tab/Tag";
@@ -16,6 +8,7 @@ import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
+import { CollateralToggleButton } from "./CollateralToggleButton";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -63,7 +56,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-">
-          <input type="checkbox" checked={!isStrategy} className="toggle" onChange={() => { }} />
+          <CollateralToggleButton reserve={asset} isStrategy={isStrategy} />
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-end">

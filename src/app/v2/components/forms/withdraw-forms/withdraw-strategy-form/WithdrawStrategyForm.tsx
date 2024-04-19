@@ -1,21 +1,31 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useRef } from 'react'
-import { useForm } from 'react-hook-form';
-import { parseUnits, Address } from 'viem';
-import { useAccount } from 'wagmi';
-import { useNotificationContext, ModalHandles, useToken, FlexCol, FlexRow, MyFormProvider, Typography, useFullTokenData } from '../../../../../../shared';
-import { useWrappedDebounce } from '../../../../../state/common/hooks/useWrappedDebounce';
-import { useFetchAssetPrice } from '../../../../../state/common/queries/useFetchViewAssetPrice';
-import { StrategyConfig, findILMStrategyByAddress } from '../../../../../state/loop-strategy/config/StrategyConfig';
-import { useFetchViewPreviewWithdraw } from '../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw';
-import { useWriteStrategyWithdraw } from '../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw';
-import { WithdrawModalFormData } from '../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal';
-import { FormButtons } from './FormButtons';
-import { Tag } from '../../../../pages/test-page/tabs/earn-tab/Tag';
-import { Summary } from './Summary';
-import { RHFWithdrawStrategyAmountField } from './RHFWithdrawStrategyAmountField';
-import { useFormSettingsContext } from '../../contexts/useFormSettingsContext';
-
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { parseUnits, Address } from "viem";
+import { useAccount } from "wagmi";
+import {
+  useNotificationContext,
+  ModalHandles,
+  useToken,
+  FlexCol,
+  FlexRow,
+  MyFormProvider,
+  Typography,
+  useFullTokenData,
+  WatchAssetComponentv2,
+} from "../../../../../../shared";
+import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
+import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
+import { StrategyConfig, findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
+import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
+import { WithdrawModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal";
+import { FormButtons } from "./FormButtons";
+import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Summary } from "./Summary";
+import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
 
 export const WithdrawStrategyForm = () => {
   const { asset } = useFormSettingsContext();
@@ -31,9 +41,8 @@ export const WithdrawStrategyForm = () => {
   return <WithdrawStrategyLocal strategy={strategy} />;
 };
 
-
 const WithdrawStrategyLocal: React.FC<{
-  strategy: StrategyConfig
+  strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
@@ -41,6 +50,9 @@ const WithdrawStrategyLocal: React.FC<{
   const {
     data: { symbol: strategySymbol },
   } = useToken(strategy.address);
+
+  const { data: underlyingTokenAddress } = useFetchStrategyAsset(strategy.address);
+  const { data: underlyingTokenData } = useFullTokenData(underlyingTokenAddress);
 
   const account = useAccount();
   const { showNotification } = useNotificationContext();
@@ -76,7 +88,21 @@ const WithdrawStrategyLocal: React.FC<{
         modalRef.current?.close();
         showNotification({
           txHash,
-          content: `You Withdrew ${data.amount} ${strategySymbol}`,
+          content: (
+            <FlexCol>
+              <Typography type="regular3">
+                You Withdrew {data.amount} ${strategySymbol}
+              </Typography>
+              {underlyingTokenAddress && underlyingTokenData?.symbol && (
+                <WatchAssetComponentv2
+                  address={underlyingTokenAddress}
+                  symbol={underlyingTokenData.symbol}
+                  logo={underlyingTokenData.logo}
+                  decimals={underlyingTokenData.decimals}
+                />
+              )}
+            </FlexCol>
+          ),
         });
         queryClient.invalidateQueries();
       } catch (e) {
@@ -103,22 +129,25 @@ const WithdrawStrategyLocal: React.FC<{
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {(asset != null && !hideTag) && <Tag tag="ILM" />}
+            {asset != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
           <RHFWithdrawStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? strategy.address : undefined}
-            name="amount" />
+            name="amount"
+          />
         </FlexCol>
 
-        <Summary displayablePreviewData={{
-          data: previewWithdrawData,
-          isFetched,
-          isLoading
-        }} />
+        <Summary
+          displayablePreviewData={{
+            data: previewWithdrawData,
+            isFetched,
+            isLoading,
+          }}
+        />
 
         <FormButtons />
       </FlexCol>
     </MyFormProvider>
-  )
-}
+  );
+};
