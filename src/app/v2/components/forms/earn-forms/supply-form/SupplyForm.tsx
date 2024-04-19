@@ -23,8 +23,8 @@ export const SupplyForm = () => {
 
   const { data: tokenData } = useFullTokenData(asset);
 
-  // const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
-  // const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
+  const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
+  const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
 
   const methods = useForm({
     defaultValues: {
@@ -51,9 +51,14 @@ export const SupplyForm = () => {
                 <Typography>
                   You Supplied {data.amount} {tokenData.symbol}
                 </Typography>
-                {/* {sTokenData && ( */}
-                {/* <WatchAssetComponentv2 {...sTokenData} symbol={sTokenData.symbol || ""} address={asset} /> */}
-                {/* )} */}
+                {sTokenData && (
+                  <WatchAssetComponentv2
+                    {...sTokenData}
+                    logo={tokenData.logo}
+                    symbol={sTokenData.symbol || ""}
+                    address={reserveTokenAddresses.aTokenAddress}
+                  />
+                )}
               </FlexCol>
             ),
           });

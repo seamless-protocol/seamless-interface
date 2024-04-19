@@ -10,7 +10,7 @@ import { Buttonv2 } from "../../button/Buttonv2";
 
 interface Token {
   symbol: string;
-  address: Address;
+  address?: Address;
   logo?: string;
   decimals?: number;
 }
@@ -51,6 +51,8 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ symbol, address, logo }
   } = useToken(address);
 
   const handleAddToWalletClick = async () => {
+    if (!address || !decimals) return;
+
     await mutateAsync({
       symbol,
       address,

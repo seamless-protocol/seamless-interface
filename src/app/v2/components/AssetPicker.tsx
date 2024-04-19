@@ -11,8 +11,10 @@ export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
 
   return (
     <div>
-      <div className="bg-neutral-0 shadow-card rounded-2xl py-6">
-        <div className="h-12" />
+      <div className="bg-neutral-0 shadow-card rounded-2xl">
+        <div className="flex h-20 pl-6 items-center">
+          <Typography type="bold4">All earn strategies</Typography>
+        </div>
         <FlexRow
           className="py-2 px-6 pr-8 bg-neutral-100 justify-between 
       border-solid border-b border-b-navy-100"
