@@ -1,5 +1,14 @@
 import { Address } from "viem";
-import { CBETH_ADDRESS, DAI_ADDRESS, USDBC_ADDRESS, USDC_ADDRESS, WETH_ADDRESS, WSTETH_ADDRESS } from "@meta";
+import {
+  CBETH_ADDRESS,
+  DAI_ADDRESS,
+  DEGEN_ADDRESS,
+  SEAM_ADDRESS,
+  USDBC_ADDRESS,
+  USDC_ADDRESS,
+  WETH_ADDRESS,
+  WSTETH_ADDRESS,
+} from "@meta";
 
 export interface FullTokenData {
   description?: string;
@@ -45,12 +54,25 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyTitle: "Multiply USDC staking rewards",
     description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
   },
+  [SEAM_ADDRESS]: {
+    lendingTitle: "Supply SEAM",
+    strategyTitle: "Multiply SEAM staking rewards",
+    description: "SEAM is the governance token of Seamless Protocol.",
+  },
+  [DEGEN_ADDRESS]: {
+    lendingTitle: "Supply DEGEN",
+    strategyTitle: "Multiply Degen staking rewards",
+    description:
+      "DEGEN is dubbed as the unofficial token created for the Farcaster community, a decentralized social network.",
+  },
 };
 
-export const getTokenDescription = (token: Address): string => {
+export const getTokenDescription = (token: Address | undefined): string | undefined => {
+  if (!token) return undefined;
+  console.log("address", token);
   return TokenDescriptionDict[token]?.description;
 };
 
-export const getTokenTitle = (token: Address, isStrategy: boolean): string => {
-  return isStrategy ? TokenDescriptionDict[token].strategyTitle : TokenDescriptionDict[token].lendingTitle;
+export const getTokenTitle = (token: Address, isStrategy: boolean): string | undefined => {
+  return isStrategy ? TokenDescriptionDict[token]?.strategyTitle : TokenDescriptionDict[token]?.lendingTitle;
 };
