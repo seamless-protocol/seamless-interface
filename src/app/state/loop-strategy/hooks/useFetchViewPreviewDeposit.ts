@@ -91,12 +91,14 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
       isSimulateDepositFetched,
     data: {
       sharesToReceive: {
-        bigIntValue: sharesToReceive || 0n,
+        // bigIntValue: sharesToReceive || 0n,
+        bigIntValue: 0n,
         decimals: strategyDecimals,
         symbol: strategySymbol,
       },
       sharesToReceiveInUsd: {
-        bigIntValue: sharesToReceiveInUsd || 0n,
+        // bigIntValue: sharesToReceiveInUsd || 0n,
+        bigIntValue: 0n,
         decimals: 8,
         symbol: "$",
       },
