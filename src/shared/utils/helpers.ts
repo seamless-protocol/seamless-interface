@@ -1,4 +1,4 @@
-import { formatUnits } from "viem";
+import { formatUnits, maxInt256, maxUint256, parseEther } from "viem";
 import { ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
@@ -139,6 +139,26 @@ export function formatFetchNumberToViewNumber(
   return {
     value,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
+    symbol,
+  };
+}
+
+export function formatFetchBigIntToHealthFactor(
+  data: FetchBigInt,
+  decimalsOptions?: Partial<DecimalsOptions>
+): ViewBigInt {
+  const { bigIntValue, decimals, symbol = "" } = data;
+  const decimalsFormattingOptions = {
+    ...defaultDecimalsOptions,
+    ...decimalsOptions,
+  };
+  const value = formatUnitsToNumber(bigIntValue, decimals);
+
+  return {
+    value: formatUnits(bigIntValue, decimals),
+    viewValue:
+      bigIntValue < parseEther("1000000000000000") ? formatToDisplayable(value, decimalsFormattingOptions) : "∞",
+    bigIntValue,
     symbol,
   };
 }

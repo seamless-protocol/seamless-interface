@@ -50,6 +50,8 @@ export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 
+export const MAX_LIQUIDATION_THRESHOLD = 10000n;
+
 // OP Bedrock based chains produce a block every 2 seconds
 export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days
 
