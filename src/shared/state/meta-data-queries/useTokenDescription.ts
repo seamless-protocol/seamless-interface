@@ -69,7 +69,6 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
 
 export const getTokenDescription = (token: Address | undefined): string | undefined => {
   if (!token) return undefined;
-  console.log("address", token);
   return TokenDescriptionDict[token]?.description;
 };
 

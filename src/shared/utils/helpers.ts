@@ -1,5 +1,5 @@
-import { formatUnits, maxInt256, maxUint256, parseEther } from "viem";
-import { ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
+import { formatUnits } from "viem";
+import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
@@ -157,7 +157,7 @@ export function formatFetchBigIntToHealthFactor(
   return {
     value: formatUnits(bigIntValue, decimals),
     viewValue:
-      bigIntValue < parseEther("1000000000000000") ? formatToDisplayable(value, decimalsFormattingOptions) : "∞",
+      bigIntValue < INFINITE_HEALTH_FACTOR_BORDER ? formatToDisplayable(value, decimalsFormattingOptions) : "∞",
     bigIntValue,
     symbol,
   };
