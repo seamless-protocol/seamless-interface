@@ -16,7 +16,6 @@ interface Props extends TNotificationProps {
 }
 
 export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalOpen }: Props) => {
-  console.log("DisplayNotificationv2");
   return (
     <ModalBody setModalOpen={setModalOpen}>
       <FlexCol className="items-center gap-2">

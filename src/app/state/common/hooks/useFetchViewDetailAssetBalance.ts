@@ -16,7 +16,11 @@ export interface DetailAssetBalance {
 export const useFetchDetailAssetBalance = (token: Address): Fetch<DetailAssetBalance> => {
   const { isLoading: isBalanceLoading, isFetched: isBalanceFetched, data: balance } = useFetchAssetBalance(token);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(token);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data: price,
+  } = useFetchAssetPrice({ asset: token });
 
   return {
     isLoading: isBalanceLoading || isPriceLoading,

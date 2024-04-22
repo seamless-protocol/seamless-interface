@@ -11,14 +11,14 @@ export interface DetailUserReserveData {
   aTokenBalanceUsd: FetchBigInt;
   variableDebtTokenBalance: FetchBigInt;
   variableDebtTokenBalanceUsd: FetchBigInt;
+  usageAsCollateralEnabled?: boolean;
 }
 
 export const useFetchDetailUserReserveData = (reserve: Address): FetchData<DetailUserReserveData> => {
-  const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice(reserve);
-  // todo: Can we just call getUserAccountData here instead so we don't need to do the math for USD here? #219
+  const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice({ asset: reserve });
 
   const {
-    data: { aTokenBalance, variableDebtTokenBalance },
+    data: { aTokenBalance, variableDebtTokenBalance, usageAsCollateralEnabled },
     isLoading: isUserReserveDataLoading,
     isFetched: isUserReserveDataFetched,
   } = useFetchUserReserveData(reserve);
@@ -48,6 +48,7 @@ export const useFetchDetailUserReserveData = (reserve: Address): FetchData<Detai
         decimals: 8,
         symbol: "$",
       },
+      usageAsCollateralEnabled,
     },
   };
 };
@@ -56,7 +57,13 @@ export const useFetchViewDetailUserReserveData = (reserve: Address): Displayable
   const {
     isLoading,
     isFetched,
-    data: { aTokenBalance, aTokenBalanceUsd, variableDebtTokenBalance, variableDebtTokenBalanceUsd },
+    data: {
+      aTokenBalance,
+      aTokenBalanceUsd,
+      variableDebtTokenBalance,
+      variableDebtTokenBalanceUsd,
+      usageAsCollateralEnabled,
+    },
   } = useFetchDetailUserReserveData(reserve);
 
   return {
@@ -71,6 +78,7 @@ export const useFetchViewDetailUserReserveData = (reserve: Address): Displayable
         tokenAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),
         dollarAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalanceUsd),
       },
+      usageAsCollateralEnabled,
     },
   };
 };

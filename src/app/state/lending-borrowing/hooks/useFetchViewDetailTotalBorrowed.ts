@@ -18,7 +18,11 @@ export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorr
     data: { totalBorrowed },
   } = useFetchReserveData(asset);
 
-  const { isLoading: isPriceLoading, isFetched: isPriceFetched, data: price } = useFetchAssetPrice(asset);
+  const {
+    isLoading: isPriceLoading,
+    isFetched: isPriceFetched,
+    data: price,
+  } = useFetchAssetPrice({ asset });
 
   return {
     isLoading: isReserveDataLoading || isPriceLoading,

@@ -18,7 +18,7 @@ export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
 
   const lendingMarkets: Market[] | undefined = lendingAssets
     ?.filter((asset) => {
-      return lendingAssetToHide.indexOf(asset) === -1;
+      return lendingAssetToHide.indexOf(asset?.toLowerCase()) === -1;
     })
     .map((asset) => ({
       address: asset,
@@ -37,6 +37,6 @@ export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
   return {
     isLoading,
     isFetched,
-    data: lendingAssets ? [...(lendingMarkets || []), ...ilmMarkets] : undefined,
+    data: lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : undefined,
   };
 };

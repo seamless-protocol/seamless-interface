@@ -5,6 +5,7 @@ import { loopStrategyAbi } from "../../../generated/generated";
 import { waitForTransaction } from "../../../../shared/utils/transactionWrapper";
 import { useState } from "react";
 
+// todo: replace id with address?
 export const useWriteStrategyWithdraw = (id: number) => {
   const strategyConfig = ilmStrategies[id];
   const config = useConfig();

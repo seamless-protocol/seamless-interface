@@ -9,4 +9,5 @@ export interface ViewDetailUserReserveData {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  usageAsCollateralEnabled?: boolean;
 }

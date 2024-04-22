@@ -42,13 +42,17 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
     data: sharePrice,
-  } = useFetchAssetPrice(strategyConfig.address);
+  } = useFetchAssetPrice({
+    asset: strategyConfig.address,
+  });
 
   const {
     isLoading: isAssetPriceLoading,
     isFetched: isAssetPriceFetched,
     data: underlyingAssetPrice,
-  } = useFetchAssetPrice(underlyingAsset);
+  } = useFetchAssetPrice({
+    asset: underlyingAsset,
+  });
 
   let assetsToReceive;
   let assetsToReceiveInUsd;

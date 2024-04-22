@@ -5,7 +5,7 @@ import { Displayable, useSeamlessContractRead } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ONE_ETHER } from "@meta";
 import { ViewUserAccountData } from "../types/ViewUserAccountData";
-import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
+import { formatFetchBigIntToHealthFactor, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
 export interface FetchUserAccountData {
   balance: FetchBigInt;
@@ -110,7 +110,7 @@ export const useFetchViewUserAccountData = (): Displayable<ViewUserAccountData> 
       borrowPowerUsed: formatFetchBigIntToViewBigInt(borrowPowerUsed),
       currentLiquidationThreshold: formatFetchBigIntToViewBigInt(currentLiquidationThreshold),
       ltv: formatFetchBigIntToViewBigInt(ltv),
-      healthFactor: formatFetchBigIntToViewBigInt(healthFactor),
+      healthFactor: formatFetchBigIntToHealthFactor(healthFactor),
     },
   };
 };

@@ -3,6 +3,7 @@ import { lendingPoolConfig } from "@generated";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
+import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 
 export const useMutateSupplyLending = (asset: Address) => {
   // meta data
@@ -14,10 +15,11 @@ export const useMutateSupplyLending = (asset: Address) => {
 
   // cache data
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(asset);
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({ asset, spender: lendingPoolConfig.address });
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [accountAssetBalanceQK],
+    queriesToInvalidate: [accountAssetBalanceQK, assetAllowanceQK],
   });
 
   // mutation wrapper

@@ -5,6 +5,7 @@ import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
+import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd: FetchBigInt;
@@ -45,13 +46,36 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     contracts: multicallParams,
   });
 
+  const coinGeckoPrices: bigint[] = [];
+  let coinGeckoAllIsFetched = true;
+  let coinGeckoAllIsLoading = false;
+
+  // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
+  for (let i = 0; i < baseAssets.length; i++) {
+    const enabled = !!baseAssets[i].useCoinGeckoPrice;
+    const {
+      data: price,
+      isLoading: coinGeckoIsLoading,
+      isFetched: coinGeckoIsFetched,
+    } = useFetchCoinGeckoPriceByAddress({ // eslint-disable-line react-hooks/rules-of-hooks
+      address: baseAssets[i].address,
+      precision: 8,
+      enabled,
+    });
+    coinGeckoPrices.push(price || 0n);
+    coinGeckoAllIsFetched = coinGeckoAllIsFetched && (coinGeckoIsFetched || !enabled);
+    coinGeckoAllIsLoading = coinGeckoAllIsLoading || coinGeckoIsLoading;
+  }
+
   let totalSuppliedUsd = 0n;
   let totalBorrowedUsd = 0n;
-  if (results) {
+  if (results && coinGeckoAllIsFetched) {
     for (let i = 0; i < results.length; i += 4) {
       const totalSupplied = BigInt(results[i].result || 0);
       const totalBorrowed = BigInt(results[i + 1].result || 0);
-      const assetPrice = BigInt(results[i + 2].result || 0);
+      const assetPrice = baseAssets[i / 4].useCoinGeckoPrice
+        ? coinGeckoPrices[i / 4]
+        : BigInt(results[i + 2].result || 0);
       const assetDecimals = Number(results[i + 3].result || 0);
 
       totalSuppliedUsd += (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
@@ -61,8 +85,8 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   }
 
   return {
-    isLoading,
-    isFetched,
+    isLoading: isLoading || coinGeckoAllIsLoading,
+    isFetched: isFetched && coinGeckoAllIsFetched,
     totalMarketSizeUsd: {
       bigIntValue: totalSuppliedUsd,
       decimals: 8,

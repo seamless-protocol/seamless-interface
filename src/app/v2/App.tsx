@@ -14,6 +14,7 @@ import * as Sentry from "@sentry/react";
 import { TestPage } from "./pages/test-page/TestPage";
 import { QueryParamProvider } from "use-query-params";
 import { NavigationBar } from "../v1/components/navbar/NavigationBar";
+import { Footer } from "./components/footer/Footer";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -23,12 +24,13 @@ export function App() {
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <div className="text-black">
-          <NavigationBar /></div>
+            <NavigationBar /></div>
           <FlexCol className="min-h-screen">
             <SentryRoutes>
               <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
               <Route path="*" element={<PageNotFound />} />
             </SentryRoutes>
+            <Footer />
           </FlexCol>
         </QueryParamProvider>
       </HashRouter>
