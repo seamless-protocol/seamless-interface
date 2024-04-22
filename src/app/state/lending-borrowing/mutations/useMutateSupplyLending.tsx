@@ -4,6 +4,7 @@ import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
+import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 
 export const useMutateSupplyLending = (asset: Address) => {
   // meta data
@@ -16,10 +17,11 @@ export const useMutateSupplyLending = (asset: Address) => {
   // cache data
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(asset);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({ asset, spender: lendingPoolConfig.address });
+  const { queryKey: userAccountDataQK } = useFetchUserAccountData();
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [accountAssetBalanceQK, assetAllowanceQK],
+    queriesToInvalidate: [accountAssetBalanceQK, assetAllowanceQK, userAccountDataQK],
   });
 
   // mutation wrapper

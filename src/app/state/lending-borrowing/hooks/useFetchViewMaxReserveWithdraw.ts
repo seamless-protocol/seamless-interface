@@ -1,7 +1,7 @@
 import { Address, parseEther } from "viem";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfiguration";
-import { ONE_ETHER } from "../../../../meta";
+import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
 import { useFetchDetailUserReserveData } from "./useFetchViewDetailUserReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { formatFetchBigIntToViewBigInt, useToken } from "@shared";
@@ -38,13 +38,7 @@ export const useFetchMaxReserveWithdraw = (reserve: Address) => {
   let availableToWithdraw;
   let availableToWithdrawInUsd;
 
-  if (
-    userAccountData &&
-    userReserveData &&
-    assetPrice &&
-    userReserveData.usageAsCollateralEnabled &&
-    reserveConfig.liquidationThreshold.bigIntValue > 0n
-  ) {
+  if (userAccountData && userReserveData && assetPrice) {
     // If the user has not enabled the reserve as collateral or does not have any borrows or liquidation threshold for asset is 0, the user can withdraw the full balance
     if (
       !userReserveData.usageAsCollateralEnabled ||
@@ -61,7 +55,8 @@ export const useFetchMaxReserveWithdraw = (reserve: Address) => {
       const excessHealthFactor = healthFactor - safeHealthFactor;
 
       const maxWithdrawUsd =
-        (totalBorrowUsd * excessHealthFactor * 10000n) / (reserveConfig.liquidationThreshold.bigIntValue * ONE_ETHER);
+        (totalBorrowUsd * excessHealthFactor * MAX_LIQUIDATION_THRESHOLD) /
+        (reserveConfig.liquidationThreshold.bigIntValue * ONE_ETHER);
 
       availableToWithdrawInUsd =
         totalReserveCollateralUsd > maxWithdrawUsd ? maxWithdrawUsd : totalReserveCollateralUsd;
