@@ -2,12 +2,10 @@ import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt, us
 import { useFormContext } from "react-hook-form";
 import { Address, parseUnits } from "viem";
 import { useMemo } from "react";
-import { walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
-import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
+import { useFetchViewMaxReserveWithdraw } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveWithdraw";
 
 type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
@@ -63,7 +61,8 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
   // *** asset *** //
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
-  const { data: { aTokenAddress } } = useFetchReserveTokenAddresses(asset);
+
+  const { data: maxWithdrawData, ...rest } = useFetchViewMaxReserveWithdraw(asset);
 
   // *** metadata *** //
   const {
@@ -79,7 +78,6 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
 
   // *** balance *** //
   // todo remove 0x1
-  const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(aTokenAddress || '0x1', walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
     const valueBigInt = parseUnits(value || "", decimals);
     const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);
@@ -101,12 +99,11 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
         data: dollarValueData,
       }}
       walletBalance={{
-        ...otherViewBalance,
+        ...rest,
         data: {
-          ...viewBalance.balance,
+          ...maxWithdrawData.tokenAmount,
         },
       }}
-
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
     />
   );

@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, parseEther } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
@@ -49,6 +49,9 @@ export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
+
+export const MAX_LIQUIDATION_THRESHOLD = 10000n;
+export const INFINITE_HEALTH_FACTOR_BORDER = parseEther("1000000000000000");
 
 // OP Bedrock based chains produce a block every 2 seconds
 export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days

@@ -34,7 +34,8 @@ export const WithdrawForm = () => {
       amount: "",
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, watch, reset } = methods;
+  const amount = watch("amount");
 
   const onSubmitAsync = async (data: { amount: string }) => {
     await withdrawAsync(
@@ -84,7 +85,7 @@ export const WithdrawForm = () => {
           />
         </FlexCol>
 
-        <Summary asset={asset} />
+        <Summary asset={asset} amount={amount} />
 
         <FormButtons />
       </FlexCol>

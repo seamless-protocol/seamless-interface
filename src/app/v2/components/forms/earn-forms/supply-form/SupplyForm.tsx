@@ -31,7 +31,9 @@ export const SupplyForm = () => {
       amount: "",
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, watch, reset } = methods;
+
+  const amount = watch("amount");
 
   const { showNotification } = useNotificationContext();
 
@@ -90,7 +92,7 @@ export const SupplyForm = () => {
           />
         </FlexCol>
 
-        <Summary />
+        <Summary amount={amount} />
         <FormButtons />
       </FlexCol>
     </MyFormProvider>
