@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { lendingPoolAbi, lendingPoolAddress } from "../../../generated";
 import { Address } from "viem";
 import { Displayable, useSeamlessContractRead } from "@shared";
-import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { ONE_ETHER } from "@meta";
 import { ViewUserAccountData } from "../types/ViewUserAccountData";
 import { formatFetchBigIntToHealthFactor, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -18,7 +18,7 @@ export interface FetchUserAccountData {
   healthFactor: FetchBigInt;
 }
 
-export const useFetchUserAccountData = (): FetchData<FetchUserAccountData> => {
+export const useFetchUserAccountData = () => {
   const account = useAccount();
 
   const { data, ...rest } = useSeamlessContractRead({
