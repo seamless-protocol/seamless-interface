@@ -21,7 +21,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
     data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
 
-  const { data: supplyIncentives } = useFetchViewSupplyIncentives(address);
+  const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
 
   return (
     <div
@@ -43,8 +43,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
           <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
-          {!isStrategy && !!supplyIncentives.totalApr.viewValue && (
-            <IncentivesButton {...supplyIncentives}>
+          {!isStrategy && (
+            <IncentivesButton {...supplyIncentives} {...supplyRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
           )}
