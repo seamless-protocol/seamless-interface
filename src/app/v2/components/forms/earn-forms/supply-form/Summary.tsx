@@ -1,4 +1,4 @@
-import { DisplayNumber, DisplaySymbol, FlexCol, FlexRow, Icon, Typography, useFullTokenData } from "@shared";
+import { DisplayNumber, DisplaySymbol, FlexCol, FlexRow, Typography, useFullTokenData } from "@shared";
 
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
@@ -18,7 +18,6 @@ export const Summary = ({ amount }: { amount: string }) => {
 
   const { asset } = useFormSettingsContext();
 
-  const assetTokenData = useFullTokenData(asset);
   const {
     data: { aTokenAddress },
   } = useFetchReserveTokenAddresses(asset);
@@ -44,20 +43,6 @@ export const Summary = ({ amount }: { amount: string }) => {
         <Typography type="bold2">Rewards APR</Typography>
         {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      <DataRow label="Starting Asset">
-        {asset && (
-          <FlexRow className="gap-1 text-navy-1000">
-            <DisplaySymbol {...assetTokenData} {...assetTokenData.data} />
-            <Icon
-              disableMinHeight
-              width={18}
-              {...assetTokenData}
-              src={assetTokenData.data.logo}
-              alt={assetTokenData.data.logo || ""}
-            />
-          </FlexRow>
-        )}
-      </DataRow>
       <DataRow label="Ending Asset">
         <DisplaySymbol {...aTokenData} {...aTokenData.data} />
       </DataRow>
