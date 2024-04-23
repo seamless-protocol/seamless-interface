@@ -4,7 +4,7 @@ import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfigur
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
 import { useFetchDetailUserReserveData } from "./useFetchViewDetailUserReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { DecimalsOptions, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 
 const safeHealthFactor = parseEther("1.01");
 
@@ -94,16 +94,18 @@ export const useFetchMaxReserveWithdraw = (reserve: Address) => {
   };
 };
 
-export const useFetchViewMaxReserveWithdraw = (reserve: Address) => {
+export const useFetchViewMaxReserveWithdraw = (reserve: Address, decimalsOptions?: Partial<DecimalsOptions>) => {
   const { data, isLoading, isFetched } = useFetchMaxReserveWithdraw(reserve);
 
   return {
     isLoading,
     isFetched,
     data: {
-      tokenAmount: data?.availableToWithdraw ? formatFetchBigIntToViewBigInt(data.availableToWithdraw) : undefined,
+      tokenAmount: data?.availableToWithdraw
+        ? formatFetchBigIntToViewBigInt(data.availableToWithdraw, decimalsOptions)
+        : undefined,
       dollarAmount: data?.availableToWithdrawInUsd
-        ? formatFetchBigIntToViewBigInt(data.availableToWithdrawInUsd)
+        ? formatFetchBigIntToViewBigInt(data.availableToWithdrawInUsd, decimalsOptions)
         : undefined,
     },
   };

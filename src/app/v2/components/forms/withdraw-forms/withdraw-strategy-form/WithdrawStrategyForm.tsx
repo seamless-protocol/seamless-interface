@@ -144,6 +144,7 @@ const WithdrawStrategyLocal: React.FC<{
             isFetched,
             isLoading,
           }}
+          strategy={strategy}
         />
 
         <FormButtons />

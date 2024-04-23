@@ -20,6 +20,7 @@ import {
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
+import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -60,14 +61,16 @@ const StrategyFormLocal: React.FC<{
     args: [strategy?.underlyingAsset.address || ""],
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const { data: previewDepositData } = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+  const previewDepositData = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+
+  const maxUserDepositData = useFetchViewMaxUserDeposit(strategy.address);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
-    if (previewDepositData) {
+    if (previewDepositData?.data) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive.tokenAmount.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
@@ -107,6 +110,7 @@ const StrategyFormLocal: React.FC<{
           <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
+            protocolMaxValue={maxUserDepositData}
             name="amount"
           />
         </FlexCol>
@@ -129,7 +133,7 @@ const StrategyFormLocal: React.FC<{
           </FlexCol> */}
         </FlexCol>
 
-        <Summary asset={asset} />
+        <Summary asset={asset} previewDepositData={previewDepositData} />
         <FormButtons strategy={strategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>

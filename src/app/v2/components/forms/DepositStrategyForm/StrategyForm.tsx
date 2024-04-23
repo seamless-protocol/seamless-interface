@@ -63,14 +63,14 @@ const StrategyFormLocal: React.FC<{
     args: [strategy?.underlyingAsset.address || ""],
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const { data: previewDepositData } = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+  const previewDepositData = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
-    if (previewDepositData) {
+    if (previewDepositData?.data) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive.tokenAmount.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
