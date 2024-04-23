@@ -6,7 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export const MyPositionsTab: React.FC = () => {
   const { isConnected } = useAccount();
-  const { data: strategies } = useFetchUserStrategies();
+  const { data: strategies, isFetched, isLoading } = useFetchUserStrategies();
 
   if (!isConnected) {
     return (
@@ -23,6 +23,10 @@ export const MyPositionsTab: React.FC = () => {
         </ConnectButton.Custom>
       </FlexRow>
     );
+  }
+
+  if (!isFetched || isLoading) {
+    return <Typography type="body1">Loading. . .</Typography>;
   }
 
   if (!strategies || strategies?.length === 0) {

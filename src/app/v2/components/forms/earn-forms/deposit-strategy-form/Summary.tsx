@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useFullTokenData, FlexRow, Icon, Typography, FlexCol } from "@shared";
+import { useFullTokenData, FlexRow, Icon, Typography, FlexCol, DisplaySymbol } from "@shared";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
@@ -24,9 +24,8 @@ const SummaryLocal: React.FC<{
 }> = ({ strategy }) => {
   const { asset } = useFormSettingsContext();
 
-  const { data: tokenData } = useFullTokenData(asset);
-
-  const { data: strategyTokenData } = useFullTokenData(strategy.address);
+  const { data: tokenData, ...restTokenData } = useFullTokenData(asset);
+  const { data: strategyTokenData, ...strategyRest } = useFullTokenData(strategy.address);
 
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
@@ -38,11 +37,13 @@ const SummaryLocal: React.FC<{
       </FlexRow>
       <DataRow label="Starting Asset">
         <FlexRow className="gap-2 items-center">
-          {`${tokenData.symbol}`}
-          <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
+          <DisplaySymbol {...tokenData} {...restTokenData} />
+          <Icon src={tokenData?.logo} {...restTokenData} disableMinHeight alt={tokenData?.shortName || ""} width={16} />
         </FlexRow>
       </DataRow>
-      <DataRow label="Ending Asset">{strategyTokenData.symbol}</DataRow>
+      <DataRow label="Ending Asset">
+        <DisplaySymbol {...strategyTokenData} {...strategyRest} />
+      </DataRow>
     </FlexCol>
   );
 };

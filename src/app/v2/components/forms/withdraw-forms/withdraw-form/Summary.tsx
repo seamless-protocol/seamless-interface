@@ -1,4 +1,4 @@
-import { FlexCol, Typography, DisplayTokenAmount, FlexRow, DisplayValue } from "@shared";
+import { FlexCol, Typography, DisplayTokenAmount, FlexRow, DisplayNumber } from "@shared";
 import { Address } from "viem";
 import { useFetchViewDetailUserReserveData } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailUserReserveData";
 import { useFetchViewUserAccountData } from "../../../../../state/lending-borrowing/queries/useFetchViewUserAccountData";
@@ -16,17 +16,13 @@ export const Summary: React.FC<{
     ...rest
   } = useFetchViewDetailUserReserveData(asset);
 
-  const {
-    data: userAccountData,
-    isLoading: isUserAccountDataLoading,
-    isFetched: isUserAccountDataFetched,
-  } = useFetchViewUserAccountData();
+  const { data: userAccountData, ...userAccountDataRest } = useFetchViewUserAccountData();
 
-  const {
-    data: healthFactorAfterWithdraw,
-    isLoading: isFutureHealthFactorLoading,
-    isFetched: isFutureHealthFactorFetched,
-  } = useFetchViewHealthFactorAfterAction({ reserve: asset, amount, action: Action.Withdraw });
+  const { data: healthFactorAfterWithdraw, ...hfRest } = useFetchViewHealthFactorAfterAction({
+    reserve: asset,
+    amount,
+    action: Action.Withdraw,
+  });
 
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 text-navy-600">
@@ -37,9 +33,8 @@ export const Summary: React.FC<{
       </FlexRow>
       <FlexRow className="gap-1 justify-between">
         <Typography type="bold2">Health factor </Typography>
-        <DisplayValue
-          isLoading={isUserAccountDataLoading}
-          isFetched={isUserAccountDataFetched}
+        <DisplayNumber
+          {...userAccountDataRest}
           viewValue={userAccountData?.healthFactor?.viewValue}
           typography="medium2"
           className="text-navy-1000"
@@ -47,9 +42,8 @@ export const Summary: React.FC<{
       </FlexRow>
       <FlexRow className="gap-1 justify-between">
         <Typography type="bold2">Future health factor </Typography>
-        <DisplayValue
-          isLoading={isFutureHealthFactorLoading}
-          isFetched={isFutureHealthFactorFetched}
+        <DisplayNumber
+          {...hfRest}
           viewValue={healthFactorAfterWithdraw?.viewValue}
           typography="medium2"
           className="text-navy-1000"
