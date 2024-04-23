@@ -17,6 +17,7 @@ import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
+import { useFetchViewMaxUserReserveDeposit } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveDeposit";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -38,6 +39,8 @@ export const SupplyForm = () => {
   const { showNotification } = useNotificationContext();
 
   const { supplyAsync } = useMutateSupplyLending(asset);
+
+  const maxUserDepositData = useFetchViewMaxUserReserveDeposit(asset);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     await supplyAsync(
@@ -88,6 +91,7 @@ export const SupplyForm = () => {
           <RHFSupplyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
+            protocolMaxValue={maxUserDepositData ? { ...maxUserDepositData } : undefined}
             name="amount"
           />
         </FlexCol>

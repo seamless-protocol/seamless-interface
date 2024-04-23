@@ -1,13 +1,24 @@
 import { Address } from "viem";
-import { useFullTokenData, FlexRow, Icon, Typography, FlexCol, DisplaySymbol } from "@shared";
+import {
+  useFullTokenData,
+  FlexRow,
+  Icon,
+  Typography,
+  FlexCol,
+  DisplaySymbol,
+  Displayable,
+  DisplayTokenAmount,
+} from "@shared";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
+import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
 
 export const Summary: React.FC<{
   asset: Address;
-}> = ({ asset }) => {
+  previewDepositData: Displayable<ViewPreviewDeposit>;
+}> = ({ asset, previewDepositData }) => {
   const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
@@ -16,12 +27,13 @@ export const Summary: React.FC<{
     return <>Strategy not found!</>;
   }
 
-  return <SummaryLocal strategy={strategy} />;
+  return <SummaryLocal strategy={strategy} previewDepositData={previewDepositData} />;
 };
 
 const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
-}> = ({ strategy }) => {
+  previewDepositData: Displayable<ViewPreviewDeposit>;
+}> = ({ strategy, previewDepositData }) => {
   const { asset } = useFormSettingsContext();
 
   const { data: tokenData, ...restTokenData } = useFullTokenData(asset);
@@ -43,6 +55,29 @@ const SummaryLocal: React.FC<{
       </DataRow>
       <DataRow label="Ending Asset">
         <DisplaySymbol {...strategyTokenData} {...strategyRest} />
+      </DataRow>
+      <DataRow label="Min shares to receive">
+        <DisplayTokenAmount
+          isLoading={previewDepositData.isLoading}
+          isFetched={previewDepositData.isFetched}
+          viewValue={previewDepositData.data.sharesToReceive.tokenAmount.viewValue}
+        />
+      </DataRow>
+      <DataRow label="Min value to receive">
+        <DisplayTokenAmount
+          isLoading={previewDepositData.isLoading}
+          isFetched={previewDepositData.isFetched}
+          {...previewDepositData.data.sharesToReceive.dollarAmount}
+          symbolPosition="before"
+        />
+      </DataRow>
+      <DataRow label="Maximum transaction cost">
+        <DisplayTokenAmount
+          isLoading={previewDepositData.isLoading}
+          isFetched={previewDepositData.isFetched}
+          {...previewDepositData.data.cost.dollarAmount}
+          symbolPosition="before"
+        />
       </DataRow>
     </FlexCol>
   );

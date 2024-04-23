@@ -10,7 +10,7 @@ import { useFullTokenData } from "../../../state";
 import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
@@ -19,7 +19,7 @@ import { Tooltip } from "../../tooltip/Tooltip";
 export interface IRHFAmountInputProps<T> extends RHFInputFieldProps<T> {
   assetAddress: Address;
   walletBalance?: Displayable<ViewBigInt>;
-  protocolMaxValue?: Displayable<ViewBigInt>;
+  protocolMaxValue?: Displayable<ViewBigInt | undefined>;
   dollarValue?: Displayable<ViewBigInt>;
   assetButton?: React.ReactNode;
 }
@@ -38,15 +38,7 @@ export function RHFAmountInput<T>({
   const tokenDataResult = useFullTokenData(assetAddress);
   const { data: tokenData } = tokenDataResult;
 
-  const isUsingWalletMax = useMemo(() => {
-    if (walletBalance?.data.value === undefined) return false;
-    if (protocolMaxValue?.data.value === undefined) return true;
-
-    const result = Number(protocolMaxValue?.data.value) > Number(walletBalance?.data.value);
-    return result;
-  }, [protocolMaxValue?.data.bigIntValue, walletBalance?.data?.bigIntValue]);
-
-  const max = isUsingWalletMax ? walletBalance?.data.value : protocolMaxValue?.data.value;
+  const max = protocolMaxValue?.data?.value;
 
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
@@ -98,14 +90,24 @@ export function RHFAmountInput<T>({
             <div className="inline-flex items-center space-x-2">
               <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
               <Tooltip tooltip={tokenData?.symbol}>
-                <DisplayText className="max-w-32 text-start" typography="medium4" text={tokenData?.symbol} {...tokenDataResult} />
+                <DisplayText
+                  className="max-w-32 text-start"
+                  typography="medium4"
+                  text={tokenData?.symbol}
+                  {...tokenDataResult}
+                />
               </Tooltip>
             </div>
           )}
-          {(isConnected && assetAddress) && (
+          {isConnected && assetAddress && (
             <div className="inline-flex gap-2 items-center">
               <Tooltip tooltip={walletBalance?.data.symbol}>
-                <DisplayTokenAmount className="max-w-32" {...walletBalance} {...walletBalance?.data} typography="medium2" />
+                <DisplayTokenAmount
+                  className="max-w-32"
+                  {...walletBalance}
+                  {...walletBalance?.data}
+                  typography="medium2"
+                />
               </Tooltip>
               <button type="button" onClick={handleMaxClick}>
                 <Typography type="bold2">MAX</Typography>

@@ -36,6 +36,8 @@ export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt
 export const useFetchViewMaxUserDeposit = (strategy: Address): Displayable<ViewBigInt> => {
   const { isLoading, isFetched, data: maxUserDeposit } = useFetchMaxUserDeposit(strategy);
 
+  console.log("maxDeposit", maxUserDeposit);
+
   return {
     isLoading,
     isFetched,

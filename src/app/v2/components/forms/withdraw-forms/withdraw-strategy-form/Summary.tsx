@@ -8,25 +8,54 @@ import {
   Tooltip,
   Displayable,
   FlexRow,
+  DisplaySymbol,
+  useFullTokenData,
+  Icon,
 } from "@shared";
 import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
 import { DataRow } from "../../DataRow";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
 export const Summary: React.FC<{
   displayablePreviewData: Displayable<ViewPreviewWithdraw>;
-}> = ({ displayablePreviewData }) => {
+  strategy: StrategyConfig;
+}> = ({ displayablePreviewData, strategy }) => {
+  const { asset } = useFormSettingsContext();
+
+  const { data: tokenData, ...restTokenData } = useFullTokenData(asset);
+
+  const { data: strategyTokenData, ...restStrategyTokenData } = useFullTokenData(strategy.address);
+
   const { data: previewWithdrawData, ...rest } = displayablePreviewData;
 
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
+        <DataRow label="Starting asset">
+          <FlexRow className="gap-2 items-center">
+            <DisplaySymbol {...strategyTokenData} {...restStrategyTokenData} />
+          </FlexRow>
+        </DataRow>
+        <DataRow label="Ending asset">
+          <FlexRow className="gap-2 items-center">
+            <DisplaySymbol {...tokenData} {...restTokenData} />
+            <Icon
+              src={tokenData?.logo}
+              {...restTokenData}
+              disableMinHeight
+              alt={tokenData?.shortName || ""}
+              width={16}
+            />
+          </FlexRow>
+        </DataRow>
         <DataRow label="Min Assets to receive">
           <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
             <DisplayTokenAmount
               {...previewWithdrawData?.assetsToReceive.tokenAmount}
-              typography="medium2"
               {...rest}
+              typography="medium2"
               className="text-navy-1000"
             />
           </Tooltip>
