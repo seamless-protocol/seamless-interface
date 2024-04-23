@@ -6,6 +6,7 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
 import { useFetchViewMaxReserveWithdraw } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveWithdraw";
+import { walletBalanceDecimalsOptions } from "../../../../../../meta";
 
 type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
@@ -62,7 +63,7 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
   const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
   const asset = assetAddress || assetFromUrl;
 
-  const { data: maxWithdrawData, ...rest } = useFetchViewMaxReserveWithdraw(asset);
+  const { data: maxWithdrawData, ...rest } = useFetchViewMaxReserveWithdraw(asset, walletBalanceDecimalsOptions);
 
   // *** metadata *** //
   const {
@@ -99,6 +100,12 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
         data: dollarValueData,
       }}
       walletBalance={{
+        ...rest,
+        data: {
+          ...maxWithdrawData.tokenAmount,
+        },
+      }}
+      protocolMaxValue={{
         ...rest,
         data: {
           ...maxWithdrawData.tokenAmount,

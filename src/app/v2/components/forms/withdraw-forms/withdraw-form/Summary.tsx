@@ -6,6 +6,7 @@ import {
   Action,
   useFetchViewHealthFactorAfterAction,
 } from "../../../../../state/lending-borrowing/hooks/useFetchViewHealthFactorAfterAction";
+import { walletBalanceDecimalsOptions } from "../../../../../../meta";
 
 export const Summary: React.FC<{
   asset: Address;
@@ -14,7 +15,7 @@ export const Summary: React.FC<{
   const {
     data: { supplied },
     ...rest
-  } = useFetchViewDetailUserReserveData(asset);
+  } = useFetchViewDetailUserReserveData(asset, walletBalanceDecimalsOptions);
 
   const { data: userAccountData, ...userAccountDataRest } = useFetchViewUserAccountData();
 
