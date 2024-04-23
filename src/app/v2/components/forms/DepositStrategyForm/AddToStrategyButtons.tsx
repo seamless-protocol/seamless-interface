@@ -1,9 +1,4 @@
-import {
-  FlexCol,
-  AuthGuardv2,
-  Buttonv2,
-  useERC20Approve,
-} from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits, Address } from "viem";
@@ -17,7 +12,7 @@ export const AddToStrategyButtonsWrapper: React.FC<{
 
   if (!strategy) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    if (asset) console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
   }
 
@@ -27,9 +22,10 @@ export const AddToStrategyButtonsWrapper: React.FC<{
 export const AddToStrategyButtons: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
-  const { watch, formState: {
-    isSubmitting
-  } } = useFormContext();
+  const {
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext();
   const amount = watch(earnInputConfig.name);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(
@@ -39,9 +35,11 @@ export const AddToStrategyButtons: React.FC<{
   );
 
   if (!amount) {
-    return (<Buttonv2 className="text-bold3" disabled>
-      Enter amount
-    </Buttonv2>);
+    return (
+      <Buttonv2 className="text-bold3" disabled>
+        Enter amount
+      </Buttonv2>
+    );
   }
 
   return (
@@ -51,12 +49,7 @@ export const AddToStrategyButtons: React.FC<{
           Approve
         </Buttonv2>
       </AuthGuardv2>
-      <Buttonv2
-        className="text-bold3"
-        type="submit"
-        disabled={!isApproved || isSubmitting}
-        loading={isSubmitting}
-      >
+      <Buttonv2 className="text-bold3" type="submit" disabled={!isApproved || isSubmitting} loading={isSubmitting}>
         Submit
       </Buttonv2>
     </FlexCol>

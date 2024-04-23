@@ -16,21 +16,19 @@ import {
   WatchAssetComponentv2,
   MyFormProvider,
   FlexRow,
-  RHFInputSliderField,
-  Tooltip,
   useToken,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 
 export const StrategyForm = () => {
-  const { asset } = useFormSettingsContext();
+  const { asset, isStrategy } = useFormSettingsContext();
 
   const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    if (!asset && isStrategy) console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
   }
 
@@ -114,8 +112,10 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-4">
-          <Typography type="bold3">Multiplier</Typography>
-          <FlexCol>
+          <Typography type="bold3">
+            Multiplier <strong>3x</strong>
+          </Typography>
+          {/* <FlexCol>
             <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
             <FlexRow className="justify-between pl-1">
               <Typography type="medium3">3x</Typography>
@@ -126,7 +126,7 @@ const StrategyFormLocal: React.FC<{
                 <Typography type="medium3">10x</Typography>
               </Tooltip>
             </FlexRow>
-          </FlexCol>
+          </FlexCol> */}
         </FlexCol>
 
         <Summary asset={asset} />
