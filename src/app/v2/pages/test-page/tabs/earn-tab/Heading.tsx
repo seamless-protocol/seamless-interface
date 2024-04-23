@@ -1,8 +1,5 @@
-import { FlexCol, Typography, FlexRow, Modal, useFullTokenData, DisplayMoney } from "@shared";
+import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney } from "@shared";
 
-import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
-
-import diagramPng from "@assets/wsteth-diagram.svg";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { getTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
@@ -29,19 +26,6 @@ export const Heading = () => {
             <Typography type="bold5">{tokenData.name || "Choose your strategy to earn APY"}</Typography>
             <Typography type="regular1">{description}</Typography>
           </FlexCol>
-          <Modal
-            size="biger"
-            buttonProps={{
-              children: (
-                <FlexRow className="gap-2">
-                  <Typography type="medium3">Learn more</Typography>
-                  <ArrowRightCircleIcon width={22} />
-                </FlexRow>
-              ),
-            }}
-          >
-            <img src={diagramPng} alt="ilmDiagram" />
-          </Modal>
         </FlexCol>
       </div>
       {asset && (

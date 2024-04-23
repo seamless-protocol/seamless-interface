@@ -11,13 +11,17 @@ interface AssetApyProps extends DisplayPercentageProps {
 }
 
 interface StrategyApyProps extends DisplayPercentageProps {
-  asset: Address
+  asset: Address;
 }
 
 export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, ...rest }) => {
   const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
   // todo remove 0x1
-  const { isLoading, isFetched, data: apy } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : '0x1');
+  const {
+    isLoading,
+    isFetched,
+    data: apy,
+  } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : "0x1");
 
   return (
     <DisplayPercentage
@@ -31,7 +35,7 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, ...rest }) => {
 };
 
 interface LandingApyProps extends DisplayPercentageProps {
-  asset: Address
+  asset: Address;
 }
 
 export const LendingApy: React.FC<LandingApyProps> = ({ asset, ...rest }) => {

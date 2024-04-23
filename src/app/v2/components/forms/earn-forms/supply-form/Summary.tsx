@@ -1,6 +1,5 @@
-import { FlexCol, FlexRow, Icon, Typography, useFullTokenData } from "@shared";
+import { DisplayNumber, DisplaySymbol, FlexCol, FlexRow, Typography, useFullTokenData } from "@shared";
 
-import { TokenDescriptionDict } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 
 import { LendingApy } from "../../../AssetApy";
@@ -19,16 +18,15 @@ export const Summary = ({ amount }: { amount: string }) => {
 
   const { asset } = useFormSettingsContext();
 
-  const { data: tokenData } = useFullTokenData(asset);
   const {
     data: { aTokenAddress },
   } = useFetchReserveTokenAddresses(asset);
 
-  const { data: aTokenData } = useFullTokenData(aTokenAddress);
+  const aTokenData = useFullTokenData(aTokenAddress);
 
-  const { data: userAccountData } = useFetchViewUserAccountData();
+  const { data: userAccountData, ...UADRest } = useFetchViewUserAccountData();
 
-  const { data: healthFactorAfterSupply } = useFetchViewHealthFactorAfterAction({
+  const { data: healthFactorAfterSupply, ...HFASRest } = useFetchViewHealthFactorAfterAction({
     reserve: asset,
     amount,
     action: Action.Deposit,
@@ -45,20 +43,17 @@ export const Summary = ({ amount }: { amount: string }) => {
         <Typography type="bold2">Rewards APR</Typography>
         {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      <DataRow label="Action">{asset && "Deposit"}</DataRow>
-      <DataRow label="Strategy">{TokenDescriptionDict[asset]?.lendingTitle}</DataRow>
-      <DataRow label="Starting Asset">
-        {asset && (
-          <FlexRow className="gap-1 text-navy-1000">
-            {`${tokenData.symbol}`} <Icon width={18} src={tokenData.logo} alt={tokenData.logo || ""} />
-          </FlexRow>
-        )}
+      <DataRow label="Ending Asset">
+        <DisplaySymbol {...aTokenData} {...aTokenData.data} />
       </DataRow>
-      <DataRow label="Ending Asset">{aTokenData.symbol}</DataRow>
       {account.address && asset && (
         <>
-          <DataRow label="Health factor">{userAccountData?.healthFactor?.viewValue}</DataRow>
-          <DataRow label="Future health factor">{healthFactorAfterSupply?.viewValue}</DataRow>
+          <DataRow label="Health factor">
+            <DisplayNumber {...userAccountData?.healthFactor} {...UADRest} />
+          </DataRow>
+          <DataRow label="Future health factor">
+            <DisplayNumber {...healthFactorAfterSupply} {...HFASRest} />
+          </DataRow>
         </>
       )}
     </FlexCol>

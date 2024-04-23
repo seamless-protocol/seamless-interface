@@ -4,6 +4,7 @@ interface IconProps
   isLoading?: boolean;
   isFetched?: boolean;
   loaderSkeleton?: boolean;
+  disableMinHeight?: boolean;
 }
 
 /**
@@ -32,7 +33,15 @@ interface IconProps
  * @returns The `Icon` component.
  */
 
-export const Icon: React.FC<IconProps> = ({ src = "", alt, isLoading, isFetched, loaderSkeleton = true, ...rest }) => {
+export const Icon: React.FC<IconProps> = ({
+  src = "",
+  alt,
+  isLoading,
+  isFetched,
+  disableMinHeight,
+  loaderSkeleton = true,
+  ...rest
+}) => {
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     return (
       <span
@@ -42,8 +51,8 @@ export const Icon: React.FC<IconProps> = ({ src = "", alt, isLoading, isFetched,
         }}
         className={
           loaderSkeleton
-            ? "skeleton min-h-10 min-w-10 rounded-full"
-            : "loading loading-spinner w-32 h-32 flex self-center"
+            ? `skeleton ${disableMinHeight ? "" : "min-h-10 min-w-10"} rounded-full`
+            : `loading loading-spinner flex self-center ${disableMinHeight ? "" : "w-32 h-32"}`
         }
       />
     );

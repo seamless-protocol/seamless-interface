@@ -79,5 +79,3 @@ export const InputSliderField = React.forwardRef<HTMLInputElement, InputSliderFi
 );
 
 InputSliderField.displayName = "InputSliderField";
-
-InputSliderField.displayName = "InputSliderField";

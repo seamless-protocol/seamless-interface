@@ -7,7 +7,7 @@ type Tabs = "Earn" | "My Positions";
 
 export const TestPage = () => {
   return (
-    <PageContainer className="flex justify-center pb-72">
+    <PageContainer className="flex justify-center pb-20">
       <TabProvider<Tabs> defaultTab="Earn">
         {/* todo: responsive */}
         <FlexCol className="gap-1 w-full max-w-[1020px]">

@@ -1,9 +1,37 @@
 import { MyStrategiesDesktopTableRow } from "./MyStrategiesDesktopTableRow";
 import { useFetchUserStrategies } from "../../../../../state/lending-borrowing/hooks/useFetchUserStrategies";
-import { TableCell, TableRow, Typography } from "../../../../../../shared";
+import { Buttonv2, FlexRow, TableCell, TableRow, Typography } from "../../../../../../shared";
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export const MyPositionsTab: React.FC = () => {
-  const { data: strategies } = useFetchUserStrategies();
+  const { isConnected } = useAccount();
+  const { data: strategies, isFetched, isLoading } = useFetchUserStrategies();
+
+  if (!isConnected) {
+    return (
+      <FlexRow className="gap-4 items-center">
+        <Typography type="bold4">Please connect you wallet...</Typography>
+        <ConnectButton.Custom>
+          {({ openConnectModal }) => {
+            return (
+              <Buttonv2 onClick={openConnectModal} className="text-bold2">
+                Connect wallet
+              </Buttonv2>
+            );
+          }}
+        </ConnectButton.Custom>
+      </FlexRow>
+    );
+  }
+
+  if (!isFetched || isLoading) {
+    return <Typography type="body1">Loading. . .</Typography>;
+  }
+
+  if (!strategies || strategies?.length === 0) {
+    return <Typography type="bold4">You don&apos;t have any positions at the moment.</Typography>;
+  }
 
   return (
     <div>

@@ -1,12 +1,21 @@
-import React from 'react'
-import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, Displayable, FlexRow } from '@shared'
-import { ViewPreviewWithdraw } from '../../../../../state/loop-strategy/types/ViewPreviewWithdraw'
-import { DataRow } from '../../DataRow'
+import React from "react";
+import {
+  FlexCol,
+  Typography,
+  DisplayTokenAmount,
+  DisplayMoney,
+  StandardTooltip,
+  Tooltip,
+  Displayable,
+  FlexRow,
+} from "@shared";
+import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
+import { DataRow } from "../../DataRow";
 
 export const Summary: React.FC<{
-  displayablePreviewData: Displayable<ViewPreviewWithdraw>
+  displayablePreviewData: Displayable<ViewPreviewWithdraw>;
 }> = ({ displayablePreviewData }) => {
-  const { data: previewWithdrawData, isFetched, isLoading } = displayablePreviewData;
+  const { data: previewWithdrawData, ...rest } = displayablePreviewData;
 
   return (
     <FlexCol>
@@ -17,9 +26,8 @@ export const Summary: React.FC<{
             <DisplayTokenAmount
               {...previewWithdrawData?.assetsToReceive.tokenAmount}
               typography="medium2"
-              isLoading={isLoading}
-              isFetched={isFetched}
-              className='text-navy-1000'
+              {...rest}
+              className="text-navy-1000"
             />
           </Tooltip>
         </DataRow>
@@ -28,29 +36,30 @@ export const Summary: React.FC<{
             <DisplayMoney
               {...previewWithdrawData?.assetsToReceive.dollarAmount}
               typography="medium2"
-              isLoading={isLoading}
-              className='text-navy-1000'
+              {...rest}
+              className="text-navy-1000"
             />
           </Tooltip>
         </DataRow>
 
         <FlexRow className="justify-between text-navy-600">
-          <FlexRow className='gap-1 items-center'>
+          <FlexRow className="gap-1 items-center">
             <Typography type="bold2">Max Transaction cost</Typography>
             <StandardTooltip width={1}>
-              <Typography type="medium2" className='text-navy-1000'>
-                DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your withdrawal.
+              <Typography type="medium2" className="text-navy-1000">
+                DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your
+                withdrawal.
               </Typography>
             </StandardTooltip>
           </FlexRow>
           <DisplayMoney
             {...previewWithdrawData?.cost.dollarAmount}
             typography="medium2"
-            className='text-navy-1000'
-            isLoading={isLoading}
+            className="text-navy-1000"
+            {...rest}
           />
         </FlexRow>
       </FlexCol>
     </FlexCol>
-  )
-}
+  );
+};

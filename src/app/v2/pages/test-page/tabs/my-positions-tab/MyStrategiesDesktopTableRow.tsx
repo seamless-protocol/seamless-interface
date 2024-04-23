@@ -22,7 +22,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   } = useFullTokenData(asset);
 
   // TODO: Don't fetch this when row is for strategy, remove when infrastructure for enabling and disabling queries is ready
-  const { data: supplyIncentives } = useFetchViewSupplyIncentives(asset);
+  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (
     <div className="py-4 border-solid border-b border-b-navy-100">
@@ -48,8 +48,8 @@ export const MyStrategiesDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-2">
           <AssetApy asset={asset} isStrategy={isStrategy} typography="bold3" />
-          {!strategy && !!supplyIncentives.totalApr.viewValue && (
-            <IncentivesButton {...supplyIncentives}>
+          {!strategy && (
+            <IncentivesButton {...supplyIncentives} {...incentivesRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
           )}

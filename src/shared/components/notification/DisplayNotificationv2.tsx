@@ -41,7 +41,7 @@ export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalO
               </a>
             </FlexRow>
           )}
-          <Buttonv2 fullWidth onClick={() => setModalOpen(false)} className="text-bold3">
+          <Buttonv2 size="small" fullWidth onClick={() => setModalOpen(false)} className="text-bold3">
             Ok, Close
           </Buttonv2>
         </FlexCol>
