@@ -20,6 +20,7 @@ import {
   Typography,
 } from "@shared";
 import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
+import { IS_STYLE_VERSION_2 } from "../../../../globals";
 
 const navigation = [
   {
@@ -179,7 +180,7 @@ export function NavigationBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className=" border-b border-slate-600 text-white">
+    <nav className={`border-b border-slate-600 ${IS_STYLE_VERSION_2 ? "text-black text-bold2" : "text-white"}`}>
       <NavBar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
 
       <MobileMenuContent isMenuOpen={isMobileMenuOpen} />
