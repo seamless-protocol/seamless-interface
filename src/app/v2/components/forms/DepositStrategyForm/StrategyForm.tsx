@@ -1,5 +1,16 @@
 import { useForm } from "react-hook-form";
-import { useFullTokenData, MyFormProvider, FlexCol, Typography, RHFInputSliderField, FlexRow, Tooltip, WatchAssetComponentv2, useNotificationContext, useToken } from "../../../../../shared";
+import {
+  useFullTokenData,
+  MyFormProvider,
+  FlexCol,
+  Typography,
+  RHFInputSliderField,
+  FlexRow,
+  Tooltip,
+  WatchAssetComponentv2,
+  useNotificationContext,
+  useToken,
+} from "../../../../../shared";
 import { useAssetPickerState } from "../../../hooks/useAssetPickerState";
 import { assetSlugConfig, earnInputConfig } from "../../../pages/test-page/tabs/earn-tab/config/SlugConfig";
 import { AddToStrategyButtonsWrapper } from "./AddToStrategyButtons";
@@ -15,12 +26,12 @@ import { StrategyConfig, findILMStrategyByAddress } from "../../../../state/loop
 import { Tag } from "../../../pages/test-page/tabs/earn-tab/Tag";
 
 export const StrategyForm = () => {
-  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    if (!asset && isStrategy) console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
   }
 
@@ -28,7 +39,7 @@ export const StrategyForm = () => {
 };
 
 const StrategyFormLocal: React.FC<{
-  strategy: StrategyConfig
+  strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
@@ -52,14 +63,14 @@ const StrategyFormLocal: React.FC<{
     args: [strategy?.underlyingAsset.address || ""],
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const { data: previewDepositData } = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+  const previewDepositData = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
-    if (previewDepositData) {
+    if (previewDepositData?.data) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive.tokenAmount.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {

@@ -14,7 +14,7 @@ export const StrategySummary: React.FC<{
 
   if (!strategy) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    if (asset) console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
   }
 

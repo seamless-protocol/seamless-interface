@@ -5,9 +5,25 @@ interface IncentivesButtonProps {
   totalApr?: ViewNumber;
   rewardTokens?: ViewRewardToken[];
   children: React.ReactNode;
+  isLoading?: boolean;
+  isFetched?: boolean;
 }
 
-export const IncentivesButton: React.FC<IncentivesButtonProps> = ({ totalApr, rewardTokens, children }) => {
+export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
+  totalApr,
+  rewardTokens,
+  children,
+  isLoading,
+  isFetched,
+}) => {
+  if (isLoading || !isFetched) {
+    return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
+  }
+
+  if (!totalApr?.viewValue) {
+    return null;
+  }
+
   return (
     <Tooltip tooltip={children}>
       <FlexRow className="items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px]">

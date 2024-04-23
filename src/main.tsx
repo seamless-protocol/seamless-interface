@@ -17,6 +17,8 @@ import * as Sentry from "@sentry/react";
 import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper, NotificationProvider } from "@shared";
 import { App as AppV1 } from "./app/v1/App";
 import { App as AppV2 } from "./app/v2/App";
+import { IS_STYLE_VERSION_2 } from "./globals";
+import { myRainbowkitThemeConfigV2 } from "./app/v2/config/rainbow-modal.config";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <WagmiProvider config={rainbowConfig}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={myRainbowkitThemeConfig}>
+          <RainbowKitProvider theme={IS_STYLE_VERSION_2 ? myRainbowkitThemeConfigV2 : myRainbowkitThemeConfig}>
             <NotificationProvider>
               <LifiWidgetProvider>
                 {import.meta.env.VITE_STYLE_VERSION === "v2" ? <AppV2 /> : <AppV1 />}

@@ -113,6 +113,8 @@ export * from "./components/display/DisplayValue";
 export * from "./components/display/DisplayPercentage";
 export * from "./components/display/DisplayTokenAmount";
 export * from "./components/display/DisplayText";
+export * from "./components/display/DisplayNumber";
+export * from "./components/display/DisplaySymbol";
 
 // ***** //
 // Modals //

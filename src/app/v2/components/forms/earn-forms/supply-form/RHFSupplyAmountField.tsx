@@ -7,7 +7,6 @@ import { useFetchViewAssetBalance } from "../../../../../state/common/queries/us
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
-import { useViewDetailRemainingCap } from "../../../../../state/lending-borrowing/hooks/useFetchDetailRemainingCap";
 
 type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
@@ -73,9 +72,6 @@ export function RHFSupplyAmountField<T>({ overrideUrlSlug, assetAddress, ...othe
   const { watch } = useFormContext();
   const value = watch(other.name);
 
-  // *** max *** //
-  const { data: remainingCapData, ...remainingCapRest } = useViewDetailRemainingCap(asset);
-
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
 
@@ -107,13 +103,6 @@ export function RHFSupplyAmountField<T>({ overrideUrlSlug, assetAddress, ...othe
           ...viewBalance.balance,
         },
       }}
-      protocolMaxValue={{
-        ...remainingCapRest,
-        data: {
-          ...remainingCapData.tokenAmount
-        },
-      }}
-
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
     />
   );

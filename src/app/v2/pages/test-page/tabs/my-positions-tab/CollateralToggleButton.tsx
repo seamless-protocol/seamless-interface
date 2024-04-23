@@ -8,7 +8,9 @@ const CollateralToggleButtonStrategy = () => {
 const CollateralToggleButtonReserve: React.FC<{ reserve: Address }> = ({ reserve }) => {
   const { data } = useFetchViewUserReserveData(reserve);
 
-  return <input type="checkbox" checked={data?.usageAsCollateralEnabled} className="toggle" onChange={() => {}} />;
+  return (
+    <input type="checkbox" checked={data?.usageAsCollateralEnabled || false} className="toggle" onChange={() => {}} />
+  );
 };
 
 export const CollateralToggleButton: React.FC<{ reserve: Address; isStrategy: boolean }> = ({

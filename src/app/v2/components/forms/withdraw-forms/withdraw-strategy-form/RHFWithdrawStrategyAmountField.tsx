@@ -103,7 +103,12 @@ export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddres
           ...viewBalance.balance,
         },
       }}
-
+      protocolMaxValue={{
+        ...otherViewBalance,
+        data: {
+          ...viewBalance.balance,
+        },
+      }}
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
     />
   );

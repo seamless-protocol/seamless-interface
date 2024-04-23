@@ -28,13 +28,13 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
 
 export const WithdrawStrategyForm = () => {
-  const { asset } = useFormSettingsContext();
+  const { asset, isStrategy } = useFormSettingsContext();
 
   const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    if (!asset && isStrategy) console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
   }
 
@@ -144,6 +144,7 @@ const WithdrawStrategyLocal: React.FC<{
             isFetched,
             isLoading,
           }}
+          strategy={strategy}
         />
 
         <FormButtons />

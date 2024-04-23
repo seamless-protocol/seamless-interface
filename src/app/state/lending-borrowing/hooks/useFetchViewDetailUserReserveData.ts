@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
+import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable } from "../../../../shared";
 import { ViewDetailUserReserveData } from "../types/ViewDetailUserReserveData";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
@@ -53,7 +53,10 @@ export const useFetchDetailUserReserveData = (reserve: Address): FetchData<Detai
   };
 };
 
-export const useFetchViewDetailUserReserveData = (reserve: Address): Displayable<ViewDetailUserReserveData> => {
+export const useFetchViewDetailUserReserveData = (
+  reserve: Address,
+  decimalsOptions?: Partial<DecimalsOptions>
+): Displayable<ViewDetailUserReserveData> => {
   const {
     isLoading,
     isFetched,
@@ -71,12 +74,12 @@ export const useFetchViewDetailUserReserveData = (reserve: Address): Displayable
     isFetched,
     data: {
       supplied: {
-        tokenAmount: formatFetchBigIntToViewBigInt(aTokenBalance),
-        dollarAmount: formatFetchBigIntToViewBigInt(aTokenBalanceUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(aTokenBalance, decimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(aTokenBalanceUsd, decimalsOptions),
       },
       borrowed: {
-        tokenAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),
-        dollarAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalanceUsd),
+        tokenAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalance, decimalsOptions),
+        dollarAmount: formatFetchBigIntToViewBigInt(variableDebtTokenBalanceUsd, decimalsOptions),
       },
       usageAsCollateralEnabled,
     },

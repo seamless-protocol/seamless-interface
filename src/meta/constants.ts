@@ -9,6 +9,10 @@ export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
   doubleDigitNumberDecimals: 4,
 };
 
+export const walletBalanceDecimalsOptionsTemp: Partial<DecimalsOptions> = {
+  singleDigitNumberDecimals: 3,
+};
+
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
 export const COMPOUNDING_PERIODS_APY = 1;
 

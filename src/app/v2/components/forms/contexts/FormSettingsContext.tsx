@@ -9,6 +9,7 @@ export interface FormSettingsContextType {
   setAsset: (asset: Address) => void;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
+  isStrategy?: boolean;
 }
 
 export const FormSettingsContext = createContext<FormSettingsContextType | undefined>(undefined);
@@ -20,6 +21,7 @@ interface FormSettingsProviderProps {
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
+  isStrategy?: boolean;
 }
 
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
@@ -28,26 +30,31 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   onTransaction,
   hideTag,
   overrideUrlSlug,
-  disableAssetPicker
+  disableAssetPicker,
 }) => {
-  const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug })
+  const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
   const [asset, setAsset] = useState(defaultAsset);
+  const [isStrategy, setIsStrategy] = useState(false);
 
   useEffect(() => {
     if (overrideUrlSlug) {
       setAsset(assetFromUrl);
+      setIsStrategy(isStrategyUrl || false);
     }
-  }, [assetFromUrl])
+  }, [assetFromUrl]);
 
   return (
-    <FormSettingsContext.Provider value={{
-      asset,
-      setAsset,
-      onTransaction,
-      hideTag,
-      overrideUrlSlug,
-      disableAssetPicker
-    }}>
+    <FormSettingsContext.Provider
+      value={{
+        asset,
+        setAsset,
+        onTransaction,
+        hideTag,
+        overrideUrlSlug,
+        disableAssetPicker,
+        isStrategy,
+      }}
+    >
       {children}
     </FormSettingsContext.Provider>
   );

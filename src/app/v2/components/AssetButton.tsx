@@ -18,7 +18,11 @@ export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
       ref={modalRef}
       buttonProps={{
         children: (
-          <div className="flex justify-between min-w-28 min-h-7 space-x-2 border rounded-lg p-1 hover:bg-neutral-50">
+          <div
+            className="flex justify-between min-w-28 
+          min-h-7 space-x-2 pl-2
+          border rounded-lg p-1 hover:bg-neutral-50"
+          >
             {tokenData?.logo && <Icon width={18} src={tokenData?.logo} alt="input-field-asset" />}
             <Typography type="bold3">{tokenData?.symbol || "Choose asset"}</Typography>
             <ChevronDownIcon width={12} />
@@ -26,7 +30,7 @@ export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
         ),
       }}
     >
-      <div className="mx-[-24px] mt-[-80px]">
+      <div className="mx-[-24px] mt-[-80px] mb-[-40px]">
         <AssetPicker overrideUrlSlug={overrideUrlSlug} />
       </div>
     </Modal>

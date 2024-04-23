@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { Displayable, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { DecimalsOptions, Displayable, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFetchViewAssetTotalSupply } from "../../common/queries/useFetchViewAssetTotalSupply";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ViewDetailUserEquity } from "../types/ViewDetailUserEquity";
@@ -78,7 +78,10 @@ export const useFetchDetailUserEquity = (strategy: Address): FetchData<DetailUse
   };
 };
 
-export const useFetchViewDetailUserEquity = (strategy: Address): Displayable<ViewDetailUserEquity> => {
+export const useFetchViewDetailUserEquity = (
+  strategy: Address,
+  decimalsOptions?: Partial<DecimalsOptions>
+): Displayable<ViewDetailUserEquity> => {
   const {
     isLoading,
     isFetched,
@@ -89,8 +92,8 @@ export const useFetchViewDetailUserEquity = (strategy: Address): Displayable<Vie
     isLoading,
     isFetched,
     data: {
-      tokenAmount: userEquity ? formatFetchBigIntToViewBigInt(userEquity) : undefined,
-      dollarAmount: userEquityUsd ? formatFetchBigIntToViewBigInt(userEquityUsd) : undefined,
+      tokenAmount: userEquity ? formatFetchBigIntToViewBigInt(userEquity, decimalsOptions) : undefined,
+      dollarAmount: userEquityUsd ? formatFetchBigIntToViewBigInt(userEquityUsd, decimalsOptions) : undefined,
     },
   };
 };

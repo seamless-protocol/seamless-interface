@@ -95,7 +95,6 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
   // *** JSX *** //
   return (
     <RHFAmountInput
-      {...other}
       assetAddress={asset}
       dollarValue={{
         ...otherPrice,
@@ -110,11 +109,11 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
       protocolMaxValue={{
         ...remainingCapRest,
         data: {
-          ...remainingCapData.tokenAmount
+          ...remainingCapData.tokenAmount,
         },
       }}
-
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
+      {...other}
     />
   );
 }
