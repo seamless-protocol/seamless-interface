@@ -16,8 +16,12 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   isLoading,
   isFetched,
 }) => {
-  if (isLoading || !isFetched || !totalApr?.viewValue) {
-    return <span className="skeleton flex w-20 h-6" />;
+  if (isLoading || !isFetched) {
+    return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
+  }
+
+  if (!totalApr?.viewValue) {
+    return null;
   }
 
   return (

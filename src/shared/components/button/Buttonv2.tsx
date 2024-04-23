@@ -18,9 +18,9 @@ export const Buttonv2: React.FC<ButtonProps2> = ({
   ...props
 }) => {
   const sizeClasses = {
-    small: "py-1 md:py-2 lg:py-2 px-2",
-    normal: "py-3 md:py-4 lg:py-5 px-3",
-    big: "py-5 md:py-6 lg:py-7 px-4",
+    small: "py-1 md:py-2 lg:py-2 px-3",
+    normal: "py-3 md:py-4 lg:py-5 px-6",
+    big: "py-5 md:py-6 lg:py-7 px-8",
   };
 
   const variantClasses = {
