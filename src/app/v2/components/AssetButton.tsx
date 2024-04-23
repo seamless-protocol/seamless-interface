@@ -30,7 +30,7 @@ export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
         ),
       }}
     >
-      <div className="mx-[-24px] mt-[-80px]">
+      <div className="mx-[-24px] mt-[-80px] mb-[-40px]">
         <AssetPicker overrideUrlSlug={overrideUrlSlug} />
       </div>
     </Modal>
