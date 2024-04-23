@@ -3,19 +3,20 @@ import { useFetchViewDetailUserReserveData } from "../../../../../state/lending-
 import { DisplayTokenAmount, Tooltip } from "@shared";
 import { useFetchViewDetailUserEquity } from "../../../../../state/loop-strategy/hooks/useFetchViewDetailUserEquity";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
+import { walletBalanceDecimalsOptionsTemp } from "../../../../../../meta";
 
 const CurrentBalanceStrategy: React.FC<{ asset: Address }> = ({ asset }) => {
   const {
     data: { tokenAmount },
     isLoading: isEquityDataLoading,
     isFetched: isEquityDataFetched,
-  } = useFetchViewDetailUserEquity(asset);
+  } = useFetchViewDetailUserEquity(asset, walletBalanceDecimalsOptionsTemp);
 
   const {
     data: { balance },
     isFetched: isStrategyBalanceFetched,
     isLoading: isStrategyBalanceLoading,
-  } = useFetchViewAssetBalance(asset);
+  } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptionsTemp);
 
   return (
     <>
@@ -43,7 +44,7 @@ const CurrentBalanceLending: React.FC<{ asset: Address }> = ({ asset }) => {
     data: { supplied },
     isLoading: isUserReservesDataLoading,
     isFetched: isUserReservesDataFetched,
-  } = useFetchViewDetailUserReserveData(asset);
+  } = useFetchViewDetailUserReserveData(asset, walletBalanceDecimalsOptionsTemp);
 
   return (
     <DisplayTokenAmount
