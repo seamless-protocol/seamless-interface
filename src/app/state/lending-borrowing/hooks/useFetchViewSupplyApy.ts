@@ -23,7 +23,7 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
     isFetched,
     data: {
       value: supplyApy,
-      symbol: supplyApy ? "%" : "",
+      symbol: supplyApy !== undefined ? "%" : "",
     },
   };
 };

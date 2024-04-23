@@ -23,7 +23,7 @@ export const useFetchBorrowApy = (asset: Address): FetchData<FetchNumber> => {
     isFetched,
     data: {
       value: borrowApy,
-      symbol: borrowApy ? "%" : "",
+      symbol: borrowApy !== undefined ? "%" : "",
     },
   };
 };
