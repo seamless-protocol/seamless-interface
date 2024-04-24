@@ -44,7 +44,8 @@ export const Tooltip: React.FC<{
   openOnClick?: boolean;
   theme?: TooltipTheme;
   size?: TooltipSize;
-}> = ({ children, tooltip, openOnClick, place = "top", theme = "light", size = "normal" }) => {
+  hidden?: boolean;
+}> = ({ children, tooltip, openOnClick, place = "top", theme = "light", size = "normal", hidden = false }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
 
@@ -71,7 +72,9 @@ export const Tooltip: React.FC<{
     },
   };
 
-  return (
+  return hidden ? (
+    <>{children}</>
+  ) : (
     <span
       data-tooltip-id={tooltipId}
       onMouseEnter={() => {
