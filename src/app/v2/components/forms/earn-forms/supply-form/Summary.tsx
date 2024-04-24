@@ -1,6 +1,4 @@
-import { DisplayNumber, DisplaySymbol, FlexCol, FlexRow, Typography, useFullTokenData } from "@shared";
-
-import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
+import { DisplayNumber, FlexCol, FlexRow, Typography } from "@shared";
 
 import { LendingApy } from "../../../AssetApy";
 import { AssetApr } from "../../../AssetApr";
@@ -17,12 +15,6 @@ export const Summary = ({ amount }: { amount: string }) => {
   const account = useAccount();
 
   const { asset } = useFormSettingsContext();
-
-  const {
-    data: { aTokenAddress },
-  } = useFetchReserveTokenAddresses(asset);
-
-  const aTokenData = useFullTokenData(aTokenAddress);
 
   const { data: userAccountData, ...UADRest } = useFetchViewUserAccountData();
 
@@ -43,9 +35,6 @@ export const Summary = ({ amount }: { amount: string }) => {
         <Typography type="bold2">Rewards APR</Typography>
         {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      <DataRow label="Ending Asset">
-        <DisplaySymbol {...aTokenData} {...aTokenData.data} />
-      </DataRow>
       {account.address && asset && (
         <>
           <DataRow label="Health factor">

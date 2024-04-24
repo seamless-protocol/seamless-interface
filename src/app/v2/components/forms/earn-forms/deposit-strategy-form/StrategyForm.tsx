@@ -116,9 +116,10 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-4">
-          <Typography type="bold3">
-            Multiplier <strong>3x</strong>
-          </Typography>
+          <FlexRow className="justify-between pr-2">
+            <Typography type="bold3">Target Multiple</Typography>
+            <Typography type="bold3">3x</Typography>
+          </FlexRow>
           {/* <FlexCol>
             <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
             <FlexRow className="justify-between pl-1">

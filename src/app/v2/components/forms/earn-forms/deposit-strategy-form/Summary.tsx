@@ -33,11 +33,10 @@ export const Summary: React.FC<{
 const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
   previewDepositData: Displayable<ViewPreviewDeposit>;
-}> = ({ strategy, previewDepositData }) => {
+}> = ({ previewDepositData }) => {
   const { asset } = useFormSettingsContext();
 
   const { data: tokenData, ...restTokenData } = useFullTokenData(asset);
-  const { data: strategyTokenData, ...strategyRest } = useFullTokenData(strategy.address);
 
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
@@ -52,9 +51,6 @@ const SummaryLocal: React.FC<{
           <DisplaySymbol {...tokenData} {...restTokenData} />
           <Icon src={tokenData?.logo} {...restTokenData} disableMinHeight alt={tokenData?.shortName || ""} width={16} />
         </FlexRow>
-      </DataRow>
-      <DataRow label="Ending Asset">
-        <DisplaySymbol {...strategyTokenData} {...strategyRest} />
       </DataRow>
       <DataRow label="Min shares to receive">
         <DisplayTokenAmount
