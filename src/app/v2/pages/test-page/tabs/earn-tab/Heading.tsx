@@ -49,9 +49,9 @@ export const Heading = () => {
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Est. APY</Typography>
               <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" />
-              <IncentivesButton {...supplyIncentives} {...incentivesRest}>
+              {!isStrategy && <IncentivesButton {...supplyIncentives} {...incentivesRest}>
                 <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
-              </IncentivesButton>
+              </IncentivesButton>}
             </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Oracle price</Typography>
