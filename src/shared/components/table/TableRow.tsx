@@ -1,3 +1,5 @@
+import { IS_STYLE_VERSION_2 } from "../../../globals";
+
 /**
  * `TableRow` Component
  *
@@ -44,7 +46,7 @@ export const TableRow: React.FC<{
 }> = ({ children, className, hideBorder, rest }) => {
   return (
     <div
-      className={` px-6 items-center h-[76px] cursor-pointer hover:bg-action-hover 
+      className={` px-6 items-center h-[76px] cursor-pointer ${IS_STYLE_VERSION_2 ? "" : "hover:bg-action-hover"} 
       ${hideBorder ? "" : "border-solid border-b border-b-divider"} 
       ${className || ""}`}
       {...rest}

@@ -42,8 +42,32 @@ export default {
         "180": "180deg",
       },
       colors: {
+        // #DECFFC : the color for the selected box on the left side rolodex + the color for the summary section on the right side
+        // #FCF8CF : the background for the label for LEND
+        // #CFFCF5 : the background for the label for ILM
+        // #E4F7E6 : the color for the background of the token rewards APY %
+        smallElements: {
+          lend: "#FCF8CF",
+          ilm: "#CFFCF5",
+          rewardAPY: "#E4F7E6"
+        },
+
         background: {
           default: "#F3F7FB",
+          selected: "#DECFFC",
+
+          default1: "#F8F0E5",
+          paper: "#FFF",
+          surface: "#77037B",
+          surface2: "#3AB0FF",
+          surfaceLight: "#B06FB3",
+          subscribe: "#fbbf24",
+          base: "#0455ff",
+          lifi: "#F5B5FF",
+          header: "#0C356A",
+          hover: "#234B80",
+          footer: "#0C356A",
+          disabled: "#EAEBEF",
         },
         neutral: {
           1000: "#000",
@@ -51,7 +75,17 @@ export default {
           0: "#FFF",
         },
         text: {
-          footer: "#FAFAFA"
+          footer: "#FAFAFA",
+
+          primary: "#FFF",
+          secondary: "#000",
+          disabled: "#D2D4DC",
+          muted: "#000",
+          highlight: "#383D51",
+          links: "#FFF",
+          hover: "#FFF",
+          light: "#A5A8B6",
+          dark: "#62677B",
         },
         navy: {
           1000: "#0B254F",
@@ -71,6 +105,67 @@ export default {
           end: "#5CBDE6",
         },
         metallicBorder: "#0C2752",
+
+        // v1
+
+        primary: {
+          main: "#383D51",
+          light: "#62677B",
+          dark: "#292E41",
+          contrast: "#FFFFFF",
+        },
+        secondary: {
+          main: "#FF607B",
+          light: "#F6A5C0",
+          dark: "#AA647B",
+        },
+        error: {
+          main: "#BC0000B8",
+          light: "#D26666",
+          dark: "#BC0000",
+          100: "#4F1919",
+          200: "#F9EBEB",
+        },
+        warning: {
+          main: "#F89F1A",
+          light: "#FFCE00",
+          dark: "#C67F15",
+          100: "#63400A",
+          200: "#FEF5E8",
+        },
+        info: {
+          main: "#0062D2",
+          light: "#4FC3F7",
+          dark: "#0288D1",
+          100: "#002754",
+          200: "#E5EFFB",
+        },
+        success: {
+          main: "#4CAF50",
+          light: "#90FF95",
+          dark: "#388E3C",
+          100: "#1C4B1E",
+          200: "#ECF8ED",
+        },
+
+        gradients: {
+          seamless: "linear-gradient(248.86deg, #CDF3A2 5%, #21E1E1 15%, #D69BDF 40%, #506FF3 91%)",
+          seamlessFooter: "linear-gradient(248.86deg, #506FF3 1%, #CDF3A2 15%, #21E1E1 30%, #D69BDF 50%, #506FF3 81%)",
+        },
+        divider: "#EAEBEF",
+        action: {
+          active: "#8E92A3",
+          hover: "#3AB0FF",
+          selected: "#EAEBEF",
+          disabled: "#BBBECA",
+          disabledBackground: "#EAEBEF",
+          focus: "#F1F1F3",
+        },
+        other: {
+          standardInputLine: "#383D511F",
+          borderButton: "#EBEBED1F",
+        },
+
       },
       backgroundImage: () => ({
         metalic: "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
