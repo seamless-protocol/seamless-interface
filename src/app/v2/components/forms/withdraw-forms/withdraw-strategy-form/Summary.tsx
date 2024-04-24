@@ -10,21 +10,15 @@ import {
   FlexRow,
   DisplaySymbol,
   useFullTokenData,
-  Icon,
 } from "@shared";
 import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
 import { DataRow } from "../../DataRow";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
 export const Summary: React.FC<{
   displayablePreviewData: Displayable<ViewPreviewWithdraw>;
   strategy: StrategyConfig;
 }> = ({ displayablePreviewData, strategy }) => {
-  const { asset } = useFormSettingsContext();
-
-  const { data: tokenData, ...restTokenData } = useFullTokenData(asset);
-
   const { data: strategyTokenData, ...restStrategyTokenData } = useFullTokenData(strategy.address);
 
   const { data: previewWithdrawData, ...rest } = displayablePreviewData;
@@ -36,18 +30,6 @@ export const Summary: React.FC<{
         <DataRow label="Starting asset">
           <FlexRow className="gap-2 items-center">
             <DisplaySymbol {...strategyTokenData} {...restStrategyTokenData} />
-          </FlexRow>
-        </DataRow>
-        <DataRow label="Ending asset">
-          <FlexRow className="gap-2 items-center">
-            <DisplaySymbol {...tokenData} {...restTokenData} />
-            <Icon
-              src={tokenData?.logo}
-              {...restTokenData}
-              disableMinHeight
-              alt={tokenData?.shortName || ""}
-              width={16}
-            />
           </FlexRow>
         </DataRow>
         <DataRow label="Min Assets to receive">

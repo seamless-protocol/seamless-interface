@@ -39,6 +39,7 @@ export function RHFAmountInput<T>({
   const { data: tokenData } = tokenDataResult;
 
   const max = protocolMaxValue?.data?.value;
+  const hideTooltip = tokenData?.symbol?.length ? tokenData.symbol.length < 10 : false;
 
   const handleMaxClick = () => {
     if (!tokenData?.decimals) {
@@ -89,7 +90,7 @@ export function RHFAmountInput<T>({
           {assetButton || (
             <div className="inline-flex items-center space-x-2">
               <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
-              <Tooltip tooltip={tokenData?.symbol}>
+              <Tooltip tooltip={tokenData?.symbol} hidden={hideTooltip} size="small">
                 <DisplayText
                   className="max-w-32 text-start"
                   typography="medium4"
@@ -101,7 +102,7 @@ export function RHFAmountInput<T>({
           )}
           {isConnected && assetAddress && (
             <div className="inline-flex gap-2 items-center">
-              <Tooltip tooltip={walletBalance?.data.symbol}>
+              <Tooltip tooltip={walletBalance?.data.symbol} hidden={hideTooltip} size="small">
                 <DisplayTokenAmount
                   className="max-w-32"
                   {...walletBalance}
