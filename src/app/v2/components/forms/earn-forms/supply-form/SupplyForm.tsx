@@ -96,8 +96,8 @@ export const SupplyForm = () => {
           />
         </FlexCol>
 
-        <Summary amount={amount} />
-        <FormButtons />
+        {asset && <Summary amount={amount} />}
+        {asset && <FormButtons />}
       </FlexCol>
     </MyFormProvider>
   );
