@@ -18,6 +18,9 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 import { useFetchViewMaxUserReserveDeposit } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveDeposit";
+import { IncentivesButton } from "../../../IncentivesButton";
+import { IncentivesDetailCard } from "../../../IncentivesDetailCard";
+import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -26,6 +29,8 @@ export const SupplyForm = () => {
 
   const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
   const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
+
+  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   const methods = useForm({
     defaultValues: {
@@ -86,7 +91,11 @@ export const SupplyForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && !hideTag && <Tag tag="LEND" />}
+            {asset != null && !hideTag && <FlexRow className="gap-1 items-center">
+              <IncentivesButton {...supplyIncentives} {...incentivesRest}>
+                <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
+              </IncentivesButton>
+              <Tag tag="LEND" /></FlexRow>}
           </FlexRow>
           <RHFSupplyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}

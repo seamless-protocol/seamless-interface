@@ -18,6 +18,7 @@ export const Heading = () => {
     isFetched: isOraclePriceFetched,
   } = useFetchViewAssetPrice({ asset });
 
+
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-5">
@@ -38,6 +39,7 @@ export const Heading = () => {
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">APY, up to</Typography>
               <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" />
+
             </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Oracle price</Typography>
