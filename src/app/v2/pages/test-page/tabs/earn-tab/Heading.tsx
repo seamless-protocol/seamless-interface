@@ -27,7 +27,7 @@ export const Heading = () => {
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-5">
         <FlexCol className="gap-3">
-          <FlexCol className="gap-2 min-h-20">
+          <FlexCol className="gap-2 min-h-24">
             <Typography type="bold5">{tokenData.name || "Choose your strategy to earn APY"}</Typography>
             <Typography type="regular1">{description}</Typography>
           </FlexCol>
@@ -36,17 +36,16 @@ export const Heading = () => {
       {asset && (
         <div className="col-span-7">
           <FlexRow className="gap-24 justify-center w-full mt-2">
-            <FlexCol className="gap-1 text-left">
-              <Typography type="regular3">APY, up to</Typography>
-              <FlexRow className="gap-1 items-center">
-                <AssetApy asset={asset} isStrategy={isStrategy} typography="bold2" />
-                <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-                  <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
-                </IncentivesButton></FlexRow>
-            </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
+            </FlexCol>
+            <FlexCol className="gap-1 text-center">
+              <Typography type="regular3">Est. APY</Typography>
+              <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" />
+              <IncentivesButton {...supplyIncentives} {...incentivesRest}>
+                <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
+              </IncentivesButton>
             </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Oracle price</Typography>
