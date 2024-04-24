@@ -25,7 +25,7 @@ export const Summary: React.FC<{
 
   return (
     <FlexCol>
-      <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+      <FlexCol className="rounded-card bg-background-selected p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
         <DataRow label="Starting asset">
           <FlexRow className="gap-2 items-center">
