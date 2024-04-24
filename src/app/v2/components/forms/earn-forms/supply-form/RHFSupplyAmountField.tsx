@@ -8,7 +8,8 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
 
-type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+  name: keyof T;
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };
