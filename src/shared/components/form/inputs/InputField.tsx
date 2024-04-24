@@ -36,7 +36,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
       customInput={CustomInput}
       onChange={handleChange}
       isAllowed={withValueCap}
-      {...ref}
+      getInputRef={ref}
       {...props}
     />
   );
