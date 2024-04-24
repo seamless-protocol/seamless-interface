@@ -72,9 +72,6 @@ export const Tooltip: React.FC<{
     },
   };
 
-  {
-  }
-
   return hidden ? (
     <>{children}</>
   ) : (
