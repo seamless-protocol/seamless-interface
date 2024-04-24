@@ -34,7 +34,7 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyTitle: "Multiply wstETH",
     secondaryStrategyTitle: "Boost wstETH staking rewards",
     description:
-      "Wrapped liquid staked ETH (wstETH) is a tokenized version of staked ETH in Lido, combining the value of initial deposit plus staking rewards.",
+      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple",
   },
   [CBETH_ADDRESS]: {
     lendingTitle: "Supply cbETH",
