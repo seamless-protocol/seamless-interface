@@ -6,6 +6,9 @@ import { getTokenDescription } from "../../../../../../shared/state/meta-data-qu
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
+import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
+import { IncentivesButton } from "../../../../components/IncentivesButton";
+import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -18,6 +21,7 @@ export const Heading = () => {
     isFetched: isOraclePriceFetched,
   } = useFetchViewAssetPrice({ asset });
 
+  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (
     <div className="grid grid-cols-12 gap-6">
@@ -32,14 +36,17 @@ export const Heading = () => {
       {asset && (
         <div className="col-span-7">
           <FlexRow className="gap-24 justify-center w-full mt-2">
+            <FlexCol className="gap-1 text-left">
+              <Typography type="regular3">APY, up to</Typography>
+              <FlexRow className="gap-1 items-center">
+                <AssetApy asset={asset} isStrategy={isStrategy} typography="bold2" />
+                <IncentivesButton {...supplyIncentives} {...incentivesRest}>
+                  <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
+                </IncentivesButton></FlexRow>
+            </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
-            </FlexCol>
-            <FlexCol className="gap-1 text-center">
-              <Typography type="regular3">APY, up to</Typography>
-              <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" />
-
             </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Oracle price</Typography>
