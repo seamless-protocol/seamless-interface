@@ -117,7 +117,7 @@ const StrategyFormLocal: React.FC<{
 
         <FlexCol className="gap-4">
           <FlexRow className="justify-between pr-2">
-            <Typography type="bold3">Target multiple</Typography>
+            <Typography type="bold3">Target Multiple</Typography>
             <Typography type="bold3">3x</Typography>
           </FlexRow>
           {/* <FlexCol>

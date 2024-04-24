@@ -101,14 +101,23 @@ export function RHFAmountInput<T>({
           )}
           {isConnected && assetAddress && (
             <div className="inline-flex gap-2 items-center">
-              <Tooltip tooltip={walletBalance?.data.symbol}>
+              {walletBalance?.data.symbol?.length && walletBalance.data.symbol.length > 10 ? (
+                <Tooltip tooltip={walletBalance?.data.symbol} size="small">
+                  <DisplayTokenAmount
+                    className="max-w-32"
+                    {...walletBalance}
+                    {...walletBalance?.data}
+                    typography="medium2"
+                  />
+                </Tooltip>
+              ) : (
                 <DisplayTokenAmount
                   className="max-w-32"
                   {...walletBalance}
                   {...walletBalance?.data}
                   typography="medium2"
                 />
-              </Tooltip>
+              )}
               <button type="button" onClick={handleMaxClick}>
                 <Typography type="bold2">MAX</Typography>
               </button>
