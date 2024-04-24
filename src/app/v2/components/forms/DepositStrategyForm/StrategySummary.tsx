@@ -27,8 +27,6 @@ const StrategySummaryLocal: React.FC<{
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
 
-  const { data: strategyTokenData } = useFullTokenData(strategy.address);
-
   const {
     data: targetMultiple,
     isLoading: isTargetMultipleLoading,
@@ -57,7 +55,6 @@ const StrategySummaryLocal: React.FC<{
           <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
         </FlexRow>
       </LocalRow>
-      <LocalRow label="Ending Asset">{strategyTokenData.symbol}</LocalRow>
     </FlexCol>
   );
 };
