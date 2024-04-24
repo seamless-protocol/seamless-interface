@@ -19,6 +19,7 @@ interface ITokenDescriptionDict {
     lendingTitle: string;
     strategyTitle: string;
     description: string;
+    secondaryStrategyTitle?: string;
   };
 }
 
@@ -30,7 +31,8 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
   },
   [WSTETH_ADDRESS]: {
     lendingTitle: "Supply wstETH",
-    strategyTitle: "Multiply wstETH staking rewards",
+    strategyTitle: "Multiply wstETH",
+    secondaryStrategyTitle: "Boost wstETH staking rewards",
     description:
       "Wrapped liquid staked ETH (wstETH) is a tokenized version of staked ETH in Lido, combining the value of initial deposit plus staking rewards.",
   },

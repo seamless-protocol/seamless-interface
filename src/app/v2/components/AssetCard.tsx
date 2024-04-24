@@ -2,7 +2,7 @@ import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
 import { Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
-import { getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
+import { TokenDescriptionDict, getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
@@ -34,7 +34,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
           <FlexCol className="gap-2 max-w-48 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{getTokenTitle(address, isStrategy)}</Typography>
-              <Typography type="regular1">{name}</Typography>
+              <Typography type="regular1">
+                {isStrategy ? TokenDescriptionDict[address].secondaryStrategyTitle : name}
+              </Typography>
             </FlexCol>
             <FlexRow>
               <Tag tag={isStrategy ? "ILM" : "LEND"} />

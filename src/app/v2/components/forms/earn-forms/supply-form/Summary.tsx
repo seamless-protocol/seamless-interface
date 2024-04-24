@@ -35,7 +35,7 @@ export const Summary = ({ amount }: { amount: string }) => {
         <Typography type="bold2">Rewards APR</Typography>
         {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      {account.address && asset && (
+      {account.address && asset && userAccountData?.totalDebt?.bigIntValue !== 0n && (
         <>
           <DataRow label="Health factor">
             <DisplayNumber {...userAccountData?.healthFactor} {...UADRest} />
