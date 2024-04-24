@@ -29,13 +29,13 @@ export const Buttonv2: React.FC<ButtonProps2> = ({
     contained: "hover:bg-primary-dark bg-metalic text-neutral-0",
   };
 
-  const buttonClasses = `${props.disabled || loading ? "bg-neutral-100 border border-black text-black cursor-default" : variantClasses[variant]} ${sizeClasses[size]} 
-    ${fullWidth ? "w-full" : ""} flex items-center
+  const buttonClasses = `${props.disabled || loading ? "bg-neutral-100 shadow-button text-text-disabled cursor-default" : variantClasses[variant]} ${sizeClasses[size]} 
+    ${fullWidth ? "w-full" : ""} flex items-center 
      justify-center space-x-2 text-center rounded-[100px] ${className}`;
 
   return (
     <button
-      className={`${buttonClasses}`}
+      className={`${buttonClasses} `}
       type={type}
       disabled={props.disabled || loading}
       {...props}

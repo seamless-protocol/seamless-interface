@@ -10,29 +10,33 @@ import { useFullTokenData } from "../../../state";
 import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
+import { useFocusOnAssetChange } from "../../../../app/v2/hooks/useFocusOnAssetChange";
 
-export interface IRHFAmountInputProps<T> extends RHFInputFieldProps<T> {
+export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetAddress: Address;
   walletBalance?: Displayable<ViewBigInt>;
   protocolMaxValue?: Displayable<ViewBigInt | undefined>;
   dollarValue?: Displayable<ViewBigInt>;
   assetButton?: React.ReactNode;
+  focusOnAssetChange?: boolean
 }
 
-export function RHFAmountInput<T>({
+
+export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInputProps>(({
   name,
   assetAddress,
   walletBalance,
   dollarValue,
   protocolMaxValue,
   assetButton,
+  focusOnAssetChange = true,
   ...other
-}: IRHFAmountInputProps<T>) {
+}, ref) => {
   const { setValue, getValues } = useFormContext();
   const { isConnected } = useAccount();
   const tokenDataResult = useFullTokenData(assetAddress);
@@ -68,17 +72,20 @@ export function RHFAmountInput<T>({
     }
   }, [isConnected]);
 
+  const inputRef = useFocusOnAssetChange(assetAddress, focusOnAssetChange);
+
   return (
     <div className="border bg-neutral-0 rounded-2xl p-4 cursor-default">
       <FlexRow className="items-center w-full">
         <FlexCol className="flex-grow gap-2 text-medium4">
-          <RHFInputField<T>
+          <RHFInputField
             name={name}
             min={0}
             max={isConnected ? max || "0" : String(MAX_NUMBER)}
             placeholder="0.00"
             {...other}
             disabled={other.disabled || !assetAddress}
+            ref={ref ?? inputRef}
           />
           {assetAddress ? (
             <DisplayMoney {...dollarValue} {...dollarValue?.data} typography="medium2" />
@@ -120,4 +127,6 @@ export function RHFAmountInput<T>({
       </FlexRow>
     </div>
   );
-}
+})
+
+RHFAmountInput.displayName = "RHFAmountInput";

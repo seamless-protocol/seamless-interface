@@ -6,8 +6,8 @@ import {
   Typography,
   WatchAssetComponentv2,
   useNotificationContext,
-  FlexRow,
   useToken,
+  FlexRow,
 } from "../../../../../../shared";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
