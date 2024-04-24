@@ -3,8 +3,8 @@ import { Typography } from "@shared";
 export type TagType = "LEND" | "ILM";
 
 const ColorByTypeDict = {
-  LEND: "bg-neutral-100 border-green-1000",
-  ILM: "bg-green-100 border-metallicBorder",
+  LEND: "bg-smallElements-lend border-green-1000",
+  ILM: "bg-smallElements-ilm border-metallicBorder",
 };
 
 export const Tag: React.FC<{ tag: TagType }> = ({ tag }) => {
