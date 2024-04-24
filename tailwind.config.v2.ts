@@ -42,19 +42,8 @@ export default {
         "180": "180deg",
       },
       colors: {
-        // #DECFFC : the color for the selected box on the left side rolodex + the color for the summary section on the right side
-        // #FCF8CF : the background for the label for LEND
-        // #CFFCF5 : the background for the label for ILM
-        // #E4F7E6 : the color for the background of the token rewards APY %
-        smallElements: {
-          lend: "#FCF8CF",
-          ilm: "#CFFCF5",
-          rewardAPY: "#E4F7E6"
-        },
-
         background: {
           default: "#F3F7FB",
-          selected: "#DECFFC",
 
           default1: "#F8F0E5",
           paper: "#FFF",
