@@ -2,7 +2,10 @@ import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney } from "@s
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { getTokenDescription } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import {
+  TokenDescriptionDict,
+  getTokenDescription,
+} from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
@@ -28,7 +31,10 @@ export const Heading = () => {
       <div className="col-span-5">
         <FlexCol className="gap-3">
           <FlexCol className="gap-2 min-h-24">
-            <Typography type="bold5">{tokenData.name || "Choose your strategy to earn APY"}</Typography>
+            <Typography type="bold5">
+              {(isStrategy ? TokenDescriptionDict[asset]?.strategyTitle : tokenData?.name) ||
+                "Choose your strategy to earn APY"}
+            </Typography>
             <Typography type="regular1">{description}</Typography>
           </FlexCol>
         </FlexCol>
