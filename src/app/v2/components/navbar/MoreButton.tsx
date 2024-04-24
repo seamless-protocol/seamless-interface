@@ -1,6 +1,6 @@
 import { CircleStackIcon, QuestionMarkCircleIcon, BookOpenIcon } from '@heroicons/react/24/outline';
 import { RouterConfig } from '../../../router';
-import { MoreManuButton } from './MoreManuButton';
+import { MoreMenuButton } from './MoreManuButton';
 
 export const moreMenuItems = [
   {
@@ -21,5 +21,5 @@ export const moreMenuItems = [
 ];
 
 export const MoreButton = () => {
-  return <MoreManuButton name="More" moreMenuItems={moreMenuItems} />
+  return <MoreMenuButton name="More" moreMenuItems={moreMenuItems} />
 }

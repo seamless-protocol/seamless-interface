@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Typography, FlexRow } from "@shared";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
-export const MoreManuButton: React.FC<{
+export const MoreMenuButton: React.FC<{
   name: string;
   moreMenuItems: {
     name: string;
@@ -13,23 +13,39 @@ export const MoreManuButton: React.FC<{
 }> = ({ name, moreMenuItems }) => {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement | null>(null);
+  const closeTimer = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (moreMenuRef.current && !(moreMenuRef.current as any).contains(event.target)) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as any)) {
         setIsMoreMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleMouseEnter = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+    setIsMoreMenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+    closeTimer.current = setTimeout(() => {
+      setIsMoreMenuOpen(false);
+    }, 1000); // Set the timer to close the dropdown after 1000 ms
+  };
+
   return (
-    <div className="relative" ref={moreMenuRef}>
+    <div className="relative" ref={moreMenuRef} onMouseLeave={handleMouseLeave}>
       <button
-        onMouseEnter={() => setIsMoreMenuOpen(true)}
+        onMouseEnter={handleMouseEnter}
         className="flex items-center px-3 py-0.5 ml-1 rounded min-w-8 hover:bg-background-hover"
       >
         <span className="text-base text-center" color="primary">
@@ -38,7 +54,7 @@ export const MoreManuButton: React.FC<{
         <EllipsisHorizontalIcon className="h-5 w-5 text-white ml-2" />
       </button>
       {isMoreMenuOpen && (
-        <div className="pt-3 absolute" onMouseLeave={() => setIsMoreMenuOpen(false)}>
+        <div className="pt-3 absolute" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsMoreMenuOpen(false)}>
           <div className="text-black absolute py-1 text-bold3 left-0 z-10 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             style={{ top: '100%' }} // This ensures no gap between the button and the dropdown
           >
@@ -46,7 +62,6 @@ export const MoreManuButton: React.FC<{
               <Link key={index} to={item.href} target="_blank" className="block px-4 py-3 hover:bg-action-hover">
                 <FlexRow className="items-center gap-2">
                   {item.icon && item.icon}
-
                   <Typography type="subheader1">{item.name}</Typography>
                 </FlexRow>
               </Link>

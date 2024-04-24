@@ -1,5 +1,5 @@
 import { RouterConfig } from "../../../router";
-import { MoreManuButton } from "./MoreManuButton";
+import { MoreMenuButton } from "./MoreManuButton";
 
 const moreMenuItems = [
   {
@@ -9,5 +9,5 @@ const moreMenuItems = [
 ];
 
 export const LegacyModeButton = () => {
-  return <MoreManuButton name="Legacy Mode" moreMenuItems={moreMenuItems} />
+  return <MoreMenuButton name="Legacy Mode" moreMenuItems={moreMenuItems} />
 }
