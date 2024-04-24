@@ -9,7 +9,8 @@ import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAsset
 import { AssetButton } from "../../../AssetButton";
 import { useViewDetailRemainingCap } from "../../../../../state/lending-borrowing/hooks/useFetchDetailRemainingCap";
 
-type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+  name: keyof T;
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };

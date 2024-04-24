@@ -8,7 +8,8 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
 
-type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton" | "name"> & {
+  name: keyof T;
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };
@@ -50,7 +51,7 @@ type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | 
  * @returns {React.ReactElement} The `RHFWithdrawStrategyAmountField` component, integrated with functionalities for asset price fetching and balance display.
  */
 
-export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddress, ...other }: IProps<T>) {
+export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddress, focusOnAssetChange = true, ...other }: IProps<T>) {
   // *** warning *** //
   if (!overrideUrlSlug && !assetAddress) {
     // eslint-disable-next-line no-console
@@ -70,7 +71,7 @@ export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddres
 
   // *** form functions *** //
   const { watch } = useFormContext();
-  const value = watch(other.name);
+  const value = watch(other.name as string);
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
@@ -92,6 +93,7 @@ export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddres
   return (
     <RHFAmountInput
       {...other}
+      name={other.name as string}
       assetAddress={asset}
       dollarValue={{
         ...otherPrice,

@@ -2,7 +2,6 @@
 import React from "react";
 import { RHFInputField } from "../../../../../../../shared/components/form/rhf/RHFInputField";
 import { formatToDisplayable } from "../../../../../../../shared/utils/helpers";
-import type { DepositModalFormData } from "../deposit/DepositModal";
 import { DisplayMoney, ViewBigInt, FlexRow, Typography, DisplayText, Tooltip } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFormContext } from "react-hook-form";
@@ -33,7 +32,7 @@ export const AmountInput: React.FC<AmountInputBoxProps> = ({
   return (
     <div className="border border-[#F2EEEE] rounded p-2">
       <div className="flex justify-between items-center">
-        <RHFInputField<DepositModalFormData>
+        <RHFInputField
           name="amount"
           type="number"
           placeholder="0.00"

@@ -8,7 +8,8 @@ import { AssetButton } from "../../../AssetButton";
 import { useFetchViewMaxReserveWithdraw } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveWithdraw";
 import { walletBalanceDecimalsOptions } from "../../../../../../meta";
 
-type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+  name: keyof T;
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };

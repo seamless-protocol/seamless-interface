@@ -34,6 +34,7 @@ export default {
       },
       boxShadow: {
         card: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
+        button: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
       },
       borderRadius: {
         card: "16px",

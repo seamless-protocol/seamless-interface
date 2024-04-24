@@ -1,38 +1,41 @@
-import { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 import { InputField } from "../inputs/InputField";
 import { Typography } from "../../text/Typography/Typography";
 
-type IProps<T> = {
-  name: keyof T;
+// Define the props without generics
+export type RHFInputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+  name: string;
   rules?: RegisterOptions;
   defaultValue?: string | number | null;
   fullWidth?: boolean;
 };
 
-export type RHFInputFieldProps<T> = IProps<T> & InputHTMLAttributes<HTMLInputElement>;
+// Forward ref implementation
+export const RHFInputField = React.forwardRef<HTMLInputElement, RHFInputFieldProps>(
+  ({ name, rules, ...other }, ref) => {
+    const { control } = useFormContext();
 
-export function RHFInputField<T>({ name, rules, ...other }: RHFInputFieldProps<T>) {
-  const { control } = useFormContext();
+    return (
+      <Controller
+        name={name}
+        control={control}
+        rules={rules}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <InputField
+              {...field}
+              value={field.value || ""}
+              {...other}
+              ref={ref}
+              type="text"
+            />
+            <Typography>{error?.message}</Typography>
+          </>
+        )}
+      />
+    );
+  }
+);
 
-  return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field, fieldState: { error } }) => (
-        <>
-          <InputField
-            {...field}
-            // todo: resolve this properly
-
-            value={(field.value as any) || ""}
-            {...other}
-            type="text"
-          />
-          <Typography>{error?.message}</Typography>
-        </>
-      )}
-    />
-  );
-}
+RHFInputField.displayName = "RHFInputField";

@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { AssetButton } from "./AssetButton";
 import { walletBalanceDecimalsOptions } from "@meta";
 
-type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
+type IProps = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
 };
@@ -50,7 +50,7 @@ type IProps<T> = Omit<IRHFAmountInputProps<T>, "assetPrice" | "walletBalance" | 
  * @returns {React.ReactElement} The `RHFAmountInputWrapper` component, integrated with functionalities for asset price fetching and balance display.
  */
 
-export function RHFAmountInputWrapper<T>({ overrideUrlSlug, assetAddress, ...other }: IProps<T>) {
+export function RHFAmountInputWrapper({ overrideUrlSlug, assetAddress, ...other }: IProps) {
   if (!overrideUrlSlug && !assetAddress) {
     // eslint-disable-next-line no-console
     console.warn(
