@@ -8,8 +8,6 @@ import {
   Tooltip,
   Displayable,
   FlexRow,
-  DisplaySymbol,
-  useFullTokenData,
 } from "@shared";
 import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
 import { DataRow } from "../../DataRow";
@@ -18,20 +16,13 @@ import { StrategyConfig } from "../../../../../state/loop-strategy/config/Strate
 export const Summary: React.FC<{
   displayablePreviewData: Displayable<ViewPreviewWithdraw>;
   strategy: StrategyConfig;
-}> = ({ displayablePreviewData, strategy }) => {
-  const { data: strategyTokenData, ...restStrategyTokenData } = useFullTokenData(strategy.address);
-
+}> = ({ displayablePreviewData }) => {
   const { data: previewWithdrawData, ...rest } = displayablePreviewData;
 
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-background-selected p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
-        <DataRow label="Starting asset">
-          <FlexRow className="gap-2 items-center">
-            <DisplaySymbol {...strategyTokenData} {...restStrategyTokenData} />
-          </FlexRow>
-        </DataRow>
         <DataRow label="Min Assets to receive">
           <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
             <DisplayTokenAmount
