@@ -102,7 +102,9 @@ export const SupplyForm = () => {
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full justify-end">
               <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center gap-1">
-                <Typography type="regular" className="text-left">Supply ETH</Typography>
+                <Typography type="bold2" className="text-left">
+                  Supply ETH
+                </Typography>
                 <ArrowTopRightOnSquareIcon width={12} />
               </Link>
             </FlexRow>
