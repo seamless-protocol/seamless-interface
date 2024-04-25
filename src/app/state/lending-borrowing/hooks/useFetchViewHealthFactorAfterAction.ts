@@ -61,7 +61,7 @@ export const useFetchHealthFactorAfterAction = ({ reserve, amount, action }: Hea
       let liquidationThresholdAfter;
       let collateralAfterAction;
 
-      if (action == Action.Withdraw) {
+      if (action === Action.Withdraw) {
         liquidationThresholdAfter =
           (totalCollateralUsd * currentLiquidationThreshold -
             amountUsd * assetConfig.liquidationThreshold.bigIntValue) /
