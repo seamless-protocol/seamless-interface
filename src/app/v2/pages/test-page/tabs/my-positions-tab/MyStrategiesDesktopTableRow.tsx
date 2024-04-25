@@ -32,7 +32,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
                 <Typography type="bold3">{getTokenTitle(asset, isStrategy)}</Typography>
-                <Typography type="regular1">{getOverridenName(asset, name)}</Typography>
+                <Typography type="regular1">{getOverridenName(asset, name, isStrategy)}</Typography>
               </FlexCol>
               <FlexRow>
                 <Tag tag={strategy ? "ILM" : "LEND"} />
