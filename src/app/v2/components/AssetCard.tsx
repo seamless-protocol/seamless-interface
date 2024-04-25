@@ -31,7 +31,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
           <Icon width={40} src={icon} alt={icon || ""} />
-          <FlexCol className="gap-2 max-w-48 text-start">
+          <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{getTokenTitle(address, isStrategy)}</Typography>
               <Typography type="regular1">
