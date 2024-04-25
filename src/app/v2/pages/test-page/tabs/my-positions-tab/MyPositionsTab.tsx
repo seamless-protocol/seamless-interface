@@ -46,11 +46,8 @@ export const MyPositionsTab: React.FC = () => {
           <TableCell className="col-span-2">
             <Typography type="bold2">Current balance</Typography>
           </TableCell>
-          <TableCell className="col-span-2">
+          <TableCell className="col-span-3">
             <Typography type="bold2">APY</Typography>
-          </TableCell>
-          <TableCell className="col-span-1">
-            <Typography type="bold2">Collateral</Typography>
           </TableCell>
           <TableCell className="text-sm font-medium text-gray-500 col-span-3 h-1" />
         </TableRow>
