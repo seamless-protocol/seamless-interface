@@ -28,7 +28,7 @@ export const Summary = ({ amount }: { amount: string }) => {
     <FlexCol className="rounded-card bg-background-selected p-6 gap-4">
       <Typography type="bold3">Summary</Typography>
       <FlexRow className="text-navy-600 justify-between">
-        <Typography type="bold2">Estimated APY</Typography>
+        <Typography type="bold2">Supply APY</Typography>
         {asset && <LendingApy asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
       <FlexRow className="text-navy-600 justify-between">

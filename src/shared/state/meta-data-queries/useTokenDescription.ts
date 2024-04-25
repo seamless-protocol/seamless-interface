@@ -31,8 +31,8 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
   },
   [WSTETH_ADDRESS]: {
     lendingTitle: "Supply wstETH",
-    strategyTitle: "Multiply wstETH",
-    secondaryStrategyTitle: "Boost wstETH staking rewards",
+    strategyTitle: "Boost wstETH",
+    secondaryStrategyTitle: "Increase ETH staking rewards automatically",
     description:
       "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple",
   },

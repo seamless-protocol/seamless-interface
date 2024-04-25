@@ -17,7 +17,7 @@ export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
       border-solid border-b border-b-navy-100"
         >
           <Typography type="bold1">Strategy</Typography>
-          <Typography type="bold1">APY, up to</Typography>
+          <Typography type="bold1">Est. APY</Typography>
         </FlexRow>
         {allMarkets?.map((item, index) => (
           <div
