@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useFullTokenData, DisplayValue, FlexRow, Icon, Typography, FlexCol } from "@shared";
+import { DisplayValue, FlexRow, Typography, FlexCol } from "@shared";
 import { TokenDescriptionDict } from "../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
@@ -25,7 +25,6 @@ const StrategySummaryLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
-  const { data: tokenData } = useFullTokenData(asset);
 
   const {
     data: targetMultiple,
@@ -48,12 +47,6 @@ const StrategySummaryLocal: React.FC<{
           isFetched={isTargetMultipleFetched}
           loaderSkeleton
         />
-      </LocalRow>
-      <LocalRow label="Starting Asset">
-        <FlexRow className="gap-2 items-center">
-          {`${tokenData.symbol}`}
-          <Icon src={tokenData?.logo} alt={tokenData?.shortName || ""} width={16} />
-        </FlexRow>
       </LocalRow>
     </FlexCol>
   );
