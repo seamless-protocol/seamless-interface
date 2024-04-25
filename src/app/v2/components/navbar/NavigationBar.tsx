@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
 import {
@@ -25,7 +22,7 @@ const navigation = [
     current: true,
   },
   {
-    component: <LegacyModeButton />
+    component: <LegacyModeButton />,
   },
   {
     name: "Bridge to Base",
@@ -39,8 +36,6 @@ const navigation = [
     current: false,
   },
 ];
-
-
 
 const NavBar: React.FC<{
   isMenuOpen?: boolean;
@@ -71,7 +66,9 @@ const NavBar: React.FC<{
                         {item.name}
                       </Typography>
                     </button>
-                  ) : item.component ? (item.component) : (
+                  ) : item.component ? (
+                    item.component
+                  ) : (
                     <Link to={item.href || ""} className="h-max flex items-center">
                       <Typography className="text-base text-center" type="description" color="primary">
                         {item.name}
