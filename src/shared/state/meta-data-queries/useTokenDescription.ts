@@ -78,12 +78,12 @@ export const getTokenTitle = (token: Address, isStrategy?: boolean): string | un
   return isStrategy ? TokenDescriptionDict[token]?.strategyTitle : TokenDescriptionDict[token]?.lendingTitle;
 };
 
-const overrideNameDict = {
+const strategyOverrideNameDict = {
   [WSTETH_ADDRESS]: "Increase ETH staking rewards automatically"
 }
 
-export const getOverridenName = (token: Address, name?: string) => {
-  if (overrideNameDict[token]) return overrideNameDict[token];
+export const getOverridenName = (token: Address, name?: string, isStrategy?: boolean) => {
+  if (isStrategy && strategyOverrideNameDict[token]) return strategyOverrideNameDict[token];
 
   return name;
 }
