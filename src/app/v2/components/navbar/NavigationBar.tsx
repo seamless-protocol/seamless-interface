@@ -21,8 +21,8 @@ import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
 const navigation = [
   {
     name: "Seamless Mode",
-    href: '/',
-    current: false,
+    href: "/",
+    current: true,
   },
   {
     component: <LegacyModeButton />
@@ -52,7 +52,7 @@ const NavBar: React.FC<{
     <div className="bg-background-header border-b border-slate-600 px-2 md:px-6 lg:px-8 flex flex-row items-center justify-between min-h-12">
       <FlexRow className="items-center justify-between w-full">
         <FlexRow className="items-center justify-start">
-          <Link to={RouterConfig.Routes.appSeamlessProtocol} className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img src={SeamlessLogo} alt="logo" className="h-6 w-6" />
             <span className="text-primary-contrast">Seamless</span>
           </Link>
@@ -71,7 +71,7 @@ const NavBar: React.FC<{
                         {item.name}
                       </Typography>
                     </button>
-                  ) : item.component ? <LegacyModeButton /> : (
+                  ) : item.component ? (item.component) : (
                     <Link to={item.href || ""} className="h-max flex items-center">
                       <Typography className="text-base text-center" type="description" color="primary">
                         {item.name}
