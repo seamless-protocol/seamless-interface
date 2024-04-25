@@ -35,7 +35,7 @@ const SummaryLocal: React.FC<{
         <Typography type="bold2">Estimated APY</Typography>
         {asset && <StrategyApy asset={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
-      <DataRow label="Min shares to receive">
+      <DataRow label="Min tokens to receive">
         <DisplayTokenAmount
           isLoading={previewDepositData.isLoading}
           isFetched={previewDepositData.isFetched}

@@ -72,7 +72,7 @@ export const WithdrawForm = () => {
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? "Withdraw" : "Select Asset"}</Typography>
+              <Typography type="bold4">{asset ? "Withdraw" : "Select strategy to get started"}</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 

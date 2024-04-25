@@ -25,6 +25,7 @@ import seamLogo from "@assets/tokens/seam.svg";
 interface ITokenDataDict {
   [address: Address]: {
     name?: string;
+    nameOverride?: string;
     logo: string;
   };
 }
