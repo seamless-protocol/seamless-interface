@@ -34,7 +34,7 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyTitle: "Boost wstETH",
     secondaryStrategyTitle: "Increase ETH staking rewards automatically",
     description:
-      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple",
+      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
   },
   [CBETH_ADDRESS]: {
     lendingTitle: "Supply cbETH",
@@ -59,7 +59,7 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
   [SEAM_ADDRESS]: {
     lendingTitle: "Supply SEAM",
     strategyTitle: "Multiply SEAM staking rewards",
-    description: "SEAM is the governance token of Seamless Protocol.",
+    description: "SEAM is the fair launch utility governance token of Seamless Protocol.",
   },
   [DEGEN_ADDRESS]: {
     lendingTitle: "Supply DEGEN",
