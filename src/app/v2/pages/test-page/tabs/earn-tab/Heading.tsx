@@ -27,7 +27,7 @@ export const Heading = () => {
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <div className="grid grid-cols-6 md:grid-cols-12 gap-6">
       <div className="col-span-6">
         <FlexCol className="gap-3">
           <FlexCol className="gap-2 min-h-24">
@@ -41,7 +41,7 @@ export const Heading = () => {
       </div>
       {asset && (
         <div className="col-span-6">
-          <FlexRow className="gap-24 justify-center w-full mt-2">
+          <FlexRow className="gap-5 md:gap-24 justify-between md:justify-center w-full mt-2">
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
