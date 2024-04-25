@@ -6,6 +6,21 @@ import { useFetchAssetAllowance } from "../queries/useFetchAssetAllowance";
 const ALWAYS_APPROVE_MAX = false;
 
 /**
+ * Helper function to determine human readable state of approve.
+ *
+ * @param {boolean} isApproved - Indicates if the approval is already done.
+ * @param {boolean} justApproved - Indicates if the user has just approved.
+ * @return {string} - The appropriate button text.
+ */
+
+export function getApproveState(isApproved?: boolean, justApproved?: boolean) {
+  if (isApproved) {
+    return justApproved ? "Approve Confirmed" : "Approved";
+  }
+  return "Approve";
+}
+
+/**
  * Custom hook for approving ERC20 token transfers.
  *
  * This hook provides functionality for approving ERC20 token transfers, checking the current allowance, and handling the approval transaction using Wagmi.
@@ -21,6 +36,7 @@ const ALWAYS_APPROVE_MAX = false;
 
 export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, amount: bigint = BigInt(0)) => {
   const [isApproved, setIsApproved] = useState(false);
+  const [justApproved, setJustApproved] = useState(false);
 
   const { data: allowance, queryKey } = useFetchAssetAllowance({
     asset: tokenAddress,
@@ -47,12 +63,17 @@ export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, 
       abi: erc20Abi,
       functionName: "approve",
       args: [spenderAddress, amountToApprove],
+    }, {
+      onSuccess: () => {
+        setJustApproved(true);
+      }
     });
   };
 
   return {
     isApproved,
     isApproving: isPending,
+    justApproved,
     approveAsync,
   };
 };
