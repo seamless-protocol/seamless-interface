@@ -10,10 +10,10 @@ export const EarnTab = () => {
   const { isStrategy, asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
 
   return (
-    <div>
+    <div className="px-4 md:px-0">
       <Heading />
-      <div className="flex flex-row gap-6"> {/* Added gap-6 for spacing */}
-        <div className="flex-1 overflow-auto pt-6">
+      <div className="flex flex-row gap-6">
+        <div className="flex-1 overflow-auto pt-6 hidden md:block">
           <AssetPicker overrideUrlSlug={assetSlugConfig} />
         </div>
         <div className="flex-1 sticky top-0 h-screen overflow-auto pt-6">
