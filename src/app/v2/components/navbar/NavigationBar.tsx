@@ -20,11 +20,6 @@ import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
 
 const navigation = [
   {
-    name: "All Markets",
-    href: RouterConfig.Routes.markets,
-    current: true,
-  },
-  {
     name: "Seamless Mode",
     href: RouterConfig.Routes.appSeamlessProtocol,
     current: false,

@@ -9,7 +9,6 @@ import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import {
-  useFullTokenData,
   useNotificationContext,
   FlexCol,
   Typography,
@@ -21,6 +20,9 @@ import {
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "../../../../../router";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -40,7 +42,6 @@ const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
-  const { data: tokenData } = useFullTokenData(asset);
   const methods = useForm({
     defaultValues: {
       amount: "",
@@ -102,7 +103,7 @@ const StrategyFormLocal: React.FC<{
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
               <Typography type="bold4">{asset ? "Add to strategy" : "Select Asset"}</Typography>
-              <Typography type="regular3">{tokenData.name}</Typography>
+              <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
@@ -113,11 +114,18 @@ const StrategyFormLocal: React.FC<{
             protocolMaxValue={maxUserDepositData}
             name="amount"
           />
+          <FlexRow className="w-full justify-end">
+            <Link to={RouterConfig.Routes.appSeamlessProtocol} className="flex flex-row items-center gap-1">
+              <Typography type="regular" className="text-left">Supply ETH</Typography>
+              <ArrowTopRightOnSquareIcon width={12} />
+            </Link>
+          </FlexRow>
         </FlexCol>
 
         <FlexCol className="gap-4">
+
           <FlexRow className="justify-between pr-2">
-            <Typography type="bold3">Target Multiple</Typography>
+            <Typography type="bold3">Target Boost</Typography>
             <Typography type="bold3">3x</Typography>
           </FlexRow>
           {/* <FlexCol>
