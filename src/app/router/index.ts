@@ -3,7 +3,6 @@ import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
 const baseUrl = "";
 
 const lendingAndBorrowingUrl = "https://legacy.seamlessprotocol.com";
-const appSeamlessProtocol = "https://app.seamlessprotocol.com";
 const supplyEthLegacy = `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=0x4200000000000000000000000000000000000006&marketName=proto_base_v3`;
 const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
 const governanceUrl = "https://legacy.seamlessprotocol.com/governance";
@@ -20,7 +19,6 @@ export const RouterConfig = {
     stakingFarms: `${stakingFarmsUrl}/`,
     governance: `${governanceUrl}/`,
     claimAirdrop: `${claimAirdropUrl}`,
-    appSeamlessProtocol: `${appSeamlessProtocol}`,
     supplyEthLegacy: `${supplyEthLegacy}`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
