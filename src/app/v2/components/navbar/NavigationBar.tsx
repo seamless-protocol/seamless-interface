@@ -21,7 +21,7 @@ import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
 const navigation = [
   {
     name: "Seamless Mode",
-    href: RouterConfig.Routes.appSeamlessProtocol,
+    href: '/',
     current: false,
   },
   {
