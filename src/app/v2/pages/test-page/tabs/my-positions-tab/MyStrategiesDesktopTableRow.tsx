@@ -8,7 +8,6 @@ import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
-import { CollateralToggleButton } from "./CollateralToggleButton";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -46,7 +45,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
           <CurrentBalance asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
         </TableCell>
 
-        <TableCell className="col-span-2">
+        <TableCell className="col-span-3">
           <AssetApy asset={asset} isStrategy={isStrategy} typography="bold3" />
           {!strategy && (
             <IncentivesButton {...supplyIncentives} {...incentivesRest}>
@@ -55,11 +54,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
           )}
         </TableCell>
 
-        <TableCell className="col-span-">
-          <CollateralToggleButton reserve={asset} isStrategy={isStrategy} />
-        </TableCell>
-
-        <TableCell className="col-span-3" alignItems="items-end">
+        <TableCell className="col-span-3" alignItems="items-center">
           <TableButtons asset={asset} isStrategy={isStrategy} />
         </TableCell>
       </TableRow>
