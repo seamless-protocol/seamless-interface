@@ -3,6 +3,7 @@ import {
   AuthGuardv2,
   Buttonv2,
   useERC20Approve,
+  getApproveState,
 } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -18,7 +19,7 @@ export const FormButtons: React.FC<{
   } } = useFormContext();
   const amount = watch("amount");
 
-  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+  const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     strategy.underlyingAsset.address,
     strategy.address,
     parseUnits(amount || "0", etherUnits.wei)
@@ -40,7 +41,7 @@ export const FormButtons: React.FC<{
             onTransaction?.();
           }
         }}>
-          Approve
+          {getApproveState(isApproved, justApproved)}
         </Buttonv2>
       </AuthGuardv2>
       <Buttonv2

@@ -4,6 +4,7 @@ import {
   FlexCol,
   AuthGuardv2,
   Buttonv2,
+  getApproveState,
 } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits } from "viem";
@@ -17,7 +18,7 @@ export const FormButtons = () => {
   } } = useFormContext();
   const amount = watch("amount");
 
-  const { isApproved, isApproving, approveAsync } = useERC20Approve(
+  const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     asset,
     lendingPoolAddress,
     parseUnits(amount || "0", etherUnits.wei)
@@ -40,7 +41,7 @@ export const FormButtons = () => {
             onTransaction?.();
           }
         }}>
-          Approve
+          {getApproveState(isApproved, justApproved)}
         </Buttonv2>
       </AuthGuardv2>
       <Buttonv2
