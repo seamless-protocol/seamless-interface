@@ -12,7 +12,7 @@ export const EarnTab = () => {
   return (
     <div>
       <Heading />
-      <div className="pt-6 flex flex-row gap-6"> {/* Added gap-6 for spacing */}
+      <div className="flex flex-row gap-6"> {/* Added gap-6 for spacing */}
         <div className="flex-1 overflow-auto pt-6">
           <AssetPicker overrideUrlSlug={assetSlugConfig} />
         </div>
