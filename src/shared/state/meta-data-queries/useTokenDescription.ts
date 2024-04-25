@@ -74,6 +74,16 @@ export const getTokenDescription = (token: Address | undefined): string | undefi
   return TokenDescriptionDict[token]?.description;
 };
 
-export const getTokenTitle = (token: Address, isStrategy: boolean): string | undefined => {
+export const getTokenTitle = (token: Address, isStrategy?: boolean): string | undefined => {
   return isStrategy ? TokenDescriptionDict[token]?.strategyTitle : TokenDescriptionDict[token]?.lendingTitle;
 };
+
+const overrideNameDict = {
+  [WSTETH_ADDRESS]: "Increase ETH staking rewards automatically"
+}
+
+export const getOverridenName = (token: Address, name?: string) => {
+  if (overrideNameDict[token]) return overrideNameDict[token];
+
+  return name;
+}

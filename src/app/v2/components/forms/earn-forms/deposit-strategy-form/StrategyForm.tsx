@@ -9,7 +9,6 @@ import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import {
-  useFullTokenData,
   useNotificationContext,
   FlexCol,
   Typography,
@@ -21,6 +20,7 @@ import {
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -40,7 +40,6 @@ const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
-  const { data: tokenData } = useFullTokenData(asset);
   const methods = useForm({
     defaultValues: {
       amount: "",
@@ -101,8 +100,8 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? "Add to strategy" : "Select Asset"}</Typography>
-              <Typography type="regular3">{tokenData.name}</Typography>
+              <Typography type="bold4">{asset ? getTokenTitle(asset, true) : "Select strategy to get started"}</Typography>
+              <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
@@ -116,8 +115,9 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-4">
+
           <FlexRow className="justify-between pr-2">
-            <Typography type="bold3">Target Multiple</Typography>
+            <Typography type="bold3">Target Boost</Typography>
             <Typography type="bold3">3x</Typography>
           </FlexRow>
           {/* <FlexCol>

@@ -24,7 +24,7 @@ export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
           border rounded-lg p-1 hover:bg-neutral-50"
           >
             {tokenData?.logo && <Icon width={18} src={tokenData?.logo} alt="input-field-asset" />}
-            <Typography type="bold3">{tokenData?.symbol || "Choose asset"}</Typography>
+            <Typography type="bold3">{tokenData?.symbol || "Choose strategy"}</Typography>
             <ChevronDownIcon width={12} />
           </div>
         ),
