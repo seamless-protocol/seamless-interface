@@ -1,5 +1,4 @@
 import { Heading } from "./Heading";
-
 import { AssetPicker } from "../../../../components/AssetPicker";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
@@ -13,17 +12,15 @@ export const EarnTab = () => {
   return (
     <div>
       <Heading />
-      <div className="mt-6">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="hidden md:block col-span-6">
-            <AssetPicker overrideUrlSlug={assetSlugConfig} />
-          </div>
-          <div className="col-span-12 md:col-span-6">
-            <div className="bg-neutral-0 px-8 shadow-card rounded-card py-6">
-              <FormSettingsProvider defaultAsset={asset} overrideUrlSlug={assetSlugConfig}>
-                {isStrategy ? <StrategyForm /> : <SupplyForm />}
-              </FormSettingsProvider>
-            </div>
+      <div className="pt-6 flex flex-row gap-6"> {/* Added gap-6 for spacing */}
+        <div className="flex-1 overflow-auto pt-6">
+          <AssetPicker overrideUrlSlug={assetSlugConfig} />
+        </div>
+        <div className="flex-1 sticky top-0 h-screen overflow-auto pt-6">
+          <div className="bg-white shadow-card px-8 rounded-card py-6">
+            <FormSettingsProvider defaultAsset={asset} overrideUrlSlug={assetSlugConfig}>
+              {isStrategy ? <StrategyForm /> : <SupplyForm />}
+            </FormSettingsProvider>
           </div>
         </div>
       </div>
