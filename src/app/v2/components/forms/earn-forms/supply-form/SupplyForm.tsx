@@ -22,6 +22,7 @@ import { WETH_ADDRESS } from "../../../../../../meta";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
+import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -86,7 +87,7 @@ export const SupplyForm = () => {
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? "Supply" : "Select Asset"}</Typography>
+              <Typography type="bold4">{asset ? getTokenTitle(asset) : "Select strategy to get started"}</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 

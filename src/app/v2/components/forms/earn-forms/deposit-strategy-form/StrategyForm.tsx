@@ -20,6 +20,7 @@ import {
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -99,7 +100,7 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? "Add to strategy" : "Select Asset"}</Typography>
+              <Typography type="bold4">{asset ? getTokenTitle(asset, true) : "Select strategy to get started"}</Typography>
               <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
             </FlexCol>
 

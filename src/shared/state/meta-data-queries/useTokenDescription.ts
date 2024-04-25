@@ -74,7 +74,7 @@ export const getTokenDescription = (token: Address | undefined): string | undefi
   return TokenDescriptionDict[token]?.description;
 };
 
-export const getTokenTitle = (token: Address, isStrategy: boolean): string | undefined => {
+export const getTokenTitle = (token: Address, isStrategy?: boolean): string | undefined => {
   return isStrategy ? TokenDescriptionDict[token]?.strategyTitle : TokenDescriptionDict[token]?.lendingTitle;
 };
 
