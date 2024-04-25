@@ -18,6 +18,10 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 import { useFetchViewMaxUserReserveDeposit } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveDeposit";
+import { WETH_ADDRESS } from "../../../../../../meta";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "../../../../../router";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -94,6 +98,14 @@ export const SupplyForm = () => {
             protocolMaxValue={maxUserDepositData ? { ...maxUserDepositData } : undefined}
             name="amount"
           />
+          {asset === WETH_ADDRESS && (
+            <FlexRow className="w-full justify-end">
+              <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center gap-1">
+                <Typography type="regular" className="text-left">Supply ETH</Typography>
+                <ArrowTopRightOnSquareIcon width={12} />
+              </Link>
+            </FlexRow>
+          )}
         </FlexCol>
 
         {asset && <Summary amount={amount} />}

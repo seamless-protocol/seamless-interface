@@ -20,9 +20,6 @@ import {
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { Link } from "react-router-dom";
-import { RouterConfig } from "../../../../../router";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -114,12 +111,6 @@ const StrategyFormLocal: React.FC<{
             protocolMaxValue={maxUserDepositData}
             name="amount"
           />
-          <FlexRow className="w-full justify-end">
-            <Link to={RouterConfig.Routes.appSeamlessProtocol} className="flex flex-row items-center gap-1">
-              <Typography type="regular" className="text-left">Supply ETH</Typography>
-              <ArrowTopRightOnSquareIcon width={12} />
-            </Link>
-          </FlexRow>
         </FlexCol>
 
         <FlexCol className="gap-4">
