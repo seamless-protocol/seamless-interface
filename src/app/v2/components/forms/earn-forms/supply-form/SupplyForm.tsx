@@ -86,8 +86,18 @@ export const SupplyForm = () => {
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-14">
+            <FlexCol className="gap-1 min-h-14 w-full">
               <Typography type="bold4">{asset ? getTokenTitle(asset) : "Select strategy to get started"}</Typography>
+              {asset === WETH_ADDRESS && (
+                <FlexRow className="w-full">
+                  <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center justify-end gap-1">
+                    <Typography type="bold2" className="text-right">
+                      To supply ETH, click here
+                    </Typography>
+                    <ArrowTopRightOnSquareIcon width={12} />
+                  </Link>
+                </FlexRow>
+              )}
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
@@ -99,16 +109,6 @@ export const SupplyForm = () => {
             protocolMaxValue={maxUserDepositData ? { ...maxUserDepositData } : undefined}
             name="amount"
           />
-          {asset === WETH_ADDRESS && (
-            <FlexRow className="w-full justify-end">
-              <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center gap-1">
-                <Typography type="bold2" className="text-left">
-                  Supply ETH
-                </Typography>
-                <ArrowTopRightOnSquareIcon width={12} />
-              </Link>
-            </FlexRow>
-          )}
         </FlexCol>
 
         {asset && <Summary amount={amount} />}
