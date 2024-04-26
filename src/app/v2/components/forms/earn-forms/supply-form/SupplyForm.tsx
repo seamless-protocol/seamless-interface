@@ -97,7 +97,7 @@ export const SupplyForm = () => {
             <FlexRow className="w-full">
               <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center justify-end gap-1">
                 <Typography type="bold2" className="text-right">
-                  To supply ETH, click here
+                  To supply ETH, click here instead
                 </Typography>
                 <ArrowTopRightOnSquareIcon width={12} />
               </Link>
