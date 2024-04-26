@@ -5,4 +5,5 @@ export interface ViewDetailTotalSupplied {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  capacity: ViewBigInt | undefined;
 }

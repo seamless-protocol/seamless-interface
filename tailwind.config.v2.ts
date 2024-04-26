@@ -50,7 +50,7 @@ export default {
         smallElements: {
           lend: "#FCF8CF",
           ilm: "#CFFCF5",
-          rewardAPY: "#E4F7E6"
+          rewardAPY: "#E4F7E6",
         },
 
         background: {
@@ -69,6 +69,7 @@ export default {
           hover: "#234B80",
           footer: "#0C356A",
           disabled: "#EAEBEF",
+          capacity: "#F7E9E4",
         },
         neutral: {
           1000: "#000",
@@ -166,7 +167,6 @@ export default {
           standardInputLine: "#383D511F",
           borderButton: "#EBEBED1F",
         },
-
       },
       backgroundImage: () => ({
         metalic: "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
