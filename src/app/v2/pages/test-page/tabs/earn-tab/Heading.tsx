@@ -40,7 +40,7 @@ export const Heading = () => {
             <FlexCol className="gap-2 min-h-24">
               <Typography type="bold5">Choose your strategy to earn APY</Typography>
               <Typography type="regular1">
-                "Seamless offers a wide range of options, from simple lending to advanced integrated strategies (ILM)
+                Seamless offers a wide range of options, from simple lending to advanced integrated strategies (ILM)
               </Typography>
             </FlexCol>
           )}
@@ -73,10 +73,11 @@ export const Heading = () => {
               {!isStrategy && (
                 <FlexRow className="bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
                   <DisplayText
+                    // eslint-disable-next-line
                     viewValue={supplyData.capacity?.viewValue + "% capacity filled"}
                     {...supplyDataRest}
                     typography="medium2"
-                  ></DisplayText>
+                  />
                 </FlexRow>
               )}
             </FlexCol>
