@@ -42,7 +42,7 @@ export function formatToDisplayable(value: number | undefined, decimalsOptions: 
   let decimals;
   if (value < 10) {
     decimals = decimalsFormattingOptions.singleDigitNumberDecimals;
-  } else if (value < 100) {
+  } else if (value < 99.5) {
     decimals = decimalsFormattingOptions.doubleDigitNumberDecimals;
   } else if (value < 1000) {
     decimals = decimalsFormattingOptions.threeDigitNumberDecimals;

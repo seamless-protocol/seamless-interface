@@ -1,4 +1,4 @@
-import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney } from "@shared";
+import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, DisplayText } from "@shared";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
@@ -9,6 +9,7 @@ import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borro
 import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
+import { useFetchViewDetailTotalSupplied } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -21,6 +22,8 @@ export const Heading = () => {
   } = useFetchViewAssetPrice({ asset });
 
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
+
+  const { data: supplyData, ...supplyDataRest } = useFetchViewDetailTotalSupplied(asset);
 
   return (
     <div className="grid grid-cols-6 md:grid-cols-12 gap-6">
@@ -40,10 +43,19 @@ export const Heading = () => {
       </div>
       {asset && (
         <div className="col-span-6">
-          <FlexRow className="gap-5 md:gap-24 justify-between md:justify-center w-full mt-2">
+          <FlexRow className="gap-5 md:gap-16 justify-between md:justify-center w-full mt-2">
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
+              {!isStrategy && (
+                <FlexRow className="bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
+                  <DisplayText
+                    viewValue={supplyData.capacity?.viewValue + "% capacity filled"}
+                    {...supplyDataRest}
+                    typography="medium2"
+                  ></DisplayText>
+                </FlexRow>
+              )}
             </FlexCol>
             <FlexCol className="gap-1 text-center">
               <Typography type="regular3">Est. APY</Typography>
