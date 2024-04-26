@@ -88,21 +88,21 @@ export const SupplyForm = () => {
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14 w-full">
               <Typography type="bold4">{asset ? getTokenTitle(asset) : "Select strategy to get started"}</Typography>
-              {asset === WETH_ADDRESS && (
-                <FlexRow className="w-full">
-                  <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center justify-end gap-1">
-                    <Typography type="bold2" className="text-right">
-                      To supply ETH, click here
-                    </Typography>
-                    <ArrowTopRightOnSquareIcon width={12} />
-                  </Link>
-                </FlexRow>
-              )}
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="LEND" />}
           </FlexRow>
+          {asset === WETH_ADDRESS && (
+            <FlexRow className="w-full">
+              <Link to={RouterConfig.Routes.supplyEthLegacy} className="flex flex-row items-center justify-end gap-1">
+                <Typography type="bold2" className="text-right">
+                  To supply ETH, click here
+                </Typography>
+                <ArrowTopRightOnSquareIcon width={12} />
+              </Link>
+            </FlexRow>
+          )}
           <RHFSupplyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
