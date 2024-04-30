@@ -4,7 +4,7 @@ import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
-import { WSTETH_ADDRESS, WETH_ADDRESS } from "@meta";
+import { WSTETH_ADDRESS, WETH_ADDRESS, USDC_ADDRESS } from "@meta";
 
 interface AssetConfig {
   name: string;
@@ -46,7 +46,28 @@ export const ilmStrategies: StrategyConfig[] = [
       address: WETH_ADDRESS,
       logo: EthLogo,
     },
-    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day"
+    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day",
+  },
+  {
+    id: 1,
+    name: "Multiply ETH Long",
+    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
+    logo: ilmwstETHLogo, // Unused
+    diagram: wstEthDiagram, // Unused
+    defaultApy: 10, // Unused
+    underlyingAsset: {
+      name: "Wrapped liquid staked ETH",
+      symbol: "wstETH",
+      address: WETH_ADDRESS,
+      logo: WstEthLogo,
+    },
+    debtAsset: {
+      name: "Ethereum",
+      symbol: "ETH",
+      address: USDC_ADDRESS,
+      logo: EthLogo,
+    },
+    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day",
   },
 ];
 
@@ -74,6 +95,19 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
         defaultApy: 0,
         targetMultiple: {
           value: 3,
+          symbol: "x",
+        },
+      },
+    ],
+  ],
+  [
+    WETH_ADDRESS,
+    [
+      {
+        address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
+        defaultApy: 10,
+        targetMultiple: {
+          value: 1.5,
           symbol: "x",
         },
       },

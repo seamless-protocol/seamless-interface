@@ -44,6 +44,8 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
     isFetched: isSimulateDepositFetched,
   } = useFetchSimulateDeposit(account.address as Address, strategyConfig.address, amount);
 
+  console.log("shares", shares);
+
   const {
     isLoading: isShareValueLoading,
     isFetched: isShareValueFetched,
