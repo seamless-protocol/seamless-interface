@@ -12,7 +12,7 @@ interface UserReserveData {
   usageAsCollateralEnabled?: boolean;
 }
 
-export const useFetchUserReserveData = (reserve: Address): FetchData<UserReserveData> => {
+export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserveData> => {
   const account = useAccount();
 
   const {
@@ -30,7 +30,10 @@ export const useFetchUserReserveData = (reserve: Address): FetchData<UserReserve
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getUserReserveData",
-    args: [reserve, account.address as Address],
+    args: [reserve!, account.address as Address],
+    query: {
+      enabled: !!reserve
+    }
   });
 
   const [aTokenBalance, , variableDebtTokenBalance, , , , , , usageAsCollateralEnabled] = data || [];

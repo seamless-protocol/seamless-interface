@@ -134,7 +134,7 @@ const StrategyFormLocal: React.FC<{
           </FlexCol> */}
         </FlexCol>
 
-        <Summary asset={asset} previewDepositData={previewDepositData} />
+        {asset && <Summary asset={asset} previewDepositData={previewDepositData} />}
         <FormButtons strategy={strategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>

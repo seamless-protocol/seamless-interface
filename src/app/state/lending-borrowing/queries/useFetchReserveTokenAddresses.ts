@@ -9,14 +9,15 @@ export interface ReserveTokenAddresses {
   variableDebtTokenAddress: Address | undefined;
 }
 
-export const useFetchReserveTokenAddresses = (reserve: Address): FetchData<ReserveTokenAddresses> => {
+export const useFetchReserveTokenAddresses = (reserve?: Address): FetchData<ReserveTokenAddresses> => {
   const { data, ...rest } = useSeamlessContractRead({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: "getReserveTokensAddresses",
-    args: [reserve],
+    args: [reserve!],
     query: {
       staleTime: Infinity,
+      enabled: !!reserve
     },
   });
 

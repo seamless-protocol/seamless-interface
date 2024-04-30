@@ -14,7 +14,7 @@ export interface DetailUserReserveData {
   usageAsCollateralEnabled?: boolean;
 }
 
-export const useFetchDetailUserReserveData = (reserve: Address): FetchData<DetailUserReserveData> => {
+export const useFetchDetailUserReserveData = (reserve?: Address): FetchData<DetailUserReserveData> => {
   const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice({ asset: reserve });
 
   const {

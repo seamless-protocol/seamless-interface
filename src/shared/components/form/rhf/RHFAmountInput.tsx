@@ -18,7 +18,7 @@ import { Tooltip } from "../../tooltip/Tooltip";
 import { useFocusOnAssetChange } from "../../../../app/v2/hooks/useFocusOnAssetChange";
 
 export interface IRHFAmountInputProps extends RHFInputFieldProps {
-  assetAddress: Address;
+  assetAddress?: Address;
   walletBalance?: Displayable<ViewBigInt>;
   protocolMaxValue?: Displayable<ViewBigInt | undefined>;
   dollarValue?: Displayable<ViewBigInt>;

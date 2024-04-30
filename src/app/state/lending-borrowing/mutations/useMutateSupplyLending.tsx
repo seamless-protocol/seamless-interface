@@ -6,7 +6,7 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 
-export const useMutateSupplyLending = (asset: Address) => {
+export const useMutateSupplyLending = (asset?: Address) => {
   // meta data
   const { address } = useAccount();
 
@@ -31,6 +31,12 @@ export const useMutateSupplyLending = (asset: Address) => {
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
+    if (!asset) {
+      // eslint-disable-next-line no-console
+      console.warn("asset is undefined at useMutateSupplyLending!");
+      return;
+    }
+
     await writeContractAsync(
       {
         ...lendingPoolConfig,

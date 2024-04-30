@@ -12,7 +12,7 @@ export enum Action {
 }
 
 interface HealthFactorAfterActionParams {
-  reserve: Address;
+  reserve?: Address;
   amount: string;
   action: Action;
 }

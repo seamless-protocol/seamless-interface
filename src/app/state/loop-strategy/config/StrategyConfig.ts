@@ -50,7 +50,7 @@ export const ilmStrategies: StrategyConfig[] = [
   },
 ];
 
-export const findILMStrategyByAddress = (address: Address) => {
+export const findILMStrategyByAddress = (address?: Address) => {
   return ilmStrategies.find((strategy) => strategy.underlyingAsset.address === address);
 };
 

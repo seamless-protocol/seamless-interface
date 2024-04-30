@@ -12,7 +12,7 @@ interface SupplyIncentives {
   supplyIncentives: IncentiveApr;
 }
 
-export const useFetchSupplyIncentives = (asset: Address): Fetch<SupplyIncentives> => {
+export const useFetchSupplyIncentives = (asset?: Address): Fetch<SupplyIncentives> => {
   const {
     isLoading: isIncentivesLoading,
     isFetched: isIncentivesFetched,
@@ -41,7 +41,7 @@ export const useFetchSupplyIncentives = (asset: Address): Fetch<SupplyIncentives
   };
 };
 
-export const useFetchViewSupplyIncentives = (asset: Address): Displayable<ViewIncentives> => {
+export const useFetchViewSupplyIncentives = (asset?: Address): Displayable<ViewIncentives> => {
   const { isLoading, isFetched, supplyIncentives } = useFetchSupplyIncentives(asset);
 
   return {

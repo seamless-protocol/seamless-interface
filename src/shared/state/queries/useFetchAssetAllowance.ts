@@ -9,7 +9,7 @@ import { useToken } from "../meta-data-queries/useToken";
  * @param {Address} asset - The address of the ERC20 token contract.
  * @param {Address} spender - The address of the spender to check allowance for.
  */
-export const useFetchAssetAllowance = ({ asset, spender }: { asset: Address; spender: Address }) => {
+export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; spender?: Address }) => {
   const account = useAccount();
 
   const { data: tokenData, isFetched: isTokenDataFetched, isLoading: isTokenDataLoading } = useToken(asset);
@@ -23,16 +23,19 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset: Address; spe
     address: asset,
     abi: erc20Abi,
     functionName: "allowance",
-    args: [account.address as Address, spender],
+    args: [account.address as Address, spender!],
+    query: {
+      enabled: !!asset || !!spender
+    }
   });
 
   const retData =
     tokenData && allowance
       ? {
-          bigIntValue: allowance,
-          decimals: tokenData.decimals,
-          symbol: tokenData.symbol,
-        }
+        bigIntValue: allowance,
+        decimals: tokenData.decimals,
+        symbol: tokenData.symbol,
+      }
       : undefined;
 
   return {

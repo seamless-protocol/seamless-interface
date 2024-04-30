@@ -12,12 +12,15 @@ interface AssetConfiguration {
   reserveFactor: FetchBigInt;
 }
 
-export const useFetchAssetConfiguration = (asset: Address): FetchData<AssetConfiguration> => {
+export const useFetchAssetConfiguration = (asset?: Address): FetchData<AssetConfiguration> => {
   const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveConfigurationData",
-    args: [asset],
+    args: [asset!],
+    query: {
+      enabled: !!asset
+    }
   });
 
   const [, ltv, liquidationThreshold, liquidationBonus, reserveFactor] = data || [, 0n, 0n, 0n, 0n];

@@ -39,7 +39,7 @@ const StrategySummaryLocal: React.FC<{
         {asset && <StrategyApy asset={asset} className="text-navy-1000" typography="medium2" />}
       </LocalRow>
       <LocalRow label="Action">Deposit</LocalRow>
-      <LocalRow label="Strategy">{TokenDescriptionDict[asset]?.strategyTitle}</LocalRow>
+      <LocalRow label="Strategy">{asset ? TokenDescriptionDict[asset]?.strategyTitle : ''}</LocalRow>
       <LocalRow label="Multiplier">
         <DisplayValue
           {...targetMultiple}

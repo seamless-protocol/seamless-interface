@@ -11,7 +11,7 @@ interface RemainingCap {
   remainingCapUsd: FetchBigInt | undefined;
 }
 
-export const useFetchDetailRemainingCap = (asset: Address): FetchData<RemainingCap> => {
+export const useFetchDetailRemainingCap = (asset?: Address): FetchData<RemainingCap> => {
   const { isLoading: isLoadingCaps, isFetched: isFetchedCaps, data: supplyCap } = useFetchReserveCaps(asset);
   const {
     isLoading: isLoadingSupplied,
@@ -56,7 +56,7 @@ export interface ViewDetailRemainingCap {
   tokenAmount?: ViewBigInt;
   dollarAmount?: ViewBigInt;
 }
-export const useViewDetailRemainingCap = (asset: Address): Displayable<ViewDetailRemainingCap> => {
+export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
   const {
     isLoading,
     isFetched,

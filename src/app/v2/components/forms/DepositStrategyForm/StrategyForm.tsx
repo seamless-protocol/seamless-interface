@@ -125,8 +125,10 @@ const StrategyFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <StrategySummary asset={asset} />
-        <AddToStrategyButtonsWrapper asset={asset} />
+        {asset && <>
+          <StrategySummary asset={asset} />
+          <AddToStrategyButtonsWrapper asset={asset} />
+        </>}
       </FlexCol>
     </MyFormProvider>
   );

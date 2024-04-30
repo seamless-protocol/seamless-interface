@@ -4,7 +4,7 @@ import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 
-export const useMutateWithdrawLending = (asset: Address) => {
+export const useMutateWithdrawLending = (asset?: Address) => {
   // meta data
   const { address } = useAccount();
 
@@ -30,6 +30,11 @@ export const useMutateWithdrawLending = (asset: Address) => {
     if (!address) {
       // eslint-disable-next-line no-console
       console.warn(`Address is not  defined! useMutateWithdrawLending`);
+      return;
+    }
+    if (!asset) {
+      // eslint-disable-next-line no-console
+      console.warn(`asset is not  defined! useMutateWithdrawLending`);
       return;
     }
 

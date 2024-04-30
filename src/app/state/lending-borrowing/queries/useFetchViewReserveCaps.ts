@@ -10,12 +10,15 @@ interface AssetCaps {
   borrowCap: FetchBigInt;
 }
 
-export const useFetchReserveCaps = (asset: Address): FetchData<AssetCaps> => {
+export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
   const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveCaps",
-    args: [asset],
+    args: [asset!],
+    query: {
+      enabled: !!asset
+    }
   });
 
   return {

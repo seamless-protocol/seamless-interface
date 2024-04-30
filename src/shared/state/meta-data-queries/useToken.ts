@@ -9,16 +9,16 @@ export interface Token {
 }
 
 // todo reconsider optional param token ticket #218
-export const useToken = (token?: Address): FetchData<Token> => {
+export const useToken = (asset?: Address): FetchData<Token> => {
   const {
     data: decimals,
     isLoading: isDecimalsLoading,
     isFetched: isDecimalsFetched,
   } = useSeamlessContractRead({
-    address: token,
+    address: asset,
     abi: erc20Abi,
     functionName: "decimals",
-    query: metadataQueryConfig,
+    query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
   const {
@@ -26,10 +26,10 @@ export const useToken = (token?: Address): FetchData<Token> => {
     isLoading: isSymbolLoading,
     isFetched: isSymbolFetched,
   } = useSeamlessContractRead({
-    address: token,
+    address: asset,
     abi: erc20Abi,
     functionName: "symbol",
-    query: metadataQueryConfig,
+    query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
   return {

@@ -5,7 +5,7 @@ import { ilmAssetStrategiesMap } from "../../loop-strategy/config/StrategyConfig
 import { lendingAssetToHide } from "../../../../meta";
 
 export interface Market {
-  address: Address;
+  address?: Address;
   isStrategy: boolean;
 }
 
