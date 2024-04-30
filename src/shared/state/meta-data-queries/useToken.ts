@@ -4,8 +4,8 @@ import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessCo
 import { metadataQueryConfig } from "../settings/config";
 
 export interface Token {
-  symbol: string;
-  decimals: number;
+  symbol?: string;
+  decimals?: number;
 }
 
 // todo reconsider optional param token ticket #218
@@ -36,8 +36,8 @@ export const useToken = (asset?: Address): FetchData<Token> => {
     isLoading: isDecimalsLoading || isSymbolLoading,
     isFetched: isDecimalsFetched && isSymbolFetched,
     data: {
-      symbol: symbol || "",
-      decimals: decimals || 18,
+      symbol,
+      decimals,
     },
   };
 };

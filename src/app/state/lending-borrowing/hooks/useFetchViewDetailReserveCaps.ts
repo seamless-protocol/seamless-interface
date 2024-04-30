@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable } from "../../../../shared";
+import { RQResponse } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
@@ -47,7 +47,7 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
   };
 };
 
-export const useFetchViewDetailReserveCaps = (asset: Address): Displayable<ViewDetailReserveCaps> => {
+export const useFetchViewDetailReserveCaps = (asset: Address): RQResponse<ViewDetailReserveCaps> => {
   const {
     isLoading,
     isFetched,

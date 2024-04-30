@@ -1,5 +1,5 @@
 import { Address, erc20Abi } from "viem";
-import { Displayable, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
+import { RQResponse, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 
@@ -32,7 +32,7 @@ export const useFetchAssetTotalSupply = (asset: Address): FetchData<FetchBigInt 
 export const useFetchViewAssetTotalSupply = (
   asset: Address,
   decimalsOptions?: Partial<DecimalsOptions>
-): Displayable<ViewBigInt | undefined> => {
+): RQResponse<ViewBigInt | undefined> => {
   const { isLoading, isFetched, data: balance } = useFetchAssetTotalSupply(asset);
 
   return {

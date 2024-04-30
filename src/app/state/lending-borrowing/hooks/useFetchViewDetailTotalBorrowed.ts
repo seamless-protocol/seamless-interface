@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable } from "../../../../shared";
+import { RQResponse } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalBorrowed } from "../types/ViewDetailTotalBorrowed";
 
@@ -40,7 +40,7 @@ export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorr
   };
 };
 
-export const useFetchViewDetailTotalBorrowed = (asset: Address): Displayable<ViewDetailTotalBorrowed> => {
+export const useFetchViewDetailTotalBorrowed = (asset: Address): RQResponse<ViewDetailTotalBorrowed> => {
   const {
     isLoading,
     isFetched,

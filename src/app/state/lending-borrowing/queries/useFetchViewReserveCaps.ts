@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { RQResponse, useSeamlessContractRead } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewReserveCaps } from "../types/ViewReserveCaps";
@@ -38,16 +38,14 @@ export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
   };
 };
 
-export const useFetchViewReserveCaps = (asset: Address): Displayable<ViewReserveCaps> => {
+export const useFetchViewReserveCaps = (asset: Address): RQResponse<ViewReserveCaps> => {
   const {
-    isLoading,
-    isFetched,
     data: { supplyCap, borrowCap },
+    ...rest
   } = useFetchReserveCaps(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       supplyCap: formatFetchBigIntToViewBigInt(supplyCap),
       borrowCap: formatFetchBigIntToViewBigInt(borrowCap),

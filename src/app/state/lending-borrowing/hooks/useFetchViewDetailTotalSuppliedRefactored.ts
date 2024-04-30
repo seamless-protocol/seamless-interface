@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { divideBigInts, expBigInt, getFetchBigIntStructured, mergeQueryStates, multiplyBigInts } from "../../../../shared";
+import { RQResponse, divideBigInts, expBigInt, getFetchBigIntStructured, mergeQueryStates, multiplyBigInts } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
@@ -46,7 +46,7 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
   };
 };
 
-export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<ViewDetailTotalSupplied> => {
+export const useFetchViewDetailTotalSupplied = (asset?: Address): RQResponse<ViewDetailTotalSupplied> => {
   const {
     data: { totalSupplied, totalSuppliedUsd, capacity },
     ...rest
@@ -59,11 +59,13 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
         dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
-      capacity: formatFetchBigIntToViewBigInt(capacity, {
-        singleDigitNumberDecimals: 1,
-        doubleDigitNumberDecimals: 1,
-        threeDigitNumberDecimals: 0,
-      })
+      capacity: capacity
+        ? formatFetchBigIntToViewBigInt(capacity, {
+          singleDigitNumberDecimals: 1,
+          doubleDigitNumberDecimals: 1,
+          threeDigitNumberDecimals: 0,
+        })
+        : undefined,
     },
   };
 };

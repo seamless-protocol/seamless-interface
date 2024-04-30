@@ -6,7 +6,7 @@ import { ONE_ETHER, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable, ViewBigInt } from "../../../../shared";
+import { RQResponse, ViewBigInt } from "../../../../shared";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
 import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
@@ -125,7 +125,7 @@ type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
 export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
-}: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
+}: useFetchViewAssetPriceParams): RQResponse<ViewBigInt> => {
   const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {

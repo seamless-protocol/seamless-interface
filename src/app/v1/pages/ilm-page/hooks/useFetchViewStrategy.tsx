@@ -1,6 +1,6 @@
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewStrategyApy } from "../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { Displayable, ViewBigInt, ViewNumber } from "../../../../../shared";
+import { RQResponse, ViewBigInt, ViewNumber } from "../../../../../shared";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewDetailAssetBalance } from "../../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { Address } from "viem";
@@ -25,7 +25,7 @@ export interface ViewStrategy {
   };
 }
 
-export const useFetchViewStrategy = (index: number): Displayable<ViewStrategy> => {
+export const useFetchViewStrategy = (index: number): RQResponse<ViewStrategy> => {
   const strategyConfig = ilmStrategies[index];
 
   const {

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable, ViewBigInt } from "@shared";
+import { RQResponse, ViewBigInt } from "@shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
@@ -28,7 +28,7 @@ export const useFetchAssetUtilizationRate = (asset: Address): FetchData<FetchBig
   };
 };
 
-export const useFetchViewAssetUtilizationRate = (asset: Address): Displayable<ViewBigInt> => {
+export const useFetchViewAssetUtilizationRate = (asset: Address): RQResponse<ViewBigInt> => {
   const { isLoading, isFetched, data: utilizationRate } = useFetchAssetUtilizationRate(asset);
 
   return {

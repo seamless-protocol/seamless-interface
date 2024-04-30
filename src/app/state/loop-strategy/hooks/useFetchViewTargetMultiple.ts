@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { convertRatioToMultiple, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable, ViewBigInt } from "../../../../shared";
+import { RQResponse, ViewBigInt } from "../../../../shared";
 import { useFetchCollateralRatioTargets } from "../metadataQueries/useFetchViewCollateralRatioTargets";
 
 export const useFetchTargetMultiple = (strategy: Address): FetchData<FetchBigInt> => {
@@ -22,7 +22,7 @@ export const useFetchTargetMultiple = (strategy: Address): FetchData<FetchBigInt
   };
 };
 
-export const useFetchViewTargetMultiple = (strategy: Address): Displayable<ViewBigInt> => {
+export const useFetchViewTargetMultiple = (strategy: Address): RQResponse<ViewBigInt> => {
   const { isLoading, isFetched, data: targetMultiple } = useFetchTargetMultiple(strategy);
 
   return {

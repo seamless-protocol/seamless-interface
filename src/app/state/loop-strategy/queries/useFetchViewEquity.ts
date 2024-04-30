@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable, formatFetchBigIntToViewBigIntTemp, useSeamlessContractRead, useToken } from "@shared";
+import { RQResponse, formatFetchBigIntToViewBigIntTemp, useSeamlessContractRead, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { loopStrategyAbi } from "../../../generated";
@@ -56,7 +56,7 @@ export const useFetchDetailEquity = (strategy: Address): FetchData<StrategyEquit
   };
 };
 
-export const useFetchViewDetailEquity = (strategy: Address): Displayable<ViewDetailEquity> => {
+export const useFetchViewDetailEquity = (strategy: Address): RQResponse<ViewDetailEquity> => {
   const {
     isLoading,
     isFetched,

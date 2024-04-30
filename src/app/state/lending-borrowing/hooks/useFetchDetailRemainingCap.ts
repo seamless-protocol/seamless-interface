@@ -4,7 +4,7 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useMemo } from "react";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { RQResponse, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
 
 interface RemainingCap {
   remainingCap: FetchBigInt | undefined;
@@ -56,7 +56,7 @@ export interface ViewDetailRemainingCap {
   tokenAmount?: ViewBigInt;
   dollarAmount?: ViewBigInt;
 }
-export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
+export const useViewDetailRemainingCap = (asset?: Address): RQResponse<ViewDetailRemainingCap> => {
   const {
     isLoading,
     isFetched,

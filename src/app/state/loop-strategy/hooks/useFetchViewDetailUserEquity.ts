@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { DecimalsOptions, Displayable, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { DecimalsOptions, RQResponse, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFetchViewAssetTotalSupply } from "../../common/queries/useFetchViewAssetTotalSupply";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ViewDetailUserEquity } from "../types/ViewDetailUserEquity";
@@ -81,7 +81,7 @@ export const useFetchDetailUserEquity = (strategy: Address): FetchData<DetailUse
 export const useFetchViewDetailUserEquity = (
   strategy: Address,
   decimalsOptions?: Partial<DecimalsOptions>
-): Displayable<ViewDetailUserEquity> => {
+): RQResponse<ViewDetailUserEquity> => {
   const {
     isLoading,
     isFetched,

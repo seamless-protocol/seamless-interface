@@ -3,6 +3,9 @@ import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
+export const UNDEFINED_VIEW_VALUE = "/";
+export const UNDEFINED_VIEW_SYMBOL = "/";
+
 export interface DecimalsOptions {
   singleDigitNumberDecimals: number;
   doubleDigitNumberDecimals: number;
@@ -81,10 +84,19 @@ export function formatToDisplayableOrPlaceholder(
  * @returns
  */
 export function formatFetchBigIntToViewBigInt(
-  data: FetchBigInt,
+  data?: FetchBigInt,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewBigInt {
-  const { bigIntValue, decimals, symbol = "" } = data;
+  if (data === undefined) {
+    return {
+      value: undefined,
+      viewValue: UNDEFINED_VIEW_VALUE,
+      bigIntValue: undefined,
+      symbol: UNDEFINED_VIEW_SYMBOL,
+    };
+  }
+
+  const { bigIntValue, decimals, symbol } = data;
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
     ...decimalsOptions,
@@ -92,7 +104,7 @@ export function formatFetchBigIntToViewBigInt(
   const value = formatUnitsToNumber(bigIntValue, decimals);
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: bigIntValue ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -114,7 +126,7 @@ export function formatFetchBigIntToViewBigIntTemp(
   const value = formatUnitsToNumber(bigIntValue, decimals);
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: bigIntValue ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -152,6 +164,15 @@ export function formatFetchBigIntToHealthFactor(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
+  if (bigIntValue === undefined) {
+    return {
+      value: undefined,
+      viewValue: UNDEFINED_VIEW_VALUE,
+      bigIntValue,
+      symbol,
+    };
+  }
+
   const value = formatUnitsToNumber(bigIntValue, decimals);
 
   return {

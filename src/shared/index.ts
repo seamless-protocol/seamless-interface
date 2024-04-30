@@ -10,6 +10,12 @@ export * from "./contexts/lifi/useLifiWidgetContext";
 export * from "./contexts/connect-wallet/ConnectButtonProvider";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 
+// ******** //
+// utils //
+// ******** //
+export * from "./formatters/mergeQueryStates";
+export * from "./formatters/bigintOperators";
+
 // ****** //
 // pages //
 // ****** //
@@ -163,3 +169,5 @@ export * from "./state";
 // utils //
 // ******** //
 export * from "./utils/helpers";
+export * from "./formatters/getFetchBigIntFormatted";
+

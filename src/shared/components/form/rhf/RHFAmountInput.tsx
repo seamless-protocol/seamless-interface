@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { Displayable, ViewBigInt } from "src/shared/types/Displayable";
+import { RQResponse, ViewBigInt } from "src/shared/types/Displayable";
 import { Address, parseUnits } from "viem";
 
 import { FlexCol } from "../../containers/FlexCol";
@@ -19,9 +19,9 @@ import { useFocusOnAssetChange } from "../../../../app/v2/hooks/useFocusOnAssetC
 
 export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetAddress?: Address;
-  walletBalance?: Displayable<ViewBigInt>;
-  protocolMaxValue?: Displayable<ViewBigInt | undefined>;
-  dollarValue?: Displayable<ViewBigInt>;
+  walletBalance?: RQResponse<ViewBigInt>;
+  protocolMaxValue?: RQResponse<ViewBigInt | undefined>;
+  dollarValue?: RQResponse<ViewBigInt>;
   assetButton?: React.ReactNode;
   focusOnAssetChange?: boolean
 }

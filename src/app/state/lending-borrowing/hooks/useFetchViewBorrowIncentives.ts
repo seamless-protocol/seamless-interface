@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable } from "../../../../shared";
+import { RQResponse } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { ViewIncentives } from "../types/ViewIncentives";
@@ -41,7 +41,7 @@ export const useFetchBorrowIncentives = (asset: Address): Fetch<BorrowIncentives
   };
 };
 
-export const useFetchViewBorrowIncentives = (asset: Address): Displayable<ViewIncentives> => {
+export const useFetchViewBorrowIncentives = (asset: Address): RQResponse<ViewIncentives> => {
   const { isLoading, isFetched, borrowIncentives } = useFetchBorrowIncentives(asset);
 
   return {

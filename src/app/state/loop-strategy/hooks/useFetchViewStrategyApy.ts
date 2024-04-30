@@ -3,7 +3,7 @@ import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@meta";
 import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
-import { Displayable, ViewNumber } from "src/shared/types/Displayable";
+import { RQResponse, ViewNumber } from "src/shared/types/Displayable";
 import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
@@ -53,14 +53,14 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
 
   const apy =
     latestBlockData?.timestamp &&
-    prevBlockData?.timestamp &&
-    shareValueInLatestBlock?.bigIntValue &&
-    shareValueInPrevBlock?.bigIntValue
+      prevBlockData?.timestamp &&
+      shareValueInLatestBlock?.bigIntValue &&
+      shareValueInPrevBlock?.bigIntValue
       ? calculateApy(
-          shareValueInLatestBlock.bigIntValue,
-          shareValueInPrevBlock.bigIntValue,
-          latestBlockData?.timestamp - prevBlockData?.timestamp
-        )
+        shareValueInLatestBlock.bigIntValue,
+        shareValueInPrevBlock.bigIntValue,
+        latestBlockData?.timestamp - prevBlockData?.timestamp
+      )
       : 0;
 
   const strategies = strategyAssets ? ilmAssetStrategiesMap.get(strategyAssets?.underlying) || [] : [];
@@ -86,7 +86,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
   };
 };
 
-export const useFetchViewStrategyApy = (strategy: Address): Displayable<ViewNumber> => {
+export const useFetchViewStrategyApy = (strategy: Address): RQResponse<ViewNumber> => {
   const { data, isLoading, isFetched } = useFetchStrategyApy(strategy);
 
   return {

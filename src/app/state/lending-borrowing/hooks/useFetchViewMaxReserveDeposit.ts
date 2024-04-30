@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt, useToken } from "../../../../shared";
+import { RQResponse, ViewBigInt, formatFetchBigIntToViewBigInt, useToken } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchDetailRemainingCap } from "./useFetchDetailRemainingCap";
@@ -39,7 +39,7 @@ export const useFetchMaxUserReserveDeposit = (reserve?: Address): FetchData<Fetc
   };
 };
 
-export const useFetchViewMaxUserReserveDeposit = (reserve?: Address): Displayable<ViewBigInt | undefined> => {
+export const useFetchViewMaxUserReserveDeposit = (reserve?: Address): RQResponse<ViewBigInt | undefined> => {
   const { data: maxUserReserveData, isLoading, isFetched } = useFetchMaxUserReserveDeposit(reserve);
 
   return {

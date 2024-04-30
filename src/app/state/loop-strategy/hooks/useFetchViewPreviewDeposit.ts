@@ -3,7 +3,7 @@ import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
-import { Displayable, useToken } from "@shared";
+import { RQResponse, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
@@ -114,7 +114,7 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   };
 };
 
-export const useFetchViewPreviewDeposit = (id: number, amount: string): Displayable<ViewPreviewDeposit> => {
+export const useFetchViewPreviewDeposit = (id: number, amount: string): RQResponse<ViewPreviewDeposit> => {
   const {
     isLoading,
     isFetched,

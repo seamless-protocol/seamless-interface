@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useSeamlessContractRead, useToken } from "@shared";
+import { getFetchBigIntStructured, useSeamlessContractRead, useToken } from "@shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 
 export const useFetchReserveData = (asset?: Address) => {
@@ -43,36 +43,13 @@ export const useFetchReserveData = (asset?: Address) => {
     isFetched: isTokenDataFetched && isReserveDataFetched,
     ...rest,
     data: {
-      totalSupplied: {
-        bigIntValue: totalSupplied || 0n,
-        decimals,
-        symbol: "",
-      },
-      totalBorrowed: {
-        bigIntValue: totalBorrowed || 0n,
-        decimals,
-        symbol: "",
-      },
-      liquidityRate: {
-        bigIntValue: liquidityRate || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      variableBorrowRate: {
-        bigIntValue: variableBorrowRate || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      liquidityIndex: {
-        bigIntValue: liquidityIndex || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      variableBorrowIndex: {
-        bigIntValue: variableBorrowIndex || 0n,
-        decimals: 27,
-        symbol: "",
-      },
+      totalSupplied: getFetchBigIntStructured(totalSupplied, decimals, ""),
+      totalBorrowed: getFetchBigIntStructured(totalBorrowed, decimals, ""),
+      // todo: 27?
+      liquidityRate: getFetchBigIntStructured(liquidityRate, 27, ""),
+      variableBorrowRate: getFetchBigIntStructured(variableBorrowRate, 27, ""),
+      liquidityIndex: getFetchBigIntStructured(liquidityIndex, 27, ""),
+      variableBorrowIndex: getFetchBigIntStructured(variableBorrowIndex, 27, ""),
     },
   };
 };

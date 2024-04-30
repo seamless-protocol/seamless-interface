@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import { lendingPoolAbi, lendingPoolAddress } from "../../../generated";
 import { Address } from "viem";
-import { Displayable, useSeamlessContractRead } from "@shared";
+import { RQResponse, useSeamlessContractRead } from "@shared";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { ONE_ETHER } from "@meta";
 import { ViewUserAccountData } from "../types/ViewUserAccountData";
@@ -83,7 +83,7 @@ export const useFetchUserAccountData = () => {
   };
 };
 
-export const useFetchViewUserAccountData = (): Displayable<ViewUserAccountData> => {
+export const useFetchViewUserAccountData = (): RQResponse<ViewUserAccountData> => {
   const {
     isLoading,
     isFetched,

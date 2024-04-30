@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { RQResponse, useSeamlessContractRead } from "../../../../shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -52,7 +52,7 @@ export const useFetchAssetConfiguration = (asset?: Address): FetchData<AssetConf
   };
 };
 
-export const useFetchViewAssetConfiguration = (asset: Address): Displayable<ViewAssetConfiguration> => {
+export const useFetchViewAssetConfiguration = (asset: Address): RQResponse<ViewAssetConfiguration> => {
   const {
     isLoading,
     isFetched,

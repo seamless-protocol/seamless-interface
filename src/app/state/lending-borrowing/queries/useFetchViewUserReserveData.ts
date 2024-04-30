@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Displayable, useSeamlessContractRead, useToken } from "../../../../shared";
+import { RQResponse, useSeamlessContractRead, useToken } from "../../../../shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { useAccount } from "wagmi";
 import { ViewUserReserveData } from "../types/ViewUserReserveData";
@@ -58,7 +58,7 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
   };
 };
 
-export const useFetchViewUserReserveData = (reserve: Address): Displayable<ViewUserReserveData> => {
+export const useFetchViewUserReserveData = (reserve: Address): RQResponse<ViewUserReserveData> => {
   const {
     isLoading,
     isFetched,

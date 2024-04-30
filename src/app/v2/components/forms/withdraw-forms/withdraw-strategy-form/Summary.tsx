@@ -6,7 +6,7 @@ import {
   DisplayMoney,
   StandardTooltip,
   Tooltip,
-  Displayable,
+  RQResponse,
   FlexRow,
 } from "@shared";
 import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
@@ -14,7 +14,7 @@ import { DataRow } from "../../DataRow";
 import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
 export const Summary: React.FC<{
-  displayablePreviewData: Displayable<ViewPreviewWithdraw>;
+  displayablePreviewData: RQResponse<ViewPreviewWithdraw>;
   strategy: StrategyConfig;
 }> = ({ displayablePreviewData }) => {
   const { data: previewWithdrawData, ...rest } = displayablePreviewData;
