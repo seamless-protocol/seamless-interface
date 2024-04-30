@@ -5,6 +5,7 @@ export type ExtendedQueryState<TData> = Pick<UseQueryResult<TData>, 'isLoading' 
   queryKey?: QueryKey;
 };
 
+// to review
 export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]): ExtendedQueryState<TData> {
   const defaultState: ExtendedQueryState<TData> = {
     isLoading: false,

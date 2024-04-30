@@ -1,5 +1,6 @@
 // todo: move this file to some other folder?
 
+// to review
 export function multiplyBigInts(values: (bigint | undefined)[]): bigint | undefined {
   if (values.some(value => value === undefined)) {
     return undefined;

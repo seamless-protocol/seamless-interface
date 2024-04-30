@@ -14,6 +14,7 @@ interface TotalSupplied {
   capacity: FetchBigInt | undefined;
 }
 
+// to review
 export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const { data: reserveCaps, ...rcRest } = useFetchReserveCaps(asset);
   const { data: { totalSupplied }, ...rdRest } = useFetchReserveData(asset);
