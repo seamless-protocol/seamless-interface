@@ -1,6 +1,7 @@
 import { Address } from "viem";
 // TODO: Change this to strategy logo once it's known
-import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
+import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.png";
+import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.png";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
@@ -54,7 +55,7 @@ export const ilmStrategies: StrategyConfig[] = [
     id: 1,
     name: "Multiply ETH Long",
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
-    logo: ilmwstETHLogo, // TODO: Update this to the correct logo
+    logo: ilmEthUsdcLogo,
     diagram: wstEthDiagram, // TODO: Update this or remove because it is unused
     defaultApy: 10, // TODO: Replace with actual APY
     underlyingAsset: {
