@@ -40,7 +40,7 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyDescription:
       "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
     description:
-      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
+      "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
   },
   [CBETH_ADDRESS]: {
     lendingTitle: "Supply cbETH",
