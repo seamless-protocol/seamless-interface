@@ -54,8 +54,8 @@ export const ilmStrategies: StrategyConfig[] = [
     id: 1,
     name: "Multiply ETH Long",
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
-    logo: ilmwstETHLogo, //TODO: Update this to the correct logo
-    diagram: wstEthDiagram, //TODO: Update this or remove because it is unused
+    logo: ilmwstETHLogo, // TODO: Update this to the correct logo
+    diagram: wstEthDiagram, // TODO: Update this or remove because it is unused
     defaultApy: 10, // TODO: Replace with actual APY
     underlyingAsset: {
       name: "Wrapped ETH",
