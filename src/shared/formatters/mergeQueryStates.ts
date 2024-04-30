@@ -10,7 +10,7 @@ export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]
   const defaultState: ExtendedQueryState<TData> = {
     isLoading: false,
     isError: false,
-    isFetched: true,
+    isFetched: false,
     isSuccess: false,
     queryKeys: [],
   };
