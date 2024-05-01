@@ -21,7 +21,7 @@ import {
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 
 export const StrategyForm = () => {
@@ -111,7 +111,7 @@ const StrategyFormLocal: React.FC<{
               <Typography type="bold4">
                 {asset ? getTokenTitle(asset, true) : "Select strategy to get started"}
               </Typography>
-              <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
+              <Typography type="regular3">{getOverridenName(asset, undefined, true)}</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}

@@ -5,6 +5,7 @@ import { AssetApy } from "./AssetApy";
 import { TokenDescriptionDict, getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
+import { findILMStrategyByAddress } from "../../state/loop-strategy/config/StrategyConfig";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 
 export interface AssetCardProps {
@@ -17,6 +18,8 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
+  const strategyIcon = isStrategy && findILMStrategyByAddress(address)?.logo;
+
   const {
     data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
@@ -30,7 +33,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
-          <Icon width={40} src={icon} alt={icon || ""} />
+          <Icon width={40} src={strategyIcon || icon} alt={strategyIcon || icon || ""} />
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{getTokenTitle(address, isStrategy)}</Typography>

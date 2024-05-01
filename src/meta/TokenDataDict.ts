@@ -15,9 +15,9 @@ import { Address } from "viem";
 
 import wethLogo from "@assets/tokens/weth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
-import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.png";
+import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import cbethLogo from "@assets/tokens/cbeth.svg";
-import ethLongLogo from "@assets/tokens/ilmEthUsdc.png";
+import ethLongLogo from "@assets/tokens/ilmEthUsdc.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import daiLogo from "@assets/tokens/dai.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
