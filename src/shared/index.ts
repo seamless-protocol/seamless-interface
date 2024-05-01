@@ -11,10 +11,11 @@ export * from "./contexts/connect-wallet/ConnectButtonProvider";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 
 // ******** //
-// utils //
+// formatters //
 // ******** //
 export * from "./formatters/mergeQueryStates";
 export * from "./formatters/bigintOperators";
+export * from "./formatters/getSafeBigIntValues";
 
 // ****** //
 // pages //
