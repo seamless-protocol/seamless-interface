@@ -9,13 +9,15 @@ import {
   wstETHBooster_ADDRESS,
   DEGEN_ADDRESS,
   SEAM_ADDRESS,
+  ethLong,
 } from "./constants";
 import { Address } from "viem";
 
 import wethLogo from "@assets/tokens/weth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
-import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
+import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.png";
 import cbethLogo from "@assets/tokens/cbeth.svg";
+import ethLongLogo from "@assets/tokens/ilmEthUsdc.png";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import daiLogo from "@assets/tokens/dai.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
@@ -44,6 +46,10 @@ export const TokenDataDict: ITokenDataDict = {
     name: "wstETH Booster",
     logo: ilmwstETHLogo,
   },
+  [ethLong]: {
+    name: "Multiply ETH Long",
+    logo: ethLongLogo,
+  },
   // Adding the missing contracts
   [CBETH_ADDRESS]: {
     logo: cbethLogo,
@@ -58,9 +64,9 @@ export const TokenDataDict: ITokenDataDict = {
     logo: usdcLogo,
   },
   [DEGEN_ADDRESS]: {
-    logo: degenLogo
+    logo: degenLogo,
   },
   [SEAM_ADDRESS]: {
-    logo: seamLogo
+    logo: seamLogo,
   },
 };

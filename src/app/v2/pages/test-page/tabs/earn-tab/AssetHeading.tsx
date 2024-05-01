@@ -8,7 +8,7 @@ import {
 export const AssetHeading: React.FC<{ asset: Address; isStrategy: boolean }> = ({ asset, isStrategy }) => {
   const { data: tokenData } = useFullTokenData(asset);
 
-  const description = getTokenDescription(asset);
+  const description = getTokenDescription(asset, isStrategy);
 
   return (
     <FlexRow className="gap-6">

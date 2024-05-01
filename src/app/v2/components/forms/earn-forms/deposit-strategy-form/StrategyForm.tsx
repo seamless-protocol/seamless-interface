@@ -16,11 +16,13 @@ import {
   MyFormProvider,
   FlexRow,
   useToken,
+  DisplayText,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -39,6 +41,12 @@ export const StrategyForm = () => {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
+  const {
+    data: targetMultipleData,
+    isLoading: isTargeMultipleLoading,
+    isFetched: isTargetMultipleFetched,
+  } = useFetchViewTargetMultiple(strategy.address);
+
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const methods = useForm({
     defaultValues: {
@@ -100,7 +108,9 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? getTokenTitle(asset, true) : "Select strategy to get started"}</Typography>
+              <Typography type="bold4">
+                {asset ? getTokenTitle(asset, true) : "Select strategy to get started"}
+              </Typography>
               <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
             </FlexCol>
 
@@ -115,10 +125,14 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-4">
-
           <FlexRow className="justify-between pr-2">
             <Typography type="bold3">Target Boost</Typography>
-            <Typography type="bold3">3x</Typography>
+            <DisplayText
+              typography="bold3"
+              isLoading={isTargeMultipleLoading}
+              isFetched={isTargetMultipleFetched}
+              {...targetMultipleData}
+            />
           </FlexRow>
           {/* <FlexCol>
             <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />

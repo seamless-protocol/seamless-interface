@@ -43,8 +43,8 @@ export const useFetchDetailEquity = (strategy: Address): FetchData<StrategyEquit
     functionName: "equityUSD",
   });
 
-  const retEquity = equity ? { bigIntValue: equity, decimals, symbol } : undefined;
-  const retEquityUsd = equityUsd ? { bigIntValue: equityUsd, decimals: 8, symbol: "$" } : undefined;
+  const retEquity = equity !== undefined ? { bigIntValue: equity, decimals, symbol } : undefined;
+  const retEquityUsd = equityUsd !== undefined ? { bigIntValue: equityUsd, decimals: 8, symbol: "$" } : undefined;
 
   return {
     isLoading: isEquityLoading || isEquityUsdLoading || isUnderlyingAssetLoading || isTokenDataLoading,
