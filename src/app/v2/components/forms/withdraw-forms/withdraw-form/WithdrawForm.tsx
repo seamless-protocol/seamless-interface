@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { WETH_ADDRESS } from "@meta";
 import {
   useNotificationContext,
   FlexCol,
@@ -8,6 +10,7 @@ import {
   useFullTokenData,
   WatchAssetComponentv2,
 } from "../../../../../../shared";
+import { RouterConfig } from "../../../../../router";
 import { WithdrawModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal";
 import { FormButtons } from "./FormButtons";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
@@ -53,6 +56,21 @@ export const WithdrawForm = () => {
                 </Typography>
                 {asset && symbol && (
                   <WatchAssetComponentv2 address={asset} decimals={decimals} logo={logo} symbol={symbol} />
+                )}
+                {asset === WETH_ADDRESS && (
+                  <FlexRow className="w-full">
+                    <a
+                      href={RouterConfig.Routes.unwrapEth}
+                      className="flex flex-row items-center justify-end gap-1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography type="bold2" className="text-right">
+                        To unwrap to ETH, click here
+                      </Typography>
+                      <ArrowTopRightOnSquareIcon width={12} />
+                    </a>
+                  </FlexRow>
                 )}
               </FlexCol>
             ),

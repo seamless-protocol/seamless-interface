@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
@@ -20,6 +22,7 @@ import {
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
+import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
@@ -116,6 +119,16 @@ const StrategyFormLocal: React.FC<{
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
+          {asset === WETH_ADDRESS && (
+            <FlexRow className="w-full">
+              <a href={RouterConfig.Routes.wrapEth} className="flex flex-row items-center justify-end gap-1" target="_blank" rel="noopener noreferrer">
+                <Typography type="bold2" className="text-right">
+                  To wrap ETH, click here
+                </Typography>
+                <ArrowTopRightOnSquareIcon width={12} />
+              </a>
+            </FlexRow>
+          )}
           <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
