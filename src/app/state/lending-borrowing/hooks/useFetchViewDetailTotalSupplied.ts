@@ -8,57 +8,38 @@ import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ONE_ETHER } from "../../../../meta";
 
-// todo move this interface in some shared file
-interface CalculateBigIntReturnType {
-  isInfinity?: boolean;
-  result?: bigint;
-}
-
-interface TotalSupplied {
-  totalSupplied: FetchBigInt | undefined;
-  totalSuppliedUsd: FetchBigInt | undefined;
-  capacity: FetchBigInt | undefined;
-}
-
-// small c would be convension for math functions (c - calculate)
-// why convesion, i think its better to have f - formatters, c - calculate, use - hooks and so on... to easy provide more context
 const cCapacity = (
   totalSuppliedValue?: bigint,
   supplyCapValue?: bigint,
   totalSuppliedDecimals?: number
-): CalculateBigIntReturnType | undefined => {
+): bigint | undefined => {
   if (totalSuppliedValue == null || supplyCapValue == null || totalSuppliedDecimals == null) return undefined;
 
   const divider = supplyCapValue * (10n ** BigInt(totalSuppliedDecimals));
+  if (divider === 0n) return undefined
 
-  if (divider === 0n) return {
-    isInfinity: true
-  }
-
-  return {
-    result: totalSuppliedValue * ONE_ETHER * 100n / divider
-  }
+  return totalSuppliedValue * ONE_ETHER * 100n / divider
 }
 
 const cTotalSuppliedUsd = (
   totalSuppliedValue?: bigint,
   priceValue?: bigint,
   totalSuppliedDecimals?: number
-): CalculateBigIntReturnType | undefined => {
+): bigint | undefined => {
   if (totalSuppliedValue == null || priceValue == null || totalSuppliedDecimals == null) return undefined;
 
   const divider = (10n ** BigInt(totalSuppliedDecimals));
+  if (divider === 0n) return undefined
 
-  if (divider === 0n) return {
-    isInfinity: true
-  }
-
-  return {
-    result: (totalSuppliedValue * priceValue) / divider
-  }
+  return (totalSuppliedValue * priceValue) / divider
 }
 
-// to review
+interface TotalSupplied {
+  totalSupplied: FetchBigInt | undefined;
+  totalSuppliedUsd: FetchBigInt | undefined;
+  capacity: FetchBigInt | undefined;
+  hasSupplyCap?: boolean;
+}
 export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const { data: reserveCaps, ...rcRest } = useFetchReserveCaps(asset);
   const { data: { totalSupplied }, ...rdRest } = useFetchReserveData(asset);
@@ -78,16 +59,16 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
     ...mergeQueryStates([rcRest, rdRest, paRest]),
     data: {
       totalSupplied,
-      // todo infinity: isInfinity
-      totalSuppliedUsd: getFetchBigIntStructured(totalSuppliedUsd?.result, 8, "$"), // ,totalSuppliedUsd?.isInfinity
-      capacity: getFetchBigIntStructured(capacity?.result, 18, "%") // ,capacity?.isInfinity
+      totalSuppliedUsd: getFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
+      capacity: getFetchBigIntStructured(capacity, 18, "%"),
+      hasSupplyCap: reserveCaps?.supplyCap.bigIntValue === 0n
     },
   };
 };
 
 export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<ViewDetailTotalSupplied> => {
   const {
-    data: { totalSupplied, totalSuppliedUsd, capacity },
+    data: { totalSupplied, totalSuppliedUsd, capacity, hasSupplyCap },
     ...rest
   } = useFetchDetailTotalSupplied(asset);
 
@@ -95,7 +76,6 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
     ...rest,
     data: {
       totalSupplied: {
-        // this function would now accept capacity?.isInfinity and add return "∞" as viewvalue (or something else)
         tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
         dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
@@ -103,7 +83,8 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         singleDigitNumberDecimals: 1,
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,
-      })
+      }),
+      hasSupplyCap
     },
   };
 };

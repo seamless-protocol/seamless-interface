@@ -15,7 +15,7 @@ export * from "./contexts/connect-wallet/useConnectButtonContext";
 // ******** //
 export * from "./formatters/mergeQueryStates";
 export * from "./formatters/bigintOperators";
-export * from "./formatters/getSafeBigIntValues";
+export * from "./formatters/calculateWithSafeBigIntValues";
 
 // ****** //
 // pages //

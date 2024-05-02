@@ -6,4 +6,5 @@ export interface ViewDetailTotalSupplied {
     dollarAmount: ViewBigInt;
   };
   capacity: ViewBigInt | undefined;
+  hasSupplyCap?: boolean;
 }
