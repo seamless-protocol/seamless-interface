@@ -1,5 +1,4 @@
 import { useBlock } from "wagmi";
-import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@meta";
 import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
@@ -30,7 +29,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
     isFetched: isPrevBlockFetched,
   } = useBlock({
     query: { enabled: !!latestBlockData },
-    blockNumber: latestBlockData ? latestBlockData?.number - APY_BLOCK_FRAME : 0n,
+    blockNumber: latestBlockData && latestBlockData?.number - APY_BLOCK_FRAME,
   });
 
   const {
@@ -63,9 +62,6 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
         )
       : 0;
 
-  const strategies = strategyAssets ? ilmAssetStrategiesMap.get(strategyAssets?.underlying) || [] : [];
-  const strategyConfig = strategies.find((s) => s.address === strategy);
-
   return {
     isLoading:
       isLatestBlockShareValueLoading ||
@@ -80,7 +76,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
       isPrevBlockFetched &&
       isStrategyAssetsFetched,
     data: {
-      value: strategyConfig?.defaultApy ? strategyConfig.defaultApy : apy,
+      value: apy,
       symbol: "%",
     },
   };

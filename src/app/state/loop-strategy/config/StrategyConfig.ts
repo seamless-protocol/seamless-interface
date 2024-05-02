@@ -1,7 +1,7 @@
 import { Address } from "viem";
 // TODO: Change this to strategy logo once it's known
-import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.png";
-import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.png";
+import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
+import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
@@ -22,7 +22,6 @@ export interface StrategyConfig {
   address: Address;
   logo: string;
   diagram: string;
-  defaultApy: number;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
   vaultsFyiLink?: string;
@@ -36,7 +35,6 @@ export const ilmStrategies: StrategyConfig[] = [
     address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
-    defaultApy: 0,
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",
@@ -56,8 +54,7 @@ export const ilmStrategies: StrategyConfig[] = [
     name: "Multiply ETH Long",
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
     logo: ilmEthUsdcLogo,
-    diagram: wstEthDiagram, // TODO: Update this or remove because it is unused
-    defaultApy: 10, // TODO: Replace with actual APY
+    diagram: "", // TODO: Update this or remove because it is unused
     underlyingAsset: {
       name: "Wrapped ETH",
       symbol: "WETH",
@@ -79,7 +76,6 @@ export const findILMStrategyByAddress = (address: Address) => {
 
 export interface StrategyData {
   address: Address;
-  defaultApy: number;
   targetMultiple: {
     value: number;
     symbol: string;
@@ -94,7 +90,6 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
     [
       {
         address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
-        defaultApy: 0,
         targetMultiple: {
           value: 3,
           symbol: "x",
@@ -107,7 +102,6 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
     [
       {
         address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
-        defaultApy: 10, // TODO: Replace with actual APY
         targetMultiple: {
           value: 1.5,
           symbol: "x",

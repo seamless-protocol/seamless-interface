@@ -1,7 +1,9 @@
-import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, DisplayText } from "@shared";
+import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, DisplayText, Tooltip } from "@shared";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
+import { findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
@@ -15,6 +17,8 @@ import { useFetchViewLendingPoolInfo } from "../../../../../v1/pages/ilm-page/ho
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
+
+  const strategy = findILMStrategyByAddress(asset);
 
   const {
     data: oraclePrice,
@@ -82,8 +86,25 @@ export const Heading = () => {
               )}
             </FlexCol>
             <FlexCol className="gap-1 text-center">
-              <Typography type="regular3">Est. APY</Typography>
-              <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" />
+              <FlexRow className="gap-2">
+                <Typography type="regular3">Est. APY</Typography>
+                {isStrategy && (
+                  <Tooltip
+                    openOnClick
+                    tooltip={
+                      <Typography type="description">
+                        30 day moving average denominated in {strategy?.debtAsset.symbol}
+                      </Typography>
+                    }
+                    size="small"
+                    theme="dark"
+                  >
+                    <InformationCircleIcon className="cursor-pointer" width={15} />
+                  </Tooltip>
+                )}
+              </FlexRow>
+
+              <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" showWarning={false} />
               {!isStrategy && (
                 <IncentivesButton {...supplyIncentives} {...incentivesRest}>
                   <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />

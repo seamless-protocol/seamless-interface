@@ -50,7 +50,7 @@ export const Summary: React.FC<{
             <StandardTooltip width={1}>
               <Typography type="medium2" className="text-navy-1000">
                 DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your
-                withdrawal.
+                withdrawal. If transaction <br /> cost is high, try withdrawing smaller amounts over time.
               </Typography>
             </StandardTooltip>
           </FlexRow>
