@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { parseUnits, Address } from "viem";
 import { useAccount } from "wagmi";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
@@ -98,8 +99,8 @@ const WithdrawStrategyLocal: React.FC<{
               </Typography>
               {underlyingTokenAddress === WETH_ADDRESS && (
                 <FlexRow className="w-full">
-                  <a
-                    href={RouterConfig.Routes.unwrapEth}
+                  <Link
+                    to={RouterConfig.Routes.unwrapEth}
                     className="flex flex-row items-center justify-end gap-1"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -108,7 +109,7 @@ const WithdrawStrategyLocal: React.FC<{
                       To unwrap ETH, click here
                     </Typography>
                     <ArrowTopRightOnSquareIcon width={12} />
-                  </a>
+                  </Link>
                 </FlexRow>
               )}
               {underlyingTokenAddress && underlyingTokenData?.symbol && (
@@ -121,8 +122,8 @@ const WithdrawStrategyLocal: React.FC<{
               )}
               {underlyingTokenAddress === WETH_ADDRESS && (
                 <FlexRow className="w-full">
-                  <a
-                    href={RouterConfig.Routes.unwrapEth}
+                  <Link
+                    to={RouterConfig.Routes.unwrapEth}
                     className="flex flex-row items-center justify-end gap-1"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -131,7 +132,7 @@ const WithdrawStrategyLocal: React.FC<{
                       To unwrap to ETH, click here
                     </Typography>
                     <ArrowTopRightOnSquareIcon width={12} />
-                  </a>
+                  </Link>
                 </FlexRow>
               )}
             </FlexCol>

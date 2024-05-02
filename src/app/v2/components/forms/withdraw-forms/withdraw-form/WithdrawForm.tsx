@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import {
   useNotificationContext,
@@ -59,8 +60,8 @@ export const WithdrawForm = () => {
                 )}
                 {asset === WETH_ADDRESS && (
                   <FlexRow className="w-full">
-                    <a
-                      href={RouterConfig.Routes.unwrapEth}
+                    <Link
+                      to={RouterConfig.Routes.unwrapEth}
                       className="flex flex-row items-center justify-end gap-1"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -69,7 +70,7 @@ export const WithdrawForm = () => {
                         To unwrap to ETH, click here
                       </Typography>
                       <ArrowTopRightOnSquareIcon width={12} />
-                    </a>
+                    </Link>
                   </FlexRow>
                 )}
               </FlexCol>

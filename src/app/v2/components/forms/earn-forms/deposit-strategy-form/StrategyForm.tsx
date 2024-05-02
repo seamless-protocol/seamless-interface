@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
@@ -121,12 +122,12 @@ const StrategyFormLocal: React.FC<{
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">
-              <a href={RouterConfig.Routes.wrapEth} className="flex flex-row items-center justify-end gap-1" target="_blank" rel="noopener noreferrer">
+              <Link to={RouterConfig.Routes.wrapEth} className="flex flex-row items-center justify-end gap-1" target="_blank" rel="noopener noreferrer">
                 <Typography type="bold2" className="text-right">
                   To wrap ETH, click here
                 </Typography>
                 <ArrowTopRightOnSquareIcon width={12} />
-              </a>
+              </Link>
             </FlexRow>
           )}
           <RHFSupplyStrategyAmountField
