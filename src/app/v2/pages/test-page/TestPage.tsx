@@ -12,14 +12,20 @@ export const TestPage = () => {
     <PageContainer className="flex justify-center py-12">
       <TabProvider<Tabs> defaultTab="Earn">
         {/* todo: responsive */}
-        <FlexCol className="gap-1 w-full max-w-[1020px]">
+        <FlexCol className="gap-1 w-full md:max-w-[1020px]">
           <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin">
             <TabButton<Tabs> tab="Earn">Earn</TabButton>
             <Link
               to={RouterConfig.Routes.lendingAndBorrowing}
-              className="min-w-32 relative py-4 text-bold3 text-navy-400"
+              className="md:block hidden min-w-32 relative py-4 text-bold3 text-navy-400"
             >
               Borrow (using legacy mode)
+            </Link>
+            <Link
+              to={RouterConfig.Routes.lendingAndBorrowing}
+              className="block md:hidden md:min-w-32 relative py-4 text-bold3 text-navy-400"
+            >
+              Borrow (legacy)
             </Link>
             <TabButton<Tabs> tab="My Positions">My Positions</TabButton>
           </FlexRow>

@@ -26,7 +26,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (
-    <div className="py-4 border-solid border-b border-b-navy-100">
+    <div className="hidden md:block py-4 border-solid border-b border-b-navy-100">
       <TableRow className="md:grid grid-cols-12" hideBorder={hideBorder}>
         <TableCell alignItems="items-start col-span-4">
           <FlexRow className="gap-4 items-start">
