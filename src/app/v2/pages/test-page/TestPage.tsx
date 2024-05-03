@@ -23,7 +23,7 @@ export const TestPage = () => {
             </Link>
             <Link
               to={RouterConfig.Routes.lendingAndBorrowing}
-              className="block md:hidden md:min-w-32 relative py-4 text-bold3 text-navy-400"
+              className="block md:hidden min-w-32 relative py-4 text-bold3 text-navy-400"
             >
               Borrow (legacy)
             </Link>

@@ -70,7 +70,7 @@ export const Heading = () => {
       )}
       {asset && (
         <div className="col-span-6">
-          <div className="flex md:flex-row flex-col gap-12 md:gap-16 justify-between md:justify-center w-full mt-2">
+          <div className="flex md:flex-row flex-wrap gap-12 md:gap-16 justify-between md:justify-center w-full mt-2">
             <FlexCol className="gap-1 md:text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />

@@ -18,7 +18,7 @@ export const Footer = () => {
       <div className="flex flex-col md:flex-row gap-10 items-start">
         {navigation.map((x, index) => {
           return (
-            <Link target="_blank" key={index} className="text-medium3" to={x.to}>
+            <Link target="_blank" key={index} className="text-medium3" to={x.to} rel="noreferrer">
               {x.label}
             </Link>
           );
