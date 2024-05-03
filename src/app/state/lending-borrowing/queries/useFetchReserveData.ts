@@ -1,27 +1,21 @@
 import { Address } from "viem";
-import { fFetchBigIntStructured, useSeamlessContractRead, useToken } from "@shared";
+import { fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "@shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 
 export const useFetchReserveData = (asset?: Address) => {
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
     data: { decimals },
+    ...tokenRest
   } = useToken(asset);
 
-  const {
-    data,
-    isLoading: isReserveDataLoading,
-    isFetched: isReserveDataFetched,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveData",
     args: [asset!],
     query: {
-      enabled: !!asset
-    }
+      enabled: !!asset,
+    },
   });
 
   const [
@@ -39,8 +33,7 @@ export const useFetchReserveData = (asset?: Address) => {
   ] = data || [];
 
   return {
-    isLoading: isTokenDataLoading || isReserveDataLoading,
-    isFetched: isTokenDataFetched && isReserveDataFetched,
+    ...mergeQueryStates([tokenRest, rest]),
     ...rest,
     data: {
       totalSupplied: fFetchBigIntStructured(totalSupplied, decimals, ""),

@@ -37,6 +37,11 @@ export const useMutateWithdrawLending = (asset?: Address) => {
       console.warn(`asset is not  defined! useMutateWithdrawLending`);
       return;
     }
+    if (!decimals) {
+      // eslint-disable-next-line no-console
+      console.warn("decimals are undefined at useMutateWithdrawLending!");
+      return;
+    }
 
     await writeContractAsync(
       {
