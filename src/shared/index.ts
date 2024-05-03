@@ -15,7 +15,6 @@ export * from "./contexts/connect-wallet/useConnectButtonContext";
 // ******** //
 export * from "./formatters/mergeQueryStates";
 export * from "./formatters/bigintOperators";
-export * from "./formatters/calculateWithSafeBigIntValues";
 
 // ****** //
 // pages //
@@ -111,6 +110,8 @@ export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 // ***** //
 export * from "./types/Color";
 export * from "./types/Displayable";
+export * from "./types/Fetch";
+export * from "./types/INotification";
 
 // ******* //
 // display //
@@ -171,4 +172,3 @@ export * from "./state";
 // ******** //
 export * from "./utils/helpers";
 export * from "./formatters/getFetchBigIntFormatted";
-

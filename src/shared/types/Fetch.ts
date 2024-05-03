@@ -7,8 +7,8 @@ export interface FetchNumber {
 
 export interface FetchBigInt {
   bigIntValue?: bigint;
-  decimals: number;
-  symbol: string;
+  decimals?: number;
+  symbol?: string;
 }
 
 export type Fetch<T> = T & {
@@ -18,4 +18,4 @@ export type Fetch<T> = T & {
 
 export interface FetchData<T> extends ExtendedQueryState<T> {
   data: T;
-};
+}
