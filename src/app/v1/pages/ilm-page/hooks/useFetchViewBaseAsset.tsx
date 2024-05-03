@@ -1,4 +1,4 @@
-import { RQResponse, ViewBigInt, ViewNumber } from "../../../../../shared";
+import { Displayable, ViewBigInt, ViewNumber } from "../../../../../shared";
 import { baseAssets } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { Address } from "viem";
 import { useFetchViewSupplyApy } from "../../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
@@ -41,7 +41,7 @@ export interface ViewBaseAsset {
   };
 }
 
-export const useFetchViewBaseAsset = (index: number): RQResponse<ViewBaseAsset> => {
+export const useFetchViewBaseAsset = (index: number): Displayable<ViewBaseAsset> => {
   const baseAsset = baseAssets[index];
 
   const {

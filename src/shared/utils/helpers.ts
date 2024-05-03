@@ -141,17 +141,23 @@ export function formatFetchBigIntToViewBigIntTemp(
  * @returns
  */
 export function formatFetchNumberToViewNumber(
-  { value, symbol }: FetchNumber,
+  fetchNumber?: FetchNumber,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewNumber {
+  if (!fetchNumber) return {
+    value: undefined,
+    viewValue: "/",
+    symbol: "/"
+  };
+
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
   return {
-    value,
-    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
-    symbol,
+    value: fetchNumber.value,
+    viewValue: formatToDisplayable(fetchNumber.value, decimalsFormattingOptions),
+    symbol: fetchNumber.symbol,
   };
 }
 
@@ -184,7 +190,7 @@ export function formatFetchBigIntToHealthFactor(
   };
 }
 
-export function formatIncentiveAprToViewNumber(apr: number | undefined): ViewNumber {
+export function formatIncentiveAprToViewNumber(apr?: number | undefined): ViewNumber {
   return {
     viewValue: formatToDisplayableOrPlaceholder(apr || 0, ""),
     symbol: (apr || 0) > 0 ? "%" : "",

@@ -6,7 +6,7 @@ import { ONE_ETHER, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { RQResponse, ViewBigInt } from "../../../../shared";
+import { Displayable, ViewBigInt } from "../../../../shared";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
 import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
@@ -110,7 +110,7 @@ export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPric
     return {
       ...rest,
       data: {
-        bigIntValue: price || 0n,
+        bigIntValue: price,
         decimals: 8,
         symbol: "$",
       },
@@ -125,12 +125,11 @@ type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
 export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
-}: useFetchViewAssetPriceParams): RQResponse<ViewBigInt> => {
-  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset });
+}: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
+  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: formatFetchBigIntToViewBigInt(price),
   };
 };

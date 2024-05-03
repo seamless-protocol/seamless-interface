@@ -2,7 +2,7 @@ import { aaveOracleAbi, aaveOracleAddress } from "../../../../generated/generate
 import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
-import { RQResponse, ViewBigInt } from "../../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
 import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
@@ -111,7 +111,7 @@ export interface ViewLendingPoolInfo {
   totalBorrowsUsd: ViewBigInt;
 }
 
-export const useFetchViewLendingPoolInfo = (): RQResponse<ViewLendingPoolInfo> => {
+export const useFetchViewLendingPoolInfo = (): Displayable<ViewLendingPoolInfo> => {
   const { isLoading, isFetched, totalMarketSizeUsd, totalAvailableUsd, totalBorrowsUsd } = useFetchLendingPoolInfo();
 
   return {

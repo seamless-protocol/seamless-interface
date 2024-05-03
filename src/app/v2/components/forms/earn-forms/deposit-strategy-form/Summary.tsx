@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { FlexRow, Typography, FlexCol, RQResponse, DisplayTokenAmount } from "@shared";
+import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount } from "@shared";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
@@ -8,7 +8,7 @@ import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/Vie
 
 export const Summary: React.FC<{
   asset: Address;
-  previewDepositData: RQResponse<ViewPreviewDeposit>;
+  previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ asset, previewDepositData }) => {
   const strategy = findILMStrategyByAddress(asset);
 
@@ -23,7 +23,7 @@ export const Summary: React.FC<{
 
 const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
-  previewDepositData: RQResponse<ViewPreviewDeposit>;
+  previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ previewDepositData }) => {
   const { asset } = useFormSettingsContext();
 

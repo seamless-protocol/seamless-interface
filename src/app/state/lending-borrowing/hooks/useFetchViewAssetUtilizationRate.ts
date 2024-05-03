@@ -1,39 +1,51 @@
 import { Address } from "viem";
-import { RQResponse, ViewBigInt } from "@shared";
+import { Displayable, ViewBigInt, fFetchBigIntStructured } from "@shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { ONE_ETHER } from "@meta";
 
-export const useFetchAssetUtilizationRate = (asset: Address): FetchData<FetchBigInt> => {
-  const {
-    isLoading,
-    isFetched,
-    data: { totalSupplied, totalBorrowed },
-  } = useFetchReserveData(asset);
+const cUtilizationRate = (totalSuppliedValue?: bigint, totalBorrowedValue?: bigint): bigint | undefined => {
+  if (totalSuppliedValue == null || totalBorrowedValue == null) return undefined;
 
-  let utilizationRate;
-  if (totalSupplied.bigIntValue && totalBorrowed.bigIntValue) {
-    utilizationRate = (totalBorrowed.bigIntValue * ONE_ETHER * 100n) / totalSupplied.bigIntValue;
-  }
+  const divider = totalSuppliedValue;
+  if (divider === 0n) return undefined;
+
+  return (totalBorrowedValue * ONE_ETHER * 100n) / divider;
+};
+
+interface AssetUtilizationRate {
+  utilizationRate: FetchBigInt | undefined;
+  noTotalSupplied?: boolean;
+}
+
+export const useFetchAssetUtilizationRate = (asset: Address): FetchData<AssetUtilizationRate> => {
+  const { data: { totalSupplied, totalBorrowed }, ...rest } = useFetchReserveData(asset);
+
+  const utilizationRate = cUtilizationRate(totalSupplied?.bigIntValue, totalBorrowed?.bigIntValue);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
-      bigIntValue: utilizationRate || 0n,
-      decimals: 18,
-      symbol: "%",
-    },
+      utilizationRate: fFetchBigIntStructured(utilizationRate, 18, "%"),
+      noTotalSupplied: totalSupplied?.bigIntValue === 0n
+    }
   };
 };
 
-export const useFetchViewAssetUtilizationRate = (asset: Address): RQResponse<ViewBigInt> => {
-  const { isLoading, isFetched, data: utilizationRate } = useFetchAssetUtilizationRate(asset);
+interface ViewAssetUtilizationRate {
+  utilizationRate: ViewBigInt | undefined;
+  noTotalSupplied?: boolean;
+}
+
+export const useFetchViewAssetUtilizationRate = (asset: Address): Displayable<ViewAssetUtilizationRate> => {
+  const { data: { utilizationRate, noTotalSupplied }, ...rest } = useFetchAssetUtilizationRate(asset);
 
   return {
-    isLoading,
-    isFetched,
-    data: formatFetchBigIntToViewBigInt(utilizationRate),
+    ...rest,
+    data: {
+      utilizationRate: formatFetchBigIntToViewBigInt(utilizationRate),
+      noTotalSupplied
+    },
   };
 };

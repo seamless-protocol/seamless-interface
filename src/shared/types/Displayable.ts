@@ -1,6 +1,6 @@
 import { ExtendedQueryState } from "../formatters/mergeQueryStates";
 
-export interface RQResponse<T> extends ExtendedQueryState<T> {
+export interface Displayable<T> extends ExtendedQueryState<T> {
   data: T;
 }
 

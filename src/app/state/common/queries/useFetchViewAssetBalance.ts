@@ -1,5 +1,5 @@
 import { Address, erc20Abi } from "viem";
-import { RQResponse, useSeamlessContractRead, useToken } from "@shared";
+import { Displayable, useSeamlessContractRead, useToken } from "@shared";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
@@ -36,7 +36,7 @@ export const useFetchAssetBalance = (asset?: Address) => {
 export const useFetchViewAssetBalance = (
   asset?: Address,
   decimalsOptions?: Partial<DecimalsOptions>
-): RQResponse<ViewAssetBalance> => {
+): Displayable<ViewAssetBalance> => {
   const { isLoading, isFetched, data: balance } = useFetchAssetBalance(asset);
 
   return {

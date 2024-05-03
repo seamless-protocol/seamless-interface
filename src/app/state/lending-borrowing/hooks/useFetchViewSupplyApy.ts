@@ -1,15 +1,14 @@
 import { convertAprToApy, formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "../../../../shared/types/Fetch";
 import { Address } from "viem";
-import { RQResponse } from "../../../../shared";
+import { Displayable } from "../../../../shared";
 import { ViewApy } from "../types/ViewApy";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 
 export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
   const {
-    isLoading,
-    isFetched,
     data: { liquidityRate },
+    ...liquidityRest
   } = useFetchReserveData(asset);
 
   let supplyApy = 0;
@@ -19,8 +18,7 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
   }
 
   return {
-    isLoading,
-    isFetched,
+    ...liquidityRest,
     data: {
       value: supplyApy,
       symbol: supplyApy !== undefined ? "%" : "",
@@ -28,12 +26,11 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
   };
 };
 
-export const useFetchViewSupplyApy = (asset: Address): RQResponse<ViewApy> => {
-  const { isLoading, isFetched, data: apy } = useFetchSupplyApy(asset);
+export const useFetchViewSupplyApy = (asset: Address): Displayable<ViewApy> => {
+  const { data: apy, ...rest } = useFetchSupplyApy(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       apy: formatFetchNumberToViewNumber(apy),
     },

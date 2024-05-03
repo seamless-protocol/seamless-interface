@@ -1,10 +1,15 @@
 import { Address } from "viem";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { useMemo } from "react";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { RQResponse, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { mergeQueryStates, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, fFetchBigIntStructured } from "../../../../shared";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
+
+const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
+  if (supplyCapValue == null || totalSuppliedValue == null) return undefined;
+  return totalSuppliedValue - supplyCapValue;
+};
 
 interface RemainingCap {
   remainingCap: FetchBigInt | undefined;
@@ -12,43 +17,19 @@ interface RemainingCap {
 }
 
 export const useFetchDetailRemainingCap = (asset?: Address): FetchData<RemainingCap> => {
-  const { isLoading: isLoadingCaps, isFetched: isFetchedCaps, data: supplyCap } = useFetchReserveCaps(asset);
-  const {
-    isLoading: isLoadingSupplied,
-    isFetched: isFetchedSupplied,
-    data: totalSupplied,
-  } = useFetchDetailTotalSupplied(asset);
-  const { isLoading: isLoadingPrice, isFetched: isFetchedPrice, data: price } = useFetchAssetPrice({ asset });
+  const { data: supplyCap, ...capsRest } = useFetchReserveCaps(asset);
+  const { data: totalSupplied, ...suppliedRest } = useFetchDetailTotalSupplied(asset);
+  const { data: price, ...priceRest } = useFetchAssetPrice({ asset });
 
-  const remainingCapData = useMemo(() => {
-    if (!supplyCap?.supplyCap.bigIntValue || !totalSupplied?.totalSupplied.bigIntValue || !price?.bigIntValue) {
-      return {
-        remainingCap: undefined,
-        remainingCapUsd: undefined,
-      };
-    }
-
-    const remaining = BigInt(totalSupplied?.totalSupplied.bigIntValue) - BigInt(supplyCap?.supplyCap.bigIntValue);
-    const remainingUsd = (remaining * price.bigIntValue) / BigInt(10 ** price.decimals);
-
-    return {
-      remainingCap: {
-        bigIntValue: remaining,
-        decimals: supplyCap.supplyCap.decimals,
-        symbol: supplyCap.supplyCap.symbol,
-      },
-      remainingCapUsd: {
-        bigIntValue: remainingUsd,
-        decimals: price.decimals,
-        symbol: "$",
-      },
-    };
-  }, [supplyCap.supplyCap.bigIntValue, totalSupplied.totalSupplied.bigIntValue, price]);
+  const remaining = cRemainingCap(totalSupplied?.totalSupplied?.bigIntValue, supplyCap?.supplyCap.bigIntValue);
+  const remainingUsd = cValueInUsd(remaining, price?.bigIntValue, price?.decimals);
 
   return {
-    data: remainingCapData,
-    isLoading: isLoadingCaps || isLoadingSupplied || isLoadingPrice,
-    isFetched: isFetchedCaps && isFetchedSupplied && isFetchedPrice,
+    ...mergeQueryStates([capsRest, suppliedRest, priceRest]),
+    data: {
+      remainingCap: fFetchBigIntStructured(remaining, supplyCap?.supplyCap.decimals, supplyCap?.supplyCap.symbol),
+      remainingCapUsd: fFetchBigIntStructured(remainingUsd, supplyCap?.supplyCap.decimals, supplyCap?.supplyCap.symbol),
+    },
   };
 };
 
@@ -56,16 +37,14 @@ export interface ViewDetailRemainingCap {
   tokenAmount?: ViewBigInt;
   dollarAmount?: ViewBigInt;
 }
-export const useViewDetailRemainingCap = (asset?: Address): RQResponse<ViewDetailRemainingCap> => {
+export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
   const {
-    isLoading,
-    isFetched,
     data: { remainingCap, remainingCapUsd },
+    ...rest
   } = useFetchDetailRemainingCap(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
       dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,

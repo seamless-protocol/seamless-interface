@@ -1,5 +1,5 @@
 import { Address, parseEther } from "viem";
-import { formatFetchBigIntToHealthFactor, useFullTokenData } from "../../../../shared";
+import { formatFetchBigIntToHealthFactor, fFetchBigIntStructured, mergeQueryStates, useFullTokenData } from "../../../../shared";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
@@ -13,42 +13,36 @@ export enum Action {
 
 interface HealthFactorAfterActionParams {
   reserve?: Address;
-  amount: string;
+  amount?: string;
   action: Action;
 }
 
 export const useFetchHealthFactorAfterAction = ({ reserve, amount, action }: HealthFactorAfterActionParams) => {
-  const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useFullTokenData(reserve);
+  const { data: tokenData, ...tokenRest } = useFullTokenData(reserve);
 
   const {
     data: assetConfig,
-    isLoading: isAssetConfigurationLoading,
-    isFetched: isAssetConfigurationFetched,
+    ...assetConfigRest
   } = useFetchAssetConfiguration(reserve);
 
   const {
     data: userAccountData,
-    isLoading: isUserAccountDataLoading,
-    isFetched: isUserAccountDataFetched,
+    ...accountRest
   } = useFetchUserAccountData();
 
   const {
     data: userReserveData,
-    isLoading: isUserReserveDataLoading,
-    isFetched: isUserReserveDataFetched,
+    ...reserveRest
   } = useFetchUserReserveData(reserve);
 
-  const { data: price, isLoading: isPriceLoading, isFetched: isPriceFetched } = useFetchAssetPrice({ asset: reserve });
-
-  const isFetched =
-    isTokenDataFetched &&
-    isAssetConfigurationFetched &&
-    isUserAccountDataFetched &&
-    isPriceFetched &&
-    isUserReserveDataFetched;
+  const { data: price, ...priceRest } = useFetchAssetPrice({ asset: reserve });
 
   let futureHealthFactor;
-  if (assetConfig && tokenData && userAccountData && price && userReserveData && isFetched) {
+  if (assetConfig && tokenData && userAccountData &&
+    price && userReserveData &&
+    price?.bigIntValue != null &&
+    assetConfig?.liquidationThreshold?.bigIntValue != null
+  ) {
     // If the user has not enabled the reserve as collateral or there is no debt, the health factor will not change
     if (!userReserveData?.usageAsCollateralEnabled || userAccountData.totalDebtUsd.bigIntValue === 0n) {
       futureHealthFactor = userAccountData.healthFactor.bigIntValue;
@@ -84,31 +78,19 @@ export const useFetchHealthFactorAfterAction = ({ reserve, amount, action }: Hea
   }
 
   return {
-    isLoading:
-      isTokenDataLoading ||
-      isAssetConfigurationLoading ||
-      isUserAccountDataLoading ||
-      isPriceLoading ||
-      isUserReserveDataLoading,
-    isFetched,
-    data: futureHealthFactor && {
-      bigIntValue: futureHealthFactor,
-      decimals: 18,
-      symbol: "",
-    },
+    ...mergeQueryStates([tokenRest, assetConfigRest, accountRest, reserveRest, priceRest]),
+    data: fFetchBigIntStructured(futureHealthFactor, 18, ""),
   };
 };
 
 export const useFetchViewHealthFactorAfterAction = ({ reserve, amount, action }: HealthFactorAfterActionParams) => {
   const {
-    isLoading,
-    isFetched,
     data: futureHealthFactor,
+    ...rest
   } = useFetchHealthFactorAfterAction({ reserve, amount, action });
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: futureHealthFactor ? formatFetchBigIntToHealthFactor(futureHealthFactor) : undefined,
   };
 };

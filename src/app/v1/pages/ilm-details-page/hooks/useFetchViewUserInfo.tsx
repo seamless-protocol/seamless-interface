@@ -1,6 +1,6 @@
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { RQResponse, ViewBigInt } from "../../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { useFetchDetailAssetBalance } from "../../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { walletBalanceDecimalsOptions } from "@meta";
 
@@ -16,7 +16,7 @@ export interface ViewUserInfo {
   };
 }
 
-export const useFetchViewUserInfo = (index: number): RQResponse<ViewUserInfo> => {
+export const useFetchViewUserInfo = (index: number): Displayable<ViewUserInfo> => {
   const strategyConfig = ilmStrategies[index];
 
   const {

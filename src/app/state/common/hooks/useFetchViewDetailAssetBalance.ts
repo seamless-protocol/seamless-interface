@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
-import { RQResponse } from "../../../../shared";
+import { Displayable } from "../../../../shared";
 import { useFetchAssetPrice } from "../queries/useFetchViewAssetPrice";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
@@ -36,7 +36,7 @@ export const useFetchDetailAssetBalance = (token: Address): Fetch<DetailAssetBal
   };
 };
 
-export const useFetchViewDetailAssetBalance = (token: Address): RQResponse<ViewDetailAssetBalance> => {
+export const useFetchViewDetailAssetBalance = (token: Address): Displayable<ViewDetailAssetBalance> => {
   const {
     isLoading,
     isFetched,

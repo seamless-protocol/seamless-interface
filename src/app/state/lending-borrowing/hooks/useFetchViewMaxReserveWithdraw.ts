@@ -4,53 +4,58 @@ import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfigur
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
 import { useFetchDetailUserReserveData } from "./useFetchViewDetailUserReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { DecimalsOptions, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { DecimalsOptions, formatFetchBigIntToViewBigInt, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
 
 const safeHealthFactor = parseEther("1.01");
 
 export const useFetchMaxReserveWithdraw = (reserve?: Address) => {
-  const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useToken(reserve);
+  const {
+    data: tokenData,
+    ...tokenRest
+  } = useToken(reserve);
 
   const {
     data: userAccountData,
-    isLoading: isUserAccountDataLoading,
-    isFetched: isUserAccountDataFetched,
+    ...userAccountRest
   } = useFetchUserAccountData();
 
   const {
     data: reserveConfig,
-    isLoading: isAssetConfigurationLoading,
-    isFetched: isAssetConfigurationFetched,
+    ...assetConfigRest
   } = useFetchAssetConfiguration(reserve);
 
   const {
     data: userReserveData,
-    isLoading: isUserReserveDataLoading,
-    isFetched: isUserReserveDataFetched,
+    ...detailUserReserveDataRest
   } = useFetchDetailUserReserveData(reserve);
 
   const {
     data: assetPrice,
-    isLoading: isAssetPriceLoading,
-    isFetched: isAssetPriceFetched,
+    ...assetPriceRest
   } = useFetchAssetPrice({ asset: reserve });
 
   let availableToWithdraw;
   let availableToWithdrawInUsd;
 
-  if (userAccountData && userReserveData && assetPrice) {
-    // If the user has not enabled the reserve as collateral or does not have any borrows or liquidation threshold for asset is 0, the user can withdraw the full balance
+  // todo left for refactor in separate PR
+  if (userAccountData != null && userReserveData != null && assetPrice != null &&
+    userReserveData?.aTokenBalanceUsd != null &&
+    reserveConfig?.liquidationThreshold?.bigIntValue != null &&
+    userReserveData?.aTokenBalanceUsd?.bigIntValue != null &&
+    assetPrice?.bigIntValue != null &&
+    userReserveData.aTokenBalance?.decimals != null
+  ) {
     if (
       !userReserveData.usageAsCollateralEnabled ||
       userAccountData.totalDebtUsd.bigIntValue === 0n ||
       reserveConfig.liquidationThreshold.bigIntValue === 0n
     ) {
-      availableToWithdraw = userReserveData.aTokenBalance.bigIntValue;
-      availableToWithdrawInUsd = userReserveData.aTokenBalanceUsd.bigIntValue;
+      availableToWithdraw = userReserveData?.aTokenBalance?.bigIntValue;
+      availableToWithdrawInUsd = userReserveData?.aTokenBalanceUsd?.bigIntValue;
     } else {
       const healthFactor = userAccountData.healthFactor.bigIntValue;
       const totalBorrowUsd = userAccountData.totalDebtUsd.bigIntValue;
-      const totalReserveCollateralUsd = userReserveData.aTokenBalanceUsd.bigIntValue;
+      const totalReserveCollateralUsd = userReserveData?.aTokenBalanceUsd?.bigIntValue;
 
       const excessHealthFactor = healthFactor - safeHealthFactor;
 
@@ -66,30 +71,12 @@ export const useFetchMaxReserveWithdraw = (reserve?: Address) => {
   }
 
   return {
-    isLoading:
-      isUserAccountDataLoading ||
-      isAssetConfigurationLoading ||
-      isUserReserveDataLoading ||
-      isAssetPriceLoading ||
-      isTokenDataLoading,
-    isFetched:
-      isUserAccountDataFetched &&
-      isAssetConfigurationFetched &&
-      isUserReserveDataFetched &&
-      isAssetPriceFetched &&
-      isTokenDataFetched,
-
+    ...mergeQueryStates([tokenRest, userAccountRest, assetConfigRest,
+      detailUserReserveDataRest, assetPriceRest]),
     data: {
-      availableToWithdraw: availableToWithdraw && {
-        bigIntValue: availableToWithdraw,
-        decimals: userReserveData.aTokenBalance.decimals,
-        symbol: tokenData?.symbol,
-      },
-      availableToWithdrawInUsd: availableToWithdrawInUsd && {
-        bigIntValue: availableToWithdrawInUsd,
-        decimals: 8,
-        symbol: "$",
-      },
+      availableToWithdraw: fFetchBigIntStructured(availableToWithdraw,
+        userReserveData?.aTokenBalance?.decimals, tokenData?.symbol),
+      availableToWithdrawInUsd: fUsdValueStructured(availableToWithdrawInUsd)
     },
   };
 };

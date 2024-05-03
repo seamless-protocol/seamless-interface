@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
-import { RQResponse, useSeamlessContractRead } from "../../../../shared";
+import { Displayable, useSeamlessContractRead } from "../../../../shared";
 import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
@@ -32,7 +32,7 @@ export const useFetchCollateralRatioTargets = (strategy: Address): Fetch<Collate
   };
 };
 
-export const useFetchViewCollateralRatioTargets = (strategy: Address): RQResponse<ViewCollateralRatioTargets> => {
+export const useFetchViewCollateralRatioTargets = (strategy: Address): Displayable<ViewCollateralRatioTargets> => {
   const {
     isLoading,
     isFetched,

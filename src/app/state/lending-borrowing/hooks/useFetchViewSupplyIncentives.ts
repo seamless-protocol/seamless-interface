@@ -1,8 +1,8 @@
 import { Address } from "viem";
-import { RQResponse } from "../../../../shared";
+import { Displayable, mergeQueryStates } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
-import { Fetch } from "../../../../shared/types/Fetch";
+import { FetchData } from "../../../../shared/types/Fetch";
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveAprToViewNumber } from "../../../../shared/utils/helpers";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
@@ -12,41 +12,39 @@ interface SupplyIncentives {
   supplyIncentives: IncentiveApr;
 }
 
-export const useFetchSupplyIncentives = (asset?: Address): Fetch<SupplyIncentives> => {
+export const useFetchSupplyIncentives = (asset?: Address): FetchData<SupplyIncentives> => {
   const {
-    isLoading: isIncentivesLoading,
-    isFetched: isIncentivesFetched,
     data: incentives,
+    ...rawRest
   } = useFetchRawReservesIncentivesDataByAsset(asset);
 
   const {
-    isLoading: isTotalSuppliedLoading,
-    isFetched: isTotalSuppliedFetched,
     data: { totalSuppliedUsd },
+    ...totalSuppliedRest
   } = useFetchDetailTotalSupplied(asset);
 
-  const seamPrice = useFetchCoinGeckoSeamPrice();
+  const { data: seamPrice, ...seamPriceRest } = useFetchCoinGeckoSeamPrice();
 
   let supplyIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
-  if (incentives && totalSuppliedUsd && seamPrice) {
+  if (incentives && totalSuppliedUsd && seamPrice != null && totalSuppliedUsd?.bigIntValue) {
     if (incentives && incentives.aIncentiveData) {
       supplyIncentives = parseIncentives(incentives?.aIncentiveData, totalSuppliedUsd.bigIntValue, seamPrice);
     }
   }
 
   return {
-    isLoading: isIncentivesLoading || isTotalSuppliedLoading,
-    isFetched: isIncentivesFetched && isTotalSuppliedFetched,
-    supplyIncentives,
+    ...mergeQueryStates([seamPriceRest, totalSuppliedRest, rawRest]),
+    data: {
+      supplyIncentives,
+    }
   };
 };
 
-export const useFetchViewSupplyIncentives = (asset?: Address): RQResponse<ViewIncentives> => {
-  const { isLoading, isFetched, supplyIncentives } = useFetchSupplyIncentives(asset);
+export const useFetchViewSupplyIncentives = (asset?: Address): Displayable<ViewIncentives> => {
+  const { data: { supplyIncentives }, ...rest } = useFetchSupplyIncentives(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       totalApr: formatIncentiveAprToViewNumber(supplyIncentives.totalApr),
       rewardTokens: supplyIncentives.rewardTokens,

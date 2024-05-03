@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { RQResponse, useSeamlessContractRead, useToken } from "../../../../shared";
+import { Displayable, fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "../../../../shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { useAccount } from "wagmi";
 import { ViewUserReserveData } from "../types/ViewUserReserveData";
@@ -7,8 +7,8 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 
 interface UserReserveData {
-  aTokenBalance: FetchBigInt;
-  variableDebtTokenBalance: FetchBigInt;
+  aTokenBalance?: FetchBigInt;
+  variableDebtTokenBalance?: FetchBigInt;
   usageAsCollateralEnabled?: boolean;
 }
 
@@ -17,14 +17,11 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
 
   const {
     data: { decimals, symbol },
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
+    ...tokenRest
   } = useToken(reserve);
 
   const {
     data,
-    isLoading: isUserReserveDataLoading,
-    isFetched: isUserReserveDataFetched,
     ...rest
   } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
@@ -39,35 +36,23 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
   const [aTokenBalance, , variableDebtTokenBalance, , , , , , usageAsCollateralEnabled] = data || [];
 
   return {
-    ...rest,
-    isLoading: isTokenDataLoading || isUserReserveDataLoading,
-    isFetched: isTokenDataFetched && isUserReserveDataFetched,
+    ...mergeQueryStates([tokenRest, rest]),
     data: {
-      aTokenBalance: {
-        bigIntValue: aTokenBalance || 0n,
-        decimals,
-        symbol,
-      },
-      variableDebtTokenBalance: {
-        bigIntValue: variableDebtTokenBalance || 0n,
-        decimals,
-        symbol,
-      },
+      aTokenBalance: fFetchBigIntStructured(aTokenBalance, 18, "%"),
+      variableDebtTokenBalance: fFetchBigIntStructured(variableDebtTokenBalance, decimals, symbol),
       usageAsCollateralEnabled,
     },
   };
 };
 
-export const useFetchViewUserReserveData = (reserve: Address): RQResponse<ViewUserReserveData> => {
+export const useFetchViewUserReserveData = (reserve: Address): Displayable<ViewUserReserveData> => {
   const {
-    isLoading,
-    isFetched,
     data: { aTokenBalance, variableDebtTokenBalance, usageAsCollateralEnabled },
+    ...rest
   } = useFetchUserReserveData(reserve);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       aTokenBalance: formatFetchBigIntToViewBigInt(aTokenBalance),
       variableDebtTokenBalance: formatFetchBigIntToViewBigInt(variableDebtTokenBalance),

@@ -3,7 +3,7 @@ import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { RQResponse, ViewBigInt } from "@shared";
+import { Displayable, ViewBigInt } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { walletBalanceDecimalsOptions } from "@meta";
 
@@ -33,7 +33,7 @@ export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt
   };
 };
 
-export const useFetchViewMaxUserDeposit = (strategy: Address): RQResponse<ViewBigInt> => {
+export const useFetchViewMaxUserDeposit = (strategy: Address): Displayable<ViewBigInt> => {
   const { isLoading, isFetched, data: maxUserDeposit } = useFetchMaxUserDeposit(strategy);
 
   return {

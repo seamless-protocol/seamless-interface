@@ -1,6 +1,6 @@
 import { Address, zeroAddress } from "viem";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { RQResponse, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
+import { Displayable, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
 import { loopStrategyAbi } from "../../../generated";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
@@ -35,7 +35,7 @@ export const useFetchMaxDeposit = (strategy: Address): FetchData<FetchBigInt> =>
   };
 };
 
-export const useFetchViewMaxDeposit = (strategy: Address): RQResponse<ViewBigInt> => {
+export const useFetchViewMaxDeposit = (strategy: Address): Displayable<ViewBigInt> => {
   const { isLoading, isFetched, data: maxDeposit } = useFetchMaxDeposit(strategy);
 
   return {

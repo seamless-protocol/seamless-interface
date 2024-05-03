@@ -2,11 +2,12 @@ import { Address } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { getFetchBigIntStructured, mergeQueryStates } from "@shared";
+import { fFetchBigIntStructured, mergeQueryStates } from "@shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ONE_ETHER } from "../../../../meta";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 const cCapacity = (
   totalSuppliedValue?: bigint,
@@ -21,24 +22,11 @@ const cCapacity = (
   return totalSuppliedValue * ONE_ETHER * 100n / divider
 }
 
-const cTotalSuppliedUsd = (
-  totalSuppliedValue?: bigint,
-  priceValue?: bigint,
-  totalSuppliedDecimals?: number
-): bigint | undefined => {
-  if (totalSuppliedValue == null || priceValue == null || totalSuppliedDecimals == null) return undefined;
-
-  const divider = (10n ** BigInt(totalSuppliedDecimals));
-  if (divider === 0n) return undefined
-
-  return (totalSuppliedValue * priceValue) / divider
-}
-
 interface TotalSupplied {
   totalSupplied: FetchBigInt | undefined;
   totalSuppliedUsd: FetchBigInt | undefined;
   capacity: FetchBigInt | undefined;
-  hasSupplyCap?: boolean;
+  noSupplyCap?: boolean;
 }
 export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const { data: reserveCaps, ...rcRest } = useFetchReserveCaps(asset);
@@ -50,7 +38,7 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
     totalSupplied?.decimals
   )
 
-  const totalSuppliedUsd = cTotalSuppliedUsd(totalSupplied?.bigIntValue,
+  const totalSuppliedUsd = cValueInUsd(totalSupplied?.bigIntValue,
     price?.bigIntValue,
     totalSupplied?.decimals
   )
@@ -59,16 +47,16 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
     ...mergeQueryStates([rcRest, rdRest, paRest]),
     data: {
       totalSupplied,
-      totalSuppliedUsd: getFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
-      capacity: getFetchBigIntStructured(capacity, 18, "%"),
-      hasSupplyCap: reserveCaps?.supplyCap.bigIntValue === 0n
+      totalSuppliedUsd: fFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
+      capacity: fFetchBigIntStructured(capacity, 18, "%"),
+      noSupplyCap: reserveCaps?.supplyCap.bigIntValue !== 0n
     },
   };
 };
 
 export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<ViewDetailTotalSupplied> => {
   const {
-    data: { totalSupplied, totalSuppliedUsd, capacity, hasSupplyCap },
+    data: { totalSupplied, totalSuppliedUsd, capacity, noSupplyCap },
     ...rest
   } = useFetchDetailTotalSupplied(asset);
 
@@ -84,7 +72,7 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,
       }),
-      hasSupplyCap
+      noSupplyCap
     },
   };
 };

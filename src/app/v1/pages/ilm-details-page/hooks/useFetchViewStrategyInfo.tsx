@@ -4,7 +4,7 @@ import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../../g
 import { ONE_ETHER, ONE_USD } from "@meta";
 import { Address } from "viem";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
-import { RQResponse, ViewBigInt } from "../../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
 
 interface StrategyInfo {
@@ -127,7 +127,7 @@ export interface ViewStrategyInfo {
   };
 }
 
-export const useFetchViewStrategyInfo = (index: number): RQResponse<ViewStrategyInfo> => {
+export const useFetchViewStrategyInfo = (index: number): Displayable<ViewStrategyInfo> => {
   const strategyConfig = ilmStrategies[index];
   const { isLoading, isFetched, collateral, collateralUSD, equity, equityUSD, currentMultiple, targetMultiple } =
     useFetchStrategyInfo(strategyConfig.address, strategyConfig.underlyingAsset.address);
