@@ -4,41 +4,43 @@ import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfigur
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
 import { useFetchDetailUserReserveData } from "./useFetchViewDetailUserReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { DecimalsOptions, formatFetchBigIntToViewBigInt, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
+import {
+  DecimalsOptions,
+  formatFetchBigIntToViewBigInt,
+  fFetchBigIntStructured,
+  fUsdValueStructured,
+  mergeQueryStates,
+  useToken,
+  FetchData,
+  FetchBigInt,
+} from "@shared";
 
 const safeHealthFactor = parseEther("1.01");
 
-export const useFetchMaxReserveWithdraw = (reserve?: Address) => {
-  const {
-    data: tokenData,
-    ...tokenRest
-  } = useToken(reserve);
+export const useFetchMaxReserveWithdraw = (
+  reserve?: Address
+): FetchData<{
+  availableToWithdraw: FetchBigInt | undefined;
+  availableToWithdrawInUsd: FetchBigInt | undefined;
+}> => {
+  const { data: tokenData, ...tokenRest } = useToken(reserve);
 
-  const {
-    data: userAccountData,
-    ...userAccountRest
-  } = useFetchUserAccountData();
+  const { data: userAccountData, ...userAccountRest } = useFetchUserAccountData();
 
-  const {
-    data: reserveConfig,
-    ...assetConfigRest
-  } = useFetchAssetConfiguration(reserve);
+  const { data: reserveConfig, ...assetConfigRest } = useFetchAssetConfiguration(reserve);
 
-  const {
-    data: userReserveData,
-    ...detailUserReserveDataRest
-  } = useFetchDetailUserReserveData(reserve);
+  const { data: userReserveData, ...detailUserReserveDataRest } = useFetchDetailUserReserveData(reserve);
 
-  const {
-    data: assetPrice,
-    ...assetPriceRest
-  } = useFetchAssetPrice({ asset: reserve });
+  const { data: assetPrice, ...assetPriceRest } = useFetchAssetPrice({ asset: reserve });
 
   let availableToWithdraw;
   let availableToWithdrawInUsd;
 
   // todo left for refactor in separate PR
-  if (userAccountData != null && userReserveData != null && assetPrice != null &&
+  if (
+    userAccountData != null &&
+    userReserveData != null &&
+    assetPrice != null &&
     userReserveData?.aTokenBalanceUsd != null &&
     reserveConfig?.liquidationThreshold?.bigIntValue != null &&
     userReserveData?.aTokenBalanceUsd?.bigIntValue != null &&
@@ -71,22 +73,23 @@ export const useFetchMaxReserveWithdraw = (reserve?: Address) => {
   }
 
   return {
-    ...mergeQueryStates([tokenRest, userAccountRest, assetConfigRest,
-      detailUserReserveDataRest, assetPriceRest]),
+    ...mergeQueryStates([tokenRest, userAccountRest, assetConfigRest, detailUserReserveDataRest, assetPriceRest]),
     data: {
-      availableToWithdraw: fFetchBigIntStructured(availableToWithdraw,
-        userReserveData?.aTokenBalance?.decimals, tokenData?.symbol),
-      availableToWithdrawInUsd: fUsdValueStructured(availableToWithdrawInUsd)
+      availableToWithdraw: fFetchBigIntStructured(
+        availableToWithdraw,
+        userReserveData?.aTokenBalance?.decimals,
+        tokenData?.symbol
+      ),
+      availableToWithdrawInUsd: fUsdValueStructured(availableToWithdrawInUsd),
     },
   };
 };
 
 export const useFetchViewMaxReserveWithdraw = (reserve?: Address, decimalsOptions?: Partial<DecimalsOptions>) => {
-  const { data, isLoading, isFetched } = useFetchMaxReserveWithdraw(reserve);
+  const { data, ...rest } = useFetchMaxReserveWithdraw(reserve);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       tokenAmount: data?.availableToWithdraw
         ? formatFetchBigIntToViewBigInt(data.availableToWithdraw, decimalsOptions)

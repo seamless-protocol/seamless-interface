@@ -14,6 +14,7 @@ import {
   useToken,
   useWatchAsset,
   Tooltip,
+  useFullTokenData,
 } from "@shared";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ilmStrategies } from "../../../../../state/loop-strategy/config/StrategyConfig";
@@ -176,12 +177,15 @@ const WatchAsset: React.FC<{
   className?: string;
 }> = ({ address, symbol, logo, label, className }) => {
   const { mutateAsync } = useWatchAsset();
-  const { data: tokenData } = useToken(address);
+  const { data: tokenData } = useFullTokenData(address);
 
   const handleWatchAsset = async () => {
+    if (!address || !tokenData?.decimals || !tokenData.symbol) return;
     await mutateAsync({
       address,
-      ...tokenData,
+      decimals: tokenData.decimals,
+      symbol: tokenData.symbol,
+      logo: tokenData.logo,
     });
   };
 

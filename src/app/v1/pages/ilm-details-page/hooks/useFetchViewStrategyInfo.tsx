@@ -5,7 +5,7 @@ import { ONE_ETHER, ONE_USD } from "@meta";
 import { Address } from "viem";
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
-import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { FetchBigInt, FetchData } from "@shared";
 
 interface StrategyInfo {
   collateral: FetchBigInt;
@@ -19,11 +19,10 @@ interface StrategyInfo {
 export const useFetchStrategyInfo = (
   strategyAddress: Address,
   underlyingAssetAddress: Address
-): Fetch<StrategyInfo> => {
+): FetchData<StrategyInfo> => {
   const {
     data: results,
-    isLoading,
-    isFetched,
+    ...rest
     // @ts-ignore
   } = useReadContracts({
     contracts: [
@@ -79,37 +78,38 @@ export const useFetchStrategyInfo = (
   }
 
   return {
-    isLoading,
-    isFetched,
-    collateral: {
-      bigIntValue: collateral || 0n,
-      decimals: 18,
-      symbol: "",
-    },
-    collateralUSD: {
-      bigIntValue: collateralUSD || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-    equity: {
-      bigIntValue: equity || 0n,
-      decimals: 18,
-      symbol: "",
-    },
-    equityUSD: {
-      bigIntValue: equityUSD || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-    currentMultiple: {
-      bigIntValue: currentMultiple || 0n,
-      decimals: 8,
-      symbol: "x",
-    },
-    targetMultiple: {
-      bigIntValue: targetMultiple || 0n,
-      decimals: 8,
-      symbol: "x",
+    ...rest,
+    data: {
+      collateral: {
+        bigIntValue: collateral || 0n,
+        decimals: 18,
+        symbol: "",
+      },
+      collateralUSD: {
+        bigIntValue: collateralUSD || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+      equity: {
+        bigIntValue: equity || 0n,
+        decimals: 18,
+        symbol: "",
+      },
+      equityUSD: {
+        bigIntValue: equityUSD || 0n,
+        decimals: 8,
+        symbol: "$",
+      },
+      currentMultiple: {
+        bigIntValue: currentMultiple || 0n,
+        decimals: 8,
+        symbol: "x",
+      },
+      targetMultiple: {
+        bigIntValue: targetMultiple || 0n,
+        decimals: 8,
+        symbol: "x",
+      },
     },
   };
 };
@@ -129,12 +129,13 @@ export interface ViewStrategyInfo {
 
 export const useFetchViewStrategyInfo = (index: number): Displayable<ViewStrategyInfo> => {
   const strategyConfig = ilmStrategies[index];
-  const { isLoading, isFetched, collateral, collateralUSD, equity, equityUSD, currentMultiple, targetMultiple } =
-    useFetchStrategyInfo(strategyConfig.address, strategyConfig.underlyingAsset.address);
+  const {
+    data: { collateral, collateralUSD, equity, equityUSD, currentMultiple, targetMultiple },
+    ...rest
+  } = useFetchStrategyInfo(strategyConfig.address, strategyConfig.underlyingAsset.address);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       collateral: {
         tokenAmount: formatFetchBigIntToViewBigInt(collateral),

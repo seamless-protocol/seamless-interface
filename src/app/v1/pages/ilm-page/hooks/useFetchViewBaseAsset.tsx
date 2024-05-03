@@ -1,4 +1,4 @@
-import { Displayable, ViewBigInt, ViewNumber } from "../../../../../shared";
+import { Displayable, mergeQueryStates, ViewBigInt, ViewNumber } from "../../../../../shared";
 import { baseAssets } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { Address } from "viem";
 import { useFetchViewSupplyApy } from "../../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
@@ -24,19 +24,19 @@ export interface ViewBaseAsset {
     dollarAmount: ViewBigInt;
   };
   totalBorrowed: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
+    tokenAmount?: ViewBigInt;
+    dollarAmount?: ViewBigInt;
   };
-  supplyApy: ViewNumber;
-  borrowApyVariable: ViewNumber;
+  supplyApy?: ViewNumber;
+  borrowApyVariable?: ViewNumber;
   borrowApyStable: ViewNumber;
 
   supplyIncentives: {
-    totalApr: ViewNumber;
+    totalApr?: ViewNumber;
     rewardTokens: ViewRewardToken[];
   };
   borrowVariableIncentives: {
-    totalApr: ViewNumber;
+    totalApr?: ViewNumber;
     rewardTokens: ViewRewardToken[];
   };
 }
@@ -45,56 +45,42 @@ export const useFetchViewBaseAsset = (index: number): Displayable<ViewBaseAsset>
   const baseAsset = baseAssets[index];
 
   const {
-    isLoading: isTotalSuppliedLoading,
-    isFetched: isTotalSuppliedFetched,
     data: { totalSupplied },
+    ...totalSuppliedRest
   } = useFetchViewDetailTotalSupplied(baseAsset.address as Address);
 
   const {
-    isLoading: isTotalBorrowedLoading,
-    isFetched: isTotalBorrowedFetched,
     data: { totalBorrowed },
+    ...totalBorrowedRest
   } = useFetchViewDetailTotalBorrowed(baseAsset.address as Address);
 
   const {
-    isLoading: isSupplyApyLoading,
-    isFetched: isSupplyApyFetched,
     data: { apy: supplyApy },
+    ...supplyRest
   } = useFetchViewSupplyApy(baseAsset.address as Address);
 
   const {
-    isLoading: isBorrowApyLoading,
-    isFetched: isBorrowApyFetched,
     data: { apy: borrowApyVariable },
+    ...totalBorrowApyRest
   } = useFetchViewBorrowApy(baseAsset.address as Address);
 
-  const {
-    isLoading: isSupplyIncentivesLoading,
-    isFetched: isSupplyIncentivesFetched,
-    data: supplyIncentives,
-  } = useFetchViewSupplyIncentives(baseAsset.address as Address);
+  const { data: supplyIncentives, ...supplyIncentivesRest } = useFetchViewSupplyIncentives(
+    baseAsset.address as Address
+  );
 
-  const {
-    isLoading: isBorrowVariableIncentivesLoading,
-    isFetched: isBorrowVariableIncentivesFetched,
-    data: borrowVariableIncentives,
-  } = useFetchViewBorrowIncentives(baseAsset.address as Address);
+  const { data: borrowVariableIncentives, ...borrowIncentivesRest } = useFetchViewBorrowIncentives(
+    baseAsset.address as Address
+  );
 
   return {
-    isLoading:
-      isTotalSuppliedLoading ||
-      isTotalBorrowedLoading ||
-      isSupplyApyLoading ||
-      isBorrowApyLoading ||
-      isSupplyIncentivesLoading ||
-      isBorrowVariableIncentivesLoading,
-    isFetched:
-      isTotalSuppliedFetched &&
-      isTotalBorrowedFetched &&
-      isSupplyApyFetched &&
-      isBorrowApyFetched &&
-      isSupplyIncentivesFetched &&
-      isBorrowVariableIncentivesFetched,
+    ...mergeQueryStates([
+      borrowIncentivesRest,
+      supplyIncentivesRest,
+      totalBorrowApyRest,
+      supplyRest,
+      totalBorrowedRest,
+      totalSuppliedRest,
+    ]),
     data: {
       depositAsset: {
         name: baseAsset.name,

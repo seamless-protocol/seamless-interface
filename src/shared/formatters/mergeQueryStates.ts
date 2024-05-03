@@ -1,35 +1,33 @@
 import { UseQueryResult, QueryKey } from "@tanstack/react-query";
 
-export type ExtendedQueryState<TData> = Pick<UseQueryResult<TData>, 'isLoading' | 'isError' | 'isFetched' | 'isSuccess'> & {
+export type ExtendedQueryState<TData> = Pick<UseQueryResult<TData>, "isLoading" | "isFetched"> & {
   queryKeys?: QueryKey[];
   queryKey?: QueryKey;
+  isError?: boolean;
+  isSuccess?: boolean;
 };
 
-// to review
 export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]): ExtendedQueryState<TData> {
-  const defaultState: ExtendedQueryState<TData> = {
-    isLoading: false,
-    isError: false,
-    isFetched: false,
-    isSuccess: false,
-    queryKeys: [],
-  };
-
-  return queryStates.reduce<ExtendedQueryState<TData>>((accumulator, current) => {
-    let combinedQueryKeys = accumulator.queryKeys || [];
-    if (current.queryKey) {
-      combinedQueryKeys.push(current.queryKey);
+  return queryStates.reduce<ExtendedQueryState<TData>>(
+    (accumulator, current) => {
+      return {
+        isLoading: accumulator.isLoading || current.isLoading, // true if any is loading
+        isError: accumulator.isError || current.isError, // true if any has error
+        isFetched: accumulator.isFetched && current.isFetched, // true if all are fetched
+        isSuccess: accumulator.isSuccess && current.isSuccess, // true if all are successful
+        queryKeys: [
+          ...(accumulator.queryKeys || []),
+          ...(current.queryKeys || []),
+          ...(current.queryKey ? [current.queryKey] : []),
+        ],
+      };
+    },
+    {
+      isLoading: false,
+      isError: false,
+      isFetched: true, // Start true because we are using logical AND
+      isSuccess: true, // Start true because we are using logical AND
+      queryKeys: [],
     }
-    if (current.queryKeys) {
-      combinedQueryKeys = combinedQueryKeys.concat(current.queryKeys);
-    }
-
-    return {
-      isLoading: accumulator.isLoading || current.isLoading,
-      isError: accumulator.isError || current.isError,
-      isFetched: accumulator.isFetched && current.isFetched,
-      isSuccess: accumulator.isSuccess && current.isSuccess,
-      queryKeys: combinedQueryKeys,
-    };
-  }, defaultState);
+  );
 }

@@ -9,7 +9,7 @@ import { useToken } from "../../../state/meta-data-queries/useToken";
 import { Typography } from "../../text/Typography/Typography";
 
 interface Token {
-  symbol: string;
+  symbol?: string;
   address: Address;
   logo?: string;
   decimals?: number;
@@ -51,6 +51,8 @@ export const WatchAssetComponent: React.FC<Token> = ({ symbol, address, logo }) 
   } = useToken(address);
 
   const handleAddToWalletClick = async () => {
+    if (!decimals || !symbol) return;
+
     await mutateAsync({
       symbol,
       address,

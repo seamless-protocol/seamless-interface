@@ -57,7 +57,7 @@ export const BaseAssetsMobileTableRow: React.FC<{
             <DisplayText typography="description" text={columnNames.c_3} isLoading={isLoading} />
             <FlexCol className="items-end">
               <DisplayPercentage typography="secondary14" {...assets?.supplyApy} isLoading={isLoading} />
-              {!!assets?.supplyIncentives.totalApr.viewValue && (
+              {!!assets?.supplyIncentives?.totalApr?.viewValue && (
                 <IncentivesButton {...assets?.supplyIncentives}>
                   <IncentivesDetailCard {...assets?.supplyIncentives} assetSymbol={assets.depositAsset.symbol} />
                 </IncentivesButton>
@@ -79,7 +79,7 @@ export const BaseAssetsMobileTableRow: React.FC<{
             <DisplayText typography="description" text={columnNames.c_5} isLoading={isLoading} />
             <FlexCol className="items-end">
               <DisplayPercentage typography="secondary14" {...assets?.borrowApyVariable} isLoading={isLoading} />
-              {!!assets?.borrowVariableIncentives.totalApr.viewValue && (
+              {!!assets?.borrowVariableIncentives?.totalApr?.viewValue && (
                 <IncentivesButton {...assets?.borrowVariableIncentives}>
                   <IncentivesDetailCard
                     {...assets?.borrowVariableIncentives}

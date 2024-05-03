@@ -13,7 +13,7 @@ export const useFetchTargetMultiple = (strategy: Address): FetchData<FetchBigInt
   return {
     ...rest,
     data: {
-      bigIntValue: convertRatioToMultiple(target.bigIntValue),
+      bigIntValue: convertRatioToMultiple(target?.bigIntValue),
       decimals: 8,
       symbol: "x",
     },

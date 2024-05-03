@@ -2,7 +2,7 @@ import { ExtendedQueryState } from "../formatters/mergeQueryStates";
 
 export interface FetchNumber {
   value?: number;
-  symbol: string;
+  symbol?: string;
 }
 
 export interface FetchBigInt {

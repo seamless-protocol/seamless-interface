@@ -14,7 +14,7 @@ export const isEqualMarket = (market: Market, otherMarket: Market) => {
 };
 
 export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
-  const { data: lendingAssets, isLoading, isFetched } = useFetchRawReservesList();
+  const { data: lendingAssets, ...rest } = useFetchRawReservesList();
 
   const lendingMarkets: Market[] | undefined = lendingAssets
     ?.filter((asset) => {
@@ -35,8 +35,7 @@ export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
   });
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : undefined,
   };
 };

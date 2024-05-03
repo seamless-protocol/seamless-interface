@@ -3,7 +3,7 @@ import { useReadContracts } from "wagmi";
 import { baseAssets } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
-import { Fetch, FetchBigInt } from "src/shared/types/Fetch";
+import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
 import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
 
@@ -13,7 +13,7 @@ interface LendingPoolInfo {
   totalBorrowsUsd: FetchBigInt;
 }
 
-function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
+function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   const multicallParams = baseAssets.flatMap((asset) => [
     {
       address: asset.sTokenAddress,
@@ -38,11 +38,7 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
     },
   ]);
 
-  const {
-    data: results,
-    isLoading,
-    isFetched,
-  } = useReadContracts({
+  const { data: results, ...rest } = useReadContracts({
     contracts: multicallParams,
   });
 
@@ -57,7 +53,9 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
       data: price,
       isLoading: coinGeckoIsLoading,
       isFetched: coinGeckoIsFetched,
-    } = useFetchCoinGeckoPriceByAddress({ // eslint-disable-line react-hooks/rules-of-hooks
+      // todo fix this
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+    } = useFetchCoinGeckoPriceByAddress({
       address: baseAssets[i].address,
       precision: 8,
       enabled,
@@ -85,22 +83,23 @@ function useFetchLendingPoolInfo(): Fetch<LendingPoolInfo> {
   }
 
   return {
-    isLoading: isLoading || coinGeckoAllIsLoading,
-    isFetched: isFetched && coinGeckoAllIsFetched,
-    totalMarketSizeUsd: {
-      bigIntValue: totalSuppliedUsd,
-      decimals: 8,
-      symbol: "$",
-    },
-    totalAvailableUsd: {
-      bigIntValue: totalSuppliedUsd - totalBorrowedUsd,
-      decimals: 8,
-      symbol: "$",
-    },
-    totalBorrowsUsd: {
-      bigIntValue: totalBorrowedUsd,
-      decimals: 8,
-      symbol: "$",
+    ...rest,
+    data: {
+      totalMarketSizeUsd: {
+        bigIntValue: totalSuppliedUsd,
+        decimals: 8,
+        symbol: "$",
+      },
+      totalAvailableUsd: {
+        bigIntValue: totalSuppliedUsd - totalBorrowedUsd,
+        decimals: 8,
+        symbol: "$",
+      },
+      totalBorrowsUsd: {
+        bigIntValue: totalBorrowedUsd,
+        decimals: 8,
+        symbol: "$",
+      },
     },
   };
 }
@@ -112,11 +111,13 @@ export interface ViewLendingPoolInfo {
 }
 
 export const useFetchViewLendingPoolInfo = (): Displayable<ViewLendingPoolInfo> => {
-  const { isLoading, isFetched, totalMarketSizeUsd, totalAvailableUsd, totalBorrowsUsd } = useFetchLendingPoolInfo();
+  const {
+    data: { totalMarketSizeUsd, totalAvailableUsd, totalBorrowsUsd },
+    ...rest
+  } = useFetchLendingPoolInfo();
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       totalMarketSizeUsd: formatFetchBigIntToViewBigInt(totalMarketSizeUsd),
       totalAvailableUsd: formatFetchBigIntToViewBigInt(totalAvailableUsd),

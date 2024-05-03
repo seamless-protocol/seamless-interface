@@ -11,10 +11,12 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
     ...liquidityRest
   } = useFetchReserveData(asset);
 
-  let supplyApy = 0;
+  let supplyApy;
   if (liquidityRate) {
-    const supplyApr = formatUnitsToNumber(liquidityRate.bigIntValue, liquidityRate.decimals);
-    supplyApy = convertAprToApy(supplyApr);
+    const supplyApr = liquidityRate?.decimals
+      ? formatUnitsToNumber(liquidityRate.bigIntValue, liquidityRate?.decimals)
+      : undefined;
+    supplyApy = supplyApr ? convertAprToApy(supplyApr) : undefined;
   }
 
   return {

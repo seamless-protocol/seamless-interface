@@ -101,10 +101,10 @@ export function formatFetchBigIntToViewBigInt(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: bigIntValue ? formatUnits(bigIntValue, decimals) : undefined,
+    value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -123,10 +123,10 @@ export function formatFetchBigIntToViewBigIntTemp(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: bigIntValue ? formatUnits(bigIntValue, decimals) : undefined,
+    value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -144,11 +144,12 @@ export function formatFetchNumberToViewNumber(
   fetchNumber?: FetchNumber,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewNumber {
-  if (!fetchNumber) return {
-    value: undefined,
-    viewValue: "/",
-    symbol: "/"
-  };
+  if (!fetchNumber)
+    return {
+      value: undefined,
+      viewValue: "/",
+      symbol: "/",
+    };
 
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
@@ -179,10 +180,10 @@ export function formatFetchBigIntToHealthFactor(
     };
   }
 
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue:
       bigIntValue < INFINITE_HEALTH_FACTOR_BORDER ? formatToDisplayable(value, decimalsFormattingOptions) : "∞",
     bigIntValue,

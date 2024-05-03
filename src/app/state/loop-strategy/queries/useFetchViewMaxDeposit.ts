@@ -1,22 +1,22 @@
 import { Address, zeroAddress } from "viem";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
+import {
+  Displayable,
+  ViewBigInt,
+  fFetchBigIntStructured,
+  mergeQueryStates,
+  useSeamlessContractRead,
+  useToken,
+} from "@shared";
 import { loopStrategyAbi } from "../../../generated";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
-export const useFetchMaxDeposit = (strategy: Address): FetchData<FetchBigInt> => {
+export const useFetchMaxDeposit = (strategy: Address): FetchData<FetchBigInt | undefined> => {
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
     data: { decimals, symbol },
+    ...tokenDataRest
   } = useToken(strategy);
-
-  const {
-    data,
-    isLoading: isMaxDepositLoading,
-    isFetched: isMaxDepositFetched,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data, ...maxDepositRest } = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "maxDeposit",
@@ -24,23 +24,16 @@ export const useFetchMaxDeposit = (strategy: Address): FetchData<FetchBigInt> =>
   });
 
   return {
-    ...rest,
-    isLoading: isTokenDataLoading || isMaxDepositLoading,
-    isFetched: isTokenDataFetched && isMaxDepositFetched,
-    data: {
-      bigIntValue: data || 0n,
-      decimals,
-      symbol,
-    },
+    ...mergeQueryStates([tokenDataRest, maxDepositRest]),
+    data: fFetchBigIntStructured(data, decimals, symbol),
   };
 };
 
 export const useFetchViewMaxDeposit = (strategy: Address): Displayable<ViewBigInt> => {
-  const { isLoading, isFetched, data: maxDeposit } = useFetchMaxDeposit(strategy);
+  const { data: maxDeposit, ...rest } = useFetchMaxDeposit(strategy);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: formatFetchBigIntToViewBigInt(maxDeposit),
   };
 };

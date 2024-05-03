@@ -1,51 +1,41 @@
 import { Address } from "viem";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
-import { Displayable } from "../../../../shared";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { useFetchAssetPrice } from "../queries/useFetchViewAssetPrice";
 import { ViewDetailAssetBalance } from "../types/ViewDetailAssetBalance";
 import { useFetchAssetBalance } from "../queries/useFetchViewAssetBalance";
+import { cValueInUsd } from "../math/cValueInUsd";
 
 export interface DetailAssetBalance {
-  data: {
-    balance: FetchBigInt;
-    balanceUsd: FetchBigInt;
-  };
+  balance?: FetchBigInt;
+  balanceUsd?: FetchBigInt;
 }
 
-export const useFetchDetailAssetBalance = (token: Address): Fetch<DetailAssetBalance> => {
-  const { isLoading: isBalanceLoading, isFetched: isBalanceFetched, data: balance } = useFetchAssetBalance(token);
+export const useFetchDetailAssetBalance = (token: Address): FetchData<DetailAssetBalance> => {
+  const { data: balance, ...balanceRest } = useFetchAssetBalance(token);
 
-  const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
-    data: price,
-  } = useFetchAssetPrice({ asset: token });
+  const { data: price, ...priceRest } = useFetchAssetPrice({ asset: token });
+
+  const balanceUsd = cValueInUsd(balance?.bigIntValue, price?.bigIntValue, balance?.decimals);
 
   return {
-    isLoading: isBalanceLoading || isPriceLoading,
-    isFetched: isBalanceFetched && isPriceFetched,
+    ...mergeQueryStates([balanceRest, priceRest]),
     data: {
       balance,
-      balanceUsd: {
-        bigIntValue: (balance.bigIntValue * price.bigIntValue) / BigInt(10 ** balance.decimals),
-        symbol: "$",
-        decimals: 8,
-      },
+      balanceUsd: fUsdValueStructured(balanceUsd),
     },
   };
 };
 
 export const useFetchViewDetailAssetBalance = (token: Address): Displayable<ViewDetailAssetBalance> => {
   const {
-    isLoading,
-    isFetched,
     data: { balance, balanceUsd },
+    ...rest
   } = useFetchDetailAssetBalance(token);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       balance: {
         tokenAmount: formatFetchBigIntToViewBigInt(balance),

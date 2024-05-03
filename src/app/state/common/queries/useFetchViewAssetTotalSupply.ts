@@ -33,11 +33,10 @@ export const useFetchViewAssetTotalSupply = (
   asset: Address,
   decimalsOptions?: Partial<DecimalsOptions>
 ): Displayable<ViewBigInt | undefined> => {
-  const { isLoading, isFetched, data: balance } = useFetchAssetTotalSupply(asset);
+  const { data: balance, ...rest } = useFetchAssetTotalSupply(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: balance ? formatFetchBigIntToViewBigInt(balance, decimalsOptions) : undefined,
   };
 };

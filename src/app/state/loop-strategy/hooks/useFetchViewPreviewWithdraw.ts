@@ -74,7 +74,7 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
     asset: underlyingAsset,
   });
 
-  const assetsToReceive = cAssetsToReceive(assets.bigIntValue);
+  const assetsToReceive = cAssetsToReceive(assets?.bigIntValue);
   const assetsToReceiveInUsd = cAssetsToReceiveUsd(assetsToReceive, underlyingAssetPrice.bigIntValue);
   const costInUsd = cCostInUsd(sharePrice.bigIntValue, amount, assetsToReceiveInUsd);
   const costInUnderlyingAsset = cCostInUnderlyingAsset(costInUsd, underlyingAssetPrice?.bigIntValue);

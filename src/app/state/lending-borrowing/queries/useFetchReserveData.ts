@@ -34,7 +34,6 @@ export const useFetchReserveData = (asset?: Address) => {
 
   return {
     ...mergeQueryStates([tokenRest, rest]),
-    ...rest,
     data: {
       totalSupplied: fFetchBigIntStructured(totalSupplied, decimals, ""),
       totalBorrowed: fFetchBigIntStructured(totalBorrowed, decimals, ""),

@@ -3,6 +3,7 @@ import { FetchData } from "../../types/Fetch";
 import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 import { TokenDataDict } from "@meta";
 import { metadataQueryConfig } from "../settings/config";
+import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 
 export interface FullTokenData {
   symbol?: string;
@@ -15,33 +16,21 @@ export interface FullTokenData {
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTokenData> => {
   const data = asset ? TokenDataDict[asset] : undefined;
 
-  const {
-    data: decimals,
-    isLoading: isDecimalsLoading,
-    isFetched: isDecimalsFetched,
-  } = useSeamlessContractRead({
+  const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "decimals",
     query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
-  const {
-    data: symbol,
-    isLoading: isSymbolLoading,
-    isFetched: isSymbolFetched,
-  } = useSeamlessContractRead({
+  const { data: symbol, ...symbolRest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "symbol",
     query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
-  const {
-    data: name,
-    isLoading: isNameLoading,
-    isFetched: isNameFetched,
-  } = useSeamlessContractRead({
+  const { data: name, ...nameRest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "name",
@@ -49,8 +38,7 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTok
   });
 
   return {
-    isLoading: isDecimalsLoading || isSymbolLoading || isNameLoading,
-    isFetched: isDecimalsFetched && isSymbolFetched && isNameFetched,
+    ...mergeQueryStates([decimalRest, symbolRest, nameRest]),
     data: {
       ...data,
       symbol,

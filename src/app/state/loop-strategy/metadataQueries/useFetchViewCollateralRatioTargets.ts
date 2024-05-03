@@ -1,13 +1,13 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { Displayable, fUsdValueStructured, useSeamlessContractRead } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
 import { metadataQueryConfig } from "../../settings/config";
 
 export interface CollateralRatioTargets {
-  target: FetchBigInt;
+  target: FetchBigInt | undefined;
 }
 
 export const useFetchCollateralRatioTargets = (strategy: Address): FetchData<CollateralRatioTargets> => {
@@ -21,11 +21,7 @@ export const useFetchCollateralRatioTargets = (strategy: Address): FetchData<Col
   return {
     ...result,
     data: {
-      target: {
-        bigIntValue: result.data?.target || 0n,
-        decimals: 8,
-        symbol: "",
-      },
+      target: fUsdValueStructured(result.data?.target, 8, ""),
     },
   };
 };

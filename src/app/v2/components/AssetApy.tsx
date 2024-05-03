@@ -40,12 +40,11 @@ interface LandingApyProps extends DisplayPercentageProps {
 
 export const LendingApy: React.FC<LandingApyProps> = ({ asset, ...rest }) => {
   const {
-    isLoading,
-    isFetched,
     data: { apy },
+    ...apyRest
   } = useFetchViewSupplyApy(asset);
 
-  return <DisplayPercentage isLoading={isLoading} isFetched={isFetched} {...rest} {...apy} />;
+  return <DisplayPercentage {...apyRest} {...rest} {...apy} />;
 };
 
 export const AssetApy: React.FC<AssetApyProps> = ({ asset, isStrategy, ...rest }) => {
