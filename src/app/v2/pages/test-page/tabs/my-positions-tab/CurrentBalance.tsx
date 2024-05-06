@@ -38,7 +38,7 @@ const CurrentBalanceStrategy: React.FC<{ asset: Address }> = ({ asset }) => {
           isLoading={isStrategyBalanceLoading}
           isFetched={isStrategyBalanceFetched}
           typography="bold3"
-          className="max-w-32"
+          className="md:max-w-32"
         />
       </Tooltip>
       <DisplayMoney

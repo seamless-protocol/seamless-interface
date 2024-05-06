@@ -1,10 +1,13 @@
 import { Address } from "viem";
 // TODO: Change this to strategy logo once it's known
-import ilmwstETHLogo from "@assets/tokens/ilmwstETH.svg";
+import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
+import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import EthLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
-import { WSTETH_ADDRESS, WETH_ADDRESS } from "@meta";
+import wethLogo from "@assets/tokens/weth.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
+import { WSTETH_ADDRESS, WETH_ADDRESS, USDC_ADDRESS } from "@meta";
 
 interface AssetConfig {
   name: string;
@@ -19,7 +22,6 @@ export interface StrategyConfig {
   address: Address;
   logo: string;
   diagram: string;
-  defaultApy: number;
   underlyingAsset: AssetConfig;
   debtAsset: AssetConfig;
   vaultsFyiLink?: string;
@@ -33,7 +35,6 @@ export const ilmStrategies: StrategyConfig[] = [
     address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
-    defaultApy: 0,
     underlyingAsset: {
       name: "Wrapped liquid staked ETH",
       symbol: "wstETH",
@@ -46,7 +47,26 @@ export const ilmStrategies: StrategyConfig[] = [
       address: WETH_ADDRESS,
       logo: EthLogo,
     },
-    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day"
+    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day",
+  },
+  {
+    id: 1,
+    name: "Multiply ETH Long",
+    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
+    logo: ilmEthUsdcLogo,
+    diagram: "", // TODO: Update this or remove because it is unused
+    underlyingAsset: {
+      name: "Wrapped ETH",
+      symbol: "WETH",
+      address: WETH_ADDRESS,
+      logo: wethLogo,
+    },
+    debtAsset: {
+      name: "USDC",
+      symbol: "USDC",
+      address: USDC_ADDRESS,
+      logo: usdcLogo,
+    },
   },
 ];
 
@@ -56,7 +76,6 @@ export const findILMStrategyByAddress = (address?: Address) => {
 
 export interface StrategyData {
   address: Address;
-  defaultApy: number;
   targetMultiple: {
     value: number;
     symbol: string;
@@ -71,9 +90,20 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
     [
       {
         address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
-        defaultApy: 0,
         targetMultiple: {
           value: 3,
+          symbol: "x",
+        },
+      },
+    ],
+  ],
+  [
+    WETH_ADDRESS,
+    [
+      {
+        address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4",
+        targetMultiple: {
+          value: 1.5,
           symbol: "x",
         },
       },

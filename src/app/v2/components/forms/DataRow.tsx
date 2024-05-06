@@ -2,7 +2,7 @@ import React from 'react'
 import { FlexRow, Typography } from '@shared';
 
 export const DataRow: React.FC<{
-  label: string;
+  label: React.ReactElement | string;
   children?: React.ReactNode;
 }> = ({ label, children }) => {
   return (

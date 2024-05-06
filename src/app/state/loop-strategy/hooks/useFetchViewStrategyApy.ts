@@ -1,5 +1,4 @@
 import { useBlock } from "wagmi";
-import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@meta";
 import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
@@ -27,7 +26,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
   const { data: latestBlockData, ...latestBlockRest } = useBlock();
   const { data: prevBlockData, ...prevBlockRest } = useBlock({
     query: { enabled: !!latestBlockData },
-    blockNumber: latestBlockData ? latestBlockData.number - APY_BLOCK_FRAME : 0n,
+    blockNumber: latestBlockData && latestBlockData?.number - APY_BLOCK_FRAME,
   });
 
   // todo update enabled everywhere(in hooks)
@@ -46,19 +45,16 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
   // todo refactor this
   const apy =
     latestBlockData?.timestamp &&
-    prevBlockData?.timestamp &&
-    shareValueInLatestBlock?.bigIntValue &&
-    shareValueInPrevBlock?.bigIntValue
+      prevBlockData?.timestamp &&
+      shareValueInLatestBlock?.bigIntValue &&
+      shareValueInPrevBlock?.bigIntValue
       ? calculateApy(
-          shareValueInLatestBlock.bigIntValue,
-          shareValueInPrevBlock.bigIntValue,
-          // todo fix this
-          latestBlockData?.timestamp - prevBlockData?.timestamp
-        )
+        shareValueInLatestBlock.bigIntValue,
+        shareValueInPrevBlock.bigIntValue,
+        // todo fix this
+        latestBlockData?.timestamp - prevBlockData?.timestamp
+      )
       : 0;
-
-  const strategies = strategyAssets ? ilmAssetStrategiesMap.get(strategyAssets?.underlying) || [] : [];
-  const strategyConfig = strategies.find((s) => s.address === strategy);
 
   return {
     ...mergeQueryStates([
@@ -69,7 +65,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
       prevBlockShareValueRest,
     ]),
     data: {
-      value: strategyConfig?.defaultApy ? strategyConfig.defaultApy : apy,
+      value: apy,
       symbol: "%",
     },
   };

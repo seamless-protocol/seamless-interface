@@ -34,6 +34,9 @@ export const useFetchDetailEquity = (strategy: Address): FetchData<StrategyEquit
     functionName: "equityUSD",
   });
 
+  const retEquity = equity !== undefined ? { bigIntValue: equity, decimals, symbol } : undefined;
+  const retEquityUsd = equityUsd !== undefined ? { bigIntValue: equityUsd, decimals: 8, symbol: "$" } : undefined;
+
   return {
     ...mergeQueryStates([underlyingAssetRest, tokenDataRest, equityRest, equityUsdRest]),
     data: {

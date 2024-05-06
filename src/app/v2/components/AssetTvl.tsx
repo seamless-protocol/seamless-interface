@@ -12,6 +12,7 @@ interface AssetTvlProps extends DisplayPercentageProps {
 
 const StrategyTvl: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
   const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
+
   const {
     data: { dollarAmount },
     isLoading,
