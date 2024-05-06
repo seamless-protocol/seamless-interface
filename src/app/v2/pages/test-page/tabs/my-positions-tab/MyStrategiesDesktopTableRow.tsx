@@ -8,6 +8,7 @@ import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
+import { findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -15,6 +16,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   hideBorder?: boolean;
 }> = ({ asset, strategy, hideBorder }) => {
   const isStrategy = !!strategy;
+  const strategyIcon = isStrategy && findILMStrategyByAddress(asset)?.logo;
 
   const {
     data: { logo: icon, name, symbol },
@@ -24,11 +26,11 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (
-    <div className="py-4 border-solid border-b border-b-navy-100">
+    <div className="hidden md:block py-4 border-solid border-b border-b-navy-100">
       <TableRow className="md:grid grid-cols-12" hideBorder={hideBorder}>
         <TableCell alignItems="items-start col-span-4">
           <FlexRow className="gap-4 items-start">
-            <Icon width={40} src={icon} alt={icon || ""} />
+            <Icon width={40} src={strategyIcon || icon} alt={strategyIcon || icon || ""} />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
                 <Typography type="bold3">{getTokenTitle(asset, isStrategy)}</Typography>

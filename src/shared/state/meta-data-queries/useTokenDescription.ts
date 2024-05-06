@@ -18,6 +18,7 @@ interface ITokenDescriptionDict {
   [address: Address]: {
     lendingTitle: string;
     strategyTitle: string;
+    strategyDescription?: string;
     description: string;
     secondaryStrategyTitle?: string;
   };
@@ -26,15 +27,20 @@ interface ITokenDescriptionDict {
 export const TokenDescriptionDict: ITokenDescriptionDict = {
   [WETH_ADDRESS]: {
     lendingTitle: "Supply WETH",
-    strategyTitle: "Multiply WETH staking rewards",
+    strategyTitle: "Multiply ETH Long",
+    secondaryStrategyTitle: "Increase ETH price exposure",
+    strategyDescription:
+      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
     description: "Wrapped Ethereum (WETH) allows Ethereum to be traded & used directly in smart contracts.",
   },
   [WSTETH_ADDRESS]: {
     lendingTitle: "Supply wstETH",
     strategyTitle: "Boost wstETH",
     secondaryStrategyTitle: "Increase ETH staking rewards automatically",
-    description:
+    strategyDescription:
       "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
+    description:
+      "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
   },
   [CBETH_ADDRESS]: {
     lendingTitle: "Supply cbETH",
@@ -69,21 +75,18 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
   },
 };
 
-export const getTokenDescription = (token: Address | undefined): string | undefined => {
+export const getTokenDescription = (token: Address | undefined, isStrategy: boolean): string | undefined => {
   if (!token) return undefined;
-  return TokenDescriptionDict[token]?.description;
+  return isStrategy ? TokenDescriptionDict[token]?.strategyDescription : TokenDescriptionDict[token]?.description;
 };
 
 export const getTokenTitle = (token: Address, isStrategy?: boolean): string | undefined => {
   return isStrategy ? TokenDescriptionDict[token]?.strategyTitle : TokenDescriptionDict[token]?.lendingTitle;
 };
 
-const strategyOverrideNameDict = {
-  [WSTETH_ADDRESS]: "Increase ETH staking rewards automatically"
-}
-
 export const getOverridenName = (token: Address, name?: string, isStrategy?: boolean) => {
-  if (isStrategy && strategyOverrideNameDict[token]) return strategyOverrideNameDict[token];
+  if (isStrategy && TokenDescriptionDict[token]?.secondaryStrategyTitle)
+    return TokenDescriptionDict[token]?.secondaryStrategyTitle;
 
   return name;
-}
+};

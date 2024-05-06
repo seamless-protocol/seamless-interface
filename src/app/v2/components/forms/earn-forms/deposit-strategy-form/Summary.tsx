@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount } from "@shared";
+import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
@@ -50,7 +50,19 @@ const SummaryLocal: React.FC<{
           symbolPosition="before"
         />
       </DataRow>
-      <DataRow label="Maximum transaction cost">
+      <DataRow
+        label={
+          <FlexRow className="gap-1">
+            Maximum transaction cost
+            <StandardTooltip width={1}>
+              <Typography type="medium2" className="text-navy-1000">
+                DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your
+                deposit. If transaction cost <br /> is high, try depositing smaller amounts over time.
+              </Typography>
+            </StandardTooltip>
+          </FlexRow>
+        }
+      >
         <DisplayTokenAmount
           isLoading={previewDepositData.isLoading}
           isFetched={previewDepositData.isFetched}

@@ -76,8 +76,8 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
 
   return (
     <div className="border bg-neutral-0 rounded-2xl p-4 cursor-default">
-      <FlexRow className="items-center w-full">
-        <FlexCol className="flex-grow gap-2 text-medium4">
+      <FlexRow className="items-center justify-between w-full">
+        <FlexCol className="min-w-0 gap-2 text-medium4">
           <RHFInputField
             name={name}
             min={0}
@@ -93,7 +93,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
             <span className="min-h-[18px]" />
           )}
         </FlexCol>
-        <div className="flex flex-col items-end gap-2 flex-grow-0">
+        <div className="flex flex-col items-end gap-2">
           {assetButton || (
             <div className="inline-flex items-center space-x-2">
               <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
@@ -108,7 +108,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
             </div>
           )}
           {isConnected && assetAddress && (
-            <div className="inline-flex gap-2 items-center">
+            <div className="inline-flex gap-2 items-end text-end">
               <Tooltip tooltip={walletBalance?.data.symbol} hidden={hideTooltip} size="small">
                 <DisplayTokenAmount
                   className="max-w-32"

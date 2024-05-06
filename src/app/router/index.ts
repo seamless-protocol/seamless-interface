@@ -9,6 +9,7 @@ const governanceUrl = "https://legacy.seamlessprotocol.com/governance";
 const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol";
+const uniswapUrl = "https://app.uniswap.org/swap";
 
 const baseScan = "https://basescan.org";
 
@@ -20,6 +21,8 @@ export const RouterConfig = {
     governance: `${governanceUrl}/`,
     claimAirdrop: `${claimAirdropUrl}`,
     supplyEthLegacy: `${supplyEthLegacy}`,
+    wrapEth: `${uniswapUrl}?chain=base&inputCurrency=ETH&outputCurrency=0x4200000000000000000000000000000000000006`,
+    unwrapEth: `${uniswapUrl}?chain=base&inputCurrency=0x4200000000000000000000000000000000000006&outputCurrency=ETH`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,

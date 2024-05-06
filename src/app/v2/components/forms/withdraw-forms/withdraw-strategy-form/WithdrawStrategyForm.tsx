@@ -1,8 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { parseUnits, Address } from "viem";
 import { useAccount } from "wagmi";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import {
   useNotificationContext,
   ModalHandles,
@@ -14,6 +16,7 @@ import {
   useFullTokenData,
   WatchAssetComponentv2,
 } from "../../../../../../shared";
+import { WETH_ADDRESS } from "@meta";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { StrategyConfig, findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
@@ -23,6 +26,7 @@ import { WithdrawModalFormData } from "../../../../../v1/pages/ilm-details-page/
 import { FormButtons } from "./FormButtons";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { Summary } from "./Summary";
+import { RouterConfig } from "../../../../../router";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
@@ -93,6 +97,21 @@ const WithdrawStrategyLocal: React.FC<{
               <Typography type="regular3">
                 You Withdrew {data.amount} ${strategySymbol}
               </Typography>
+              {underlyingTokenAddress === WETH_ADDRESS && (
+                <FlexRow className="w-full">
+                  <Link
+                    to={RouterConfig.Routes.unwrapEth}
+                    className="flex flex-row items-center justify-end gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Typography type="bold2" className="text-right">
+                      To unwrap ETH, click here
+                    </Typography>
+                    <ArrowTopRightOnSquareIcon width={12} />
+                  </Link>
+                </FlexRow>
+              )}
               {underlyingTokenAddress && underlyingTokenData?.symbol && (
                 <WatchAssetComponentv2
                   address={underlyingTokenAddress}
@@ -100,6 +119,21 @@ const WithdrawStrategyLocal: React.FC<{
                   logo={underlyingTokenData.logo}
                   decimals={underlyingTokenData.decimals}
                 />
+              )}
+              {underlyingTokenAddress === WETH_ADDRESS && (
+                <FlexRow className="w-full">
+                  <Link
+                    to={RouterConfig.Routes.unwrapEth}
+                    className="flex flex-row items-center justify-end gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Typography type="bold2" className="text-right">
+                      To unwrap to ETH, click here
+                    </Typography>
+                    <ArrowTopRightOnSquareIcon width={12} />
+                  </Link>
+                </FlexRow>
               )}
             </FlexCol>
           ),

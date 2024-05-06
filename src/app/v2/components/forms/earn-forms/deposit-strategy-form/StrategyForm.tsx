@@ -1,4 +1,7 @@
 import { useForm } from "react-hook-form";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
@@ -16,11 +19,14 @@ import {
   MyFormProvider,
   FlexRow,
   useToken,
+  DisplayText,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
+import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -39,6 +45,12 @@ export const StrategyForm = () => {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
+  const {
+    data: targetMultipleData,
+    isLoading: isTargeMultipleLoading,
+    isFetched: isTargetMultipleFetched,
+  } = useFetchViewTargetMultiple(strategy.address);
+
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const methods = useForm({
     defaultValues: {
@@ -100,12 +112,24 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? getTokenTitle(asset, true) : "Select strategy to get started"}</Typography>
-              <Typography type="regular3">Increase ETH staking rewards automatically</Typography>
+              <Typography type="bold4">
+                {asset ? getTokenTitle(asset, true) : "Select strategy to get started"}
+              </Typography>
+              <Typography type="regular3">{getOverridenName(asset, undefined, true)}</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
+          {asset === WETH_ADDRESS && (
+            <FlexRow className="w-full">
+              <Link to={RouterConfig.Routes.wrapEth} className="flex flex-row items-center justify-end gap-1" target="_blank" rel="noopener noreferrer">
+                <Typography type="bold2" className="text-right">
+                  To wrap ETH, click here
+                </Typography>
+                <ArrowTopRightOnSquareIcon width={12} />
+              </Link>
+            </FlexRow>
+          )}
           <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
@@ -115,10 +139,14 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FlexCol className="gap-4">
-
           <FlexRow className="justify-between pr-2">
             <Typography type="bold3">Target Boost</Typography>
-            <Typography type="bold3">3x</Typography>
+            <DisplayText
+              typography="bold3"
+              isLoading={isTargeMultipleLoading}
+              isFetched={isTargetMultipleFetched}
+              {...targetMultipleData}
+            />
           </FlexRow>
           {/* <FlexCol>
             <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
