@@ -4,7 +4,7 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchDetailRemainingCap } from "./useFetchDetailRemainingCap";
 
-export const useFetchMaxUserReserveDeposit = (reserve: Address): FetchData<FetchBigInt | undefined> => {
+export const useFetchMaxUserReserveDeposit = (reserve?: Address): FetchData<FetchBigInt | undefined> => {
   const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useToken(reserve);
 
   const {
@@ -31,15 +31,15 @@ export const useFetchMaxUserReserveDeposit = (reserve: Address): FetchData<Fetch
     isFetched: isTokenDataFetched || isReserveDataFetched || isRemainingCapFetched,
     data: maxUserReserveDeposit
       ? {
-          bigIntValue: maxUserReserveDeposit,
-          symbol: tokenData.symbol,
-          decimals: tokenData.decimals,
-        }
+        bigIntValue: maxUserReserveDeposit,
+        symbol: tokenData.symbol,
+        decimals: tokenData.decimals,
+      }
       : undefined,
   };
 };
 
-export const useFetchViewMaxUserReserveDeposit = (reserve: Address): Displayable<ViewBigInt | undefined> => {
+export const useFetchViewMaxUserReserveDeposit = (reserve?: Address): Displayable<ViewBigInt | undefined> => {
   const { data: maxUserReserveData, isLoading, isFetched } = useFetchMaxUserReserveDeposit(reserve);
 
   return {

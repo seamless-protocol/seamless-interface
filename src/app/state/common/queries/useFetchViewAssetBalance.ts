@@ -4,7 +4,7 @@ import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shar
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 
-export const useFetchAssetBalance = (asset: Address) => {
+export const useFetchAssetBalance = (asset?: Address) => {
   const account = useAccount();
 
   const { isLoading: isTokenDataLoading, isFetched: isTokenDataFetched, data: tokenData } = useToken(asset);
@@ -34,7 +34,7 @@ export const useFetchAssetBalance = (asset: Address) => {
 };
 
 export const useFetchViewAssetBalance = (
-  asset: Address,
+  asset?: Address,
   decimalsOptions?: Partial<DecimalsOptions>
 ): Displayable<ViewAssetBalance> => {
   const { isLoading, isFetched, data: balance } = useFetchAssetBalance(asset);

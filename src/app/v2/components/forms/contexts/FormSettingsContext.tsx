@@ -5,7 +5,7 @@ import { OverrideUrlSlug, useAssetPickerState } from "../../../hooks/useAssetPic
 export interface FormSettingsContextType {
   hideTag?: boolean;
   onTransaction?: () => void;
-  asset: Address;
+  asset?: Address;
   setAsset: (asset: Address) => void;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
@@ -16,7 +16,7 @@ export const FormSettingsContext = createContext<FormSettingsContextType | undef
 
 interface FormSettingsProviderProps {
   children: ReactNode;
-  defaultAsset: Address;
+  defaultAsset?: Address;
   onTransaction?: () => void;
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
@@ -33,7 +33,7 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   disableAssetPicker,
 }) => {
   const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
-  const [asset, setAsset] = useState(defaultAsset);
+  const [asset, setAsset] = useState<Address | undefined>(defaultAsset);
   const [isStrategy, setIsStrategy] = useState(false);
 
   useEffect(() => {

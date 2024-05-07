@@ -38,13 +38,14 @@ export const AssetPicker: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
               }
             }}
           >
-            <AssetCard
+            {item.address ? <AssetCard
               isSelected={isEqualMarket(item, {
                 address: asset,
                 isStrategy,
               })}
               {...item}
-            />
+              address={item.address}
+            /> : <span />}
           </div>
         ))}
       </div>

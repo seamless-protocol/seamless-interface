@@ -14,7 +14,7 @@ interface TotalSupplied {
   capacity: FetchBigInt | undefined;
 }
 
-export const useFetchDetailTotalSupplied = (asset: Address): FetchData<TotalSupplied> => {
+export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const {
     isLoading: isReserveCapsLoading,
     isFetched: isReserveCapsFetched,
@@ -54,16 +54,16 @@ export const useFetchDetailTotalSupplied = (asset: Address): FetchData<TotalSupp
       },
       capacity: capacity
         ? {
-            bigIntValue: capacity,
-            symbol: "%",
-            decimals: 18,
-          }
+          bigIntValue: capacity,
+          symbol: "%",
+          decimals: 18,
+        }
         : undefined,
     },
   };
 };
 
-export const useFetchViewDetailTotalSupplied = (asset: Address): Displayable<ViewDetailTotalSupplied> => {
+export const useFetchViewDetailTotalSupplied = (asset?: Address): Displayable<ViewDetailTotalSupplied> => {
   const {
     isLoading,
     isFetched,
@@ -80,10 +80,10 @@ export const useFetchViewDetailTotalSupplied = (asset: Address): Displayable<Vie
       },
       capacity: capacity
         ? formatFetchBigIntToViewBigInt(capacity, {
-            singleDigitNumberDecimals: 1,
-            doubleDigitNumberDecimals: 1,
-            threeDigitNumberDecimals: 0,
-          })
+          singleDigitNumberDecimals: 1,
+          doubleDigitNumberDecimals: 1,
+          threeDigitNumberDecimals: 0,
+        })
         : undefined,
     },
   };

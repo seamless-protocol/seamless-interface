@@ -34,7 +34,7 @@ export function getApproveState(isApproved?: boolean, justApproved?: boolean) {
  * - {Function} approveAsync - Function to trigger the approval transaction.
  */
 
-export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, amount: bigint = BigInt(0)) => {
+export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address, amount: bigint = BigInt(0)) => {
   const [isApproved, setIsApproved] = useState(false);
   const [justApproved, setJustApproved] = useState(false);
 
@@ -57,6 +57,17 @@ export const useERC20Approve = (tokenAddress: Address, spenderAddress: Address, 
 
   const approveAsync = async () => {
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount;
+
+    if (!spenderAddress) {
+      // eslint-disable-next-line no-console
+      console.log("spenderAddress is undefined at useERC20Approve!")
+      return;
+    }
+    if (!tokenAddress) {
+      // eslint-disable-next-line no-console
+      console.log("tokenAddress is undefined at useERC20Approve!")
+      return;
+    }
 
     await approveTokenAsync({
       address: tokenAddress,

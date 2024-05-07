@@ -8,7 +8,7 @@ import { DecimalsOptions, formatFetchBigIntToViewBigInt, useToken } from "@share
 
 const safeHealthFactor = parseEther("1.01");
 
-export const useFetchMaxReserveWithdraw = (reserve: Address) => {
+export const useFetchMaxReserveWithdraw = (reserve?: Address) => {
   const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useToken(reserve);
 
   const {
@@ -94,7 +94,7 @@ export const useFetchMaxReserveWithdraw = (reserve: Address) => {
   };
 };
 
-export const useFetchViewMaxReserveWithdraw = (reserve: Address, decimalsOptions?: Partial<DecimalsOptions>) => {
+export const useFetchViewMaxReserveWithdraw = (reserve?: Address, decimalsOptions?: Partial<DecimalsOptions>) => {
   const { data, isLoading, isFetched } = useFetchMaxReserveWithdraw(reserve);
 
   return {

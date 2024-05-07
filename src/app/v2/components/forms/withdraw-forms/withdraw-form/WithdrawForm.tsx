@@ -104,7 +104,7 @@ export const WithdrawForm = () => {
           />
         </FlexCol>
 
-        <Summary asset={asset} amount={amount} />
+        {asset && <Summary asset={asset} amount={amount} />}
 
         <FormButtons />
       </FlexCol>

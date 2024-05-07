@@ -12,18 +12,18 @@ export interface FullTokenData {
   shortName?: string;
 }
 
-export const useFullTokenData = (token: Address | undefined): FetchData<FullTokenData> => {
-  const data = token ? TokenDataDict[token] : undefined;
+export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTokenData> => {
+  const data = asset ? TokenDataDict[asset] : undefined;
 
   const {
     data: decimals,
     isLoading: isDecimalsLoading,
     isFetched: isDecimalsFetched,
   } = useSeamlessContractRead({
-    address: token,
+    address: asset,
     abi: erc20Abi,
     functionName: "decimals",
-    query: metadataQueryConfig,
+    query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
   const {
@@ -31,10 +31,10 @@ export const useFullTokenData = (token: Address | undefined): FetchData<FullToke
     isLoading: isSymbolLoading,
     isFetched: isSymbolFetched,
   } = useSeamlessContractRead({
-    address: token,
+    address: asset,
     abi: erc20Abi,
     functionName: "symbol",
-    query: metadataQueryConfig,
+    query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
   const {
@@ -42,10 +42,10 @@ export const useFullTokenData = (token: Address | undefined): FetchData<FullToke
     isLoading: isNameLoading,
     isFetched: isNameFetched,
   } = useSeamlessContractRead({
-    address: token,
+    address: asset,
     abi: erc20Abi,
     functionName: "name",
-    query: metadataQueryConfig,
+    query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
   return {

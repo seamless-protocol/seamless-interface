@@ -115,7 +115,7 @@ const StrategyFormLocal: React.FC<{
               <Typography type="bold4">
                 {asset ? getTokenTitle(asset, true) : "Select strategy to get started"}
               </Typography>
-              <Typography type="regular3">{getOverridenName(asset, undefined, true)}</Typography>
+              <Typography type="regular3">{asset ? getOverridenName(asset, undefined, true) : ""}</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
@@ -162,7 +162,7 @@ const StrategyFormLocal: React.FC<{
           </FlexCol> */}
         </FlexCol>
 
-        <Summary asset={asset} previewDepositData={previewDepositData} />
+        {asset && <Summary asset={asset} previewDepositData={previewDepositData} />}
         <FormButtons strategy={strategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>
