@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable, fFetchBigIntStructured, mergeQueryStates } from "../../../../shared";
+import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalBorrowed } from "../types/ViewDetailTotalBorrowed";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
@@ -29,7 +29,7 @@ export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorr
     ...mergeQueryStates([priceRest, reserveRest]),
     data: {
       totalBorrowed,
-      totalBorrowedUsd: fFetchBigIntStructured(totalBorrowedUsd, price.decimals, price.symbol),
+      totalBorrowedUsd: fUsdValueStructured(totalBorrowedUsd),
     },
   };
 };

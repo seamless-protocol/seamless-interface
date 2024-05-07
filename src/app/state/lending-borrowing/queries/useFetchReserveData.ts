@@ -37,7 +37,6 @@ export const useFetchReserveData = (asset?: Address) => {
     data: {
       totalSupplied: fFetchBigIntStructured(totalSupplied, decimals, ""),
       totalBorrowed: fFetchBigIntStructured(totalBorrowed, decimals, ""),
-      // todo: 27?
       liquidityRate: fFetchBigIntStructured(liquidityRate, 27, ""),
       variableBorrowRate: fFetchBigIntStructured(variableBorrowRate, 27, ""),
       liquidityIndex: fFetchBigIntStructured(liquidityIndex, 27, ""),

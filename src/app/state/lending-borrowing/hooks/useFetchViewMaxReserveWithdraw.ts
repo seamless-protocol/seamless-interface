@@ -47,6 +47,7 @@ export const useFetchMaxReserveWithdraw = (
     assetPrice?.bigIntValue != null &&
     userReserveData.aTokenBalance?.decimals != null
   ) {
+    // If the user has not enabled the reserve as collateral or does not have any borrows or liquidation threshold for asset is 0, the user can withdraw the full balance
     if (
       !userReserveData.usageAsCollateralEnabled ||
       userAccountData.totalDebtUsd.bigIntValue === 0n ||

@@ -5,6 +5,7 @@ import { Displayable, fFetchNumberStructured } from "../../../../shared";
 import { ViewApy } from "../types/ViewApy";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 
+// todo: refactor this, should be number || undefined
 const cBorrowApy = (borrowRateBigInt?: bigint, decimals?: number): number => {
   if (borrowRateBigInt == null || decimals == null) return 0;
   const borrowApr = formatUnitsToNumber(borrowRateBigInt, decimals);

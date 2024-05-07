@@ -38,7 +38,7 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
   return {
     ...mergeQueryStates([tokenRest, rest]),
     data: {
-      aTokenBalance: fFetchBigIntStructured(aTokenBalance, 18, "%"),
+      aTokenBalance: fFetchBigIntStructured(aTokenBalance, decimals, symbol),
       variableDebtTokenBalance: fFetchBigIntStructured(variableDebtTokenBalance, decimals, symbol),
       usageAsCollateralEnabled,
     },

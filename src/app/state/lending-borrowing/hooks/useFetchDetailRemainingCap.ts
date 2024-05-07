@@ -3,7 +3,7 @@ import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice"
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { mergeQueryStates, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, fFetchBigIntStructured } from "../../../../shared";
+import { mergeQueryStates, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, fFetchBigIntStructured, fUsdValueStructured } from "../../../../shared";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
@@ -22,13 +22,13 @@ export const useFetchDetailRemainingCap = (asset?: Address): FetchData<Remaining
   const { data: price, ...priceRest } = useFetchAssetPrice({ asset });
 
   const remaining = cRemainingCap(totalSupplied?.totalSupplied?.bigIntValue, supplyCap?.supplyCap.bigIntValue);
-  const remainingUsd = cValueInUsd(remaining, price?.bigIntValue, price?.decimals);
+  const remainingUsd = cValueInUsd(remaining, price?.bigIntValue, totalSupplied?.totalSupplied?.decimals);
 
   return {
     ...mergeQueryStates([capsRest, suppliedRest, priceRest]),
     data: {
       remainingCap: fFetchBigIntStructured(remaining, supplyCap?.supplyCap.decimals, supplyCap?.supplyCap.symbol),
-      remainingCapUsd: fFetchBigIntStructured(remainingUsd, supplyCap?.supplyCap.decimals, supplyCap?.supplyCap.symbol),
+      remainingCapUsd: fUsdValueStructured(remainingUsd, price.decimals),
     },
   };
 };

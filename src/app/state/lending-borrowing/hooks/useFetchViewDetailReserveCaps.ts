@@ -1,20 +1,11 @@
 import { Address } from "viem";
-import { Displayable, fFetchBigIntStructured, mergeQueryStates } from "../../../../shared";
+import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { ViewDetailReserveCaps } from "../types/ViewDetailReserveCaps";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-
-export const cSupplyCapUsd = (supplyCapValue?: bigint, priceValue?: bigint, supplyCapDecimals?: number) => {
-  if (supplyCapValue == null || priceValue == null || supplyCapDecimals == null) return undefined;
-
-  const divider = BigInt(10n ** BigInt(supplyCapDecimals));
-  if (divider === 0n) return undefined;
-
-  return (supplyCapValue * priceValue) / divider;
-}
 
 interface DetailReserveCaps {
   supplyCap?: FetchBigInt;
@@ -35,7 +26,7 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
   } = useFetchAssetPrice({ asset });
   const price = data || 0n;
 
-  const supplyCapUsd = cSupplyCapUsd(supplyCap?.bigIntValue, price?.bigIntValue, supplyCap?.decimals);
+  const supplyCapUsd = cValueInUsd(supplyCap?.bigIntValue, price?.bigIntValue, supplyCap?.decimals);
   const borrowCapUsd = cValueInUsd(borrowCap?.bigIntValue, price?.bigIntValue, borrowCap?.decimals);
 
 
@@ -43,9 +34,9 @@ export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReser
     ...mergeQueryStates([capsRest, priceRest]),
     data: {
       supplyCap,
-      supplyCapUsd: fFetchBigIntStructured(supplyCapUsd, price.decimals, price.symbol),
+      supplyCapUsd: fUsdValueStructured(supplyCapUsd),
       borrowCap,
-      borrowCapUsd: fFetchBigIntStructured(borrowCapUsd, price.decimals, price.symbol),
+      borrowCapUsd: fUsdValueStructured(borrowCapUsd),
     },
   };
 };

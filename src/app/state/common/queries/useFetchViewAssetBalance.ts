@@ -9,7 +9,7 @@ export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | u
 
   const { data: tokenData, ...restToken } = useToken(asset);
 
-  const { data: balance, ...rest } = useSeamlessContractRead({
+  const { data: balance, ...restBalance } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",
@@ -17,7 +17,7 @@ export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | u
   });
 
   return {
-    ...mergeQueryStates([restToken, rest]),
+    ...mergeQueryStates([restToken, restBalance]),
     data: {
       bigIntValue: balance,
       symbol: tokenData?.symbol,
