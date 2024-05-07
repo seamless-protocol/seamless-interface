@@ -25,7 +25,7 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; sp
     functionName: "allowance",
     args: [account.address as Address, spender!],
     query: {
-      enabled: !!asset || !!spender
+      enabled: !!asset && !!spender
     }
   });
 
