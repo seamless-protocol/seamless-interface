@@ -110,7 +110,7 @@ export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPric
     return {
       ...rest,
       data: {
-        bigIntValue: price || 0n,
+        bigIntValue: price,
         decimals: 8,
         symbol: "$",
       },
@@ -126,11 +126,10 @@ export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { isLoading, isFetched, data: price } = useFetchAssetPrice({ asset, underlyingAsset });
+  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: formatFetchBigIntToViewBigInt(price),
   };
 };

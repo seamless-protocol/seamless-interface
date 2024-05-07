@@ -1,6 +1,6 @@
 import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewStrategyApy } from "../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { Displayable, ViewBigInt, ViewNumber } from "../../../../../shared";
+import { Displayable, mergeQueryStates, ViewBigInt, ViewNumber } from "../../../../../shared";
 import { useFetchViewTargetMultiple } from "../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { useFetchViewDetailAssetBalance } from "../../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { Address } from "viem";
@@ -28,33 +28,18 @@ export interface ViewStrategy {
 export const useFetchViewStrategy = (index: number): Displayable<ViewStrategy> => {
   const strategyConfig = ilmStrategies[index];
 
-  const {
-    data: targetMultiple,
-    isLoading: isTargetMultipleLoading,
-    isFetched: isTargetMultipleFetched,
-  } = useFetchViewTargetMultiple(strategyConfig.address);
+  const { data: targetMultiple, ...multipleRest } = useFetchViewTargetMultiple(strategyConfig.address);
 
-  const {
-    data: strategyBalance,
-    isLoading: isStrategyBalanceLoading,
-    isFetched: isStrategyBalanceFetched,
-  } = useFetchViewDetailAssetBalance(strategyConfig.address);
+  const { data: strategyBalance, ...balanceRest } = useFetchViewDetailAssetBalance(strategyConfig.address);
 
-  const {
-    data: userBalance,
-    isLoading: isUserBalanceLoading,
-    isFetched: isUserBalanceFetched,
-  } = useFetchViewDetailAssetBalance(strategyConfig.underlyingAsset.address);
+  const { data: userBalance, ...userBalanceRest } = useFetchViewDetailAssetBalance(
+    strategyConfig.underlyingAsset.address
+  );
 
-  const {
-    isLoading: isApyLoading,
-    isFetched: isApyFetched,
-    data: apy,
-  } = useFetchViewStrategyApy(ilmStrategies[index].address);
+  const { data: apy, ...apyRest } = useFetchViewStrategyApy(ilmStrategies[index].address);
 
   return {
-    isLoading: isTargetMultipleLoading || isStrategyBalanceLoading || isApyLoading || isUserBalanceLoading,
-    isFetched: isTargetMultipleFetched && isStrategyBalanceFetched && isApyFetched && isUserBalanceFetched,
+    ...mergeQueryStates([userBalanceRest, apyRest, multipleRest, balanceRest]),
     data: {
       strategyName: strategyConfig.name,
       depositAsset: {

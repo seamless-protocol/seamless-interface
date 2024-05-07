@@ -2,54 +2,46 @@ import { Address } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { Displayable } from "../../../../shared";
+import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalBorrowed } from "../types/ViewDetailTotalBorrowed";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
+
 
 interface TotalBorrowed {
-  totalBorrowed: FetchBigInt;
-  totalBorrowedUsd: FetchBigInt;
+  totalBorrowed?: FetchBigInt;
+  totalBorrowedUsd?: FetchBigInt;
 }
 
 export const useFetchDetailTotalBorrowed = (asset: Address): FetchData<TotalBorrowed> => {
   const {
-    isLoading: isReserveDataLoading,
-    isFetched: isReserveDataFetched,
     data: { totalBorrowed },
+    ...reserveRest
   } = useFetchReserveData(asset);
-
   const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
     data: price,
+    ...priceRest
   } = useFetchAssetPrice({ asset });
 
+  const totalBorrowedUsd = cValueInUsd(totalBorrowed?.bigIntValue, price.bigIntValue, totalBorrowed?.decimals);
+
   return {
-    isLoading: isReserveDataLoading || isPriceLoading,
-    isFetched: isReserveDataFetched && isPriceFetched,
+    ...mergeQueryStates([priceRest, reserveRest]),
     data: {
-      totalBorrowed: {
-        ...totalBorrowed,
-      },
-      totalBorrowedUsd: {
-        bigIntValue: (totalBorrowed.bigIntValue * price.bigIntValue) / BigInt(10 ** totalBorrowed.decimals),
-        symbol: "$",
-        decimals: 8,
-      },
+      totalBorrowed,
+      totalBorrowedUsd: fUsdValueStructured(totalBorrowedUsd),
     },
   };
 };
 
 export const useFetchViewDetailTotalBorrowed = (asset: Address): Displayable<ViewDetailTotalBorrowed> => {
   const {
-    isLoading,
-    isFetched,
     data: { totalBorrowed, totalBorrowedUsd },
+    ...rest
   } = useFetchDetailTotalBorrowed(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       totalBorrowed: {
         tokenAmount: formatFetchBigIntToViewBigInt(totalBorrowed),

@@ -37,7 +37,7 @@ interface RewardToken {
 }
 
 export interface IncentiveApr {
-  totalApr: number;
+  totalApr?: number;
   rewardTokens: RewardToken[];
 }
 
@@ -93,9 +93,9 @@ export function parseIncentives(incentives: IncentiveData, totalUsd: bigint, sea
   const result = incentives
     ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd, seamPrice)
     : {
-        totalApr: 0,
-        rewardTokens: [],
-      };
+      totalApr: 0,
+      rewardTokens: [],
+    };
 
   return result;
 }

@@ -1,55 +1,52 @@
 import { Address } from "viem";
-import { Displayable } from "../../../../shared";
+import { Displayable, mergeQueryStates } from "../../../../shared";
 import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
-import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveAprToViewNumber } from "../../../../shared/utils/helpers";
-import { Fetch } from "../../../../shared/types/Fetch";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchDetailTotalBorrowed } from "./useFetchViewDetailTotalBorrowed";
 import { useFetchRawReservesIncentivesDataByAsset } from "../queries/useFetchRawReservesIncentivesDataByAsset";
+import { Incentives, IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
+
+const cBorrowIncentives = (
+  incentivesData: Incentives | undefined,
+  totalBorrowedUsd: FetchBigInt | undefined,
+  seamPrice: bigint | undefined
+): IncentiveApr => {
+  if (incentivesData == null || seamPrice == null || totalBorrowedUsd?.bigIntValue == null) {
+    return { totalApr: undefined, rewardTokens: [] };
+  }
+  return parseIncentives(incentivesData.vIncentiveData, totalBorrowedUsd.bigIntValue, seamPrice);
+};
+
 
 interface BorrowIncentives {
   borrowIncentives: IncentiveApr;
 }
 
-export const useFetchBorrowIncentives = (asset: Address): Fetch<BorrowIncentives> => {
-  const {
-    isLoading: isIncentivesLoading,
-    isFetched: isIncentivesFetched,
-    data: incentives,
-  } = useFetchRawReservesIncentivesDataByAsset(asset);
+export const useFetchBorrowIncentives = (asset: Address): FetchData<BorrowIncentives> => {
+  const { data: incentives, ...incentivesRest } = useFetchRawReservesIncentivesDataByAsset(asset);
+  const { data: { totalBorrowedUsd }, ...totalBorrowedRest } = useFetchDetailTotalBorrowed(asset);
+  const { data: seamPrice, ...seamPriceRest } = useFetchCoinGeckoSeamPrice();
 
-  const {
-    isLoading: isTotalBorrowedLoading,
-    isFetched: isTotalBorrowedFetched,
-    data: { totalBorrowedUsd },
-  } = useFetchDetailTotalBorrowed(asset);
-
-  const seamPrice = useFetchCoinGeckoSeamPrice();
-
-  let borrowIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
-  if (incentives && totalBorrowedUsd && seamPrice) {
-    if (incentives && incentives.vIncentiveData) {
-      borrowIncentives = parseIncentives(incentives?.vIncentiveData, totalBorrowedUsd.bigIntValue, seamPrice);
-    }
-  }
+  const borrowIncentives = cBorrowIncentives(incentives, totalBorrowedUsd, seamPrice);
 
   return {
-    isLoading: isIncentivesLoading || isTotalBorrowedLoading,
-    isFetched: isIncentivesFetched && isTotalBorrowedFetched,
-    borrowIncentives,
+    ...mergeQueryStates([incentivesRest, totalBorrowedRest, seamPriceRest]),
+    data: {
+      borrowIncentives
+    }
   };
 };
 
 export const useFetchViewBorrowIncentives = (asset: Address): Displayable<ViewIncentives> => {
-  const { isLoading, isFetched, borrowIncentives } = useFetchBorrowIncentives(asset);
+  const { data: { borrowIncentives }, ...rest } = useFetchBorrowIncentives(asset);
 
   return {
-    isLoading,
-    isFetched,
     data: {
       totalApr: formatIncentiveAprToViewNumber(borrowIncentives.totalApr),
       rewardTokens: borrowIncentives.rewardTokens,
     },
+    ...rest,
   };
 };

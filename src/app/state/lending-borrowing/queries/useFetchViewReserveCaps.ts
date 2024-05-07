@@ -40,14 +40,12 @@ export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
 
 export const useFetchViewReserveCaps = (asset: Address): Displayable<ViewReserveCaps> => {
   const {
-    isLoading,
-    isFetched,
     data: { supplyCap, borrowCap },
+    ...rest
   } = useFetchReserveCaps(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       supplyCap: formatFetchBigIntToViewBigInt(supplyCap),
       borrowCap: formatFetchBigIntToViewBigInt(borrowCap),

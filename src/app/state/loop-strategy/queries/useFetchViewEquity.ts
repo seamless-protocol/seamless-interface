@@ -1,5 +1,13 @@
 import { Address } from "viem";
-import { Displayable, formatFetchBigIntToViewBigIntTemp, useSeamlessContractRead, useToken } from "@shared";
+import {
+  Displayable,
+  fFetchBigIntStructured,
+  formatFetchBigIntToViewBigIntTemp,
+  fUsdValueStructured,
+  mergeQueryStates,
+  useSeamlessContractRead,
+  useToken,
+} from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { loopStrategyAbi } from "../../../generated";
@@ -11,61 +19,38 @@ interface StrategyEquity {
 }
 
 export const useFetchDetailEquity = (strategy: Address): FetchData<StrategyEquity> => {
-  const {
-    data: underlyingAsset,
-    isLoading: isUnderlyingAssetLoading,
-    isFetched: isUnderlyingAssetFetched,
-  } = useFetchStrategyAsset(strategy);
+  const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
+  const { data: tokenData, ...tokenDataRest } = useToken(underlyingAsset);
 
-  const {
-    data: { symbol, decimals },
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
-  } = useToken(underlyingAsset);
-
-  const {
-    data: equity,
-    isLoading: isEquityLoading,
-    isFetched: isEquityFetched,
-  } = useSeamlessContractRead({
+  const { data: equity, ...equityRest } = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "equity",
   });
 
-  const {
-    data: equityUsd,
-    isLoading: isEquityUsdLoading,
-    isFetched: isEquityUsdFetched,
-  } = useSeamlessContractRead({
+  const { data: equityUsd, ...equityUsdRest } = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "equityUSD",
   });
 
-  const retEquity = equity !== undefined ? { bigIntValue: equity, decimals, symbol } : undefined;
-  const retEquityUsd = equityUsd !== undefined ? { bigIntValue: equityUsd, decimals: 8, symbol: "$" } : undefined;
-
   return {
-    isLoading: isEquityLoading || isEquityUsdLoading || isUnderlyingAssetLoading || isTokenDataLoading,
-    isFetched: isEquityFetched && isEquityUsdFetched && isUnderlyingAssetFetched && isTokenDataFetched,
+    ...mergeQueryStates([underlyingAssetRest, tokenDataRest, equityRest, equityUsdRest]),
     data: {
-      equity: retEquity,
-      equityUsd: retEquityUsd,
+      equity: fFetchBigIntStructured(equity, tokenData.decimals, tokenData.symbol),
+      equityUsd: fUsdValueStructured(equityUsd),
     },
   };
 };
 
 export const useFetchViewDetailEquity = (strategy: Address): Displayable<ViewDetailEquity> => {
   const {
-    isLoading,
-    isFetched,
     data: { equity, equityUsd },
+    ...rest
   } = useFetchDetailEquity(strategy);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       tokenAmount: formatFetchBigIntToViewBigIntTemp(equity),
       dollarAmount: formatFetchBigIntToViewBigIntTemp(equityUsd),

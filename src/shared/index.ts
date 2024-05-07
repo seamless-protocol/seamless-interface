@@ -10,6 +10,12 @@ export * from "./contexts/lifi/useLifiWidgetContext";
 export * from "./contexts/connect-wallet/ConnectButtonProvider";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 
+// ******** //
+// formatters //
+// ******** //
+export * from "./formatters/mergeQueryStates";
+export * from "./formatters/bigintOperators";
+
 // ****** //
 // pages //
 // ****** //
@@ -104,6 +110,8 @@ export * from "./components/button/icon-buttons/SmallExternalLinkButton";
 // ***** //
 export * from "./types/Color";
 export * from "./types/Displayable";
+export * from "./types/Fetch";
+export * from "./types/INotification";
 
 // ******* //
 // display //
@@ -148,6 +156,7 @@ export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2
 export * from "./wagmi-wrapper/hooks/useSeamlessContractRead";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractReads";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
+export * from "./wagmi-wrapper/formatters/fParseUnits";
 
 // ****** //
 // hooks  //
@@ -163,3 +172,4 @@ export * from "./state";
 // utils //
 // ******** //
 export * from "./utils/helpers";
+export * from "./formatters/getFetchBigIntFormatted";

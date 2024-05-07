@@ -1,12 +1,7 @@
-import { QueryKey } from "@tanstack/query-core";
+import { ExtendedQueryState } from "../formatters/mergeQueryStates";
 
-export interface Displayable<T> {
+export interface Displayable<T> extends ExtendedQueryState<T> {
   data: T;
-  isFetched: boolean;
-  isLoading: boolean;
-
-  // todo rethink interface
-  queryKey?: QueryKey;
 }
 
 export interface ViewValueSymbolPair {

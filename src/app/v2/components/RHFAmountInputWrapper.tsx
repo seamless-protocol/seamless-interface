@@ -1,12 +1,13 @@
-import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFetchAssetPrice } from "../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../hooks/useAssetPickerState";
 import { useFetchViewAssetBalance } from "../../state/common/queries/useFetchViewAssetBalance";
 import { useFormContext } from "react-hook-form";
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 import { useMemo } from "react";
 import { AssetButton } from "./AssetButton";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { cValueInUsd } from "../../state/common/math/cValueInUsd";
 
 type IProps = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   overrideUrlSlug?: OverrideUrlSlug;
@@ -73,8 +74,8 @@ export function RHFAmountInputWrapper({ overrideUrlSlug, assetAddress, ...other 
   const value = watch(other.name);
 
   const dollarValueData = useMemo(() => {
-    const valueBigInt = parseUnits(value || "", decimals);
-    const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);
+    const valueBigInt = fParseUnits(value || "", decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,

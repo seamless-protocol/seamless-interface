@@ -7,20 +7,20 @@ import { useFetchReserveData } from "../queries/useFetchReserveData";
 
 export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
   const {
-    isLoading,
-    isFetched,
     data: { liquidityRate },
+    ...liquidityRest
   } = useFetchReserveData(asset);
 
-  let supplyApy = 0;
+  let supplyApy;
   if (liquidityRate) {
-    const supplyApr = formatUnitsToNumber(liquidityRate.bigIntValue, liquidityRate.decimals);
-    supplyApy = convertAprToApy(supplyApr);
+    const supplyApr = liquidityRate?.decimals
+      ? formatUnitsToNumber(liquidityRate.bigIntValue, liquidityRate?.decimals)
+      : undefined;
+    supplyApy = supplyApr ? convertAprToApy(supplyApr) : undefined;
   }
 
   return {
-    isLoading,
-    isFetched,
+    ...liquidityRest,
     data: {
       value: supplyApy,
       symbol: supplyApy !== undefined ? "%" : "",
@@ -29,11 +29,10 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
 };
 
 export const useFetchViewSupplyApy = (asset: Address): Displayable<ViewApy> => {
-  const { isLoading, isFetched, data: apy } = useFetchSupplyApy(asset);
+  const { data: apy, ...rest } = useFetchSupplyApy(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       apy: formatFetchNumberToViewNumber(apy),
     },

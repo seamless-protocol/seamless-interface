@@ -3,6 +3,9 @@ import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
 
+export const UNDEFINED_VIEW_VALUE = "/";
+export const UNDEFINED_VIEW_SYMBOL = "/";
+
 export interface DecimalsOptions {
   singleDigitNumberDecimals: number;
   doubleDigitNumberDecimals: number;
@@ -81,18 +84,27 @@ export function formatToDisplayableOrPlaceholder(
  * @returns
  */
 export function formatFetchBigIntToViewBigInt(
-  data: FetchBigInt,
+  data?: FetchBigInt,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewBigInt {
-  const { bigIntValue, decimals, symbol = "" } = data;
+  if (data === undefined) {
+    return {
+      value: undefined,
+      viewValue: UNDEFINED_VIEW_VALUE,
+      bigIntValue: undefined,
+      symbol: UNDEFINED_VIEW_SYMBOL,
+    };
+  }
+
+  const { bigIntValue, decimals, symbol } = data;
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -111,10 +123,10 @@ export function formatFetchBigIntToViewBigIntTemp(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue: formatToDisplayable(value, decimalsFormattingOptions),
     bigIntValue,
     symbol,
@@ -129,17 +141,24 @@ export function formatFetchBigIntToViewBigIntTemp(
  * @returns
  */
 export function formatFetchNumberToViewNumber(
-  { value, symbol }: FetchNumber,
+  fetchNumber?: FetchNumber,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewNumber {
+  if (!fetchNumber)
+    return {
+      value: undefined,
+      viewValue: "/",
+      symbol: "/",
+    };
+
   const decimalsFormattingOptions = {
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
   return {
-    value,
-    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
-    symbol,
+    value: fetchNumber.value,
+    viewValue: formatToDisplayable(fetchNumber.value, decimalsFormattingOptions),
+    symbol: fetchNumber.symbol,
   };
 }
 
@@ -152,10 +171,19 @@ export function formatFetchBigIntToHealthFactor(
     ...defaultDecimalsOptions,
     ...decimalsOptions,
   };
-  const value = formatUnitsToNumber(bigIntValue, decimals);
+  if (bigIntValue === undefined) {
+    return {
+      value: undefined,
+      viewValue: UNDEFINED_VIEW_VALUE,
+      bigIntValue,
+      symbol,
+    };
+  }
+
+  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
 
   return {
-    value: formatUnits(bigIntValue, decimals),
+    value: decimals ? formatUnits(bigIntValue, decimals) : undefined,
     viewValue:
       bigIntValue < INFINITE_HEALTH_FACTOR_BORDER ? formatToDisplayable(value, decimalsFormattingOptions) : "∞",
     bigIntValue,
@@ -163,7 +191,7 @@ export function formatFetchBigIntToHealthFactor(
   };
 }
 
-export function formatIncentiveAprToViewNumber(apr: number | undefined): ViewNumber {
+export function formatIncentiveAprToViewNumber(apr?: number | undefined): ViewNumber {
   return {
     viewValue: formatToDisplayableOrPlaceholder(apr || 0, ""),
     symbol: (apr || 0) > 0 ? "%" : "",

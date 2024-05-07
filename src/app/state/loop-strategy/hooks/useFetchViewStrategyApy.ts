@@ -6,6 +6,7 @@ import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
+import { mergeQueryStates } from "@shared";
 
 export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: bigint): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
@@ -22,59 +23,47 @@ export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: b
 }
 
 export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> => {
-  const { data: latestBlockData, isLoading: isLatestBlockLoading, isFetched: isLatestBlockFetched } = useBlock();
-  const {
-    data: prevBlockData,
-    isLoading: isPrevBlockLoading,
-    isFetched: isPrevBlockFetched,
-  } = useBlock({
+  const { data: latestBlockData, ...latestBlockRest } = useBlock();
+  const { data: prevBlockData, ...prevBlockRest } = useBlock({
     query: { enabled: !!latestBlockData },
     blockNumber: latestBlockData && latestBlockData?.number - APY_BLOCK_FRAME,
   });
 
-  const {
-    data: strategyAssets,
-    isLoading: isStrategyAssetsLoading,
-    isFetched: isStrategyAssetsFetched,
-  } = useFetchStrategyAssets(strategy);
+  // todo update enabled everywhere(in hooks)
+  const { data: strategyAssets, ...strategyAssetsRest } = useFetchStrategyAssets(strategy);
+  const { data: shareValueInLatestBlock, ...latestBlockShareValueRest } = useFetchAssetPriceInBlock(
+    strategy,
+    latestBlockData?.number,
+    strategyAssets?.debt
+  );
+  const { data: shareValueInPrevBlock, ...prevBlockShareValueRest } = useFetchAssetPriceInBlock(
+    strategy,
+    prevBlockData?.number,
+    strategyAssets?.debt
+  );
 
-  const {
-    data: shareValueInLatestBlock,
-    isLoading: isLatestBlockShareValueLoading,
-    isFetched: isLatestBlockShareValueFetched,
-  } = useFetchAssetPriceInBlock(strategy, latestBlockData?.number, strategyAssets?.debt);
-
-  const {
-    data: shareValueInPrevBlock,
-    isLoading: isPrevBlockShareValueLoading,
-    isFetched: isPrevBlockShareValueFetched,
-  } = useFetchAssetPriceInBlock(strategy, prevBlockData?.number, strategyAssets?.debt);
-
+  // todo refactor this
   const apy =
     latestBlockData?.timestamp &&
-    prevBlockData?.timestamp &&
-    shareValueInLatestBlock?.bigIntValue &&
-    shareValueInPrevBlock?.bigIntValue
+      prevBlockData?.timestamp &&
+      shareValueInLatestBlock?.bigIntValue &&
+      shareValueInPrevBlock?.bigIntValue
       ? calculateApy(
-          shareValueInLatestBlock.bigIntValue,
-          shareValueInPrevBlock.bigIntValue,
-          latestBlockData?.timestamp - prevBlockData?.timestamp
-        )
+        shareValueInLatestBlock.bigIntValue,
+        shareValueInPrevBlock.bigIntValue,
+        // todo fix this
+        latestBlockData?.timestamp - prevBlockData?.timestamp
+      )
       : 0;
 
   return {
-    isLoading:
-      isLatestBlockShareValueLoading ||
-      isPrevBlockShareValueLoading ||
-      isLatestBlockLoading ||
-      isPrevBlockLoading ||
-      isStrategyAssetsLoading,
-    isFetched:
-      isLatestBlockShareValueFetched &&
-      isPrevBlockShareValueFetched &&
-      isLatestBlockFetched &&
-      isPrevBlockFetched &&
-      isStrategyAssetsFetched,
+    ...mergeQueryStates([
+      latestBlockRest,
+      prevBlockRest,
+      strategyAssetsRest,
+      latestBlockShareValueRest,
+      prevBlockShareValueRest,
+    ]),
     data: {
       value: apy,
       symbol: "%",
@@ -83,11 +72,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
 };
 
 export const useFetchViewStrategyApy = (strategy: Address): Displayable<ViewNumber> => {
-  const { data, isLoading, isFetched } = useFetchStrategyApy(strategy);
+  const { data, ...rest } = useFetchStrategyApy(strategy);
 
-  return {
-    isLoading,
-    isFetched,
-    data: formatFetchNumberToViewNumber(data),
-  };
+  return { ...rest, data: formatFetchNumberToViewNumber(data) };
 };

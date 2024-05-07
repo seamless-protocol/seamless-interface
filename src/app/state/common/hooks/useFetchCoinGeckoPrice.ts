@@ -56,13 +56,13 @@ export const useFetchCoinGeckoPriceByAddress = ({ address, precision, enabled }:
     placeholderData: keepPreviousData,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false, 
+    refetchOnReconnect: false,
     refetchInterval: false,
     refetchIntervalInBackground: false,
   });
 
 export const useFetchCoinGeckoSeamPrice = () => {
-  const { data } = useFetchCoinGeckoPriceByAddress({ address: SEAM_ADDRESS, precision: 18, enabled: true });
+  const result = useFetchCoinGeckoPriceByAddress({ address: SEAM_ADDRESS, precision: 18, enabled: true });
 
-  return data;
+  return result;
 };

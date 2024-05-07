@@ -1,50 +1,48 @@
 import { Address } from "viem";
-import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt, useToken } from "../../../../shared";
+import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt, fFetchBigIntStructured, mergeQueryStates, useToken } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchDetailRemainingCap } from "./useFetchDetailRemainingCap";
 
+export const cMaxUserReserveDeposit = (
+  remainingCapValue?: bigint,
+  reserveBalance?: bigint,
+) => {
+  if (remainingCapValue == null || reserveBalance == null) return undefined;
+
+  const remaining = remainingCapValue;
+  const balance = reserveBalance;
+  return remaining > balance ? balance : remaining;
+}
+
 export const useFetchMaxUserReserveDeposit = (reserve?: Address): FetchData<FetchBigInt | undefined> => {
-  const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useToken(reserve);
+  const { data: tokenData, ...tokenRest } = useToken(reserve);
 
   const {
     data: reserveBalance,
-    isLoading: isReserveBalanceLoading,
-    isFetched: isReserveDataFetched,
+    ...assetBalanceRest
   } = useFetchAssetBalance(reserve);
 
   const {
     data: remainingCap,
-    isLoading: isRemainingCapLoading,
-    isFetched: isRemainingCapFetched,
+    ...remainingCapRest
   } = useFetchDetailRemainingCap(reserve);
 
-  let maxUserReserveDeposit;
-  if (remainingCap.remainingCap && reserveBalance) {
-    const remaining = remainingCap.remainingCap.bigIntValue;
-    const balance = reserveBalance.bigIntValue;
-    maxUserReserveDeposit = remaining > balance ? balance : remaining;
-  }
+  const maxUserReserveDeposit = cMaxUserReserveDeposit(remainingCap?.remainingCap?.bigIntValue,
+    reserveBalance?.bigIntValue
+  );
 
   return {
-    isLoading: isTokenDataLoading || isReserveBalanceLoading || isRemainingCapLoading,
-    isFetched: isTokenDataFetched || isReserveDataFetched || isRemainingCapFetched,
-    data: maxUserReserveDeposit
-      ? {
-        bigIntValue: maxUserReserveDeposit,
-        symbol: tokenData.symbol,
-        decimals: tokenData.decimals,
-      }
-      : undefined,
+    ...mergeQueryStates([assetBalanceRest, remainingCapRest, tokenRest]),
+    data: fFetchBigIntStructured(maxUserReserveDeposit, tokenData.decimals, tokenData.symbol)
   };
 };
 
 export const useFetchViewMaxUserReserveDeposit = (reserve?: Address): Displayable<ViewBigInt | undefined> => {
-  const { data: maxUserReserveData, isLoading, isFetched } = useFetchMaxUserReserveDeposit(reserve);
+  const { data: maxUserReserveData, ...rest } = useFetchMaxUserReserveDeposit(reserve);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: maxUserReserveData ? formatFetchBigIntToViewBigInt(maxUserReserveData) : undefined,
   };
 };

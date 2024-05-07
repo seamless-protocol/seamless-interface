@@ -85,8 +85,6 @@ export const useFetchUserAccountData = () => {
 
 export const useFetchViewUserAccountData = (): Displayable<ViewUserAccountData> => {
   const {
-    isLoading,
-    isFetched,
     data: {
       balance,
       totalCollateralUsd,
@@ -97,11 +95,11 @@ export const useFetchViewUserAccountData = (): Displayable<ViewUserAccountData> 
       ltv,
       healthFactor,
     },
+    ...rest
   } = useFetchUserAccountData();
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       balance: formatFetchBigIntToViewBigInt(balance),
       totalCollateral: formatFetchBigIntToViewBigInt(totalCollateralUsd),

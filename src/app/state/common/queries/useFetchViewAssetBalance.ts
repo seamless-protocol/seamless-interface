@@ -1,20 +1,15 @@
 import { Address, erc20Abi } from "viem";
-import { Displayable, useSeamlessContractRead, useToken } from "@shared";
+import { Displayable, mergeQueryStates, useSeamlessContractRead, useToken, FetchData, FetchBigInt } from "@shared";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount } from "wagmi";
 
-export const useFetchAssetBalance = (asset?: Address) => {
+export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   const account = useAccount();
 
-  const { isLoading: isTokenDataLoading, isFetched: isTokenDataFetched, data: tokenData } = useToken(asset);
+  const { data: tokenData, ...restToken } = useToken(asset);
 
-  const {
-    data: balance,
-    isLoading: isBalanceLoading,
-    isFetched: isBalanceFetched,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data: balance, ...restBalance } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",
@@ -22,11 +17,9 @@ export const useFetchAssetBalance = (asset?: Address) => {
   });
 
   return {
-    isLoading: isTokenDataLoading || isBalanceLoading,
-    isFetched: isTokenDataFetched && isBalanceFetched,
-    ...rest,
+    ...mergeQueryStates([restToken, restBalance]),
     data: {
-      bigIntValue: balance || 0n,
+      bigIntValue: balance,
       symbol: tokenData?.symbol,
       decimals: tokenData?.decimals,
     },
@@ -37,11 +30,10 @@ export const useFetchViewAssetBalance = (
   asset?: Address,
   decimalsOptions?: Partial<DecimalsOptions>
 ): Displayable<ViewAssetBalance> => {
-  const { isLoading, isFetched, data: balance } = useFetchAssetBalance(asset);
+  const { data: balance, ...rest } = useFetchAssetBalance(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       balance: formatFetchBigIntToViewBigInt(balance, decimalsOptions),
     },

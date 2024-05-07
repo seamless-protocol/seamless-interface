@@ -36,6 +36,11 @@ export const useMutateSupplyLending = (asset?: Address) => {
       console.warn("asset is undefined at useMutateSupplyLending!");
       return;
     }
+    if (!decimals) {
+      // eslint-disable-next-line no-console
+      console.warn("decimals are undefined at useMutateSupplyLending!");
+      return;
+    }
 
     await writeContractAsync(
       {

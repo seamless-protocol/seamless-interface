@@ -1,62 +1,54 @@
 import { Address } from "viem";
-import { Displayable } from "../../../../shared";
+import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { ViewDetailReserveCaps } from "../types/ViewDetailReserveCaps";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 interface DetailReserveCaps {
-  supplyCap: FetchBigInt;
-  supplyCapUsd: FetchBigInt;
-  borrowCap: FetchBigInt;
-  borrowCapUsd: FetchBigInt;
+  supplyCap?: FetchBigInt;
+  supplyCapUsd?: FetchBigInt;
+  borrowCap?: FetchBigInt;
+  borrowCapUsd?: FetchBigInt;
 }
 
 export const useFetchDetailReserveCaps = (asset: Address): FetchData<DetailReserveCaps> => {
   const {
-    isLoading: isCapsLoading,
-    isFetched: isCapsFetched,
     data: { supplyCap, borrowCap },
+    ...capsRest
   } = useFetchReserveCaps(asset);
 
   const {
-    isLoading: isPriceLoading,
-    isFetched: isPriceFetched,
     data,
+    ...priceRest
   } = useFetchAssetPrice({ asset });
   const price = data || 0n;
 
+  const supplyCapUsd = cValueInUsd(supplyCap?.bigIntValue, price?.bigIntValue, supplyCap?.decimals);
+  const borrowCapUsd = cValueInUsd(borrowCap?.bigIntValue, price?.bigIntValue, borrowCap?.decimals);
+
+
   return {
-    isLoading: isCapsLoading || isPriceLoading,
-    isFetched: isCapsFetched && isPriceFetched,
+    ...mergeQueryStates([capsRest, priceRest]),
     data: {
       supplyCap,
-      supplyCapUsd: {
-        bigIntValue: (supplyCap.bigIntValue * price.bigIntValue) / BigInt(10 ** supplyCap.decimals),
-        symbol: price.symbol,
-        decimals: price.decimals,
-      },
+      supplyCapUsd: fUsdValueStructured(supplyCapUsd),
       borrowCap,
-      borrowCapUsd: {
-        bigIntValue: (borrowCap.bigIntValue * price.bigIntValue) / BigInt(10 ** borrowCap.decimals),
-        symbol: price.symbol,
-        decimals: price.decimals,
-      },
+      borrowCapUsd: fUsdValueStructured(borrowCapUsd),
     },
   };
 };
 
 export const useFetchViewDetailReserveCaps = (asset: Address): Displayable<ViewDetailReserveCaps> => {
   const {
-    isLoading,
-    isFetched,
     data: { supplyCap, supplyCapUsd, borrowCap, borrowCapUsd },
+    ...rest
   } = useFetchDetailReserveCaps(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       supplyCap: {
         tokenAmount: formatFetchBigIntToViewBigInt(supplyCap),

@@ -1,27 +1,21 @@
 import { Address } from "viem";
-import { useSeamlessContractRead, useToken } from "@shared";
+import { fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "@shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 
 export const useFetchReserveData = (asset?: Address) => {
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
     data: { decimals },
+    ...tokenRest
   } = useToken(asset);
 
-  const {
-    data,
-    isLoading: isReserveDataLoading,
-    isFetched: isReserveDataFetched,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveData",
     args: [asset!],
     query: {
-      enabled: !!asset
-    }
+      enabled: !!asset,
+    },
   });
 
   const [
@@ -39,40 +33,14 @@ export const useFetchReserveData = (asset?: Address) => {
   ] = data || [];
 
   return {
-    isLoading: isTokenDataLoading || isReserveDataLoading,
-    isFetched: isTokenDataFetched && isReserveDataFetched,
-    ...rest,
+    ...mergeQueryStates([tokenRest, rest]),
     data: {
-      totalSupplied: {
-        bigIntValue: totalSupplied || 0n,
-        decimals,
-        symbol: "",
-      },
-      totalBorrowed: {
-        bigIntValue: totalBorrowed || 0n,
-        decimals,
-        symbol: "",
-      },
-      liquidityRate: {
-        bigIntValue: liquidityRate || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      variableBorrowRate: {
-        bigIntValue: variableBorrowRate || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      liquidityIndex: {
-        bigIntValue: liquidityIndex || 0n,
-        decimals: 27,
-        symbol: "",
-      },
-      variableBorrowIndex: {
-        bigIntValue: variableBorrowIndex || 0n,
-        decimals: 27,
-        symbol: "",
-      },
+      totalSupplied: fFetchBigIntStructured(totalSupplied, decimals, ""),
+      totalBorrowed: fFetchBigIntStructured(totalBorrowed, decimals, ""),
+      liquidityRate: fFetchBigIntStructured(liquidityRate, 27, ""),
+      variableBorrowRate: fFetchBigIntStructured(variableBorrowRate, 27, ""),
+      liquidityIndex: fFetchBigIntStructured(liquidityIndex, 27, ""),
+      variableBorrowIndex: fFetchBigIntStructured(variableBorrowIndex, 27, ""),
     },
   };
 };

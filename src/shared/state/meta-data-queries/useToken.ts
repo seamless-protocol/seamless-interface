@@ -2,30 +2,23 @@ import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
 import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 import { metadataQueryConfig } from "../settings/config";
+import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 
 export interface Token {
-  symbol: string;
-  decimals: number;
+  symbol?: string;
+  decimals?: number;
 }
 
 // todo reconsider optional param token ticket #218
 export const useToken = (asset?: Address): FetchData<Token> => {
-  const {
-    data: decimals,
-    isLoading: isDecimalsLoading,
-    isFetched: isDecimalsFetched,
-  } = useSeamlessContractRead({
+  const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "decimals",
     query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
-  const {
-    data: symbol,
-    isLoading: isSymbolLoading,
-    isFetched: isSymbolFetched,
-  } = useSeamlessContractRead({
+  const { data: symbol, ...symbolRest } = useSeamlessContractRead({
     address: asset,
     abi: erc20Abi,
     functionName: "symbol",
@@ -33,11 +26,10 @@ export const useToken = (asset?: Address): FetchData<Token> => {
   });
 
   return {
-    isLoading: isDecimalsLoading || isSymbolLoading,
-    isFetched: isDecimalsFetched && isSymbolFetched,
+    ...mergeQueryStates([decimalRest, symbolRest]),
     data: {
-      symbol: symbol || "",
-      decimals: decimals || 18,
+      symbol,
+      decimals,
     },
   };
 };

@@ -1,14 +1,18 @@
-import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFormContext } from "react-hook-form";
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
+import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 
-type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton" | "name"> & {
+type IProps<T> = Omit<
+  IRHFAmountInputProps,
+  "assetPrice" | "walletBalance" | "assetAddress" | "assetButton" | "name"
+> & {
   name: keyof T;
   overrideUrlSlug?: OverrideUrlSlug;
   assetAddress?: Address;
@@ -51,7 +55,12 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  * @returns {React.ReactElement} The `RHFWithdrawStrategyAmountField` component, integrated with functionalities for asset price fetching and balance display.
  */
 
-export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddress, focusOnAssetChange = true, ...other }: IProps<T>) {
+export function RHFWithdrawStrategyAmountField<T>({
+  overrideUrlSlug,
+  assetAddress,
+  focusOnAssetChange = true,
+  ...other
+}: IProps<T>) {
   // *** warning *** //
   if (!overrideUrlSlug && !assetAddress) {
     // eslint-disable-next-line no-console
@@ -79,8 +88,8 @@ export function RHFWithdrawStrategyAmountField<T>({ overrideUrlSlug, assetAddres
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
-    const valueBigInt = parseUnits(value || "", decimals);
-    const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);
+    const valueBigInt = fParseUnits(value || "", decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,

@@ -3,6 +3,7 @@ import { ilmStrategies } from "../../../../state/loop-strategy/config/StrategyCo
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { useFetchDetailAssetBalance } from "../../../../state/common/hooks/useFetchViewDetailAssetBalance";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { mergeQueryStates } from "@shared";
 
 export interface ViewUserInfo {
   underlyingAssetBalance: {
@@ -20,19 +21,16 @@ export const useFetchViewUserInfo = (index: number): Displayable<ViewUserInfo> =
   const strategyConfig = ilmStrategies[index];
 
   const {
-    isLoading: isUnderlyingAssetBalanceLoading,
-    isFetched: isUnderlyingAssetBalanceFetched,
     data: { balance: underlyingAssetBalance, balanceUsd: underlyingAssetBalanceUsd },
+    ...underlyingRest
   } = useFetchDetailAssetBalance(strategyConfig.underlyingAsset.address);
   const {
-    isLoading: isStrategyBalanceLoading,
-    isFetched: isStrategyBalanceFetched,
     data: { balance: strategyBalance, balanceUsd: strategyBalanceUsd },
+    ...strategyBalanceRest
   } = useFetchDetailAssetBalance(strategyConfig.address);
 
   return {
-    isLoading: isUnderlyingAssetBalanceLoading || isStrategyBalanceLoading,
-    isFetched: isUnderlyingAssetBalanceFetched && isStrategyBalanceFetched,
+    ...mergeQueryStates([underlyingRest, strategyBalanceRest]),
     data: {
       underlyingAssetBalance: {
         tokenAmount: formatFetchBigIntToViewBigInt(underlyingAssetBalance, walletBalanceDecimalsOptions),

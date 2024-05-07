@@ -7,6 +7,6 @@ interface RewardToken {
 }
 
 export interface ViewIncentives {
-  totalApr: ViewNumber;
+  totalApr?: ViewNumber;
   rewardTokens: RewardToken[];
 }

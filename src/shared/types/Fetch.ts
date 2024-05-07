@@ -1,12 +1,14 @@
+import { ExtendedQueryState } from "../formatters/mergeQueryStates";
+
 export interface FetchNumber {
-  value: number;
-  symbol: string;
+  value?: number;
+  symbol?: string;
 }
 
 export interface FetchBigInt {
-  bigIntValue: bigint;
-  decimals: number;
-  symbol: string;
+  bigIntValue?: bigint;
+  decimals?: number;
+  symbol?: string;
 }
 
 export type Fetch<T> = T & {
@@ -14,8 +16,6 @@ export type Fetch<T> = T & {
   isLoading: boolean;
 };
 
-export type FetchData<T> = {
+export interface FetchData<T> extends ExtendedQueryState<T> {
   data: T;
-  isFetched: boolean;
-  isLoading: boolean;
-};
+}

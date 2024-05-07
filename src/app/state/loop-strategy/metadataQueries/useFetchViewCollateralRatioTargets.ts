@@ -1,18 +1,16 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
-import { Fetch, FetchBigInt } from "../../../../shared/types/Fetch";
+import { Displayable, fUsdValueStructured, useSeamlessContractRead } from "../../../../shared";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
 import { metadataQueryConfig } from "../../settings/config";
 
 export interface CollateralRatioTargets {
-  data: {
-    target: FetchBigInt;
-  };
+  target: FetchBigInt | undefined;
 }
 
-export const useFetchCollateralRatioTargets = (strategy: Address): Fetch<CollateralRatioTargets> => {
+export const useFetchCollateralRatioTargets = (strategy: Address): FetchData<CollateralRatioTargets> => {
   const result = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
@@ -23,25 +21,19 @@ export const useFetchCollateralRatioTargets = (strategy: Address): Fetch<Collate
   return {
     ...result,
     data: {
-      target: {
-        bigIntValue: result.data?.target || 0n,
-        decimals: 8,
-        symbol: "",
-      },
+      target: fUsdValueStructured(result.data?.target, 8, ""),
     },
   };
 };
 
 export const useFetchViewCollateralRatioTargets = (strategy: Address): Displayable<ViewCollateralRatioTargets> => {
   const {
-    isLoading,
-    isFetched,
     data: { target },
+    ...rest
   } = useFetchCollateralRatioTargets(strategy);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       target: formatFetchBigIntToViewBigInt(target),
     },

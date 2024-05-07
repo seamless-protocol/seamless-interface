@@ -2,10 +2,40 @@ import { Address } from "viem";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { DecimalsOptions, Displayable, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import {
+  DecimalsOptions,
+  Displayable,
+  fFetchBigIntStructured,
+  formatFetchBigIntToViewBigInt,
+  fUsdValueStructured,
+  mergeQueryStates,
+  useToken,
+} from "@shared";
 import { useFetchViewAssetTotalSupply } from "../../common/queries/useFetchViewAssetTotalSupply";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ViewDetailUserEquity } from "../types/ViewDetailUserEquity";
+
+export const cUserEquity = (equityValue?: bigint, strategyBalanceValue?: bigint, strategyTotalSupplyValue?: bigint) => {
+  if (equityValue == null || strategyBalanceValue == null || strategyTotalSupplyValue == null) return undefined;
+
+  const divider = strategyTotalSupplyValue;
+  if (divider === 0n) return undefined;
+
+  return (equityValue * strategyBalanceValue) / divider;
+};
+
+export const cUserEquityUsd = (
+  equityUsdValue?: bigint,
+  strategyBalanceValue?: bigint,
+  strategyTotalSupplyValue?: bigint
+) => {
+  if (equityUsdValue == null || strategyBalanceValue == null || strategyTotalSupplyValue == null) return undefined;
+
+  const divider = strategyTotalSupplyValue;
+  if (divider === 0n) return undefined;
+
+  return (equityUsdValue * strategyBalanceValue) / divider;
+};
 
 interface DetailUserEquity {
   userEquity: FetchBigInt | undefined;
@@ -13,67 +43,31 @@ interface DetailUserEquity {
 }
 
 export const useFetchDetailUserEquity = (strategy: Address): FetchData<DetailUserEquity> => {
-  const {
-    data: underlyingAsset,
-    isLoading: isUnderlyingAssetLoading,
-    isFetched: isUnderlyingAssetFetched,
-  } = useFetchStrategyAsset(strategy);
+  const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
 
-  const { data: tokenData, isLoading: isTokenDataLoading, isFetched: isTokenDataFetched } = useToken(underlyingAsset);
+  const { data: tokenData, ...tokenRest } = useToken(underlyingAsset);
 
   const {
     data: { equity, equityUsd },
-    isLoading: isDetailEquityLoading,
-    isFetched: isDetailEquityFetched,
+    ...equityRest
   } = useFetchDetailEquity(strategy);
 
-  const {
-    data: strategyBalance,
-    isLoading: isStrategyLoading,
-    isFetched: isStrategyFetched,
-  } = useFetchAssetBalance(strategy);
+  const { data: strategyBalance, ...assetBalanceRest } = useFetchAssetBalance(strategy);
 
-  const {
-    data: strategyTotalSupply,
-    isLoading: isStrategyTotalSupplyLoading,
-    isFetched: isStrategyTotalSupplyFetched,
-  } = useFetchViewAssetTotalSupply(strategy);
+  const { data: strategyTotalSupply, ...totalSupplyRest } = useFetchViewAssetTotalSupply(strategy);
 
-  let userEquity;
-  let userEquityUsd;
-  if (
-    underlyingAsset &&
-    tokenData &&
-    equity?.bigIntValue &&
-    equityUsd?.bigIntValue &&
-    strategyBalance.bigIntValue &&
+  const userEquity = cUserEquity(equity?.bigIntValue, strategyBalance?.bigIntValue, strategyTotalSupply?.bigIntValue);
+  const userEquityUsd = cUserEquityUsd(
+    equityUsd?.bigIntValue,
+    strategyBalance?.bigIntValue,
     strategyTotalSupply?.bigIntValue
-  ) {
-    userEquity = (equity.bigIntValue * strategyBalance.bigIntValue) / strategyTotalSupply.bigIntValue;
-    userEquityUsd = (equityUsd.bigIntValue * strategyBalance.bigIntValue) / strategyTotalSupply.bigIntValue;
-  }
-
-  const equityRet = userEquity
-    ? { bigIntValue: userEquity, decimals: tokenData.decimals, symbol: tokenData.symbol }
-    : undefined;
-  const equityUsdRet = userEquityUsd ? { bigIntValue: userEquityUsd, decimals: 8, symbol: "$" } : undefined;
+  );
 
   return {
-    isLoading:
-      isUnderlyingAssetLoading ||
-      isTokenDataLoading ||
-      isDetailEquityLoading ||
-      isStrategyLoading ||
-      isStrategyTotalSupplyLoading,
-    isFetched:
-      isUnderlyingAssetFetched &&
-      isTokenDataFetched &&
-      isDetailEquityFetched &&
-      isStrategyFetched &&
-      isStrategyTotalSupplyFetched,
+    ...mergeQueryStates([underlyingAssetRest, tokenRest, equityRest, assetBalanceRest, totalSupplyRest]),
     data: {
-      userEquity: equityRet,
-      userEquityUsd: equityUsdRet,
+      userEquity: fFetchBigIntStructured(userEquity, tokenData.decimals, tokenData.symbol),
+      userEquityUsd: fUsdValueStructured(userEquityUsd),
     },
   };
 };
@@ -83,14 +77,12 @@ export const useFetchViewDetailUserEquity = (
   decimalsOptions?: Partial<DecimalsOptions>
 ): Displayable<ViewDetailUserEquity> => {
   const {
-    isLoading,
-    isFetched,
     data: { userEquity, userEquityUsd },
+    ...rest
   } = useFetchDetailUserEquity(strategy);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       tokenAmount: userEquity ? formatFetchBigIntToViewBigInt(userEquity, decimalsOptions) : undefined,
       dollarAmount: userEquityUsd ? formatFetchBigIntToViewBigInt(userEquityUsd, decimalsOptions) : undefined,

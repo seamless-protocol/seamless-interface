@@ -2,37 +2,25 @@ import { Address } from "viem";
 import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
-import { useToken } from "@shared";
+import { mergeQueryStates, useToken } from "@shared";
 import { DebouncedDelayConfig } from "../config/DebouncedDelayConfig";
 
 export const useFetchSimulateDeposit = (account: Address, strategy: Address, amount: string) => {
   const {
-    isLoading: isTokenDataLoading,
-    isFetched: isTokenDataFetched,
     data: { symbol, decimals },
+    ...tokenRest
   } = useToken(strategy);
 
-  const {
-    data: underlyingAsset,
-    isLoading: isUnderlyingAssetLoading,
-    isFetched: isUnderlyingAssetFetched,
-  } = useFetchStrategyAsset(strategy);
+  const { data: underlyingAsset, ...underlyingRest } = useFetchStrategyAsset(strategy);
 
-  const {
-    data,
-    isLoading: isSimulateDepositLoading,
-    isFetched: isSimulateDepositFetched,
-    ...rest
-  } = useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ["simulateDeposit", strategy, amount],
     queryFn: () => simulateDeposit(account, strategy, underlyingAsset, amount),
     ...DebouncedDelayConfig,
   });
 
   return {
-    ...rest,
-    isLoading: isTokenDataLoading || isUnderlyingAssetLoading || isSimulateDepositLoading,
-    isFetched: isTokenDataFetched && isUnderlyingAssetFetched && isSimulateDepositFetched,
+    ...mergeQueryStates([tokenRest, underlyingRest, rest]),
     data: {
       bigIntValue: data?.sharesToReceive,
       decimals,

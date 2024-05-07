@@ -1,12 +1,13 @@
-import { IRHFAmountInputProps, RHFAmountInput, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFormContext } from "react-hook-form";
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 import { useMemo } from "react";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
 import { useFetchViewMaxReserveWithdraw } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveWithdraw";
 import { walletBalanceDecimalsOptions } from "../../../../../../meta";
+import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -81,8 +82,8 @@ export function RHFWithdrawAmountField<T>({ overrideUrlSlug, assetAddress, ...ot
   // *** balance *** //
   // todo remove 0x1
   const dollarValueData = useMemo(() => {
-    const valueBigInt = parseUnits(value || "", decimals);
-    const dollarBigIntValue = (valueBigInt * price.bigIntValue) / BigInt(10 ** decimals);
+    const valueBigInt = fParseUnits(value || "", decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,

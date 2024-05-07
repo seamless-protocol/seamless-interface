@@ -2,6 +2,7 @@ import { Address } from "viem";
 import { useFetchUserSupplyTokens } from "./useFetchUserSupplyTokens";
 import { useFetchUserDepositStrategies } from "../../loop-strategy/hooks/useFetchUserDepositStrategies";
 import { FetchData } from "../../../../shared/types/Fetch";
+import { mergeQueryStates } from "../../../../shared";
 
 interface UserStrategies {
   asset: Address;
@@ -10,15 +11,13 @@ interface UserStrategies {
 
 export const useFetchUserStrategies = (): FetchData<UserStrategies[] | undefined> => {
   const {
-    isLoading: isSupplyTokensLoading,
-    isFetched: isSupplyTokensFetched,
     data: supplyTokens,
+    ...supplyRest
   } = useFetchUserSupplyTokens();
 
   const {
     data: depositStrategies,
-    isLoading: isDepositStrategiesLoading,
-    isFetched: isDepositStrategiesFetched,
+    ...depositRest
   } = useFetchUserDepositStrategies();
 
   let strategies: UserStrategies[] | undefined;
@@ -28,10 +27,8 @@ export const useFetchUserStrategies = (): FetchData<UserStrategies[] | undefined
       strategy: strategy!.strategy,
     })) : []
   }
-
   return {
-    isLoading: isSupplyTokensLoading || isDepositStrategiesLoading,
-    isFetched: isSupplyTokensFetched && isDepositStrategiesFetched,
+    ...mergeQueryStates([supplyRest, depositRest]),
     data: strategies?.concat(supplyTokens
       .map((token) => ({
         asset: token,

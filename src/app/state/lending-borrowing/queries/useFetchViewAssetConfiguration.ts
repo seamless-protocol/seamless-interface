@@ -19,8 +19,8 @@ export const useFetchAssetConfiguration = (asset?: Address): FetchData<AssetConf
     functionName: "getReserveConfigurationData",
     args: [asset!],
     query: {
-      enabled: !!asset
-    }
+      enabled: !!asset,
+    },
   });
 
   const [, ltv, liquidationThreshold, liquidationBonus, reserveFactor] = data || [, 0n, 0n, 0n, 0n];
@@ -54,14 +54,12 @@ export const useFetchAssetConfiguration = (asset?: Address): FetchData<AssetConf
 
 export const useFetchViewAssetConfiguration = (asset: Address): Displayable<ViewAssetConfiguration> => {
   const {
-    isLoading,
-    isFetched,
     data: { ltv, liquidationThreshold, liquidationPenalty, reserveFactor },
+    ...rest
   } = useFetchAssetConfiguration(asset);
 
   return {
-    isLoading,
-    isFetched,
+    ...rest,
     data: {
       ltv: formatFetchBigIntToViewBigInt(ltv),
       liquidationThreshold: formatFetchBigIntToViewBigInt(liquidationThreshold),
