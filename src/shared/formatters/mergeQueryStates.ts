@@ -25,8 +25,8 @@ export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]
     {
       isLoading: false,
       isError: false,
-      isFetched: true, // Start true because we are using logical AND
-      isSuccess: true, // Start true because we are using logical AND
+      isFetched: true,
+      isSuccess: true,
       queryKeys: [],
     }
   );
