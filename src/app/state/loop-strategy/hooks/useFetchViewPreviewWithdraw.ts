@@ -87,7 +87,7 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
       costInUnderlyingAsset: fFetchBigIntStructured(
         costInUnderlyingAsset,
         underlyingAssetDecimals,
-        strategyConfig.underlyingAsset.symbol
+        underlyingAssetSymbol
       ),
       costInUsd: fUsdValueStructured(costInUsd),
     },

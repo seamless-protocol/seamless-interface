@@ -12,12 +12,12 @@ export const cMaxUserDeposit = (maxDepositValue?: bigint, assetBalanceValue?: bi
   if (maxDepositValue == null && assetBalanceValue != null) return assetBalanceValue;
   if (maxDepositValue != null && assetBalanceValue == null) return maxDepositValue;
 
-  return maxDepositValue! > assetBalanceValue! ? maxDepositValue : assetBalanceValue;
+  return maxDepositValue! > assetBalanceValue! ? assetBalanceValue : maxDepositValue;
 };
 
 export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt | undefined> => {
-  const { data: tokenData, ...tokenDataRest } = useToken(strategy);
   const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
+  const { data: underlyingAssetTokenData, ...underlyingAssetTokenDataRest } = useToken(underlyingAsset);
 
   const { data: maxDeposit, ...maxDepositRest } = useFetchMaxDeposit(strategy);
 
@@ -26,9 +26,8 @@ export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt
   const max = cMaxUserDeposit(maxDeposit?.bigIntValue, assetBalance?.bigIntValue);
 
   return {
-    ...mergeQueryStates([tokenDataRest, underlyingAssetRest, maxDepositRest, assetBalanceRest]),
-    // todo check if decimals and symbol is correct here?
-    data: fFetchBigIntStructured(max, tokenData.decimals, tokenData.symbol),
+    ...mergeQueryStates([underlyingAssetRest, maxDepositRest, underlyingAssetTokenDataRest, assetBalanceRest]),
+    data: fFetchBigIntStructured(max, underlyingAssetTokenData.decimals, underlyingAssetTokenData.symbol),
   };
 };
 
