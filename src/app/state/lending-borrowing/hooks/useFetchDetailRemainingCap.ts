@@ -38,17 +38,16 @@ export interface ViewDetailRemainingCap {
   dollarAmount?: ViewBigInt;
 }
 export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
-  export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
-    const {
-      data: { remainingCap, remainingCapUsd },
-      ...rest
-    } = useFetchDetailRemainingCap(asset);
+  const {
+    data: { remainingCap, remainingCapUsd },
+    ...rest
+  } = useFetchDetailRemainingCap(asset);
 
-    return {
-      ...rest,
-      data: {
-        tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
-        dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,
-      },
-    };
+  return {
+    ...rest,
+    data: {
+      tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
+      dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,
+    },
   };
+};
