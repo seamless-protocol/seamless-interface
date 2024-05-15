@@ -140,7 +140,7 @@ const StrategyFormLocal: React.FC<{
 
         <FlexCol className="gap-4">
           <FlexRow className="justify-between pr-2">
-            <Typography type="bold3">Target Boost</Typography>
+            <Typography type="bold3">Target Multiple</Typography>
             <DisplayText
               typography="bold3"
               isLoading={isTargeMultipleLoading}
