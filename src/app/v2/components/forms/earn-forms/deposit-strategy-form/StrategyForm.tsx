@@ -19,7 +19,7 @@ import {
   MyFormProvider,
   FlexRow,
   useToken,
-  DisplayText,
+  DisplayTargetMultiple,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
@@ -47,8 +47,7 @@ const StrategyFormLocal: React.FC<{
 }> = ({ strategy }) => {
   const {
     data: targetMultipleData,
-    isLoading: isTargeMultipleLoading,
-    isFetched: isTargetMultipleFetched,
+    ...restTargetMultiple
   } = useFetchViewTargetMultiple(strategy.address);
 
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
@@ -141,10 +140,9 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-4">
           <FlexRow className="justify-between pr-2">
             <Typography type="bold3">Target Multiple</Typography>
-            <DisplayText
+            <DisplayTargetMultiple
               typography="bold3"
-              isLoading={isTargeMultipleLoading}
-              isFetched={isTargetMultipleFetched}
+              {...restTargetMultiple}
               {...targetMultipleData}
             />
           </FlexRow>

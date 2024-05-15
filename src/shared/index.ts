@@ -123,6 +123,7 @@ export * from "./components/display/DisplayTokenAmount";
 export * from "./components/display/DisplayText";
 export * from "./components/display/DisplayNumber";
 export * from "./components/display/DisplaySymbol";
+export * from "./components/display/DisplayTargetMultiple";
 
 // ***** //
 // Modals //

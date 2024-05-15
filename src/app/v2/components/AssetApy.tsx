@@ -26,6 +26,10 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = t
     ...restStrategyApy
   } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : "0x1");
 
+  if (asset === WETH_ADDRESS) {
+    return <DisplayText {...restStrategyApy} {...rest} text="Up to 1.5x" />
+  }
+
   if (showWarning && apy.value === 0 && !restStrategyApy.isLoading && restStrategyApy.isFetched) {
     return (
       <FlexRow className="gap-1">
@@ -35,10 +39,6 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = t
         </Tooltip>
       </FlexRow>
     );
-  }
-
-  if (asset === WETH_ADDRESS) {
-    return <DisplayText {...restStrategyApy} {...rest} text="Up to 1.5x" />
   }
 
   return (
