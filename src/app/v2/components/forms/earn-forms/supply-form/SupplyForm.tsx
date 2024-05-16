@@ -18,17 +18,19 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 import { useFetchViewMaxUserReserveDeposit } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveDeposit";
-import { USDC_ADDRESS, WETH_ADDRESS } from "../../../../../../meta";
+import { WETH_ADDRESS } from "../../../../../../meta";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
+import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
+  const assetConfig = getBaseAssetConfig(asset);
 
   const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
   const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
@@ -95,9 +97,8 @@ export const SupplyForm = () => {
 
             <FlexRow className="gap-1 items-center">
               {asset != null && !hideTag && <Tag tag="LEND" />}
-              {(USDC_ADDRESS === asset && !hideTag) &&
-                <GauntletOptimized className="pr-4" />
-              }
+
+              {assetConfig?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
             </FlexRow>
           </FlexRow>
           {asset === WETH_ADDRESS && (

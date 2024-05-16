@@ -7,8 +7,8 @@ import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { findILMStrategyByAddress } from "../../state/loop-strategy/config/StrategyConfig";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
-import { USDC_ADDRESS } from "../../../meta";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
+import { getBaseAssetConfig } from "../../state/lending-borrowing/config/BaseAssetsConfig";
 
 
 export interface AssetCardProps {
@@ -26,8 +26,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
   const {
     data: { logo: icon, name, symbol },
   } = useFullTokenData(address);
+  const assetConfig = getBaseAssetConfig(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
+
 
   return (
     <div
@@ -46,9 +48,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
             </FlexCol>
             <FlexRow className="gap-2">
               <Tag tag={isStrategy ? "ILM" : "LEND"} />
-              {(USDC_ADDRESS === address && !isStrategy) &&
-                <GauntletOptimized />
-              }
+
+              {assetConfig?.isGauntletOptimized && <GauntletOptimized />}
             </FlexRow>
           </FlexCol>
         </FlexRow>
