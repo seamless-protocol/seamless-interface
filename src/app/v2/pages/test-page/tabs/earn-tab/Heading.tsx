@@ -78,7 +78,7 @@ export const Heading = () => {
                 <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
                   <DisplayText
                     // eslint-disable-next-line
-                    viewValue={supplyData.capacityRemaining?.viewValue + "% capacity remaining"}
+                    viewValue={supplyData.capacityRemaining?.viewValue + "% cap remaining"}
                     {...supplyDataRest}
                     typography="medium2"
                   />

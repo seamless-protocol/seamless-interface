@@ -18,11 +18,12 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
 import { useFetchViewMaxUserReserveDeposit } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveDeposit";
-import { WETH_ADDRESS } from "../../../../../../meta";
+import { USDC_ADDRESS, WETH_ADDRESS } from "../../../../../../meta";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -91,7 +92,13 @@ export const SupplyForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && !hideTag && <Tag tag="LEND" />}
+
+            <FlexRow className="gap-1 items-center">
+              {asset != null && !hideTag && <Tag tag="LEND" />}
+              {(USDC_ADDRESS === asset && !hideTag) &&
+                <GauntletOptimized className="pr-4" />
+              }
+            </FlexRow>
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">
