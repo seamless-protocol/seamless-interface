@@ -7,4 +7,5 @@ export interface ViewDetailTotalSupplied {
   };
   capacity: ViewBigInt | undefined;
   noSupplyCap?: boolean;
+  capacityRemaining: ViewBigInt | undefined;
 }

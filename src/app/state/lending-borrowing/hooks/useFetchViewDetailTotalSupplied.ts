@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, parseUnits } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
@@ -22,11 +22,25 @@ const cCapacity = (
   return totalSuppliedValue * ONE_ETHER * 100n / divider
 }
 
+const cCapacityRemaining = (
+  capacity?: bigint,
+  decimals?: number
+): bigint | undefined => {
+  if (capacity == null) return undefined;
+  if (decimals == null) return undefined;
+
+  const max = parseUnits('100', decimals);
+  if (capacity > max) return undefined;
+
+  return max - capacity;
+}
+
 interface TotalSupplied {
   totalSupplied: FetchBigInt | undefined;
   totalSuppliedUsd: FetchBigInt | undefined;
   capacity: FetchBigInt | undefined;
   noSupplyCap?: boolean;
+  capacityRemaining: FetchBigInt | undefined;
 }
 export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const { data: reserveCaps, ...rcRest } = useFetchReserveCaps(asset);
@@ -37,6 +51,8 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
     reserveCaps?.supplyCap.bigIntValue,
     totalSupplied?.decimals
   )
+
+  const capacityRemaining = cCapacityRemaining(capacity, totalSupplied?.decimals);
 
   const totalSuppliedUsd = cValueInUsd(totalSupplied?.bigIntValue,
     price?.bigIntValue,
@@ -49,14 +65,15 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
       totalSupplied,
       totalSuppliedUsd: fFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
       capacity: fFetchBigIntStructured(capacity, 18, "%"),
-      noSupplyCap: reserveCaps?.supplyCap.bigIntValue !== 0n
+      noSupplyCap: reserveCaps?.supplyCap.bigIntValue !== 0n,
+      capacityRemaining: fFetchBigIntStructured(capacityRemaining, 18, "%")
     },
   };
 };
 
 export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<ViewDetailTotalSupplied> => {
   const {
-    data: { totalSupplied, totalSuppliedUsd, capacity, noSupplyCap },
+    data: { totalSupplied, totalSuppliedUsd, capacity, noSupplyCap, capacityRemaining },
     ...rest
   } = useFetchDetailTotalSupplied(asset);
 
@@ -68,6 +85,11 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
       capacity: formatFetchBigIntToViewBigInt(capacity, {
+        singleDigitNumberDecimals: 1,
+        doubleDigitNumberDecimals: 1,
+        threeDigitNumberDecimals: 0,
+      }),
+      capacityRemaining: formatFetchBigIntToViewBigInt(capacityRemaining, {
         singleDigitNumberDecimals: 1,
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,
