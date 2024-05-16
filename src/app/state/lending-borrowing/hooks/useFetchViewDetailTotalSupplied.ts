@@ -9,7 +9,7 @@ import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ONE_ETHER } from "../../../../meta";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
-const cCapacity = (
+const cCapacityPercentage = (
   totalSuppliedValue?: bigint,
   supplyCapValue?: bigint,
   totalSuppliedDecimals?: number
@@ -22,7 +22,7 @@ const cCapacity = (
   return totalSuppliedValue * ONE_ETHER * 100n / divider
 }
 
-const cCapacityRemaining = (
+const cCapacityRemainingPercentage = (
   capacity?: bigint,
   decimals?: number
 ): bigint | undefined => {
@@ -38,21 +38,21 @@ const cCapacityRemaining = (
 interface TotalSupplied {
   totalSupplied: FetchBigInt | undefined;
   totalSuppliedUsd: FetchBigInt | undefined;
-  capacity: FetchBigInt | undefined;
+  capacityPercentage: FetchBigInt | undefined;
   noSupplyCap?: boolean;
-  capacityRemaining: FetchBigInt | undefined;
+  capacityRemainingPercentage: FetchBigInt | undefined;
 }
 export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSupplied> => {
   const { data: reserveCaps, ...rcRest } = useFetchReserveCaps(asset);
   const { data: { totalSupplied }, ...rdRest } = useFetchReserveData(asset);
   const { data: price, ...paRest } = useFetchAssetPrice({ asset });
 
-  const capacity = cCapacity(totalSupplied?.bigIntValue,
+  const capacityPercentage = cCapacityPercentage(totalSupplied?.bigIntValue,
     reserveCaps?.supplyCap.bigIntValue,
     totalSupplied?.decimals
   )
 
-  const capacityRemaining = cCapacityRemaining(capacity, totalSupplied?.decimals);
+  const capacityRemainingPercentage = cCapacityRemainingPercentage(capacityPercentage, totalSupplied?.decimals);
 
   const totalSuppliedUsd = cValueInUsd(totalSupplied?.bigIntValue,
     price?.bigIntValue,
@@ -64,16 +64,16 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
     data: {
       totalSupplied,
       totalSuppliedUsd: fFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
-      capacity: fFetchBigIntStructured(capacity, 18, "%"),
+      capacityPercentage: fFetchBigIntStructured(capacityPercentage, 18, "%"),
       noSupplyCap: reserveCaps?.supplyCap.bigIntValue !== 0n,
-      capacityRemaining: fFetchBigIntStructured(capacityRemaining, 18, "%")
+      capacityRemainingPercentage: fFetchBigIntStructured(capacityRemainingPercentage, 18, "%")
     },
   };
 };
 
 export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<ViewDetailTotalSupplied> => {
   const {
-    data: { totalSupplied, totalSuppliedUsd, capacity, noSupplyCap, capacityRemaining },
+    data: { totalSupplied, totalSuppliedUsd, capacityPercentage, noSupplyCap, capacityRemainingPercentage },
     ...rest
   } = useFetchDetailTotalSupplied(asset);
 
@@ -84,12 +84,12 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         tokenAmount: formatFetchBigIntToViewBigInt(totalSupplied),
         dollarAmount: formatFetchBigIntToViewBigInt(totalSuppliedUsd),
       },
-      capacity: formatFetchBigIntToViewBigInt(capacity, {
+      capacityPercentage: formatFetchBigIntToViewBigInt(capacityPercentage, {
         singleDigitNumberDecimals: 1,
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,
       }),
-      capacityRemaining: formatFetchBigIntToViewBigInt(capacityRemaining, {
+      capacityRemainingPercentage: formatFetchBigIntToViewBigInt(capacityRemainingPercentage, {
         singleDigitNumberDecimals: 1,
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,

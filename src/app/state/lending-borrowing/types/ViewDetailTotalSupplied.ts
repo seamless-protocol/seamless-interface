@@ -5,7 +5,7 @@ export interface ViewDetailTotalSupplied {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
-  capacity: ViewBigInt | undefined;
+  capacityPercentage: ViewBigInt | undefined;
   noSupplyCap?: boolean;
-  capacityRemaining: ViewBigInt | undefined;
+  capacityRemainingPercentage: ViewBigInt | undefined;
 }
