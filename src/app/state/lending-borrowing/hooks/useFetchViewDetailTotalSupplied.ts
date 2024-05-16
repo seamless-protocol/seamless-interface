@@ -65,7 +65,7 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
       totalSupplied,
       totalSuppliedUsd: fFetchBigIntStructured(totalSuppliedUsd, 8, "$"),
       capacityPercentage: fFetchBigIntStructured(capacityPercentage, 18, "%"),
-      noSupplyCap: reserveCaps?.supplyCap.bigIntValue !== 0n,
+      noSupplyCap: reserveCaps?.supplyCap.bigIntValue === 0n,
       capacityRemainingPercentage: fFetchBigIntStructured(capacityRemainingPercentage, 18, "%")
     },
   };
