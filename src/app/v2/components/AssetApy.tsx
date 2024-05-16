@@ -1,10 +1,11 @@
 import React from "react";
 import { Address } from "viem";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { DisplayPercentage, DisplayPercentageProps, FlexRow, Tooltip, Typography } from "@shared";
+import { DisplayPercentage, DisplayPercentageProps, DisplayText, FlexRow, Tooltip, Typography } from "@shared";
 import { useFetchViewSupplyApy } from "../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewStrategyApy } from "../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { StrategyData, ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
+import { WETH_ADDRESS } from "../../../meta";
 
 interface AssetApyProps extends DisplayPercentageProps {
   asset: Address;
@@ -21,15 +22,18 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = t
   const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
   // todo remove 0x1
   const {
-    isLoading,
-    isFetched,
     data: apy,
+    ...restStrategyApy
   } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : "0x1");
 
-  if (showWarning && apy.value === 0 && !isLoading && isFetched) {
+  if (asset === WETH_ADDRESS) {
+    return <DisplayText {...restStrategyApy} {...rest} text="Up to 1.5x" />
+  }
+
+  if (showWarning && apy.value === 0 && !restStrategyApy.isLoading && restStrategyApy.isFetched) {
     return (
       <FlexRow className="gap-1">
-        <DisplayPercentage isLoading={isLoading} isFetched={isFetched} viewValue="~" symbol={apy?.symbol} {...rest} />
+        <DisplayPercentage {...restStrategyApy} viewValue="~" symbol={apy?.symbol} {...rest} />
         <Tooltip tooltip={<Typography type="description">Not enough data</Typography>} size="small" theme="dark">
           <ExclamationTriangleIcon className="cursor-pointer" width={15} />
         </Tooltip>
@@ -39,8 +43,7 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = t
 
   return (
     <DisplayPercentage
-      isLoading={isLoading}
-      isFetched={isFetched}
+      {...restStrategyApy}
       viewValue={apy?.value === 0 ? "~" : apy?.viewValue}
       symbol={apy?.symbol}
       {...rest}

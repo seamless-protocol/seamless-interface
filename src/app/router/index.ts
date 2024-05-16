@@ -10,6 +10,8 @@ const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol";
 const uniswapUrl = "https://app.uniswap.org/swap";
+const riskDashboardUrl = "https://community.chaoslabs.xyz/seamless/risk/overview";
+const gauntletRiskDashboardUrl = "https://risk.gauntlet.xyz/protocols/seamless/markets/base";
 
 const baseScan = "https://basescan.org";
 
@@ -19,6 +21,8 @@ export const RouterConfig = {
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
     stakingFarms: `${stakingFarmsUrl}/`,
     governance: `${governanceUrl}/`,
+    riskDashboard: riskDashboardUrl,
+    gauntletRiskDashboard: gauntletRiskDashboardUrl,
     claimAirdrop: `${claimAirdropUrl}`,
     supplyEthLegacy: `${supplyEthLegacy}`,
     wrapEth: `${uniswapUrl}?chain=base&inputCurrency=ETH&outputCurrency=0x4200000000000000000000000000000000000006`,
