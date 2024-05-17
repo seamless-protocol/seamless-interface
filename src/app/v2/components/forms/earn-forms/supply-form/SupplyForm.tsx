@@ -23,11 +23,14 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
+import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
+import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
+  const assetConfig = getBaseAssetConfig(asset);
 
   const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
   const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
@@ -91,7 +94,12 @@ export const SupplyForm = () => {
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && !hideTag && <Tag tag="LEND" />}
+
+            <FlexRow className="gap-1 items-center">
+              {asset != null && !hideTag && <Tag tag="LEND" />}
+
+              {assetConfig?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
+            </FlexRow>
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">

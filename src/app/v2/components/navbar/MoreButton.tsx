@@ -1,4 +1,5 @@
 import { CircleStackIcon, QuestionMarkCircleIcon, BookOpenIcon, ChartBarSquareIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+
 import { RouterConfig } from '../../../router';
 import { MoreMenuButton } from './MoreManuButton';
 
@@ -19,8 +20,8 @@ export const moreMenuItems = [
     icon: <BookOpenIcon width={20} />,
   },
   {
-    name: "Risk Dashboard",
-    href: RouterConfig.Routes.riskDashboard,
+    name: "Chaos Labs Risk Dashboard",
+    href: RouterConfig.Routes.chaosRiskDashboard,
     icon: <ChartBarIcon width={20} />,
   },
   {

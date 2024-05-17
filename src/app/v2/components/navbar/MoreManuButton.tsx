@@ -55,7 +55,7 @@ export const MoreMenuButton: React.FC<{
       </button>
       {isMoreMenuOpen && (
         <div className="pt-3 absolute" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsMoreMenuOpen(false)}>
-          <div className="text-black absolute py-1 text-bold3 left-0 z-10 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          <div className="text-black absolute py-1 text-bold3 left-0 z-10 w-72 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             style={{ top: '100%' }} // This ensures no gap between the button and the dropdown
           >
             {moreMenuItems.map((item, index) => (
