@@ -39,7 +39,7 @@ export const WithdrawForm = () => {
     },
   });
   const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
+  const amount = watch("amount", "");
 
   const onSubmitAsync = async (data: { amount: string }) => {
     await withdrawAsync(

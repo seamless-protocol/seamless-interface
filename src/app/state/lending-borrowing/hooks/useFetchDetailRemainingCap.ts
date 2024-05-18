@@ -8,7 +8,7 @@ import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
   if (supplyCapValue == null || totalSuppliedValue == null) return undefined;
-  return totalSuppliedValue - supplyCapValue;
+  return supplyCapValue - totalSuppliedValue;
 };
 
 interface RemainingCap {

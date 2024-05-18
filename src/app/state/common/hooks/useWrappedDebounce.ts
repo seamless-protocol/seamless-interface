@@ -8,6 +8,6 @@ export const useWrappedDebounce = (assetAmount: string, assetPrice: bigint = 0n,
 
   return {
     debouncedAmount,
-    debouncedAmountInUsd: formatUnitsToNumber((parseEther(debouncedAmount) * (assetPrice || 0n)) / ONE_ETHER, 8),
+    debouncedAmountInUsd: formatUnitsToNumber((parseEther(debouncedAmount || "0") * (assetPrice || 0n)) / ONE_ETHER, 8),
   };
 };
