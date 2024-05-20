@@ -1,7 +1,8 @@
-import { base } from "wagmi/chains";
+import { base, baseSepolia } from "wagmi/chains";
 import logoSeamless from "@assets/logos/logo-seamless.svg";
-import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { fallback, http, webSocket } from "wagmi";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { createConfig, fallback, http, webSocket } from "wagmi";
+import { coinbaseWallet, rainbowWallet } from "@rainbow-me/rainbowkit/wallets";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
@@ -15,16 +16,27 @@ const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
 ].filter(({ url }) => url);
 
-export const rainbowConfig = getDefaultConfig({
-  appName: "Seamless Protocol",
-  appDescription: "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
-  appUrl: "https://app.seamlessprotocol.com/",
-  appIcon: logoSeamless,
-  projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Recommended",
+      wallets: [coinbaseWallet, rainbowWallet],
+    },
+  ],
+  {
+    appName: "Seamless Protocol",
+    appDescription: "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
+    appUrl: "https://app.seamlessprotocol.com/",
+    appIcon: logoSeamless,
+    projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
+  }
+);
 
-  chains: [base],
+export const rainbowConfig = createConfig({
+  connectors,
+  chains: [baseSepolia],
   transports: {
-    [base.id]: fallback(
+    [baseSepolia.id]: fallback(
       rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
       { rank: true }
     ),
