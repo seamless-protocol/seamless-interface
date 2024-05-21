@@ -1,8 +1,14 @@
-import { base, baseSepolia } from "wagmi/chains";
+import { base } from "wagmi/chains";
 import logoSeamless from "@assets/logos/logo-seamless.svg";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { createConfig, fallback, http, webSocket } from "wagmi";
-import { coinbaseWallet, rainbowWallet } from "@rainbow-me/rainbowkit/wallets";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  coinbaseWallet,
+  metaMaskWallet,
+  rabbyWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
@@ -19,8 +25,19 @@ const rpcConfig = [
 const connectors = connectorsForWallets(
   [
     {
-      groupName: "Recommended",
-      wallets: [coinbaseWallet, rainbowWallet],
+      groupName: "Smart wallets",
+      wallets: [
+        () =>
+          // todo double check () =>
+          coinbaseWallet({
+            appName: "Seamless Protocol",
+            preference: "smartWalletOnly",
+          } as any), // todo preference type missing?
+      ],
+    },
+    {
+      groupName: "Popular",
+      wallets: [metaMaskWallet, rabbyWallet, walletConnectWallet, rainbowWallet],
     },
   ],
   {
@@ -32,13 +49,19 @@ const connectors = connectorsForWallets(
   }
 );
 
-export const rainbowConfig = createConfig({
+export const config = createConfig({
   connectors,
-  chains: [baseSepolia],
+  chains: [base],
   transports: {
-    [baseSepolia.id]: fallback(
+    [base.id]: fallback(
       rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
       { rank: true }
     ),
   },
 });
+
+declare module "wagmi" {
+  interface Register {
+    config: typeof config;
+  }
+}
