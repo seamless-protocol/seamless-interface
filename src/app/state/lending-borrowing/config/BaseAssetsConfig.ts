@@ -49,6 +49,7 @@ export interface BaseAssetConfig {
   sTokenAddress: Address;
   debtTokenAddress: Address; // Variable debt token address because stable borrow rate is not supported
   useCoinGeckoPrice?: boolean;
+  isGauntletOptimized?: boolean;
 }
 
 export const baseAssets: BaseAssetConfig[] = [
@@ -87,6 +88,7 @@ export const baseAssets: BaseAssetConfig[] = [
     address: USDC_ADDRESS,
     sTokenAddress: sUSDC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDC_ADDRESS,
+    isGauntletOptimized: true
   },
   {
     name: "Dai",
