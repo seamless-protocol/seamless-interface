@@ -24,7 +24,7 @@ export function BlueCoinbaseConnectWalletButton() {
   );
 }
 
-export function CoinbaseWalletLogo({ size = 26, containerStyles = {} }) {
+export function CoinbaseWalletLogo({ size = 24, containerStyles = {} }) {
   const classes = `pr-2 ${containerStyles}`;
   return (
     <div className={classes}>
