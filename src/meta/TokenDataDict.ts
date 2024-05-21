@@ -26,6 +26,7 @@ import usdcLogo from "@assets/tokens/usdc.svg";
 import degenLogo from "@assets/tokens/degen.svg";
 import seamLogo from "@assets/tokens/seam.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
+import brettLogo from "@assets/tokens/brett.svg";
 
 interface ITokenDataDict {
   [address: Address]: {
@@ -76,6 +77,6 @@ export const TokenDataDict: ITokenDataDict = {
     logo: aeroLogo,
   },
   [BRETT_ADDRESS]: {
-    logo: "", // TODO: waiting for svg
+    logo: brettLogo,
   },
 };
