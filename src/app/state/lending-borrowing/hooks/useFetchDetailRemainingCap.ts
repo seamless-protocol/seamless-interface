@@ -3,7 +3,14 @@ import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice"
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { mergeQueryStates, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, fFetchBigIntStructured, fUsdValueStructured } from "../../../../shared";
+import {
+  mergeQueryStates,
+  Displayable,
+  formatFetchBigIntToViewBigInt,
+  ViewBigInt,
+  fFetchBigIntStructured,
+  fUsdValueStructured,
+} from "../../../../shared";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
@@ -34,7 +41,7 @@ export const useFetchDetailRemainingCap = (asset?: Address): FetchData<Remaining
 };
 
 export interface ViewDetailRemainingCap {
-  tokenAmount?: ViewBigInt;
+  remainingCap?: ViewBigInt;
   dollarAmount?: ViewBigInt;
 }
 export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
@@ -46,7 +53,7 @@ export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDeta
   return {
     ...rest,
     data: {
-      tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
+      remainingCap: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
       dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,
     },
   };

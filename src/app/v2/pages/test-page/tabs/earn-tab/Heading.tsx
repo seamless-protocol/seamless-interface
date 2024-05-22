@@ -11,8 +11,8 @@ import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borro
 import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
-import { useFetchViewDetailTotalSupplied } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewLendingPoolInfo } from "../../../../../v1/pages/ilm-page/hooks/useFetchViewLendingPoolInfo";
+import { useFetchViewRemainingCap } from "../../../../../state/common/hooks/useFetchViewRemainingCap";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -28,7 +28,7 @@ export const Heading = () => {
 
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
-  const { data: supplyData, ...supplyDataRest } = useFetchViewDetailTotalSupplied(asset);
+  const { data: supplyData, ...supplyDataRest } = useFetchViewRemainingCap(asset, isStrategy);
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
   // data?.totalMarketSizeUsd
@@ -74,16 +74,14 @@ export const Heading = () => {
             <FlexCol className="gap-1 md:text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
-              {!isStrategy && (
-                <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
-                  <DisplayText
-                    // eslint-disable-next-line
-                    viewValue={supplyData.capacityRemainingPercentage?.viewValue + "% cap remaining"}
-                    {...supplyDataRest}
-                    typography="medium2"
-                  />
-                </FlexRow>
-              )}
+              <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
+                <DisplayText
+                  // eslint-disable-next-line
+                  viewValue={supplyData.remainingCapPercentage?.viewValue + "% cap remaining"}
+                  {...supplyDataRest}
+                  typography="medium2"
+                />
+              </FlexRow>
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
               <FlexRow className="gap-2">

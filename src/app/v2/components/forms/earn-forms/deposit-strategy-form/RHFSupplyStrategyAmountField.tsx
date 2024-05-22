@@ -111,7 +111,7 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
       protocolMaxValue={{
         ...remainingCapRest,
         data: {
-          ...remainingCapData.tokenAmount,
+          ...remainingCapData.remainingCap,
         },
       }}
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
