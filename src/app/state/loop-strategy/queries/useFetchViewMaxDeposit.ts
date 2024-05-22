@@ -33,7 +33,7 @@ export const useFetchMaxDeposit = (strategy?: Address): FetchData<FetchBigInt | 
   };
 };
 
-export const useFetchViewStrategyMaxDeposit = (strategy: Address): Displayable<ViewBigInt> => {
+export const useFetchViewMaxDeposit = (strategy: Address): Displayable<ViewBigInt> => {
   const { data: maxDeposit, ...rest } = useFetchMaxDeposit(strategy);
 
   return {
