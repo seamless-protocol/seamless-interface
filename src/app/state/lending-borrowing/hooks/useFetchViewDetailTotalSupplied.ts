@@ -18,11 +18,10 @@ const cCapacityPercentage = (totalSuppliedValue?: bigint, supplyCapValue?: bigin
   return (totalSuppliedValue * ONE_ETHER * 100n) / divider;
 };
 
-const cCapacityRemainingPercentage = (capacity?: bigint, decimals?: number): bigint | undefined => {
+const cCapacityRemainingPercentage = (capacity?: bigint): bigint | undefined => {
   if (capacity == null) return undefined;
-  if (decimals == null) return undefined;
 
-  const max = parseUnits("100", decimals);
+  const max = parseUnits("100", 18);
   if (capacity > max) return undefined;
 
   return max - capacity;
@@ -45,7 +44,7 @@ export const useFetchDetailTotalSupplied = (asset?: Address): FetchData<TotalSup
 
   const capacityPercentage = cCapacityPercentage(totalSupplied?.bigIntValue, reserveCaps?.supplyCap.bigIntValue);
 
-  const capacityRemainingPercentage = cCapacityRemainingPercentage(capacityPercentage, totalSupplied?.decimals);
+  const capacityRemainingPercentage = cCapacityRemainingPercentage(capacityPercentage);
 
   const totalSuppliedUsd = cValueInUsd(totalSupplied?.bigIntValue, price?.bigIntValue, totalSupplied?.decimals);
 
