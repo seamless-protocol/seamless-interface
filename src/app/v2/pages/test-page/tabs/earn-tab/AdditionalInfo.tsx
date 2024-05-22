@@ -1,4 +1,4 @@
-import { Dune } from "./Dune";
+import { HistoricalPerformance } from "./HistoricalPerformance";
 import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { gitBookUrl, vaultsFyiUrl } from "@router";
@@ -11,27 +11,34 @@ export const AdditionalInfo: React.FC<{
       <div className="collapse collapse-arrow join-item border-b">
         <input type="radio" name="my-accordion-4" defaultChecked />
         <div className="collapse-title">
-          <Typography type="medium4">Dune</Typography>
+          <Typography type="medium4">Historical Performance</Typography>
         </div>
         <div className="collapse-content">
-          <Dune />
+          <HistoricalPerformance />
         </div>
       </div>
-      <div className="collapse collapse-arrow join-item">
+      <div className="collapse collapse-arrow join-item border-b">
         <input type="radio" name="my-accordion-4" />
         <div className="collapse-title">
           <Typography type="medium4">FAQ</Typography>
         </div>
         <div className="collapse-content">
           <FAQ />
-
-          <FlexCol className="gap-2 md:items-end text-right">
+        </div>
+      </div>
+      <div className="collapse collapse-arrow join-item">
+        <input type="radio" name="my-accordion-4" />
+        <div className="collapse-title">
+          <Typography type="medium4">Resource Links</Typography>
+        </div>
+        <div className="collapse-content">
+          <FlexCol className="gap-2">
             <FlexRow className="gap-3 items-center">
-              <ExternalLink url={gitBookUrl} className="text-regular1">
+              <ExternalLink url={gitBookUrl} className="text-regular3">
                 Gitbook
               </ExternalLink>
               {isStrategy && (
-                <ExternalLink url={vaultsFyiUrl} className="text-regular1">
+                <ExternalLink url={vaultsFyiUrl} className="text-regular3">
                   Analytics
                 </ExternalLink>
               )}
