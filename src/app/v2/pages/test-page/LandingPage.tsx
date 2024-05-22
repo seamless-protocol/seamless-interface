@@ -7,7 +7,7 @@ import { RouterConfig } from "../../../router";
 
 type Tabs = "Earn" | "My Positions";
 
-export const TestPage = () => {
+export const LandingPage = () => {
   return (
     <PageContainer className="flex justify-center py-12">
       <TabProvider<Tabs> defaultTab="Earn">

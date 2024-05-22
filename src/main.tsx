@@ -1,3 +1,5 @@
+import "@rainbow-me/rainbowkit/styles.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 //* * OTHER **/

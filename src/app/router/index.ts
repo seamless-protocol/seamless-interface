@@ -12,6 +12,8 @@ const developersUrl = "https://github.com/seamless-protocol";
 const uniswapUrl = "https://app.uniswap.org/swap";
 const chaosRiskDashboardUrl = "https://community.chaoslabs.xyz/seamless/risk/overview";
 const gauntletRiskDashboardUrl = "https://risk.gauntlet.xyz/protocols/seamless/markets/base";
+export const gitBookUrl = "https://docs.seamlessprotocol.com/";
+export const vaultsFyiUrl = "https://www.vaults.fyi/vaults?searchFor=seamless";
 
 const baseScan = "https://basescan.org";
 
