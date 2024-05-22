@@ -73,7 +73,7 @@ export const Heading = () => {
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
               <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
-                <CapRemaining />
+                <CapRemaining asset={asset} isStrategy={isStrategy} />
               </FlexRow>
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
