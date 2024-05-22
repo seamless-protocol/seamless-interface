@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useFetchStrategyMaxDeposit } from "../queries/useFetchViewMaxDeposit";
+import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
@@ -19,7 +19,7 @@ export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt
   const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
   const { data: underlyingAssetTokenData, ...underlyingAssetTokenDataRest } = useToken(underlyingAsset);
 
-  const { data: maxDeposit, ...maxDepositRest } = useFetchStrategyMaxDeposit(strategy);
+  const { data: maxDeposit, ...maxDepositRest } = useFetchMaxDeposit(strategy);
 
   const { data: assetBalance, ...assetBalanceRest } = useFetchAssetBalance(underlyingAsset as Address);
 

@@ -11,7 +11,7 @@ import {
 import { loopStrategyAbi } from "../../../generated";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
-export const useFetchStrategyMaxDeposit = (strategy?: Address): FetchData<FetchBigInt | undefined> => {
+export const useFetchMaxDeposit = (strategy?: Address): FetchData<FetchBigInt | undefined> => {
   const {
     data: { decimals, symbol },
     ...tokenDataRest
@@ -34,7 +34,7 @@ export const useFetchStrategyMaxDeposit = (strategy?: Address): FetchData<FetchB
 };
 
 export const useFetchViewStrategyMaxDeposit = (strategy: Address): Displayable<ViewBigInt> => {
-  const { data: maxDeposit, ...rest } = useFetchStrategyMaxDeposit(strategy);
+  const { data: maxDeposit, ...rest } = useFetchMaxDeposit(strategy);
 
   return {
     ...rest,
