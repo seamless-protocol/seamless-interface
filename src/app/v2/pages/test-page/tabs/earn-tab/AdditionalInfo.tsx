@@ -3,7 +3,9 @@ import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { gitBookUrl, vaultsFyiUrl } from "@router";
 
-export const AdditionalInfo = () => {
+export const AdditionalInfo: React.FC<{
+  isStrategy?: boolean;
+}> = ({ isStrategy }) => {
   return (
     <div className="join join-vertical w-full bg-white shadow-card rounded-card">
       <div className="collapse collapse-arrow join-item border-b">
@@ -23,16 +25,16 @@ export const AdditionalInfo = () => {
         <div className="collapse-content">
           <FAQ />
 
-          <FlexCol className="gap-2">
-            <Typography type="medium2">External References:</Typography>
-
+          <FlexCol className="gap-2 md:items-end text-right">
             <FlexRow className="gap-3 items-center">
               <ExternalLink url={gitBookUrl} className="text-regular1">
                 Gitbook
               </ExternalLink>
-              <ExternalLink url={vaultsFyiUrl} className="text-regular1">
-                Vaults.fyi
-              </ExternalLink>
+              {isStrategy && (
+                <ExternalLink url={vaultsFyiUrl} className="text-regular1">
+                  Analytics
+                </ExternalLink>
+              )}
             </FlexRow>
           </FlexCol>
         </div>
