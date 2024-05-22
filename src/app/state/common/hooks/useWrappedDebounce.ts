@@ -1,13 +1,21 @@
 import { useDebounce } from "@uidotdev/usehooks";
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
 import { formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { ONE_ETHER } from "@meta";
 
-export const useWrappedDebounce = (assetAmount: string, assetPrice: bigint = 0n, delay: number = 500) => {
+export const useWrappedDebounce = (
+  assetAmount: string,
+  assetPrice: bigint = 0n,
+  delay: number = 500,
+  decimals: number = 18
+) => {
   const debouncedAmount = useDebounce(assetAmount, delay);
 
   return {
     debouncedAmount,
-    debouncedAmountInUsd: formatUnitsToNumber((parseEther(debouncedAmount || "0") * (assetPrice || 0n)) / ONE_ETHER, 8),
+    debouncedAmountInUsd: formatUnitsToNumber(
+      (parseUnits(debouncedAmount, decimals) * (assetPrice || 0n)) / ONE_ETHER,
+      8
+    ),
   };
 };
