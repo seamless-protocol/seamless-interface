@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useFetchStrategyMaxDeposit } from "../queries/useFetchViewStrategyMaxDeposit";
+import { useFetchStrategyMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";

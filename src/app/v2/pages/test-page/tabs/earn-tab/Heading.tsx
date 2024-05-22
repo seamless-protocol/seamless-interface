@@ -1,4 +1,4 @@
-import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, DisplayText, Tooltip } from "@shared";
+import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, Tooltip } from "@shared";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
@@ -12,7 +12,7 @@ import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
 import { useFetchViewLendingPoolInfo } from "../../../../../v1/pages/ilm-page/hooks/useFetchViewLendingPoolInfo";
-import { useFetchViewRemainingCap } from "../../../../../state/common/hooks/useFetchViewRemainingCap";
+import { CapRemaining } from "./CapRemaining";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -27,8 +27,6 @@ export const Heading = () => {
   } = useFetchViewAssetPrice({ asset });
 
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
-
-  const { data: supplyData, ...supplyDataRest } = useFetchViewRemainingCap(asset, isStrategy);
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
   // data?.totalMarketSizeUsd
@@ -75,12 +73,7 @@ export const Heading = () => {
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
               <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
-                <DisplayText
-                  // eslint-disable-next-line
-                  viewValue={supplyData.remainingCapPercentage?.viewValue + "% cap remaining"}
-                  {...supplyDataRest}
-                  typography="medium2"
-                />
+                <CapRemaining />
               </FlexRow>
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
