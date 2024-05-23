@@ -18,7 +18,7 @@ import { ExternalLink } from "@shared";
 import { Address } from "viem";
 
 const assetLinks = {
-  landing: {
+  lending: {
     [USDBC_ADDRESS]: sUSDbC_ADDRESS,
     [USDC_ADDRESS]: sUSDC_ADDRESS,
     [WETH_ADDRESS]: sWETH_ADDRESS,
@@ -35,9 +35,7 @@ export const VaultsLink: React.FC<{
   asset?: Address;
   isStrategy?: boolean;
 }> = ({ asset, isStrategy }) => {
-  console.log({ asset });
-
-  const validAssets = isStrategy ? assetLinks.strategy : assetLinks.landing;
+  const validAssets = isStrategy ? assetLinks.strategy : assetLinks.lending;
 
   if (asset == null || !validAssets[asset]) {
     return null;
