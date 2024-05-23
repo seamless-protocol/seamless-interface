@@ -7,7 +7,12 @@ export const GauntletOptimized: React.FC<{
   className?: string;
 }> = ({ className = "" }) => {
   return (
-    <Link to={gauntletOptimizedTwitterUrl} target="_blank" onClick={(e) => e.stopPropagation()}>
+    <Link
+      to={gauntletOptimizedTwitterUrl}
+      rel="noopener noreferrer"
+      target="_blank"
+      onClick={(e) => e.stopPropagation()}
+    >
       <FlexRow
         className={`gap-1 items-center border-metallicBorder py-1 px-2 rounded-lg 
     border border-solid bg-smallElements-rewardAPY ${className}`}
