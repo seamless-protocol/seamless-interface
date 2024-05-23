@@ -56,7 +56,7 @@ export const DepositModal = ({ id, ...buttonProps }: DepositModalProps) => {
     },
   });
   const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
+  const amount = watch("amount", "");
   const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, assetPrice, 500);
 
   const { isApproved, isApproving, approveAsync } = useERC20Approve(

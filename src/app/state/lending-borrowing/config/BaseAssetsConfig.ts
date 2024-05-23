@@ -30,6 +30,9 @@ import {
   sSEAM_ADDRESS,
   DEGEN_ADDRESS,
   sDEGEN_ADDRESS,
+  AERO_ADDRESS,
+  BRETT_ADDRESS,
+  TokenDataDict,
 } from "@meta";
 import ethLogo from "@assets/tokens/eth.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
@@ -46,8 +49,8 @@ export interface BaseAssetConfig {
   logo?: string;
   hide: boolean;
   address: Address;
-  sTokenAddress: Address;
-  debtTokenAddress: Address; // Variable debt token address because stable borrow rate is not supported
+  sTokenAddress?: Address;
+  debtTokenAddress?: Address; // Variable debt token address because stable borrow rate is not supported
   useCoinGeckoPrice?: boolean;
   isGauntletOptimized?: boolean;
 }
@@ -126,6 +129,22 @@ export const baseAssets: BaseAssetConfig[] = [
     address: SEAM_ADDRESS,
     sTokenAddress: sSEAM_ADDRESS,
     debtTokenAddress: variableDebtSeamSEAM_ADDRESS,
+    useCoinGeckoPrice: true,
+  },
+  {
+    name: "Aerodrome",
+    symbol: "AERO",
+    logo: TokenDataDict[AERO_ADDRESS].logo,
+    hide: false,
+    address: AERO_ADDRESS,
+    useCoinGeckoPrice: false,
+  },
+  {
+    name: "Brett",
+    symbol: "BRETT",
+    logo: TokenDataDict[BRETT_ADDRESS].logo,
+    hide: false,
+    address: BRETT_ADDRESS,
     useCoinGeckoPrice: true,
   },
   {
