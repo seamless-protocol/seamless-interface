@@ -1,4 +1,3 @@
-import { HistoricalPerformance } from "./HistoricalPerformance";
 import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { gitBookUrl } from "@router";
@@ -9,9 +8,11 @@ export const AdditionalInfo: React.FC<{
   asset?: Address;
   isStrategy?: boolean;
 }> = ({ asset, isStrategy }) => {
+  if (!asset) return null;
+
   return (
     <div className="join join-vertical w-full bg-white shadow-card rounded-card">
-      <div className="collapse collapse-arrow join-item border-b">
+      {/* <div className="collapse collapse-arrow join-item border-b">
         <input type="radio" name="my-accordion-4" defaultChecked />
         <div className="collapse-title">
           <Typography type="medium4">Historical Performance</Typography>
@@ -19,7 +20,7 @@ export const AdditionalInfo: React.FC<{
         <div className="collapse-content">
           <HistoricalPerformance />
         </div>
-      </div>
+      </div> */}
       {isStrategy && (
         <div className="collapse collapse-arrow join-item border-b">
           <input type="radio" name="my-accordion-4" />
