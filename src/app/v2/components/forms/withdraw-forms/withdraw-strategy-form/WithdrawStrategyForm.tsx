@@ -74,7 +74,7 @@ const WithdrawStrategyLocal: React.FC<{
     },
   });
   const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
+  const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
   const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(strategy.id, debouncedAmount);
