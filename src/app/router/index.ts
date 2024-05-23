@@ -2,6 +2,7 @@ import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
 
 const baseUrl = "";
 
+export const gauntletOptimizedTwitterUrl = "https://twitter.com/SeamlessFi/status/1769845618720326053";
 const lendingAndBorrowingUrl = "https://legacy.seamlessprotocol.com";
 const supplyEthLegacy = `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=0x4200000000000000000000000000000000000006&marketName=proto_base_v3`;
 const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
