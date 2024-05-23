@@ -23,7 +23,7 @@ export const EarnTab = () => {
               {isStrategy ? <StrategyForm /> : <SupplyForm />}
             </FormSettingsProvider>
           </div>
-          <AdditionalInfo isStrategy={isStrategy} />
+          <AdditionalInfo asset={asset} isStrategy={isStrategy} />
         </div>
       </div>
     </div>

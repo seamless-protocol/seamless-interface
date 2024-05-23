@@ -13,7 +13,7 @@ const uniswapUrl = "https://app.uniswap.org/swap";
 const chaosRiskDashboardUrl = "https://community.chaoslabs.xyz/seamless/risk/overview";
 const gauntletRiskDashboardUrl = "https://risk.gauntlet.xyz/protocols/seamless/markets/base";
 export const gitBookUrl = "https://docs.seamlessprotocol.com/";
-export const vaultsFyiUrl = "https://www.vaults.fyi/vaults?searchFor=seamless";
+const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 
 const baseScan = "https://basescan.org";
 
@@ -40,5 +40,6 @@ export const RouterConfig = {
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${baseAssets[id].address.toLowerCase()}&marketName=proto_base_v3`,
     baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,
     baseScanAddress: (address: string) => `${baseScan}/address/${address}`,
+    vaults: (address: string) => `${vaultsFyiUrl}/${address}`,
   },
 };

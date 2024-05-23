@@ -1,11 +1,14 @@
 import { HistoricalPerformance } from "./HistoricalPerformance";
 import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
-import { gitBookUrl, vaultsFyiUrl } from "@router";
+import { gitBookUrl } from "@router";
+import { VaultsLink } from "../../../../components/specific-components/VaultsLink";
+import { Address } from "viem";
 
 export const AdditionalInfo: React.FC<{
+  asset?: Address;
   isStrategy?: boolean;
-}> = ({ isStrategy }) => {
+}> = ({ asset, isStrategy }) => {
   return (
     <div className="join join-vertical w-full bg-white shadow-card rounded-card">
       <div className="collapse collapse-arrow join-item border-b">
@@ -17,15 +20,17 @@ export const AdditionalInfo: React.FC<{
           <HistoricalPerformance />
         </div>
       </div>
-      <div className="collapse collapse-arrow join-item border-b">
-        <input type="radio" name="my-accordion-4" />
-        <div className="collapse-title">
-          <Typography type="medium4">FAQ</Typography>
+      {isStrategy && (
+        <div className="collapse collapse-arrow join-item border-b">
+          <input type="radio" name="my-accordion-4" />
+          <div className="collapse-title">
+            <Typography type="medium4">FAQ</Typography>
+          </div>
+          <div className="collapse-content">
+            <FAQ asset={asset} isStrategy={isStrategy} />
+          </div>
         </div>
-        <div className="collapse-content">
-          <FAQ />
-        </div>
-      </div>
+      )}
       <div className="collapse collapse-arrow join-item">
         <input type="radio" name="my-accordion-4" />
         <div className="collapse-title">
@@ -37,11 +42,7 @@ export const AdditionalInfo: React.FC<{
               <ExternalLink url={gitBookUrl} className="text-regular3">
                 Gitbook
               </ExternalLink>
-              {isStrategy && (
-                <ExternalLink url={vaultsFyiUrl} className="text-regular3">
-                  Analytics
-                </ExternalLink>
-              )}
+              <VaultsLink asset={asset} isStrategy={isStrategy} />
             </FlexRow>
           </FlexCol>
         </div>
