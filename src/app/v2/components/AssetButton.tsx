@@ -16,7 +16,6 @@ export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSl
   return (
     <Modal
       ref={modalRef}
-      className="min-h-64"
       buttonProps={{
         children: (
           <div
