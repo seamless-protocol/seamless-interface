@@ -1,6 +1,5 @@
 import { FlexCol, Icon, Typography } from "@shared";
 import dotSvg from "@assets/common/dot.svg";
-import { Link } from "react-router-dom"; // Assuming routing capability for links
 import React from "react";
 import { Address } from "viem";
 import { WETH_ADDRESS, WSTETH_ADDRESS } from "@meta";
@@ -11,7 +10,7 @@ const faqsData = {
       question: <>Am I exposed to ETH price with this ILM?</>,
       answer: (
         <>
-          No. Since <Link to="/wstETH-info">wstETH</Link> and ETH are correlated assets, regardless of ETH price
+          No. Since wstETH and ETH are correlated assets, regardless of ETH price
           movement, you earn staking fees from holding a larger wstETH balance.
         </>
       ),
