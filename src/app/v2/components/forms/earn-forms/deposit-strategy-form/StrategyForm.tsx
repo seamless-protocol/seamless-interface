@@ -57,7 +57,7 @@ const StrategyFormLocal: React.FC<{
     },
   });
   const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
+  const amount = watch("amount", "");
 
   const { showNotification } = useNotificationContext();
 

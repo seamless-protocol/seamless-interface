@@ -1,6 +1,6 @@
-import { Address } from "viem";
+import { Address, parseUnits } from "viem";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { Displayable, useSeamlessContractRead, useToken, mergeQueryStates } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewReserveCaps } from "../types/ViewReserveCaps";
@@ -11,6 +11,11 @@ interface AssetCaps {
 }
 
 export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
+  const {
+    data: { decimals },
+    ...tokenRest
+  } = useToken(asset);
+
   const { data, ...rest } = useSeamlessContractRead({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
@@ -22,16 +27,16 @@ export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
   });
 
   return {
-    ...rest,
+    ...mergeQueryStates([tokenRest, rest]),
     data: {
       supplyCap: {
-        bigIntValue: data?.[1] || 0n,
-        decimals: 0,
+        bigIntValue: parseUnits(data?.[1].toString() || "0", decimals || 0),
+        decimals,
         symbol: "",
       },
       borrowCap: {
-        bigIntValue: data?.[0] || 0n,
-        decimals: 0,
+        bigIntValue: parseUnits(data?.[0].toString() || "0", decimals || 0),
+        decimals,
         symbol: "",
       },
     },
