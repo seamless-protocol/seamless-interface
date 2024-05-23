@@ -41,7 +41,7 @@ export const useFetchDetailRemainingCap = (asset?: Address): FetchData<Remaining
 };
 
 export interface ViewDetailRemainingCap {
-  remainingCap?: ViewBigInt;
+  tokenAmount?: ViewBigInt;
   dollarAmount?: ViewBigInt;
 }
 export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDetailRemainingCap> => {
@@ -53,7 +53,7 @@ export const useViewDetailRemainingCap = (asset?: Address): Displayable<ViewDeta
   return {
     ...rest,
     data: {
-      remainingCap: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
+      tokenAmount: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
       dollarAmount: remainingCapUsd ? formatFetchBigIntToViewBigInt(remainingCapUsd) : undefined,
     },
   };
