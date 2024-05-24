@@ -30,6 +30,7 @@ const renderMarkers = (
 
     markers.push(
       <button
+        type="button"
         key={i}
         style={{
           left: adjustment,
