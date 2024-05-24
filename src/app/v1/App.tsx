@@ -7,7 +7,7 @@ import { RouterConfig } from "@router";
 import { IlmPage } from "./pages/ilm-page/page";
 import { IlmDetailsPage } from "./pages/ilm-details-page/page";
 //* * LAYOUT **/
-import { ConnectButtonProvider, FallbackPage, FlexCol, PageNotFound } from "@shared";
+import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
 import { NavigationBar } from "./components/navbar/NavigationBar";
 import { Footer } from "./components/footer/Footer";
 //* * SENTRY **/
@@ -23,11 +23,13 @@ export function App() {
           <ConnectButtonProvider>
             <NavigationBar />
           </ConnectButtonProvider>
-          <SentryRoutes>
-            <Route path={RouterConfig.Routes.markets} element={<IlmPage />} />
-            <Route path={RouterConfig.Routes.ilmDetails} element={<IlmDetailsPage />} />
-            <Route path="*" element={<PageNotFound />} />;
-          </SentryRoutes>
+          <NotificationProvider>
+            <SentryRoutes>
+              <Route path={RouterConfig.Routes.markets} element={<IlmPage />} />
+              <Route path={RouterConfig.Routes.ilmDetails} element={<IlmDetailsPage />} />
+              <Route path="*" element={<PageNotFound />} />;
+            </SentryRoutes>
+          </NotificationProvider>
           <Footer />
         </FlexCol>
       </HashRouter>
