@@ -11,16 +11,20 @@ import {
 import { loopStrategyAbi } from "../../../generated";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 
-export const useFetchMaxDeposit = (strategy: Address): FetchData<FetchBigInt | undefined> => {
+export const useFetchMaxDeposit = (strategy?: Address): FetchData<FetchBigInt | undefined> => {
   const {
     data: { decimals, symbol },
     ...tokenDataRest
   } = useToken(strategy);
+
   const { data, ...maxDepositRest } = useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "maxDeposit",
     args: [zeroAddress as Address],
+    query: {
+      enabled: !!strategy,
+    },
   });
 
   return {
