@@ -20,6 +20,7 @@ import {
   FlexRow,
   useToken,
   DisplayTargetMultiple,
+  RHFInputSliderField,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
@@ -135,6 +136,7 @@ const StrategyFormLocal: React.FC<{
             protocolMaxValue={maxUserDepositData}
             name="amount"
           />
+          <RHFInputSliderField name="k" max={2} min={0} />
         </FlexCol>
 
         <FlexCol className="gap-4">
