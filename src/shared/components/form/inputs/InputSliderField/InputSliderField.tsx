@@ -25,8 +25,9 @@ const renderMarkers = (
   const markers = [];
   const numberOfSteps = max - min;
   for (let i = min; i <= max; i++) {
-    const leftPercentage = ((i - min) / numberOfSteps) * 100;
-    const adjustment = `calc(${leftPercentage}% + (${leftPercentage} * -12px / 100))`;
+    let leftPercentage = ((i - min) / numberOfSteps) * 100;
+    leftPercentage += i === 0 ? 0.1 : 0;
+    const adjustment = `calc(${leftPercentage}% + (${leftPercentage} * -13px / 100))`;
 
     markers.push(
       <button
@@ -36,8 +37,9 @@ const renderMarkers = (
           left: adjustment,
         }}
         className={`bottom-3.5 w-3 h-3 absolute rounded-full border-2 
-                    ${i >= enabledMin && i <= enabledMax ? "border-navy-1000" : "border-gray-400 cursor-default"}
-                    ${(Number(value) || 0) >= i ? "bg-navy-1000" : "bg-neutral-0"}`}
+                    ${i >= enabledMin && i < enabledMax ? "border-navy-1000" : "border-gray-400 cursor-default"}
+                    ${(Number(value) || 0) > i ? "bg-navy-1000" : "bg-neutral-0"}
+                    ${(Number(value) || 0) === i ? "bg-[#22457e] border-[#22457e]" : ""}`}
         onClick={() => {
           if (i >= enabledMin && i <= enabledMax) {
             onChange?.({ target: { value: i.toString() } } as any);
