@@ -3,6 +3,7 @@
 // **************** //
 export * from "./meta-data-queries/useToken";
 export * from "./meta-data-queries/useFullTokenData";
+export * from "./meta-data-queries/useTokenDescription";
 // ******* //
 // queries //
 // ******* //
