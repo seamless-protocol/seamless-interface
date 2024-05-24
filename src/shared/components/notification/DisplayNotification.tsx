@@ -10,6 +10,7 @@ import { RouterConfig } from "../../../app/router";
 
 import externalLinkIcon from "@assets/common/external-link.svg";
 import { Typography } from "../text/Typography/Typography";
+import { Link } from "react-router-dom";
 
 interface Props extends TNotificationProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,12 +34,12 @@ export const DisplayNotification = ({ content, status, icon, txHash, setModalOpe
           {status === "success" && txHash && (
             <FlexRow className="justify-between items-center">
               <span />
-              <a href={RouterConfig.Builder.baseScanTx(txHash || "")} target="_blank" rel="noreferrer">
+              <Link to={RouterConfig.Builder.baseScanTx(txHash || "")} target="_blank" rel="noopener noreferrer">
                 <FlexRow className="justify-between items-center gap-0.5">
                   <Typography type="subheader2">Review tx details</Typography>
                   <Icon src={externalLinkIcon} alt="external-link" width={12} height={12} />
                 </FlexRow>
-              </a>
+              </Link>
             </FlexRow>
           )}
           <Button fullWidth onClick={() => setModalOpen(false)}>
