@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 
-export const useMutateDepositStrategy = (id: number) => {
+export const useMutateDepositStrategy = (id: number, subStrategyAddress: Address) => {
   // meta data
   const { address } = useAccount();
 
@@ -14,7 +14,7 @@ export const useMutateDepositStrategy = (id: number) => {
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(ilmStrategies[id].underlyingAsset.address);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
     asset: ilmStrategies[id].underlyingAsset.address,
-    spender: ilmStrategies[id].address,
+    spender: subStrategyAddress,
   });
 
   // hook call
@@ -35,7 +35,7 @@ export const useMutateDepositStrategy = (id: number) => {
     await writeContractAsync(
       {
         // ui -> contract arguments
-        address: ilmStrategies[id].address,
+        address: subStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "deposit",
         args: [parseUnits(args.amount, 18), address as Address, args.sharesToReceive],

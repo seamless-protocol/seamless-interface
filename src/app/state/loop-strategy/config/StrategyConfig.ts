@@ -7,7 +7,7 @@ import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
 import wethLogo from "@assets/tokens/weth.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
-import { WSTETH_ADDRESS, WETH_ADDRESS, USDC_ADDRESS } from "@meta";
+import { WSTETH_ADDRESS, WETH_ADDRESS, USDC_ADDRESS, wstETHBooster_ADDRESS } from "@meta";
 
 interface AssetConfig {
   name: string;
@@ -32,7 +32,7 @@ export const ilmStrategies: StrategyConfig[] = [
   {
     id: 0,
     name: "wstETH Booster",
-    address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
+    address: wstETHBooster_ADDRESS,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
     underlyingAsset: {
@@ -47,7 +47,7 @@ export const ilmStrategies: StrategyConfig[] = [
       address: WETH_ADDRESS,
       logo: EthLogo,
     },
-    vaultsFyiLink: "https://www.vaults.fyi/vaults/base/0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e?apyMode=30day",
+    vaultsFyiLink: `https://www.vaults.fyi/vaults/base/${wstETHBooster_ADDRESS}?apyMode=30day`,
   },
   {
     id: 1,
@@ -89,9 +89,16 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
     WSTETH_ADDRESS,
     [
       {
-        address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
+        address: wstETHBooster_ADDRESS,
         targetMultiple: {
           value: 3,
+          symbol: "x",
+        },
+      },
+      {
+        address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8zzz",
+        targetMultiple: {
+          value: 5,
           symbol: "x",
         },
       },

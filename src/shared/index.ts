@@ -83,6 +83,7 @@ export * from "./components/form/inputs/CustomInput";
 export * from "./components/form/rhf/RHFInputField";
 export * from "./components/form/rhf/RHFAmountInput";
 export * from "./components/form/rhf/RHFInputSliderField";
+export * from "./components/form/rhf/RHFStrategySelector";
 
 // ***** //
 // Images //

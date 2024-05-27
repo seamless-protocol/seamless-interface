@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
-import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import {
+  findILMStrategyByAddress,
+  ilmAssetStrategiesMap,
+  StrategyConfig,
+} from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
@@ -17,10 +21,10 @@ import {
   Typography,
   WatchAssetComponentv2,
   MyFormProvider,
-  FlexRow,
   useToken,
   DisplayTargetMultiple,
-  RHFInputSliderField,
+  FlexRow,
+  RHFStrategySelector,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
@@ -28,6 +32,7 @@ import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
+import { Address } from "viem";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -43,22 +48,29 @@ export const StrategyForm = () => {
   return <StrategyFormLocal strategy={strategy} />;
 };
 
+interface FormData {
+  amount: string;
+  sliderValue: number;
+  subStrategyAddress: Address;
+}
+
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
-  const {
-    data: targetMultipleData,
-    ...restTargetMultiple
-  } = useFetchViewTargetMultiple(strategy.address);
+  const subStrategyData = ilmAssetStrategiesMap.get(strategy.underlyingAsset.address);
+  const { data: targetMultipleData, ...restTargetMultiple } = useFetchViewTargetMultiple(strategy.address);
 
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
-  const methods = useForm({
+  const methods = useForm<FormData>({
     defaultValues: {
       amount: "",
+      sliderValue: 0,
+      subStrategyAddress: subStrategyData?.[0].address,
     },
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount", "");
+  const subStrategyAddress = watch("subStrategyAddress");
 
   const { showNotification } = useNotificationContext();
 
@@ -66,7 +78,7 @@ const StrategyFormLocal: React.FC<{
     data: { symbol: strategySymbol },
   } = useToken(strategy.address);
 
-  const { depositAsync } = useMutateDepositStrategy(strategy.id);
+  const { depositAsync } = useMutateDepositStrategy(strategy.id, subStrategyAddress);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategy?.underlyingAsset.address || ""],
@@ -122,7 +134,12 @@ const StrategyFormLocal: React.FC<{
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">
-              <Link to={RouterConfig.Routes.wrapEth} className="flex flex-row items-center justify-end gap-1" target="_blank" rel="noopener noreferrer">
+              <Link
+                to={RouterConfig.Routes.wrapEth}
+                className="flex flex-row items-center justify-end gap-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Typography type="bold2" className="text-right">
                   To wrap ETH, click here
                 </Typography>
@@ -136,34 +153,24 @@ const StrategyFormLocal: React.FC<{
             protocolMaxValue={maxUserDepositData}
             name="amount"
           />
-          <RHFInputSliderField name="k" max={2} min={0} />
         </FlexCol>
 
         <FlexCol className="gap-4">
           <FlexRow className="justify-between pr-2">
             <Typography type="bold3">Target Multiple</Typography>
-            <DisplayTargetMultiple
-              typography="bold3"
-              {...restTargetMultiple}
-              {...targetMultipleData}
-            />
+            <DisplayTargetMultiple typography="bold3" {...restTargetMultiple} {...targetMultipleData} />
           </FlexRow>
-          {/* <FlexCol>
-            <RHFInputSliderField name="test" min="0" max="2" enabledMax={0} />
-            <FlexRow className="justify-between pl-1">
-              <Typography type="medium3">3x</Typography>
-              <Tooltip tooltip="Coming soon. . .">
-                <Typography type="medium3">5x</Typography>
-              </Tooltip>
-              <Tooltip tooltip="Coming soon. . .">
-                <Typography type="medium3">10x</Typography>
-              </Tooltip>
-            </FlexRow>
-          </FlexCol> */}
+          <FlexCol>
+            <RHFStrategySelector
+              strategies={subStrategyData}
+              name="sliderValue"
+              strategyAddressFieldName="subStrategyAddress"
+            />
+          </FlexCol>
         </FlexCol>
 
         {asset && <Summary asset={asset} previewDepositData={previewDepositData} />}
-        <FormButtons strategy={strategy} onTransaction={onTransaction} />
+        <FormButtons strategy={strategy} subStrategyAddress={subStrategyAddress} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>
   );
