@@ -8,12 +8,10 @@ import {
   ConnectWalletRainbowWrapperMobile,
   useLifiWidgetContext,
   Typography,
-  CBSubscribeButton,
   FlexRow,
 } from "@shared";
 import { LegacyModeButton } from "./LegacyMoreButton";
 import { MoreButton, moreMenuItems } from "./MoreButton";
-import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
 import { BlueCoinbaseConnectWalletButton } from "../BlueCoinbaseConnectWalletButton";
 
 const navigation = [
@@ -84,9 +82,6 @@ const NavBar: React.FC<{
           </div>
         </FlexRow>
         <FlexRow className="justify-end gap-1 md:gap-4 items-center px-2">
-          <span className="">
-            {typeof window !== "undefined" && <CBSubscribeButton config={{ ...CbSubscribeConfig }} />}
-          </span>
           <div className="md:block hidden">
             <FlexRow className="items-center gap-2">
               <BlueCoinbaseConnectWalletButton />

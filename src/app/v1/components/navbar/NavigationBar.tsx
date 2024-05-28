@@ -12,14 +12,12 @@ import {
 import SeamlessLogo from "@assets/logos/logo-seamless.svg";
 import { RouterConfig } from "@router";
 import {
-  CBSubscribeButton,
   ConnectWalletRainbowWrapper,
   ConnectWalletRainbowWrapperMobile,
   useLifiWidgetContext,
   FlexRow,
   Typography,
 } from "@shared";
-import { CbSubscribeConfig } from "../../../config/cb-subscribe.config";
 
 const navigation = [
   {
@@ -148,9 +146,6 @@ const NavBar: React.FC<{
           </div>
         </FlexRow>
         <FlexRow className="justify-end gap-1 md:gap-4 items-center px-2">
-          <span className="">
-            {typeof window !== "undefined" && <CBSubscribeButton config={{ ...CbSubscribeConfig }} />}
-          </span>
           <div className="md:block hidden">
             <ConnectWalletRainbowWrapper />
           </div>
