@@ -8,7 +8,7 @@ export interface FormSettingsContextType {
   asset?: Address;
   setAsset: (asset: Address) => void;
   subStrategy?: Address;
-  setSubStrategy: (asset: Address) => void;
+  setSubStrategy: (asset?: Address) => void;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
   isStrategy?: boolean;
@@ -19,6 +19,7 @@ export const FormSettingsContext = createContext<FormSettingsContextType | undef
 interface FormSettingsProviderProps {
   children: ReactNode;
   defaultAsset?: Address;
+  defaultSubStrategy?: Address;
   onTransaction?: () => void;
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
@@ -29,6 +30,7 @@ interface FormSettingsProviderProps {
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   children,
   defaultAsset,
+  defaultSubStrategy,
   onTransaction,
   hideTag,
   overrideUrlSlug,
@@ -36,7 +38,7 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
 }) => {
   const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
   const [asset, setAsset] = useState<Address | undefined>(defaultAsset);
-  const [subStrategy, setSubStrategy] = useState<Address | undefined>(undefined);
+  const [subStrategy, setSubStrategy] = useState<Address | undefined>(defaultSubStrategy);
   const [isStrategy, setIsStrategy] = useState(false);
 
   useEffect(() => {

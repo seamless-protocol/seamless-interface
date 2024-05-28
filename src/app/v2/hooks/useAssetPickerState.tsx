@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useQueryParam } from "use-query-params";
 import { Address } from "viem";
 
@@ -11,7 +10,9 @@ export interface AssetPickerStateHookProps {
   overrideUrlSlug?: OverrideUrlSlug;
 }
 
-export const useAssetPickerState = ({ overrideUrlSlug }: AssetPickerStateHookProps): {
+export const useAssetPickerState = ({
+  overrideUrlSlug,
+}: AssetPickerStateHookProps): {
   asset?: Address;
   isStrategy: boolean;
   setAsset: (newValue: string | undefined) => void;
@@ -28,18 +29,4 @@ export const useAssetPickerState = ({ overrideUrlSlug }: AssetPickerStateHookPro
     setAsset,
     setIsStrategy: setIsStrategyQueryParam,
   };
-};
-
-export const useClearAssetPickerStateOnLeave = ({
-  overrideUrlSlug = {
-    asset: "asset",
-    isStrategy: "isStrategy",
-  },
-}: AssetPickerStateHookProps) => {
-  const { setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
-
-  useEffect(() => {
-    setAsset(undefined);
-    setIsStrategy(undefined);
-  }, []);
 };

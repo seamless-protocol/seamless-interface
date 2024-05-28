@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 
-export const useMutateDepositStrategy = (id: number, subStrategyAddress: Address) => {
+export const useMutateDepositStrategy = (id: number, subStrategyAddress?: Address) => {
   // meta data
   const { address } = useAccount();
 
@@ -31,6 +31,11 @@ export const useMutateDepositStrategy = (id: number, subStrategyAddress: Address
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
+    if (!subStrategyAddress) {
+      // eslint-disable-next-line no-console
+      console.warn("subStrategyAddress is undefined.");
+      return;
+    }
     // todo: bugfix fetch sharesToReceive here instead of using it from props to avoid race condition bug.
     await writeContractAsync(
       {

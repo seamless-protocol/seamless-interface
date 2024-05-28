@@ -25,7 +25,7 @@ const SummaryLocal: React.FC<{
   strategy: StrategyConfig;
   previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ previewDepositData }) => {
-  const { asset } = useFormSettingsContext();
+  const { subStrategy } = useFormSettingsContext();
 
   return (
     <FlexCol className="rounded-card bg-background-selected p-6 gap-4 cursor-default">
@@ -33,7 +33,7 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <StrategyApy asset={asset} className="text-navy-1000" typography="medium2" />}
+        {subStrategy && <StrategyApy asset={subStrategy} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount

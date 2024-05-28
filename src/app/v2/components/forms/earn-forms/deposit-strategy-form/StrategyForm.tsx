@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
-import {
-  findILMStrategyByAddress,
-  ilmAssetStrategiesMap,
-  StrategyConfig,
-} from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
@@ -22,17 +18,15 @@ import {
   WatchAssetComponentv2,
   MyFormProvider,
   useToken,
-  DisplayTargetMultiple,
   FlexRow,
-  RHFStrategySelector,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { Address } from "viem";
+import { RHFStrategySelector } from "./RHFStrategySelector";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -57,20 +51,15 @@ interface FormData {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyConfig;
 }> = ({ strategy }) => {
-  const subStrategyData = ilmAssetStrategiesMap.get(strategy.underlyingAsset.address);
-  const { data: targetMultipleData, ...restTargetMultiple } = useFetchViewTargetMultiple(strategy.address);
-
-  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
+  const { asset, onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const methods = useForm<FormData>({
     defaultValues: {
       amount: "",
       sliderValue: 0,
-      subStrategyAddress: subStrategyData?.[0].address,
     },
   });
   const { handleSubmit, watch, reset } = methods;
   const amount = watch("amount", "");
-  const subStrategyAddress = watch("subStrategyAddress");
 
   const { showNotification } = useNotificationContext();
 
@@ -78,7 +67,7 @@ const StrategyFormLocal: React.FC<{
     data: { symbol: strategySymbol },
   } = useToken(strategy.address);
 
-  const { depositAsync } = useMutateDepositStrategy(strategy.id, subStrategyAddress);
+  const { depositAsync } = useMutateDepositStrategy(strategy.id, subStrategy);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategy?.underlyingAsset.address || ""],
@@ -155,22 +144,10 @@ const StrategyFormLocal: React.FC<{
           />
         </FlexCol>
 
-        <FlexCol className="gap-4">
-          <FlexRow className="justify-between pr-2">
-            <Typography type="bold3">Target Multiple</Typography>
-            <DisplayTargetMultiple typography="bold3" {...restTargetMultiple} {...targetMultipleData} />
-          </FlexRow>
-          <FlexCol>
-            <RHFStrategySelector
-              strategies={subStrategyData}
-              name="sliderValue"
-              strategyAddressFieldName="subStrategyAddress"
-            />
-          </FlexCol>
-        </FlexCol>
+        <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
         {asset && <Summary asset={asset} previewDepositData={previewDepositData} />}
-        <FormButtons strategy={strategy} subStrategyAddress={subStrategyAddress} onTransaction={onTransaction} />
+        <FormButtons strategy={strategy} subStrategyAddress={subStrategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>
   );
