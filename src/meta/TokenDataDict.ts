@@ -10,6 +10,8 @@ import {
   DEGEN_ADDRESS,
   SEAM_ADDRESS,
   ethLong,
+  AERO_ADDRESS,
+  BRETT_ADDRESS,
 } from "./constants";
 import { Address } from "viem";
 
@@ -23,6 +25,8 @@ import daiLogo from "@assets/tokens/dai.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import degenLogo from "@assets/tokens/degen.svg";
 import seamLogo from "@assets/tokens/seam.svg";
+import aeroLogo from "@assets/tokens/aero.svg";
+import brettLogo from "@assets/tokens/brett.svg";
 
 interface ITokenDataDict {
   [address: Address]: {
@@ -68,5 +72,11 @@ export const TokenDataDict: ITokenDataDict = {
   },
   [SEAM_ADDRESS]: {
     logo: seamLogo,
+  },
+  [AERO_ADDRESS]: {
+    logo: aeroLogo,
+  },
+  [BRETT_ADDRESS]: {
+    logo: brettLogo,
   },
 };

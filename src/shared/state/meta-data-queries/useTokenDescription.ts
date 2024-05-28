@@ -1,5 +1,7 @@
 import { Address } from "viem";
 import {
+  AERO_ADDRESS,
+  BRETT_ADDRESS,
   CBETH_ADDRESS,
   DAI_ADDRESS,
   DEGEN_ADDRESS,
@@ -72,6 +74,16 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyTitle: "Multiply Degen staking rewards",
     description:
       "DEGEN is dubbed as the unofficial token created for the Farcaster community, a decentralized social network.",
+  },
+  [AERO_ADDRESS]: {
+    lendingTitle: "Supply AERO",
+    strategyTitle: "Multiply AERO staking rewards",
+    description: "AERO is a central trading and liquidity marketplace on Base.",
+  },
+  [BRETT_ADDRESS]: {
+    lendingTitle: "Supply BRETT",
+    strategyTitle: "Multiply BRETT staking rewards",
+    description: "BRETT is PEPE's best friend on Base.",
   },
 };
 

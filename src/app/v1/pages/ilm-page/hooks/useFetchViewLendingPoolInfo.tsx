@@ -1,11 +1,14 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../../generated/generated";
 import { useReadContracts } from "wagmi";
-import { baseAssets } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
+import { mergeQueryStates } from "@shared";
+import { baseAssets, getBaseAssetConfig } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
+import { useFetchRawReservesData } from "../../../../state/lending-borrowing/queries/useFetchRawReservesData";
 import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
 import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
+import { useMemo } from "react";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd: FetchBigInt;
@@ -14,35 +17,41 @@ interface LendingPoolInfo {
 }
 
 function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
-  const multicallParams = baseAssets.flatMap((asset) => [
-    {
-      address: asset.sTokenAddress,
-      abi: erc20Abi,
-      functionName: "totalSupply",
-    },
-    {
-      address: asset.debtTokenAddress,
-      abi: erc20Abi,
-      functionName: "totalSupply",
-    },
-    {
-      address: aaveOracleAddress,
-      abi: aaveOracleAbi,
-      functionName: "getAssetPrice",
-      args: [asset.address],
-    },
-    {
-      address: asset.address,
-      abi: erc20Abi,
-      functionName: "decimals",
-    },
-  ]);
+  const { data: reservesData, ...restReservesData } = useFetchRawReservesData();
+
+  const multicallParams = useMemo(
+    () =>
+      reservesData?.[0]?.flatMap((asset) => [
+        {
+          address: asset.aTokenAddress,
+          abi: erc20Abi,
+          functionName: "totalSupply",
+        },
+        {
+          address: asset.variableDebtTokenAddress,
+          abi: erc20Abi,
+          functionName: "totalSupply",
+        },
+        {
+          address: aaveOracleAddress,
+          abi: aaveOracleAbi,
+          functionName: "getAssetPrice",
+          args: [asset.underlyingAsset],
+        },
+        {
+          address: asset.underlyingAsset,
+          abi: erc20Abi,
+          functionName: "decimals",
+        },
+      ]),
+    [reservesData]
+  );
 
   const { data: results, ...rest } = useReadContracts({
     contracts: multicallParams,
   });
 
-  const coinGeckoPrices: bigint[] = [];
+  const coinGeckoPrices: { [address: string]: bigint } = {};
   let coinGeckoAllIsFetched = true;
   let coinGeckoAllIsLoading = false;
 
@@ -60,30 +69,34 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
       precision: 8,
       enabled,
     });
-    coinGeckoPrices.push(price || 0n);
+    coinGeckoPrices[baseAssets[i].address] = price || 0n;
     coinGeckoAllIsFetched = coinGeckoAllIsFetched && (coinGeckoIsFetched || !enabled);
     coinGeckoAllIsLoading = coinGeckoAllIsLoading || coinGeckoIsLoading;
   }
 
-  let totalSuppliedUsd = 0n;
-  let totalBorrowedUsd = 0n;
-  if (results && coinGeckoAllIsFetched) {
-    for (let i = 0; i < results.length; i += 4) {
-      const totalSupplied = BigInt(results[i].result || 0);
-      const totalBorrowed = BigInt(results[i + 1].result || 0);
-      const assetPrice = baseAssets[i / 4].useCoinGeckoPrice
-        ? coinGeckoPrices[i / 4]
-        : BigInt(results[i + 2].result || 0);
-      const assetDecimals = Number(results[i + 3].result || 0);
+  const [totalSuppliedUsd, totalBorrowedUsd] = useMemo(() => {
+    let totalSuppliedUsd = 0n;
+    let totalBorrowedUsd = 0n;
+    if (results && coinGeckoAllIsFetched) {
+      for (let i = 0; i < results.length; i += 4) {
+        const { underlyingAsset } = reservesData![0][i / 4]!;
+        const totalSupplied = BigInt((results[i].result as bigint) || 0);
+        const totalBorrowed = BigInt((results[i + 1].result as bigint) || 0);
+        const assetPrice = getBaseAssetConfig(underlyingAsset)?.useCoinGeckoPrice
+          ? coinGeckoPrices[underlyingAsset]
+          : BigInt((results[i + 2].result as bigint) || 0);
+        const assetDecimals = Number(results[i + 3].result || 0);
 
-      totalSuppliedUsd += (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
+        totalSuppliedUsd += (totalSupplied * assetPrice) / BigInt(10 ** assetDecimals);
 
-      totalBorrowedUsd += (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
+        totalBorrowedUsd += (totalBorrowed * assetPrice) / BigInt(10 ** assetDecimals);
+      }
     }
-  }
+    return [totalSuppliedUsd, totalBorrowedUsd];
+  }, [results, reservesData, coinGeckoPrices, coinGeckoAllIsFetched]);
 
   return {
-    ...rest,
+    ...mergeQueryStates([rest, restReservesData]),
     data: {
       totalMarketSizeUsd: {
         bigIntValue: totalSuppliedUsd,

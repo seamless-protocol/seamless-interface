@@ -59,7 +59,7 @@ export const WithdrawModal = ({ id, ...buttonProps }: WithdrawModalProps) => {
     },
   });
   const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount");
+  const amount = watch("amount", "");
   const { debouncedAmount, debouncedAmountInUsd } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
   const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(id, debouncedAmount);

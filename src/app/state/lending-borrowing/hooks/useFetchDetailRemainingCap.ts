@@ -3,12 +3,19 @@ import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice"
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
-import { mergeQueryStates, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, fFetchBigIntStructured, fUsdValueStructured } from "../../../../shared";
+import {
+  mergeQueryStates,
+  Displayable,
+  formatFetchBigIntToViewBigInt,
+  ViewBigInt,
+  fFetchBigIntStructured,
+  fUsdValueStructured,
+} from "../../../../shared";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
   if (supplyCapValue == null || totalSuppliedValue == null) return undefined;
-  return totalSuppliedValue - supplyCapValue;
+  return supplyCapValue - totalSuppliedValue;
 };
 
 interface RemainingCap {
