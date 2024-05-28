@@ -31,8 +31,8 @@ const connectors = connectorsForWallets(
           // todo double check () =>
           coinbaseWallet({
             appName: "Seamless Protocol",
-            preference: "smartWalletOnly",
-          } as any), // todo preference type missing?
+            appIcon: logoSeamless,
+          }),
       ],
     },
     {
