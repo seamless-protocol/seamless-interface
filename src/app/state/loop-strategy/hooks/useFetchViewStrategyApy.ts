@@ -22,14 +22,17 @@ export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: b
   return ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100;
 }
 
-export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> => {
+export const useFetchStrategyApy = (strategy?: Address): FetchData<FetchNumber> => {
   const { data: latestBlockData, ...latestBlockRest } = useBlock();
+
+  const enabled = !!latestBlockData?.number;
+  const blockNumber = enabled ? latestBlockData.number - APY_BLOCK_FRAME : undefined;
+
   const { data: prevBlockData, ...prevBlockRest } = useBlock({
-    query: { enabled: !!latestBlockData },
-    blockNumber: latestBlockData && latestBlockData?.number - APY_BLOCK_FRAME,
+    query: { enabled },
+    blockNumber,
   });
 
-  // todo update enabled everywhere(in hooks)
   const { data: strategyAssets, ...strategyAssetsRest } = useFetchStrategyAssets(strategy);
   const { data: shareValueInLatestBlock, ...latestBlockShareValueRest } = useFetchAssetPriceInBlock(
     strategy,
@@ -44,16 +47,12 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
 
   // todo refactor this
   const apy =
-    latestBlockData?.timestamp &&
-      prevBlockData?.timestamp &&
-      shareValueInLatestBlock?.bigIntValue &&
-      shareValueInPrevBlock?.bigIntValue
+    latestBlockData?.timestamp && prevBlockData?.timestamp && shareValueInLatestBlock && shareValueInPrevBlock
       ? calculateApy(
-        shareValueInLatestBlock.bigIntValue,
-        shareValueInPrevBlock.bigIntValue,
-        // todo fix this
-        latestBlockData?.timestamp - prevBlockData?.timestamp
-      )
+          shareValueInLatestBlock.bigIntValue,
+          shareValueInPrevBlock.bigIntValue,
+          latestBlockData.timestamp - prevBlockData.timestamp
+        )
       : 0;
 
   return {
@@ -71,7 +70,7 @@ export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> =
   };
 };
 
-export const useFetchViewStrategyApy = (strategy: Address): Displayable<ViewNumber> => {
+export const useFetchViewStrategyApy = (strategy?: Address): Displayable<ViewNumber> => {
   const { data, ...rest } = useFetchStrategyApy(strategy);
 
   return { ...rest, data: formatFetchNumberToViewNumber(data) };

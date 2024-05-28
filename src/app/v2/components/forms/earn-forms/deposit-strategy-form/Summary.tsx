@@ -33,7 +33,7 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <StrategyApy asset={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <StrategyApy strategy={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount

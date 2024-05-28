@@ -20,7 +20,13 @@ import { App as AppV2 } from "./app/v2/App";
 import { IS_STYLE_VERSION_2 } from "./globals";
 import { myRainbowkitThemeConfigV2 } from "./app/v2/config/rainbow-modal.config";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

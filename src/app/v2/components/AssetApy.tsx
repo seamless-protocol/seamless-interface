@@ -1,11 +1,10 @@
 import React from "react";
 import { Address } from "viem";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { DisplayPercentage, DisplayPercentageProps, DisplayText, FlexRow, Tooltip, Typography } from "@shared";
+import { DisplayPercentage, DisplayPercentageProps, FlexRow, Tooltip, Typography } from "@shared";
 import { useFetchViewSupplyApy } from "../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
-import { useFetchViewStrategyApy } from "../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { StrategyData, ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
-import { WETH_ADDRESS } from "../../../meta";
+import { useFetchViewMaxStrategyApy } from "../../state/loop-strategy/hooks/useFetchViewMaxStrategyApy";
+import { ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
 
 interface AssetApyProps extends DisplayPercentageProps {
   asset: Address;
@@ -14,21 +13,14 @@ interface AssetApyProps extends DisplayPercentageProps {
 }
 
 interface StrategyApyProps extends DisplayPercentageProps {
-  asset: Address;
+  strategy: Address;
   showWarning?: boolean;
 }
 
-export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = true, ...rest }) => {
-  const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
-  // todo remove 0x1
-  const {
-    data: apy,
-    ...restStrategyApy
-  } = useFetchViewStrategyApy(strategies ? strategies[strategies?.length - 1].address : "0x1");
+export const StrategyApy: React.FC<StrategyApyProps> = ({ strategy, showWarning = true, ...rest }) => {
+  const { data: apy, ...restStrategyApy } = useFetchViewMaxStrategyApy(strategy);
 
-  if (asset === WETH_ADDRESS) {
-    return <DisplayText {...restStrategyApy} {...rest} text="Up to 1.5x" />
-  }
+  const strategiesData = strategy ? ilmAssetStrategiesMap.get(strategy) || [] : [];
 
   if (showWarning && apy.value === 0 && !restStrategyApy.isLoading && restStrategyApy.isFetched) {
     return (
@@ -44,7 +36,7 @@ export const StrategyApy: React.FC<StrategyApyProps> = ({ asset, showWarning = t
   return (
     <DisplayPercentage
       {...restStrategyApy}
-      viewValue={apy?.value === 0 ? "~" : apy?.viewValue}
+      viewValue={`${strategiesData?.length > 1 ? "Up to " : ""}${apy?.value === 0 ? "~" : apy?.viewValue}`}
       symbol={apy?.symbol}
       {...rest}
     />
@@ -65,5 +57,5 @@ export const LendingApy: React.FC<LandingApyProps> = ({ asset, ...rest }) => {
 };
 
 export const AssetApy: React.FC<AssetApyProps> = ({ asset, isStrategy, ...rest }) => {
-  return isStrategy ? <StrategyApy asset={asset} {...rest} /> : <LendingApy asset={asset} {...rest} />;
+  return isStrategy ? <StrategyApy strategy={asset} {...rest} /> : <LendingApy asset={asset} {...rest} />;
 };

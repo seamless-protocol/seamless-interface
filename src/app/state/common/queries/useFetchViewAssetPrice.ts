@@ -15,7 +15,7 @@ export interface AssetPrice {
   price: FetchBigInt;
 }
 
-const fetchAssetPriceInBlock = async (
+export const fetchAssetPriceInBlock = async (
   config: Config,
   asset?: Address,
   blockNumber?: bigint,
@@ -71,7 +71,6 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? Infinity : undefined,
     enabled: !!asset,
   });
 
