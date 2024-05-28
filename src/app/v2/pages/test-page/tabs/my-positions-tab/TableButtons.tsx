@@ -9,9 +9,8 @@ import { WithdrawForm } from "../../../../components/forms/withdraw-forms/withdr
 
 export const TableButtons: React.FC<{
   asset: Address;
-  subStrategy?: Address;
   isStrategy: boolean;
-}> = ({ asset, subStrategy, isStrategy }) => {
+}> = ({ asset, isStrategy }) => {
   const addModal = useRef<ModalHandles>(null);
   const removeModal = useRef<ModalHandles>(null);
 
@@ -28,7 +27,6 @@ export const TableButtons: React.FC<{
         <div className="mt-[-60px]">
           <FormSettingsProvider
             defaultAsset={asset}
-            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               addModal.current?.close();
             }}
@@ -51,7 +49,6 @@ export const TableButtons: React.FC<{
         <div className="mt-[-60px]">
           <FormSettingsProvider
             defaultAsset={asset}
-            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               removeModal.current?.close();
             }}
