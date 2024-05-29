@@ -71,7 +71,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? Infinity : undefined,
+    staleTime: blockNumber ? 60 * 1000 : undefined,
     enabled: !!asset,
   });
 
