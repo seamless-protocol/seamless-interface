@@ -95,14 +95,14 @@ export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
           symbol: "x",
         },
       },
-      {
-        // test address, replace with real one
-        address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8zzz",
-        targetMultiple: {
-          value: 5,
-          symbol: "x",
-        },
-      },
+      // {
+      //   // test address, replace with real one
+      //   address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8zzz",
+      //   targetMultiple: {
+      //     value: 5,
+      //     symbol: "x",
+      //   },
+      // },
     ],
   ],
   [
