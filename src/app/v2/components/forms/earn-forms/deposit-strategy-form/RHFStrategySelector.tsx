@@ -50,12 +50,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
           render={({ field }) => {
             return (
               <>
-                <RHFInputSliderField
-                  {...field}
-                  min="0"
-                  max={strategies.length - 1}
-                  enabledMax={strategies.length - 1}
-                />
+                <RHFInputSliderField {...field} min="0" max={strategies.length - 1} />
                 <FlexRow className="justify-between pl-1 mt-[-20px]">
                   {strategies.map((strategy) => (
                     <Typography key={strategy.address} type="medium3">
