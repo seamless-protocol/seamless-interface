@@ -6,8 +6,7 @@ import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
 import { mergeQueryStates } from "@shared";
-import { useQuery } from "@tanstack/react-query";
-import { semiSensitiveDataQueryConfig } from "../../settings/config";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { rainbowConfig } from "../../../config/rainbow.config";
 import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { StrategyAsset } from "../metadataQueries/useFetchStrategiesAssets";
@@ -47,12 +46,32 @@ export async function fetchStrategyApy(
     strategyAssets?.debt
   );
 
+  if (shareValueInLatestBlock == null || shareValueInPrevBlock == null) return undefined;
+
   return calculateApy(
-    shareValueInLatestBlock || 0n,
-    shareValueInPrevBlock || 0n,
+    shareValueInLatestBlock,
+    shareValueInPrevBlock,
     BigInt(latestBlockData.timestamp - prevBlockData.timestamp)
   );
 }
+
+export const fetchStrategyApyQueryOptions = ({
+  strategy,
+  latestBlockData,
+  prevBlockData,
+  assetsData,
+}: {
+  strategy?: Address;
+  latestBlockData?: any;
+  prevBlockData?: any;
+  assetsData?: StrategyAsset;
+}) => {
+  return queryOptions({
+    queryKey: ["strategyApy", strategy],
+    queryFn: () => fetchStrategyApy(strategy!, latestBlockData, prevBlockData, assetsData),
+    enabled: !!latestBlockData && !!prevBlockData && !!assetsData && !!strategy,
+  });
+};
 
 export const useFetchStrategyApy = (strategy?: Address): FetchData<FetchNumber> => {
   const { data: latestBlockData, ...latestBlockRest } = useBlock();
@@ -67,12 +86,14 @@ export const useFetchStrategyApy = (strategy?: Address): FetchData<FetchNumber> 
 
   const { data: strategyAssets, ...strategyAssetsRest } = useFetchStrategyAssets(strategy);
 
-  const result = useQuery({
-    queryKey: ["strategyApy", strategy],
-    queryFn: () => fetchStrategyApy(strategy!, latestBlockData, prevBlockData, strategyAssets),
-    enabled: !!latestBlockData && !!prevBlockData && !!strategy && !!strategyAssets,
-    ...semiSensitiveDataQueryConfig, // is this okay to start using?
-  });
+  const result = useQuery(
+    fetchStrategyApyQueryOptions({
+      strategy,
+      latestBlockData,
+      prevBlockData,
+      assetsData: strategyAssets,
+    })
+  );
 
   return {
     ...mergeQueryStates([latestBlockRest, prevBlockRest, strategyAssetsRest, result]),

@@ -7,8 +7,7 @@ import { useFetchStrategiesAssets } from "../metadataQueries/useFetchStrategiesA
 import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { useQueries } from "@tanstack/react-query";
 import { mergeQueryStates } from "@shared";
-import { semiSensitiveDataQueryConfig } from "../../settings/config";
-import { fetchStrategyApy } from "./useFetchViewStrategyApy";
+import { fetchStrategyApyQueryOptions } from "./useFetchViewStrategyApy";
 
 export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: latestBlockData } = useBlock();
@@ -20,12 +19,14 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(strategiesData.map((s) => s.address));
 
   const queryResults = useQueries({
-    queries: strategiesData.map((strategy) => ({
-      queryKey: ["strategyApy", strategy.address],
-      queryFn: () => fetchStrategyApy(strategy.address, latestBlockData, prevBlockData, assetsData[strategy.address]),
-      enabled: !!latestBlockData && !!prevBlockData && !!strategy.address && !!assetsData[strategy.address],
-      ...semiSensitiveDataQueryConfig, // is this okay to start using?
-    })),
+    queries: strategiesData.map((strategy) =>
+      fetchStrategyApyQueryOptions({
+        strategy: strategy?.address,
+        latestBlockData,
+        prevBlockData,
+        assetsData: assetsData[strategy?.address],
+      })
+    ),
   });
 
   const maxApy = queryResults.reduce((max, result) => {
