@@ -10,7 +10,7 @@ import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPr
 import { rainbowConfig } from "../../../config/rainbow.config";
 import { useQueries } from "@tanstack/react-query";
 import { mergeQueryStates } from "@shared";
-import { semiSensitivedataQueryConfig } from "../../settings/config";
+import { semiSensitiveDataQueryConfig } from "../../settings/config";
 
 async function fetchStrategyApy(
   strategy: StrategyData,
@@ -53,7 +53,7 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
       queryKey: ["strategyApy", strategy.address],
       queryFn: () => fetchStrategyApy(strategy, latestBlockData, prevBlockData, assetsData[strategy.address]),
       enabled: !!latestBlockData && !!prevBlockData && !!strategy.address && !!assetsData[strategy.address],
-      ...semiSensitivedataQueryConfig, // is this okay to start using?
+      ...semiSensitiveDataQueryConfig, // is this okay to start using?
     })),
   });
 
