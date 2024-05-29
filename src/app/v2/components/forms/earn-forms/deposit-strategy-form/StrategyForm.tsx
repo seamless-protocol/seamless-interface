@@ -25,7 +25,6 @@ import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { Address } from "viem";
 import { RHFStrategySelector } from "./RHFStrategySelector";
 
 export const StrategyForm = () => {
@@ -45,7 +44,6 @@ export const StrategyForm = () => {
 interface FormData {
   amount: string;
   sliderValue: number;
-  subStrategyAddress: Address;
 }
 
 const StrategyFormLocal: React.FC<{
