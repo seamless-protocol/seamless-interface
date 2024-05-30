@@ -3,7 +3,10 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import {
+  findILMStrategyByAddress,
+  ilmAssetStrategiesMap,
+} from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
@@ -17,6 +20,7 @@ import { CapRemaining } from "./CapRemaining";
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
+  const strategiesData = asset ? ilmAssetStrategiesMap.get(asset) || [] : [];
 
   const strategy = findILMStrategyByAddress(asset);
 
@@ -78,10 +82,13 @@ export const Heading = () => {
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
               <FlexRow className="gap-2">
-                <Typography type="regular3">Est. APY</Typography>
+                {strategiesData?.length > 1 && isStrategy ? (
+                  <Typography type="regular3">APY, Up To</Typography>
+                ) : (
+                  <Typography type="regular3">Est. APY</Typography>
+                )}
                 {isStrategy && (
                   <Tooltip
-                    openOnClick
                     tooltip={
                       <Typography type="description">
                         30 day moving average denominated in {strategy?.debtAsset.symbol}

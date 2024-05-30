@@ -8,7 +8,7 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { ConnectButtonProvider, FallbackPage, FlexCol, PageNotFound } from "@shared";
+import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { TestPage } from "./pages/test-page/TestPage";
@@ -27,10 +27,12 @@ export function App() {
             <NavigationBar />
           </ConnectButtonProvider>
           <FlexCol className="min-h-screen">
-            <SentryRoutes>
-              <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
-              <Route path="*" element={<PageNotFound />} />
-            </SentryRoutes>
+            <NotificationProvider>
+              <SentryRoutes>
+                <Route path={RouterConfig.Routes.markets} element={<TestPage />} />
+                <Route path="*" element={<PageNotFound />} />
+              </SentryRoutes>
+            </NotificationProvider>
             <Footer />
           </FlexCol>
         </QueryParamProvider>

@@ -5,11 +5,10 @@ import { AssetApy } from "./AssetApy";
 import { TokenDescriptionDict, getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { findILMStrategyByAddress } from "../../state/loop-strategy/config/StrategyConfig";
+import { findILMStrategyByAddress, ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
 import { getBaseAssetConfig } from "../../state/lending-borrowing/config/BaseAssetsConfig";
-
 
 export interface AssetCardProps {
   address: Address;
@@ -22,6 +21,7 @@ export interface AssetCardProps {
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
   const strategyIcon = isStrategy && findILMStrategyByAddress(address)?.logo;
+  const strategiesData = address ? ilmAssetStrategiesMap.get(address) || [] : [];
 
   const {
     data: { logo: icon, name, symbol },
@@ -29,7 +29,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
   const assetConfig = getBaseAssetConfig(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
-
 
   return (
     <div
@@ -54,7 +53,14 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
-          <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
+          <FlexCol className="gap-1">
+            {strategiesData?.length > 1 && isStrategy && (
+              <Typography type="bold" className="text-end">
+                Up To
+              </Typography>
+            )}
+            <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
+          </FlexCol>
           {!isStrategy && (
             <IncentivesButton {...supplyIncentives} {...supplyRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
