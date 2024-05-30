@@ -54,7 +54,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
           <FlexCol className="gap-1">
-            {strategiesData?.length > 1 && (
+            {strategiesData?.length > 1 && isStrategy && (
               <Typography type="bold" className="text-end">
                 Up To
               </Typography>

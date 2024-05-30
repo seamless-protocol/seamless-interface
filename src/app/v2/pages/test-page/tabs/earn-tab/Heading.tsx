@@ -82,7 +82,7 @@ export const Heading = () => {
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
               <FlexRow className="gap-2">
-                {strategiesData?.length > 1 ? (
+                {strategiesData?.length > 1 && isStrategy ? (
                   <Typography type="regular3">APY, Up To</Typography>
                 ) : (
                   <Typography type="regular3">Est. APY</Typography>
