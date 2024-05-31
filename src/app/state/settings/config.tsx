@@ -50,7 +50,7 @@ import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
 
-export const assets: { [key: Address]: Asset } = {
+export const assetsConfig: { [key: Address]: Asset } = {
   [WETH_ADDRESS]: {
     name: "Ethereum",
     address: WETH_ADDRESS,
@@ -173,14 +173,14 @@ export const assets: { [key: Address]: Asset } = {
 export const wstETHBooster_ADDRESS_STRATEGY_ID = "0x0c4B148408fa99002477aD4cD7926Cf852F9DD27";
 export const multiplyETH_ADDRESS_STRATEGY_ID = "0x8504d76bca9745EF54F927C95D8f1A427853F305";
 
-export const strategies: { [key: Address]: Strategy } = {
+export const strategiesConfig: { [key: Address]: Strategy } = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: {
     name: "wstETH Booster",
     address: wstETHBooster_ADDRESS_STRATEGY_ID,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
-    underlyingAsset: assets[WSTETH_ADDRESS],
-    debtAsset: assets[WETH_ADDRESS],
+    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
     subStrategyData: [
       {
         address: wstETHBooster_ADDRESS,
@@ -198,8 +198,8 @@ export const strategies: { [key: Address]: Strategy } = {
     name: "Multiply ETH Long",
     address: multiplyETH_ADDRESS_STRATEGY_ID,
     logo: ilmEthUsdcLogo,
-    underlyingAsset: assets[WETH_ADDRESS],
-    debtAsset: assets[USDC_ADDRESS],
+    underlyingAsset: assetsConfig[WETH_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
     subStrategyData: [
       {
         address: ethLong,

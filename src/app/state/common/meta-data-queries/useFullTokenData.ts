@@ -1,16 +1,15 @@
 import { Address, erc20Abi } from "viem";
-import { FetchData } from "../../types/Fetch";
-import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
+import { FetchData } from "../../../../shared/types/Fetch";
+import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
 import { TokenDataDict } from "@meta";
-import { metadataQueryConfig } from "../settings/config";
-import { mergeQueryStates } from "../../formatters/mergeQueryStates";
+import { metadataQueryConfig } from "../../../../shared/state/settings/config";
+import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
 
 export interface FullTokenData {
   symbol?: string;
   decimals?: number;
   logo?: string;
   name?: string;
-  shortName?: string;
 }
 
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTokenData> => {
