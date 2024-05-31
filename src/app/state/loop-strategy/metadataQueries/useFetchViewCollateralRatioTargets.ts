@@ -4,7 +4,7 @@ import { Displayable, fUsdValueStructured, useSeamlessContractRead } from "../..
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
-import { metadataQueryConfig } from "../../settings/config";
+import { metadataQueryConfig } from "../../settings/queryConfig";
 
 export interface CollateralRatioTargets {
   target: FetchBigInt | undefined;
