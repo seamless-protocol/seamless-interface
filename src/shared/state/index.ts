@@ -2,7 +2,8 @@
 // metadata queries //
 // **************** //
 export * from "./meta-data-queries/useToken";
-export * from "../../app/state/common/meta-data-queries/useFullTokenData";
+export * from "./meta-data-queries/useFullTokenData";
+export * from "./meta-data-queries/useTokenDescription";
 // ******* //
 // queries //
 // ******* //

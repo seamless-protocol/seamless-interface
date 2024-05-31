@@ -10,11 +10,15 @@ import {
   USDC_ADDRESS,
   WETH_ADDRESS,
   WSTETH_ADDRESS,
+  sDAI_ADDRESS,
+  sUSDC_ADDRESS,
+  sUSDbC_ADDRESS,
+  sWETH_ADDRESS,
+  scbETH_ADDRESS,
+  swstETH_ADDRESS,
+  wstETHBooster_ADDRESS,
 } from "@meta";
-
-export interface FullTokenData {
-  description?: string;
-}
+import { RouterConfig } from "@router";
 
 interface ITokenDescriptionDict {
   [address: Address]: {
@@ -23,6 +27,12 @@ interface ITokenDescriptionDict {
     strategyDescription?: string;
     description: string;
     secondaryStrategyTitle?: string;
+    externalLinks?: {
+      vaultsLink?: string;
+    }
+    strategyExternalLinks?: {
+      vaultsLink?: string;
+    }
   };
 }
 
@@ -34,6 +44,9 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
     strategyDescription:
       "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
     description: "Wrapped Ethereum (WETH) allows Ethereum to be traded & used directly in smart contracts.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(sWETH_ADDRESS)
+    }
   },
   [WSTETH_ADDRESS]: {
     lendingTitle: "Supply wstETH",
@@ -43,26 +56,44 @@ export const TokenDescriptionDict: ITokenDescriptionDict = {
       "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
     description:
       "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(swstETH_ADDRESS)
+    },
+    strategyExternalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS)
+    }
   },
   [CBETH_ADDRESS]: {
     lendingTitle: "Supply cbETH",
     strategyTitle: "Multiply cbETH staking rewards",
     description: "Coinbase ETH (cbETH) represents Ethereum staked through Coinbase, earning interest over time.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(scbETH_ADDRESS)
+    }
   },
   [USDBC_ADDRESS]: {
     lendingTitle: "Supply USDbC",
     strategyTitle: "Multiply USDbC staking rewards",
     description: "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(sUSDbC_ADDRESS)
+    }
   },
   [DAI_ADDRESS]: {
     lendingTitle: "Supply DAI",
     strategyTitle: "Multiply DAI staking rewards",
     description: "Dai is a decentralized, unbiased, collateral-backed cryptocurrency soft-pegged to the US Dollar.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(sDAI_ADDRESS)
+    }
   },
   [USDC_ADDRESS]: {
     lendingTitle: "Supply USDC",
     strategyTitle: "Multiply USDC staking rewards",
     description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
+    externalLinks: {
+      vaultsLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS)
+    }
   },
   [SEAM_ADDRESS]: {
     lendingTitle: "Supply SEAM",
