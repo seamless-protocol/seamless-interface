@@ -8,11 +8,12 @@ interface AdditionalData {
   description?: string;
 }
 
-interface AssetBase {
+export interface AssetBase {
   name?: string;
   symbol?: string;
-  address: Address;
+  address?: Address;
   logo?: string;
+  decimals?: number;
 
   additionalData?: AdditionalData;
 }

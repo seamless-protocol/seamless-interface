@@ -1,8 +1,9 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef } from "react";
-import { Modal, Icon, ModalHandles, useFullTokenData, Typography } from "@shared";
+import { Modal, Icon, ModalHandles, Typography } from "@shared";
 import { AssetPicker } from "./AssetPicker";
 import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
+import { useFullTokenData } from "../../state/common/meta-data-queries/useFullTokenData";
 
 export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
   const modalRef = useRef<ModalHandles | null>(null);

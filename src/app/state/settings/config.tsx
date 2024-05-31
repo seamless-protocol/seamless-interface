@@ -169,7 +169,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
   },
 };
 
-// generated online, only FE id
+// generated online, only FE unique ids
 export const wstETHBooster_ADDRESS_STRATEGY_ID = "0x0c4B148408fa99002477aD4cD7926Cf852F9DD27";
 export const multiplyETH_ADDRESS_STRATEGY_ID = "0x8504d76bca9745EF54F927C95D8f1A427853F305";
 

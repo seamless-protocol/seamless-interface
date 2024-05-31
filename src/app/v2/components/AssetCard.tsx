@@ -1,14 +1,14 @@
-import { FlexRow, FlexCol, Typography, Icon, useFullTokenData } from "@shared";
+import { FlexRow, FlexCol, Typography, Icon } from "@shared";
 import { Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
 import { TokenDescriptionDict, getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { findILMStrategyByAddress, ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
-import { getBaseAssetConfig } from "../../state/lending-borrowing/config/BaseAssetsConfig";
+import { useFullTokenData } from "src/app/state/common/meta-data-queries/useFullTokenData";
+import { useAssetsContext } from "@state";
 
 export interface AssetCardProps {
   address: Address;
@@ -20,13 +20,10 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
-  const strategyIcon = isStrategy && findILMStrategyByAddress(address)?.logo;
-  const strategiesData = address ? ilmAssetStrategiesMap.get(address) || [] : [];
-
+  const { getHasMultipleAPYs, getAssetIsGauntletOptimized, getAssetTag } = useAssetsContext();
   const {
-    data: { logo: icon, name, symbol },
+    data: { logo, name, symbol },
   } = useFullTokenData(address);
-  const assetConfig = getBaseAssetConfig(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
 
@@ -37,7 +34,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
-          <Icon width={40} src={strategyIcon || icon} alt={strategyIcon || icon || ""} />
+          <Icon width={40} src={logo} alt={logo || ""} />
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{getTokenTitle(address, isStrategy)}</Typography>
@@ -46,15 +43,15 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
               </Typography>
             </FlexCol>
             <FlexRow className="gap-2">
-              <Tag tag={isStrategy ? "ILM" : "LEND"} />
+              <Tag tag={getAssetTag(address)} />
 
-              {assetConfig?.isGauntletOptimized && <GauntletOptimized />}
+              {getAssetIsGauntletOptimized(address) && <GauntletOptimized />}
             </FlexRow>
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
           <FlexCol className="gap-1">
-            {strategiesData?.length > 1 && isStrategy && (
+            {getHasMultipleAPYs(address) && (
               <Typography type="bold" className="text-end">
                 Up To
               </Typography>

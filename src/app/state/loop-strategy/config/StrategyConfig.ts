@@ -28,7 +28,7 @@ export interface StrategyConfig {
 }
 
 // TODO: Remove this array when new design is implemented
-export const ilmStrategies: StrategyConfig[] = [
+export const ilmStrategiesx: StrategyConfig[] = [
   {
     id: 0,
     name: "wstETH Booster",
@@ -70,9 +70,9 @@ export const ilmStrategies: StrategyConfig[] = [
   },
 ];
 
-export const findILMStrategyByAddress = (address?: Address) => {
-  return ilmStrategies.find((strategy) => strategy.underlyingAsset.address === address);
-};
+// export const findILMStrategyByAddress = (address?: Address) => {
+//   return ilmStrategies.find((strategy) => strategy.underlyingAsset.address === address);
+// };
 
 export interface StrategyData {
   address: Address;
@@ -84,7 +84,7 @@ export interface StrategyData {
 
 // TODO: Remove this when dynamic fetching from contracts/subgraph is implemented
 // Strategy with highest multiple needs to be last in the array
-export const ilmAssetStrategiesMap: Map<Address, StrategyData[]> = new Map([
+export const ilmAssetStrategiesMap1: Map<Address, StrategyData[]> = new Map([
   [
     WSTETH_ADDRESS,
     [

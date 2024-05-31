@@ -55,7 +55,7 @@ export interface BaseAssetConfig {
   isGauntletOptimized?: boolean;
 }
 
-export const baseAssets: BaseAssetConfig[] = [
+export const baseAssets1: BaseAssetConfig[] = [
   {
     name: "Ethereum",
     symbol: "ETH",
@@ -91,7 +91,7 @@ export const baseAssets: BaseAssetConfig[] = [
     address: USDC_ADDRESS,
     sTokenAddress: sUSDC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDC_ADDRESS,
-    isGauntletOptimized: true
+    isGauntletOptimized: true,
   },
   {
     name: "Dai",
@@ -161,10 +161,10 @@ export const baseAssets: BaseAssetConfig[] = [
   },
 ];
 
-const baseAssetsMapping: { [address: string]: BaseAssetConfig } = baseAssets.reduce(
-  (a, v) => ({ ...a, [v.address.toLowerCase()]: v }),
-  {}
-);
+// const baseAssetsMapping: { [address: string]: BaseAssetConfig } = baseAssets.reduce(
+//   (a, v) => ({ ...a, [v.address.toLowerCase()]: v }),
+//   {}
+// );
 
-export const getBaseAssetConfig = (address?: string) =>
-  address ? baseAssetsMapping[address.toLowerCase()] : undefined;
+// export const getBaseAssetConfig = (address?: string) =>
+//   address ? baseAssetsMapping[address.toLowerCase()] : undefined;

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState, useContext } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { Address } from "viem";
 import { Asset, Strategy } from "../types/AssetTypes";
 import { assetsConfig, strategiesConfig } from "../settings/config";
@@ -7,6 +7,7 @@ export interface AssetState extends Asset {}
 export interface StrategyState extends Strategy {}
 
 export type AssetType = "Asset" | "Strategy";
+export type TagType = "LEND" | "ILM";
 
 export interface AssetsContextType {
   assets: { [key: Address]: AssetState };
@@ -19,6 +20,9 @@ export interface AssetsContextType {
   getAssetIsGauntletOptimized: (address?: Address) => boolean | undefined;
   getAssetFAQ: (address?: Address) => React.ReactNode | undefined;
   getAssetUseCoinGeckoPrice: (address?: Address) => boolean | undefined;
+  getSubStrategyByAddress(address?: Address): Strategy | undefined;
+  getHasMultipleAPYs(address?: Address): boolean;
+  getAssetTag(address?: Address): TagType | undefined;
 }
 
 export const AssetsContext = createContext<AssetsContextType | undefined>(undefined);
@@ -29,12 +33,11 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   function getAssetTypeByAddress(address?: Address): AssetType | undefined {
     if (!address) return undefined;
-
-    if (strategiesConfig[address]) {
-      return "Strategy";
-    }
     if (assetsConfig[address]) {
       return "Asset";
+    }
+    if (strategiesConfig[address] || getSubStrategyByAddress(address)) {
+      return "Strategy";
     }
     return undefined;
   }
@@ -50,6 +53,14 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     if (directMatch) {
       return directMatch;
     }
+
+    const matchingStrategy = getSubStrategyByAddress(address);
+
+    return matchingStrategy;
+  }
+
+  function getSubStrategyByAddress(address?: Address): Strategy | undefined {
+    if (!address) return undefined;
 
     const matchingStrategy = Object.values(strategiesConfig).find((strategy) =>
       strategy.subStrategyData.some((sub) => sub.address === address)
@@ -78,9 +89,34 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return entity?.additionalData?.faq;
   };
 
+  function getAssetTag(address?: Address): TagType | undefined {
+    if (!address) return undefined;
+
+    const types = getAssetTypeByAddress(address);
+    if (!types) return undefined;
+
+    if (types === "Asset") {
+      return "LEND";
+    }
+    if (types === "Strategy") {
+      return "ILM";
+    }
+
+    return undefined;
+  }
+
   const getAssetUseCoinGeckoPrice = (address?: Address): boolean | undefined => {
     const entity = getAssetByAddress(address);
     return entity?.additionalData?.useCoinGeckoPrice;
+  };
+
+  const getHasMultipleAPYs = (address?: Address): boolean => {
+    if (!address) return false;
+
+    const entity = strategies[address];
+    if (!entity) return false;
+
+    return entity.subStrategyData.length > 1;
   };
 
   return (
@@ -96,11 +132,12 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         getAssetIsGauntletOptimized,
         getAssetFAQ,
         getAssetUseCoinGeckoPrice,
+        getSubStrategyByAddress,
+        getHasMultipleAPYs,
+        getAssetTag,
       }}
     >
       {children}
     </AssetsContext.Provider>
   );
 };
-
-export const useAssetsContext = () => useContext(AssetsContext) as AssetsContextType;

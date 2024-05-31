@@ -1,10 +1,11 @@
 import { Address, parseEther } from "viem";
-import { formatFetchBigIntToHealthFactor, fFetchBigIntStructured, mergeQueryStates, useFullTokenData } from "../../../../shared";
+import { formatFetchBigIntToHealthFactor, fFetchBigIntStructured, mergeQueryStates } from "@shared";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
-import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
+import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "@meta";
 import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfiguration";
 import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData";
+import { useFullTokenData } from "../../common/meta-data-queries/useFullTokenData";
 
 export enum Action {
   Deposit = "Deposit",
@@ -20,26 +21,21 @@ interface HealthFactorAfterActionParams {
 export const useFetchHealthFactorAfterAction = ({ reserve, amount, action }: HealthFactorAfterActionParams) => {
   const { data: tokenData, ...tokenRest } = useFullTokenData(reserve);
 
-  const {
-    data: assetConfig,
-    ...assetConfigRest
-  } = useFetchAssetConfiguration(reserve);
+  const { data: assetConfig, ...assetConfigRest } = useFetchAssetConfiguration(reserve);
 
-  const {
-    data: userAccountData,
-    ...accountRest
-  } = useFetchUserAccountData();
+  const { data: userAccountData, ...accountRest } = useFetchUserAccountData();
 
-  const {
-    data: userReserveData,
-    ...reserveRest
-  } = useFetchUserReserveData(reserve);
+  const { data: userReserveData, ...reserveRest } = useFetchUserReserveData(reserve);
 
   const { data: price, ...priceRest } = useFetchAssetPrice({ asset: reserve });
 
   let futureHealthFactor;
-  if (assetConfig && tokenData && userAccountData &&
-    price && userReserveData &&
+  if (
+    assetConfig &&
+    tokenData &&
+    userAccountData &&
+    price &&
+    userReserveData &&
     price?.bigIntValue != null &&
     assetConfig?.liquidationThreshold?.bigIntValue != null
   ) {
@@ -84,10 +80,7 @@ export const useFetchHealthFactorAfterAction = ({ reserve, amount, action }: Hea
 };
 
 export const useFetchViewHealthFactorAfterAction = ({ reserve, amount, action }: HealthFactorAfterActionParams) => {
-  const {
-    data: futureHealthFactor,
-    ...rest
-  } = useFetchHealthFactorAfterAction({ reserve, amount, action });
+  const { data: futureHealthFactor, ...rest } = useFetchHealthFactorAfterAction({ reserve, amount, action });
 
   return {
     ...rest,

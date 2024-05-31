@@ -1,19 +1,14 @@
 import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
-import { TokenDataDict } from "@meta";
 import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
+import { useAssetsContext } from "@state";
+import { AssetBase } from "../../types/AssetTypes";
 
-export interface FullTokenData {
-  symbol?: string;
-  decimals?: number;
-  logo?: string;
-  name?: string;
-}
-
-export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTokenData> => {
-  const data = asset ? TokenDataDict[asset] : undefined;
+// todo rename hook
+export const useFullTokenData = (asset?: Address | undefined): FetchData<AssetBase> => {
+  const { getAssetByAddress } = useAssetsContext();
 
   const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,
@@ -39,7 +34,8 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<FullTok
   return {
     ...mergeQueryStates([decimalRest, symbolRest, nameRest]),
     data: {
-      ...data,
+      ...getAssetByAddress(asset),
+      address: asset,
       symbol,
       name,
       decimals,
