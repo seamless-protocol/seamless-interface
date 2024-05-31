@@ -2,7 +2,6 @@ import { FlexRow, FlexCol, Typography, Icon } from "@shared";
 import { Tag } from "../pages/test-page/tabs/earn-tab/Tag";
 import { Address } from "viem";
 import { AssetApy } from "./AssetApy";
-import { TokenDescriptionDict, getTokenTitle } from "../../../shared/state/meta-data-queries/useTokenDescription";
 import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
@@ -20,9 +19,9 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
-  const { getHasMultipleAPYs, getAssetIsGauntletOptimized, getAssetTag } = useAssetsContext();
+  const { getHasMultipleAPYs, getAssetTag } = useAssetsContext();
   const {
-    data: { logo, name, symbol },
+    data: { logo, name, symbol, subTitle, additionalData },
   } = useFullTokenData(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
@@ -37,15 +36,15 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
           <Icon width={40} src={logo} alt={logo || ""} />
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{getTokenTitle(address, isStrategy)}</Typography>
+              <Typography type="bold3">{name}</Typography>
               <Typography type="regular1">
-                {isStrategy ? TokenDescriptionDict[address].secondaryStrategyTitle : name}
+                {subTitle || name}
               </Typography>
             </FlexCol>
             <FlexRow className="gap-2">
               <Tag tag={getAssetTag(address)} />
 
-              {getAssetIsGauntletOptimized(address) && <GauntletOptimized />}
+              {additionalData?.isGauntletOptimized && <GauntletOptimized />}
             </FlexRow>
           </FlexCol>
         </FlexRow>

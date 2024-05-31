@@ -14,6 +14,7 @@ export interface AssetBase {
   address?: Address;
   logo?: string;
   decimals?: number;
+  subTitle?: string;
 
   additionalData?: AdditionalData;
 }

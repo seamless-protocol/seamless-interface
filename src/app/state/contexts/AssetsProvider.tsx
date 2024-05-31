@@ -3,8 +3,8 @@ import { Address } from "viem";
 import { Asset, Strategy } from "../types/AssetTypes";
 import { assetsConfig, strategiesConfig } from "../settings/config";
 
-export interface AssetState extends Asset {}
-export interface StrategyState extends Strategy {}
+export interface AssetState extends Asset { }
+export interface StrategyState extends Strategy { }
 
 export type AssetType = "Asset" | "Strategy";
 export type TagType = "LEND" | "ILM";
@@ -15,12 +15,7 @@ export interface AssetsContextType {
   getAssetsAndStrategiesArray(): (Asset | Strategy)[];
   getAssetTypeByAddress(address?: Address): AssetType | undefined;
   getAssetByAddress: (address?: Address) => AssetState | StrategyState | undefined;
-  getAssetDescription: (address?: Address) => string | undefined;
-  getAssetVaultsFyiLink: (address?: Address) => string | undefined;
-  getAssetIsGauntletOptimized: (address?: Address) => boolean | undefined;
-  getAssetFAQ: (address?: Address) => React.ReactNode | undefined;
-  getAssetUseCoinGeckoPrice: (address?: Address) => boolean | undefined;
-  getSubStrategyByAddress(address?: Address): Strategy | undefined;
+  getStrategyBySubStrategy(address?: Address): Strategy | undefined;
   getHasMultipleAPYs(address?: Address): boolean;
   getAssetTag(address?: Address): TagType | undefined;
 }
@@ -36,7 +31,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     if (assetsConfig[address]) {
       return "Asset";
     }
-    if (strategiesConfig[address] || getSubStrategyByAddress(address)) {
+    if (strategiesConfig[address] || getStrategyBySubStrategy(address)) {
       return "Strategy";
     }
     return undefined;
@@ -54,12 +49,12 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       return directMatch;
     }
 
-    const matchingStrategy = getSubStrategyByAddress(address);
+    const matchingStrategy = getStrategyBySubStrategy(address);
 
     return matchingStrategy;
   }
 
-  function getSubStrategyByAddress(address?: Address): Strategy | undefined {
+  function getStrategyBySubStrategy(address?: Address): Strategy | undefined {
     if (!address) return undefined;
 
     const matchingStrategy = Object.values(strategiesConfig).find((strategy) =>
@@ -68,26 +63,6 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     return matchingStrategy;
   }
-
-  const getAssetDescription = (address?: Address): string | undefined => {
-    const entity = getAssetByAddress(address);
-    return entity?.additionalData?.description;
-  };
-
-  const getAssetVaultsFyiLink = (address?: Address): string | undefined => {
-    const entity = getAssetByAddress(address) as Strategy;
-    return entity?.additionalData?.vaultsFyiLink;
-  };
-
-  const getAssetIsGauntletOptimized = (address?: Address): boolean | undefined => {
-    const entity = getAssetByAddress(address);
-    return entity?.additionalData?.isGauntletOptimized;
-  };
-
-  const getAssetFAQ = (address?: Address): React.ReactNode | undefined => {
-    const entity = getAssetByAddress(address);
-    return entity?.additionalData?.faq;
-  };
 
   function getAssetTag(address?: Address): TagType | undefined {
     if (!address) return undefined;
@@ -104,11 +79,6 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     return undefined;
   }
-
-  const getAssetUseCoinGeckoPrice = (address?: Address): boolean | undefined => {
-    const entity = getAssetByAddress(address);
-    return entity?.additionalData?.useCoinGeckoPrice;
-  };
 
   const getHasMultipleAPYs = (address?: Address): boolean => {
     if (!address) return false;
@@ -127,12 +97,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         getAssetsAndStrategiesArray,
         getAssetTypeByAddress,
         getAssetByAddress,
-        getAssetDescription,
-        getAssetVaultsFyiLink,
-        getAssetIsGauntletOptimized,
-        getAssetFAQ,
-        getAssetUseCoinGeckoPrice,
-        getSubStrategyByAddress,
+        getStrategyBySubStrategy,
         getHasMultipleAPYs,
         getAssetTag,
       }}

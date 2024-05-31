@@ -49,6 +49,7 @@ import degenLogo from "@assets/tokens/degen.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
+import { RouterConfig } from "../../router";
 
 export const assetsConfig: { [key: Address]: Asset } = {
   [WETH_ADDRESS]: {
@@ -58,6 +59,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     sTokenAddress: sWETH_ADDRESS,
     debtTokenAddress: variableDebtSeamWETH_ADDRESS,
     additionalData: {
+      vaultsFyiLink: RouterConfig.Builder.vaults(sWETH_ADDRESS),
       description: "Wrapped Ethereum (WETH) allows Ethereum to be traded & used directly in smart contracts.",
     },
   },
@@ -68,6 +70,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     sTokenAddress: sUSDbC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDbC_ADDRESS,
     additionalData: {
+      vaultsFyiLink: RouterConfig.Builder.vaults(sUSDbC_ADDRESS),
       description:
         "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
     },
@@ -79,6 +82,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     sTokenAddress: scbETH_ADDRESS,
     debtTokenAddress: variableDebtSeamcbETH_ADDRESS,
     additionalData: {
+      vaultsFyiLink: RouterConfig.Builder.vaults(scbETH_ADDRESS),
       description: "Coinbase ETH (cbETH) represents Ethereum staked through Coinbase, earning interest over time.",
     },
   },
@@ -92,6 +96,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     additionalData: {
       description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
       isGauntletOptimized: true,
+      vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS)
     },
   },
   [DAI_ADDRESS]: {
@@ -101,6 +106,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     sTokenAddress: sDAI_ADDRESS,
     debtTokenAddress: variableDebtSeamDAI_ADDRESS,
     additionalData: {
+      vaultsFyiLink: RouterConfig.Builder.vaults(sDAI_ADDRESS),
       description: "Dai is a decentralized, unbiased, collateral-backed cryptocurrency soft-pegged to the US Dollar.",
     },
   },
@@ -111,6 +117,7 @@ export const assetsConfig: { [key: Address]: Asset } = {
     sTokenAddress: swstETH_ADDRESS,
     debtTokenAddress: variableDebtSeamwstETH_ADDRESS,
     additionalData: {
+      vaultsFyiLink: RouterConfig.Builder.vaults(swstETH_ADDRESS),
       description:
         "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
     },
@@ -176,6 +183,7 @@ export const multiplyETH_ADDRESS_STRATEGY_ID = "0x8504d76bca9745EF54F927C95D8f1A
 export const strategiesConfig: { [key: Address]: Strategy } = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: {
     name: "wstETH Booster",
+    subTitle: "Increase ETH staking rewards automatically",
     address: wstETHBooster_ADDRESS_STRATEGY_ID,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
@@ -191,11 +199,12 @@ export const strategiesConfig: { [key: Address]: Strategy } = {
       },
     ],
     additionalData: {
-      vaultsFyiLink: `https://www.vaults.fyi/vaults/base/${wstETHBooster_ADDRESS}?apyMode=30day`,
+      vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
     },
   },
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",
+    subTitle: "Increase ETH price exposure",
     address: multiplyETH_ADDRESS_STRATEGY_ID,
     logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[WETH_ADDRESS],

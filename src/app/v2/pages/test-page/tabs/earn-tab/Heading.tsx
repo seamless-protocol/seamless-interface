@@ -3,10 +3,6 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { useFetchViewAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import {
-  findILMStrategyByAddress,
-  ilmAssetStrategiesMap,
-} from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { AssetApy } from "../../../../components/AssetApy";
 import { AssetTvl } from "../../../../components/AssetTvl";
@@ -14,13 +10,14 @@ import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borro
 import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
-import { useFetchViewLendingPoolInfo } from "../../../../../v1/pages/ilm-page/hooks/useFetchViewLendingPoolInfo";
 import { CapRemaining } from "./CapRemaining";
+import { useAssetsContext } from "@state";
 
 export const Heading = () => {
+  const { getHasMultipleAPYs, getAssetTag } = useAssetsContext();
+
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
-  const strategiesData = asset ? ilmAssetStrategiesMap.get(asset) || [] : [];
 
   const strategy = findILMStrategyByAddress(asset);
 
@@ -82,7 +79,7 @@ export const Heading = () => {
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
               <FlexRow className="gap-2">
-                {strategiesData?.length > 1 && isStrategy ? (
+                {getHasMultipleAPYs(asset) ? (
                   <Typography type="regular3">APY, Up To</Typography>
                 ) : (
                   <Typography type="regular3">Est. APY</Typography>
