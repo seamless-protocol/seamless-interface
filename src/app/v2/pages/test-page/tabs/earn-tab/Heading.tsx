@@ -1,4 +1,4 @@
-import { FlexCol, Typography, FlexRow, useFullTokenData, DisplayMoney, Tooltip } from "@shared";
+import { FlexCol, Typography, FlexRow, DisplayMoney, Tooltip } from "@shared";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
@@ -12,14 +12,15 @@ import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCar
 import { AssetHeading } from "./AssetHeading";
 import { CapRemaining } from "./CapRemaining";
 import { useAssetsContext } from "@state";
+import { useFetchViewLendingPoolInfo } from "../../hooks/useFetchViewLendingPoolInfo";
+import { StrategyGuard } from "../../../../components/guards/StrategyGuard";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
 export const Heading = () => {
-  const { getHasMultipleAPYs, getAssetTag } = useAssetsContext();
+  const { getHasMultipleAPYs, getStrategyByAddress } = useAssetsContext();
 
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: tokenData } = useFullTokenData(asset);
-
-  const strategy = findILMStrategyByAddress(asset);
 
   const {
     data: oraclePrice,
@@ -84,11 +85,12 @@ export const Heading = () => {
                 ) : (
                   <Typography type="regular3">Est. APY</Typography>
                 )}
-                {isStrategy && (
+                <StrategyGuard asset={asset}>
                   <Tooltip
                     tooltip={
                       <Typography type="description">
-                        30 day moving average denominated in {strategy?.debtAsset.symbol}
+                        30 day moving average denominated in
+                        {getStrategyByAddress(asset)?.debtAsset.symbol}
                       </Typography>
                     }
                     size="small"
@@ -96,7 +98,7 @@ export const Heading = () => {
                   >
                     <InformationCircleIcon className="cursor-pointer" width={15} />
                   </Tooltip>
-                )}
+                </StrategyGuard>
               </FlexRow>
 
               <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" showWarning={false} />

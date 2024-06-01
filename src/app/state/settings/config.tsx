@@ -34,7 +34,7 @@ import {
   variableDebtSeamwstETH_ADDRESS,
   ethLong,
 } from "@meta";
-import { Asset, Strategy } from "../types/AssetTypes";
+import { Strategy } from "../types/AssetTypes";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import ethLogo from "@assets/tokens/eth.svg";
@@ -50,18 +50,17 @@ import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
+import { AssetConfig } from "./configTypes";
 
-export const assetsConfig: { [key: Address]: Asset } = {
+export const assetsConfig: { [key: Address]: AssetConfig } = {
   [WETH_ADDRESS]: {
     name: "Ethereum",
     address: WETH_ADDRESS,
     logo: ethLogo,
     sTokenAddress: sWETH_ADDRESS,
     debtTokenAddress: variableDebtSeamWETH_ADDRESS,
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(sWETH_ADDRESS),
-      description: "Wrapped Ethereum (WETH) allows Ethereum to be traded & used directly in smart contracts.",
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(sWETH_ADDRESS),
+    description: "Wrapped Ethereum (WETH) allows Ethereum to be traded & used directly in smart contracts.",
   },
   [USDBC_ADDRESS]: {
     name: "USD Base Coin",
@@ -69,11 +68,9 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: usdbcLogo,
     sTokenAddress: sUSDbC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDbC_ADDRESS,
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(sUSDbC_ADDRESS),
-      description:
-        "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(sUSDbC_ADDRESS),
+    description:
+      "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
   },
   [CBETH_ADDRESS]: {
     name: "Coinbase Wrapped Staked Ether",
@@ -81,10 +78,8 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: cbethLogo,
     sTokenAddress: scbETH_ADDRESS,
     debtTokenAddress: variableDebtSeamcbETH_ADDRESS,
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(scbETH_ADDRESS),
-      description: "Coinbase ETH (cbETH) represents Ethereum staked through Coinbase, earning interest over time.",
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(scbETH_ADDRESS),
+    description: "Coinbase ETH (cbETH) represents Ethereum staked through Coinbase, earning interest over time.",
   },
   [USDC_ADDRESS]: {
     name: "USD Coin",
@@ -93,11 +88,9 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: usdcLogo,
     sTokenAddress: sUSDC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDC_ADDRESS,
-    additionalData: {
-      description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
-      isGauntletOptimized: true,
-      vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS)
-    },
+    description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
+    isGauntletOptimized: true,
+    vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS)
   },
   [DAI_ADDRESS]: {
     name: "Dai",
@@ -105,10 +98,8 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: daiLogo,
     sTokenAddress: sDAI_ADDRESS,
     debtTokenAddress: variableDebtSeamDAI_ADDRESS,
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(sDAI_ADDRESS),
-      description: "Dai is a decentralized, unbiased, collateral-backed cryptocurrency soft-pegged to the US Dollar.",
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(sDAI_ADDRESS),
+    description: "Dai is a decentralized, unbiased, collateral-backed cryptocurrency soft-pegged to the US Dollar.",
   },
   [WSTETH_ADDRESS]: {
     name: "Wrapped liquid Staked Ether 2.0",
@@ -116,11 +107,9 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: WstEthLogo,
     sTokenAddress: swstETH_ADDRESS,
     debtTokenAddress: variableDebtSeamwstETH_ADDRESS,
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(swstETH_ADDRESS),
-      description:
-        "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(swstETH_ADDRESS),
+    description:
+      "wstETH is a wrapped version of stETH. Due to the nature of Lido, the amount of stETH on your balance is not constant - it changes daily as staking rewards come in.",
   },
   [DEGEN_ADDRESS]: {
     name: "Degen",
@@ -128,11 +117,9 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: degenLogo,
     sTokenAddress: sDEGEN_ADDRESS,
     debtTokenAddress: variableDebtSeamDEGEN_ADDRESS,
-    additionalData: {
-      useCoinGeckoPrice: true,
-      description:
-        "DEGEN is dubbed as the unofficial token created for the Farcaster community, a decentralized social network.",
-    },
+    useCoinGeckoPrice: true,
+    description:
+      "DEGEN is dubbed as the unofficial token created for the Farcaster community, a decentralized social network.",
   },
   [SEAM_ADDRESS]: {
     name: "Seamless",
@@ -140,29 +127,23 @@ export const assetsConfig: { [key: Address]: Asset } = {
     logo: seamLogo,
     sTokenAddress: sSEAM_ADDRESS,
     debtTokenAddress: variableDebtSeamSEAM_ADDRESS,
-    additionalData: {
-      useCoinGeckoPrice: true,
-      description: "SEAM is the fair launch utility governance token of Seamless Protocol.",
-    },
+    useCoinGeckoPrice: true,
+    description: "SEAM is the fair launch utility governance token of Seamless Protocol.",
   },
   [AERO_ADDRESS]: {
     name: "Aerodrome",
     address: AERO_ADDRESS,
     logo: aeroLogo,
-    additionalData: {
-      useCoinGeckoPrice: false,
-      description: "AERO is a central trading and liquidity marketplace on Base.",
-    },
+    useCoinGeckoPrice: false,
+    description: "AERO is a central trading and liquidity marketplace on Base.",
   },
   [BRETT_ADDRESS]: {
     name: "Brett",
     symbol: "BRETT",
     address: BRETT_ADDRESS,
     logo: brettLogo,
-    additionalData: {
-      useCoinGeckoPrice: true,
-      description: "BRETT is PEPE's best friend on Base.",
-    },
+    useCoinGeckoPrice: true,
+    description: "BRETT is PEPE's best friend on Base.",
   },
   [rwstETH_ADDRESS]: {
     address: rwstETH_ADDRESS,

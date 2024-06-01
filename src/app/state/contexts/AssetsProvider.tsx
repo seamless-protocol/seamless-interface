@@ -1,50 +1,67 @@
 import { createContext, ReactNode, useState } from "react";
 import { Address } from "viem";
 import { Asset, Strategy } from "../types/AssetTypes";
-import { assetsConfig, strategiesConfig } from "../settings/config";
-
-export interface AssetState extends Asset { }
-export interface StrategyState extends Strategy { }
 
 export type AssetType = "Asset" | "Strategy";
 export type TagType = "LEND" | "ILM";
 
+export interface AssetBase {
+  address?: string
+  type: AssetType;
+  tags: TagType[];
+}
+export interface AssetState {
+  address?: string
+  type: AssetType;
+}
+export interface StrategyState {
+  address?: string
+}
+
+
 export interface AssetsContextType {
   assets: { [key: Address]: AssetState };
   strategies: { [key: Address]: StrategyState };
-  getAssetsAndStrategiesArray(): (Asset | Strategy)[];
-  getAssetTypeByAddress(address?: Address): AssetType | undefined;
-  getAssetByAddress: (address?: Address) => AssetState | StrategyState | undefined;
-  getStrategyBySubStrategy(address?: Address): Strategy | undefined;
-  getHasMultipleAPYs(address?: Address): boolean;
-  getAssetTag(address?: Address): TagType | undefined;
 }
 
 export const AssetsContext = createContext<AssetsContextType | undefined>(undefined);
 
 export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [assets] = useState<{ [key: Address]: Asset }>(assetsConfig);
-  const [strategies] = useState<{ [key: Address]: Strategy }>(strategiesConfig);
+  const [assets] = useState<AssetState[]>([]);
+  const [strategies] = useState<StrategyState[]>([]);
 
   function getAssetTypeByAddress(address?: Address): AssetType | undefined {
     if (!address) return undefined;
-    if (assetsConfig[address]) {
+    if (assets.find(x => x.address === address)) {
       return "Asset";
     }
-    if (strategiesConfig[address] || getStrategyBySubStrategy(address)) {
+    if (strategies.find(x => x.address === address) || getStrategyBySubStrategy(address)) {
       return "Strategy";
     }
     return undefined;
   }
 
   function getAssetsAndStrategiesArray(): (Asset | Strategy)[] {
-    return [...Object.values(strategiesConfig), ...Object.values(assetsConfig)];
+    return [...Object.values(strategies), ...Object.values(assets)];
   }
 
   function getAssetByAddress(address?: Address): Asset | Strategy | undefined {
     if (!address) return undefined;
 
-    const directMatch = strategiesConfig[address] || assetsConfig[address];
+    const directMatch = strategies[address] || assets[address];
+    if (directMatch) {
+      return directMatch;
+    }
+
+    const matchingStrategy = getStrategyBySubStrategy(address);
+
+    return matchingStrategy;
+  }
+
+  function getStrategyByAddress(address?: Address): Strategy | undefined {
+    if (!address) return undefined;
+
+    const directMatch = strategies[address];
     if (directMatch) {
       return directMatch;
     }
@@ -57,7 +74,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   function getStrategyBySubStrategy(address?: Address): Strategy | undefined {
     if (!address) return undefined;
 
-    const matchingStrategy = Object.values(strategiesConfig).find((strategy) =>
+    const matchingStrategy = Object.values(strategies).find((strategy) =>
       strategy.subStrategyData.some((sub) => sub.address === address)
     );
 
@@ -100,6 +117,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         getStrategyBySubStrategy,
         getHasMultipleAPYs,
         getAssetTag,
+        getStrategyByAddress,
       }}
     >
       {children}

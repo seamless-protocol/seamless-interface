@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -12,7 +16,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
     // * Linting * //
     "strict": true,
     "noUnusedLocals": true,
@@ -20,16 +23,37 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@assets": ["src/assets/*"],
-      "@shared": ["src/shared/index"],
-      "@generated": ["src/app/generated/index"],
+      "@assets": [
+        "src/assets/*"
+      ],
+      "@shared": [
+        "src/shared/index"
+      ],
+      "@generated": [
+        "src/app/generated/index"
+      ],
       // "@state": ["src/app/state/*"],
       // "@app-components": ["src/app/components/*"],
-      "@router": ["src/app/router/index"],
-      "@meta": ["src/meta/index"],
-      "@state": ["src/app/state/contexts/index"]
+      "@router": [
+        "src/app/router/index"
+      ],
+      "@meta": [
+        "src/meta/index"
+      ],
+      "@state": [
+        "src/app/state/contexts/index"
+      ],
     }
   },
-  "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*",
+    "types/**/*.d.ts",
+    "*.ts",
+    "config/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
