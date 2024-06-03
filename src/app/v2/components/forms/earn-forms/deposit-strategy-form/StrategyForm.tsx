@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
-import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
-import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
@@ -26,11 +24,13 @@ import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { RHFStrategySelector } from "./RHFStrategySelector";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
+  const { data: strategy } = useStateStrategyByAddress(asset);
 
-  const strategy = findILMStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
@@ -47,7 +47,7 @@ interface FormData {
 }
 
 const StrategyFormLocal: React.FC<{
-  strategy: StrategyConfig;
+  strategy: StrategyState;
 }> = ({ strategy }) => {
   const { asset, onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const methods = useForm<FormData>({
@@ -65,17 +65,17 @@ const StrategyFormLocal: React.FC<{
     data: { symbol: strategySymbol },
   } = useToken(strategy.address);
 
-  const { depositAsync } = useMutateDepositStrategy(strategy.id, subStrategy);
+  const { depositAsync } = useMutateDepositStrategy(strategy, subStrategy);
 
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
-    args: [strategy?.underlyingAsset.address || ""],
+    args: [strategy?.underlyingAsset.address],
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const previewDepositData = useFetchViewPreviewDeposit(strategy.id, debouncedAmount);
+  const previewDepositData = useFetchViewPreviewDeposit(strategy, debouncedAmount);
 
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy.address);
 
-  const onSubmitAsync = async (data: DepositModalFormData) => {
+  const onSubmitAsync = async (data: FormData) => {
     if (previewDepositData?.data) {
       await depositAsync(
         {

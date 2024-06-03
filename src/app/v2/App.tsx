@@ -13,7 +13,6 @@ import { LandingPage } from "./pages/test-page/LandingPage";
 import { QueryParamProvider } from "use-query-params";
 import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
-import { AssetsProvider } from "../state/contexts/AssetsProvider";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -21,22 +20,20 @@ export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
-        <AssetsProvider>
-          <QueryParamProvider adapter={ReactRouter6Adapter}>
-            <ConnectButtonProvider>
-              <NavigationBar />
-            </ConnectButtonProvider>
-            <FlexCol className="min-h-screen">
-              <NotificationProvider>
-                <SentryRoutes>
-                  <Route path={RouterConfig.Routes.markets} element={<LandingPage />} />
-                  <Route path="*" element={<PageNotFound />} />
-                </SentryRoutes>
-              </NotificationProvider>
-              <Footer />
-            </FlexCol>
-          </QueryParamProvider>
-        </AssetsProvider>
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
+          <ConnectButtonProvider>
+            <NavigationBar />
+          </ConnectButtonProvider>
+          <FlexCol className="min-h-screen">
+            <NotificationProvider>
+              <SentryRoutes>
+                <Route path={RouterConfig.Routes.markets} element={<LandingPage />} />
+                <Route path="*" element={<PageNotFound />} />
+              </SentryRoutes>
+            </NotificationProvider>
+            <Footer />
+          </FlexCol>
+        </QueryParamProvider>
       </HashRouter>
     </Sentry.ErrorBoundary>
   );

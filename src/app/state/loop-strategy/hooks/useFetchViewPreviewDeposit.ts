@@ -1,5 +1,4 @@
 import { Address, parseEther } from "viem";
-import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
@@ -9,6 +8,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { StrategyState } from "../../common/types/StateTypes";
 
 export const cSharesToReceive = (sharesValue?: bigint) => {
   if (sharesValue == null) return undefined;
@@ -50,10 +50,10 @@ interface PreviewDeposit {
   costInUsd?: FetchBigInt;
 }
 
-export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewDeposit> => {
+export const useFetchPreviewDeposit = (strategy: StrategyState, amount: string): FetchData<PreviewDeposit> => {
   const account = useAccount();
 
-  const { data: underlyingAsset, ...configRest } = useFetchStrategyAsset(strategyConfig.address);
+  const { data: underlyingAsset, ...configRest } = useFetchStrategyAsset(strategy.address);
 
   const {
     data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
@@ -63,16 +63,16 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   const {
     data: { symbol: strategySymbol, decimals: strategyDecimals },
     ...strategyRest
-  } = useToken(strategyConfig.address);
+  } = useToken(strategy.address);
 
   const { data: shares, ...sharesRest } = useFetchSimulateDeposit(
     account.address as Address,
-    strategyConfig.address,
+    strategy.address,
     amount
   );
 
   const { data: sharePrice, ...sharePriceRest } = useFetchAssetPrice({
-    asset: strategyConfig.address,
+    asset: strategy.address,
   });
 
   const { data: assetPrice, ...assetPriceRest } = useFetchAssetPrice({
@@ -100,11 +100,11 @@ export const useFetchPreviewDeposit = (strategyConfig: StrategyConfig, amount: s
   };
 };
 
-export const useFetchViewPreviewDeposit = (id: number, amount: string): Displayable<ViewPreviewDeposit> => {
+export const useFetchViewPreviewDeposit = (strategy: StrategyState, amount: string): Displayable<ViewPreviewDeposit> => {
   const {
     data: { sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd },
     ...rest
-  } = useFetchPreviewDeposit(ilmStrategies[id], amount);
+  } = useFetchPreviewDeposit(strategy, amount);
 
   return {
     ...rest,

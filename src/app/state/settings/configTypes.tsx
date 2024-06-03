@@ -3,7 +3,7 @@ import { Address } from "viem";
 export interface AssetBaseConfig {
   name?: string;
   symbol?: string;
-  address?: Address;
+  address: Address;
   logo?: string;
   subTitle?: string;
   description?: string;

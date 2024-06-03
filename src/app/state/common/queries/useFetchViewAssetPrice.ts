@@ -1,4 +1,3 @@
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { readContract } from "wagmi/actions";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
@@ -7,26 +6,26 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
-import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
-import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
+import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
+import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { useStateStrategyByAddress } from "../hooks/useFetchAllAssets";
 
 export interface AssetPrice {
   price: FetchBigInt;
 }
 
 export const fetchAssetPriceInBlock = async (
+  forStrategy: boolean,
   config: Config,
   asset?: Address,
   blockNumber?: bigint,
-  underlyingAsset?: Address
+  underlyingAsset?: Address,
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
-  const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
-
   let price = 0n;
-  if (strategy) {
+  if (forStrategy) {
     const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,
@@ -55,7 +54,7 @@ export const fetchAssetPriceInBlock = async (
   }
 
   if (underlyingAsset) {
-    const underlyingPrice = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
+    const underlyingPrice = await fetchAssetPriceInBlock(forStrategy, config, underlyingAsset, blockNumber);
 
     if (!underlyingPrice) return undefined;
 
@@ -67,9 +66,12 @@ export const fetchAssetPriceInBlock = async (
 
 export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint, underlyingAsset?: Address) => {
   const config = useConfig();
+  const { data: strategy } = useStateStrategyByAddress(asset);
+  // todo is logic good here ? -> fetchAssetPriceInBlock(!!strategy
+  // const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   const { data: price, ...rest } = useQuery({
-    queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
+    queryFn: () => fetchAssetPriceInBlock(!!strategy, config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? 60 * 1000 : undefined,
     enabled: !!asset,
@@ -91,7 +93,7 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
-  const useCoinGeckoPrice = getBaseAssetConfig(asset)?.useCoinGeckoPrice;
+  const { data: { useCoinGeckoPrice } } = useFullTokenData(asset);
   const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
     address: asset,
     precision: 8,

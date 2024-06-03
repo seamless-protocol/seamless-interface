@@ -49,7 +49,7 @@ export const useFetchDetailEquity = (strategy?: Address): FetchData<StrategyEqui
   };
 };
 
-export const useFetchViewDetailEquity = (strategy: Address): Displayable<ViewDetailEquity> => {
+export const useFetchViewDetailEquity = (strategy?: Address): Displayable<ViewDetailEquity> => {
   const {
     data: { equity, equityUsd },
     ...rest

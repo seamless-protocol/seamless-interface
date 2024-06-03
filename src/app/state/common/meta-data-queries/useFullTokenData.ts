@@ -3,12 +3,16 @@ import { FetchData } from "../../../../shared/types/Fetch";
 import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
 import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
-import { useAssetsContext } from "@state";
-import { AssetBase } from "../../types/AssetTypes";
+import { assetsConfig, strategiesConfig } from "../../settings/config";
+import { AssetBaseConfig } from "../../settings/configTypes";
+
+export interface FullAssetData extends AssetBaseConfig {
+  decimals?: number;
+}
 
 // todo rename hook
-export const useFullTokenData = (asset?: Address | undefined): FetchData<AssetBase> => {
-  const { getAssetByAddress } = useAssetsContext();
+export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAssetData> => {
+  const config = asset ? assetsConfig[asset] || strategiesConfig[asset] : undefined;
 
   const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,
@@ -34,8 +38,7 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<AssetBa
   return {
     ...mergeQueryStates([decimalRest, symbolRest, nameRest]),
     data: {
-      ...getAssetByAddress(asset),
-      address: asset,
+      ...config,
       symbol,
       name,
       decimals,

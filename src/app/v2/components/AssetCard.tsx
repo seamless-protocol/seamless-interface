@@ -6,8 +6,9 @@ import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
-import { useFullTokenData } from "src/app/state/common/meta-data-queries/useFullTokenData";
-import { useAssetsContext } from "@state";
+import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../state/common/hooks/useFetchAllAssets";
+import { StrategyGuard } from "./guards/StrategyGuard";
+import { useFullTokenData } from "../../state/common/meta-data-queries/useFullTokenData";
 
 export interface AssetCardProps {
   address: Address;
@@ -19,9 +20,10 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
-  const { getHasMultipleAPYs, getAssetTag } = useAssetsContext();
+  const { data: asset } = useStateAssetByAddress(address);
+  const { data: hasMultipleApys } = useStateHasMultipleAPYs(address);
   const {
-    data: { logo, name, symbol, subTitle, additionalData },
+    data: { logo, name, symbol, subTitle, isGauntletOptimized },
   } = useFullTokenData(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
@@ -42,26 +44,28 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
               </Typography>
             </FlexCol>
             <FlexRow className="gap-2">
-              <Tag tag={getAssetTag(address)} />
+              {asset?.tags.map(tag => (
+                <Tag tag={tag} />
+              ))}
 
-              {additionalData?.isGauntletOptimized && <GauntletOptimized />}
+              {isGauntletOptimized && <GauntletOptimized />}
             </FlexRow>
           </FlexCol>
         </FlexRow>
         <FlexCol className="gap-1 text-center items-center">
           <FlexCol className="gap-1">
-            {getHasMultipleAPYs(address) && (
+            {hasMultipleApys && (
               <Typography type="bold" className="text-end">
                 Up To
               </Typography>
             )}
             <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
-          {!isStrategy && (
+          <StrategyGuard asset={address}>
             <IncentivesButton {...supplyIncentives} {...supplyRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
-          )}
+          </StrategyGuard>
         </FlexCol>
       </FlexRow>
     </div>

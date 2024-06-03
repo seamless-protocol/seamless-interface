@@ -7,7 +7,9 @@ import { useSeamlessContractRead } from "../../../../shared";
 import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../settings/queryConfig";
 
-export const useFetchAllAssets = (): FetchData<(AssetState | StrategyState)[]> => {
+export const useFetchAllAssetsState = (): {
+  state: FetchData<(AssetState | StrategyState)[]>,
+} => {
   // todo: use existing raw query?
   const { data: lendingAssets, ...rest } = useSeamlessContractRead({
     address: lendingPoolAddress,
@@ -25,38 +27,54 @@ export const useFetchAllAssets = (): FetchData<(AssetState | StrategyState)[]> =
     })
     .map((asset) => ({
       address: asset,
-      type: "Asset",
+      isStrategy: false,
       tags: ["LEND"]
     }));
 
-  const ilmMarkets: (AssetState | StrategyState)[] = [];
-
-  const data = lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : [];
-
+  const ilmMarkets: (StrategyState)[] = [];
   Object.keys(strategiesConfig).forEach((key) => {
     ilmMarkets.push({
-      address: strategiesConfig[key as Address].address,
-      type: "Strategy",
-      tags: ["ILM"]
+      isStrategy: true,
+      tags: ["ILM"],
+      ...strategiesConfig[key as Address]
     });
   });
 
-  const getAssetByAddress = (address?: Address): AssetState | StrategyState | undefined => {
-    if (!address) return undefined;
-    return data.find(x => x.address === address);
-  }
-
-  const getHasMultipleAPYs = (address?: Address): boolean => {
-    if (!address) return false;
-
-    const entity = strategiesConfig[address];
-    if (!entity) return false;
-
-    return entity.subStrategyData.length > 1;
-  };
+  const data = lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : [];
 
   return {
-    ...rest,
-    data
+    state: {
+      data,
+      ...rest
+    },
   };
 };
+
+export const useStateAssetByAddress = (address?: Address): FetchData<AssetState | StrategyState | undefined> => {
+  const { state } = useFetchAllAssetsState();
+
+  return {
+    ...state,
+    data: state.data.find(x => x.address === address),
+  }
+}
+
+export const useStateStrategyByAddress = (address?: Address): FetchData<StrategyState | undefined> => {
+  const { state } = useFetchAllAssetsState();
+
+  return {
+    ...state,
+    data: state.data.find(x => x.address === address && x.isStrategy === true) as StrategyState,
+  }
+}
+
+export const useStateHasMultipleAPYs = (address?: Address): FetchData<boolean | undefined> => {
+  const { state } = useFetchAllAssetsState();
+
+  const strategy = address ? strategiesConfig[address] : undefined;
+  return {
+    ...state,
+    data: strategy ? strategy.subStrategyData.length > 1 : false,
+  }
+}
+

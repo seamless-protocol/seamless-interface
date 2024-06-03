@@ -34,7 +34,6 @@ import {
   variableDebtSeamwstETH_ADDRESS,
   ethLong,
 } from "@meta";
-import { Strategy } from "../types/AssetTypes";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import ethLogo from "@assets/tokens/eth.svg";
@@ -50,7 +49,7 @@ import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
-import { AssetConfig } from "./configTypes";
+import { AssetConfig, StrategyConfig } from "./configTypes";
 
 export const assetsConfig: { [key: Address]: AssetConfig } = {
   [WETH_ADDRESS]: {
@@ -157,15 +156,14 @@ export const assetsConfig: { [key: Address]: AssetConfig } = {
   },
 };
 
-// generated online, only FE unique ids
-export const wstETHBooster_ADDRESS_STRATEGY_ID = "0x0c4B148408fa99002477aD4cD7926Cf852F9DD27";
-export const multiplyETH_ADDRESS_STRATEGY_ID = "0x8504d76bca9745EF54F927C95D8f1A427853F305";
+export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
+export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
 
-export const strategiesConfig: { [key: Address]: Strategy } = {
+export const strategiesConfig: { [key: string]: StrategyConfig } = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: {
     name: "wstETH Booster",
     subTitle: "Increase ETH staking rewards automatically",
-    address: wstETHBooster_ADDRESS_STRATEGY_ID,
+    address: wstETHBooster_ADDRESS_STRATEGY_ID as Address,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
     underlyingAsset: assetsConfig[WSTETH_ADDRESS],
@@ -179,14 +177,12 @@ export const strategiesConfig: { [key: Address]: Strategy } = {
         },
       },
     ],
-    additionalData: {
-      vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
-    },
+    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
   },
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",
     subTitle: "Increase ETH price exposure",
-    address: multiplyETH_ADDRESS_STRATEGY_ID,
+    address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
     logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[WETH_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],

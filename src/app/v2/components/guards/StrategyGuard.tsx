@@ -1,15 +1,15 @@
 import React from 'react'
 import { Address } from 'viem'
-import { useAssetsContext } from '../../../state/contexts'
+import { useStateAssetByAddress } from '../../../state/common/hooks/useFetchAllAssets';
 
 export const StrategyGuard: React.FC<{
   asset?: Address,
   children?: React.ReactNode
 }> = ({ asset, children }) => {
 
-  const { getAssetTypeByAddress } = useAssetsContext();
+  const { data } = useStateAssetByAddress(asset);
 
-  if (getAssetTypeByAddress(asset) === "Strategy") return children;
+  if (data?.isStrategy) return children;
 
   return null;
 }

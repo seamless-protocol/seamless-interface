@@ -1,5 +1,3 @@
-import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
-
 const baseUrl = "";
 
 export const gauntletOptimizedTwitterUrl = "https://twitter.com/SeamlessFi/status/1769845618720326053";

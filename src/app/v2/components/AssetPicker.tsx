@@ -2,7 +2,7 @@ import React from "react";
 import { FlexRow, Typography } from "@shared";
 import { AssetCard } from "./AssetCard";
 import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
-import { isEqualMarket, useFetchAllMarkets } from "../../state/common/hooks/useFetchAllMarkets";
+import { useFetchAllAssetsState } from "../../state/common/hooks/useFetchAllAssets";
 
 interface AssetPickerProps extends AssetPickerStateHookProps {
   size?: "small" | "normal" | "big";
@@ -15,9 +15,9 @@ const sizeMap = {
 };
 
 export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size }) => {
-  const { asset, isStrategy, setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
+  const { asset, setAsset } = useAssetPickerState({ overrideUrlSlug });
 
-  const { data: allMarkets } = useFetchAllMarkets();
+  const { state: { data } } = useFetchAllAssetsState();
 
   const maxHeightValue = size ? sizeMap[size] : undefined;
   const scrollableStyle: React.CSSProperties = {
@@ -35,25 +35,23 @@ export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size 
         style={scrollableStyle}
         className="overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100"
       >
-        {allMarkets?.map((item, index) => (
+        {data?.map((item, index) => (
           <div
             key={index}
             onClick={() => {
-              const { address, isStrategy: itemStrategy } = item;
-              if (isEqualMarket(item, { address: asset, isStrategy })) {
+              const { address } = item;
+              if (item.address === asset) {
                 setAsset(undefined);
-                setIsStrategy(undefined);
               } else {
                 setAsset(address);
-                setIsStrategy(String(itemStrategy));
               }
             }}
           >
             {item.address ? (
               <AssetCard
-                isSelected={isEqualMarket(item, { address: asset, isStrategy })}
-                {...item}
+                isSelected={item.address === asset}
                 address={item.address}
+                isStrategy={item.isStrategy}
               />
             ) : (
               <span />

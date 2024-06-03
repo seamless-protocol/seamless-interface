@@ -2,10 +2,10 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits, Address } from "viem";
-import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const FormButtons: React.FC<{
-  strategy: StrategyConfig;
+  strategy: StrategyState;
   subStrategyAddress?: Address;
   onTransaction?: () => void;
 }> = ({ strategy, subStrategyAddress, onTransaction }) => {

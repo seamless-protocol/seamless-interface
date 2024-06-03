@@ -1,19 +1,19 @@
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { loopStrategyAbi } from "@generated";
-import { ilmStrategies } from "../config/StrategyConfig";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
+import { StrategyState } from "../../common/types/StateTypes";
 
-export const useMutateDepositStrategy = (id: number, subStrategyAddress?: Address) => {
+export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAddress?: Address) => {
   // meta data
   const { address } = useAccount();
 
   // cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(ilmStrategies[id].underlyingAsset.address);
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlyingAsset.address);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: ilmStrategies[id].underlyingAsset.address,
+    asset: strategy?.underlyingAsset.address,
     spender: subStrategyAddress,
   });
 

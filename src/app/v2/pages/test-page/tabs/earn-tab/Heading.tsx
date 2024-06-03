@@ -11,15 +11,15 @@ import { IncentivesButton } from "../../../../components/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
 import { CapRemaining } from "./CapRemaining";
-import { useAssetsContext } from "@state";
 import { useFetchViewLendingPoolInfo } from "../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../components/guards/StrategyGuard";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useStateHasMultipleAPYs, useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
 
 export const Heading = () => {
-  const { getHasMultipleAPYs, getStrategyByAddress } = useAssetsContext();
-
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { data: hasMultipleAPYs } = useStateHasMultipleAPYs(asset);
+  const { data: strategyState } = useStateStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
 
   const {
@@ -80,7 +80,7 @@ export const Heading = () => {
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
               <FlexRow className="gap-2">
-                {getHasMultipleAPYs(asset) ? (
+                {hasMultipleAPYs ? (
                   <Typography type="regular3">APY, Up To</Typography>
                 ) : (
                   <Typography type="regular3">Est. APY</Typography>
@@ -90,7 +90,7 @@ export const Heading = () => {
                     tooltip={
                       <Typography type="description">
                         30 day moving average denominated in
-                        {getStrategyByAddress(asset)?.debtAsset.symbol}
+                        {strategyState?.debtAsset?.symbol}
                       </Typography>
                     }
                     size="small"

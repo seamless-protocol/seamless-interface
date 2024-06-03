@@ -1,5 +1,5 @@
 import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber } from "@shared";
-import { ViewRewardToken } from "../../v1/pages/ilm-page/hooks/useFetchViewBaseAsset";
+import { ViewRewardToken } from "./IncentivesDetailCard";
 
 interface IncentivesButtonProps {
   totalApr?: ViewNumber;

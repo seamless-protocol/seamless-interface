@@ -13,16 +13,13 @@ import {
   FlexRow,
   MyFormProvider,
   Typography,
-  useFullTokenData,
   WatchAssetComponentv2,
 } from "../../../../../../shared";
 import { WETH_ADDRESS } from "@meta";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { StrategyConfig, findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
-import { WithdrawModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/withdraw/WithdrawModal";
 import { FormButtons } from "./FormButtons";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { Summary } from "./Summary";
@@ -30,11 +27,13 @@ import { RouterConfig } from "../../../../../router";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
-export const WithdrawStrategyForm = () => {
+export const WithdrawStrategyForm = (selectedSubStrategy?: Address) => {
   const { asset, isStrategy } = useFormSettingsContext();
-
-  const strategy = findILMStrategyByAddress(asset);
+  const { data: strategy } = useStateStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
@@ -42,12 +41,17 @@ export const WithdrawStrategyForm = () => {
     return <>Strategy not found!</>;
   }
 
-  return <WithdrawStrategyLocal strategy={strategy} />;
+  return <WithdrawStrategyLocal strategy={strategy} selectedSubStrategy={selectedSubStrategy} />;
 };
 
+interface WithdrawModalFormData {
+  amount: string;
+}
+
 const WithdrawStrategyLocal: React.FC<{
-  strategy: StrategyConfig;
-}> = ({ strategy }) => {
+  strategy: StrategyState;
+  selectedSubStrategy?: Address
+}> = ({ strategy, selectedSubStrategy }) => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const { data: tokenData } = useFullTokenData(asset);
 
@@ -65,7 +69,7 @@ const WithdrawStrategyLocal: React.FC<{
 
   const { data: price } = useFetchAssetPrice({ asset: strategy.address });
 
-  const { withdrawAsync } = useWriteStrategyWithdraw(strategy.id);
+  const { withdrawAsync } = useWriteStrategyWithdraw(selectedSubStrategy);
 
   // FORM //
   const methods = useForm<WithdrawModalFormData>({
@@ -77,7 +81,7 @@ const WithdrawStrategyLocal: React.FC<{
   const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(strategy.id, debouncedAmount);
+  const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {

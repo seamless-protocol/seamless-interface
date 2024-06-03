@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import {
-  useFullTokenData,
   MyFormProvider,
   FlexCol,
   Typography,
@@ -12,7 +11,6 @@ import {
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
-import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
@@ -24,13 +22,16 @@ import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
-import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+
+interface DepositModalFormData {
+  amount: string;
+}
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
 
   const { data: tokenData } = useFullTokenData(asset);
-  const assetConfig = getBaseAssetConfig(asset);
 
   const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
   const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
@@ -98,7 +99,7 @@ export const SupplyForm = () => {
             <FlexRow className="gap-1 items-center">
               {asset != null && !hideTag && <Tag tag="LEND" />}
 
-              {assetConfig?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
+              {tokenData?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
             </FlexRow>
           </FlexRow>
           {asset === WETH_ADDRESS && (

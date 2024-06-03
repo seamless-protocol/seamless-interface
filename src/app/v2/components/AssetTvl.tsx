@@ -1,9 +1,9 @@
 import React from "react";
 import { Address } from "viem";
 import { DisplayMoney, DisplayPercentageProps } from "@shared";
-import { StrategyData, ilmAssetStrategiesMap } from "../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewDetailTotalSupplied } from "../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewDetailEquity } from "../../state/loop-strategy/queries/useFetchViewEquity";
+import { useStateStrategyByAddress } from "../../state/common/hooks/useFetchAllAssets";
 
 interface AssetTvlProps extends DisplayPercentageProps {
   asset: Address;
@@ -11,13 +11,14 @@ interface AssetTvlProps extends DisplayPercentageProps {
 }
 
 const StrategyTvl: React.FC<{ asset: Address }> = ({ asset, ...rest }) => {
-  const strategies = ilmAssetStrategiesMap.get(asset) as StrategyData[];
+  const { data } = useStateStrategyByAddress(asset);
 
   const {
     data: { dollarAmount },
     isLoading,
     isFetched,
-  } = useFetchViewDetailEquity(strategies[strategies?.length - 1].address);
+    // todo why -> length - 1 here?
+  } = useFetchViewDetailEquity(data?.subStrategyData[data?.subStrategyData?.length - 1].address);
 
   return <DisplayMoney isLoading={isLoading} isFetched={isFetched} {...dollarAmount} {...rest} />;
 };

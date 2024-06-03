@@ -1,10 +1,10 @@
 import { RHFInputSliderField, FlexRow, Typography, DisplayTargetMultiple, FlexCol } from "@shared";
 import React, { useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { ilmAssetStrategiesMap, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { Address } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export interface StrategyData {
   address: Address;
@@ -16,12 +16,10 @@ export interface StrategyData {
 
 export interface StrategySelectorProps {
   name: string;
-  strategy: StrategyConfig;
+  strategy: StrategyState;
 }
 
 export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, strategy }) => {
-  const strategies = ilmAssetStrategiesMap.get(strategy.underlyingAsset.address);
-
   const { ...restTargetMultiple } = useFetchViewTargetMultiple(strategy.address);
   const { setSubStrategy, asset } = useFormSettingsContext();
 
@@ -29,7 +27,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
   const value = watch(name);
 
   useEffect(() => {
-    setSubStrategy(strategies?.[value]?.address);
+    setSubStrategy(strategy?.subStrategyData?.[value]?.address);
   }, [value, asset]);
 
   return (
@@ -39,20 +37,20 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
         <DisplayTargetMultiple
           typography="bold3"
           {...restTargetMultiple}
-          viewValue={`${strategies?.[value]?.targetMultiple.value}`}
-          symbol={`${strategies?.[value]?.targetMultiple.symbol}`}
+          viewValue={`${strategy?.subStrategyData?.[value]?.targetMultiple.value}`}
+          symbol={`${strategy?.subStrategyData?.[value]?.targetMultiple.symbol}`}
         />
       </FlexRow>
-      {strategies != null && strategies.length > 1 && (
+      {strategy?.subStrategyData != null && strategy?.subStrategyData.length > 1 && (
         <Controller
           name={name}
           control={control}
           render={({ field }) => {
             return (
               <>
-                <RHFInputSliderField {...field} min="0" max={strategies.length - 1} />
+                <RHFInputSliderField {...field} min="0" max={((strategy?.subStrategyData?.length || 0) - 1) || 0} />
                 <FlexRow className="justify-between pl-1 mt-[-20px]">
-                  {strategies.map((strategy) => (
+                  {strategy?.subStrategyData?.map((strategy) => (
                     <Typography key={strategy.address} type="medium3">
                       {strategy.targetMultiple.value}
                       {strategy.targetMultiple.symbol}
