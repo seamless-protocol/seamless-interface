@@ -3,7 +3,7 @@ import { Address } from "viem";
 import { DisplayMoney, DisplayPercentageProps } from "@shared";
 import { useFetchViewDetailTotalSupplied } from "../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewDetailEquity } from "../../state/loop-strategy/queries/useFetchViewEquity";
-import { useStateStrategyByAddress } from "../../state/common/hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../../state/common/hooks/useFetchAllAssetsState";
 
 interface AssetTvlProps extends DisplayPercentageProps {
   asset: Address;

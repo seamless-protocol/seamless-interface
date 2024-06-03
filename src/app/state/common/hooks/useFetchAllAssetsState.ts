@@ -40,7 +40,7 @@ export const useFetchAllAssetsState = (): {
     });
   });
 
-  const data = lendingAssets ? [...ilmMarkets, ...(lendingMarkets || [])] : [];
+  const data = lendingAssets ? [...ilmMarkets] : [];
 
   return {
     state: {

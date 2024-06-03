@@ -14,7 +14,7 @@ import { CapRemaining } from "./CapRemaining";
 import { useFetchViewLendingPoolInfo } from "../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../components/guards/StrategyGuard";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
-import { useStateHasMultipleAPYs, useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { useStateHasMultipleAPYs, useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });

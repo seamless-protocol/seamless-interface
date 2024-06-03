@@ -9,7 +9,8 @@ import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
-import { useStateStrategyByAddress } from "../hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../hooks/useFetchAllAssetsState";
+import { getStrategyBySubstrategyAddress } from "../../settings/configUtils";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -24,8 +25,10 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
+  const strategy = getStrategyBySubstrategyAddress(asset);
+
   let price = 0n;
-  if (forStrategy) {
+  if (strategy) {
     const equityUsd = await readContract(config, {
       address: asset,
       abi: loopStrategyAbi,
@@ -42,6 +45,7 @@ export const fetchAssetPriceInBlock = async (
 
     if (totalSupply !== 0n) {
       price = (equityUsd * ONE_ETHER) / totalSupply;
+      console.log({ price })
     }
   } else {
     price = await readContract(config, {
@@ -54,8 +58,9 @@ export const fetchAssetPriceInBlock = async (
   }
 
   if (underlyingAsset) {
-    const underlyingPrice = await fetchAssetPriceInBlock(forStrategy, config, underlyingAsset, blockNumber);
+    const underlyingPrice = await fetchAssetPriceInBlock(false, config, underlyingAsset, blockNumber);
 
+    console.log({ underlyingPrice })
     if (!underlyingPrice) return undefined;
 
     price = (price * ONE_USD) / underlyingPrice;

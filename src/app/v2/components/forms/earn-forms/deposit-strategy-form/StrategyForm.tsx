@@ -25,7 +25,7 @@ import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/h
 import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { RHFStrategySelector } from "./RHFStrategySelector";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();

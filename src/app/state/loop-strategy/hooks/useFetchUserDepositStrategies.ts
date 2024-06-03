@@ -1,5 +1,4 @@
-import { Config, useAccount, useConfig } from "wagmi";
-import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
+import { useConfig, useAccount, Config } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
@@ -17,17 +16,11 @@ const fetchUserDepositStrategies = async (
 ): Promise<Strategy[]> => {
   if (!config || !user) return [];
 
-  const strategies = Object.values(strategiesConfig);
-
-  const promises = strategies.map(async (strategy) => {
-    return Promise.all(strategy.subStrategyData.map(async (subStrategy) => {
-
-      // const promises = Array.from(ilmAssetStrategiesMap.keys()).map(async (depositAsset) => {
-      //   const strategy = ilmAssetStrategiesMap.get(depositAsset)?.[0];
-      //   if (!strategy) return undefined;
-
+  const strategiesArray = Object.values(strategiesConfig);
+  const promises: Promise<Strategy | undefined>[] = strategiesArray.flatMap((strategy) =>
+    strategy.subStrategyData.map(async (subStrategy) => {
       const balance = await readContract(config, {
-        address: subStrategy?.address,
+        address: subStrategy.address,
         abi: loopStrategyAbi,
         functionName: "balanceOf",
         args: [user],
@@ -35,16 +28,16 @@ const fetchUserDepositStrategies = async (
 
       if (balance && balance > 0n) {
         return {
-          asset: strategy?.depositAsset,
-          strategy: subStrategy,
+          asset: strategy.underlyingAsset.address,
+          strategy: subStrategy.address,
         };
       }
       return undefined;
-    }))
-  });
+    })
+  );
 
-  const strategies = (await Promise.all(promises)).filter((strategy): strategy is Strategy => strategy !== undefined);
-  return strategies;
+  const strategyResults = await Promise.all(promises);
+  return strategyResults.filter((strategy): strategy is Strategy => strategy !== undefined);
 }
 
 export const useFetchUserDepositStrategies = () => {

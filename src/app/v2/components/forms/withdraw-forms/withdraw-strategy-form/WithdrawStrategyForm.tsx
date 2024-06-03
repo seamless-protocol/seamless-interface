@@ -27,7 +27,7 @@ import { RouterConfig } from "../../../../../router";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 

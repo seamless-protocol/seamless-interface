@@ -6,7 +6,7 @@ import { IncentivesButton } from "./IncentivesButton";
 import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
-import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../state/common/hooks/useFetchAllAssets";
+import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyGuard } from "./guards/StrategyGuard";
 import { useFullTokenData } from "../../state/common/meta-data-queries/useFullTokenData";
 
@@ -44,8 +44,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
               </Typography>
             </FlexCol>
             <FlexRow className="gap-2">
-              {asset?.tags.map(tag => (
-                <Tag tag={tag} />
+              {asset?.tags.map((tag, index) => (
+                <Tag tag={tag} key={index} />
               ))}
 
               {isGauntletOptimized && <GauntletOptimized />}

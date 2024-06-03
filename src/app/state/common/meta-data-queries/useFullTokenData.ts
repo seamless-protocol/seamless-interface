@@ -38,10 +38,10 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAss
   return {
     ...mergeQueryStates([decimalRest, symbolRest, nameRest]),
     data: {
-      ...config,
       symbol,
       name,
       decimals,
+      ...config,
     },
   };
 };

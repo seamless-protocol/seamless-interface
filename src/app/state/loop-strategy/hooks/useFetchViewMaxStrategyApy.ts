@@ -7,7 +7,7 @@ import { useFetchStrategiesAssets } from "../metadataQueries/useFetchStrategiesA
 import { useQueries } from "@tanstack/react-query";
 import { mergeQueryStates } from "@shared";
 import { fetchStrategyApyQueryOptions } from "./useFetchViewStrategyApy";
-import { useStateStrategyByAddress } from "../../common/hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../../common/hooks/useFetchAllAssetsState";
 
 export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: latestBlockData } = useBlock();

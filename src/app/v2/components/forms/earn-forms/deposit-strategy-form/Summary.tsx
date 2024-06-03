@@ -4,7 +4,7 @@ import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const Summary: React.FC<{

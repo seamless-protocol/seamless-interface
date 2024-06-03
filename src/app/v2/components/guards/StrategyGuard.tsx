@@ -1,6 +1,6 @@
 import React from 'react'
 import { Address } from 'viem'
-import { useStateAssetByAddress } from '../../../state/common/hooks/useFetchAllAssets';
+import { useStateAssetByAddress } from '../../../state/common/hooks/useFetchAllAssetsState';
 
 export const StrategyGuard: React.FC<{
   asset?: Address,

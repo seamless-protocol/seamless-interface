@@ -2,7 +2,7 @@ import React from "react";
 import { FlexRow, Typography } from "@shared";
 import { AssetCard } from "./AssetCard";
 import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
-import { useFetchAllAssetsState } from "../../state/common/hooks/useFetchAllAssets";
+import { useFetchAllAssetsState } from "../../state/common/hooks/useFetchAllAssetsState";
 
 interface AssetPickerProps extends AssetPickerStateHookProps {
   size?: "small" | "normal" | "big";

@@ -31,7 +31,8 @@ export async function fetchStrategyApy(
   prevBlockData?: any,
   strategyAssets?: StrategyAsset
 ): Promise<number | undefined> {
-  if (latestBlockData == null || prevBlockData == null || strategyAssets == null) return undefined;
+  if (latestBlockData == null
+    || prevBlockData == null || strategyAssets == null) return undefined;
 
   const shareValueInLatestBlock = await fetchAssetPriceInBlock(
     true,
@@ -50,11 +51,13 @@ export async function fetchStrategyApy(
 
   if (shareValueInLatestBlock == null || shareValueInPrevBlock == null) return undefined;
 
-  return calculateApy(
+  const result = calculateApy(
     shareValueInLatestBlock,
     shareValueInPrevBlock,
     BigInt(latestBlockData.timestamp - prevBlockData.timestamp)
   );
+
+  return result;
 }
 
 export const fetchStrategyApyQueryOptions = ({
