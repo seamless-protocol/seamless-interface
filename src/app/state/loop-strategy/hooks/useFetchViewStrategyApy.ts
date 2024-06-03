@@ -34,12 +34,14 @@ export async function fetchStrategyApy(
   if (latestBlockData == null || prevBlockData == null || strategyAssets == null) return undefined;
 
   const shareValueInLatestBlock = await fetchAssetPriceInBlock(
+    true,
     rainbowConfig,
     strategy,
     latestBlockData?.number,
     strategyAssets?.debt
   );
   const shareValueInPrevBlock = await fetchAssetPriceInBlock(
+    true,
     rainbowConfig,
     strategy,
     prevBlockData.number,

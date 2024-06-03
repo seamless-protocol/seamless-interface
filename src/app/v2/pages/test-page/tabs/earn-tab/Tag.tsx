@@ -1,5 +1,5 @@
 import { Typography } from "@shared";
-import { TagType } from "@state";
+import { TagType } from "../../../../../state/common/types/StateTypes";
 
 const ColorByTypeDict: { [key in TagType]: string } = {
   LEND: "bg-smallElements-lend border-green-1000",

@@ -1,4 +1,4 @@
-import { baseAssets } from "../state/lending-borrowing/config/BaseAssetsConfig";
+import { Address } from "viem";
 
 const baseUrl = "";
 
@@ -37,8 +37,8 @@ export const RouterConfig = {
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
     ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
-    assetDetails: (id: number) =>
-      `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${baseAssets[id].address.toLowerCase()}&marketName=proto_base_v3`,
+    assetDetails: (address: Address) =>
+      `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${address.toLowerCase()}&marketName=proto_base_v3`,
     baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,
     baseScanAddress: (address: string) => `${baseScan}/address/${address}`,
     vaults: (address: string) => `${vaultsFyiUrl}/${address}`,

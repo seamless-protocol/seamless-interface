@@ -1,21 +1,20 @@
-import { ExternalLink, TokenDescriptionDict } from "@shared";
+import { ExternalLink } from "@shared";
 import { Address } from "viem";
+import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
 
 
 export const VaultsLink: React.FC<{
   asset?: Address;
-  isStrategy?: boolean;
-}> = ({ asset, isStrategy }) => {
-  if (!asset) return null;
-  const link = isStrategy ? TokenDescriptionDict[asset].strategyExternalLinks?.vaultsLink
-    : TokenDescriptionDict[asset].externalLinks?.vaultsLink;
+}> = ({ asset }) => {
+  const { data: { vaultsFyiLink } } = useFullTokenData(asset);
 
-  if (link == null) {
+  if (!asset) return null;
+  if (vaultsFyiLink == null) {
     return null;
   }
 
   return (
-    <ExternalLink url={link} className="text-regular3">
+    <ExternalLink url={vaultsFyiLink} className="text-regular3">
       Analytics
     </ExternalLink>
   );

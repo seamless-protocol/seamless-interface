@@ -95,13 +95,6 @@ export const ilmAssetStrategiesMap1: Map<Address, StrategyData[]> = new Map([
           symbol: "x",
         },
       },
-      // {
-      //   address: "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e",
-      //   targetMultiple: {
-      //     value: 5,
-      //     symbol: "x",
-      //   },
-      // },
     ],
   ],
   [

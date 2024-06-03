@@ -4,29 +4,28 @@ import { formatFetchNumberToViewNumber } from "../../../../shared/utils/helpers"
 import { Displayable, ViewNumber } from "src/shared/types/Displayable";
 import { Address } from "viem";
 import { useFetchStrategiesAssets } from "../metadataQueries/useFetchStrategiesAssets";
-import { ilmAssetStrategiesMap } from "../config/StrategyConfig";
 import { useQueries } from "@tanstack/react-query";
 import { mergeQueryStates } from "@shared";
 import { fetchStrategyApyQueryOptions } from "./useFetchViewStrategyApy";
+import { useStateStrategyByAddress } from "../../common/hooks/useFetchAllAssets";
 
 export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: latestBlockData } = useBlock();
   const { data: prevBlockData } = useBlock({
     blockNumber: latestBlockData ? latestBlockData.number - APY_BLOCK_FRAME : undefined,
   });
-
-  const strategiesData = strategy ? ilmAssetStrategiesMap.get(strategy) || [] : [];
-  const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(strategiesData.map((s) => s.address));
+  const { data: strategyState } = useStateStrategyByAddress(strategy);
+  const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(strategyState?.subStrategyData.map((s) => s.address) || []);
 
   const queryResults = useQueries({
-    queries: strategiesData.map((strategy) =>
+    queries: strategyState ? strategyState.subStrategyData.map((strategy) =>
       fetchStrategyApyQueryOptions({
         strategy: strategy?.address,
         latestBlockData,
         prevBlockData,
         assetsData: assetsData[strategy?.address],
-      })
-    ),
+      }),
+    ) : [],
   });
 
   const maxApy = queryResults.reduce((max, result) => {

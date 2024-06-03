@@ -31,7 +31,9 @@ import { useStateStrategyByAddress } from "../../../../../state/common/hooks/use
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
-export const WithdrawStrategyForm = (selectedSubStrategy?: Address) => {
+export const WithdrawStrategyForm: React.FC<{
+  selectedSubStrategy?: Address
+}> = ({ selectedSubStrategy }) => {
   const { asset, isStrategy } = useFormSettingsContext();
   const { data: strategy } = useStateStrategyByAddress(asset);
 

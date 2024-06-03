@@ -1,7 +1,6 @@
 import { DisplayText, DisplayTextProps } from "@shared";
 import React from "react";
 import { useFetchViewDetailTotalSupplied } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
-import { findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { useFetchViewStrategyRemainingCap } from "../../../../../state/loop-strategy/queries/useFetchStrategyRemainingCap";
 import { Address } from "viem";
 
@@ -16,12 +15,12 @@ export const CapRemaining: React.FC<{
     typography: "medium2",
   },
 }) => {
-  return isStrategy ? (
-    <StrategyRemainingCap asset={asset} {...textProps} />
-  ) : (
-    <RemainingCap asset={asset} {...textProps} />
-  );
-};
+    return isStrategy ? (
+      <StrategyRemainingCap asset={asset} {...textProps} />
+    ) : (
+      <RemainingCap asset={asset} {...textProps} />
+    );
+  };
 
 export const RemainingCap: React.FC<{
   asset?: Address;
@@ -42,9 +41,7 @@ export const StrategyRemainingCap: React.FC<{
   asset?: Address;
   textProps?: DisplayTextProps;
 }> = ({ asset, textProps }) => {
-  const strategy = findILMStrategyByAddress(asset);
-
-  const { data: remainingCap, ...rest } = useFetchViewStrategyRemainingCap(strategy?.address);
+  const { data: remainingCap, ...rest } = useFetchViewStrategyRemainingCap(asset);
 
   return (
     <DisplayText

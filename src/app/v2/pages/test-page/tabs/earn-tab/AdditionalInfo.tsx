@@ -43,7 +43,7 @@ export const AdditionalInfo: React.FC<{
               <ExternalLink url={gitBookUrl} className="text-regular3">
                 Gitbook
               </ExternalLink>
-              <VaultsLink asset={asset} isStrategy={isStrategy} />
+              <VaultsLink asset={asset} />
             </FlexRow>
           </FlexCol>
         </div>

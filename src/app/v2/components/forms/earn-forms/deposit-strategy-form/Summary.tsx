@@ -1,16 +1,17 @@
 import { Address } from "viem";
 import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { findILMStrategyByAddress, StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
 import { StrategyApy } from "../../../AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssets";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const Summary: React.FC<{
   asset: Address;
   previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ asset, previewDepositData }) => {
-  const strategy = findILMStrategyByAddress(asset);
+  const { data: strategy } = useStateStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
@@ -22,7 +23,7 @@ export const Summary: React.FC<{
 };
 
 const SummaryLocal: React.FC<{
-  strategy: StrategyConfig;
+  strategy: StrategyState;
   previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ previewDepositData }) => {
   const { subStrategy } = useFormSettingsContext();

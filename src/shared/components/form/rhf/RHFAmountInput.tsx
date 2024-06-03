@@ -6,7 +6,6 @@ import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
 import { Icon } from "../../images/Icon";
 import { RHFInputFieldProps, RHFInputField } from "./RHFInputField";
-import { useFullTokenData } from "../../../state";
 import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
@@ -16,6 +15,7 @@ import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
 import { useFocusOnAssetChange } from "../../../../app/v2/hooks/useFocusOnAssetChange";
+import { useFullTokenData } from "../../../../app/state/common/meta-data-queries/useFullTokenData";
 
 export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetAddress?: Address;

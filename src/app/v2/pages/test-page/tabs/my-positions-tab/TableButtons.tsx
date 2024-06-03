@@ -55,7 +55,7 @@ export const TableButtons: React.FC<{
             disableAssetPicker
             hideTag
           >
-            {isStrategy ? <WithdrawStrategyForm /> : <WithdrawForm />}
+            {isStrategy ? <WithdrawStrategyForm selectedSubStrategy={asset} /> : <WithdrawForm />}
           </FormSettingsProvider>
         </div>
       </Modal>

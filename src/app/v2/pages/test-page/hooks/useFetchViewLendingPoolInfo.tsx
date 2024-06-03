@@ -1,14 +1,14 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { mergeQueryStates } from "@shared";
-import { baseAssets, getBaseAssetConfig } from "../../../../state/lending-borrowing/config/BaseAssetsConfig";
 import { useFetchRawReservesData } from "../../../../state/lending-borrowing/queries/useFetchRawReservesData";
-import { erc20Abi } from "viem";
+import { Address, erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
 import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
 import { useMemo } from "react";
+import { assetsConfig } from "../../../../state/settings/config";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd: FetchBigInt;
@@ -55,9 +55,10 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   let coinGeckoAllIsFetched = true;
   let coinGeckoAllIsLoading = false;
 
+
   // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
-  for (let i = 0; i < baseAssets.length; i++) {
-    const enabled = !!baseAssets[i].useCoinGeckoPrice;
+  Object.keys(assetsConfig).forEach((key) => {
+    const enabled = !!assetsConfig[key as Address].useCoinGeckoPrice;
     const {
       data: price,
       isLoading: coinGeckoIsLoading,
@@ -65,14 +66,14 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
       // todo fix this
       // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useFetchCoinGeckoPriceByAddress({
-      address: baseAssets[i].address,
+      address: assetsConfig[key as Address].address,
       precision: 8,
       enabled,
     });
-    coinGeckoPrices[baseAssets[i].address] = price || 0n;
+    coinGeckoPrices[assetsConfig[key as Address].address] = price || 0n;
     coinGeckoAllIsFetched = coinGeckoAllIsFetched && (coinGeckoIsFetched || !enabled);
     coinGeckoAllIsLoading = coinGeckoAllIsLoading || coinGeckoIsLoading;
-  }
+  });
 
   const [totalSuppliedUsd, totalBorrowedUsd] = useMemo(() => {
     let totalSuppliedUsd = 0n;
@@ -82,7 +83,7 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
         const { underlyingAsset } = reservesData![0][i / 4]!;
         const totalSupplied = BigInt((results[i].result as bigint) || 0);
         const totalBorrowed = BigInt((results[i + 1].result as bigint) || 0);
-        const assetPrice = getBaseAssetConfig(underlyingAsset)?.useCoinGeckoPrice
+        const assetPrice = assetsConfig[underlyingAsset]?.useCoinGeckoPrice
           ? coinGeckoPrices[underlyingAsset]
           : BigInt((results[i + 2].result as bigint) || 0);
         const assetDecimals = Number(results[i + 3].result || 0);

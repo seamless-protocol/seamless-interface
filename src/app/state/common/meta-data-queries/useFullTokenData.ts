@@ -6,7 +6,7 @@ import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { AssetBaseConfig } from "../../settings/configTypes";
 
-export interface FullAssetData extends AssetBaseConfig {
+export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
   decimals?: number;
 }
 
