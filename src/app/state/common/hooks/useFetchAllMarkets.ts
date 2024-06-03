@@ -1,8 +1,8 @@
 import { Address } from "viem";
 import { useFetchRawReservesList } from "../../lending-borrowing/queries/useFetchRawReservesList";
 import { FetchData } from "../../../../shared/types/Fetch";
-import { ilmAssetStrategiesMap } from "../../loop-strategy/config/StrategyConfig";
 import { lendingAssetToHide } from "../../../../meta";
+import { strategiesConfig } from "../../settings/config";
 
 export interface Market {
   address?: Address;
@@ -27,9 +27,9 @@ export const useFetchAllMarkets = (): FetchData<Market[] | undefined> => {
 
   const ilmMarkets: Market[] = [];
 
-  ilmAssetStrategiesMap.forEach((_, asset) => {
+  Object.keys(strategiesConfig).forEach((key) => {
     ilmMarkets.push({
-      address: asset,
+      address: strategiesConfig[key as Address].address,
       isStrategy: true,
     });
   });
