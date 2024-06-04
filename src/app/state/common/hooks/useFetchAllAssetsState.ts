@@ -2,13 +2,13 @@ import { Address } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { lendingAssetToHide } from "../../../../meta";
 import { strategiesConfig } from "../../settings/config";
-import { AssetState, StrategyState } from "../types/StateTypes";
+import { LendMarketState, StrategyState } from "../types/StateTypes";
 import { useSeamlessContractRead } from "../../../../shared";
 import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../settings/queryConfig";
 
 export const useFetchAllAssetsState = (): {
-  state: FetchData<(AssetState | StrategyState)[]>,
+  state: FetchData<(LendMarketState | StrategyState)[]>,
 } => {
   // todo: use existing raw query?
   const { data: lendingAssets, ...rest } = useSeamlessContractRead({
@@ -20,8 +20,7 @@ export const useFetchAllAssetsState = (): {
     }
   });
 
-  // todo: fetch this
-  const lendingMarkets: AssetState[] | undefined = lendingAssets
+  const lendingMarkets: LendMarketState[] | undefined = lendingAssets
     ?.filter((asset) => {
       return lendingAssetToHide.indexOf(asset?.toLowerCase()) === -1;
     })
@@ -31,6 +30,7 @@ export const useFetchAllAssetsState = (): {
       tags: ["LEND"]
     }));
 
+  // todo: fetch this
   const ilmMarkets: (StrategyState)[] = [];
   Object.keys(strategiesConfig).forEach((key) => {
     ilmMarkets.push({
@@ -50,7 +50,7 @@ export const useFetchAllAssetsState = (): {
   };
 };
 
-export const useStateAssetByAddress = (address?: Address): FetchData<AssetState | StrategyState | undefined> => {
+export const useStateAssetByAddress = (address?: Address): FetchData<LendMarketState | StrategyState | undefined> => {
   const { state } = useFetchAllAssetsState();
 
   return {
@@ -71,6 +71,7 @@ export const useStateStrategyByAddress = (address?: Address): FetchData<Strategy
 export const useStateHasMultipleAPYs = (address?: Address): FetchData<boolean | undefined> => {
   const { state } = useFetchAllAssetsState();
 
+  // todo, replace with fatched state
   const strategy = address ? strategiesConfig[address] : undefined;
   return {
     ...state,

@@ -14,7 +14,7 @@ export interface AssetBaseConfig {
   useCoinGeckoPrice?: boolean;
 }
 
-export interface AssetConfig extends AssetBaseConfig {
+export interface LendMarketConfig extends AssetBaseConfig {
   // todo remove and fetch
   sTokenAddress?: Address;
   // todo remove and fetch
@@ -33,9 +33,9 @@ export interface SubStrategyDataConfig {
 export interface StrategyConfig extends AssetBaseConfig {
   diagram?: string;
   // todo remove and fetch
-  underlyingAsset: AssetConfig;
+  underlyingAsset: LendMarketConfig;
   // todo remove and fetch
-  debtAsset: AssetConfig;
+  debtAsset: LendMarketConfig;
   // todo remove and fetch
   subStrategyData: SubStrategyDataConfig[];
 }

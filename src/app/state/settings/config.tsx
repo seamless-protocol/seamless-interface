@@ -49,9 +49,9 @@ import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
-import { AssetConfig, StrategyConfig } from "./configTypes";
+import { LendMarketConfig, StrategyConfig } from "./configTypes";
 
-export const assetsConfig: { [key: Address]: AssetConfig } = {
+export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WETH_ADDRESS]: {
     name: "Ethereum",
     address: WETH_ADDRESS,
