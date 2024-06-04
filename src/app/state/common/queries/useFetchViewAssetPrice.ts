@@ -9,7 +9,6 @@ import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
-import { useStateStrategyByAddress } from "../hooks/useFetchAllAssetsState";
 import { getStrategyBySubstrategyAddress } from "../../settings/configUtils";
 
 export interface AssetPrice {
@@ -17,7 +16,6 @@ export interface AssetPrice {
 }
 
 export const fetchAssetPriceInBlock = async (
-  forStrategy: boolean,
   config: Config,
   asset?: Address,
   blockNumber?: bigint,
@@ -25,6 +23,7 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
+  // todo is this logic okay?
   const strategy = getStrategyBySubstrategyAddress(asset);
 
   let price = 0n;
@@ -58,9 +57,8 @@ export const fetchAssetPriceInBlock = async (
   }
 
   if (underlyingAsset) {
-    const underlyingPrice = await fetchAssetPriceInBlock(false, config, underlyingAsset, blockNumber);
+    const underlyingPrice = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
 
-    console.log({ underlyingPrice })
     if (!underlyingPrice) return undefined;
 
     price = (price * ONE_USD) / underlyingPrice;
@@ -71,12 +69,9 @@ export const fetchAssetPriceInBlock = async (
 
 export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint, underlyingAsset?: Address) => {
   const config = useConfig();
-  const { data: strategy } = useStateStrategyByAddress(asset);
-  // todo is logic good here ? -> fetchAssetPriceInBlock(!!strategy
-  // const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
 
   const { data: price, ...rest } = useQuery({
-    queryFn: () => fetchAssetPriceInBlock(!!strategy, config, asset, blockNumber, underlyingAsset),
+    queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? 60 * 1000 : undefined,
     enabled: !!asset,
