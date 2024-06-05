@@ -10,7 +10,10 @@ export interface AssetBaseConfig {
 
   vaultsFyiLink?: string;
   isGauntletOptimized?: boolean;
-  faq?: React.ReactNode;
+  faq?: {
+    question: JSX.Element;
+    answer: JSX.Element;
+  }[];
   useCoinGeckoPrice?: boolean;
 }
 

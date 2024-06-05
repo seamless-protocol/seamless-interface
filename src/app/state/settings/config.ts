@@ -33,6 +33,8 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
   ethLong,
+  multiplyETH_ADDRESS_STRATEGY_ID,
+  wstETHBooster_ADDRESS_STRATEGY_ID,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -50,6 +52,7 @@ import brettLogo from "@assets/tokens/brett.svg";
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
 import { LendMarketConfig, StrategyConfig } from "./configTypes";
+import { faqsData } from "./faqConfig";
 
 export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WETH_ADDRESS]: {
@@ -155,9 +158,6 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   },
 };
 
-export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
-export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
-
 export const strategiesConfig: { [key: string]: StrategyConfig } = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: {
     name: "Boost wstETH",
@@ -169,6 +169,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     diagram: wstEthDiagram,
     underlyingAsset: assetsConfig[WSTETH_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],
+    faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
     subStrategyData: [
       {
         address: wstETHBooster_ADDRESS,
@@ -186,6 +187,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     description:
       "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
     address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
+    faq: faqsData[multiplyETH_ADDRESS_STRATEGY_ID],
     logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[WETH_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],
