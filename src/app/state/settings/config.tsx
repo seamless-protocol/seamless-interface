@@ -68,8 +68,7 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     sTokenAddress: sUSDbC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDbC_ADDRESS,
     vaultsFyiLink: RouterConfig.Builder.vaults(sUSDbC_ADDRESS),
-    description:
-      "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
+    description: "USD Base Coin (USDbC) is a stablecoin pegged to the USD, providing a stable value for transactions.",
   },
   [CBETH_ADDRESS]: {
     name: "Coinbase Wrapped Staked Ether",
@@ -89,7 +88,7 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     debtTokenAddress: variableDebtSeamUSDC_ADDRESS,
     description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
     isGauntletOptimized: true,
-    vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS)
+    vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS),
   },
   [DAI_ADDRESS]: {
     name: "Dai",
@@ -161,8 +160,10 @@ export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`
 
 export const strategiesConfig: { [key: string]: StrategyConfig } = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: {
-    name: "wstETH Booster",
+    name: "Boost wstETH",
     subTitle: "Increase ETH staking rewards automatically",
+    description:
+      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
     address: wstETHBooster_ADDRESS_STRATEGY_ID as Address,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
@@ -182,6 +183,8 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",
     subTitle: "Increase ETH price exposure",
+    description:
+      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
     address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
     logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[WETH_ADDRESS],

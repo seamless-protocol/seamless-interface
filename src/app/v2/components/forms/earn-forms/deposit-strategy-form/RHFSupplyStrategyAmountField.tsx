@@ -5,10 +5,12 @@ import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
+import { OverrideUrlSlug } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
 import { useViewDetailRemainingCap } from "../../../../../state/lending-borrowing/hooks/useFetchDetailRemainingCap";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
+import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -63,8 +65,10 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
   }
 
   // *** asset *** //
-  const { asset: assetFromUrl } = useAssetPickerState({ overrideUrlSlug });
-  const asset = assetAddress || assetFromUrl;
+  // *** asset *** //
+  const { asset: assetFromContext } = useFormSettingsContext();
+  const { data: strategyState } = useStateStrategyByAddress(assetAddress || assetFromContext);
+  const asset = assetAddress || strategyState?.underlyingAsset.address;
 
   // *** metadata *** //
   const {

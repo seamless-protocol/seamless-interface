@@ -26,7 +26,7 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={asset}
+            defaultLendMarket={asset}
             onTransaction={() => {
               addModal.current?.close();
             }}
@@ -48,7 +48,7 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={asset}
+            defaultLendMarket={asset}
             onTransaction={() => {
               removeModal.current?.close();
             }}

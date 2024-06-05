@@ -27,7 +27,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
   const value = watch(name);
 
   useEffect(() => {
-    setSubStrategy(strategy?.subStrategyData?.[value]?.address);
+    setSubStrategy(strategy?.subStrategyData?.[value]?.address || 0);
   }, [value, asset]);
 
   return (
@@ -48,7 +48,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
           render={({ field }) => {
             return (
               <>
-                <RHFInputSliderField {...field} min="0" max={((strategy?.subStrategyData?.length || 0) - 1) || 0} />
+                <RHFInputSliderField {...field} min="0" max={(strategy?.subStrategyData?.length || 0) - 1 || 0} />
                 <FlexRow className="justify-between pl-1 mt-[-20px]">
                   {strategy?.subStrategyData?.map((strategy) => (
                     <Typography key={strategy.address} type="medium3">

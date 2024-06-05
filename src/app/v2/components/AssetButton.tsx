@@ -4,15 +4,18 @@ import { Modal, Icon, ModalHandles, Typography } from "@shared";
 import { AssetPicker } from "./AssetPicker";
 import { AssetPickerStateHookProps, useAssetPickerState } from "../hooks/useAssetPickerState";
 import { useFullTokenData } from "../../state/common/meta-data-queries/useFullTokenData";
+import { StrategyState } from "../../state/common/types/StateTypes";
 
 export const AssetButton: React.FC<AssetPickerStateHookProps> = ({ overrideUrlSlug }) => {
   const modalRef = useRef<ModalHandles | null>(null);
-  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug });
-  const { data: tokenData } = useFullTokenData(asset);
+  const { asset, assetState } = useAssetPickerState({ overrideUrlSlug });
+  const { data: tokenData } = useFullTokenData(
+    assetState?.isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset
+  );
 
   useEffect(() => {
     modalRef.current?.close();
-  }, [asset, isStrategy]);
+  }, [asset]);
 
   return (
     <Modal

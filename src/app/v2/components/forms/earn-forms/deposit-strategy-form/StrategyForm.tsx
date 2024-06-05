@@ -9,28 +9,19 @@ import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mut
 import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
-import {
-  useNotificationContext,
-  FlexCol,
-  Typography,
-  WatchAssetComponentv2,
-  MyFormProvider,
-  useToken,
-  FlexRow,
-} from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { getTokenTitle, getOverridenName } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { RHFStrategySelector } from "./RHFStrategySelector";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
   const { data: strategy } = useStateStrategyByAddress(asset);
-
 
   if (!strategy) {
     // eslint-disable-next-line no-console
@@ -49,7 +40,8 @@ interface FormData {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyState;
 }> = ({ strategy }) => {
-  const { asset, onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
+  const { onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
+  const asset = strategy?.underlyingAsset.address;
   const methods = useForm<FormData>({
     defaultValues: {
       amount: "",
@@ -62,8 +54,8 @@ const StrategyFormLocal: React.FC<{
   const { showNotification } = useNotificationContext();
 
   const {
-    data: { symbol: strategySymbol },
-  } = useToken(strategy.address);
+    data: { symbol: strategySymbol, name, subTitle },
+  } = useFullTokenData(strategy.address);
 
   const { depositAsync } = useMutateDepositStrategy(strategy, subStrategy);
 
@@ -71,7 +63,7 @@ const StrategyFormLocal: React.FC<{
     args: [strategy?.underlyingAsset.address],
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const previewDepositData = useFetchViewPreviewDeposit(strategy, debouncedAmount);
+  const previewDepositData = useFetchViewPreviewDeposit(debouncedAmount, subStrategy);
 
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy.address);
 
@@ -111,10 +103,8 @@ const StrategyFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">
-                {asset ? getTokenTitle(asset, true) : "Select strategy to get started"}
-              </Typography>
-              <Typography type="regular3">{asset ? getOverridenName(asset, undefined, true) : ""}</Typography>
+              <Typography type="bold4">{name || "Select strategy to get started"}</Typography>
+              <Typography type="regular3">{subTitle || ""}</Typography>
             </FlexCol>
 
             {asset != null && !hideTag && <Tag tag="ILM" />}
@@ -144,7 +134,7 @@ const StrategyFormLocal: React.FC<{
 
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
-        {asset && <Summary asset={asset} previewDepositData={previewDepositData} />}
+        {asset && <Summary previewDepositData={previewDepositData} />}
         <FormButtons strategy={strategy} subStrategyAddress={subStrategy} onTransaction={onTransaction} />
       </FlexCol>
     </MyFormProvider>

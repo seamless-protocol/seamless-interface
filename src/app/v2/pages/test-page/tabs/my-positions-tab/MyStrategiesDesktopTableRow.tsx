@@ -1,7 +1,6 @@
 import { Address } from "viem";
 import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography } from "../../../../../../shared";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { getOverridenName, getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { Tag } from "../earn-tab/Tag";
 import { AssetApy } from "../../../../components/AssetApy";
 import { IncentivesButton } from "../../../../components/IncentivesButton";
@@ -18,7 +17,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   const isStrategy = !!strategy;
 
   const {
-    data: { logo: icon, name, symbol },
+    data: { logo: icon, name, symbol, subTitle },
   } = useFullTokenData(asset);
 
   // TODO: Don't fetch this when row is for strategy, remove when infrastructure for enabling and disabling queries is ready
@@ -32,8 +31,8 @@ export const MyStrategiesDesktopTableRow: React.FC<{
             <Icon width={40} src={icon} alt={icon || ""} />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <Typography type="bold3">{getTokenTitle(asset, isStrategy)}</Typography>
-                <Typography type="regular1">{getOverridenName(asset, name, isStrategy)}</Typography>
+                <Typography type="bold3">{name}</Typography>
+                <Typography type="regular1">{subTitle}</Typography>
               </FlexCol>
               <FlexRow>
                 <Tag tag={strategy ? "ILM" : "LEND"} />

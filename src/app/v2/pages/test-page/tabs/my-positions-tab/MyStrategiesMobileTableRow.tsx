@@ -1,5 +1,4 @@
 import { FlexCol, FlexRow, Icon, Typography } from "@shared";
-import { getOverridenName, getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { CurrentBalance } from "./CurrentBalance";
 import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
@@ -16,7 +15,7 @@ export const MyStrategiesMobileTableRow: React.FC<{
 }> = ({ asset, strategy }) => {
   const isStrategy = !!strategy;
   const {
-    data: { logo, name, symbol },
+    data: { logo, name, symbol, subTitle },
   } = useFullTokenData(asset);
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
@@ -28,8 +27,8 @@ export const MyStrategiesMobileTableRow: React.FC<{
             <FlexRow className="gap-2">
               <Icon width={40} src={logo} alt={logo || ""} />
               <FlexCol className="gap-1">
-                <Typography type="bold3">{getTokenTitle(asset, isStrategy)}</Typography>
-                <Typography type="regular1">{getOverridenName(asset, name, isStrategy)}</Typography>
+                <Typography type="bold3">{name}</Typography>
+                <Typography type="regular1">{subTitle}</Typography>
               </FlexCol>
             </FlexRow>
           </FlexCol>

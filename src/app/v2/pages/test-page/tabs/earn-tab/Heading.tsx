@@ -14,10 +14,14 @@ import { CapRemaining } from "./CapRemaining";
 import { useFetchViewLendingPoolInfo } from "../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../components/guards/StrategyGuard";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
-import { useStateHasMultipleAPYs, useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
+import {
+  useStateHasMultipleAPYs,
+  useStateStrategyByAddress,
+} from "../../../../../state/common/hooks/useFetchAllAssetsState";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const Heading = () => {
-  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, isStrategy, assetState } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { data: hasMultipleAPYs } = useStateHasMultipleAPYs(asset);
   const { data: strategyState } = useStateStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
@@ -26,20 +30,18 @@ export const Heading = () => {
     data: oraclePrice,
     isLoading: isOraclePriceLoading,
     isFetched: isOraclePriceFetched,
-  } = useFetchViewAssetPrice({ asset });
+  } = useFetchViewAssetPrice({ asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset });
 
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
-  // data?.totalMarketSizeUsd
-  // data?.totalAvailableUsd
-  // data?.totalBorrowsUsd
+
   return (
     <div className="grid grid-cols-6 md:grid-cols-12 gap-6">
       <div className="col-span-6">
         <FlexCol className="gap-3">
           {asset ? (
-            <AssetHeading asset={asset} isStrategy={isStrategy} />
+            <AssetHeading asset={asset} />
           ) : (
             <FlexCol className="gap-2 min-h-24">
               <Typography type="bold5">Choose your strategy to earn APY</Typography>
@@ -75,7 +77,7 @@ export const Heading = () => {
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
               <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
-                <CapRemaining asset={asset} isStrategy={isStrategy} />
+                <CapRemaining assetState={assetState} />
               </FlexRow>
             </FlexCol>
             <FlexCol className="gap-1 md:text-center">
