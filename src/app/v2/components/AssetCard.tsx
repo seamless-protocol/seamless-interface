@@ -7,8 +7,8 @@ import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hook
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { GauntletOptimized } from "./specific-components/GauntletOptimized";
 import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../state/common/hooks/useFetchAllAssetsState";
-import { StrategyGuard } from "./guards/StrategyGuard";
 import { useFullTokenData } from "../../state/common/meta-data-queries/useFullTokenData";
+import { LendMarketGuard } from "./guards/LendMarketGuard";
 
 export interface AssetCardProps {
   address: Address;
@@ -39,14 +39,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
               <Typography type="bold3">{name}</Typography>
-              <Typography type="regular1">
-                {subTitle || name}
-              </Typography>
+              <Typography type="regular1">{subTitle || name}</Typography>
             </FlexCol>
             <FlexRow className="gap-2">
-              {asset?.tags.map((tag, index) => (
-                <Tag tag={tag} key={index} />
-              ))}
+              {asset?.tags.map((tag, index) => <Tag tag={tag} key={index} />)}
 
               {isGauntletOptimized && <GauntletOptimized />}
             </FlexRow>
@@ -61,11 +57,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
             )}
             <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
-          <StrategyGuard asset={address}>
+          <LendMarketGuard asset={address}>
             <IncentivesButton {...supplyIncentives} {...supplyRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
-          </StrategyGuard>
+          </LendMarketGuard>
         </FlexCol>
       </FlexRow>
     </div>

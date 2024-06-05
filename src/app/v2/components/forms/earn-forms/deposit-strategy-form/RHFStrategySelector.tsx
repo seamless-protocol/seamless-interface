@@ -1,7 +1,6 @@
 import { RHFInputSliderField, FlexRow, Typography, DisplayTargetMultiple, FlexCol } from "@shared";
 import React, { useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { useFetchViewTargetMultiple } from "../../../../../state/loop-strategy/hooks/useFetchViewTargetMultiple";
 import { Address } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
@@ -20,7 +19,6 @@ export interface StrategySelectorProps {
 }
 
 export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, strategy }) => {
-  const { ...restTargetMultiple } = useFetchViewTargetMultiple(strategy.address);
   const { setSubStrategy, asset } = useFormSettingsContext();
 
   const { watch, control } = useFormContext();
@@ -36,7 +34,6 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
         <Typography type="bold3">Target Multiple</Typography>
         <DisplayTargetMultiple
           typography="bold3"
-          {...restTargetMultiple}
           viewValue={`${strategy?.subStrategyData?.[value]?.targetMultiple.value}`}
           symbol={`${strategy?.subStrategyData?.[value]?.targetMultiple.symbol}`}
         />
