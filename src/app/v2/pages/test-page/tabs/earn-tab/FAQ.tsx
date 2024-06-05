@@ -2,16 +2,19 @@ import { FlexCol, Icon, Typography } from "@shared";
 import dotSvg from "@assets/common/dot.svg";
 import React from "react";
 import { Address } from "viem";
-import { WETH_ADDRESS, WSTETH_ADDRESS } from "@meta";
+import {
+  multiplyETH_ADDRESS_STRATEGY_ID,
+  wstETHBooster_ADDRESS_STRATEGY_ID,
+} from "../../../../../state/settings/config";
 
 const faqsData = {
-  [WSTETH_ADDRESS]: [
+  [wstETHBooster_ADDRESS_STRATEGY_ID]: [
     {
       question: <>Am I exposed to ETH price with this ILM?</>,
       answer: (
         <>
-          No. Since wstETH and ETH are correlated assets, regardless of ETH price
-          movement, you earn staking fees from holding a larger wstETH balance.
+          No. Since wstETH and ETH are correlated assets, regardless of ETH price movement, you earn staking fees from
+          holding a larger wstETH balance.
         </>
       ),
     },
@@ -39,7 +42,7 @@ const faqsData = {
       answer: <>Head to the “My Positions” Tab to see your ILM LP Token Balance and underlying wstETH Balance.</>,
     },
   ],
-  [WETH_ADDRESS]: [
+  [multiplyETH_ADDRESS_STRATEGY_ID]: [
     {
       question: <>Am I exposed to ETH price with this ILM?</>,
       answer: <>Yes. As ETH increases in price, returns are magnified in bullish market conditions.</>,
