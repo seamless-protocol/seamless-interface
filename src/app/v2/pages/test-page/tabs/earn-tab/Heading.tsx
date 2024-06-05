@@ -72,7 +72,7 @@ export const Heading = () => {
       )}
       {asset && (
         <div className="col-span-6">
-          <div className="flex md:flex-row flex-wrap gap-12 md:gap-16 justify-between md:justify-center w-full mt-2">
+          <div className="flex md:flex-row flex-wrap gap-1 md:gap-3 lg:gap-7 xl:gap-12 justify-between md:justify-center w-full mt-2">
             <FlexCol className="gap-1 md:text-center">
               <Typography type="regular3">TVL</Typography>
               <AssetTvl asset={asset} isStrategy={isStrategy} typography="bold5" />
@@ -102,7 +102,6 @@ export const Heading = () => {
                   </Tooltip>
                 </StrategyGuard>
               </FlexRow>
-
               <AssetApy asset={asset} isStrategy={isStrategy} typography="bold5" showWarning={false} />
               {!isStrategy && (
                 <div className="max-w-40 md:max-w-full">
