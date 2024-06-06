@@ -15,7 +15,7 @@ export const cMaxUserDeposit = (maxDepositValue?: bigint, assetBalanceValue?: bi
   return maxDepositValue! > assetBalanceValue! ? assetBalanceValue : maxDepositValue;
 };
 
-export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt | undefined> => {
+export const useFetchMaxUserDeposit = (strategy?: Address): FetchData<FetchBigInt | undefined> => {
   const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
   const { data: underlyingAssetTokenData, ...underlyingAssetTokenDataRest } = useToken(underlyingAsset);
 
@@ -31,7 +31,7 @@ export const useFetchMaxUserDeposit = (strategy: Address): FetchData<FetchBigInt
   };
 };
 
-export const useFetchViewMaxUserDeposit = (strategy: Address): Displayable<ViewBigInt> => {
+export const useFetchViewMaxUserDeposit = (strategy?: Address): Displayable<ViewBigInt> => {
   const { data: maxUserDeposit, ...rest } = useFetchMaxUserDeposit(strategy);
 
   return {

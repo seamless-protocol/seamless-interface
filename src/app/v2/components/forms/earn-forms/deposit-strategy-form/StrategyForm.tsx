@@ -13,7 +13,6 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
-import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { RHFStrategySelector } from "./RHFStrategySelector";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
@@ -64,8 +63,6 @@ const StrategyFormLocal: React.FC<{
   });
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
   const previewDepositData = useFetchViewPreviewDeposit(debouncedAmount, subStrategy);
-
-  const maxUserDepositData = useFetchViewMaxUserDeposit(strategy.address);
 
   const onSubmitAsync = async (data: FormData) => {
     if (previewDepositData?.data) {
@@ -127,7 +124,6 @@ const StrategyFormLocal: React.FC<{
           <RHFSupplyStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
             assetAddress={disableAssetPicker ? asset : undefined}
-            protocolMaxValue={maxUserDepositData}
             name="amount"
           />
         </FlexCol>

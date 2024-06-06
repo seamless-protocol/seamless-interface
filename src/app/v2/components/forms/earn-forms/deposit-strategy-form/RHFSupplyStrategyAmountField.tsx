@@ -7,10 +7,10 @@ import { useFetchViewAssetBalance } from "../../../../../state/common/queries/us
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../AssetButton";
-import { useViewDetailRemainingCap } from "../../../../../state/lending-borrowing/hooks/useFetchDetailRemainingCap";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -66,7 +66,7 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
 
   // *** asset *** //
   // *** asset *** //
-  const { asset: assetFromContext } = useFormSettingsContext();
+  const { asset: assetFromContext, subStrategy } = useFormSettingsContext();
   const { data: strategyState } = useStateStrategyByAddress(assetAddress || assetFromContext);
   const asset = assetAddress || strategyState?.underlyingAsset.address;
 
@@ -80,7 +80,8 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
   const value = watch(other.name);
 
   // *** max *** //
-  const { data: remainingCapData, ...remainingCapRest } = useViewDetailRemainingCap(asset);
+  const maxUserDepositData = useFetchViewMaxUserDeposit(subStrategy);
+  console.log({ maxUserDepositData });
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
@@ -101,6 +102,7 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
   // *** JSX *** //
   return (
     <RHFAmountInput
+      {...other}
       assetAddress={asset}
       dollarValue={{
         ...otherPrice,
@@ -113,13 +115,9 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
         },
       }}
       protocolMaxValue={{
-        ...remainingCapRest,
-        data: {
-          ...remainingCapData.tokenAmount,
-        },
+        ...maxUserDepositData,
       }}
       assetButton={!assetAddress ? <AssetButton overrideUrlSlug={overrideUrlSlug} /> : null}
-      {...other}
     />
   );
 }
