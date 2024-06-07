@@ -55,7 +55,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-center">
-          <TableButtons asset={asset} isStrategy={isStrategy} />
+          <TableButtons asset={asset} subStrategy={strategy} isStrategy={isStrategy} />
         </TableCell>
       </TableRow>
     </div>

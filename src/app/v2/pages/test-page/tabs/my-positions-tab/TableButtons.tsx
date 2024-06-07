@@ -6,11 +6,13 @@ import { useRef } from "react";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { WithdrawStrategyForm } from "../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm";
 import { WithdrawForm } from "../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm";
+import { getStrategyBySubStrategyAddress } from "../../../../../state/settings/configUtils";
 
 export const TableButtons: React.FC<{
   asset: Address;
+  subStrategy?: Address;
   isStrategy: boolean;
-}> = ({ asset, isStrategy }) => {
+}> = ({ asset, subStrategy, isStrategy }) => {
   const addModal = useRef<ModalHandles>(null);
   const removeModal = useRef<ModalHandles>(null);
 
@@ -26,7 +28,8 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultLendMarket={asset}
+            defaultAsset={getStrategyBySubStrategyAddress(subStrategy)?.address || asset}
+            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               addModal.current?.close();
             }}
@@ -48,14 +51,15 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultLendMarket={asset}
+            defaultAsset={getStrategyBySubStrategyAddress(subStrategy)?.address || asset}
+            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               removeModal.current?.close();
             }}
             disableAssetPicker
             hideTag
           >
-            {isStrategy ? <WithdrawStrategyForm selectedSubStrategy={asset} /> : <WithdrawForm />}
+            {isStrategy ? <WithdrawStrategyForm selectedSubStrategy={subStrategy} /> : <WithdrawForm />}
           </FormSettingsProvider>
         </div>
       </Modal>

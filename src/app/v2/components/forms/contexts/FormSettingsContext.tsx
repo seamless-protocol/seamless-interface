@@ -18,8 +18,8 @@ export const FormSettingsContext = createContext<FormSettingsContextType | undef
 
 interface FormSettingsProviderProps {
   children: ReactNode;
-  defaultLendMarket?: Address;
-  defaultStrategy?: Address;
+  defaultAsset?: Address;
+  defaultSubStrategy?: Address;
   onTransaction?: () => void;
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
@@ -29,15 +29,16 @@ interface FormSettingsProviderProps {
 
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   children,
-  defaultLendMarket,
+  defaultAsset,
+  defaultSubStrategy,
   onTransaction,
   hideTag,
   overrideUrlSlug,
   disableAssetPicker,
 }) => {
   const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
-  const [asset, setAsset] = useState<Address | undefined>(defaultLendMarket);
-  const [subStrategy, setSubStrategy] = useState<Address | undefined>(undefined);
+  const [asset, setAsset] = useState<Address | undefined>(defaultAsset);
+  const [subStrategy, setSubStrategy] = useState<Address | undefined>(defaultSubStrategy);
   const [isStrategy, setIsStrategy] = useState(false);
 
   useEffect(() => {

@@ -32,7 +32,7 @@ import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
 export const WithdrawStrategyForm: React.FC<{
-  selectedSubStrategy?: Address
+  selectedSubStrategy?: Address;
 }> = ({ selectedSubStrategy }) => {
   const { asset, isStrategy } = useFormSettingsContext();
   const { data: strategy } = useStateStrategyByAddress(asset);
@@ -52,16 +52,16 @@ interface WithdrawModalFormData {
 
 const WithdrawStrategyLocal: React.FC<{
   strategy: StrategyState;
-  selectedSubStrategy?: Address
+  selectedSubStrategy?: Address;
 }> = ({ strategy, selectedSubStrategy }) => {
-  const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
-  const { data: tokenData } = useFullTokenData(asset);
+  const { onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
+  const { data: tokenData } = useFullTokenData(selectedSubStrategy);
 
   const {
     data: { symbol: strategySymbol },
-  } = useToken(strategy.address);
+  } = useToken(selectedSubStrategy);
 
-  const { data: underlyingTokenAddress } = useFetchStrategyAsset(strategy.address);
+  const { data: underlyingTokenAddress } = useFetchStrategyAsset(selectedSubStrategy);
   const { data: underlyingTokenData } = useFullTokenData(underlyingTokenAddress);
 
   const account = useAccount();
@@ -69,7 +69,7 @@ const WithdrawStrategyLocal: React.FC<{
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: price } = useFetchAssetPrice({ asset: strategy.address });
+  const { data: price } = useFetchAssetPrice({ asset: selectedSubStrategy });
 
   const { withdrawAsync } = useWriteStrategyWithdraw(selectedSubStrategy);
 
@@ -83,7 +83,11 @@ const WithdrawStrategyLocal: React.FC<{
   const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const { data: previewWithdrawData, isLoading, isFetched } = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
+  const {
+    data: previewWithdrawData,
+    isLoading,
+    isFetched,
+  } = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (previewWithdrawData) {
@@ -165,15 +169,17 @@ const WithdrawStrategyLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-14">
-              <Typography type="bold4">{asset ? "Withdraw" : "Select strategy to get started"}</Typography>
+              <Typography type="bold4">
+                {selectedSubStrategy ? "Withdraw" : "Select strategy to get started"}
+              </Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            {asset != null && !hideTag && <Tag tag="ILM" />}
+            {selectedSubStrategy != null && !hideTag && <Tag tag="ILM" />}
           </FlexRow>
           <RHFWithdrawStrategyAmountField
             overrideUrlSlug={disableAssetPicker ? undefined : overrideUrlSlug}
-            assetAddress={disableAssetPicker ? strategy.address : undefined}
+            assetAddress={disableAssetPicker ? selectedSubStrategy : undefined}
             name="amount"
           />
         </FlexCol>

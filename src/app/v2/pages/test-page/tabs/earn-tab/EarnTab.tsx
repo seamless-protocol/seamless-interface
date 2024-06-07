@@ -19,7 +19,7 @@ export const EarnTab = () => {
         </div>
         <div className="flex-1 flex flex-col gap-4 overflow-auto pt-6">
           <div className="bg-white shadow-card px-8 rounded-card py-6">
-            <FormSettingsProvider defaultLendMarket={asset} overrideUrlSlug={assetSlugConfig}>
+            <FormSettingsProvider defaultAsset={asset} overrideUrlSlug={assetSlugConfig}>
               {isStrategy ? <StrategyForm /> : <SupplyForm />}
             </FormSettingsProvider>
           </div>

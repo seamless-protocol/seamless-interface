@@ -5,6 +5,7 @@ import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { AssetBaseConfig } from "../../settings/configTypes";
+import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 
 export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
   decimals?: number;
@@ -12,7 +13,9 @@ export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
 
 // todo rename hook
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAssetData> => {
-  const config = asset ? assetsConfig[asset] || strategiesConfig[asset] : undefined;
+  const config = asset
+    ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
+    : undefined;
 
   const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,

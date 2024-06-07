@@ -9,7 +9,7 @@ import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
-import { getStrategyBySubstrategyAddress } from "../../settings/configUtils";
+import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -19,12 +19,12 @@ export const fetchAssetPriceInBlock = async (
   config: Config,
   asset?: Address,
   blockNumber?: bigint,
-  underlyingAsset?: Address,
+  underlyingAsset?: Address
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
   // todo is this logic okay?
-  const strategy = getStrategyBySubstrategyAddress(asset);
+  const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
   if (strategy) {
@@ -44,7 +44,7 @@ export const fetchAssetPriceInBlock = async (
 
     if (totalSupply !== 0n) {
       price = (equityUsd * ONE_ETHER) / totalSupply;
-      console.log({ price })
+      console.log({ price });
     }
   } else {
     price = await readContract(config, {
@@ -93,7 +93,9 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
-  const { data: { useCoinGeckoPrice } } = useFullTokenData(asset);
+  const {
+    data: { useCoinGeckoPrice },
+  } = useFullTokenData(asset);
   const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
     address: asset,
     precision: 8,
