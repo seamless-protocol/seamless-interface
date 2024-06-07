@@ -3,21 +3,22 @@ import React from "react";
 import { useFetchViewDetailTotalSupplied } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewStrategyRemainingCap } from "../../../../../state/loop-strategy/queries/useFetchStrategyRemainingCap";
 import { Address } from "viem";
-import { StrategyState, LendMarketState } from "../../../../../state/common/types/StateTypes";
 
 export const CapRemaining: React.FC<{
-  assetState: StrategyState | LendMarketState | undefined;
+  asset?: Address;
+  subStrategy?: Address;
   textProps?: DisplayTextProps;
 }> = ({
-  assetState,
+  asset,
+  subStrategy,
   textProps = {
     typography: "medium2",
   },
 }) => {
-  return assetState?.isStrategy ? (
-    <StrategyRemainingCap asset={(assetState as StrategyState).subStrategyData[0].address} {...textProps} />
+  return subStrategy ? (
+    <StrategyRemainingCap asset={subStrategy} {...textProps} />
   ) : (
-    <RemainingCap asset={assetState?.address} {...textProps} />
+    <RemainingCap asset={asset} {...textProps} />
   );
 };
 

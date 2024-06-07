@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useStateAssetByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 
 interface DepositModalFormData {
   amount: string;
@@ -29,6 +30,7 @@ interface DepositModalFormData {
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
+  const { data: assetState } = useStateAssetByAddress(asset);
 
   const { data: tokenData } = useFullTokenData(asset);
 
@@ -88,17 +90,19 @@ export const SupplyForm = () => {
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
-          <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-14 w-full">
+          <FlexRow className="justify-between">
+            <FlexCol className="gap-1 min-h-14">
               <Typography type="bold4">{tokenData?.name || "Select strategy to get started"}</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
-            <FlexRow className="gap-1 items-center">
-              {asset != null && !hideTag && <Tag tag="LEND" />}
+            <div>
+              <FlexRow className="gap-2">
+                {asset != null && !hideTag && assetState?.tags.map((tag, index) => <Tag tag={tag} key={index} />)}
 
-              {tokenData?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
-            </FlexRow>
+                {tokenData?.isGauntletOptimized && <GauntletOptimized />}
+              </FlexRow>
+            </div>
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">

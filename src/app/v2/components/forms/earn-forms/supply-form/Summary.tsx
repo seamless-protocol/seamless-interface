@@ -1,7 +1,5 @@
 import { DisplayNumber, FlexCol, FlexRow, Typography } from "@shared";
 
-import { LendingApy } from "../../../AssetApy";
-import { AssetApr } from "../../../AssetApr";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { useFetchViewUserAccountData } from "../../../../../state/lending-borrowing/queries/useFetchViewUserAccountData";
@@ -10,6 +8,8 @@ import {
   useFetchViewHealthFactorAfterAction,
 } from "../../../../../state/lending-borrowing/hooks/useFetchViewHealthFactorAfterAction";
 import { useAccount } from "wagmi";
+import { AssetApr } from "../../../asset-data/AssetApr";
+import { LendingApy } from "../../../asset-data/AssetApy";
 
 export const Summary = ({ amount }: { amount: string }) => {
   const account = useAccount();

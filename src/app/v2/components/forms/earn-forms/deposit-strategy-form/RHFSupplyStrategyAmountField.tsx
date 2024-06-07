@@ -6,7 +6,7 @@ import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug } from "../../../../hooks/useAssetPickerState";
-import { AssetButton } from "../../../AssetButton";
+import { AssetButton } from "../../../asset-data/AssetButton";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
@@ -81,7 +81,6 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
 
   // *** max *** //
   const maxUserDepositData = useFetchViewMaxUserDeposit(subStrategy);
-  console.log({ maxUserDepositData });
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });

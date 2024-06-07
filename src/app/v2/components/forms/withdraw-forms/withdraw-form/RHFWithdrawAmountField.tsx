@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { useMemo } from "react";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { AssetButton } from "../../../AssetButton";
+import { AssetButton } from "../../../asset-data/AssetButton";
 import { useFetchViewMaxReserveWithdraw } from "../../../../../state/lending-borrowing/hooks/useFetchViewMaxReserveWithdraw";
 import { walletBalanceDecimalsOptions } from "../../../../../../meta";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";

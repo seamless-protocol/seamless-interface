@@ -11,7 +11,7 @@ export interface FormSettingsContextType {
   setSubStrategy: (asset?: Address) => void;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
-  isStrategy?: boolean;
+  isStrategy: boolean;
 }
 
 export const FormSettingsContext = createContext<FormSettingsContextType | undefined>(undefined);

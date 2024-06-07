@@ -44,7 +44,6 @@ export const fetchAssetPriceInBlock = async (
 
     if (totalSupply !== 0n) {
       price = (equityUsd * ONE_ETHER) / totalSupply;
-      console.log({ price });
     }
   } else {
     price = await readContract(config, {

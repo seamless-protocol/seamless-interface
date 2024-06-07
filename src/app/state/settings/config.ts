@@ -171,6 +171,13 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     debtAsset: assetsConfig[WETH_ADDRESS],
     faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
     subStrategyData: [
+      // {
+      //   address: ethLong,
+      //   targetMultiple: {
+      //     value: 1.5,
+      //     symbol: "x",
+      //   },
+      // },
       {
         address: wstETHBooster_ADDRESS,
         targetMultiple: {

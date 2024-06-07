@@ -1,5 +1,5 @@
 import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { StrategyApy } from "../../../AssetApy";
+import { MaxStrategyApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
@@ -21,7 +21,7 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <StrategyApy strategy={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <MaxStrategyApy strategy={asset} className="text-navy-1000" typography="medium2" />}
       </FlexRow>
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount

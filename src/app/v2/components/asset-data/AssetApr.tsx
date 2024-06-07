@@ -1,7 +1,7 @@
 import { Address } from "viem";
-import { useFetchViewSupplyIncentives } from "../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
+import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { DisplayPercentage, DisplayPercentageProps, Tooltip, useToken } from "@shared";
-import { IncentivesDetailCard } from "./IncentivesDetailCard";
+import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 
 interface AssetAprProps extends DisplayPercentageProps {
   asset: Address;
