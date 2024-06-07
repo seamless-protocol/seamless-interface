@@ -3,6 +3,7 @@ import { FlexRow, Typography } from "@shared";
 import { AssetCard } from "./AssetCard";
 import { AssetPickerStateHookProps, useAssetPickerState } from "../../hooks/useAssetPickerState";
 import { StrategyState, LendMarketState } from "../../../state/common/types/StateTypes";
+import { useFormSettingsContext } from "../forms/contexts/useFormSettingsContext";
 
 export interface AssetPickerProps extends AssetPickerStateHookProps {
   size?: "small" | "normal" | "big";
@@ -17,6 +18,7 @@ const sizeMap = {
 
 export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size, data }) => {
   const { asset, setAsset } = useAssetPickerState({ overrideUrlSlug });
+  const { setAsset: setFormAsset, setSubStrategy } = useFormSettingsContext();
 
   const maxHeightValue = size ? sizeMap[size] : undefined;
   const scrollableStyle: React.CSSProperties = {
@@ -38,12 +40,15 @@ export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size,
           <div
             key={index}
             onClick={() => {
-              const { address } = item;
+              const { address, isStrategy } = item;
               if (item.address === asset) {
                 setAsset(undefined);
+                setFormAsset(undefined);
               } else {
                 setAsset(address);
+                setFormAsset(address);
               }
+              if (!isStrategy) setSubStrategy(undefined);
             }}
           >
             {item.address ? (

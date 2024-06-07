@@ -7,13 +7,13 @@ import { useFetchViewMaxStrategyApy } from "../../../state/loop-strategy/hooks/u
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 
 interface AssetApyProps extends DisplayPercentageProps {
-  asset: Address;
+  asset?: Address;
   isStrategy: boolean;
   showWarning?: boolean;
 }
 
 interface StrategyApyProps extends DisplayPercentageProps {
-  strategy: Address;
+  strategy?: Address;
   showWarning?: boolean;
 }
 
@@ -42,7 +42,7 @@ export const MaxStrategyApy: React.FC<StrategyApyProps> = ({ strategy, showWarni
 };
 
 interface LandingApyProps extends DisplayPercentageProps {
-  asset: Address;
+  asset?: Address;
 }
 
 export const LendingApy: React.FC<LandingApyProps> = ({ asset, ...rest }) => {

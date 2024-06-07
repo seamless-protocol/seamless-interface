@@ -6,7 +6,7 @@ export interface FormSettingsContextType {
   hideTag?: boolean;
   onTransaction?: () => void;
   asset?: Address;
-  setAsset: (asset: Address) => void;
+  setAsset: (asset?: Address) => void;
   subStrategy?: Address;
   setSubStrategy: (asset?: Address) => void;
   overrideUrlSlug?: OverrideUrlSlug;

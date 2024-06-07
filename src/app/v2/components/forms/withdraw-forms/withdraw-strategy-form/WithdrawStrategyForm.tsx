@@ -168,7 +168,7 @@ const WithdrawStrategyLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-14">
+            <FlexCol className="gap-1 min-h-10">
               <Typography type="bold4">
                 {selectedSubStrategy ? "Withdraw" : "Select strategy to get started"}
               </Typography>

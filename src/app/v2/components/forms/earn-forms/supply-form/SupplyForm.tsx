@@ -91,7 +91,7 @@ export const SupplyForm = () => {
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between">
-            <FlexCol className="gap-1 min-h-14">
+            <FlexCol className="gap-1 min-h-10">
               <Typography type="bold4">{tokenData?.name || "Select strategy to get started"}</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>

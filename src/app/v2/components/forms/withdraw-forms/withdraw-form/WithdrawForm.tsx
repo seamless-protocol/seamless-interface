@@ -25,7 +25,9 @@ interface WithdrawModalFormData {
 
 export const WithdrawForm = () => {
   const { asset, onTransaction, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
-  const { data: { symbol, decimals, name, logo } } = useFullTokenData(asset);
+  const {
+    data: { symbol, decimals, name, logo },
+  } = useFullTokenData(asset);
 
   const { showNotification } = useNotificationContext();
 
@@ -89,7 +91,7 @@ export const WithdrawForm = () => {
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-14">
+            <FlexCol className="gap-1 min-h-10">
               <Typography type="bold4">{asset ? "Withdraw" : "Select strategy to get started"}</Typography>
               <Typography type="regular3">{name}</Typography>
             </FlexCol>

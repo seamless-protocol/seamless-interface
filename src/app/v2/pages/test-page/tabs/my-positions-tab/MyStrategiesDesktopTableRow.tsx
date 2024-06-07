@@ -46,7 +46,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3">
-          <AssetApy asset={asset} isStrategy={isStrategy} typography="bold3" />
+          <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
           {!strategy && (
             <IncentivesButton {...supplyIncentives} {...incentivesRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />

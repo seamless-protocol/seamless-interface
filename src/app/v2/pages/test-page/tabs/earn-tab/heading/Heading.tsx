@@ -18,9 +18,12 @@ import {
 } from "../../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../../state/common/types/StateTypes";
 import { useFormSettingsContext } from "../../../../../components/forms/contexts/useFormSettingsContext";
+import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
+import { assetSlugConfig } from "../config/SlugConfig";
 
 export const Heading = () => {
-  const { asset, isStrategy, subStrategy } = useFormSettingsContext();
+  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { subStrategy } = useFormSettingsContext();
   const { data: assetState } = useStateAssetByAddress(asset);
   const { data: strategyState } = useStateStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
@@ -36,91 +39,97 @@ export const Heading = () => {
   const { data, ...rest } = useFetchViewLendingPoolInfo();
 
   return (
-    <div className="grid grid-cols-6 md:grid-cols-12 gap-6">
-      <div className="col-span-6">
-        <FlexCol className="gap-3">
-          {asset ? (
-            <AssetHeading asset={asset} />
-          ) : (
-            <FlexCol className="gap-2 min-h-24">
-              <Typography type="bold5">Choose your strategy to earn APY</Typography>
-              <Typography type="regular1">
-                Seamless offers a wide range of options, from simple lending to advanced integrated strategies (ILM)
-              </Typography>
-            </FlexCol>
-          )}
-        </FlexCol>
-      </div>
+    <div className="">
       {!asset && (
         <div className="col-span-6">
-          <div className="flex md:flex-row flex-col gap-12 md:gap-20 justify-between md:justify-center w-full mt-2">
-            <FlexCol className="gap-1 md:text-center">
-              <Typography type="regular3">Total market size</Typography>
-              <DisplayMoney {...data?.totalMarketSizeUsd} {...rest} typography="bold5" />
-            </FlexCol>
-            <FlexCol className="gap-1 md:text-center">
-              <Typography type="regular3">Total available</Typography>
-              <DisplayMoney {...data?.totalAvailableUsd} {...rest} typography="bold5" />
-            </FlexCol>
-            <FlexCol className="gap-1 md:text-center">
-              <Typography type="regular3">Total borrows</Typography>
-              <DisplayMoney {...data?.totalBorrowsUsd} {...rest} typography="bold5" />
-            </FlexCol>
+          <div
+            className="flex md:flex-row flex-wrap  w-full mt-2
+            rounded-2xl shadow-card bg-neutral-0 p-6 gap-2"
+          >
+            <div className="min-h-12 text-left items-start justify-start">
+              <Typography type="bold5">Seamless stats</Typography>
+            </div>
+            <div className="bg-neutral-100 rounded-2xl py-4 flex flex-row justify-evenly items-start w-full">
+              <FlexCol className="gap-1 md:text-center">
+                <Typography type="regular2">Total market size</Typography>
+                <DisplayMoney {...data?.totalMarketSizeUsd} {...rest} typography="bold4" />
+              </FlexCol>
+              <div className="divider divider-horizontal" />
+              <FlexCol className="gap-1 md:text-center">
+                <Typography type="regular2">Total available</Typography>
+                <DisplayMoney {...data?.totalAvailableUsd} {...rest} typography="bold4" />
+              </FlexCol>
+              <div className="divider divider-horizontal" />
+              <FlexCol className="gap-1 md:text-center">
+                <Typography type="regular2">Total borrows</Typography>
+                <DisplayMoney {...data?.totalBorrowsUsd} {...rest} typography="bold4" />
+              </FlexCol>
+            </div>
           </div>
         </div>
       )}
       {asset && (
         <div className="col-span-6">
-          <div className="flex md:flex-row flex-wrap gap-1 md:gap-3 lg:gap-7 xl:gap-12 justify-between md:justify-center w-full mt-2">
-            <FlexCol className="gap-1 md:text-center">
-              <Typography type="regular3">TVL</Typography>
-              <AssetTvl isStrategy={isStrategy} asset={asset} subStrategy={subStrategy} typography="bold5" />
-              <FlexRow className="max-w-40 md:max-w-full bg-background-capacity items-center border border-solid gap-1 px-2 py-1.5 rounded-[100px] border-metallicBorder">
+          <div
+            className="flex md:flex-row flex-wrap md:justify-center w-full mt-2
+            rounded-2xl shadow-card bg-neutral-0 p-6 gap-2"
+          >
+            {asset && <AssetHeading asset={asset} />}
+
+            <div className="bg-neutral-100 rounded-2xl py-4 flex flex-row justify-evenly items-start w-full">
+              {/* item 1 */}
+              <FlexCol className="gap-1 md:text-center">
+                <Typography type="regular2">TVL</Typography>
+                <AssetTvl isStrategy={isStrategy} asset={asset} subStrategy={subStrategy} typography="bold4" />
                 <CapRemaining asset={asset} subStrategy={subStrategy} />
-              </FlexRow>
-            </FlexCol>
-            <FlexCol className="gap-1 md:text-center">
-              <FlexRow className="gap-2">
-                <Typography type="regular3">Est. APY</Typography>
-                <StrategyGuard asset={asset}>
-                  <Tooltip
-                    tooltip={
-                      <Typography type="description">
-                        30 day moving average denominated in
-                        {strategyState?.debtAsset?.symbol}
-                      </Typography>
-                    }
-                    size="small"
-                    theme="dark"
-                  >
-                    <InformationCircleIcon className="cursor-pointer" width={15} />
-                  </Tooltip>
-                </StrategyGuard>
-              </FlexRow>
-              <AssetApy
-                asset={asset}
-                isStrategy={isStrategy}
-                subStrategy={subStrategy}
-                typography="bold5"
-                showWarning={false}
-              />
-              {!isStrategy && (
-                <div className="max-w-40 md:max-w-full">
-                  <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-                    <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
-                  </IncentivesButton>
-                </div>
-              )}
-            </FlexCol>
-            <FlexCol className="gap-1 md:text-center">
-              <Typography type="regular3">Oracle price</Typography>
-              <DisplayMoney
-                typography="bold5"
-                {...oraclePrice}
-                isLoading={isOraclePriceLoading}
-                isFetched={isOraclePriceFetched}
-              />
-            </FlexCol>
+              </FlexCol>
+              <div className="divider divider-horizontal" />
+              {/* item 2 */}
+              <FlexCol className="gap-1 md:text-center items-center">
+                <FlexRow className="gap-2">
+                  <Typography type="regular2">Est. APY</Typography>
+                  <StrategyGuard asset={asset}>
+                    <Tooltip
+                      tooltip={
+                        <Typography type="description">
+                          30 day moving average denominated in
+                          {strategyState?.debtAsset?.symbol}
+                        </Typography>
+                      }
+                      size="small"
+                      theme="dark"
+                    >
+                      <InformationCircleIcon className="cursor-pointer" width={15} />
+                    </Tooltip>
+                  </StrategyGuard>
+                </FlexRow>
+                <AssetApy
+                  asset={asset}
+                  isStrategy={isStrategy}
+                  subStrategy={subStrategy}
+                  typography="bold4"
+                  showWarning={false}
+                />
+                {!isStrategy && (
+                  <div className="max-w-40 md:max-w-full">
+                    <IncentivesButton {...supplyIncentives} {...incentivesRest}>
+                      <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
+                    </IncentivesButton>
+                  </div>
+                )}
+              </FlexCol>
+              <div className="divider divider-horizontal" />
+              {/* item 3 */}
+              <FlexCol className="gap-1 md:text-center">
+                <Typography type="regular2">Oracle price</Typography>
+                <DisplayMoney
+                  typography="bold4"
+                  {...oraclePrice}
+                  isLoading={isOraclePriceLoading}
+                  isFetched={isOraclePriceFetched}
+                />
+              </FlexCol>
+            </div>
           </div>
         </div>
       )}

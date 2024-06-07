@@ -25,7 +25,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
   const value = watch(name);
 
   useEffect(() => {
-    setSubStrategy(strategy?.subStrategyData?.[value]?.address || 0);
+    setSubStrategy(strategy?.subStrategyData?.[value]?.address || undefined);
   }, [value, asset]);
 
   return (

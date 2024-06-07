@@ -39,7 +39,7 @@ export const MyStrategiesMobileTableRow: React.FC<{
             <CurrentBalance asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
           <FlexCol className="text-end items-end">
-            <AssetApy asset={asset} isStrategy={isStrategy} typography="bold3" />
+            <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
             {!strategy && (
               <IncentivesButton {...supplyIncentives} {...incentivesRest}>
                 <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />

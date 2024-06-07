@@ -8,13 +8,7 @@ export const CapRemaining: React.FC<{
   asset?: Address;
   subStrategy?: Address;
   textProps?: DisplayTextProps;
-}> = ({
-  asset,
-  subStrategy,
-  textProps = {
-    typography: "medium2",
-  },
-}) => {
+}> = ({ asset, subStrategy, textProps }) => {
   return subStrategy ? (
     <StrategyRemainingCap asset={subStrategy} {...textProps} />
   ) : (
@@ -33,6 +27,8 @@ export const RemainingCap: React.FC<{
       viewValue={`${remainingCap?.capacityRemainingPercentage?.viewValue || ""}% cap remaining`}
       {...rest}
       {...textProps}
+      typography="medium1"
+      className="text-primary-600"
     />
   );
 };
@@ -48,6 +44,8 @@ export const StrategyRemainingCap: React.FC<{
       viewValue={`${remainingCap?.remainingCapPercentage?.viewValue || ""}% cap remaining`}
       {...rest}
       {...textProps}
+      typography="medium1"
+      className="text-primary-600"
     />
   );
 };
