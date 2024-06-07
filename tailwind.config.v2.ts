@@ -88,6 +88,7 @@ export default {
           hover: "#FFF",
           light: "#A5A8B6",
           dark: "#62677B",
+          notSelected: "#6D7C95",
         },
         navy: {
           1000: "#0B254F",

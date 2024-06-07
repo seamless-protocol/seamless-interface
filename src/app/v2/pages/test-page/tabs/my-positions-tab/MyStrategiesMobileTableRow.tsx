@@ -1,11 +1,11 @@
 import { FlexCol, FlexRow, Icon, Typography } from "@shared";
 import { CurrentBalance } from "./CurrentBalance";
-import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
+import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { AssetApy } from "../../../../components/AssetApy";
+import { AssetApy } from "../../../../components/asset-data/AssetApy";
 import { Address } from "viem";
 import { Tag } from "../earn-tab/Tag";
-import { IncentivesButton } from "../../../../components/IncentivesButton";
+import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
 import { TableButtonsMobile } from "./TableButtonsMobile";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 

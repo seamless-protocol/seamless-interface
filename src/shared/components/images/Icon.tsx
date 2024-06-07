@@ -46,8 +46,8 @@ export const Icon: React.FC<IconProps> = ({
     return (
       <span
         style={{
-          width: rest.width,
-          height: rest.height,
+          width: rest.width || 32,
+          height: rest.height || 32,
         }}
         className={
           loaderSkeleton
