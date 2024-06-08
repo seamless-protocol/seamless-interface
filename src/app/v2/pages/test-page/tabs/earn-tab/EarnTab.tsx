@@ -5,7 +5,7 @@ import { FormSettingsProvider } from "../../../../components/forms/contexts/Form
 import { AdditionalInfo } from "./AdditionalInfo";
 import { AssetPickerWithFilter } from "../../../../components/asset-picker/AssetPickerWithFilter";
 import { FlexCol, Typography } from "../../../../../../shared";
-import { FormHolder } from "./FormHolder";
+import { FormContainer } from "./FormContainer";
 
 export const EarnTab = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -29,7 +29,7 @@ export const EarnTab = () => {
           <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
             <Heading />
 
-            <FormHolder asset={asset} />
+            <FormContainer asset={asset} />
             <AdditionalInfo asset={asset} isStrategy={isStrategy} />
           </div>
         </div>

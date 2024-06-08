@@ -8,7 +8,9 @@ import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData"
 import { useFullTokenData } from "../../common/meta-data-queries/useFullTokenData";
 
 export enum Action {
+  // eslint-disable-next-line no-unused-vars
   Deposit = "Deposit",
+  // eslint-disable-next-line no-unused-vars
   Withdraw = "Withdraw",
 }
 

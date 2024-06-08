@@ -6,7 +6,7 @@ import { useFormSettingsContext } from "../../../../components/forms/contexts/us
 import { useStateAssetByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
-export const FormHolder: React.FC<{
+export const FormContainer: React.FC<{
   asset?: Address;
 }> = ({ asset }) => {
   const { setAsset, setSubStrategy, setIsStrategy } = useFormSettingsContext();
@@ -18,8 +18,8 @@ export const FormHolder: React.FC<{
     if (assetState?.isStrategy) {
       setIsStrategy(true);
       // set sub strategy to last one
-      const subStrategyData = (assetState as StrategyState)?.subStrategyData;
-      const index = subStrategyData ? subStrategyData.length - 1 : 0;
+      const { subStrategyData } = assetState as StrategyState;
+      const index = subStrategyData.length - 1;
       const newSubStrategy = subStrategyData[index] ? subStrategyData[index].address : undefined;
 
       setSubStrategy(newSubStrategy);

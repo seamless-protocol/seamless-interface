@@ -43,7 +43,7 @@ const StrategyFormLocal: React.FC<{
   const { onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const asset = strategy?.underlyingAsset.address;
 
-  const subStrIndex = strategy?.subStrategyData?.findIndex((x) => x.address === subStrategy);
+  const subStrIndex = strategy.subStrategyData.findIndex((x) => x.address === subStrategy);
   const initialSliderValue = subStrIndex === -1 ? 0 : subStrIndex;
 
   const methods = useForm<FormData>({
