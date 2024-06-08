@@ -17,6 +17,7 @@ import { RHFStrategySelector } from "./RHFStrategySelector";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useEffect } from "react";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -41,14 +42,22 @@ const StrategyFormLocal: React.FC<{
 }> = ({ strategy }) => {
   const { onTransaction, subStrategy, hideTag, disableAssetPicker, overrideUrlSlug } = useFormSettingsContext();
   const asset = strategy?.underlyingAsset.address;
+
+  const subStrIndex = strategy?.subStrategyData?.findIndex((x) => x.address === subStrategy);
+  const initialSliderValue = subStrIndex === -1 ? 0 : subStrIndex;
+
   const methods = useForm<FormData>({
     defaultValues: {
       amount: "",
-      sliderValue: 0,
+      sliderValue: initialSliderValue,
     },
   });
-  const { handleSubmit, watch, reset } = methods;
+  const { handleSubmit, watch, reset, setValue } = methods;
   const amount = watch("amount", "");
+
+  useEffect(() => {
+    setValue("sliderValue", initialSliderValue);
+  }, [strategy?.subStrategyData?.length]);
 
   const { showNotification } = useNotificationContext();
 

@@ -1,18 +1,17 @@
 import { Heading } from "./heading/Heading";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
-import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { AdditionalInfo } from "./AdditionalInfo";
 import { AssetPickerWithFilter } from "../../../../components/asset-picker/AssetPickerWithFilter";
 import { FlexCol, Typography } from "../../../../../../shared";
+import { FormHolder } from "./FormHolder";
 
 export const EarnTab = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
 
   return (
-    <FormSettingsProvider defaultAsset={asset} overrideUrlSlug={assetSlugConfig}>
+    <FormSettingsProvider overrideUrlSlug={assetSlugConfig}>
       <div className="px-4 md:px-0">
         <div className="flex flex-row gap-6">
           <div className="w-[45%] overflow-auto hidden md:block">
@@ -30,9 +29,7 @@ export const EarnTab = () => {
           <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
             <Heading />
 
-            <div className="bg-white shadow-card px-8 rounded-card py-6">
-              {isStrategy ? <StrategyForm /> : <SupplyForm />}
-            </div>
+            <FormHolder asset={asset} />
             <AdditionalInfo asset={asset} isStrategy={isStrategy} />
           </div>
         </div>

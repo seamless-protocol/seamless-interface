@@ -55,7 +55,7 @@ export const LendingApy: React.FC<LandingApyProps> = ({ asset, ...rest }) => {
 };
 
 interface SubStrategyApyProps extends DisplayPercentageProps {
-  subStrategy: Address;
+  subStrategy?: Address;
   showWarning?: boolean;
 }
 

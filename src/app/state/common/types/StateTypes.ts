@@ -9,8 +9,7 @@ export interface AssetBase {
   tags: TagType[];
   // todo add apy? and any other sortable/filterable data
 }
-export interface LendMarketState extends AssetBase {
-}
+export interface LendMarketState extends AssetBase {}
 export interface StrategyState extends AssetBase {
   // todo replace it with fetched data
   underlyingAsset: LendMarketConfig;

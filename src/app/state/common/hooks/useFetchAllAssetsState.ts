@@ -8,7 +8,7 @@ import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../settings/queryConfig";
 
 export const useFetchAllAssetsState = (): {
-  state: FetchData<(LendMarketState | StrategyState)[]>,
+  state: FetchData<(LendMarketState | StrategyState)[]>;
 } => {
   // todo: use existing raw query?
   const { data: lendingAssets, ...rest } = useSeamlessContractRead({
@@ -16,8 +16,8 @@ export const useFetchAllAssetsState = (): {
     abi: lendingPoolAbi,
     functionName: "getReservesList",
     query: {
-      ...metadataQueryConfig
-    }
+      ...metadataQueryConfig,
+    },
   });
 
   const lendingMarkets: LendMarketState[] | undefined = lendingAssets
@@ -27,16 +27,16 @@ export const useFetchAllAssetsState = (): {
     .map((asset) => ({
       address: asset,
       isStrategy: false,
-      tags: ["LEND"]
+      tags: ["LEND"],
     }));
 
   // todo: fetch this
-  const ilmMarkets: (StrategyState)[] = [];
+  const ilmMarkets: StrategyState[] = [];
   Object.keys(strategiesConfig).forEach((key) => {
     ilmMarkets.push({
       isStrategy: true,
       tags: ["ILM"],
-      ...strategiesConfig[key as Address]
+      ...strategiesConfig[key as Address],
     });
   });
 
@@ -45,7 +45,7 @@ export const useFetchAllAssetsState = (): {
   return {
     state: {
       data,
-      ...rest
+      ...rest,
     },
   };
 };
@@ -55,18 +55,18 @@ export const useStateAssetByAddress = (address?: Address): FetchData<LendMarketS
 
   return {
     ...state,
-    data: state.data.find(x => x.address === address),
-  }
-}
+    data: state.data.find((x) => x.address === address),
+  };
+};
 
 export const useStateStrategyByAddress = (address?: Address): FetchData<StrategyState | undefined> => {
   const { state } = useFetchAllAssetsState();
 
   return {
     ...state,
-    data: state.data.find(x => x.address === address && x.isStrategy === true) as StrategyState,
-  }
-}
+    data: state.data.find((x) => x.address === address && x.isStrategy === true) as StrategyState,
+  };
+};
 
 export const useStateHasMultipleAPYs = (address?: Address): FetchData<boolean | undefined> => {
   const { state } = useFetchAllAssetsState();
@@ -76,6 +76,5 @@ export const useStateHasMultipleAPYs = (address?: Address): FetchData<boolean | 
   return {
     ...state,
     data: strategy ? strategy.subStrategyData.length > 1 : false,
-  }
-}
-
+  };
+};
