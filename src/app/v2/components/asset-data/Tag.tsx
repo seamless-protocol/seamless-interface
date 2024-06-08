@@ -1,5 +1,5 @@
 import { Icon, Typography } from "@shared";
-import { TagType } from "../../../../../state/common/types/StateTypes";
+import { TagType } from "../../../state/common/types/StateTypes";
 
 import ilmIcon from "@assets/tags/ilm.svg";
 import lendIcon from "@assets/tags/lend.svg";

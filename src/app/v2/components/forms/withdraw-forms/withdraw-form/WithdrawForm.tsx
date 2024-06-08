@@ -12,7 +12,7 @@ import {
 } from "../../../../../../shared";
 import { RouterConfig } from "../../../../../router";
 import { FormButtons } from "./FormButtons";
-import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../../../asset-data/Tag";
 import { Summary } from "./Summary";
 import { useMutateWithdrawLending } from "../../../../../state/lending-borrowing/mutations/useMutateWithdrawLending";
 import { RHFWithdrawAmountField } from "./RHFWithdrawAmountField";

@@ -21,7 +21,7 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import { FormButtons } from "./FormButtons";
-import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../../../asset-data/Tag";
 import { Summary } from "./Summary";
 import { RouterConfig } from "../../../../../router";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";

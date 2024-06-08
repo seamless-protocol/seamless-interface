@@ -6,7 +6,7 @@ import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
-import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../../../asset-data/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";

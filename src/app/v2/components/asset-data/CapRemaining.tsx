@@ -1,7 +1,7 @@
 import { DisplayText, DisplayTextProps } from "@shared";
 import React from "react";
-import { useFetchViewDetailTotalSupplied } from "../../../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
-import { useFetchViewStrategyRemainingCap } from "../../../../../state/loop-strategy/queries/useFetchStrategyRemainingCap";
+import { useFetchViewDetailTotalSupplied } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
+import { useFetchViewStrategyRemainingCap } from "../../../state/loop-strategy/queries/useFetchStrategyRemainingCap";
 import { Address } from "viem";
 
 export const CapRemaining: React.FC<{

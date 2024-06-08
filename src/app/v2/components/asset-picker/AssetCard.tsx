@@ -3,7 +3,7 @@ import { FlexRow, Icon, FlexCol, Typography } from "@shared";
 import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../../state/common/hooks/useFetchAllAssetsState";
 import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { Tag } from "../../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../asset-data/Tag";
 import { LendMarketGuard } from "../guards/LendMarketGuard";
 import { IncentivesButton } from "../incentives/IncentivesButton";
 import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";

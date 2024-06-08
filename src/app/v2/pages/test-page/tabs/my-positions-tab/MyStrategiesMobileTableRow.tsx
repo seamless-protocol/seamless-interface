@@ -4,7 +4,7 @@ import { IncentivesDetailCard } from "../../../../components/incentives/Incentiv
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { AssetApy } from "../../../../components/asset-data/AssetApy";
 import { Address } from "viem";
-import { Tag } from "../earn-tab/Tag";
+import { Tag } from "../../../../components/asset-data/Tag";
 import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
 import { TableButtonsMobile } from "./TableButtonsMobile";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";

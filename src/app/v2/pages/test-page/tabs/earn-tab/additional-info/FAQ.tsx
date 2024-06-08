@@ -2,7 +2,7 @@ import { FlexCol, Icon, Typography } from "@shared";
 import dotSvg from "@assets/common/dot.svg";
 import React from "react";
 import { Address } from "viem";
-import { strategiesConfig } from "../../../../../state/settings/config";
+import { strategiesConfig } from "../../../../../../state/settings/config";
 
 const FAQItem: React.FC<{
   question: React.ReactNode;

@@ -1,7 +1,7 @@
 import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { gitBookUrl } from "@router";
-import { VaultsLink } from "../../../../components/specific-components/VaultsLink";
+import { VaultsLink } from "../../../../../components/specific-components/VaultsLink";
 import { Address } from "viem";
 
 export const AdditionalInfo: React.FC<{

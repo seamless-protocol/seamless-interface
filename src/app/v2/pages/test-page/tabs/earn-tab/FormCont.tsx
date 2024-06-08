@@ -6,7 +6,7 @@ import { useFormSettingsContext } from "../../../../components/forms/contexts/us
 import { useStateAssetByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
-export const FormContainer: React.FC<{
+export const FormCont: React.FC<{
   asset?: Address;
 }> = ({ asset }) => {
   const { setAsset, setSubStrategy, setIsStrategy } = useFormSettingsContext();

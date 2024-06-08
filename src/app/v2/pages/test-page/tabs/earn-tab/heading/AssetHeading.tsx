@@ -1,6 +1,6 @@
 import { Address } from "viem";
-import { FlexCol, FlexRow, Icon, Typography } from "../../../../../../shared";
-import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { FlexCol, FlexRow, Icon, Typography } from "../../../../../../../shared";
+import { useFullTokenData } from "../../../../../../state/common/meta-data-queries/useFullTokenData";
 
 export const AssetHeading: React.FC<{ asset: Address }> = ({ asset }) => {
   const { data: tokenData } = useFullTokenData(asset);

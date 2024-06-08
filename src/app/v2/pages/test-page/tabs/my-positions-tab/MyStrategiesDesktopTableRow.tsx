@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography } from "../../../../../../shared";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { Tag } from "../earn-tab/Tag";
+import { Tag } from "../../../../components/asset-data/Tag";
 import { AssetApy } from "../../../../components/asset-data/AssetApy";
 import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
 import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
