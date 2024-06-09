@@ -25,11 +25,8 @@ export default defineConfig(({ mode }) => {
         "@assets": path.resolve(__dirname, "src/assets"),
         "@shared": path.resolve(__dirname, "src/shared/index"),
         "@generated": path.resolve(__dirname, "src/app/generated"),
-        // "@state": path.resolve(__dirname, "src/app/state"),
-        // "@app-components": path.resolve(__dirname, "src/app/components"),
         "@router": path.resolve(__dirname, "src/app/router"),
         "@meta": path.resolve(__dirname, "src/meta/index"),
-        "@state": path.resolve(__dirname, "src/app/state/contexts/index"),
       },
     },
 
