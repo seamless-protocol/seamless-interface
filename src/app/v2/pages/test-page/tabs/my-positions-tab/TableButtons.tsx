@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { WithdrawStrategyForm } from "../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm";
 import { WithdrawForm } from "../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm";
-import { getStrategyBySubStrategyAddress } from "../../../../../state/settings/configUtils";
+import { useStrategyBySubStrategyAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 
 export const TableButtons: React.FC<{
   asset: Address;
@@ -15,6 +15,8 @@ export const TableButtons: React.FC<{
 }> = ({ asset, subStrategy, isStrategy }) => {
   const addModal = useRef<ModalHandles>(null);
   const removeModal = useRef<ModalHandles>(null);
+
+  const { data: strategy } = useStrategyBySubStrategyAddress(subStrategy);
 
   return (
     <FlexRow className="gap-2 text-start cursor-default">
@@ -28,7 +30,7 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={getStrategyBySubStrategyAddress(subStrategy)?.address || asset}
+            defaultAsset={strategy?.address || asset}
             defaultSubStrategy={subStrategy}
             onTransaction={() => {
               addModal.current?.close();
@@ -51,7 +53,7 @@ export const TableButtons: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={getStrategyBySubStrategyAddress(subStrategy)?.address || asset}
+            defaultAsset={strategy?.address || asset}
             defaultSubStrategy={subStrategy}
             onTransaction={() => {
               removeModal.current?.close();
