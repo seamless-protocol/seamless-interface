@@ -3,11 +3,11 @@ import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { gitBookUrl } from "@router";
 import { VaultsLink } from "../../../../../components/specific-components/VaultsLink";
 import { Address } from "viem";
+import { hasFaqByAddress } from "../../../../../../state/settings/configUtils";
 
 export const AdditionalInfo: React.FC<{
   asset?: Address;
-  isStrategy?: boolean;
-}> = ({ asset, isStrategy }) => {
+}> = ({ asset }) => {
   if (!asset) return null;
 
   return (
@@ -21,14 +21,14 @@ export const AdditionalInfo: React.FC<{
           <HistoricalPerformance />
         </div>
       </div> */}
-      {isStrategy && (
+      {hasFaqByAddress(asset) && (
         <div className="collapse collapse-arrow join-item border-b">
           <input type="radio" name="my-accordion-4" />
           <div className="collapse-title">
             <Typography type="medium4">FAQ</Typography>
           </div>
           <div className="collapse-content">
-            <FAQ asset={asset} isStrategy={isStrategy} />
+            <FAQ asset={asset} />
           </div>
         </div>
       )}

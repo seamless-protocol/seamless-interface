@@ -8,7 +8,7 @@ import { FlexCol, Typography } from "../../../../../../shared";
 import { FormCont } from "./FormCont";
 
 export const EarnTab = () => {
-  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
 
   return (
     <FormSettingsProvider overrideUrlSlug={assetSlugConfig}>
@@ -30,7 +30,7 @@ export const EarnTab = () => {
             <Heading />
 
             <FormCont asset={asset} />
-            <AdditionalInfo asset={asset} isStrategy={isStrategy} />
+            <AdditionalInfo asset={asset} />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { FlexCol, Icon, Typography } from "@shared";
 import dotSvg from "@assets/common/dot.svg";
 import React from "react";
 import { Address } from "viem";
-import { strategiesConfig } from "../../../../../../state/settings/config";
+import { assetsConfig, strategiesConfig } from "../../../../../../state/settings/config";
 
 const FAQItem: React.FC<{
   question: React.ReactNode;
@@ -23,15 +23,25 @@ const FAQItem: React.FC<{
 
 export const FAQ: React.FC<{
   asset: Address;
-  isStrategy?: boolean;
-}> = ({ asset, isStrategy }) => {
-  if (!isStrategy || !strategiesConfig[asset]?.faq) return null;
+}> = ({ asset }) => {
+  if (strategiesConfig[asset]?.faq) {
+    return (
+      <FlexCol>
+        {strategiesConfig[asset]?.faq?.map((faq, index) => (
+          <FAQItem key={index} question={faq.question} answer={faq.answer} />
+        ))}
+      </FlexCol>
+    );
+  }
+  if (!assetsConfig[asset]?.faq) {
+    return (
+      <FlexCol>
+        {assetsConfig[asset]?.faq?.map((faq, index) => (
+          <FAQItem key={index} question={faq.question} answer={faq.answer} />
+        ))}
+      </FlexCol>
+    );
+  }
 
-  return (
-    <FlexCol>
-      {strategiesConfig[asset]?.faq?.map((faq, index) => (
-        <FAQItem key={index} question={faq.question} answer={faq.answer} />
-      ))}
-    </FlexCol>
-  );
+  return null;
 };
