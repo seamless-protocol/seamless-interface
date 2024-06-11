@@ -2,9 +2,9 @@ import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../settings/queryConfig";
 import { readContract } from "wagmi/actions";
-import { rainbowConfig } from "../../../config/rainbow.config";
 import { useQueries } from "@tanstack/react-query";
 import { Fetch, mergeQueryStates } from "@shared";
+import { config } from "../../../config/rainbow.config";
 
 export interface StrategyAsset {
   underlying: Address;
@@ -40,8 +40,8 @@ export const useFetchStrategiesAssets = (strategies: Address[]): Fetch<StrategyA
 export const fetchStrategyAssets = async (strategy?: Address) => {
   if (!strategy) return undefined;
 
-  // todo: create wrapper for this? first param should always be rainbowConfig
-  return readContract(rainbowConfig, {
+  // todo: create wrapper for this? first param should always be config
+  return readContract(config, {
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "getAssets",

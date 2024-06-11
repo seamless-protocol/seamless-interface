@@ -7,9 +7,9 @@ import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
 import { mergeQueryStates } from "@shared";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { rainbowConfig } from "../../../config/rainbow.config";
 import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { StrategyAsset } from "../metadataQueries/useFetchStrategiesAssets";
+import { config } from "../../../config/rainbow.config";
 
 export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: bigint): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
@@ -31,17 +31,16 @@ export async function fetchStrategyApy(
   prevBlockData?: any,
   strategyAssets?: StrategyAsset
 ): Promise<number | undefined> {
-  if (latestBlockData == null
-    || prevBlockData == null || strategyAssets == null) return undefined;
+  if (latestBlockData == null || prevBlockData == null || strategyAssets == null) return undefined;
 
   const shareValueInLatestBlock = await fetchAssetPriceInBlock(
-    rainbowConfig,
+    config,
     strategy,
     latestBlockData?.number,
     strategyAssets?.debt
   );
   const shareValueInPrevBlock = await fetchAssetPriceInBlock(
-    rainbowConfig,
+    config,
     strategy,
     prevBlockData.number,
     strategyAssets?.debt
