@@ -18,25 +18,39 @@ const FilterOptions: { label: string; tag: FilterType; icon: JSX.Element }[] = [
   {
     label: "ILMs",
     tag: "ILM",
-    icon: <Icon width={20} height={20} src={ilmIcon} alt="all" />,
+    icon: <Icon width={20} height={20} src={ilmIcon} alt="ilm" />,
   },
   {
     label: "Lending",
     tag: "LEND",
-    icon: <Icon width={20} height={20} src={lendIcon} alt="all" />,
+    icon: <Icon width={20} height={20} src={lendIcon} alt="lend" />,
   },
 ];
 
 export const AssetPickerWithFilter: React.FC<AssetPickerProps> = (props) => {
-  const [selectedFilter, setSelectedFilter] = useState<FilterType>("ALL");
+  const [selectedFilters, setSelectedFilters] = useState<FilterType[]>(["ALL"]);
 
   const { state } = useFetchAllAssets();
+
+  const handleFilterClick = (tag: FilterType) => {
+    if (tag === "ALL") {
+      setSelectedFilters(["ALL"]);
+    } else {
+      setSelectedFilters((prevFilters) => {
+        if (prevFilters.includes(tag)) {
+          return prevFilters.filter((filter) => filter !== tag);
+        }
+        return prevFilters.filter((filter) => filter !== "ALL").concat(tag);
+      });
+    }
+  };
+
   const filteredData = useMemo(() => {
-    if (selectedFilter === "ALL") {
+    if (selectedFilters.includes("ALL")) {
       return state.data;
     }
-    return state.data?.filter((item) => item.tags.includes(selectedFilter));
-  }, [state.data.length, selectedFilter]);
+    return state.data?.filter((item) => selectedFilters.some((filter) => item.tags.includes(filter as TagType)));
+  }, [state.data, selectedFilters]);
 
   return (
     <FlexCol className="gap-3">
@@ -45,9 +59,9 @@ export const AssetPickerWithFilter: React.FC<AssetPickerProps> = (props) => {
           <button
             type="button"
             key={option.tag}
-            onClick={() => setSelectedFilter(option.tag)}
+            onClick={() => handleFilterClick(option.tag)}
             className={`inline-flex items-center gap-2 px-4 py-2 border shadow-button rounded-[100px] border-solid
-              ${selectedFilter === option.tag ? "border-metallicBorder text-black" : "border-navy-100 text-gray-500 fill-gray-500"}`}
+              ${selectedFilters.includes(option.tag) ? "border-metallicBorder text-black" : "border-navy-100 text-gray-500 fill-gray-500"}`}
           >
             {option.icon}
             <Typography type="bold2">{option.label}</Typography>
