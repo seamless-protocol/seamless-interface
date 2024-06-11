@@ -3,14 +3,14 @@ import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-st
 import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
 import { Address } from "viem";
 import { useFormSettingsContext } from "../../../../components/forms/contexts/useFormSettingsContext";
-import { useStateAssetByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
+import { useFetchAssetByAddress } from "../../../../../state/common/hooks/useFetchAssetByAddress";
 
 export const FormCont: React.FC<{
   asset?: Address;
 }> = ({ asset }) => {
   const { setAsset, setSubStrategy, setIsStrategy } = useFormSettingsContext();
-  const { data: assetState, isFetched } = useStateAssetByAddress(asset);
+  const { data: assetState, isFetched } = useFetchAssetByAddress(asset);
 
   const onAssetChange = (asset?: Address) => {
     setAsset(asset);

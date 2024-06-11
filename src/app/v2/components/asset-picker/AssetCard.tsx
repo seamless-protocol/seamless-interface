@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { FlexRow, Icon, FlexCol, Typography } from "@shared";
-import { useStateAssetByAddress, useStateHasMultipleAPYs } from "../../../state/common/hooks/useFetchAllAssetsState";
 import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { Tag } from "../asset-data/Tag";
@@ -9,6 +8,8 @@ import { IncentivesButton } from "../incentives/IncentivesButton";
 import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
+import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
+import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
 
 export interface AssetCardProps {
   address: Address;
@@ -20,8 +21,8 @@ export interface AssetCardProps {
 }
 
 export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
-  const { data: asset } = useStateAssetByAddress(address);
-  const { data: hasMultipleApys } = useStateHasMultipleAPYs(address);
+  const { data: asset } = useFetchAssetByAddress(address);
+  const { data: hasMultipleApys } = useFetchStrategyHasMultipleAPYs(address);
   const {
     data: { logo, name, symbol, subTitle, isGauntletOptimized },
   } = useFullTokenData(address);

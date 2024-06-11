@@ -12,20 +12,18 @@ import { CapRemaining } from "../../../../../components/asset-data/CapRemaining"
 import { useFetchViewLendingPoolInfo } from "../../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../../components/guards/StrategyGuard";
 import { useFullTokenData } from "../../../../../../state/common/meta-data-queries/useFullTokenData";
-import {
-  useStateAssetByAddress,
-  useStateStrategyByAddress,
-} from "../../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../../state/common/types/StateTypes";
 import { useFormSettingsContext } from "../../../../../components/forms/contexts/useFormSettingsContext";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { assetSlugConfig } from "../config/SlugConfig";
+import { useFetchAssetByAddress } from "../../../../../../state/common/hooks/useFetchAssetByAddress";
+import { useFetchStrategyByAddress } from "../../../../../../state/common/hooks/useFetchStrategyByAddress";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
   const { subStrategy } = useFormSettingsContext();
-  const { data: assetState } = useStateAssetByAddress(asset);
-  const { data: strategyState } = useStateStrategyByAddress(asset);
+  const { data: assetState } = useFetchAssetByAddress(asset);
+  const { data: strategyState } = useFetchStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
 
   const {

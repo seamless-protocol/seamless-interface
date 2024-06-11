@@ -8,9 +8,9 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { OverrideUrlSlug } from "../../../../hooks/useAssetPickerState";
 import { AssetButton } from "../../../asset-data/AssetButton";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -67,7 +67,7 @@ export function RHFSupplyStrategyAmountField<T>({ overrideUrlSlug, assetAddress,
   // *** asset *** //
   // *** asset *** //
   const { asset: assetFromContext, subStrategy } = useFormSettingsContext();
-  const { data: strategyState } = useStateStrategyByAddress(assetAddress || assetFromContext);
+  const { data: strategyState } = useFetchStrategyByAddress(assetAddress || assetFromContext);
   const asset = assetAddress || strategyState?.underlyingAsset.address;
 
   // *** metadata *** //

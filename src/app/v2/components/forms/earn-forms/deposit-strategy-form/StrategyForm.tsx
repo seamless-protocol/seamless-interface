@@ -15,13 +15,13 @@ import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
 import { RHFStrategySelector } from "./RHFStrategySelector";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 import { useEffect } from "react";
+import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
-  const { data: strategy } = useStateStrategyByAddress(asset);
+  const { data: strategy } = useFetchStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console

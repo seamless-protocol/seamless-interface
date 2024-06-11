@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { FlexCol, FlexRow, Icon, Typography } from "@shared";
-import { useFetchAllAssetsState } from "../../../state/common/hooks/useFetchAllAssetsState";
+import { useFetchAllAssets } from "../../../state/common/hooks/useFetchAllAssets";
 import { AssetPickerProps, AssetPicker } from "./AssetPicker";
 import { TagType } from "../../../state/common/types/StateTypes";
 import allIcon from "@assets/tags/all.svg";
@@ -30,7 +30,7 @@ const FilterOptions: { label: string; tag: FilterType; icon: JSX.Element }[] = [
 export const AssetPickerWithFilter: React.FC<AssetPickerProps> = (props) => {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("ALL");
 
-  const { state } = useFetchAllAssetsState();
+  const { state } = useFetchAllAssets();
   const filteredData = useMemo(() => {
     if (selectedFilter === "ALL") {
       return state.data;

@@ -7,25 +7,29 @@ import { useFetchStrategiesAssets } from "../metadataQueries/useFetchStrategiesA
 import { useQueries } from "@tanstack/react-query";
 import { mergeQueryStates } from "@shared";
 import { fetchStrategyApyQueryOptions } from "./useFetchViewStrategyApy";
-import { useStateStrategyByAddress } from "../../common/hooks/useFetchAllAssetsState";
+import { useFetchStrategyByAddress } from "../../common/hooks/useFetchStrategyByAddress";
 
 export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: latestBlockData } = useBlock();
   const { data: prevBlockData } = useBlock({
     blockNumber: latestBlockData ? latestBlockData.number - APY_BLOCK_FRAME : undefined,
   });
-  const { data: strategyState } = useStateStrategyByAddress(strategy);
-  const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(strategyState?.subStrategyData.map((s) => s.address) || []);
+  const { data: strategyState } = useFetchStrategyByAddress(strategy);
+  const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(
+    strategyState?.subStrategyData.map((s) => s.address) || []
+  );
 
   const queryResults = useQueries({
-    queries: strategyState ? strategyState.subStrategyData.map((strategy) =>
-      fetchStrategyApyQueryOptions({
-        strategy: strategy?.address,
-        latestBlockData,
-        prevBlockData,
-        assetsData: assetsData[strategy?.address],
-      }),
-    ) : [],
+    queries: strategyState
+      ? strategyState.subStrategyData.map((strategy) =>
+          fetchStrategyApyQueryOptions({
+            strategy: strategy?.address,
+            latestBlockData,
+            prevBlockData,
+            assetsData: assetsData[strategy?.address],
+          })
+        )
+      : [],
   });
 
   const maxApy = queryResults.reduce((max, result) => {

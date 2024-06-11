@@ -1,8 +1,8 @@
 import { useQueryParam } from "use-query-params";
 import { Address } from "viem";
-import { useStateAssetByAddress } from "../../state/common/hooks/useFetchAllAssetsState";
 import { LendMarketState, StrategyState } from "../../state/common/types/StateTypes";
 import { useState } from "react";
+import { useFetchAssetByAddress } from "../../state/common/hooks/useFetchAssetByAddress";
 
 export interface OverrideUrlSlug {
   asset: string;
@@ -25,7 +25,7 @@ export const useAssetPickerState = ({
 } => {
   const [asset, setAsset] = useQueryParam<string | undefined>(overrideUrlSlug?.asset || "");
   const [subStrategy, setSubStrategy] = useState<Address | undefined>(undefined);
-  const { data: assetState } = useStateAssetByAddress(asset as Address | undefined);
+  const { data: assetState } = useFetchAssetByAddress(asset as Address | undefined);
 
   return {
     isStrategy: assetState?.isStrategy || false,

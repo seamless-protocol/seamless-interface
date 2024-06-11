@@ -1,12 +1,12 @@
 import React from "react";
 import { Address } from "viem";
-import { useStateAssetByAddress } from "../../../state/common/hooks/useFetchAllAssetsState";
+import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 
 export const LendMarketGuard: React.FC<{
   asset?: Address;
   children?: React.ReactNode;
 }> = ({ asset, children }) => {
-  const { data } = useStateAssetByAddress(asset);
+  const { data } = useFetchAssetByAddress(asset);
 
   if (!data?.isStrategy) return children;
 

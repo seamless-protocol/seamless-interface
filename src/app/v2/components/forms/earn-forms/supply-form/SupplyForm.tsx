@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
-import { useStateAssetByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
+import { useFetchAssetByAddress } from "../../../../../state/common/hooks/useFetchAssetByAddress";
 
 interface DepositModalFormData {
   amount: string;
@@ -30,7 +30,7 @@ interface DepositModalFormData {
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
-  const { data: assetState } = useStateAssetByAddress(asset);
+  const { data: assetState } = useFetchAssetByAddress(asset);
 
   const { data: tokenData } = useFullTokenData(asset);
 

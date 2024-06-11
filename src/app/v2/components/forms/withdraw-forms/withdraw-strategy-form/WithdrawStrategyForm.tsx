@@ -27,15 +27,15 @@ import { RouterConfig } from "../../../../../router";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metadataQueries/useFetchStrategyAsset";
-import { useStateStrategyByAddress } from "../../../../../state/common/hooks/useFetchAllAssetsState";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 
 export const WithdrawStrategyForm: React.FC<{
   selectedSubStrategy?: Address;
 }> = ({ selectedSubStrategy }) => {
   const { asset, isStrategy } = useFormSettingsContext();
-  const { data: strategy } = useStateStrategyByAddress(asset);
+  const { data: strategy } = useFetchStrategyByAddress(asset);
 
   if (!strategy) {
     // eslint-disable-next-line no-console
