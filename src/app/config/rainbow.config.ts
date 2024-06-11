@@ -1,7 +1,14 @@
 import { base } from "wagmi/chains";
 import logoSeamless from "@assets/logos/logo-seamless.svg";
-import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { fallback, http, webSocket } from "wagmi";
+import { createConfig, fallback, http, webSocket } from "wagmi";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  coinbaseWallet,
+  metaMaskWallet,
+  rabbyWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
@@ -15,13 +22,35 @@ const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
 ].filter(({ url }) => url);
 
-export const rainbowConfig = getDefaultConfig({
-  appName: "Seamless Protocol",
-  appDescription: "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
-  appUrl: "https://app.seamlessprotocol.com/",
-  appIcon: logoSeamless,
-  projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Smart wallets",
+      wallets: [
+        () =>
+          // todo double check () =>
+          coinbaseWallet({
+            appName: "Seamless Protocol",
+            appIcon: logoSeamless,
+          }),
+      ],
+    },
+    {
+      groupName: "Popular",
+      wallets: [metaMaskWallet, rabbyWallet, walletConnectWallet, rainbowWallet],
+    },
+  ],
+  {
+    appName: "Seamless Protocol",
+    appDescription: "Seamless Protocol is the first decentralized, native lending and borrowing protocol on Base.",
+    appUrl: "https://app.seamlessprotocol.com/",
+    appIcon: logoSeamless,
+    projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
+  }
+);
 
+export const config = createConfig({
+  connectors,
   chains: [base],
   transports: {
     [base.id]: fallback(
@@ -30,3 +59,9 @@ export const rainbowConfig = getDefaultConfig({
     ),
   },
 });
+
+declare module "wagmi" {
+  interface Register {
+    config: typeof config;
+  }
+}
