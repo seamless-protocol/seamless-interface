@@ -8,8 +8,9 @@ export const MoreMenuButton: React.FC<{
   moreMenuItems: {
     name: string;
     href: string;
-    icon?: React.ReactNode
-  }[]
+    icon?: React.ReactNode;
+    noTargetBlank?: boolean;
+  }[];
 }> = ({ name, moreMenuItems }) => {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement | null>(null);
@@ -55,11 +56,17 @@ export const MoreMenuButton: React.FC<{
       </button>
       {isMoreMenuOpen && (
         <div className="pt-3 absolute" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsMoreMenuOpen(false)}>
-          <div className="text-black absolute py-1 text-bold3 left-0 z-10 w-72 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            style={{ top: '100%' }} // This ensures no gap between the button and the dropdown
+          <div
+            className="text-black absolute py-1 text-bold3 left-0 z-10 w-72 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            style={{ top: "100%" }} // This ensures no gap between the button and the dropdown
           >
             {moreMenuItems.map((item, index) => (
-              <Link key={index} to={item.href} target="_blank" className="block px-4 py-3 hover:bg-action-hover">
+              <Link
+                key={index}
+                to={item.href}
+                target={item.noTargetBlank ? "" : "_blank"}
+                className="block px-4 py-3 hover:bg-action-hover"
+              >
                 <FlexRow className="items-center gap-2">
                   {item.icon && item.icon}
                   <Typography type="subheader1">{item.name}</Typography>
@@ -71,4 +78,4 @@ export const MoreMenuButton: React.FC<{
       )}
     </div>
   );
-}
+};

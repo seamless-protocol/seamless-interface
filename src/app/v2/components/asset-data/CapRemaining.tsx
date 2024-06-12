@@ -24,7 +24,7 @@ export const RemainingCap: React.FC<{
 
   return (
     <DisplayText
-      viewValue={`${remainingCap?.capacityRemainingPercentage?.viewValue || ""}% cap remaining`}
+      viewValue={`${remainingCap?.capacityRemainingPercentage?.viewValue || ""}% cap available`}
       {...rest}
       {...textProps}
       typography="medium1"
@@ -41,7 +41,7 @@ export const StrategyRemainingCap: React.FC<{
 
   return (
     <DisplayText
-      viewValue={`${remainingCap?.remainingCapPercentage?.viewValue || ""}% cap remaining`}
+      viewValue={`${remainingCap?.remainingCapPercentage?.viewValue || ""}% cap available`}
       {...rest}
       {...textProps}
       typography="medium1"

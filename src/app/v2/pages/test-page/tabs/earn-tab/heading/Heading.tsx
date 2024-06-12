@@ -73,14 +73,14 @@ export const Heading = () => {
 
           <div className="bg-neutral-100 rounded-2xl py-4  px-4 md:gap-0 gap-3 flex flex-col md:flex-row justify-evenly items-start w-full">
             {/* item 1 */}
-            <FlexCol className="gap-1 md:text-center">
+            <FlexCol className="gap-1 md:text-center min-w-24">
               <Typography type="regular2">TVL</Typography>
               <AssetTvl isStrategy={isStrategy} asset={asset} subStrategy={subStrategy} typography="bold4" />
               <CapRemaining asset={asset} subStrategy={subStrategy} />
             </FlexCol>
             <div className="divider divider-horizontal" />
             {/* item 2 */}
-            <FlexCol className="gap-1 md:text-center md:items-center">
+            <FlexCol className="gap-1 md:text-center md:items-center  min-w-24">
               <FlexRow className="gap-2">
                 <Typography type="regular2">Est. APY</Typography>
                 <StrategyGuard asset={asset}>
@@ -115,7 +115,7 @@ export const Heading = () => {
             </FlexCol>
             <div className="divider divider-horizontal" />
             {/* item 3 */}
-            <FlexCol className="gap-1 md:text-center">
+            <FlexCol className="gap-1 md:text-center min-w-24">
               <Typography type="regular2">Oracle price</Typography>
               <DisplayMoney
                 typography="bold4"
@@ -123,9 +123,6 @@ export const Heading = () => {
                 isLoading={isOraclePriceLoading}
                 isFetched={isOraclePriceFetched}
               />
-              <Typography type="medium1" className="text-primary-600">
-                Updated ~1min ago
-              </Typography>
             </FlexCol>
           </div>
         </div>
