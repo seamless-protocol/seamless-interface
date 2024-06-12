@@ -37,10 +37,10 @@ export const AssetPickerWithFilter: React.FC<AssetPickerProps> = (props) => {
       setSelectedFilters(["ALL"]);
     } else {
       setSelectedFilters((prevFilters) => {
-        if (prevFilters.includes(tag)) {
-          return prevFilters.filter((filter) => filter !== tag);
-        }
-        return prevFilters.filter((filter) => filter !== "ALL").concat(tag);
+        const newFilters = prevFilters.includes(tag)
+          ? prevFilters.filter((filter) => filter !== tag)
+          : prevFilters.filter((filter) => filter !== "ALL").concat(tag);
+        return newFilters.length === 0 ? ["ALL"] : newFilters;
       });
     }
   };
