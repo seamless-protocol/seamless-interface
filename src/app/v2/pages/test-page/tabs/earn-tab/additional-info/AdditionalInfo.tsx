@@ -1,13 +1,14 @@
 import { FAQ } from "./FAQ";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
-import { gitBookUrl } from "@router";
+import { gitBookUrl, RouterConfig } from "@router";
 import { VaultsLink } from "../../../../../components/specific-components/VaultsLink";
 import { Address } from "viem";
 import { hasFaqByAddress } from "../../../../../../state/settings/configUtils";
 
 export const AdditionalInfo: React.FC<{
   asset?: Address;
-}> = ({ asset }) => {
+  subStrategy?: Address;
+}> = ({ asset, subStrategy }) => {
   if (!asset) return null;
 
   return (
@@ -42,6 +43,9 @@ export const AdditionalInfo: React.FC<{
             <FlexRow className="gap-3 items-center">
               <ExternalLink url={gitBookUrl} className="text-regular3">
                 Gitbook
+              </ExternalLink>
+              <ExternalLink url={RouterConfig.Builder.baseScanAddress(subStrategy || "")} className="text-regular3">
+                Basescan
               </ExternalLink>
               <VaultsLink asset={asset} />
             </FlexRow>
