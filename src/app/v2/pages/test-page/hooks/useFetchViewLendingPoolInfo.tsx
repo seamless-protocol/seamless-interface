@@ -1,6 +1,6 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../../../generated/generated";
 import { useReadContracts } from "wagmi";
-import { mergeQueryStates } from "@shared";
+import { fUsdValueStructured, mergeQueryStates } from "@shared";
 import { useFetchRawReservesData } from "../../../../state/lending-borrowing/queries/useFetchRawReservesData";
 import { Address, erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
@@ -11,9 +11,9 @@ import { useMemo } from "react";
 import { assetsConfig } from "../../../../state/settings/config";
 
 interface LendingPoolInfo {
-  totalMarketSizeUsd: FetchBigInt;
-  totalAvailableUsd: FetchBigInt;
-  totalBorrowsUsd: FetchBigInt;
+  totalMarketSizeUsd?: FetchBigInt;
+  totalAvailableUsd?: FetchBigInt;
+  totalBorrowsUsd?: FetchBigInt;
 }
 
 function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
@@ -54,7 +54,6 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   const coinGeckoPrices: { [address: string]: bigint } = {};
   let coinGeckoAllIsFetched = true;
   let coinGeckoAllIsLoading = false;
-
 
   // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
   Object.keys(assetsConfig).forEach((key) => {
@@ -99,21 +98,9 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   return {
     ...mergeQueryStates([rest, restReservesData]),
     data: {
-      totalMarketSizeUsd: {
-        bigIntValue: totalSuppliedUsd,
-        decimals: 8,
-        symbol: "$",
-      },
-      totalAvailableUsd: {
-        bigIntValue: totalSuppliedUsd - totalBorrowedUsd,
-        decimals: 8,
-        symbol: "$",
-      },
-      totalBorrowsUsd: {
-        bigIntValue: totalBorrowedUsd,
-        decimals: 8,
-        symbol: "$",
-      },
+      totalMarketSizeUsd: fUsdValueStructured(totalSuppliedUsd),
+      totalAvailableUsd: fUsdValueStructured(totalSuppliedUsd - totalBorrowedUsd),
+      totalBorrowsUsd: fUsdValueStructured(totalBorrowedUsd),
     },
   };
 }
