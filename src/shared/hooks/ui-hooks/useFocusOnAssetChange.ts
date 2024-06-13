@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export function useFocusOnAssetChange(asset?: string, focusOnAssetChange?: boolean) {
   const inputRef = useRef<HTMLInputElement>(null);
