@@ -2,6 +2,7 @@ import { Address, parseEther } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
+import brettLogo from "@assets/tokens/brett.svg";
 import type { DecimalsOptions } from "@shared";
 
 export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
@@ -70,6 +71,7 @@ export const assetLogos: Map<string, string> = new Map([
   ["esSEAM", seamLogo],
   ["OG Points", ogPointsLogo],
   ["USDC", usdcLogo],
+  ["BRETT", brettLogo],
 ]);
 
 export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase()];
