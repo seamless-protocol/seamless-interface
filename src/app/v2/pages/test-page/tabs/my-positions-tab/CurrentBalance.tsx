@@ -8,14 +8,12 @@ import { walletBalanceDecimalsOptionsTemp } from "../../../../../../meta";
 const CurrentBalanceStrategy: React.FC<{ asset: Address }> = ({ asset }) => {
   const {
     data: { tokenAmount, dollarAmount },
-    isLoading: isEquityDataLoading,
-    isFetched: isEquityDataFetched,
+    ...restEquity
   } = useFetchViewDetailUserEquity(asset, walletBalanceDecimalsOptionsTemp);
 
   const {
     data: { balance },
-    isFetched: isStrategyBalanceFetched,
-    isLoading: isStrategyBalanceLoading,
+    ...restBalance
   } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptionsTemp);
 
   return (
@@ -33,20 +31,9 @@ const CurrentBalanceStrategy: React.FC<{ asset: Address }> = ({ asset }) => {
         }
         size="small"
       >
-        <DisplayTokenAmount
-          {...balance}
-          isLoading={isStrategyBalanceLoading}
-          isFetched={isStrategyBalanceFetched}
-          typography="bold3"
-          className="md:max-w-32"
-        />
+        <DisplayTokenAmount {...restBalance} {...balance} typography="bold3" className="md:max-w-32" />
       </Tooltip>
-      <DisplayMoney
-        {...dollarAmount}
-        isLoading={isEquityDataLoading}
-        isFetched={isEquityDataFetched}
-        typography="secondary12"
-      />
+      <DisplayMoney {...restEquity} {...dollarAmount} typography="secondary12" />
     </>
   );
 };
@@ -54,23 +41,13 @@ const CurrentBalanceStrategy: React.FC<{ asset: Address }> = ({ asset }) => {
 const CurrentBalanceLending: React.FC<{ asset: Address }> = ({ asset }) => {
   const {
     data: { supplied },
-    isLoading: isUserReservesDataLoading,
-    isFetched: isUserReservesDataFetched,
+    ...restReserveData
   } = useFetchViewDetailUserReserveData(asset);
 
   return (
     <FlexCol>
-      <DisplayTokenAmount
-        {...supplied.tokenAmount}
-        isLoading={isUserReservesDataLoading}
-        isFetched={isUserReservesDataFetched}
-        typography="bold3"
-      />
-      <DisplayMoney
-        {...supplied.dollarAmount}
-        isLoading={isUserReservesDataLoading}
-        isFetched={isUserReservesDataFetched}
-      />
+      <DisplayTokenAmount {...restReserveData} {...supplied.tokenAmount} typography="bold3" />
+      <DisplayMoney {...restReserveData} {...supplied.dollarAmount} />
     </FlexCol>
   );
 };

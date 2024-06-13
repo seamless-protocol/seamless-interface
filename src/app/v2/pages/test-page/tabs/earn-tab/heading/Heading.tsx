@@ -26,11 +26,9 @@ export const Heading = () => {
   const { data: strategyState } = useFetchStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
 
-  const {
-    data: oraclePrice,
-    isLoading: isOraclePriceLoading,
-    isFetched: isOraclePriceFetched,
-  } = useFetchViewAssetPrice({ asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset });
+  const { data: oraclePrice, ...restOracle } = useFetchViewAssetPrice({
+    asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset,
+  });
 
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
@@ -117,12 +115,7 @@ export const Heading = () => {
             {/* item 3 */}
             <FlexCol className="gap-1 md:text-center min-w-24">
               <Typography type="regular2">Oracle price</Typography>
-              <DisplayMoney
-                typography="bold4"
-                {...oraclePrice}
-                isLoading={isOraclePriceLoading}
-                isFetched={isOraclePriceFetched}
-              />
+              <DisplayMoney typography="bold4" {...restOracle} {...oraclePrice} />
             </FlexCol>
           </div>
         </div>

@@ -27,4 +27,5 @@ export interface ValueSymbolPair {
 export interface DisplayableAmount extends ViewValueSymbolPair {
   isFetched?: boolean;
   isLoading?: boolean;
+  isError?: boolean;
 }
