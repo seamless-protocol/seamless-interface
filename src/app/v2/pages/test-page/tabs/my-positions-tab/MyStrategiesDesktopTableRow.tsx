@@ -28,7 +28,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-12" hideBorder={hideBorder}>
         <TableCell alignItems="items-start col-span-4">
           <FlexRow className="gap-4 items-start">
-            <Icon width={40} src={icon} alt={icon || ""} />
+            <Icon width={40} src={icon} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
                 <Typography type="bold3">{name}</Typography>
