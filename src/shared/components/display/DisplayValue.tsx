@@ -68,11 +68,11 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
     return (
-      <div className="">
-        <Tooltip tooltip="Couldn't load this value, try refresh 😓">
-          <ExclamationTriangleIcon width={width} height={height} />
-        </Tooltip>
-      </div>
+      <Tooltip
+        tooltip={<Typography type="body1">Couldn&apos;t load this value, try refreshing the page 😓</Typography>}
+      >
+        <ExclamationTriangleIcon width={width} height={height} />
+      </Tooltip>
     );
   }
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
