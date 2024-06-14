@@ -18,7 +18,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
 
   const {
     data: { logo: icon, name, symbol, subTitle },
-  } = useFullTokenData(asset);
+  } = useFullTokenData(isStrategy ? strategy : asset);
 
   // TODO: Don't fetch this when row is for strategy, remove when infrastructure for enabling and disabling queries is ready
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
