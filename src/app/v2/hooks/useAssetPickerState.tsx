@@ -1,6 +1,8 @@
-import { useEffect } from "react";
 import { useQueryParam } from "use-query-params";
 import { Address } from "viem";
+import { LendMarketState, StrategyState } from "../../state/common/types/StateTypes";
+import { useState } from "react";
+import { useFetchAssetByAddress } from "../../state/common/hooks/useFetchAssetByAddress";
 
 export interface OverrideUrlSlug {
   asset: string;
@@ -11,35 +13,26 @@ export interface AssetPickerStateHookProps {
   overrideUrlSlug?: OverrideUrlSlug;
 }
 
-export const useAssetPickerState = ({ overrideUrlSlug }: AssetPickerStateHookProps): {
+export const useAssetPickerState = ({
+  overrideUrlSlug,
+}: AssetPickerStateHookProps): {
   asset?: Address;
   isStrategy: boolean;
   setAsset: (newValue: string | undefined) => void;
-  setIsStrategy: (newValue: string | undefined) => void;
+  assetState: StrategyState | LendMarketState | undefined;
+  setSubStrategy: (newValue: Address) => void;
+  subStrategy: Address | undefined;
 } => {
   const [asset, setAsset] = useQueryParam<string | undefined>(overrideUrlSlug?.asset || "");
-  const [isStrategyParam, setIsStrategyQueryParam] = useQueryParam<string | undefined>(
-    overrideUrlSlug?.isStrategy || ""
-  );
+  const [subStrategy, setSubStrategy] = useState<Address | undefined>(undefined);
+  const { data: assetState } = useFetchAssetByAddress(asset as Address | undefined);
 
   return {
+    isStrategy: assetState?.isStrategy || false,
+    assetState,
     asset: asset as Address | undefined,
-    isStrategy: isStrategyParam === "true",
     setAsset,
-    setIsStrategy: setIsStrategyQueryParam,
+    subStrategy,
+    setSubStrategy,
   };
-};
-
-export const useClearAssetPickerStateOnLeave = ({
-  overrideUrlSlug = {
-    asset: "asset",
-    isStrategy: "isStrategy",
-  },
-}: AssetPickerStateHookProps) => {
-  const { setAsset, setIsStrategy } = useAssetPickerState({ overrideUrlSlug });
-
-  useEffect(() => {
-    setAsset(undefined);
-    setIsStrategy(undefined);
-  }, []);
 };

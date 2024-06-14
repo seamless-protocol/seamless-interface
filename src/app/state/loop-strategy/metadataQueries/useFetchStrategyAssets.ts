@@ -1,13 +1,16 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
 import { useSeamlessContractRead } from "../../../../shared";
-import { metadataQueryConfig } from "../../settings/config";
+import { metadataQueryConfig } from "../../settings/queryConfig";
 
-export const useFetchStrategyAssets = (strategy: Address) => {
+export const useFetchStrategyAssets = (strategy?: Address) => {
   return useSeamlessContractRead({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "getAssets",
-    query: metadataQueryConfig,
+    query: {
+      ...metadataQueryConfig,
+      enabled: !!strategy,
+    },
   });
 };

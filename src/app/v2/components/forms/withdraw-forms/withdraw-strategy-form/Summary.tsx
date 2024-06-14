@@ -11,11 +11,11 @@ import {
 } from "@shared";
 import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
 import { DataRow } from "../../DataRow";
-import { StrategyConfig } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const Summary: React.FC<{
   displayablePreviewData: Displayable<ViewPreviewWithdraw>;
-  strategy: StrategyConfig;
+  strategy: StrategyState;
 }> = ({ displayablePreviewData }) => {
   const { data: previewWithdrawData, ...rest } = displayablePreviewData;
 

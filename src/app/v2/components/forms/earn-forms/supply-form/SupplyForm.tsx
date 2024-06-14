@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import {
-  useFullTokenData,
   MyFormProvider,
   FlexCol,
   Typography,
@@ -12,8 +11,7 @@ import {
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
 import { useMutateSupplyLending } from "../../../../../state/lending-borrowing/mutations/useMutateSupplyLending";
-import { DepositModalFormData } from "../../../../../v1/pages/ilm-details-page/components/your-info/deposit/DepositModal";
-import { Tag } from "../../../../pages/test-page/tabs/earn-tab/Tag";
+import { Tag } from "../../../asset-data/Tag";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyAmountField } from "./RHFSupplyAmountField";
 import { useFetchReserveTokenAddresses } from "../../../../../state/lending-borrowing/queries/useFetchReserveTokenAddresses";
@@ -22,15 +20,19 @@ import { WETH_ADDRESS } from "../../../../../../meta";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "../../../../../router";
-import { getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
-import { getBaseAssetConfig } from "../../../../../state/lending-borrowing/config/BaseAssetsConfig";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetByAddress } from "../../../../../state/common/hooks/useFetchAssetByAddress";
+
+interface DepositModalFormData {
+  amount: string;
+}
 
 export const SupplyForm = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
+  const { data: assetState } = useFetchAssetByAddress(asset);
 
   const { data: tokenData } = useFullTokenData(asset);
-  const assetConfig = getBaseAssetConfig(asset);
 
   const { data: reserveTokenAddresses } = useFetchReserveTokenAddresses(asset);
   const { data: sTokenData } = useToken(reserveTokenAddresses?.aTokenAddress);
@@ -88,18 +90,19 @@ export const SupplyForm = () => {
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
-          <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-14 w-full">
-              <Typography type="bold4">{asset ? getTokenTitle(asset) : "Select strategy to get started"}</Typography>
+          <FlexRow className="justify-between">
+            <FlexCol className="gap-1 min-h-10">
+              <Typography type="bold4">{tokenData?.name || "Select strategy to get started"}</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
 
+            <div>
+              <FlexRow className="gap-2">
+                {asset != null && !hideTag && assetState?.tags.map((tag, index) => <Tag tag={tag} key={index} />)}
 
-            <FlexRow className="gap-1 items-center">
-              {asset != null && !hideTag && <Tag tag="LEND" />}
-
-              {assetConfig?.isGauntletOptimized && <GauntletOptimized className="pr-4" />}
-            </FlexRow>
+                {tokenData?.isGauntletOptimized && <GauntletOptimized />}
+              </FlexRow>
+            </div>
           </FlexRow>
           {asset === WETH_ADDRESS && (
             <FlexRow className="w-full">

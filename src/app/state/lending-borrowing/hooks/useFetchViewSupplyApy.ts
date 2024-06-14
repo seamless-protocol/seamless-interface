@@ -5,7 +5,7 @@ import { Displayable } from "../../../../shared";
 import { ViewApy } from "../types/ViewApy";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
 
-export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
+export const useFetchSupplyApy = (asset?: Address): FetchData<FetchNumber> => {
   const {
     data: { liquidityRate },
     ...liquidityRest
@@ -28,7 +28,7 @@ export const useFetchSupplyApy = (asset: Address): FetchData<FetchNumber> => {
   };
 };
 
-export const useFetchViewSupplyApy = (asset: Address): Displayable<ViewApy> => {
+export const useFetchViewSupplyApy = (asset?: Address): Displayable<ViewApy> => {
   const { data: apy, ...rest } = useFetchSupplyApy(asset);
 
   return {

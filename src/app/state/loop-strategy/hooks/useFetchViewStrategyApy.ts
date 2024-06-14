@@ -3,10 +3,13 @@ import { APY_BLOCK_FRAME, COMPOUNDING_PERIODS_APY, SECONDS_PER_YEAR } from "@met
 import { formatFetchNumberToViewNumber, formatUnitsToNumber } from "../../../../shared/utils/helpers";
 import { FetchData, FetchNumber } from "src/shared/types/Fetch";
 import { Displayable, ViewNumber } from "src/shared/types/Displayable";
-import { useFetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
 import { mergeQueryStates } from "@shared";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
+import { StrategyAsset } from "../metadataQueries/useFetchStrategiesAssets";
+import { config } from "../../../config/rainbow.config";
 
 export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: bigint): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
@@ -22,56 +25,88 @@ export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: b
   return ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100;
 }
 
-export const useFetchStrategyApy = (strategy: Address): FetchData<FetchNumber> => {
-  const { data: latestBlockData, ...latestBlockRest } = useBlock();
-  const { data: prevBlockData, ...prevBlockRest } = useBlock({
-    query: { enabled: !!latestBlockData },
-    blockNumber: latestBlockData && latestBlockData?.number - APY_BLOCK_FRAME,
-  });
+export async function fetchStrategyApy(
+  strategy: Address,
+  latestBlockData?: any,
+  prevBlockData?: any,
+  strategyAssets?: StrategyAsset
+): Promise<number | undefined> {
+  if (latestBlockData == null || prevBlockData == null || strategyAssets == null) return undefined;
 
-  // todo update enabled everywhere(in hooks)
-  const { data: strategyAssets, ...strategyAssetsRest } = useFetchStrategyAssets(strategy);
-  const { data: shareValueInLatestBlock, ...latestBlockShareValueRest } = useFetchAssetPriceInBlock(
+  const shareValueInLatestBlock = await fetchAssetPriceInBlock(
+    config,
     strategy,
     latestBlockData?.number,
     strategyAssets?.debt
   );
-  const { data: shareValueInPrevBlock, ...prevBlockShareValueRest } = useFetchAssetPriceInBlock(
+  const shareValueInPrevBlock = await fetchAssetPriceInBlock(
+    config,
     strategy,
-    prevBlockData?.number,
+    prevBlockData.number,
     strategyAssets?.debt
   );
 
-  // todo refactor this
-  const apy =
-    latestBlockData?.timestamp &&
-      prevBlockData?.timestamp &&
-      shareValueInLatestBlock?.bigIntValue &&
-      shareValueInPrevBlock?.bigIntValue
-      ? calculateApy(
-        shareValueInLatestBlock.bigIntValue,
-        shareValueInPrevBlock.bigIntValue,
-        // todo fix this
-        latestBlockData?.timestamp - prevBlockData?.timestamp
-      )
-      : 0;
+  if (shareValueInLatestBlock == null || shareValueInPrevBlock == null) return undefined;
+
+  const result = calculateApy(
+    shareValueInLatestBlock,
+    shareValueInPrevBlock,
+    BigInt(latestBlockData.timestamp - prevBlockData.timestamp)
+  );
+
+  return result;
+}
+
+export const fetchStrategyApyQueryOptions = ({
+  strategy,
+  latestBlockData,
+  prevBlockData,
+  assetsData,
+}: {
+  strategy?: Address;
+  latestBlockData?: any;
+  prevBlockData?: any;
+  assetsData?: StrategyAsset;
+}) => {
+  return queryOptions({
+    queryKey: ["strategyApy", strategy],
+    queryFn: () => fetchStrategyApy(strategy!, latestBlockData, prevBlockData, assetsData),
+    enabled: !!latestBlockData && !!prevBlockData && !!assetsData && !!strategy,
+  });
+};
+
+export const useFetchStrategyApy = (strategy?: Address): FetchData<FetchNumber> => {
+  const { data: latestBlockData, ...latestBlockRest } = useBlock();
+
+  const enabled = !!latestBlockData?.number;
+  const blockNumber = enabled ? latestBlockData.number - APY_BLOCK_FRAME : undefined;
+
+  const { data: prevBlockData, ...prevBlockRest } = useBlock({
+    query: { enabled },
+    blockNumber,
+  });
+
+  const { data: strategyAssets, ...strategyAssetsRest } = useFetchStrategyAssets(strategy);
+
+  const result = useQuery(
+    fetchStrategyApyQueryOptions({
+      strategy,
+      latestBlockData,
+      prevBlockData,
+      assetsData: strategyAssets,
+    })
+  );
 
   return {
-    ...mergeQueryStates([
-      latestBlockRest,
-      prevBlockRest,
-      strategyAssetsRest,
-      latestBlockShareValueRest,
-      prevBlockShareValueRest,
-    ]),
+    ...mergeQueryStates([latestBlockRest, prevBlockRest, strategyAssetsRest, result]),
     data: {
-      value: apy,
+      value: result.data,
       symbol: "%",
     },
   };
 };
 
-export const useFetchViewStrategyApy = (strategy: Address): Displayable<ViewNumber> => {
+export const useFetchViewStrategyApy = (strategy?: Address): Displayable<ViewNumber> => {
   const { data, ...rest } = useFetchStrategyApy(strategy);
 
   return { ...rest, data: formatFetchNumberToViewNumber(data) };

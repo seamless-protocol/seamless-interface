@@ -8,6 +8,7 @@
   outline: none;
 }
 
+/* Chrome, Safari */
 .sliderInput::-webkit-slider-runnable-track {
   @apply w-full h-1 rounded cursor-pointer;
   background: linear-gradient(
@@ -22,4 +23,40 @@
 .sliderInput::-webkit-slider-thumb {
   @apply w-5 h-5 appearance-none cursor-pointer relative z-[2] -mt-2 rounded-[50%];
   background: #22457e;
+}
+
+/* Firefox */
+.sliderInput::-moz-range-track {
+  background: #e5ebf1; /* Fallback color */
+  background: linear-gradient(
+    to right,
+    #0b254f 0%,
+    #0b254f var(--slider-percentage),
+    #e5ebf1 var(--slider-percentage),
+    #e5ebf1 100%
+  );
+}
+
+.sliderInput::-moz-range-thumb {
+  @apply w-5 h-5 appearance-none cursor-pointer relative z-[2] -mt-2 rounded-[50%];
+  background: #22457e;
+}
+
+/* Microsoft Edge */
+.sliderInput::-ms-thumb {
+  @apply w-5 h-5 appearance-none cursor-pointer relative z-[2] -mt-2 rounded-[50%];
+  background: #22457e;
+}
+
+.sliderInput::-ms-track {
+  @apply w-full h-1 rounded cursor-pointer;
+  background: linear-gradient(
+    to right,
+    #0b254f 0%,
+    #0b254f var(--slider-percentage),
+    #e5ebf1 var(--slider-percentage),
+    #e5ebf1 100%
+  );
+  border: none;
+  color: transparent;
 }

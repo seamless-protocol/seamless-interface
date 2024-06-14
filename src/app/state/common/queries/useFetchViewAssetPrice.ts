@@ -1,4 +1,3 @@
-import { ilmStrategies } from "../../loop-strategy/config/StrategyConfig";
 import { readContract } from "wagmi/actions";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
@@ -7,15 +6,17 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
-import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
-import { getBaseAssetConfig } from "../../lending-borrowing/config/BaseAssetsConfig";
+import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
+import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
+import { ONE_MINUTE } from "../../settings/queryConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
 }
 
-const fetchAssetPriceInBlock = async (
+export const fetchAssetPriceInBlock = async (
   config: Config,
   asset?: Address,
   blockNumber?: bigint,
@@ -23,7 +24,7 @@ const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
-  const strategy = ilmStrategies.find((strategy) => strategy.address === asset);
+  const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
   if (strategy) {
@@ -71,7 +72,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? Infinity : undefined,
+    staleTime: blockNumber ? ONE_MINUTE : undefined,
     enabled: !!asset,
   });
 
@@ -91,7 +92,9 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
-  const useCoinGeckoPrice = getBaseAssetConfig(asset)?.useCoinGeckoPrice;
+  const {
+    data: { useCoinGeckoPrice },
+  } = useFullTokenData(asset);
   const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
     address: asset,
     precision: 8,

@@ -1,29 +1,39 @@
-import { Heading } from "./Heading";
-import { AssetPicker } from "../../../../components/AssetPicker";
+import { Heading } from "./heading/Heading";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
-import { SupplyForm } from "../../../../components/forms/earn-forms/supply-form/SupplyForm";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
+import { AdditionalInfo } from "./additional-info/AdditionalInfo";
+import { AssetPickerWithFilter } from "../../../../components/asset-picker/AssetPickerWithFilter";
+import { FlexCol, Typography } from "../../../../../../shared";
+import { FormCont } from "./FormCont";
 
 export const EarnTab = () => {
-  const { isStrategy, asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
 
   return (
-    <div className="px-4 md:px-0">
-      <Heading />
-      <div className="flex flex-row gap-6">
-        <div className="flex-1 overflow-auto pt-6 hidden md:block">
-          <AssetPicker overrideUrlSlug={assetSlugConfig} />
-        </div>
-        <div className="flex-1 sticky top-0 h-screen overflow-auto pt-6">
-          <div className="bg-white shadow-card px-8 rounded-card py-6">
-            <FormSettingsProvider defaultAsset={asset} overrideUrlSlug={assetSlugConfig}>
-              {isStrategy ? <StrategyForm /> : <SupplyForm />}
-            </FormSettingsProvider>
+    <FormSettingsProvider overrideUrlSlug={assetSlugConfig}>
+      <div className="px-4 md:px-0">
+        <div className="flex flex-row gap-6">
+          <div className="w-[45%] overflow-auto hidden md:block">
+            <FlexCol className="gap-3">
+              <FlexCol className="gap-2 min-h-24">
+                <Typography type="bold5">Earn</Typography>
+                <Typography type="regular1">
+                  Choose your strategy to earn APY. Seamless offers a wide range of options, from simple lending to
+                  advanced integrated strategies (ILM)
+                </Typography>
+              </FlexCol>
+            </FlexCol>
+            <AssetPickerWithFilter overrideUrlSlug={assetSlugConfig} size="normal" />
+          </div>
+          <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
+            <Heading />
+
+            <FormCont asset={asset} />
+            <AdditionalInfo asset={asset} />
           </div>
         </div>
       </div>
-    </div>
+    </FormSettingsProvider>
   );
 };

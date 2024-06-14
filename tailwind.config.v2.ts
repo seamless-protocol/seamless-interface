@@ -88,6 +88,7 @@ export default {
           hover: "#FFF",
           light: "#A5A8B6",
           dark: "#62677B",
+          notSelected: "#6D7C95",
         },
         navy: {
           1000: "#0B254F",
@@ -115,6 +116,7 @@ export default {
           light: "#62677B",
           dark: "#292E41",
           contrast: "#FFFFFF",
+          600: "rgba(11, 37, 79, 0.60)",
         },
         secondary: {
           main: "#FF607B",

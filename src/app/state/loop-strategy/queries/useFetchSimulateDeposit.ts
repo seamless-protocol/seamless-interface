@@ -5,18 +5,19 @@ import { useQuery } from "@tanstack/react-query";
 import { mergeQueryStates, useToken } from "@shared";
 import { DebouncedDelayConfig } from "../config/DebouncedDelayConfig";
 
-export const useFetchSimulateDeposit = (account: Address, strategy: Address, amount: string) => {
+export const useFetchSimulateDeposit = (account: Address, amount: string, subStrategy?: Address) => {
   const {
     data: { symbol, decimals },
     ...tokenRest
-  } = useToken(strategy);
+  } = useToken(subStrategy);
 
-  const { data: underlyingAsset, ...underlyingRest } = useFetchStrategyAsset(strategy);
+  const { data: underlyingAsset, ...underlyingRest } = useFetchStrategyAsset(subStrategy);
 
   const { data, ...rest } = useQuery({
-    queryKey: ["simulateDeposit", strategy, amount],
-    queryFn: () => simulateDeposit(account, strategy, underlyingAsset, amount),
+    queryKey: ["simulateDeposit", subStrategy, amount],
+    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset, amount),
     ...DebouncedDelayConfig,
+    enabled: !!subStrategy,
   });
 
   return {

@@ -1,20 +1,20 @@
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { loopStrategyAbi } from "@generated";
-import { ilmStrategies } from "../config/StrategyConfig";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
+import { StrategyState } from "../../common/types/StateTypes";
 
-export const useMutateDepositStrategy = (id: number) => {
+export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAddress?: Address) => {
   // meta data
   const { address } = useAccount();
 
   // cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(ilmStrategies[id].underlyingAsset.address);
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlyingAsset.address);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: ilmStrategies[id].underlyingAsset.address,
-    spender: ilmStrategies[id].address,
+    asset: strategy?.underlyingAsset.address,
+    spender: subStrategyAddress,
   });
 
   // hook call
@@ -31,11 +31,16 @@ export const useMutateDepositStrategy = (id: number) => {
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
+    if (!subStrategyAddress) {
+      // eslint-disable-next-line no-console
+      console.warn("subStrategyAddress is undefined.");
+      return;
+    }
     // todo: bugfix fetch sharesToReceive here instead of using it from props to avoid race condition bug.
     await writeContractAsync(
       {
         // ui -> contract arguments
-        address: ilmStrategies[id].address,
+        address: subStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "deposit",
         args: [parseUnits(args.amount, 18), address as Address, args.sharesToReceive],

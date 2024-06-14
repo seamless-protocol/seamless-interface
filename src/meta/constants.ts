@@ -55,6 +55,10 @@ export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba
 export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 export const ethLong: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
 
+// FE strategies
+export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
+export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
+
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 

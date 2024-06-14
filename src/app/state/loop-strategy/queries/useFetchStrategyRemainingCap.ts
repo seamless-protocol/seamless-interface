@@ -5,12 +5,12 @@ import {
   fFetchBigIntStructured,
   formatFetchBigIntToViewBigInt,
   mergeQueryStates,
-  useFullTokenData,
   ViewBigInt,
 } from "@shared";
 import { Address } from "viem";
 import { useFetchStrategyAssetsCap } from "./useFetchStrategyAssetsCap";
 import { useFetchDetailEquity } from "./useFetchViewEquity";
+import { useFullTokenData } from "../../common/meta-data-queries/useFullTokenData";
 
 const cRemainingCapPercentage = (assetCap?: bigint, equity?: bigint, decimals?: number): bigint | undefined => {
   if (assetCap == null || equity == null || decimals == null) return undefined;

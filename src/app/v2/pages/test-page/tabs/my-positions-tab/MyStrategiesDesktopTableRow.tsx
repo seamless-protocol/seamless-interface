@@ -1,14 +1,13 @@
 import { Address } from "viem";
-import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography, useFullTokenData } from "../../../../../../shared";
+import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography } from "../../../../../../shared";
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { getOverridenName, getTokenTitle } from "../../../../../../shared/state/meta-data-queries/useTokenDescription";
-import { Tag } from "../earn-tab/Tag";
-import { AssetApy } from "../../../../components/AssetApy";
-import { IncentivesButton } from "../../../../components/IncentivesButton";
-import { IncentivesDetailCard } from "../../../../components/IncentivesDetailCard";
+import { Tag } from "../../../../components/asset-data/Tag";
+import { AssetApy } from "../../../../components/asset-data/AssetApy";
+import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
+import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
-import { findILMStrategyByAddress } from "../../../../../state/loop-strategy/config/StrategyConfig";
+import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -16,10 +15,9 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   hideBorder?: boolean;
 }> = ({ asset, strategy, hideBorder }) => {
   const isStrategy = !!strategy;
-  const strategyIcon = isStrategy && findILMStrategyByAddress(asset)?.logo;
 
   const {
-    data: { logo: icon, name, symbol },
+    data: { logo: icon, name, symbol, subTitle },
   } = useFullTokenData(asset);
 
   // TODO: Don't fetch this when row is for strategy, remove when infrastructure for enabling and disabling queries is ready
@@ -30,11 +28,11 @@ export const MyStrategiesDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-12" hideBorder={hideBorder}>
         <TableCell alignItems="items-start col-span-4">
           <FlexRow className="gap-4 items-start">
-            <Icon width={40} src={strategyIcon || icon} alt={strategyIcon || icon || ""} />
+            <Icon width={40} src={icon} alt={icon || ""} />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <Typography type="bold3">{getTokenTitle(asset, isStrategy)}</Typography>
-                <Typography type="regular1">{getOverridenName(asset, name, isStrategy)}</Typography>
+                <Typography type="bold3">{name}</Typography>
+                <Typography type="regular1">{subTitle}</Typography>
               </FlexCol>
               <FlexRow>
                 <Tag tag={strategy ? "ILM" : "LEND"} />
@@ -48,7 +46,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3">
-          <AssetApy asset={asset} isStrategy={isStrategy} typography="bold3" />
+          <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
           {!strategy && (
             <IncentivesButton {...supplyIncentives} {...incentivesRest}>
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
@@ -57,7 +55,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-center">
-          <TableButtons asset={asset} isStrategy={isStrategy} />
+          <TableButtons asset={asset} subStrategy={strategy} isStrategy={isStrategy} />
         </TableCell>
       </TableRow>
     </div>

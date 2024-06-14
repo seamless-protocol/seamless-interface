@@ -6,13 +6,17 @@ import { useRef } from "react";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { WithdrawStrategyForm } from "../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm";
 import { WithdrawForm } from "../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm";
+import { useFetchStrategyBySubStrategyAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const TableButtonsMobile: React.FC<{
   asset: Address;
+  subStrategy?: Address;
   isStrategy: boolean;
-}> = ({ asset, isStrategy }) => {
+}> = ({ asset, isStrategy, subStrategy }) => {
   const addModal = useRef<ModalHandles>(null);
   const removeModal = useRef<ModalHandles>(null);
+
+  const { data: strategy } = useFetchStrategyBySubStrategyAddress(subStrategy);
 
   return (
     <FlexRow className="gap-2 text-start cursor-default">
@@ -26,7 +30,8 @@ export const TableButtonsMobile: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={asset}
+            defaultAsset={strategy?.address || asset}
+            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               addModal.current?.close();
             }}
@@ -48,14 +53,15 @@ export const TableButtonsMobile: React.FC<{
       >
         <div className="mt-[-60px]">
           <FormSettingsProvider
-            defaultAsset={asset}
+            defaultAsset={strategy?.address || asset}
+            defaultSubStrategy={subStrategy}
             onTransaction={() => {
               removeModal.current?.close();
             }}
             disableAssetPicker
             hideTag
           >
-            {isStrategy ? <WithdrawStrategyForm /> : <WithdrawForm />}
+            {isStrategy ? <WithdrawStrategyForm selectedSubStrategy={subStrategy} /> : <WithdrawForm />}
           </FormSettingsProvider>
         </div>
       </Modal>

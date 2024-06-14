@@ -96,6 +96,11 @@ export * from "./components/images/Image";
 export * from "./components/lifi/LiFiWidgetWrapper";
 
 // **** //
+// link //
+// **** //
+export * from "./components/link/ExternalLink";
+
+// **** //
 // links //
 // **** //
 export * from "./components/button/icon-buttons/SmallExternalLinkButton";

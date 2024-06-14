@@ -1,5 +1,4 @@
 import { Address, parseEther } from "viem";
-import { StrategyConfig, ilmStrategies } from "../config/StrategyConfig";
 import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
@@ -50,10 +49,10 @@ interface PreviewWithdraw {
   costInUsd?: FetchBigInt;
 }
 
-export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: string): FetchData<PreviewWithdraw> => {
+export const useFetchPreviewWithdraw = (amount: string, subStrategy?: Address): FetchData<PreviewWithdraw> => {
   const account = useAccount();
 
-  const { data: underlyingAsset, ...strategyRest } = useFetchStrategyAsset(strategyConfig.address);
+  const { data: underlyingAsset, ...strategyRest } = useFetchStrategyAsset(subStrategy);
 
   const {
     data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
@@ -62,12 +61,12 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
 
   const { data: assets, ...simulateRest } = useFetchSimulateWithdraw(
     account.address as Address,
-    strategyConfig.address,
-    amount
+    amount,
+    subStrategy,
   );
 
   const { data: sharePrice, ...sharesRest } = useFetchAssetPrice({
-    asset: strategyConfig.address,
+    asset: subStrategy,
   });
 
   const { data: underlyingAssetPrice, ...underlyingAssetRest } = useFetchAssetPrice({
@@ -94,11 +93,11 @@ export const useFetchPreviewWithdraw = (strategyConfig: StrategyConfig, amount: 
   };
 };
 
-export const useFetchViewPreviewWithdraw = (index: number, amount: string): Displayable<ViewPreviewWithdraw> => {
+export const useFetchViewPreviewWithdraw = (amount: string, subStrategy?: Address): Displayable<ViewPreviewWithdraw> => {
   const {
     data: { assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd },
     ...rest
-  } = useFetchPreviewWithdraw(ilmStrategies[index], amount);
+  } = useFetchPreviewWithdraw(amount, subStrategy);
 
   return {
     ...rest,

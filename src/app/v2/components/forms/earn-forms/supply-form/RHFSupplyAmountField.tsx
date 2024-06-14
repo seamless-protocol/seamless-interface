@@ -6,7 +6,7 @@ import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
 import { OverrideUrlSlug, useAssetPickerState } from "../../../../hooks/useAssetPickerState";
-import { AssetButton } from "../../../AssetButton";
+import { AssetButton } from "../../../asset-data/AssetButton";
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
