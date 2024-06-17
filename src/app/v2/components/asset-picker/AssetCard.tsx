@@ -56,7 +56,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             </FlexRow>
           </FlexCol>
         </FlexRow>
-        <FlexCol className="gap-1 text-center items-center">
+        <FlexCol className="gap-1 text-end items-end">
           <FlexCol className="gap-1">
             {hasMultipleApys && (
               <Typography type="bold" className="text-end">
