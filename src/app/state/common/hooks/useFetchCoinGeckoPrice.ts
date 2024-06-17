@@ -44,7 +44,11 @@ interface useFetchCoinGeckoPriceByAddressParams {
   enabled: boolean;
 }
 
-export const useFetchCoinGeckoPriceByAddress = ({ address, precision, enabled }: useFetchCoinGeckoPriceByAddressParams) =>
+export const useFetchCoinGeckoPriceByAddress = ({
+  address,
+  precision,
+  enabled,
+}: useFetchCoinGeckoPriceByAddressParams) =>
   useQuery({
     enabled,
     queryKey: ["fetchCoinGeckoAssetPriceByAddress", address?.toLowerCase(), precision],

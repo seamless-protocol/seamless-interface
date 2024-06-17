@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
 import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
+import { ONE_MINUTE } from "../../settings/queryConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -23,7 +24,6 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
-  // todo is this logic okay?
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
@@ -72,7 +72,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? 60 * 1000 : undefined,
+    staleTime: blockNumber ? ONE_MINUTE : undefined,
     enabled: !!asset,
   });
 

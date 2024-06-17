@@ -44,7 +44,10 @@ export const AdditionalInfo: React.FC<{
               <ExternalLink url={gitBookUrl} className="text-regular3">
                 Gitbook
               </ExternalLink>
-              <ExternalLink url={RouterConfig.Builder.baseScanAddress(subStrategy || "")} className="text-regular3">
+              <ExternalLink
+                url={RouterConfig.Builder.baseScanAddress(subStrategy || asset || "")}
+                className="text-regular3"
+              >
                 Basescan
               </ExternalLink>
               <VaultsLink asset={asset} />

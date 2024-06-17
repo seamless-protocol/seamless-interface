@@ -38,7 +38,6 @@ import {
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
-import ethLogo from "@assets/tokens/eth.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
 import usdcLogo from "@assets/tokens/usdc.svg";
@@ -49,6 +48,8 @@ import seamLogo from "@assets/tokens/seam.svg";
 import degenLogo from "@assets/tokens/degen.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
+import wethLogo from "@assets/tokens/weth.svg";
+
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
 import { LendMarketConfig, StrategyConfig } from "./configTypes";
@@ -56,9 +57,9 @@ import { faqsData } from "./faqConfig";
 
 export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WETH_ADDRESS]: {
-    name: "Ethereum",
+    name: "Wrapped Ethereum",
     address: WETH_ADDRESS,
-    logo: ethLogo,
+    logo: wethLogo,
     sTokenAddress: sWETH_ADDRESS,
     debtTokenAddress: variableDebtSeamWETH_ADDRESS,
     vaultsFyiLink: RouterConfig.Builder.vaults(sWETH_ADDRESS),
