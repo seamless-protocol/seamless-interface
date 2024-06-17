@@ -70,11 +70,17 @@ const StrategyFormLocal: React.FC<{
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategy?.underlyingAsset.address],
   });
+
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
   const previewDepositData = useFetchViewPreviewDeposit(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
-    if (previewDepositData?.data) {
+    if (
+      previewDepositData?.data?.sharesToReceive?.tokenAmount?.bigIntValue &&
+      previewDepositData.isFetched &&
+      previewDepositData.isSuccess &&
+      !previewDepositData.isLoading
+    ) {
       await depositAsync(
         {
           amount: data.amount,
@@ -140,7 +146,12 @@ const StrategyFormLocal: React.FC<{
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
         {asset && <Summary previewDepositData={previewDepositData} />}
-        <FormButtons strategy={strategy} subStrategyAddress={subStrategy} onTransaction={onTransaction} />
+        <FormButtons
+          isLoading={previewDepositData.isLoading}
+          strategy={strategy}
+          subStrategyAddress={subStrategy}
+          onTransaction={onTransaction}
+        />
       </FlexCol>
     </MyFormProvider>
   );

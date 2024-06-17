@@ -8,7 +8,8 @@ export const FormButtons: React.FC<{
   strategy: StrategyState;
   subStrategyAddress?: Address;
   onTransaction?: () => void;
-}> = ({ strategy, subStrategyAddress, onTransaction }) => {
+  isLoading?: boolean;
+}> = ({ strategy, subStrategyAddress, onTransaction, isLoading }) => {
   const {
     watch,
     formState: { isSubmitting },
@@ -35,7 +36,7 @@ export const FormButtons: React.FC<{
         <Buttonv2
           className="text-bold3"
           disabled={isApproved}
-          loading={isApproving}
+          loading={isApproving || isLoading}
           onClick={async () => {
             try {
               await approveAsync();
@@ -47,7 +48,12 @@ export const FormButtons: React.FC<{
           {getApproveState(isApproved, justApproved)}
         </Buttonv2>
       </AuthGuardv2>
-      <Buttonv2 className="text-bold3" type="submit" disabled={!isApproved || isSubmitting} loading={isSubmitting}>
+      <Buttonv2
+        className="text-bold3"
+        type="submit"
+        disabled={!isApproved || isSubmitting}
+        loading={isSubmitting || isLoading}
+      >
         Submit
       </Buttonv2>
     </FlexCol>

@@ -83,21 +83,22 @@ const WithdrawStrategyLocal: React.FC<{
   const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const {
-    data: previewWithdrawData,
-    isLoading,
-    isFetched,
-  } = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
+  const previewWithdrawData = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    if (previewWithdrawData) {
+    if (
+      previewWithdrawData?.data?.assetsToReceive?.tokenAmount?.bigIntValue &&
+      previewWithdrawData.isFetched &&
+      previewWithdrawData.isSuccess &&
+      !previewWithdrawData.isLoading
+    ) {
       // todo refactor in separate pr, create mutation
       try {
         const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.assetsToReceive.tokenAmount.bigIntValue || 0n
+          previewWithdrawData?.data.assetsToReceive.tokenAmount.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({
@@ -186,14 +187,12 @@ const WithdrawStrategyLocal: React.FC<{
 
         <Summary
           displayablePreviewData={{
-            data: previewWithdrawData,
-            isFetched,
-            isLoading,
+            ...previewWithdrawData,
           }}
           strategy={strategy}
         />
 
-        <FormButtons />
+        <FormButtons isLoading={previewWithdrawData.isLoading} />
       </FlexCol>
     </MyFormProvider>
   );
