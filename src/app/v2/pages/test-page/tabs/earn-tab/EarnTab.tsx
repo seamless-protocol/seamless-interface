@@ -2,10 +2,10 @@ import { Heading } from "./heading/Heading";
 import { assetSlugConfig } from "./config/SlugConfig";
 import { useAssetPickerState } from "../../../../hooks/useAssetPickerState";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
-import { AdditionalInfo } from "./additional-info/AdditionalInfo";
 import { AssetPickerWithFilter } from "../../../../components/asset-picker/AssetPickerWithFilter";
 import { FlexCol, Typography } from "../../../../../../shared";
 import { FormCont } from "./FormCont";
+import { AdditionalInfoContainer } from "./additional-info/AdditionalInfoContainer";
 
 export const EarnTab = () => {
   const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -30,7 +30,7 @@ export const EarnTab = () => {
             <Heading />
 
             <FormCont asset={asset} />
-            <AdditionalInfo asset={asset} />
+            <AdditionalInfoContainer />
           </div>
         </div>
       </div>

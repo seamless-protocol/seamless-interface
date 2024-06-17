@@ -14,8 +14,8 @@ import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
-import { useFocusOnAssetChange } from "../../../../app/v2/hooks/useFocusOnAssetChange";
 import { useFullTokenData } from "../../../../app/state/common/meta-data-queries/useFullTokenData";
+import { useFocusOnAssetChange } from "../../../hooks/ui-hooks/useFocusOnAssetChange";
 
 export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetAddress?: Address;
