@@ -16,7 +16,7 @@ export const MyStrategiesMobileTableRow: React.FC<{
   const isStrategy = !!strategy;
   const {
     data: { logo, name, symbol, subTitle },
-  } = useFullTokenData(asset);
+  } = useFullTokenData(isStrategy ? strategy : asset);
   const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
 
   return (

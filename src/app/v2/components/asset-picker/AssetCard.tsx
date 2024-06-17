@@ -18,9 +18,16 @@ export interface AssetCardProps {
   apy?: string;
   incentivesButton?: React.ReactNode;
   isSelected?: boolean;
+  lendingNamePrefix?: string;
 }
 
-export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSelected, isStrategy }) => {
+export const AssetCard: React.FC<AssetCardProps> = ({
+  address,
+  hideBorder,
+  isSelected,
+  isStrategy,
+  lendingNamePrefix = "Supply",
+}) => {
   const { data: asset } = useFetchAssetByAddress(address);
   const { data: hasMultipleApys } = useFetchStrategyHasMultipleAPYs(address);
   const {
@@ -36,10 +43,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({ address, hideBorder, isSel
     >
       <FlexRow className="gap-10 justify-between">
         <FlexRow className="gap-4 items-start">
-          <Icon width={40} src={logo} alt={logo || ""} />
+          <Icon width={40} src={logo} alt="logo" />
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{name}</Typography>
+              <Typography type="bold3">{`${asset?.isStrategy ? "" : lendingNamePrefix} ${name}`}</Typography>
               <Typography type="regular1">{subTitle || name}</Typography>
             </FlexCol>
             <FlexRow className="gap-2">
