@@ -10,11 +10,11 @@ interface AssetAprProps extends DisplayPercentageProps {
 export const AssetApr: React.FC<AssetAprProps> = ({ asset, ...rest }) => {
   const { data: tokenData } = useToken(asset);
 
-  const { isLoading, isFetched, data: supplyIncentives } = useFetchViewSupplyIncentives(asset);
+  const { data: supplyIncentives, ...restIncentives } = useFetchViewSupplyIncentives(asset);
 
   return (
     <Tooltip tooltip={<IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData?.symbol} />}>
-      <DisplayPercentage isLoading={isLoading} isFetched={isFetched} {...rest} {...supplyIncentives.totalApr} />
+      <DisplayPercentage {...restIncentives} {...rest} {...supplyIncentives.totalApr} />
     </Tooltip>
   );
 };

@@ -13,11 +13,10 @@ interface AssetTvlProps extends DisplayPercentageProps {
 const StrategyTvl: React.FC<{ subStrategy?: Address }> = ({ subStrategy, ...rest }) => {
   const {
     data: { dollarAmount },
-    isLoading,
-    isFetched,
+    ...restEquity
   } = useFetchViewDetailEquity(subStrategy);
 
-  return <DisplayMoney isLoading={isLoading} isFetched={isFetched} {...dollarAmount} {...rest} />;
+  return <DisplayMoney {...restEquity} {...dollarAmount} {...rest} />;
 };
 
 const LendingTvl: React.FC<{ asset?: Address }> = ({ asset, ...rest }) => {
@@ -25,11 +24,10 @@ const LendingTvl: React.FC<{ asset?: Address }> = ({ asset, ...rest }) => {
     data: {
       totalSupplied: { dollarAmount },
     },
-    isLoading,
-    isFetched,
+    ...restSupplied
   } = useFetchViewDetailTotalSupplied(asset);
 
-  return <DisplayMoney isLoading={isLoading} isFetched={isFetched} {...rest} {...dollarAmount} />;
+  return <DisplayMoney {...restSupplied} {...rest} {...dollarAmount} />;
 };
 
 export const AssetTvl: React.FC<AssetTvlProps> = ({ asset, subStrategy, isStrategy, ...rest }) => {

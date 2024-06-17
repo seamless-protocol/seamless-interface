@@ -2,6 +2,8 @@ import { DisplayableAmount } from "../../types/Displayable";
 import { TypographyColor } from "../text/TypographyV1/mappers";
 import { CombinedTypographyType, Typography } from "../text/Typography/Typography";
 import { fontSizes } from "./mapper";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from "../tooltip/Tooltip";
 
 export interface DisplayValueProps extends DisplayableAmount {
   typography?: CombinedTypographyType;
@@ -55,12 +57,24 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbol,
   isFetched,
   isLoading,
+  isError,
   loaderSkeleton,
-  typography = "secondary12",
+  typography = "medium3",
   symbolColor,
   symbolPosition = "before",
   className = "",
 }) => {
+  if (isError) {
+    const { width, height } = getTypographySkeletonSize(typography, viewValue);
+
+    return (
+      <Tooltip
+        tooltip={<Typography type="body1">Couldn&apos;t load this value, try refreshing the page 😓</Typography>}
+      >
+        <ExclamationTriangleIcon width={width} height={height} />
+      </Tooltip>
+    );
+  }
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
       const { width, height } = getTypographySkeletonSize(typography, viewValue);
@@ -80,7 +94,12 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       {symbolPosition === "after" && symbol && (
         <>
           {" "}
-          <Typography className={`md:truncate md:hover:text-clip ${className}`} type={typography} tagOverride="span" color={symbolColor}>
+          <Typography
+            className={`md:truncate md:hover:text-clip ${className}`}
+            type={typography}
+            tagOverride="span"
+            color={symbolColor}
+          >
             {symbol}
           </Typography>
         </>
