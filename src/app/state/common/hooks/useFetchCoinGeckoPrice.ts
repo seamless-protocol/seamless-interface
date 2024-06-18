@@ -21,6 +21,7 @@ interface fetchCoinGeckoAssetPriceByAddressParams {
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
 const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6"];
 const REPLACE_ADDRESSES: { [key: string]: string } = {
+  // eslint-disable-next-line no-useless-computed-key
   ["0x998e44232bef4f8b033e5a5175bdc97f2b10d5e5"]: "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85",
 };
 

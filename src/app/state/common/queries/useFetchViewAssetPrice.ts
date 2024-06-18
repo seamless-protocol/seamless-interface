@@ -96,7 +96,7 @@ export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPric
     data: { useCoinGeckoPrice },
   } = useFullTokenData(asset);
   const [coingeckoPrice] = useFetchCoinGeckoPricesByAddress(
-    !!useCoinGeckoPrice
+    useCoinGeckoPrice
       ? [
           {
             address: asset,
