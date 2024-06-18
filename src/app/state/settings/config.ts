@@ -161,7 +161,10 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [ESSEAM_ADDRESS]: {
     address: ESSEAM_ADDRESS,
     useCoinGeckoPrice: true,
-  }
+    coingGeckoConfig: {
+      replaceAddress: SEAM_ADDRESS,
+    },
+  },
 };
 
 export const strategiesConfig: { [key: string]: StrategyConfig } = {

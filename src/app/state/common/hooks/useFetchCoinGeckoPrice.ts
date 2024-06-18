@@ -1,11 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
-
-const cacheConfig = {
-  // Very aggressive caching due to rate limits
-  staleTime: 60 * 60 * 1000, // 60 min
-  gcTime: 60 * 60 * 1000, // 60 min
-};
+import { assetsConfig, strategiesConfig } from "../../settings/config";
+import { ONE_HOUR } from "../../settings/queryConfig";
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -20,10 +16,6 @@ interface FetchCoinGeckoAssetPriceByAddressParams {
 
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
 const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6"];
-const REPLACE_ADDRESSES: { [key: string]: string } = {
-  // eslint-disable-next-line no-useless-computed-key
-  ["0x998e44232bef4f8b033e5a5175bdc97f2b10d5e5"]: "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85",
-};
 
 const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
@@ -58,14 +50,15 @@ const mapAddress = (address?: Address): Address | undefined => {
     return undefined;
   }
 
-  address = address.toLowerCase() as Address;
+  const lowerCaseAddress = address.toLowerCase() as Address;
+  const assetConfig = assetsConfig[address] || strategiesConfig[address];
 
-  address = (REPLACE_ADDRESSES[address]?.toLowerCase() as Address) || address;
-  if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === address) !== undefined) {
+  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress || lowerCaseAddress;
+  if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === finalAddress) !== undefined) {
     return undefined;
   }
 
-  return address;
+  return finalAddress;
 };
 
 export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) =>
@@ -79,6 +72,7 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
       refetchOnReconnect: false,
       refetchIntervalInBackground: false,
 
-      ...cacheConfig,
+      staleTime: ONE_HOUR,
+      gcTime: ONE_HOUR,
     })),
   });
