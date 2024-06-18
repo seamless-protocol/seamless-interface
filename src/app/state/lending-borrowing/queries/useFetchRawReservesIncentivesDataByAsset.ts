@@ -6,6 +6,7 @@ import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentiv
 import { assetsConfig } from "../../settings/config";
 import { mergeQueryStates } from "../../../../shared";
 import { useFetchCoinGeckoPricesByAddress } from "../../common/hooks/useFetchCoinGeckoPrice";
+import { MOCK_PRICE_ORACLE } from "../../../../meta";
 
 /**
  * Fetches incentives data for given asset from smart contract. Data is not formatted to be used directly in UI.
@@ -62,8 +63,6 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
     data: incentives,
   };
 };
-
-const MOCK_PRICE_ORACLE = "0x602823807C919A92B63cF5C126387c4759976072";
 
 interface cgPriceMapping {
   [address: string]: bigint | undefined;

@@ -13,7 +13,7 @@ interface CoinGeckoAssetPrice {
   };
 }
 
-interface fetchCoinGeckoAssetPriceByAddressParams {
+interface FetchCoinGeckoAssetPriceByAddressParams {
   address?: Address;
   precision: number;
 }
@@ -28,7 +28,7 @@ const REPLACE_ADDRESSES: { [key: string]: string } = {
 const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
-}: fetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
+}: FetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
   if (!address) {
     return 0n;
   }
@@ -48,7 +48,7 @@ const fetchCoinGeckoAssetPriceByAddress = async ({
   return parseUnits(price.toString(), precision);
 };
 
-interface useFetchCoinGeckoPricesByAddressParams {
+interface FetchCoinGeckoPricesByAddressParams {
   address?: Address;
   precision: number;
 }
@@ -68,7 +68,7 @@ const mapAddress = (address?: Address): Address | undefined => {
   return address;
 };
 
-export const useFetchCoinGeckoPricesByAddress = (assets: useFetchCoinGeckoPricesByAddressParams[]) =>
+export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) =>
   useQueries({
     queries: assets.map(({ address, precision }) => ({
       queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
@@ -77,7 +77,6 @@ export const useFetchCoinGeckoPricesByAddress = (assets: useFetchCoinGeckoPrices
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      // refetchInterval: false,
       refetchIntervalInBackground: false,
 
       ...cacheConfig,

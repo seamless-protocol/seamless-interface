@@ -17,6 +17,8 @@ export const walletBalanceDecimalsOptionsTemp: Partial<DecimalsOptions> = {
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
 export const COMPOUNDING_PERIODS_APY = 1;
 
+export const MOCK_PRICE_ORACLE = "0x602823807C919A92B63cF5C126387c4759976072";
+
 export const WETH_ADDRESS: Address = "0x4200000000000000000000000000000000000006";
 export const CBETH_ADDRESS: Address = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
 export const WSTETH_ADDRESS: Address = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
