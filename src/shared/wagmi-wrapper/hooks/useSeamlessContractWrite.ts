@@ -79,7 +79,7 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
           console.error(
             `UseSeamlessContractWrite Operation failed with error(parsed): ${parsedError}`,
             JSON.stringify({ error }, null, 2),
-            JSON.stringify({ args }, null, 2)
+            { args }
           );
 
           // 2. set error message
