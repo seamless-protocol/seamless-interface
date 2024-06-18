@@ -14,6 +14,7 @@ import {
   sDAI_ADDRESS,
   sDEGEN_ADDRESS,
   SEAM_ADDRESS,
+  ESSEAM_ADDRESS,
   srWETH_ADDRESS,
   srwstETH_ADDRESS,
   sSEAM_ADDRESS,
@@ -156,6 +157,13 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     address: rWETH_ADDRESS,
     sTokenAddress: srWETH_ADDRESS,
     debtTokenAddress: variableDebtSeamrWETH_ADDRESS,
+  },
+  [ESSEAM_ADDRESS]: {
+    address: ESSEAM_ADDRESS,
+    useCoinGeckoPrice: true,
+    coingGeckoConfig: {
+      replaceAddress: SEAM_ADDRESS,
+    },
   },
 };
 

@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { Displayable, mergeQueryStates } from "../../../../shared";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { ViewIncentives } from "../types/ViewIncentives";
@@ -23,17 +22,15 @@ export const useFetchSupplyIncentives = (asset?: Address): FetchData<SupplyIncen
     ...totalSuppliedRest
   } = useFetchDetailTotalSupplied(asset);
 
-  const { data: seamPrice, ...seamPriceRest } = useFetchCoinGeckoSeamPrice();
-
   let supplyIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
-  if (incentives && totalSuppliedUsd && seamPrice != null && totalSuppliedUsd?.bigIntValue) {
+  if (incentives && totalSuppliedUsd && totalSuppliedUsd?.bigIntValue) {
     if (incentives && incentives.aIncentiveData) {
-      supplyIncentives = parseIncentives(incentives?.aIncentiveData, totalSuppliedUsd.bigIntValue, seamPrice);
+      supplyIncentives = parseIncentives(incentives?.aIncentiveData, totalSuppliedUsd.bigIntValue);
     }
   }
 
   return {
-    ...mergeQueryStates([seamPriceRest, totalSuppliedRest, rawRest]),
+    ...mergeQueryStates([totalSuppliedRest, rawRest]),
     data: {
       supplyIncentives,
     }

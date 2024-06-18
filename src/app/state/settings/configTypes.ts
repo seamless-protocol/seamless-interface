@@ -15,6 +15,9 @@ export interface AssetBaseConfig {
     answer: JSX.Element;
   }[];
   useCoinGeckoPrice?: boolean;
+  coingGeckoConfig?: {
+    replaceAddress: Address;
+  };
 }
 
 export interface LendMarketConfig extends AssetBaseConfig {
