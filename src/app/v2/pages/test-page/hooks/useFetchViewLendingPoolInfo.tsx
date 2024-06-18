@@ -6,7 +6,7 @@ import { Address, erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
-import { useFetchCoinGeckoPriceByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
+import { useFetchCoinGeckoPricesByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
 import { useMemo } from "react";
 import { assetsConfig } from "../../../../state/settings/config";
 
@@ -55,23 +55,20 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   let coinGeckoAllIsFetched = true;
   let coinGeckoAllIsLoading = false;
 
-  // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
-  Object.keys(assetsConfig).forEach((key) => {
-    const enabled = !!assetsConfig[key as Address].useCoinGeckoPrice;
-    const {
-      data: price,
-      isLoading: coinGeckoIsLoading,
-      isFetched: coinGeckoIsFetched,
-      // todo fix this
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-    } = useFetchCoinGeckoPriceByAddress({
+  const cgPriceParams = Object.keys(assetsConfig)
+    .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
+    .map((key) => ({
       address: assetsConfig[key as Address].address,
       precision: 8,
-      enabled,
-    });
-    coinGeckoPrices[assetsConfig[key as Address].address] = price || 0n;
-    coinGeckoAllIsFetched = coinGeckoAllIsFetched && (coinGeckoIsFetched || !enabled);
-    coinGeckoAllIsLoading = coinGeckoAllIsLoading || coinGeckoIsLoading;
+    }));
+
+  const cgPricesResults = useFetchCoinGeckoPricesByAddress(cgPriceParams);
+
+  // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
+  cgPricesResults.forEach(({ data: price, isLoading, isFetched }, i) => {
+    coinGeckoPrices[cgPriceParams[i].address] = price || 0n;
+    coinGeckoAllIsFetched = coinGeckoAllIsFetched && isFetched;
+    coinGeckoAllIsLoading = coinGeckoAllIsLoading || isLoading;
   });
 
   const [totalSuppliedUsd, totalBorrowedUsd] = useMemo(() => {

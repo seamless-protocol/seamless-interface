@@ -8,7 +8,7 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
-import { useFetchCoinGeckoPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { useFetchCoinGeckoPricesByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { ONE_MINUTE } from "../../settings/queryConfig";
 
@@ -95,11 +95,16 @@ export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPric
   const {
     data: { useCoinGeckoPrice },
   } = useFullTokenData(asset);
-  const coingeckoPrice = useFetchCoinGeckoPriceByAddress({
-    address: asset,
-    precision: 8,
-    enabled: !!useCoinGeckoPrice,
-  });
+  const [coingeckoPrice] = useFetchCoinGeckoPricesByAddress(
+    !!useCoinGeckoPrice
+      ? [
+          {
+            address: asset,
+            precision: 8,
+          },
+        ]
+      : []
+  );
 
   const assetPriceInBlock = useFetchAssetPriceInBlock(
     useCoinGeckoPrice ? undefined : asset,

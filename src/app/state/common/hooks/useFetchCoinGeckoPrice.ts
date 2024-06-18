@@ -1,6 +1,11 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
-import { SEAM_ADDRESS } from "@meta";
+
+const cacheConfig = {
+  // Very aggressive caching due to rate limits
+  staleTime: 60 * 60 * 1000, // 60 min
+  gcTime: 60 * 60 * 1000, // 60 min
+};
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -14,8 +19,12 @@ interface fetchCoinGeckoAssetPriceByAddressParams {
 }
 
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
+const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6"];
+const REPLACE_ADDRESSES: { [key: string]: string } = {
+  ["0x998e44232bef4f8b033e5a5175bdc97f2b10d5e5"]: "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85",
+};
 
-export const fetchCoinGeckoAssetPriceByAddress = async ({
+const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
 }: fetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
@@ -38,35 +47,38 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
   return parseUnits(price.toString(), precision);
 };
 
-interface useFetchCoinGeckoPriceByAddressParams {
+interface useFetchCoinGeckoPricesByAddressParams {
   address?: Address;
   precision: number;
-  enabled: boolean;
 }
 
-export const useFetchCoinGeckoPriceByAddress = ({
-  address,
-  precision,
-  enabled,
-}: useFetchCoinGeckoPriceByAddressParams) =>
-  useQuery({
-    enabled,
-    queryKey: ["fetchCoinGeckoAssetPriceByAddress", address?.toLowerCase(), precision],
-    queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address, precision }),
+const mapAddress = (address?: Address): Address | undefined => {
+  if (!address) {
+    return undefined;
+  }
 
-    // Very aggressive caching due to rate limits
-    staleTime: 60 * 60 * 1000, // 60 min
-    gcTime: 60 * 60 * 1000, // 60 min
-    placeholderData: keepPreviousData,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchInterval: false,
-    refetchIntervalInBackground: false,
-  });
+  address = address.toLowerCase() as Address;
 
-export const useFetchCoinGeckoSeamPrice = () => {
-  const result = useFetchCoinGeckoPriceByAddress({ address: SEAM_ADDRESS, precision: 18, enabled: true });
+  address = (REPLACE_ADDRESSES[address]?.toLowerCase() as Address) || address;
+  if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === address) !== undefined) {
+    return undefined;
+  }
 
-  return result;
+  return address;
 };
+
+export const useFetchCoinGeckoPricesByAddress = (assets: useFetchCoinGeckoPricesByAddressParams[]) =>
+  useQueries({
+    queries: assets.map(({ address, precision }) => ({
+      queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
+      queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: mapAddress(address), precision }),
+
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      // refetchInterval: false,
+      refetchIntervalInBackground: false,
+
+      ...cacheConfig,
+    })),
+  });

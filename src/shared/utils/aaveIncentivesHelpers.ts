@@ -3,7 +3,7 @@ import { formatFetchNumberToViewNumber, formatUnitsToNumber, normalizeDecimals }
 import { SECONDS_PER_YEAR, assetLogos } from "@meta";
 import { ViewNumber } from "../types/Displayable";
 
-interface RewardTokenInformation {
+export interface RewardTokenInformation {
   rewardTokenSymbol: string;
   rewardTokenAddress: Address;
   rewardOracleAddress: Address;
@@ -44,7 +44,6 @@ export interface IncentiveApr {
 function parseRewardsTokenInformation(
   rewardsTokenInformation: RewardTokenInformation[],
   totalUsd: bigint,
-  seamPrice: bigint
 ): IncentiveApr {
   let totalApr = 0;
   const rewardTokens: RewardToken[] = [];
@@ -63,10 +62,7 @@ function parseRewardsTokenInformation(
       continue;
     }
 
-    const rewardTokenPrice =
-      rewardToken.rewardTokenSymbol === "esSEAM" || rewardToken.rewardTokenSymbol === "SEAM"
-        ? seamPrice
-        : normalizeDecimals(rewardToken.rewardPriceFeed, BigInt(rewardToken.priceFeedDecimals), 18n);
+    const rewardTokenPrice = normalizeDecimals(rewardToken.rewardPriceFeed, BigInt(rewardToken.priceFeedDecimals), 18n);
     const emissionPerYear =
       normalizeDecimals(rewardToken.emissionPerSecond, BigInt(rewardToken.rewardTokenDecimals), 18n) *
       BigInt(SECONDS_PER_YEAR);
@@ -89,9 +85,9 @@ function parseRewardsTokenInformation(
   return { totalApr, rewardTokens };
 }
 
-export function parseIncentives(incentives: IncentiveData, totalUsd: bigint, seamPrice: bigint): IncentiveApr {
+export function parseIncentives(incentives: IncentiveData, totalUsd: bigint): IncentiveApr {
   const result = incentives
-    ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd, seamPrice)
+    ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd)
     : {
       totalApr: 0,
       rewardTokens: [],
