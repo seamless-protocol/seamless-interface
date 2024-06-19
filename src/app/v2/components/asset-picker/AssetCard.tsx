@@ -41,8 +41,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
       className={`p-6 pr-8  ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
         ${isSelected ? "bg-background-selected" : "bg-neutral-0"} cursor-pointer`}
     >
-      <FlexRow className="gap-10 justify-between">
-        <FlexRow className="gap-4 items-start">
+      <FlexRow className="justify-between">
+        <FlexRow className="gap-4 items-start max-w-[60%]">
           <Icon width={40} src={logo} alt="logo" />
           <FlexCol className="gap-2 max-w-58 text-start">
             <FlexCol className="gap-[2px]">

@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { Displayable, mergeQueryStates } from "../../../../shared";
-import { useFetchCoinGeckoSeamPrice } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { ViewIncentives } from "../types/ViewIncentives";
 import { formatIncentiveAprToViewNumber } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
@@ -10,13 +9,12 @@ import { Incentives, IncentiveApr, parseIncentives } from "../../../../shared/ut
 
 const cBorrowIncentives = (
   incentivesData: Incentives | undefined,
-  totalBorrowedUsd: FetchBigInt | undefined,
-  seamPrice: bigint | undefined
+  totalBorrowedUsd: FetchBigInt | undefined
 ): IncentiveApr => {
-  if (incentivesData == null || seamPrice == null || totalBorrowedUsd?.bigIntValue == null) {
+  if (incentivesData == null || totalBorrowedUsd?.bigIntValue == null) {
     return { totalApr: undefined, rewardTokens: [] };
   }
-  return parseIncentives(incentivesData.vIncentiveData, totalBorrowedUsd.bigIntValue, seamPrice);
+  return parseIncentives(incentivesData.vIncentiveData, totalBorrowedUsd.bigIntValue);
 };
 
 
@@ -27,12 +25,11 @@ interface BorrowIncentives {
 export const useFetchBorrowIncentives = (asset: Address): FetchData<BorrowIncentives> => {
   const { data: incentives, ...incentivesRest } = useFetchRawReservesIncentivesDataByAsset(asset);
   const { data: { totalBorrowedUsd }, ...totalBorrowedRest } = useFetchDetailTotalBorrowed(asset);
-  const { data: seamPrice, ...seamPriceRest } = useFetchCoinGeckoSeamPrice();
 
-  const borrowIncentives = cBorrowIncentives(incentives, totalBorrowedUsd, seamPrice);
+  const borrowIncentives = cBorrowIncentives(incentives, totalBorrowedUsd);
 
   return {
-    ...mergeQueryStates([incentivesRest, totalBorrowedRest, seamPriceRest]),
+    ...mergeQueryStates([incentivesRest, totalBorrowedRest]),
     data: {
       borrowIncentives
     }
