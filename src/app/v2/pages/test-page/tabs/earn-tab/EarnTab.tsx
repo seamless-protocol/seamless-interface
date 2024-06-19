@@ -24,7 +24,7 @@ export const EarnTab = () => {
                 </Typography>
               </FlexCol>
             </FlexCol>
-            <AssetPickerWithFilter overrideUrlSlug={assetSlugConfig} size="normal" />
+            <AssetPickerWithFilter overrideUrlSlug={assetSlugConfig} />
           </div>
           <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
             <Heading />
