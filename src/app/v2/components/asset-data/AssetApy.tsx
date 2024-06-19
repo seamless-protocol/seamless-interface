@@ -91,10 +91,10 @@ export const AssetApy: React.FC<AssetApyProps & { subStrategy?: Address }> = ({
   subStrategy,
   ...rest
 }) => {
-  const { data: strategy } = useFetchStrategyBySubStrategyAddress(subStrategy);
+  // const { data: strategy } = useFetchStrategyBySubStrategyAddress(subStrategy);
 
-  if (strategy?.address === multiplyETH_ADDRESS_STRATEGY_ID || asset === multiplyETH_ADDRESS_STRATEGY_ID)
-    return <DisplayText viewValue="Up to 1.5x" />;
+  // if (strategy?.address === multiplyETH_ADDRESS_STRATEGY_ID || asset === multiplyETH_ADDRESS_STRATEGY_ID)
+  //   return <DisplayText viewValue="Up to 1.5x" />;
 
   if (isStrategy) {
     return subStrategy ? (
