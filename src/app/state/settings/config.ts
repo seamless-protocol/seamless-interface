@@ -172,7 +172,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     name: "Boost wstETH",
     subTitle: "Increase ETH staking rewards automatically",
     description:
-      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
+      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
     address: wstETHBooster_ADDRESS_STRATEGY_ID as Address,
     logo: ilmwstETHLogo,
     diagram: wstEthDiagram,
@@ -201,7 +201,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     name: "Multiply ETH Long",
     subTitle: "Increase ETH price exposure",
     description:
-      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
+      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
     address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
     faq: faqsData[multiplyETH_ADDRESS_STRATEGY_ID],
     logo: ilmEthUsdcLogo,

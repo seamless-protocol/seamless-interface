@@ -25,6 +25,7 @@ export const Heading = () => {
   const { data: assetState } = useFetchAssetByAddress(asset);
   const { data: strategyState } = useFetchStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
+  const { data: debtTokenData } = useFullTokenData(strategyState?.debtAsset.address);
 
   const { data: oraclePrice, ...restOracle } = useFetchViewAssetPrice({
     asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset,
@@ -44,7 +45,8 @@ export const Heading = () => {
           <div className="min-h-12 text-left items-start justify-start">
             <Typography type="bold5">Seamless stats</Typography>
           </div>
-          <div className="bg-neutral-100 rounded-2xl py-4 px-4 flex flex-wrap md:flex-row justify-evenly items-start w-full">
+
+          <div className="bg-neutral-100 rounded-2xl py-4  px-4 md:gap-0 gap-3 flex flex-col md:flex-row justify-evenly items-start w-full">
             <FlexCol className="gap-1 md:text-center">
               <Typography type="regular2">Total market size</Typography>
               <DisplayMoney {...data?.totalMarketSizeUsd} {...rest} typography="bold4" />
@@ -85,8 +87,7 @@ export const Heading = () => {
                   <Tooltip
                     tooltip={
                       <Typography type="description">
-                        30 day moving average denominated in
-                        {strategyState?.debtAsset?.symbol}
+                        30 day moving average denominated in {debtTokenData?.symbol}
                       </Typography>
                     }
                     size="small"
