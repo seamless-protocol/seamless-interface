@@ -1,12 +1,10 @@
 import React from "react";
 import { Address } from "viem";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { DisplayPercentage, DisplayPercentageProps, DisplayText, FlexRow, Tooltip, Typography } from "@shared";
+import { DisplayPercentage, DisplayPercentageProps, FlexRow, Tooltip, Typography } from "@shared";
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewMaxStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewMaxStrategyApy";
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { useFetchStrategyBySubStrategyAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
-import { multiplyETH_ADDRESS_STRATEGY_ID } from "../../../../meta";
 
 interface AssetApyProps extends DisplayPercentageProps {
   asset?: Address;
