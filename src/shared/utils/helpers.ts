@@ -180,7 +180,8 @@ export function formatFetchBigIntToHealthFactor(
     };
   }
 
-  const value = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
+  // Multiply by 100 and divide by 100 to round down on 2 decimals
+  const value = decimals ? Math.floor(formatUnitsToNumber(bigIntValue, decimals) * 100) / 100 : undefined;
 
   return {
     value: decimals ? formatUnits(bigIntValue, decimals) : undefined,
