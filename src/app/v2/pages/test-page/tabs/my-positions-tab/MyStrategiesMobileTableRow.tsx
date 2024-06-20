@@ -48,7 +48,7 @@ export const MyStrategiesMobileTableRow: React.FC<{
           </FlexCol>
         </div>
         <div className="mt-4">
-          <TableButtonsMobile asset={asset} isStrategy={isStrategy} />
+          <TableButtonsMobile asset={asset} subStrategy={strategy} isStrategy={isStrategy} />
         </div>
       </FlexCol>
     </div>
