@@ -5,24 +5,11 @@ import { AssetPickerStateHookProps, useAssetPickerState } from "../../hooks/useA
 import { StrategyState, LendMarketState } from "../../../state/common/types/StateTypes";
 
 export interface AssetPickerProps extends AssetPickerStateHookProps {
-  size?: "small" | "normal" | "big";
   data?: (StrategyState | LendMarketState)[];
 }
 
-const sizeMap = {
-  small: "320px",
-  normal: "540px",
-  big: "720px",
-};
-
-export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size, data }) => {
+export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, data }) => {
   const { asset, setAsset } = useAssetPickerState({ overrideUrlSlug });
-
-  const maxHeightValue = size ? sizeMap[size] : undefined;
-  const scrollableStyle: React.CSSProperties = {
-    maxHeight: maxHeightValue,
-    overflowY: maxHeightValue ? "auto" : undefined,
-  };
 
   return (
     <div className="bg-neutral-100 shadow-card rounded-2xl py-4">
@@ -30,10 +17,7 @@ export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, size,
         <Typography type="bold1">Strategy</Typography>
         <Typography type="bold1">Est. APY</Typography>
       </FlexRow>
-      <div
-        style={scrollableStyle}
-        className="overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100"
-      >
+      <div className="overflow-y-auto md:max-h-[65vh] scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100">
         {data?.map((item, index) => (
           <div
             key={index}
