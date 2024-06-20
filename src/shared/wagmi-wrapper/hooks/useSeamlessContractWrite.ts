@@ -82,7 +82,7 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
             { args }
           );
           // eslint-disable-next-line no-console
-          console.log({ error });
+          console.error({ error });
 
           // 2. set error message
           setErrorMessage(parsedError);
