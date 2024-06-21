@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { WithdrawStrategyForm } from "../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm";
 import { WithdrawForm } from "../../../../components/forms/withdraw-forms/withdraw-form/WithdrawForm";
-import { useFetchStrategyBySubStrategyAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const TableButtons: React.FC<{
   asset: Address;
@@ -16,7 +16,7 @@ export const TableButtons: React.FC<{
   const addModal = useRef<ModalHandles>(null);
   const removeModal = useRef<ModalHandles>(null);
 
-  const { data: strategy } = useFetchStrategyBySubStrategyAddress(subStrategy);
+  const { data: strategy } = useFetchStrategyBySubStrategyAddressOrAddress(subStrategy);
 
   return (
     <FlexRow className="gap-2 text-start cursor-default">

@@ -82,20 +82,25 @@ export const Heading = () => {
             {/* item 2 */}
             <FlexCol className="gap-1 md:text-center md:items-center  min-w-24">
               <FlexRow className="gap-2">
-                <Typography type="regular2">Est. APY</Typography>
-                <StrategyGuard asset={asset}>
-                  <Tooltip
-                    tooltip={
-                      <Typography type="description">
-                        30 day moving average denominated in {debtTokenData?.symbol}
-                      </Typography>
-                    }
-                    size="small"
-                    theme="dark"
-                  >
-                    <InformationCircleIcon className="cursor-pointer" width={15} />
-                  </Tooltip>
-                </StrategyGuard>
+                {strategyState?.multiplier ?
+                  <Typography type="regular2">Multiplier</Typography> :
+                  <>
+                    <Typography type="regular2">Est. APY</Typography><StrategyGuard asset={asset}>
+                      <Tooltip
+                        tooltip={
+                          <Typography type="description">
+                            30 day moving average denominated in {debtTokenData?.symbol}
+                          </Typography>
+                        }
+                        size="small"
+                        theme="dark"
+                      >
+                        <InformationCircleIcon className="cursor-pointer" width={15} />
+                      </Tooltip>
+                    </StrategyGuard>
+                  </>
+                }
+
               </FlexRow>
               <AssetApy
                 asset={asset}

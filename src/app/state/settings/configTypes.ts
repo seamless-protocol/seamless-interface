@@ -38,10 +38,12 @@ export interface SubStrategyDataConfig {
 
 export interface StrategyConfig extends AssetBaseConfig {
   diagram?: string;
+  multiplier?: string;
   // todo remove and fetch
   underlyingAsset: LendMarketConfig;
   // todo remove and fetch
   debtAsset: LendMarketConfig;
   // todo remove and fetch
   subStrategyData: SubStrategyDataConfig[];
+
 }
