@@ -5,8 +5,7 @@ import { DisplayPercentage, DisplayPercentageProps, DisplayText, FlexRow, Toolti
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewMaxStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewMaxStrategyApy";
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { multiplyETH_ADDRESS_STRATEGY_ID } from "../../../../meta";
-import { useFetchStrategyBySubStrategyAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 interface AssetApyProps extends DisplayPercentageProps {
   asset?: Address;
@@ -91,10 +90,10 @@ export const AssetApy: React.FC<AssetApyProps & { subStrategy?: Address }> = ({
   subStrategy,
   ...rest
 }) => {
-  const { data: strategy } = useFetchStrategyBySubStrategyAddress(subStrategy);
+  const { data: strategy } = useFetchStrategyBySubStrategyAddressOrAddress(subStrategy || asset);
 
-  if (strategy?.address === multiplyETH_ADDRESS_STRATEGY_ID || asset === multiplyETH_ADDRESS_STRATEGY_ID)
-    return <DisplayText viewValue="Up to 1.5x" />;
+  if (strategy?.multiplier)
+    return <DisplayText  {...rest} viewValue={strategy?.multiplier} />;
 
   if (isStrategy) {
     return subStrategy ? (

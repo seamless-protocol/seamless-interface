@@ -10,6 +10,17 @@ export const getStrategyBySubStrategyAddress = (subStrategyAddress?: Address): S
   );
 };
 
+
+export const getStrategyBySubStrategyAddressOrAddress = (address?: Address): StrategyConfig | undefined => {
+  if (!address) return undefined;
+
+  if (strategiesConfig[address]) return strategiesConfig[address];
+
+  return Object.values(strategiesConfig).find((strategy) =>
+    strategy.subStrategyData.some((sub) => sub.address === address)
+  );
+};
+
 export const hasFaqByAddress = (address?: Address) => {
   if (!address) return false;
 
