@@ -23,13 +23,15 @@ export const cSharesToReceiveInUsd = (sharesToReceiveValue?: bigint, sharePriceV
 
 export const cCostInUsd = (assetPriceValue?: bigint, amount?: string, sharesToReceiveInUsd?: bigint) => {
   if (assetPriceValue == null || amount == null || sharesToReceiveInUsd == null) return undefined;
+
+  let amountInWei;
   try {
-    BigInt(amount);
+    amountInWei = parseEther(amount);
   } catch (e) {
     return undefined;
   }
 
-  const depositValueInUsd = (parseEther(amount) * assetPriceValue) / ONE_ETHER;
+  const depositValueInUsd = (amountInWei * assetPriceValue) / ONE_ETHER;
   return depositValueInUsd - sharesToReceiveInUsd;
 };
 
