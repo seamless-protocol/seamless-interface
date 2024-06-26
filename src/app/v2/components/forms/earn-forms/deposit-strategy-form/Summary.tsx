@@ -1,5 +1,5 @@
 import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { SubStrategyApy } from "../../../asset-data/AssetApy";
+import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
@@ -13,7 +13,7 @@ export const Summary: React.FC<{
 const SummaryLocal: React.FC<{
   previewDepositData: Displayable<ViewPreviewDeposit>;
 }> = ({ previewDepositData }) => {
-  const { asset, subStrategy } = useFormSettingsContext();
+  const { asset, subStrategy, isStrategy } = useFormSettingsContext();
 
   return (
     <FlexCol className="rounded-card bg-background-selected p-6 gap-4 cursor-default">
@@ -21,7 +21,15 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <SubStrategyApy subStrategy={subStrategy} className="text-navy-1000" typography="medium2" />}
+        {asset && (
+          <AssetApy
+            asset={asset}
+            subStrategy={subStrategy}
+            isStrategy={isStrategy}
+            className="text-navy-1000"
+            typography="medium2"
+          />
+        )}
       </FlexRow>
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount
