@@ -26,7 +26,7 @@
       "@meta": ["src/meta/index"]
     }
   },
-  "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts"],
+  "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts", "cypress/**/*.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"
