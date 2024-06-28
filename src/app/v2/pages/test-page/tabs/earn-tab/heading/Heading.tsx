@@ -69,7 +69,11 @@ export const Heading = () => {
           className="flex md:flex-row flex-wrap md:justify-center w-full mt-2
             rounded-2xl shadow-card bg-neutral-0 p-6 gap-2"
         >
-          {asset && <AssetHeading asset={asset} />}
+          {asset && (
+            <div className="min-h-12 w-full text-left items-start justify-start">
+              <AssetHeading asset={asset} />
+            </div>
+          )}
 
           <div className="bg-neutral-100 rounded-2xl py-4  px-4 md:gap-0 gap-3 flex flex-col md:flex-row justify-evenly items-start w-full">
             {/* item 1 */}
@@ -82,10 +86,12 @@ export const Heading = () => {
             {/* item 2 */}
             <FlexCol className="gap-1 md:text-center md:items-center  min-w-24">
               <FlexRow className="gap-2">
-                {strategyState?.multiplier ?
-                  <Typography type="regular2">Multiplier</Typography> :
+                {strategyState?.multiplier ? (
+                  <Typography type="regular2">Multiplier</Typography>
+                ) : (
                   <>
-                    <Typography type="regular2">Est. APY</Typography><StrategyGuard asset={asset}>
+                    <Typography type="regular2">Est. APY</Typography>
+                    <StrategyGuard asset={asset}>
                       <Tooltip
                         tooltip={
                           <Typography type="description">
@@ -99,8 +105,7 @@ export const Heading = () => {
                       </Tooltip>
                     </StrategyGuard>
                   </>
-                }
-
+                )}
               </FlexRow>
               <AssetApy
                 asset={asset}

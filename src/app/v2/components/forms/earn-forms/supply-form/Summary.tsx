@@ -29,11 +29,11 @@ export const Summary = ({ amount }: { amount: string }) => {
       <Typography type="bold3">Summary</Typography>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Supply APY</Typography>
-        {asset && <LendingApy asset={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <LendingApy asset={asset} className="text-navy-1000" />}
       </FlexRow>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <AssetApr asset={asset} className="text-navy-1000" />}
       </FlexRow>
       {account.address && asset && userAccountData?.totalDebt?.bigIntValue !== 0n && (
         <>
