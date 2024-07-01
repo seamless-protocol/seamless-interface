@@ -1,23 +1,22 @@
 import { defineConfig } from "cypress";
+// import viteConfig from "./vite.config";
 
-export default defineConfig({
-  viewportWidth: 1600,
-  viewportHeight: 800,
-  defaultCommandTimeout: 40000,
-  pageLoadTimeout: 120000,
-  video: true,
-  watchForFileChanges: false,
-  scrollBehavior: "center",
-  retries: {
-    runMode: 1,
-    openMode: 0,
+module.exports = defineConfig({
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+      // optionally pass in vite config
+      // viteConfig: customViteConfig,
+      // or a function - the result is merged with
+      // any `vite.config` file that is detected
+      // viteConfig,
+    },
   },
+
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, import/extensions
-      return require("./cypress/plugins/index.js")(on, config);
+      // implement node event listeners here
     },
   },
 });

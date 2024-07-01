@@ -20,6 +20,7 @@ export const AssetPicker: React.FC<AssetPickerProps> = ({ overrideUrlSlug, data 
       <div className="overflow-y-auto md:max-h-[65vh] scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100">
         {data?.map((item, index) => (
           <div
+            data-cy={`asset-card-${item.address}`}
             key={index}
             onClick={() => {
               const { address } = item;
