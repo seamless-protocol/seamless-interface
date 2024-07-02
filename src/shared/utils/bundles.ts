@@ -2,14 +2,13 @@ import { Address, decodeEventLog, pad, parseEther } from "viem";
 import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
-import { FetchData } from "../types/Fetch";
+import { buildSuccessfulFetch, FetchData } from "../types/Fetch";
 
 export interface PreviewDeposit {
   sharesToReceive: bigint;
 }
 
 export interface PreviewWithdraw {
-  isSuccess: boolean;
   assetsToReceive: bigint;
 }
 
@@ -51,12 +50,7 @@ export async function simulateDeposit(
   amount: string
 ): Promise<FetchData<PreviewDeposit>> {
   if (!underlyingAsset || parseEther(amount) === 0n) {
-    return {
-      isSuccess: true,
-      isFetched: true,
-      isLoading: false,
-      data: { sharesToReceive: 0n },
-    };
+    return buildSuccessfulFetch({ sharesToReceive: 0n });
   }
 
   const { result } = await simulateBundle([
@@ -65,12 +59,7 @@ export async function simulateDeposit(
   ]);
 
   if (!result || !result[1].logs) {
-    return {
-      isSuccess: true,
-      isFetched: true,
-      isLoading: false,
-      data: { sharesToReceive: 0n },
-    };
+    return buildSuccessfulFetch({ sharesToReceive: 0n });
   }
 
   // Take logs from second transaction
@@ -79,12 +68,7 @@ export async function simulateDeposit(
   const depositEvent = logs ? logs[logs.length - 1] : undefined;
 
   if (!depositEvent) {
-    return {
-      isSuccess: true,
-      isFetched: true,
-      isLoading: false,
-      data: { sharesToReceive: 0n },
-    };
+    return buildSuccessfulFetch({ sharesToReceive: 0n });
   }
 
   const decodedDepositEvent = decodeEventLog({
@@ -94,64 +78,43 @@ export async function simulateDeposit(
   });
 
   const sharesToReceive = decodedDepositEvent.args.shares;
-  return {
-    isSuccess: true,
-    isFetched: true,
-    isLoading: false,
-    data: { sharesToReceive },
-  };
+
+  return buildSuccessfulFetch({ sharesToReceive });
 }
 
-export async function simulateWithdraw(account: Address, strategy: Address, amount: string): Promise<PreviewWithdraw> {
+export async function simulateWithdraw(
+  account: Address,
+  strategy: Address,
+  amount: string
+): Promise<FetchData<PreviewWithdraw>> {
   if (parseEther(amount) === 0n) {
-    return {
-      isSuccess: true,
-      assetsToReceive: 0n,
-    };
+    return buildSuccessfulFetch({ assetsToReceive: 0n });
   }
 
-  try {
-    const { result } = await simulateBundle([createWithdrawTx(account, strategy, amount)]);
+  const { result } = await simulateBundle([createWithdrawTx(account, strategy, amount)]);
 
-    if (!result || !result[0].logs) {
-      return {
-        isSuccess: false,
-        assetsToReceive: 0n,
-      };
-    }
-
-    const { logs } = result[0];
-    // Withdraw event is the last event
-    const withdrawEvent = logs ? logs[logs.length - 1] : undefined;
-
-    if (!withdrawEvent) {
-      return {
-        isSuccess: false,
-        assetsToReceive: 0n,
-      };
-    }
-
-    const decodedWithdrawEvent = decodeEventLog({
-      abi: withdrawEventAbi,
-      data: withdrawEvent.data,
-      topics: [
-        withdrawEvent.topics[0],
-        pad(withdrawEvent.topics[1]),
-        pad(withdrawEvent.topics[2]),
-        pad(withdrawEvent.topics[3]),
-      ] as any,
-    });
-
-    return {
-      isSuccess: true,
-      assetsToReceive: decodedWithdrawEvent.args.assets,
-    };
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Failed to simulate withdraw", e);
-    return {
-      isSuccess: false,
-      assetsToReceive: 0n,
-    };
+  if (!result || !result[0].logs) {
+    return buildSuccessfulFetch({ assetsToReceive: 0n });
   }
+
+  const { logs } = result[0];
+  // Withdraw event is the last event
+  const withdrawEvent = logs ? logs[logs.length - 1] : undefined;
+
+  if (!withdrawEvent) {
+    throw new Error("Withdraw event not found");
+  }
+
+  const decodedWithdrawEvent = decodeEventLog({
+    abi: withdrawEventAbi,
+    data: withdrawEvent.data,
+    topics: [
+      withdrawEvent.topics[0],
+      pad(withdrawEvent.topics[1]),
+      pad(withdrawEvent.topics[2]),
+      pad(withdrawEvent.topics[3]),
+    ] as any,
+  });
+
+  return buildSuccessfulFetch({ assetsToReceive: decodedWithdrawEvent.args.assets });
 }

@@ -16,11 +16,11 @@ export const useFetchSimulateWithdraw = (account: Address, amount: string, strat
     queryKey: ["simulateWithdraw", strategy, amount],
     queryFn: () => simulateWithdraw(account, strategy!, amount),
     ...DebouncedDelayConfig,
-    enabled: !!strategy
+    enabled: !!strategy,
   });
 
   return {
     ...mergeQueryStates([strategyAssetRest, tokenDataRest, rest]),
-    data: fFetchBigIntStructured(data?.assetsToReceive, decimals, symbol),
+    data: fFetchBigIntStructured(data?.data?.assetsToReceive, decimals, symbol),
   };
 };
