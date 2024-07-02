@@ -7,10 +7,10 @@ import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
-import { useFetchCoinGeckoPricesByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { ONE_MINUTE } from "../../settings/queryConfig";
+import { assetsConfig } from "../../settings/config";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -23,6 +23,11 @@ export const fetchAssetPriceInBlock = async (
   underlyingAsset?: Address
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
+
+  if (assetsConfig[asset].useCoinGeckoPrice) {
+    asset = assetsConfig[asset].coingGeckoConfig?.replaceAddress || asset;
+    return fetchCoinGeckoAssetPriceByAddress({ address: asset, precision: 8 });
+  }
 
   const strategy = getStrategyBySubStrategyAddress(asset);
 
@@ -92,40 +97,7 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
-  const {
-    data: { useCoinGeckoPrice },
-  } = useFullTokenData(asset);
-  const [coingeckoPrice] = useFetchCoinGeckoPricesByAddress(
-    useCoinGeckoPrice
-      ? [
-          {
-            address: asset,
-            precision: 8,
-          },
-        ]
-      : []
-  );
-
-  const assetPriceInBlock = useFetchAssetPriceInBlock(
-    useCoinGeckoPrice ? undefined : asset,
-    undefined,
-    underlyingAsset
-  );
-
-  if (useCoinGeckoPrice) {
-    const { data: price, ...rest } = coingeckoPrice;
-
-    return {
-      ...rest,
-      data: {
-        bigIntValue: price,
-        decimals: 8,
-        symbol: "$",
-      },
-    };
-  }
-
-  return assetPriceInBlock;
+  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
 type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
@@ -134,7 +106,7 @@ export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
+  const { data: price, ...rest } = useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 
   return {
     ...rest,

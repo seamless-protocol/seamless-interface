@@ -5,21 +5,21 @@ import { ViewNumber } from "../types/Displayable";
 
 export interface RewardTokenInformation {
   rewardTokenSymbol: string;
-  rewardTokenAddress: Address;
-  rewardOracleAddress: Address;
+  rewardTokenAddress?: Address;
+  rewardOracleAddress?: Address;
   emissionPerSecond: bigint;
-  incentivesLastUpdateTimestamp: bigint;
-  tokenIncentivesIndex: bigint;
+  incentivesLastUpdateTimestamp?: bigint;
+  tokenIncentivesIndex?: bigint;
   emissionEndTimestamp: bigint;
   rewardPriceFeed: bigint;
   rewardTokenDecimals: number;
-  precision: number;
+  precision?: number;
   priceFeedDecimals: number;
 }
 
 interface IncentiveData {
-  tokenAddress: Address;
-  incentiveControllerAddress: Address;
+  tokenAddress?: Address;
+  incentiveControllerAddress?: Address;
   rewardsTokenInformation: RewardTokenInformation[];
 }
 
@@ -43,7 +43,7 @@ export interface IncentiveApr {
 
 function parseRewardsTokenInformation(
   rewardsTokenInformation: RewardTokenInformation[],
-  totalUsd: bigint,
+  totalUsd: bigint
 ): IncentiveApr {
   let totalApr = 0;
   const rewardTokens: RewardToken[] = [];
@@ -89,9 +89,9 @@ export function parseIncentives(incentives: IncentiveData, totalUsd: bigint): In
   const result = incentives
     ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd)
     : {
-      totalApr: 0,
-      rewardTokens: [],
-    };
+        totalApr: 0,
+        rewardTokens: [],
+      };
 
   return result;
 }

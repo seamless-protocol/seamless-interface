@@ -4042,6 +4042,619 @@ export const protocolDataProviderConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RewardsController
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const rewardsControllerAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'emissionManager', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'asset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'assetIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'userIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'rewardsAccrued',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Accrued',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'asset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'oldUserIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'oldRewardsAccrued',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newUserIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newRewardsAccrued',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AccruedIndexChange',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'asset',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'oldEmission',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newEmission',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'oldDistributionEnd',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newDistributionEnd',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'assetIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AssetConfigUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'claimer',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'ClaimerSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'rewardOracle',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'RewardOracleUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'claimer',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'RewardsClaimed',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'TemporaryOverrideAdminSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'reward',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'transferStrategy',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'TransferStrategyInstalled',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'EMISSION_MANAGER',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'REVISION',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'claimAllRewards',
+    outputs: [
+      { name: 'rewardsList', internalType: 'address[]', type: 'address[]' },
+      { name: 'claimedAmounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'claimAllRewardsOnBehalf',
+    outputs: [
+      { name: 'rewardsList', internalType: 'address[]', type: 'address[]' },
+      { name: 'claimedAmounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'address[]', type: 'address[]' }],
+    name: 'claimAllRewardsToSelf',
+    outputs: [
+      { name: 'rewardsList', internalType: 'address[]', type: 'address[]' },
+      { name: 'claimedAmounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'claimRewards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'claimRewardsOnBehalf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'claimRewardsToSelf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'config',
+        internalType: 'struct RewardsDataTypes.RewardsConfigInput[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'emissionPerSecond', internalType: 'uint88', type: 'uint88' },
+          { name: 'totalSupply', internalType: 'uint256', type: 'uint256' },
+          { name: 'distributionEnd', internalType: 'uint32', type: 'uint32' },
+          { name: 'asset', internalType: 'address', type: 'address' },
+          { name: 'reward', internalType: 'address', type: 'address' },
+          {
+            name: 'transferStrategy',
+            internalType: 'contract ITransferStrategyBase',
+            type: 'address',
+          },
+          {
+            name: 'rewardOracle',
+            internalType: 'contract IEACAggregatorProxy',
+            type: 'address',
+          },
+        ],
+      },
+    ],
+    name: 'configureAssets',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getAllUserRewards',
+    outputs: [
+      { name: 'rewardsList', internalType: 'address[]', type: 'address[]' },
+      {
+        name: 'unclaimedAmounts',
+        internalType: 'uint256[]',
+        type: 'uint256[]',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getAssetDecimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getAssetIndex',
+    outputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getClaimer',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getDistributionEnd',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getEmissionManager',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'reward', internalType: 'address', type: 'address' }],
+    name: 'getRewardOracle',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'asset', internalType: 'address', type: 'address' }],
+    name: 'getRewardsByAsset',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getRewardsData',
+    outputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getRewardsList',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'reward', internalType: 'address', type: 'address' }],
+    name: 'getTransferStrategy',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserAccruedRewards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserAssetIndex',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserRewards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'totalSupply', internalType: 'uint256', type: 'uint256' },
+      { name: 'userBalance', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'handleAction',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceTemporaryOverrideAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'caller', internalType: 'address', type: 'address' },
+    ],
+    name: 'setClaimer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'reward', internalType: 'address', type: 'address' },
+      { name: 'newDistributionEnd', internalType: 'uint32', type: 'uint32' },
+    ],
+    name: 'setDistributionEnd',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'asset', internalType: 'address', type: 'address' },
+      { name: 'rewards', internalType: 'address[]', type: 'address[]' },
+      {
+        name: 'newEmissionsPerSecond',
+        internalType: 'uint88[]',
+        type: 'uint88[]',
+      },
+    ],
+    name: 'setEmissionPerSecond',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'reward', internalType: 'address', type: 'address' },
+      {
+        name: 'rewardOracle',
+        internalType: 'contract IEACAggregatorProxy',
+        type: 'address',
+      },
+    ],
+    name: 'setRewardOracle',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'reward', internalType: 'address', type: 'address' },
+      {
+        name: 'transferStrategy',
+        internalType: 'contract ITransferStrategyBase',
+        type: 'address',
+      },
+    ],
+    name: 'setTransferStrategy',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'address[]', type: 'address[]' },
+      { name: 'rewards', internalType: 'address[]', type: 'address[]' },
+      { name: 'users', internalType: 'address[]', type: 'address[]' },
+      { name: 'indexes', internalType: 'uint256[]', type: 'uint256[]' },
+      { name: 'accruedAmounts', internalType: 'uint128[]', type: 'uint128[]' },
+    ],
+    name: 'setUserData',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'temporaryOverrideAdmin',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
+
+export const rewardsControllerAddress =
+  '0x91Ac2FfF8CBeF5859eAA6DdA661feBd533cD3780' as const
+
+export const rewardsControllerConfig = {
+  address: rewardsControllerAddress,
+  abi: rewardsControllerAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -6411,4 +7024,608 @@ export const useReadProtocolDataProviderGetUserReserveData =
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: 'getUserReserveData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__
+ */
+export const useReadRewardsController = /*#__PURE__*/ createUseReadContract({
+  abi: rewardsControllerAbi,
+  address: rewardsControllerAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"EMISSION_MANAGER"`
+ */
+export const useReadRewardsControllerEmissionManager =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'EMISSION_MANAGER',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"REVISION"`
+ */
+export const useReadRewardsControllerRevision =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'REVISION',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getAllUserRewards"`
+ */
+export const useReadRewardsControllerGetAllUserRewards =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getAllUserRewards',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getAssetDecimals"`
+ */
+export const useReadRewardsControllerGetAssetDecimals =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getAssetDecimals',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getAssetIndex"`
+ */
+export const useReadRewardsControllerGetAssetIndex =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getAssetIndex',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getClaimer"`
+ */
+export const useReadRewardsControllerGetClaimer =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getClaimer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getDistributionEnd"`
+ */
+export const useReadRewardsControllerGetDistributionEnd =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getDistributionEnd',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getEmissionManager"`
+ */
+export const useReadRewardsControllerGetEmissionManager =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getEmissionManager',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getRewardOracle"`
+ */
+export const useReadRewardsControllerGetRewardOracle =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getRewardOracle',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getRewardsByAsset"`
+ */
+export const useReadRewardsControllerGetRewardsByAsset =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getRewardsByAsset',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getRewardsData"`
+ */
+export const useReadRewardsControllerGetRewardsData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getRewardsData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getRewardsList"`
+ */
+export const useReadRewardsControllerGetRewardsList =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getRewardsList',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getTransferStrategy"`
+ */
+export const useReadRewardsControllerGetTransferStrategy =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getTransferStrategy',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getUserAccruedRewards"`
+ */
+export const useReadRewardsControllerGetUserAccruedRewards =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getUserAccruedRewards',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getUserAssetIndex"`
+ */
+export const useReadRewardsControllerGetUserAssetIndex =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getUserAssetIndex',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"getUserRewards"`
+ */
+export const useReadRewardsControllerGetUserRewards =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'getUserRewards',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"temporaryOverrideAdmin"`
+ */
+export const useReadRewardsControllerTemporaryOverrideAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'temporaryOverrideAdmin',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__
+ */
+export const useWriteRewardsController = /*#__PURE__*/ createUseWriteContract({
+  abi: rewardsControllerAbi,
+  address: rewardsControllerAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewards"`
+ */
+export const useWriteRewardsControllerClaimAllRewards =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewards',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewardsOnBehalf"`
+ */
+export const useWriteRewardsControllerClaimAllRewardsOnBehalf =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewardsOnBehalf',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewardsToSelf"`
+ */
+export const useWriteRewardsControllerClaimAllRewardsToSelf =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewardsToSelf',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewards"`
+ */
+export const useWriteRewardsControllerClaimRewards =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewards',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewardsOnBehalf"`
+ */
+export const useWriteRewardsControllerClaimRewardsOnBehalf =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewardsOnBehalf',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewardsToSelf"`
+ */
+export const useWriteRewardsControllerClaimRewardsToSelf =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewardsToSelf',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"configureAssets"`
+ */
+export const useWriteRewardsControllerConfigureAssets =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'configureAssets',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"handleAction"`
+ */
+export const useWriteRewardsControllerHandleAction =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'handleAction',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteRewardsControllerInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"renounceTemporaryOverrideAdmin"`
+ */
+export const useWriteRewardsControllerRenounceTemporaryOverrideAdmin =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'renounceTemporaryOverrideAdmin',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setClaimer"`
+ */
+export const useWriteRewardsControllerSetClaimer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setClaimer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setDistributionEnd"`
+ */
+export const useWriteRewardsControllerSetDistributionEnd =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setDistributionEnd',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setEmissionPerSecond"`
+ */
+export const useWriteRewardsControllerSetEmissionPerSecond =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setEmissionPerSecond',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setRewardOracle"`
+ */
+export const useWriteRewardsControllerSetRewardOracle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setRewardOracle',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setTransferStrategy"`
+ */
+export const useWriteRewardsControllerSetTransferStrategy =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setTransferStrategy',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setUserData"`
+ */
+export const useWriteRewardsControllerSetUserData =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setUserData',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__
+ */
+export const useSimulateRewardsController =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewards"`
+ */
+export const useSimulateRewardsControllerClaimAllRewards =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewards',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewardsOnBehalf"`
+ */
+export const useSimulateRewardsControllerClaimAllRewardsOnBehalf =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewardsOnBehalf',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimAllRewardsToSelf"`
+ */
+export const useSimulateRewardsControllerClaimAllRewardsToSelf =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimAllRewardsToSelf',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewards"`
+ */
+export const useSimulateRewardsControllerClaimRewards =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewards',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewardsOnBehalf"`
+ */
+export const useSimulateRewardsControllerClaimRewardsOnBehalf =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewardsOnBehalf',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"claimRewardsToSelf"`
+ */
+export const useSimulateRewardsControllerClaimRewardsToSelf =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'claimRewardsToSelf',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"configureAssets"`
+ */
+export const useSimulateRewardsControllerConfigureAssets =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'configureAssets',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"handleAction"`
+ */
+export const useSimulateRewardsControllerHandleAction =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'handleAction',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateRewardsControllerInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"renounceTemporaryOverrideAdmin"`
+ */
+export const useSimulateRewardsControllerRenounceTemporaryOverrideAdmin =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'renounceTemporaryOverrideAdmin',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setClaimer"`
+ */
+export const useSimulateRewardsControllerSetClaimer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setClaimer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setDistributionEnd"`
+ */
+export const useSimulateRewardsControllerSetDistributionEnd =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setDistributionEnd',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setEmissionPerSecond"`
+ */
+export const useSimulateRewardsControllerSetEmissionPerSecond =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setEmissionPerSecond',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setRewardOracle"`
+ */
+export const useSimulateRewardsControllerSetRewardOracle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setRewardOracle',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setTransferStrategy"`
+ */
+export const useSimulateRewardsControllerSetTransferStrategy =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setTransferStrategy',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link rewardsControllerAbi}__ and `functionName` set to `"setUserData"`
+ */
+export const useSimulateRewardsControllerSetUserData =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    functionName: 'setUserData',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__
+ */
+export const useWatchRewardsControllerEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"Accrued"`
+ */
+export const useWatchRewardsControllerAccruedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'Accrued',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"AccruedIndexChange"`
+ */
+export const useWatchRewardsControllerAccruedIndexChangeEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'AccruedIndexChange',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"AssetConfigUpdated"`
+ */
+export const useWatchRewardsControllerAssetConfigUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'AssetConfigUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"ClaimerSet"`
+ */
+export const useWatchRewardsControllerClaimerSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'ClaimerSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"RewardOracleUpdated"`
+ */
+export const useWatchRewardsControllerRewardOracleUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'RewardOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"RewardsClaimed"`
+ */
+export const useWatchRewardsControllerRewardsClaimedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'RewardsClaimed',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"TemporaryOverrideAdminSet"`
+ */
+export const useWatchRewardsControllerTemporaryOverrideAdminSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'TemporaryOverrideAdminSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link rewardsControllerAbi}__ and `eventName` set to `"TransferStrategyInstalled"`
+ */
+export const useWatchRewardsControllerTransferStrategyInstalledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: rewardsControllerAbi,
+    address: rewardsControllerAddress,
+    eventName: 'TransferStrategyInstalled',
   })

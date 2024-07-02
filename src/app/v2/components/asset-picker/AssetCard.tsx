@@ -10,6 +10,8 @@ import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
+import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
+import { strategiesConfig } from "../../../state/settings/config";
 
 export interface AssetCardProps {
   address: Address;
@@ -35,6 +37,15 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   } = useFullTokenData(address);
 
   const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
+
+  const { data: strategyIncentives, ...strategyRest } = useFetchStrategyIncentives(
+    strategiesConfig[address]?.subStrategyData?.[0]?.address
+  );
+
+  if (isStrategy) {
+    console.log("address", address);
+    console.log("strategyIncentives", strategyIncentives);
+  }
 
   return (
     <div
@@ -70,6 +81,12 @@ export const AssetCard: React.FC<AssetCardProps> = ({
               <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
           </LendMarketGuard>
+
+          {isStrategy && strategyIncentives.totalApr?.viewValue && (
+            <IncentivesButton {...strategyIncentives} {...strategyRest}>
+              <IncentivesDetailCard {...strategyIncentives} assetSymbol="adsf" />
+            </IncentivesButton>
+          )}
         </FlexCol>
       </FlexRow>
     </div>
