@@ -3,7 +3,7 @@ import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
 import { mergeQueryStates, useToken } from "@shared";
-import { DebouncedDelayConfig } from "../config/DebouncedDelayConfig";
+import { FIVE_SECONDS } from "../../settings/queryConfig";
 
 export const useFetchSimulateDeposit = (account: Address, amount: string, subStrategy?: Address) => {
   const {
@@ -16,14 +16,15 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
   const { data, ...rest } = useQuery({
     queryKey: ["simulateDeposit", subStrategy, amount],
     queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset, amount),
-    ...DebouncedDelayConfig,
+    staleTime: FIVE_SECONDS,
+    retry: false,
     enabled: !!subStrategy,
   });
 
   return {
     ...mergeQueryStates([tokenRest, underlyingRest, rest]),
     data: {
-      bigIntValue: data?.sharesToReceive,
+      bigIntValue: data?.data.sharesToReceive,
       decimals,
       symbol,
     },

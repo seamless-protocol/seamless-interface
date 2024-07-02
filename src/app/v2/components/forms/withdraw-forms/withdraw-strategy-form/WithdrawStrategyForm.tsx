@@ -185,12 +185,7 @@ const WithdrawStrategyLocal: React.FC<{
           />
         </FlexCol>
 
-        <Summary
-          displayablePreviewData={{
-            ...previewWithdrawData,
-          }}
-          strategy={strategy}
-        />
+        <Summary debouncedAmount={debouncedAmount} strategy={strategy} />
 
         <FormButtons isLoading={previewWithdrawData.isLoading} />
       </FlexCol>

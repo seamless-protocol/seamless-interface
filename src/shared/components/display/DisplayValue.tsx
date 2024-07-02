@@ -11,6 +11,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
   className?: string;
+  errorMessage?: string;
 }
 /**
  * `DisplayValue` Component
@@ -60,16 +61,21 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   isError,
   loaderSkeleton,
   typography = "medium3",
+  errorMessage,
   symbolColor,
   symbolPosition = "before",
   className = "",
 }) => {
-  if (isError) {
+  if (isError || errorMessage) {
     const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
     return (
       <Tooltip
-        tooltip={<Typography type="body1">Couldn&apos;t load this value, try refreshing the page 😓</Typography>}
+        tooltip={
+          <Typography type="body1">
+            {errorMessage || "Could not load this value, try refreshing the page 😓"}
+          </Typography>
+        }
       >
         <ExclamationTriangleIcon width={width} height={height} />
       </Tooltip>

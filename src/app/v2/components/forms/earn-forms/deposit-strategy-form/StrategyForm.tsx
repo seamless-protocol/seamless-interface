@@ -145,7 +145,7 @@ const StrategyFormLocal: React.FC<{
 
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
-        {asset && <Summary previewDepositData={previewDepositData} />}
+        {asset && <Summary debouncedAmount={debouncedAmount} />}
         <FormButtons
           isLoading={previewDepositData.isLoading}
           strategy={strategy}
