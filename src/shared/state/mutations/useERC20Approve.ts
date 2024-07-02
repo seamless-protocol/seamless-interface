@@ -62,17 +62,17 @@ export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address
 
     if (!spenderAddress) {
       // eslint-disable-next-line no-console
-      console.log("spenderAddress is undefined at useERC20Approve!");
+      console.error("spenderAddress is undefined at useERC20Approve!");
       return;
     }
     if (!tokenAddress) {
       // eslint-disable-next-line no-console
-      console.log("tokenAddress is undefined at useERC20Approve!");
+      console.error("tokenAddress is undefined at useERC20Approve!");
       return;
     }
     if (amountToApprove == null) {
       // eslint-disable-next-line no-console
-      console.log("amountToApprove is undefined at useERC20Approve!");
+      console.error("amountToApprove is undefined at useERC20Approve!");
       return;
     }
 
