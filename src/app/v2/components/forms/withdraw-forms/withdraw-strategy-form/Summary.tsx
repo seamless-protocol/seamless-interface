@@ -5,8 +5,8 @@ import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { NOT_CONNECTED_WALLET_MESSAGE } from "../../../../../../meta";
 import { useAccount } from "wagmi";
-import { useFetchViewWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import { useFetchViewWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 
 export const Summary: React.FC<{
   debouncedAmount: string;

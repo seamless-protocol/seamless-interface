@@ -14,7 +14,6 @@ import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { useFetchPreviewWithdraw } from "./useFetchViewPreviewWithdraw";
 
 const cAssetsToReceive = (assetsValue?: bigint) => {
   if (assetsValue == null) return undefined;
@@ -75,7 +74,7 @@ export const useFetchViewWithdrawSharesToReceive = (
   const {
     data: { assetsToReceive, assetsToReceiveInUsd },
     ...rest
-  } = useFetchPreviewWithdraw(amount, subStrategy);
+  } = useFetchWithdrawSharesToReceive(amount, subStrategy);
 
   return {
     ...rest,

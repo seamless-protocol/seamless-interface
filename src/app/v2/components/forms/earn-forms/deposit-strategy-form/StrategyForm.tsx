@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
-import { useFetchViewPreviewDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewDeposit";
 import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mutations/useMutateDepositStrategy";
 import { Tag } from "../../../asset-data/Tag";
 import { FormButtons } from "./FormButtons";
@@ -18,6 +17,7 @@ import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 import { useEffect } from "react";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
+import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -72,11 +72,11 @@ const StrategyFormLocal: React.FC<{
   });
 
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const previewDepositData = useFetchViewPreviewDeposit(debouncedAmount, subStrategy);
+  const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
     if (
-      previewDepositData?.data?.sharesToReceive?.tokenAmount?.bigIntValue &&
+      previewDepositData?.data?.sharesToReceive?.bigIntValue &&
       previewDepositData.isFetched &&
       previewDepositData.isSuccess &&
       !previewDepositData.isLoading
@@ -84,7 +84,7 @@ const StrategyFormLocal: React.FC<{
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.data.sharesToReceive.tokenAmount.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
