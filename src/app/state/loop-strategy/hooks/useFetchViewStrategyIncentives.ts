@@ -5,7 +5,7 @@ import { useFetchDetailEquity } from "../../loop-strategy/queries/useFetchViewEq
 import { useFetchAssetRewardsData } from "../../lending-borrowing/hooks/useFetchAssetRewardsData";
 
 export const useFetchStrategyIncentives = (asset?: Address) => {
-  const { data: incentives, ...rawRest } = useFetchAssetRewardsData("0x2c159A183d9056E29649Ce7E56E59cA833D32624");
+  const { data: incentives, ...rawRest } = useFetchAssetRewardsData(asset);
 
   const { data: equity, ...equityRest } = useFetchDetailEquity(asset);
 
