@@ -1,9 +1,9 @@
-import { Address, createTestClient, http, parseUnits, publicActions, walletActions } from "viem";
+import { Address, createTestClient, http, publicActions, walletActions } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base, foundry } from "viem/chains";
 
-const PRIVATE_KEY = Cypress.env("TENDERLY_PKEY");
-const account = privateKeyToAccount(PRIVATE_KEY);
+const PRIVATE_KEY = Cypress.env("VITE_PKEY");
+const account = privateKeyToAccount(`0x${PRIVATE_KEY}` as Address);
 
 const TENDERLY_KEY = Cypress.env("TENDERLY_KEY");
 const TENDERLY_ACCOUNT = Cypress.env("TENDERLY_ACCOUNT");
@@ -61,12 +61,26 @@ export class TenderlyFork {
   async add_balance_rpc(address?: Address, value?: bigint) {
     this.checkForkInitialized();
 
-    const result = await this.client?.setBalance({
-      address: address || DEFAULT_TEST_ACCOUNT.address,
-      value: value || parseUnits("100", 18),
-    });
+    const response = await fetch(
+      `https://api.tenderly.co/api/v1/account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}/balance`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Access-Key": TENDERLY_KEY,
+        },
+        body: JSON.stringify({
+          accounts: [address],
+          amount: value?.toString() || "100000000000000000000",
+        }),
+      }
+    );
 
-    return result;
+    if (!response.ok) {
+      throw new Error("Failed to set balance on Tenderly fork");
+    }
+
+    return response.json();
   }
 
   async deleteFork() {
@@ -84,7 +98,7 @@ export class TenderlyFork {
 
 const initTestClient = (rpc: string) =>
   createTestClient({
-    chain: foundry, // Ensure this object includes all necessary properties
+    chain: foundry,
     mode: "anvil",
     transport: http(rpc),
   })

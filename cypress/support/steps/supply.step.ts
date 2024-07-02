@@ -1,7 +1,6 @@
 // import constants from "../../fixtures/constans.json";
 
 import { Address } from "viem";
-import { assetsConfig, strategiesConfig } from "../../../src/app/state/settings/config";
 
 export const supply = (
   {
@@ -17,12 +16,15 @@ export const supply = (
   },
   updateSkipStatus = false
 ) => {
-  const name = assetsConfig[address]?.name || strategiesConfig[address]?.name;
-  //   const _actionName = constants.actionTypes.supply;
+  const name = "test";
 
   return describe(`Supply process for ${name}`, () => {
     it(`Open ${name} supply popup view`, () => {
-      cy.get(`[data-cy='asset-card${address}']`).click();
+      cy.visit("/");
+      cy.wait(3000);
+      cy.get(`[data-cy='asset-card-${address}']`).click();
+      cy.setAmount(amount, isMaxAmount);
+      cy.doConfirm(hasApproval);
     });
   });
 };

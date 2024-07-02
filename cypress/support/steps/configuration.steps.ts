@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from "../tenderly";
 import { base } from "viem/chains";
+// import { privateKeyToAccount } from "viem/accounts";
 
 const PERSIST_FORK_AFTER_RUN = Cypress.env("VITE_PERSIST_FORK_AFTER_RUN") || false;
 
@@ -30,18 +31,26 @@ export const configEnvWithTenderly = ({
     await tenderly.add_balance_rpc(walletAddress);
   });
 
-  // before("Save env variables", () => {
-  //   window.tenderly = tenderly;
-  //   window.address = walletAddress;
-  //   window.chainId = chainId.toString();
-  //   window.rpc = tenderly.get_rpc_url();
-  //   window.market = market;
-  //   window.testnetsEnabled = enableTestnet.toString();
-  //   window.url = URL;
-  //   window.provider = provider;
-  //   window.signer = signer;
-  //   window.auth = auth;
-  // });
+  before("Open main page", () => {
+    const rpc = tenderly.get_rpc_url();
+    const provider = tenderly.client;
+    // const signer = privateKeyToAccount(wallet?.privateKey || DEFAULT_TEST_ACCOUNT.privateKey);
+
+    cy.visit(Cypress.env("URL"), {
+      onBeforeLoad(win: Cypress.AUTWindow & typeof globalThis) {
+        // @ts-ignore
+        win.ethereum = provider;
+        win.localStorage.setItem("forkEnabled", "true");
+        win.localStorage.setItem("forkNetworkId", "3030");
+        win.localStorage.setItem("forkBaseChainId", chainId.toString());
+        win.localStorage.setItem("forkRPCUrl", rpc);
+        win.localStorage.setItem("walletProvider", "injected");
+        win.localStorage.setItem("selectedAccount", walletAddress.toLowerCase());
+        win.localStorage.setItem("selectedMarket", "mainnet");
+        win.localStorage.setItem("testnetsEnabled", enableTestnet.toString());
+      },
+    });
+  });
 
   after(async () => {
     if (!PERSIST_FORK_AFTER_RUN) {

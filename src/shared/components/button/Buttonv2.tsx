@@ -35,10 +35,10 @@ export const Buttonv2: React.FC<ButtonProps2> = ({
 
   return (
     <button
+      {...props}
       className={`${buttonClasses} `}
       type={type}
       disabled={props.disabled || loading}
-      {...props}
       onClick={(e) => {
         if (props.disabled || loading) return;
         props.onClick?.(e);
