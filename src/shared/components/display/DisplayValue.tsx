@@ -32,6 +32,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  * - `loaderSkeleton`: Toggles between a spinner and a skeleton loader.
  * - `symbolPosition`: Positions the symbol either 'before' or 'after' the value.
  * - `typography`: The typography style to be used for displaying the value.
+ * - `errorMessage`: The error message to be displayed if passed in, even if the `isError` prop is false, it will be displayed anyway.
  *
  * ## Usage:
  *
