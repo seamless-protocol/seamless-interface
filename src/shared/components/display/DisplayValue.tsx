@@ -71,11 +71,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
 
     return (
       <Tooltip
-        tooltip={
-          <Typography type="body1">
-            {errorMessage || "Could not load this value, try refreshing the page 😓"}
-          </Typography>
-        }
+        tooltip={<Typography type="body1">{errorMessage || "Could not load this value, try later 😓"}</Typography>}
       >
         <ExclamationTriangleIcon width={width} height={height} />
       </Tooltip>
