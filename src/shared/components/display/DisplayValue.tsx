@@ -11,7 +11,8 @@ export interface DisplayValueProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
   className?: string;
-  errorMessage?: string;
+  isAuthorized?: boolean;
+  notAuthorizedMessage?: string;
 }
 /**
  * `DisplayValue` Component
@@ -32,7 +33,9 @@ export interface DisplayValueProps extends DisplayableAmount {
  * - `loaderSkeleton`: Toggles between a spinner and a skeleton loader.
  * - `symbolPosition`: Positions the symbol either 'before' or 'after' the value.
  * - `typography`: The typography style to be used for displaying the value.
- * - `errorMessage`: The error message to be displayed if passed in, even if the `isError` prop is false, it will be displayed anyway.
+ * - `className`: Additional class names to be applied to the component.
+ * - `isAuthorized`: Indicates if the user is authorized to view the data.
+ * - `notAuthorizedMessage`: Message to be displayed if the user is not authorized to view the data.
  *
  * ## Usage:
  *
@@ -62,18 +65,25 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   isError,
   loaderSkeleton,
   typography = "medium3",
-  errorMessage,
   symbolColor,
   symbolPosition = "before",
   className = "",
+  isAuthorized = true,
+  notAuthorizedMessage = "Please connect your wallet.",
 }) => {
-  if (isError || errorMessage) {
+  if (!isAuthorized) {
+    return (
+      <Tooltip tooltip={<Typography type="body1">{notAuthorizedMessage}</Typography>}>
+        <ExclamationTriangleIcon width={20} height={20} />
+      </Tooltip>
+    );
+  }
+
+  if (isError) {
     const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
     return (
-      <Tooltip
-        tooltip={<Typography type="body1">{errorMessage || "Could not load this value, try later 😓"}</Typography>}
-      >
+      <Tooltip tooltip={<Typography type="body1">Could not load this value, try later 😓</Typography>}>
         <ExclamationTriangleIcon width={width} height={height} />
       </Tooltip>
     );

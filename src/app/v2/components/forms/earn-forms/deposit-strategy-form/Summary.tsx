@@ -3,7 +3,6 @@ import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { useAccount } from "wagmi";
-import { NOT_CONNECTED_WALLET_MESSAGE } from "../../../../../../meta";
 import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 
@@ -30,15 +29,11 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         )}
       </FlexRow>
       <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
-          {...restShares}
-          {...sharesToReceive.sharesToReceive}
-        />
+        <DisplayTokenAmount isAuthorized={isConnected} {...restShares} {...sharesToReceive.sharesToReceive} />
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+          isAuthorized={isConnected}
           {...restShares}
           {...sharesToReceive.sharesToReceiveInUsd}
           symbolPosition="before"
@@ -58,7 +53,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         }
       >
         <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+          isAuthorized={isConnected}
           {...restCost}
           {...costData?.cost.dollarAmount}
           symbolPosition="before"
