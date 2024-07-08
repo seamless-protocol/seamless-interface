@@ -13,19 +13,13 @@ import {
   useToken,
   ViewBigInt,
 } from "@shared";
-import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
+import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { getReducedValue } from "../../common/math/cReducedValue";
 
 export const cSharesToReceive = (sharesValue?: bigint) => {
-  if (sharesValue == null) return undefined;
-
-  return (sharesValue * 999n) / 1000n;
-};
-
-export const cSharesToReceiveInUsd = (sharesToReceiveValue?: bigint, sharePriceValue?: bigint) => {
-  if (sharePriceValue == null || sharesToReceiveValue == null) return undefined;
-
-  return (sharesToReceiveValue * sharePriceValue) / ONE_ETHER;
+  return getReducedValue(0.1, sharesValue);
 };
 
 interface SharesToReceiveData {
@@ -51,7 +45,7 @@ export const useFetchDepositSharesToReceive = (
   });
 
   const sharesToReceive = cSharesToReceive(shares?.bigIntValue);
-  const sharesToReceiveInUsd = cSharesToReceiveInUsd(sharesToReceive, sharePrice?.bigIntValue);
+  const sharesToReceiveInUsd = cValueInUsd(sharesToReceive, sharePrice?.bigIntValue, shares.decimals);
 
   return {
     ...mergeQueryStates([sharesRest, sharePriceRest, configRest, underlyingAssetRest]),
