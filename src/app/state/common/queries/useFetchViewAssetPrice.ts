@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
 import { useFetchCoinGeckoPricesByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
-import { ONE_MINUTE } from "../../settings/queryConfig";
+import { ONE_MINUTE_IN_MS } from "../../settings/queryConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -72,7 +72,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? ONE_MINUTE : undefined,
+    staleTime: blockNumber ? ONE_MINUTE_IN_MS : undefined,
     enabled: !!asset,
   });
 

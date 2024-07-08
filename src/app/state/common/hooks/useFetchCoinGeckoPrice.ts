@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
-import { ONE_HOUR } from "../../settings/queryConfig";
+import { ONE_HOUR_IN_MS } from "../../settings/queryConfig";
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -72,7 +72,7 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
       refetchOnReconnect: false,
       refetchIntervalInBackground: false,
 
-      staleTime: ONE_HOUR,
-      gcTime: ONE_HOUR,
+      staleTime: ONE_HOUR_IN_MS,
+      gcTime: ONE_HOUR_IN_MS,
     })),
   });
