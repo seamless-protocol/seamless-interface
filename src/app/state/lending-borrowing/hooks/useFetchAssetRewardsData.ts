@@ -67,13 +67,13 @@ export const useFetchAssetRewardsData = (asset?: Address) => {
   const { data: rewardsTokens } = useFetchViewRewardTokens(asset);
 
   return useQuery({
-    queryKey: ["fetchAssetRewardsData", asset],
+    queryKey: ["fetchAssetRewardsData", asset, rewardsTokens],
     queryFn: () =>
       fetchAssetRewardsData({
         depositAsset: asset!,
         rewardTokens: rewardsTokens! as Address[],
         config,
       }),
-    enabled: !!asset && !!rewardsTokens && !!config,
+    enabled: !!asset && !!rewardsTokens,
   });
 };

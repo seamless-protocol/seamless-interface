@@ -106,7 +106,7 @@ export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { data: price, ...rest } = useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
+  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
 
   return {
     ...rest,

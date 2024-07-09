@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { Address } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
+import { useMemo, useState } from "react";
+import { Address } from "viem";
 import { Incentives, RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentivesData";
 import { assetsConfig } from "../../settings/config";
@@ -15,6 +15,8 @@ import { MOCK_PRICE_ORACLE } from "../../../../meta";
  * @returns Returns raw incentives data for given asset from smart contract. Data is not formatted due to complexity of structure
  */
 export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchData<Incentives | undefined> => {
+  const [incentivesProcessingSuccessfull, setIncentivesProcessingSuccessfull] = useState(true);
+
   const cgPriceParams = Object.keys(assetsConfig)
     .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
     .map((key) => ({
@@ -27,39 +29,55 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
   const incentives: Incentives | undefined = useMemo(() => {
-    const incentives = data?.find((e) => e.underlyingAsset === asset);
-    if (!incentives) {
+    try {
+      const incentives = data?.find((e) => e.underlyingAsset === asset);
+      if (!incentives) {
+        return undefined;
+      }
+      const cgPriceResultsObject = cgPriceResults.reduce<cgPriceMapping>((acc, result, index) => {
+        acc[cgPriceParams[index].address.toLowerCase()] = result.data;
+        return acc;
+      }, {});
+      return {
+        ...incentives,
+        aIncentiveData: {
+          ...incentives?.aIncentiveData,
+          rewardsTokenInformation: incentives?.aIncentiveData?.rewardsTokenInformation.map(
+            mapCGPriceData(cgPriceResultsObject)
+          ),
+        },
+        sIncentiveData: {
+          ...incentives?.sIncentiveData,
+          rewardsTokenInformation: incentives?.sIncentiveData?.rewardsTokenInformation.map(
+            mapCGPriceData(cgPriceResultsObject)
+          ),
+        },
+        vIncentiveData: {
+          ...incentives?.vIncentiveData,
+          rewardsTokenInformation: incentives?.vIncentiveData?.rewardsTokenInformation.map(
+            mapCGPriceData(cgPriceResultsObject)
+          ),
+        },
+      };
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error processing incentives data:", error);
+      setIncentivesProcessingSuccessfull(false);
       return undefined;
     }
-    const cgPriceResultsObject = cgPriceResults.reduce<cgPriceMapping>((acc, result, index) => {
-      acc[cgPriceParams[index].address.toLowerCase()] = result.data;
-      return acc;
-    }, {});
-    return {
-      ...incentives,
-      aIncentiveData: {
-        ...incentives?.aIncentiveData,
-        rewardsTokenInformation: incentives?.aIncentiveData?.rewardsTokenInformation.map(
-          mapCGPriceData(cgPriceResultsObject)
-        ),
-      },
-      sIncentiveData: {
-        ...incentives?.sIncentiveData,
-        rewardsTokenInformation: incentives?.sIncentiveData?.rewardsTokenInformation.map(
-          mapCGPriceData(cgPriceResultsObject)
-        ),
-      },
-      vIncentiveData: {
-        ...incentives?.vIncentiveData,
-        rewardsTokenInformation: incentives?.vIncentiveData?.rewardsTokenInformation.map(
-          mapCGPriceData(cgPriceResultsObject)
-        ),
-      },
-    };
   }, [data, asset, cgPriceResults]);
 
   return {
-    ...mergeQueryStates([rest, ...cgPriceResults]),
+    ...mergeQueryStates([
+      rest,
+      ...cgPriceResults,
+      {
+        isError: !incentivesProcessingSuccessfull,
+        isFetched: true,
+        isLoading: false,
+        isSuccess: incentivesProcessingSuccessfull,
+      },
+    ]),
     data: incentives,
   };
 };
@@ -76,14 +94,19 @@ export const mapCGPriceData =
     rewardPriceFeed,
     rewardTokenAddress,
     ...rest
-  }: RewardTokenInformation) => ({
-    ...rest,
-    rewardTokenAddress,
-    rewardOracleAddress,
-    rewardPriceFeed:
-      // check: rewardTokenAddress can be undefined, added in condition below, is that okay?
-      rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() && rewardTokenAddress
-        ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
-        : rewardPriceFeed,
-    priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
-  });
+  }: RewardTokenInformation) => {
+    if (!rewardTokenAddress || !cgPriceResultsObject[rewardTokenAddress.toLowerCase()]) {
+      throw new Error(`Failed to fetch ${rewardTokenAddress} price`);
+    }
+
+    return {
+      ...rest,
+      rewardTokenAddress,
+      rewardOracleAddress,
+      rewardPriceFeed:
+        rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
+          ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
+          : rewardPriceFeed,
+      priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
+    };
+  };

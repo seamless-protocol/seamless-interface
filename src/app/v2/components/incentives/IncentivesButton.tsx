@@ -20,8 +20,6 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
   }
 
-  console.log("totalApr", totalApr);
-
   if (!totalApr?.viewValue) {
     return null;
   }

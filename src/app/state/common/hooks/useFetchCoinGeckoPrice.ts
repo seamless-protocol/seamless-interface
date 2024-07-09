@@ -2,6 +2,7 @@ import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { ONE_HOUR } from "../../settings/queryConfig";
+import { getQueryClient } from "../../../v2/contexts/CustomQueryClientProvider";
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -21,23 +22,34 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
 }: FetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
+  const queryClient = getQueryClient();
+
   if (!address) {
     return 0n;
   }
 
-  const res = await fetch(
-    `${coinGeckoApiUrl}/simple/token_price/base?contract_addresses=${address.toLowerCase()}&vs_currencies=usd&precision=${precision}`
-  );
+  const fetchData = async () => {
+    const res = await fetch(
+      `${coinGeckoApiUrl}/simple/token_price/base?contract_addresses=${address.toLowerCase()}&vs_currencies=usd&precision=${precision}`
+    );
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${address} price`);
-  }
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${address} price`);
+    }
 
-  const {
-    [address.toLowerCase()]: { usd: price },
-  }: CoinGeckoAssetPrice = await res.json();
+    const {
+      [address.toLowerCase()]: { usd: price },
+    }: CoinGeckoAssetPrice = await res.json();
 
-  return parseUnits(price.toString(), precision);
+    return parseUnits(price.toString(), precision);
+  };
+
+  return queryClient.fetchQuery({
+    queryKey: ["fetchCoinGeckoAssetPriceByAddress", address, precision],
+    queryFn: fetchData,
+    staleTime: ONE_HOUR,
+    gcTime: ONE_HOUR,
+  });
 };
 
 interface FetchCoinGeckoPricesByAddressParams {
@@ -61,8 +73,8 @@ const mapAddress = (address?: Address): Address | undefined => {
   return finalAddress;
 };
 
-export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) =>
-  useQueries({
+export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) => {
+  return useQueries({
     queries: assets.map(({ address, precision }) => ({
       queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
       queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: mapAddress(address), precision }),
@@ -76,3 +88,4 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
       gcTime: ONE_HOUR,
     })),
   });
+};
