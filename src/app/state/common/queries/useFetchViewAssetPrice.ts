@@ -11,7 +11,7 @@ import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPri
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
 import { assetsConfig } from "../../settings/config";
-import { getQueryClient } from "../../../v2/contexts/CustomQueryClientProvider";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -60,7 +60,10 @@ export const fetchAssetPriceInBlock = async (
   } else {
     if (assetsConfig[asset].useCoinGeckoPrice) {
       const assetFinalAddress = assetsConfig[asset].coingGeckoConfig?.replaceAddress || asset;
-      return fetchCoinGeckoAssetPriceByAddress({ address: assetFinalAddress, precision: 8 });
+      return fetchCoinGeckoAssetPriceByAddress({
+        address: assetFinalAddress,
+        precision: 8,
+      });
     }
 
     price =
@@ -121,7 +124,10 @@ export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
+  const { data: price, ...rest } = useFetchAssetPrice({
+    asset,
+    underlyingAsset,
+  });
 
   return {
     ...rest,

@@ -2,7 +2,7 @@ import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { ONE_HOUR } from "../../settings/queryConfig";
-import { getQueryClient } from "../../../v2/contexts/CustomQueryClientProvider";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -77,7 +77,11 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
   return useQueries({
     queries: assets.map(({ address, precision }) => ({
       queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
-      queryFn: () => fetchCoinGeckoAssetPriceByAddress({ address: mapAddress(address), precision }),
+      queryFn: () =>
+        fetchCoinGeckoAssetPriceByAddress({
+          address: mapAddress(address),
+          precision,
+        }),
 
       refetchOnMount: false,
       refetchOnWindowFocus: false,

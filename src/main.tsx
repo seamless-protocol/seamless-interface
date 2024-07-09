@@ -9,7 +9,7 @@ import "./app/config/sentry.config";
 import { config } from "./app/config/rainbow.config";
 import { WagmiProvider } from "wagmi";
 //* * REACT QUERY **/
-import { CustomQueryClientProvider } from "./app/v2/contexts/CustomQueryClientProvider";
+import { CustomQueryClientProvider } from "./app/contexts/CustomQueryClientProvider";
 //* * RAINBOW **/
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 //* * SENTRY **/

@@ -21,7 +21,9 @@ import { useFetchStrategyByAddress } from "../../../../../../state/common/hooks/
 import { useFetchStrategyIncentives } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
 
 export const Heading = () => {
-  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, isStrategy } = useAssetPickerState({
+    overrideUrlSlug: assetSlugConfig,
+  });
   const { subStrategy } = useFormSettingsContext();
   const { data: assetState } = useFetchAssetByAddress(asset);
   const { data: strategyState } = useFetchStrategyByAddress(asset);
