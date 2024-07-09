@@ -27,41 +27,35 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
   const incentives: Incentives | undefined = useMemo(() => {
-    try {
-      const incentives = data?.find((e) => e.underlyingAsset === asset);
-      if (!incentives) {
-        return undefined;
-      }
-      const cgPriceResultsObject = cgPriceResults.reduce<cgPriceMapping>((acc, result, index) => {
-        acc[cgPriceParams[index].address.toLowerCase()] = result.data;
-        return acc;
-      }, {});
-      return {
-        ...incentives,
-        aIncentiveData: {
-          ...incentives?.aIncentiveData,
-          rewardsTokenInformation: incentives?.aIncentiveData?.rewardsTokenInformation.map(
-            mapCGPriceData(cgPriceResultsObject)
-          ),
-        },
-        sIncentiveData: {
-          ...incentives?.sIncentiveData,
-          rewardsTokenInformation: incentives?.sIncentiveData?.rewardsTokenInformation.map(
-            mapCGPriceData(cgPriceResultsObject)
-          ),
-        },
-        vIncentiveData: {
-          ...incentives?.vIncentiveData,
-          rewardsTokenInformation: incentives?.vIncentiveData?.rewardsTokenInformation.map(
-            mapCGPriceData(cgPriceResultsObject)
-          ),
-        },
-      };
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Error processing incentives data:", error);
+    const incentives = data?.find((e) => e.underlyingAsset === asset);
+    if (!incentives) {
       return undefined;
     }
+    const cgPriceResultsObject = cgPriceResults.reduce<cgPriceMapping>((acc, result, index) => {
+      acc[cgPriceParams[index].address.toLowerCase()] = result.data;
+      return acc;
+    }, {});
+    return {
+      ...incentives,
+      aIncentiveData: {
+        ...incentives?.aIncentiveData,
+        rewardsTokenInformation: incentives?.aIncentiveData?.rewardsTokenInformation.map(
+          mapCGPriceData(cgPriceResultsObject)
+        ),
+      },
+      sIncentiveData: {
+        ...incentives?.sIncentiveData,
+        rewardsTokenInformation: incentives?.sIncentiveData?.rewardsTokenInformation.map(
+          mapCGPriceData(cgPriceResultsObject)
+        ),
+      },
+      vIncentiveData: {
+        ...incentives?.vIncentiveData,
+        rewardsTokenInformation: incentives?.vIncentiveData?.rewardsTokenInformation.map(
+          mapCGPriceData(cgPriceResultsObject)
+        ),
+      },
+    };
   }, [data, asset, cgPriceResults]);
 
   return {
@@ -83,16 +77,13 @@ export const mapCGPriceData =
     rewardTokenAddress,
     ...rest
   }: RewardTokenInformation) => {
-    if (!rewardTokenAddress || !cgPriceResultsObject[rewardTokenAddress.toLowerCase()]) {
-      throw new Error(`Failed to fetch ${rewardTokenAddress} price`);
-    }
-
     return {
       ...rest,
       rewardTokenAddress,
       rewardOracleAddress,
       rewardPriceFeed:
-        rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
+        // todo change MOCK_PRICE_ORACLE to a real address ?
+        rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() && rewardTokenAddress
           ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
           : rewardPriceFeed,
       priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
