@@ -14,11 +14,21 @@ import { QueryParamProvider } from "use-query-params";
 import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
 import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
+import { useConnect } from "wagmi";
+import { useEffect } from "react";
+import { demoConnector } from "../config/demoConnector/demoConnector";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
   useFetchAllAssets();
+  const { connect } = useConnect();
+
+  useEffect(() => {
+    connect({
+      connector: demoConnector,
+    });
+  }, []);
 
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>

@@ -104,3 +104,8 @@ const initTestClient = (rpc: string) =>
   })
     .extend(publicActions)
     .extend(walletActions);
+
+export const startDemoEnv = () => {
+  cy.visit("/");
+  localStorage.setItem("demo", String(true));
+};

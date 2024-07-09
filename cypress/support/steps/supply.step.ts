@@ -20,7 +20,6 @@ export const supply = (
 
   return describe(`Supply process for ${name}`, () => {
     it(`Open ${name} supply popup view`, () => {
-      cy.visit("/");
       cy.wait(3000);
       cy.get(`[data-cy='asset-card-${address}']`).click();
       cy.setAmount(amount, isMaxAmount);

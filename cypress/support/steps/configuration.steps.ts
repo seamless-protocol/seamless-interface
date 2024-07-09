@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from "../tenderly";
+import { TenderlyFork } from "../tenderly";
 import { base } from "viem/chains";
 // import { privateKeyToAccount } from "viem/accounts";
 
@@ -21,35 +21,34 @@ export const configEnvWithTenderly = ({
 }) => {
   const tenderly = new TenderlyFork({ forkNetworkID: chainId });
 
-  const walletAddress: Address = wallet != null ? wallet.address : DEFAULT_TEST_ACCOUNT.address;
+  // const walletAddress: Address = wallet != null ? wallet.address : DEFAULT_TEST_ACCOUNT.address;
 
   before(async () => {
     await tenderly.init();
     await new Promise((resolve) => {
       setTimeout(resolve, 3000);
     });
-    await tenderly.add_balance_rpc(walletAddress);
+    // await tenderly.add_balance_rpc(walletAddress);
   });
 
   before("Open main page", () => {
-    const rpc = tenderly.get_rpc_url();
-    const provider = tenderly.client;
+    // const rpc = tenderly.get_rpc_url();
+    // const provider = tenderly.client;
     // const signer = privateKeyToAccount(wallet?.privateKey || DEFAULT_TEST_ACCOUNT.privateKey);
-
-    cy.visit(Cypress.env("URL"), {
-      onBeforeLoad(win: Cypress.AUTWindow & typeof globalThis) {
-        // @ts-ignore
-        win.ethereum = provider;
-        win.localStorage.setItem("forkEnabled", "true");
-        win.localStorage.setItem("forkNetworkId", "3030");
-        win.localStorage.setItem("forkBaseChainId", chainId.toString());
-        win.localStorage.setItem("forkRPCUrl", rpc);
-        win.localStorage.setItem("walletProvider", "injected");
-        win.localStorage.setItem("selectedAccount", walletAddress.toLowerCase());
-        win.localStorage.setItem("selectedMarket", "mainnet");
-        win.localStorage.setItem("testnetsEnabled", enableTestnet.toString());
-      },
-    });
+    // cy.visit(Cypress.env("URL"), {
+    //   onBeforeLoad(win: Cypress.AUTWindow & typeof globalThis) {
+    //     // @ts-ignore
+    //     win.ethereum = provider;
+    //     win.localStorage.setItem("forkEnabled", "true");
+    //     win.localStorage.setItem("forkNetworkId", "3030");
+    //     win.localStorage.setItem("forkBaseChainId", chainId.toString());
+    //     win.localStorage.setItem("forkRPCUrl", rpc);
+    //     win.localStorage.setItem("walletProvider", "injected");
+    //     win.localStorage.setItem("selectedAccount", walletAddress.toLowerCase());
+    //     win.localStorage.setItem("selectedMarket", "mainnet");
+    //     win.localStorage.setItem("testnetsEnabled", enableTestnet.toString());
+    //   },
+    // });
   });
 
   after(async () => {
