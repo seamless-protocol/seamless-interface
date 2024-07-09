@@ -6,15 +6,26 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
-import { ONE_MINUTE } from "../../settings/queryConfig";
+import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
 import { assetsConfig } from "../../settings/config";
+import { getQueryClient } from "../../../v2/contexts/CustomQueryClientProvider";
 
 export interface AssetPrice {
   price: FetchBigInt;
 }
+
+const createFetchAssetPriceInBlockQueryOptions = (
+  asset?: Address,
+  blockNumber?: bigint,
+  underlyingAsset?: Address
+): UseQueryOptions<bigint | undefined> => ({
+  queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
+  staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
+  enabled: !!asset,
+});
 
 export const fetchAssetPriceInBlock = async (
   config: Config,
@@ -22,6 +33,7 @@ export const fetchAssetPriceInBlock = async (
   blockNumber?: bigint,
   underlyingAsset?: Address
 ): Promise<bigint | undefined> => {
+  const queryClient = getQueryClient();
   if (!asset) return undefined;
 
   const strategy = getStrategyBySubStrategyAddress(asset);
@@ -51,13 +63,18 @@ export const fetchAssetPriceInBlock = async (
       return fetchCoinGeckoAssetPriceByAddress({ address: assetFinalAddress, precision: 8 });
     }
 
-    price = await readContract(config, {
-      address: aaveOracleAddress,
-      abi: aaveOracleAbi,
-      functionName: "getAssetPrice",
-      args: [asset],
-      blockNumber,
-    });
+    price =
+      (await queryClient.fetchQuery({
+        queryFn: () =>
+          readContract(config, {
+            address: aaveOracleAddress,
+            abi: aaveOracleAbi,
+            functionName: "getAssetPrice",
+            args: [asset],
+            blockNumber,
+          }),
+        ...createFetchAssetPriceInBlockQueryOptions(asset, blockNumber, underlyingAsset),
+      })) || 0n;
   }
 
   if (underlyingAsset) {
@@ -76,9 +93,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
 
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
-    queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? ONE_MINUTE : undefined,
-    enabled: !!asset,
+    ...createFetchAssetPriceInBlockQueryOptions(asset, blockNumber, underlyingAsset),
   });
 
   return {
