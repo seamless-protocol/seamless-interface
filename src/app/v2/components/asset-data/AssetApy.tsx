@@ -20,8 +20,6 @@ interface StrategyApyProps extends DisplayPercentageProps {
 
 export const MaxStrategyApy: React.FC<StrategyApyProps> = ({ strategy, showWarning = true, ...rest }) => {
   const { data: apy, ...restStrategyApy } = useFetchViewMaxStrategyApy(strategy);
-  console.log({ apy });
-  console.log({ strategy });
 
   if (showWarning && apy.value === 0 && !restStrategyApy.isLoading && restStrategyApy.isFetched) {
     return (

@@ -19,8 +19,6 @@ import { assetSlugConfig } from "../config/SlugConfig";
 import { useFetchAssetByAddress } from "../../../../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyByAddress } from "../../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchStrategyIncentives } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
-import { strategiesConfig } from "../../../../../../state/settings/config";
-import { Address } from "viem";
 
 export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
@@ -34,14 +32,14 @@ export const Heading = () => {
     asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset,
   });
 
-  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
+  const { data: supplyIncentives, ...incentivesSupplyRest } = useFetchViewSupplyIncentives(asset);
 
-  const { data: strategyIncentives, ...strategyRest } = useFetchStrategyIncentives(
-    //TODO: What if there are multiple strategies
-    strategiesConfig[asset as Address]?.subStrategyData?.[0]?.address
-  );
+  const { data: strategyIncentives, ...incentivesStrategyRest } = useFetchStrategyIncentives(subStrategy);
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
+
+  const incentives = isStrategy ? strategyIncentives : supplyIncentives;
+  const incentivesRest = isStrategy ? incentivesStrategyRest : incentivesSupplyRest;
 
   return (
     <div className="">
@@ -123,23 +121,11 @@ export const Heading = () => {
                 showWarning={false}
               />
 
-              {!isStrategy && (
-                <div className="max-w-40 md:max-w-full">
-                  <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-                    <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
-                  </IncentivesButton>
-                </div>
-              )}
-              {
-                //TODO: Make one component that handles both strategy and lending incentives, this is crazy
-                isStrategy && (
-                  <div className="max-w-40 md:max-w-full">
-                    <IncentivesButton {...strategyIncentives} {...incentivesRest}>
-                      <IncentivesDetailCard {...strategyIncentives} assetSymbol={tokenData.symbol} />
-                    </IncentivesButton>
-                  </div>
-                )
-              }
+              <div className="max-w-40 md:max-w-full">
+                <IncentivesButton {...incentives} {...incentivesRest}>
+                  <IncentivesDetailCard {...incentives} assetSymbol={tokenData.symbol} />
+                </IncentivesButton>
+              </div>
             </FlexCol>
             <div className="divider divider-horizontal" />
             {/* item 3 */}
