@@ -16,11 +16,6 @@ import {
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-import { getReducedValue } from "../../common/math/cReducedValue";
-
-export const cSharesToReceive = (sharesValue?: bigint) => {
-  return getReducedValue(0.1, sharesValue);
-};
 
 interface SharesToReceiveData {
   sharesToReceive?: FetchBigInt;
@@ -44,7 +39,7 @@ export const useFetchDepositSharesToReceive = (
     asset: subStrategy,
   });
 
-  const sharesToReceive = cSharesToReceive(shares?.bigIntValue);
+  const sharesToReceive = shares?.bigIntValue === undefined ? undefined : (shares.bigIntValue * 999n) / 1000n;
   const sharesToReceiveInUsd = cValueInUsd(sharesToReceive, sharePrice?.bigIntValue, shares.decimals);
 
   return {
