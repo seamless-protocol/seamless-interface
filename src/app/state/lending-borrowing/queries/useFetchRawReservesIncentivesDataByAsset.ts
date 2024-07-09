@@ -81,7 +81,8 @@ export const mapCGPriceData =
     rewardTokenAddress,
     rewardOracleAddress,
     rewardPriceFeed:
-      rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
+      // check: rewardTokenAddress can be undefined, added in condition below, is that okay?
+      rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() && rewardTokenAddress
         ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
         : rewardPriceFeed,
     priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
