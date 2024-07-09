@@ -41,10 +41,10 @@ async function simulateBundle(functionCalls: any) {
 export async function simulateDeposit(
   account: Address,
   strategy: Address,
-  underlyingAsset: Address | undefined,
+  underlyingAsset: Address,
   amount: string
 ): Promise<FetchData<PreviewDeposit>> {
-  if (!underlyingAsset || parseEther(amount) === 0n) throw new Error("Invalid amount or asset");
+  if (parseEther(amount) === 0n) throw new Error("Invalid amount or asset");
 
   const { result } = await simulateBundle([
     createApproveTx(account, underlyingAsset, strategy, amount),

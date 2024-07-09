@@ -15,10 +15,10 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
 
   const { data, ...rest } = useQuery({
     queryKey: ["simulateDeposit", subStrategy, amount],
-    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset, amount),
+    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset!, amount),
     staleTime: FIVE_SECONDS_IN_MS,
     retry: true,
-    enabled: !!subStrategy,
+    enabled: !!subStrategy && !!amount && !!underlyingAsset,
   });
 
   return {
