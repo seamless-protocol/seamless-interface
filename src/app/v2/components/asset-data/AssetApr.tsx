@@ -3,11 +3,11 @@ import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/h
 import { DisplayPercentage, DisplayPercentageProps, Tooltip, useToken } from "@shared";
 import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
-import { strategiesConfig } from "../../../state/settings/config";
 
 interface AssetAprProps extends DisplayPercentageProps {
   asset: Address;
   isStrategy?: boolean;
+  subStrategy?: Address;
 }
 
 export const SupplyApr: React.FC<AssetAprProps> = ({ asset, ...rest }) => {
@@ -22,14 +22,10 @@ export const SupplyApr: React.FC<AssetAprProps> = ({ asset, ...rest }) => {
   );
 };
 
-export const StrategyApr: React.FC<AssetAprProps> = ({ asset, ...rest }) => {
-  const { data: tokenData } = useToken(asset);
+export const StrategyApr: React.FC<AssetAprProps> = ({ asset, subStrategy, ...rest }) => {
+  const { data: tokenData } = useToken(subStrategy);
 
-  console.log("asset", asset);
-  //TODO: Remove hardcoded strategy index
-  const { data: strategyIncentives, ...restIncentives } = useFetchStrategyIncentives(
-    strategiesConfig[asset]?.subStrategyData?.[0]?.address
-  );
+  const { data: strategyIncentives, ...restIncentives } = useFetchStrategyIncentives(subStrategy);
 
   return (
     <Tooltip tooltip={<IncentivesDetailCard {...strategyIncentives} assetSymbol={tokenData?.symbol} />}>
@@ -38,6 +34,10 @@ export const StrategyApr: React.FC<AssetAprProps> = ({ asset, ...rest }) => {
   );
 };
 
-export const AssetApr: React.FC<AssetAprProps> = ({ asset, isStrategy, ...rest }) => {
-  return isStrategy ? <StrategyApr asset={asset} {...rest} /> : <SupplyApr asset={asset} {...rest} />;
+export const AssetApr: React.FC<AssetAprProps> = ({ asset, subStrategy, isStrategy, ...rest }) => {
+  return isStrategy ? (
+    <StrategyApr subStrategy={subStrategy} asset={asset} {...rest} />
+  ) : (
+    <SupplyApr asset={asset} {...rest} />
+  );
 };

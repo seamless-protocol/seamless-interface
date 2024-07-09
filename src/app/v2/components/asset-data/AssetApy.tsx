@@ -20,6 +20,8 @@ interface StrategyApyProps extends DisplayPercentageProps {
 
 export const MaxStrategyApy: React.FC<StrategyApyProps> = ({ strategy, showWarning = true, ...rest }) => {
   const { data: apy, ...restStrategyApy } = useFetchViewMaxStrategyApy(strategy);
+  console.log({ apy });
+  console.log({ strategy });
 
   if (showWarning && apy.value === 0 && !restStrategyApy.isLoading && restStrategyApy.isFetched) {
     return (
@@ -92,8 +94,7 @@ export const AssetApy: React.FC<AssetApyProps & { subStrategy?: Address }> = ({
 }) => {
   const { data: strategy } = useFetchStrategyBySubStrategyAddressOrAddress(subStrategy || asset);
 
-  if (strategy?.multiplier)
-    return <DisplayText  {...rest} viewValue={strategy?.multiplier} />;
+  if (strategy?.multiplier) return <DisplayText {...rest} viewValue={strategy?.multiplier} />;
 
   if (isStrategy) {
     return subStrategy ? (

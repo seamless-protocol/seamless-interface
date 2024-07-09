@@ -29,7 +29,9 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} isStrategy={true} className="text-navy-1000" />}
+        {asset && (
+          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+        )}
       </FlexRow>
 
       <DataRow label="Min tokens to receive">
