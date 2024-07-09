@@ -24,11 +24,6 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
-  if (assetsConfig[asset].useCoinGeckoPrice) {
-    asset = assetsConfig[asset].coingGeckoConfig?.replaceAddress || asset;
-    return fetchCoinGeckoAssetPriceByAddress({ address: asset, precision: 8 });
-  }
-
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
@@ -51,6 +46,11 @@ export const fetchAssetPriceInBlock = async (
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
+    if (assetsConfig[asset].useCoinGeckoPrice) {
+      const assetFinalAddress = assetsConfig[asset].coingGeckoConfig?.replaceAddress || asset;
+      return fetchCoinGeckoAssetPriceByAddress({ address: assetFinalAddress, precision: 8 });
+    }
+
     price = await readContract(config, {
       address: aaveOracleAddress,
       abi: aaveOracleAbi,
