@@ -1,5 +1,5 @@
 import { FetchData } from "../../../../shared/types/Fetch";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Address } from "viem";
 import { Incentives, RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentivesData";
@@ -15,8 +15,6 @@ import { MOCK_PRICE_ORACLE } from "../../../../meta";
  * @returns Returns raw incentives data for given asset from smart contract. Data is not formatted due to complexity of structure
  */
 export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchData<Incentives | undefined> => {
-  const [incentivesProcessingSuccessfull, setIncentivesProcessingSuccessfull] = useState(true);
-
   const cgPriceParams = Object.keys(assetsConfig)
     .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
     .map((key) => ({
@@ -62,22 +60,12 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error processing incentives data:", error);
-      setIncentivesProcessingSuccessfull(false);
       return undefined;
     }
   }, [data, asset, cgPriceResults]);
 
   return {
-    ...mergeQueryStates([
-      rest,
-      ...cgPriceResults,
-      {
-        isError: !incentivesProcessingSuccessfull,
-        isFetched: true,
-        isLoading: false,
-        isSuccess: incentivesProcessingSuccessfull,
-      },
-    ]),
+    ...mergeQueryStates([rest, ...cgPriceResults]),
     data: incentives,
   };
 };
