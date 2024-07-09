@@ -9,6 +9,8 @@ import {
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+import { demoConnector } from "./demoConnector/demoConnector";
+import { mock } from "wagmi/connectors";
 // import { mock } from "wagmi/connectors";
 // import { demoConnector } from "./demoConnector/demoConnector";
 
@@ -24,7 +26,7 @@ const rpcConfig = [
   // { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
 ].filter(({ url }) => url);
 
-const connectors = connectorsForWallets(
+export const connectors = connectorsForWallets(
   [
     {
       groupName: "Smart wallets",
@@ -50,15 +52,3 @@ const connectors = connectorsForWallets(
     projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
   }
 );
-
-export const config = createConfig({
-  // connectors: connectors,
-  connectors: [demoConnector],
-  chains: [base],
-  transports: {
-    [base.id]: fallback(
-      rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
-      { rank: true }
-    ),
-  },
-});

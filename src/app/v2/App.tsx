@@ -17,6 +17,8 @@ import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
 import { useConnect } from "wagmi";
 import { useEffect } from "react";
 import { demoConnector } from "../config/demoConnector/demoConnector";
+import { mock } from "wagmi/connectors";
+import { connectors } from "../config/rainbow.config";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -26,6 +28,7 @@ export function App() {
 
   useEffect(() => {
     connect({
+      // connector: mock({ accounts: ["0x818DB96e1b5c64bBE6307c95473E313c743FF7d0"] }),
       connector: demoConnector,
     });
   }, []);

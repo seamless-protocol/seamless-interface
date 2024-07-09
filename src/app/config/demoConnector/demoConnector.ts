@@ -1,12 +1,13 @@
 import { createConnector } from "wagmi";
 import { base } from "viem/chains";
 import randomWalletClient from "./createRandomWallet";
+import { parseUnits } from "viem";
 
 // wagmi connector for demos
 export const demoConnector = createConnector(() => ({
   id: "demoConnector",
   name: "Demo Connector",
-  type: "mock",
+  type: "",
   // eslint-disable-next-line @typescript-eslint/require-await
   async connect() {
     return {
@@ -14,6 +15,7 @@ export const demoConnector = createConnector(() => ({
       chainId: base.id,
     };
   },
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async disconnect() {},
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -22,7 +24,10 @@ export const demoConnector = createConnector(() => ({
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   async getClient() {
-    return randomWalletClient;
+    return {
+      ...randomWalletClient,
+      getBalance: async () => parseUnits("100000000000", 18), // Mock balance
+    };
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   async getChainId() {
