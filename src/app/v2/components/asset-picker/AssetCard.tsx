@@ -42,11 +42,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     strategiesConfig[address]?.subStrategyData?.[0]?.address
   );
 
-  if (isStrategy) {
-    console.log("address", address);
-    console.log("strategyIncentives", strategyIncentives);
-  }
-
   return (
     <div
       className={`p-6 pr-8  ${hideBorder ? "" : "border-solid border-b border-b-navy-100"}
