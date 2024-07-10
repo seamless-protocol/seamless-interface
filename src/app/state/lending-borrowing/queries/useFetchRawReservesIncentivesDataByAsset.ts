@@ -27,7 +27,7 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
   const incentives: Incentives | undefined = useMemo(() => {
-    const incentives = data?.find((e) => e.underlyingAsset === asset);
+    const incentives = data?.find((e: { underlyingAsset: string | undefined }) => e.underlyingAsset === asset);
     if (!incentives) {
       return undefined;
     }
@@ -77,12 +77,14 @@ export const mapCGPriceData =
     rewardTokenAddress,
     ...rest
   }: RewardTokenInformation) => {
+    if (!rewardTokenAddress) return undefined;
+
     return {
       ...rest,
       rewardTokenAddress,
       rewardOracleAddress,
       rewardPriceFeed:
-        rewardTokenAddress && rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
+        rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
           ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
           : rewardPriceFeed,
       priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
