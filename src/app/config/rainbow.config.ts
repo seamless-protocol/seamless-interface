@@ -52,3 +52,14 @@ export const connectors = connectorsForWallets(
     projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
   }
 );
+export const config = createConfig({
+  // connectors: connectors,
+  connectors: [mock({ accounts: ["0x818DB96e1b5c64bBE6307c95473E313c743FF7d0"] })],
+  chains: [base],
+  transports: {
+    [base.id]: fallback(
+      rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
+      { rank: true }
+    ),
+  },
+});
