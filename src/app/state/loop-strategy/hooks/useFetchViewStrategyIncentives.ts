@@ -7,7 +7,7 @@ import { useFetchAssetRewardsData } from "../../lending-borrowing/hooks/useFetch
 export const useFetchStrategyIncentives = (asset?: Address) => {
   const { data: incentives, ...rawRest } = useFetchAssetRewardsData(asset);
 
-  const { data: equity, ...equityRest } = useFetchDetailEquity(asset);
+  const { data: equity, ...strategyEquityRest } = useFetchDetailEquity(asset);
 
   let strategyIncentives = { totalApr: 0, rewardTokens: [] } as IncentiveApr;
   if (incentives && equity.equityUsd && equity.equityUsd.bigIntValue) {
@@ -20,7 +20,7 @@ export const useFetchStrategyIncentives = (asset?: Address) => {
   }
 
   return {
-    ...mergeQueryStates([equityRest, rawRest]),
+    ...mergeQueryStates([strategyEquityRest, rawRest]),
     data: {
       totalApr: formatIncentiveAprToViewNumber(strategyIncentives.totalApr),
       rewardTokens: strategyIncentives.rewardTokens,
