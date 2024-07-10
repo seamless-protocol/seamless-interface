@@ -68,7 +68,7 @@ const mapAddress = (address?: Address): Address | undefined => {
   const lowerCaseAddress = address.toLowerCase() as Address;
   const assetConfig = assetsConfig[address] || strategiesConfig[address];
 
-  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as Address || lowerCaseAddress;
+  const finalAddress = (assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as Address) || lowerCaseAddress;
   if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === finalAddress) !== undefined) {
     return undefined;
   }
@@ -80,10 +80,11 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
   return useQueries({
     queries: assets.map(({ address, precision }) => ({
       queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
-      queryFn: () => _fetchCoinGeckoAssetPriceByAddress({
-        address: mapAddress(address),
-        precision,
-      }),
+      queryFn: () =>
+        _fetchCoinGeckoAssetPriceByAddress({
+          address: mapAddress(address),
+          precision,
+        }),
 
       refetchOnMount: false,
       refetchOnWindowFocus: false,

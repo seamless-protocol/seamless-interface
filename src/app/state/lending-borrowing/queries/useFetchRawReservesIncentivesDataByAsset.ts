@@ -27,7 +27,7 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
   const incentives: Incentives | undefined = useMemo(() => {
-    const incentives = data?.find((e) => e.underlyingAsset === asset);
+    const incentives = data?.find((e: { underlyingAsset: string | undefined }) => e.underlyingAsset === asset);
     if (!incentives) {
       return undefined;
     }
