@@ -68,7 +68,7 @@ const mapAddress = (address?: Address): Address | undefined => {
   const lowerCaseAddress = address.toLowerCase() as Address;
   const assetConfig = assetsConfig[address] || strategiesConfig[address];
 
-  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as `0x${string}` || lowerCaseAddress;
+  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as Address || lowerCaseAddress;
   if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === finalAddress) !== undefined) {
     return undefined;
   }
