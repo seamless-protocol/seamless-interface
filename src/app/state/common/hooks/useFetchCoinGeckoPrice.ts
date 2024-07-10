@@ -44,11 +44,11 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
 }: FetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
   const queryClient = getQueryClient();
 
-  address = mapAddress(address);
+  const finalAddress = mapAddress(address);
 
   return queryClient.fetchQuery({
-    queryKey: ["fetchCoinGeckoAssetPriceByAddress", address, precision],
-    queryFn: () => _fetchCoinGeckoAssetPriceByAddress({ address, precision }),
+    queryKey: ["fetchCoinGeckoAssetPriceByAddress", finalAddress, precision],
+    queryFn: () => _fetchCoinGeckoAssetPriceByAddress({ address: finalAddress, precision }),
 
     staleTime: ONE_HOUR,
     gcTime: ONE_HOUR,

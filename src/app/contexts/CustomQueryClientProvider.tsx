@@ -11,7 +11,6 @@ const queryClient = new QueryClient({
 });
 
 // This is due to an issue with react-query serializing cache keys with bigint args. https://github.com/TanStack/query/issues/3082
-/* eslint-disable no-extend-native */
 // eslint-disable-next-line func-names
 (BigInt.prototype as any).toJSON = function () {
   return this.toString()

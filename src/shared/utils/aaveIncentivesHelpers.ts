@@ -20,7 +20,7 @@ export interface RewardTokenInformation {
 interface IncentiveData {
   tokenAddress?: Address;
   incentiveControllerAddress?: Address;
-  rewardsTokenInformation: RewardTokenInformation[];
+  rewardsTokenInformation: (RewardTokenInformation | undefined)[];
 }
 
 export interface Incentives {
@@ -42,7 +42,7 @@ export interface IncentiveApr {
 }
 
 function parseRewardsTokenInformation(
-  rewardsTokenInformation: RewardTokenInformation[],
+  rewardsTokenInformation: (RewardTokenInformation | undefined)[],
   totalUsd: bigint
 ): IncentiveApr {
   let totalApr = 0;
@@ -56,6 +56,10 @@ function parseRewardsTokenInformation(
 
   for (let i = 0; i < rewardsTokenInformation.length; i++) {
     const rewardToken = rewardsTokenInformation[i];
+
+    if (!rewardToken) {
+      continue;
+    }
 
     // Ignore emissions programs that are now over
     if (rewardToken.emissionEndTimestamp < now) {
@@ -89,9 +93,9 @@ export function parseIncentives(incentives: IncentiveData, totalUsd: bigint): In
   const result = incentives
     ? parseRewardsTokenInformation(incentives.rewardsTokenInformation, totalUsd)
     : {
-        totalApr: 0,
-        rewardTokens: [],
-      };
+      totalApr: 0,
+      rewardTokens: [],
+    };
 
   return result;
 }
