@@ -3,6 +3,7 @@ import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
+import { AssetApr } from "../../../asset-data/AssetApr";
 
 export const Summary: React.FC<{
   previewDepositData: Displayable<ViewPreviewDeposit>;
@@ -25,6 +26,14 @@ const SummaryLocal: React.FC<{
           <AssetApy asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
         )}
       </FlexRow>
+
+      <FlexRow className="text-navy-600 justify-between">
+        <Typography type="bold2">Rewards APR</Typography>
+        {asset && (
+          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+        )}
+      </FlexRow>
+
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount
           isLoading={previewDepositData.isLoading}

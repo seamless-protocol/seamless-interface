@@ -1,4 +1,4 @@
-import { readContract } from "wagmi/actions";
+import { readContractQueryOptions } from "wagmi/query";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "@meta";
@@ -7,10 +7,11 @@ import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { useFullTokenData } from "../meta-data-queries/useFullTokenData";
-import { useFetchCoinGeckoPricesByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
-import { ONE_MINUTE } from "../../settings/queryConfig";
+import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
+import { assetsConfig, strategiesConfig } from "../../settings/config";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -24,35 +25,56 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
+  const queryClient = getQueryClient();
+
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
   if (strategy) {
-    const equityUsd = await readContract(config, {
-      address: asset,
-      abi: loopStrategyAbi,
-      functionName: "equityUSD",
-      blockNumber,
-    });
+    const equityUsd = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: asset,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+        blockNumber,
+      })
+    );
 
-    const totalSupply = await readContract(config, {
-      address: asset,
-      abi: erc20Abi,
-      functionName: "totalSupply",
-      blockNumber,
-    });
+    const totalSupply = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: asset,
+        abi: erc20Abi,
+        functionName: "totalSupply",
+        blockNumber,
+      })
+    );
 
     if (totalSupply !== 0n) {
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
-    price = await readContract(config, {
-      address: aaveOracleAddress,
-      abi: aaveOracleAbi,
-      functionName: "getAssetPrice",
-      args: [asset],
-      blockNumber,
-    });
+    // Cannot fetch past block number prices from CoingGecko
+    if (!blockNumber) {
+      const config = asset
+        ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
+        : undefined;
+      if (config?.useCoinGeckoPrice) {
+        return fetchCoinGeckoAssetPriceByAddress({
+          address: asset,
+          precision: 8,
+        });
+      }
+    }
+
+    price = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [asset],
+        blockNumber,
+      })
+    );
   }
 
   if (underlyingAsset) {
@@ -72,7 +94,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? ONE_MINUTE : undefined,
+    staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
     enabled: !!asset,
   });
 
@@ -92,40 +114,7 @@ interface useFetchAssetPriceParams {
 }
 
 export const useFetchAssetPrice = ({ asset, underlyingAsset }: useFetchAssetPriceParams) => {
-  const {
-    data: { useCoinGeckoPrice },
-  } = useFullTokenData(asset);
-  const [coingeckoPrice] = useFetchCoinGeckoPricesByAddress(
-    useCoinGeckoPrice
-      ? [
-          {
-            address: asset,
-            precision: 8,
-          },
-        ]
-      : []
-  );
-
-  const assetPriceInBlock = useFetchAssetPriceInBlock(
-    useCoinGeckoPrice ? undefined : asset,
-    undefined,
-    underlyingAsset
-  );
-
-  if (useCoinGeckoPrice) {
-    const { data: price, ...rest } = coingeckoPrice;
-
-    return {
-      ...rest,
-      data: {
-        bigIntValue: price,
-        decimals: 8,
-        symbol: "$",
-      },
-    };
-  }
-
-  return assetPriceInBlock;
+  return useFetchAssetPriceInBlock(asset, undefined, underlyingAsset);
 };
 
 type useFetchViewAssetPriceParams = useFetchAssetPriceParams;
@@ -134,7 +123,10 @@ export const useFetchViewAssetPrice = ({
   asset,
   underlyingAsset,
 }: useFetchViewAssetPriceParams): Displayable<ViewBigInt> => {
-  const { data: price, ...rest } = useFetchAssetPrice({ asset, underlyingAsset });
+  const { data: price, ...rest } = useFetchAssetPrice({
+    asset,
+    underlyingAsset,
+  });
 
   return {
     ...rest,

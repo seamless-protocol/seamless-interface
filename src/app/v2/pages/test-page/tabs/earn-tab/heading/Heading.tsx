@@ -18,9 +18,12 @@ import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { assetSlugConfig } from "../config/SlugConfig";
 import { useFetchAssetByAddress } from "../../../../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyByAddress } from "../../../../../../state/common/hooks/useFetchStrategyByAddress";
+import { useFetchStrategyIncentives } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
 
 export const Heading = () => {
-  const { asset, isStrategy } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset, isStrategy } = useAssetPickerState({
+    overrideUrlSlug: assetSlugConfig,
+  });
   const { subStrategy } = useFormSettingsContext();
   const { data: assetState } = useFetchAssetByAddress(asset);
   const { data: strategyState } = useFetchStrategyByAddress(asset);
@@ -31,9 +34,14 @@ export const Heading = () => {
     asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset,
   });
 
-  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
+  const { data: supplyIncentives, ...incentivesSupplyRest } = useFetchViewSupplyIncentives(asset);
+
+  const { data: strategyIncentives, ...incentivesStrategyRest } = useFetchStrategyIncentives(subStrategy);
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
+
+  const incentives = isStrategy ? strategyIncentives : supplyIncentives;
+  const incentivesRest = isStrategy ? incentivesStrategyRest : incentivesSupplyRest;
 
   return (
     <div className="">
@@ -114,13 +122,12 @@ export const Heading = () => {
                 typography="bold4"
                 showWarning={false}
               />
-              {!isStrategy && (
-                <div className="max-w-40 md:max-w-full">
-                  <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-                    <IncentivesDetailCard {...supplyIncentives} assetSymbol={tokenData.symbol} />
-                  </IncentivesButton>
-                </div>
-              )}
+
+              <div className="max-w-40 md:max-w-full">
+                <IncentivesButton {...incentives} {...incentivesRest}>
+                  <IncentivesDetailCard {...incentives} assetSymbol={tokenData.symbol} />
+                </IncentivesButton>
+              </div>
             </FlexCol>
             <div className="divider divider-horizontal" />
             {/* item 3 */}

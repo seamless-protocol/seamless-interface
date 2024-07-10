@@ -1,6 +1,6 @@
+import { FetchData } from "../../../../shared/types/Fetch";
 import { useMemo } from "react";
 import { Address } from "viem";
-import { FetchData } from "../../../../shared/types/Fetch";
 import { Incentives, RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentivesData";
 import { assetsConfig } from "../../settings/config";
@@ -27,7 +27,7 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
   const incentives: Incentives | undefined = useMemo(() => {
-    const incentives = data?.find((e) => e.underlyingAsset === asset);
+    const incentives = data?.find((e: { underlyingAsset: string | undefined }) => e.underlyingAsset === asset);
     if (!incentives) {
       return undefined;
     }
@@ -70,19 +70,25 @@ interface cgPriceMapping {
 
 export const mapCGPriceData =
   (cgPriceResultsObject: cgPriceMapping) =>
-  ({
-    rewardOracleAddress,
-    priceFeedDecimals,
-    rewardPriceFeed,
-    rewardTokenAddress,
-    ...rest
-  }: RewardTokenInformation) => ({
-    ...rest,
-    rewardTokenAddress,
-    rewardOracleAddress,
-    rewardPriceFeed:
-      rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
-        ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
-        : rewardPriceFeed,
-    priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
-  });
+    ({
+      rewardOracleAddress,
+      priceFeedDecimals,
+      rewardPriceFeed,
+      rewardTokenAddress,
+      ...rest
+    }: RewardTokenInformation) => {
+      if (!rewardTokenAddress) {
+        return undefined;
+      }
+
+      return {
+        ...rest,
+        rewardTokenAddress,
+        rewardOracleAddress,
+        rewardPriceFeed:
+          rewardTokenAddress && rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
+            ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
+            : rewardPriceFeed,
+        priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
+      };
+    };

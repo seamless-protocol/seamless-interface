@@ -5,22 +5,22 @@ import { ViewNumber } from "../types/Displayable";
 
 export interface RewardTokenInformation {
   rewardTokenSymbol: string;
-  rewardTokenAddress: Address;
-  rewardOracleAddress: Address;
+  rewardTokenAddress?: Address;
+  rewardOracleAddress?: Address;
   emissionPerSecond: bigint;
-  incentivesLastUpdateTimestamp: bigint;
-  tokenIncentivesIndex: bigint;
+  incentivesLastUpdateTimestamp?: bigint;
+  tokenIncentivesIndex?: bigint;
   emissionEndTimestamp: bigint;
   rewardPriceFeed: bigint;
   rewardTokenDecimals: number;
-  precision: number;
+  precision?: number;
   priceFeedDecimals: number;
 }
 
 interface IncentiveData {
-  tokenAddress: Address;
-  incentiveControllerAddress: Address;
-  rewardsTokenInformation: RewardTokenInformation[];
+  tokenAddress?: Address;
+  incentiveControllerAddress?: Address;
+  rewardsTokenInformation: (RewardTokenInformation | undefined)[];
 }
 
 export interface Incentives {
@@ -42,8 +42,8 @@ export interface IncentiveApr {
 }
 
 function parseRewardsTokenInformation(
-  rewardsTokenInformation: RewardTokenInformation[],
-  totalUsd: bigint,
+  rewardsTokenInformation: (RewardTokenInformation | undefined)[],
+  totalUsd: bigint
 ): IncentiveApr {
   let totalApr = 0;
   const rewardTokens: RewardToken[] = [];
@@ -56,6 +56,10 @@ function parseRewardsTokenInformation(
 
   for (let i = 0; i < rewardsTokenInformation.length; i++) {
     const rewardToken = rewardsTokenInformation[i];
+
+    if (!rewardToken) {
+      continue;
+    }
 
     // Ignore emissions programs that are now over
     if (rewardToken.emissionEndTimestamp < now) {
