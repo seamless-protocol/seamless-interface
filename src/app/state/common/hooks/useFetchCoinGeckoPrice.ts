@@ -18,35 +18,38 @@ interface FetchCoinGeckoAssetPriceByAddressParams {
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
 const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6"];
 
+const _fetchCoinGeckoAssetPriceByAddress = async ({ address, precision }: FetchCoinGeckoAssetPriceByAddressParams) => {
+  if (!address) {
+    return 0n;
+  }
+
+  const res = await fetch(
+    `${coinGeckoApiUrl}/simple/token_price/base?contract_addresses=${address}&vs_currencies=usd&precision=${precision}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${address} price`);
+  }
+
+  const {
+    [address]: { usd: price },
+  }: CoinGeckoAssetPrice = await res.json();
+
+  return parseUnits(price.toString(), precision);
+};
+
 export const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,
 }: FetchCoinGeckoAssetPriceByAddressParams): Promise<bigint> => {
   const queryClient = getQueryClient();
 
-  if (!address) {
-    return 0n;
-  }
-
-  const fetchData = async () => {
-    const res = await fetch(
-      `${coinGeckoApiUrl}/simple/token_price/base?contract_addresses=${address.toLowerCase()}&vs_currencies=usd&precision=${precision}`
-    );
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${address} price`);
-    }
-
-    const {
-      [address.toLowerCase()]: { usd: price },
-    }: CoinGeckoAssetPrice = await res.json();
-
-    return parseUnits(price.toString(), precision);
-  };
+  address = mapAddress(address);
 
   return queryClient.fetchQuery({
     queryKey: ["fetchCoinGeckoAssetPriceByAddress", address, precision],
-    queryFn: fetchData,
+    queryFn: () => _fetchCoinGeckoAssetPriceByAddress({ address, precision }),
+
     staleTime: ONE_HOUR,
     gcTime: ONE_HOUR,
   });
@@ -65,7 +68,7 @@ const mapAddress = (address?: Address): Address | undefined => {
   const lowerCaseAddress = address.toLowerCase() as Address;
   const assetConfig = assetsConfig[address] || strategiesConfig[address];
 
-  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress || lowerCaseAddress;
+  const finalAddress = assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as `0x${string}` || lowerCaseAddress;
   if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === finalAddress) !== undefined) {
     return undefined;
   }
@@ -77,11 +80,10 @@ export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByA
   return useQueries({
     queries: assets.map(({ address, precision }) => ({
       queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
-      queryFn: () =>
-        fetchCoinGeckoAssetPriceByAddress({
-          address: mapAddress(address),
-          precision,
-        }),
+      queryFn: () => _fetchCoinGeckoAssetPriceByAddress({
+        address: mapAddress(address),
+        precision,
+      }),
 
       refetchOnMount: false,
       refetchOnWindowFocus: false,

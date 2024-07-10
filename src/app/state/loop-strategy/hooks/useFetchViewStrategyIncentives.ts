@@ -3,12 +3,9 @@ import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveInce
 import { formatIncentiveAprToViewNumber, mergeQueryStates } from "../../../../shared";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity";
 import { useFetchAssetRewardsData } from "../../lending-borrowing/hooks/useFetchAssetRewardsData";
-import { IS_DEV_MODE } from "../../../../globals";
 
 export const useFetchStrategyIncentives = (asset?: Address) => {
-  const { data: incentives, ...rawRest } = useFetchAssetRewardsData(
-    IS_DEV_MODE ? "0x2c159A183d9056E29649Ce7E56E59cA833D32624" : asset
-  );
+  const { data: incentives, ...rawRest } = useFetchAssetRewardsData(asset);
 
   const { data: equity, ...equityRest } = useFetchDetailEquity(asset);
 
