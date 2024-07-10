@@ -10,6 +10,11 @@ const queryClient = new QueryClient({
   },
 });
 
+// This is due to an issue with react-query serializing cache keys with bigint args. https://github.com/TanStack/query/issues/3082
+BigInt.prototype['toJSON'] = function () {
+  return this.toString()
+}
+
 export const getQueryClient = (): QueryClient => {
   return queryClient;
 };

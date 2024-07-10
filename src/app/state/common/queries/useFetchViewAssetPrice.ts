@@ -1,4 +1,4 @@
-import { readContract } from "wagmi/actions";
+import { readContractQueryOptions } from "wagmi/query";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
 import { ONE_ETHER, ONE_USD } from "@meta";
@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
-import { assetsConfig } from "../../settings/config";
+import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 export interface AssetPrice {
@@ -23,52 +23,58 @@ export const fetchAssetPriceInBlock = async (
   blockNumber?: bigint,
   underlyingAsset?: Address
 ): Promise<bigint | undefined> => {
-  const queryClient = getQueryClient();
   if (!asset) return undefined;
+
+  const queryClient = getQueryClient();
 
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   let price = 0n;
   if (strategy) {
-    const equityUsd = await readContract(config, {
-      address: asset,
-      abi: loopStrategyAbi,
-      functionName: "equityUSD",
-      blockNumber,
-    });
+    const equityUsd = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: asset,
+        abi: loopStrategyAbi,
+        functionName: "equityUSD",
+        blockNumber,
+      })
+    );
 
-    const totalSupply = await readContract(config, {
-      address: asset,
-      abi: erc20Abi,
-      functionName: "totalSupply",
-      blockNumber,
-    });
+    const totalSupply = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: asset,
+        abi: erc20Abi,
+        functionName: "totalSupply",
+        blockNumber,
+      })
+    );
 
     if (totalSupply !== 0n) {
       price = (equityUsd * ONE_ETHER) / totalSupply;
     }
   } else {
-    if (assetsConfig[asset].useCoinGeckoPrice) {
-      const assetFinalAddress = assetsConfig[asset].coingGeckoConfig?.replaceAddress || asset;
-      return fetchCoinGeckoAssetPriceByAddress({
-        address: assetFinalAddress,
-        precision: 8,
-      });
+    // Cannot fetch past block number prices from CoingGecko
+    if (!blockNumber) {
+      const config = asset
+        ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
+        : undefined;
+      if (config?.useCoinGeckoPrice) {
+        return fetchCoinGeckoAssetPriceByAddress({
+          address: asset,
+          precision: 8,
+        });
+      }
     }
 
-    price =
-      await queryClient.fetchQuery({
-        queryFn: () =>
-          readContract(config, {
-            address: aaveOracleAddress,
-            abi: aaveOracleAbi,
-            functionName: "getAssetPrice",
-            args: [asset],
-            blockNumber,
-          }),
-        queryKey: ["fetchAssetPriceInBlock", asset, { blockNumber: blockNumber?.toString() }],
-        staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
-      });
+    price = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: aaveOracleAddress,
+        abi: aaveOracleAbi,
+        functionName: "getAssetPrice",
+        args: [asset],
+        blockNumber,
+      })
+    );
   }
 
   if (underlyingAsset) {

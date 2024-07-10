@@ -82,8 +82,7 @@ export const mapCGPriceData =
       rewardTokenAddress,
       rewardOracleAddress,
       rewardPriceFeed:
-        // todo change MOCK_PRICE_ORACLE to a real address ?
-        rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() && rewardTokenAddress
+        rewardTokenAddress && rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
           ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
           : rewardPriceFeed,
       priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
