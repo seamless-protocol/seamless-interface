@@ -6,7 +6,7 @@ import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
@@ -16,16 +16,6 @@ import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 export interface AssetPrice {
   price: FetchBigInt;
 }
-
-const createFetchAssetPriceInBlockQueryOptions = (
-  asset?: Address,
-  blockNumber?: bigint,
-  underlyingAsset?: Address
-): UseQueryOptions<bigint | undefined> => ({
-  queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-  staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
-  enabled: !!asset,
-});
 
 export const fetchAssetPriceInBlock = async (
   config: Config,
@@ -67,7 +57,7 @@ export const fetchAssetPriceInBlock = async (
     }
 
     price =
-      (await queryClient.fetchQuery({
+      await queryClient.fetchQuery({
         queryFn: () =>
           readContract(config, {
             address: aaveOracleAddress,
@@ -76,8 +66,9 @@ export const fetchAssetPriceInBlock = async (
             args: [asset],
             blockNumber,
           }),
-        ...createFetchAssetPriceInBlockQueryOptions(asset, blockNumber, underlyingAsset),
-      })) || 0n;
+        queryKey: ["fetchAssetPriceInBlock", asset, { blockNumber: blockNumber?.toString() }],
+        staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
+      });
   }
 
   if (underlyingAsset) {
@@ -96,7 +87,9 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
 
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
-    ...createFetchAssetPriceInBlockQueryOptions(asset, blockNumber, underlyingAsset),
+    queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
+    staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
+    enabled: !!asset,
   });
 
   return {

@@ -1,12 +1,22 @@
 {
-  "ignorePatterns": ["src/app/generated/generated.ts"],
+  "ignorePatterns": [
+    "src/app/generated/generated.ts"
+  ],
   "root": true,
   "env": {
     "browser": true,
     "es2021": true,
   },
-  "plugins": ["@typescript-eslint", "prettier"],
-  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "prettier"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -54,17 +64,24 @@
     "no-continue": "off",
     "react/button-has-type": "off",
     "no-sparse-arrays": "off",
-
     "no-console": "warn",
     "no-param-reassign": "warn",
-    "eqeqeq": ["warn", "smart"],
+    "eqeqeq": [
+      "warn",
+      "smart"
+    ],
     "no-nested-ternary": "warn",
     "jsx-a11y/tabindex-no-positive": "warn",
     "react/no-unescaped-entities": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
     "@typescript-eslint/no-unused-expressions": "warn",
     "no-unsafe-optional-chaining": "warn",
-    "no-unused-vars": ["warn", { "args": "none" }],
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
     "react/jsx-no-useless-fragment": [
       "error",
       {
