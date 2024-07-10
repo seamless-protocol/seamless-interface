@@ -77,7 +77,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             </IncentivesButton>
           </LendMarketGuard>
 
-          {isStrategy && strategyIncentives.totalApr?.viewValue && (
+          {isStrategy && (strategyIncentives?.totalApr?.value || 0) > 0 && strategyIncentives.totalApr?.viewValue && (
             <IncentivesButton {...strategyIncentives} {...strategyRest}>
               <IncentivesDetailCard {...strategyIncentives} assetSymbol="adsf" />
             </IncentivesButton>
