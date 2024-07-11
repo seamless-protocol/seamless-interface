@@ -14,7 +14,7 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
   const { data: prevBlockData } = useBlock({
     blockNumber: latestBlockData ? latestBlockData.number - APY_BLOCK_FRAME : undefined,
   });
-  const { data: strategyState } = useFetchStrategyByAddress(strategy);
+  const { data: strategyState, ...strategyRest } = useFetchStrategyByAddress(strategy);
   const { data: assetsData, ...assetsRest } = useFetchStrategiesAssets(
     strategyState?.subStrategyData.map((s) => s.address) || []
   );
@@ -51,7 +51,7 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
   );
 
   return {
-    ...mergeQueryStates([...queryResults, assetsRest]),
+    ...mergeQueryStates([...queryResults, assetsRest, strategyRest]),
     data: {
       strategy: maxApyData.strategy,
       apy: {
