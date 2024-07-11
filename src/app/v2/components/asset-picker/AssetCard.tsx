@@ -2,11 +2,11 @@ import { Address } from "viem";
 import { FlexRow, Icon, FlexCol, Typography } from "@shared";
 import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
 import { Tag } from "../asset-data/Tag";
-import { AprTooltip } from "../incentives/AprTooltip";
 import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
+import { AprTooltipForMaxApy } from "../incentives/AprTooltipForMaxApy";
 
 export interface AssetCardProps {
   address: Address;
@@ -61,7 +61,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
 
-          <AprTooltip isStrategy={isStrategy} asset={address} />
+          <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
         </FlexCol>
       </FlexRow>
     </div>

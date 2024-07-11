@@ -42,7 +42,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-3">
           <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
-          <AprTooltip asset={asset} isStrategy={isStrategy} strategy={strategy} />
+          <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-center">

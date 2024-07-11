@@ -37,7 +37,7 @@ export const MyStrategiesMobileTableRow: React.FC<{
           </FlexCol>
           <FlexCol className="text-end items-end">
             <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
-            <AprTooltip asset={asset} isStrategy={isStrategy} strategy={strategy} />
+            <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
         </div>
         <div className="mt-4">
