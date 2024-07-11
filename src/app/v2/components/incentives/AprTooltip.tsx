@@ -7,8 +7,6 @@ import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/u
 import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 interface IncentivesButtonProps {
-  isStrategy?: boolean;
-  asset?: Address | undefined;
   totalApr?: ViewNumber;
   rewardTokens?: ViewRewardToken[];
   children: React.ReactNode;

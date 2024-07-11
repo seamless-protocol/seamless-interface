@@ -3,7 +3,7 @@ import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography } from "../../.
 import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { Tag } from "../../../../components/asset-data/Tag";
 import { AssetApy } from "../../../../components/asset-data/AssetApy";
-import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
+import { IncentivesButton } from "../../../../components/incentives/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";

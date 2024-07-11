@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { FlexRow, Icon, FlexCol, Typography } from "@shared";
 import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
 import { Tag } from "../asset-data/Tag";
-import { AprTooltip } from "../incentives/IncentivesButton";
+import { AprTooltip } from "../incentives/AprTooltip";
 import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
