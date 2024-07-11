@@ -64,7 +64,10 @@ export const LendingIncentivesButton: React.FC<{ asset: Address | undefined }> =
   );
 };
 
-export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined }> = ({ asset }) => {
+export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined; strategy: Address | undefined }> = ({
+  asset,
+  strategy,
+}) => {
   const {
     data: { symbol: assetSymbol },
   } = useToken(asset);
@@ -75,9 +78,11 @@ export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined }> 
     data: { strategy: strategyWithMaxApy },
   } = useFetchMaxStrategyApy(asset);
 
-  const strategy = strategyConfig?.multiplier
-    ? strategyConfig.subStrategyData[strategyConfig.subStrategyData.length - 1].address
-    : strategyWithMaxApy;
+  strategy =
+    strategy ||
+    (strategyConfig?.multiplier
+      ? strategyConfig.subStrategyData[strategyConfig.subStrategyData.length - 1].address
+      : strategyWithMaxApy);
 
   const { data: incentives, ...incentivesRest } = useFetchStrategyIncentives(strategy);
 
@@ -91,8 +96,13 @@ export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined }> 
 interface AprTooltipProps {
   isStrategy?: boolean | undefined;
   asset?: Address | undefined;
+  strategy?: Address | undefined;
 }
 
-export const AprTooltip: React.FC<AprTooltipProps> = ({ isStrategy, asset }) => {
-  return isStrategy ? <StrategyIncentivesButton asset={asset} /> : <LendingIncentivesButton asset={asset} />;
+export const AprTooltip: React.FC<AprTooltipProps> = ({ isStrategy, asset, strategy }) => {
+  return isStrategy ? (
+    <StrategyIncentivesButton asset={asset} strategy={strategy} />
+  ) : (
+    <LendingIncentivesButton asset={asset} />
+  );
 };
