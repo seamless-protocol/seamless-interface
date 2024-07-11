@@ -1,7 +1,14 @@
-import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber } from "@shared";
-import { ViewRewardToken } from "./IncentivesDetailCard";
+import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken } from "@shared";
+import { IncentivesDetailCard, ViewRewardToken } from "./IncentivesDetailCard";
+import { Address } from "viem";
+import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
+import { useFetchMaxStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewMaxStrategyApy";
+import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 interface IncentivesButtonProps {
+  isStrategy?: boolean;
+  asset?: Address | undefined;
   totalApr?: ViewNumber;
   rewardTokens?: ViewRewardToken[];
   children: React.ReactNode;
@@ -43,4 +50,51 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
       </FlexRow>
     </Tooltip>
   );
+};
+
+export const LendingIncentivesButton: React.FC<{ asset: Address | undefined }> = ({ asset }) => {
+  const {
+    data: { symbol: assetSymbol },
+  } = useToken(asset);
+
+  const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(asset);
+
+  return (
+    <IncentivesButton {...supplyIncentives} {...supplyRest}>
+      <IncentivesDetailCard {...supplyIncentives} assetSymbol={assetSymbol} />
+    </IncentivesButton>
+  );
+};
+
+export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined }> = ({ asset }) => {
+  const {
+    data: { symbol: assetSymbol },
+  } = useToken(asset);
+
+  const { data: strategyConfig } = useFetchStrategyBySubStrategyAddressOrAddress(asset);
+
+  const {
+    data: { strategy: strategyWithMaxApy },
+  } = useFetchMaxStrategyApy(asset);
+
+  const strategy = strategyConfig?.multiplier
+    ? strategyConfig.subStrategyData[strategyConfig.subStrategyData.length - 1].address
+    : strategyWithMaxApy;
+
+  const { data: incentives, ...incentivesRest } = useFetchStrategyIncentives(strategy);
+
+  return (
+    <IncentivesButton {...incentives} {...incentivesRest}>
+      <IncentivesDetailCard {...incentives} assetSymbol={assetSymbol} />
+    </IncentivesButton>
+  );
+};
+
+interface AprTooltipProps {
+  isStrategy?: boolean | undefined;
+  asset?: Address | undefined;
+}
+
+export const AprTooltip: React.FC<AprTooltipProps> = ({ isStrategy, asset }) => {
+  return isStrategy ? <StrategyIncentivesButton asset={asset} /> : <LendingIncentivesButton asset={asset} />;
 };

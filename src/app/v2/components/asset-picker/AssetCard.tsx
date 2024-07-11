@@ -4,7 +4,7 @@ import { useFullTokenData } from "../../../state/common/meta-data-queries/useFul
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { Tag } from "../asset-data/Tag";
 import { LendMarketGuard } from "../guards/LendMarketGuard";
-import { IncentivesButton } from "../incentives/IncentivesButton";
+import { AprTooltip, IncentivesButton } from "../incentives/IncentivesButton";
 import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
@@ -71,17 +71,13 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             )}
             <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
-          <LendMarketGuard asset={address}>
-            <IncentivesButton {...supplyIncentives} {...supplyRest}>
-              <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
-            </IncentivesButton>
-          </LendMarketGuard>
 
           {isStrategy && (strategyIncentives?.totalApr?.value || 0) > 0 && strategyIncentives.totalApr?.viewValue && (
             <IncentivesButton {...strategyIncentives} {...strategyRest}>
-              <IncentivesDetailCard {...strategyIncentives} assetSymbol="adsf" />
+              <IncentivesDetailCard {...strategyIncentives} assetSymbol={symbol} />
             </IncentivesButton>
           )}
+          <AprTooltip isStrategy={isStrategy} asset={address} />
         </FlexCol>
       </FlexRow>
     </div>
