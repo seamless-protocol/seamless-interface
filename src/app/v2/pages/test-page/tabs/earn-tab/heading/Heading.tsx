@@ -5,7 +5,7 @@ import { useFetchViewAssetPrice } from "../../../../../../state/common/queries/u
 import { AssetApy } from "../../../../../components/asset-data/AssetApy";
 import { AssetTvl } from "../../../../../components/asset-data/AssetTvl";
 import { useFetchViewSupplyIncentives } from "../../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { IncentivesButton } from "../../../../../components/incentives/IncentivesButton";
+import { IncentivesButton } from "../../../../../components/incentives/AprTooltip";
 import { IncentivesDetailCard } from "../../../../../components/incentives/IncentivesDetailCard";
 import { AssetHeading } from "./AssetHeading";
 import { CapRemaining } from "../../../../../components/asset-data/CapRemaining";

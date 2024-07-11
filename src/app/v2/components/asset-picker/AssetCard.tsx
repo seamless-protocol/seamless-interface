@@ -1,17 +1,12 @@
 import { Address } from "viem";
 import { FlexRow, Icon, FlexCol, Typography } from "@shared";
 import { useFullTokenData } from "../../../state/common/meta-data-queries/useFullTokenData";
-import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { Tag } from "../asset-data/Tag";
-import { LendMarketGuard } from "../guards/LendMarketGuard";
-import { IncentivesButton } from "../incentives/IncentivesButton";
-import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 import { GauntletOptimized } from "../specific-components/GauntletOptimized";
 import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
-import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
-import { strategiesConfig } from "../../../state/settings/config";
+import { AprTooltipForMaxApy } from "../incentives/AprTooltipForMaxApy";
 
 export interface AssetCardProps {
   address: Address;
@@ -33,14 +28,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   const { data: asset } = useFetchAssetByAddress(address);
   const { data: hasMultipleApys } = useFetchStrategyHasMultipleAPYs(address);
   const {
-    data: { logo, name, symbol, subTitle, isGauntletOptimized },
+    data: { logo, name, subTitle, isGauntletOptimized },
   } = useFullTokenData(address);
-
-  const { data: supplyIncentives, ...supplyRest } = useFetchViewSupplyIncentives(address);
-
-  const { data: strategyIncentives, ...strategyRest } = useFetchStrategyIncentives(
-    strategiesConfig[address]?.subStrategyData?.[0]?.address
-  );
 
   return (
     <div
@@ -71,17 +60,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             )}
             <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
-          <LendMarketGuard asset={address}>
-            <IncentivesButton {...supplyIncentives} {...supplyRest}>
-              <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
-            </IncentivesButton>
-          </LendMarketGuard>
 
-          {isStrategy && (strategyIncentives?.totalApr?.value || 0) > 0 && strategyIncentives.totalApr?.viewValue && (
-            <IncentivesButton {...strategyIncentives} {...strategyRest}>
-              <IncentivesDetailCard {...strategyIncentives} assetSymbol="adsf" />
-            </IncentivesButton>
-          )}
+          <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
         </FlexCol>
       </FlexRow>
     </div>

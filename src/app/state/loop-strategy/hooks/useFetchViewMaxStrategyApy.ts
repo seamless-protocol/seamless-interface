@@ -32,18 +32,32 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
       : [],
   });
 
-  const maxApy = queryResults.reduce((max, result) => {
-    if (result.status === "success" && result.data !== undefined && result.data > max) {
-      return result.data;
-    }
-    return max;
-  }, 0);
+  const maxApyData = queryResults.reduce(
+    (currMaxApyData, result) => {
+      if (
+        result.status === "success" &&
+        result.data !== undefined &&
+        result.data.apy !== undefined &&
+        result.data.apy > currMaxApyData.apy
+      ) {
+        return { strategy: result.data.strategy, apy: result.data.apy };
+      }
+      return {
+        strategy: currMaxApyData.strategy,
+        apy: currMaxApyData.apy,
+      };
+    },
+    { strategy: undefined as Address | undefined, apy: 0 }
+  );
 
   return {
     ...mergeQueryStates([...queryResults, assetsRest, strategyRest]),
     data: {
-      value: maxApy,
-      symbol: "%",
+      strategy: maxApyData.strategy,
+      apy: {
+        value: maxApyData.apy,
+        symbol: "%",
+      },
     },
   };
 };
@@ -51,5 +65,5 @@ export const useFetchMaxStrategyApy = (strategy?: Address) => {
 export const useFetchViewMaxStrategyApy = (strategy?: Address): Displayable<ViewNumber> => {
   const { data, ...rest } = useFetchMaxStrategyApy(strategy);
 
-  return { ...rest, data: formatFetchNumberToViewNumber(data) };
+  return { ...rest, data: formatFetchNumberToViewNumber(data.apy) };
 };
