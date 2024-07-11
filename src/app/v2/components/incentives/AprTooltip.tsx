@@ -78,6 +78,7 @@ export const StrategyIncentivesButton: React.FC<{ asset: Address | undefined; st
     data: { strategy: strategyWithMaxApy },
   } = useFetchMaxStrategyApy(asset);
 
+  // If exact strategy address is provided don't use max apy strategy
   strategy =
     strategy ||
     (strategyConfig?.multiplier
