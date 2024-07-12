@@ -100,8 +100,5 @@ export async function simulateWithdraw(
     ] as any,
   });
 
-  return {
-    isSuccess: true,
-    assetsToReceive: decodedWithdrawEvent.args.assets,
-  };
+  return buildSuccessfulFetch({ assetsToReceive: decodedWithdrawEvent.args.assets });
 }
