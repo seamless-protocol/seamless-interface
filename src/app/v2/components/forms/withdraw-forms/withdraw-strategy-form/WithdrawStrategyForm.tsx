@@ -100,7 +100,7 @@ const WithdrawStrategyLocal: React.FC<{
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.data.assetsToReceive?.bigIntValue
+          previewWithdrawData?.data.assetsToReceive.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({

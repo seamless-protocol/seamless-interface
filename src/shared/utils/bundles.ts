@@ -4,6 +4,7 @@ import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 import { FetchData, buildSuccessfulFetch } from "../types/Fetch";
 
+
 export interface PreviewDeposit {
   sharesToReceive: bigint;
 }
@@ -66,8 +67,12 @@ export async function simulateDeposit(
   });
 
   const sharesToReceive = decodedDepositEvent.args.shares;
-
-  return buildSuccessfulFetch({ sharesToReceive });
+  return {
+    isSuccess: true,
+    isFetched: true,
+    isLoading: false,
+    data: { sharesToReceive },
+  };
 }
 
 export async function simulateWithdraw(
