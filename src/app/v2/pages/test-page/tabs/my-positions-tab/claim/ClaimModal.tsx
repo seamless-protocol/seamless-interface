@@ -39,7 +39,6 @@ export const ClaimModal = () => {
           <FlexCol className='gap-1'>
             <Typography type='bold2'>Transaction overview</Typography>
             <FlexCol className='gap-5 shadow-card rounded-card bg-background-selected p-4 pt-6'>
-              {/* Tokens display section using TokenRow */}
               {TOKENS_MOCK.map((token, index) => (
                 <TokenRow
                   key={index}
