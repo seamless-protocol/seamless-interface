@@ -35,7 +35,7 @@ const cCostInUnderlyingAsset = (costInUsd?: bigint, underlyingAssetPriceValue?: 
   return (costInUsd * ONE_ETHER) / underlyingAssetPriceValue;
 };
 
-interface PreviewWithdraw {
+interface PreviewWithdrawCostInUsdAndUnderlying {
   costInUnderlyingAsset?: FetchBigInt;
   costInUsd?: FetchBigInt;
 }
@@ -43,7 +43,7 @@ interface PreviewWithdraw {
 export const useFetchWithdrawCostInUsdAndUnderlying = (
   amount: string,
   subStrategy?: Address
-): FetchData<PreviewWithdraw> => {
+): FetchData<PreviewWithdrawCostInUsdAndUnderlying> => {
   const {
     data: { assetsToReceiveInUsd },
     ...simulateRest
