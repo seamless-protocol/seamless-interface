@@ -75,19 +75,16 @@ const StrategyFormLocal: React.FC<{
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
-    if (!previewDepositData?.data.sharesToReceive?.bigIntValue) {
-      showNotification({
-        content: "Couldn't fetch amount(sharesToReceive) to deposit error. Please try again later",
-        status: "error",
-      })
-      return;
-    }
-
-    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
+    if (
+      previewDepositData?.data?.sharesToReceive?.bigIntValue &&
+      previewDepositData.isFetched &&
+      previewDepositData.isSuccess &&
+      !previewDepositData.isLoading
+    ) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.data.sharesToReceive.bigIntValue,
+          sharesToReceive: previewDepositData.data.sharesToReceive.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
