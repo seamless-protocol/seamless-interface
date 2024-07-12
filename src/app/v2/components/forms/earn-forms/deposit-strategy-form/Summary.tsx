@@ -5,6 +5,7 @@ import { DataRow } from "../../DataRow";
 import { useAccount } from "wagmi";
 import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { AssetApr } from "../../../asset-data/AssetApr";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -28,6 +29,14 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
           <AssetApy asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
         )}
       </FlexRow>
+
+      <FlexRow className="text-navy-600 justify-between">
+        <Typography type="bold2">Rewards APR</Typography>
+        {asset && (
+          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+        )}
+      </FlexRow>
+
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount isAuthorized={isConnected} {...restShares} {...sharesToReceive.sharesToReceive} />
       </DataRow>
