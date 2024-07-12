@@ -1,20 +1,24 @@
-import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
+import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
 import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
-import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
+import { useAccount } from "wagmi";
+import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
+import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
-  previewDepositData: Displayable<ViewPreviewDeposit>;
-}> = ({ previewDepositData }) => {
-  return <SummaryLocal previewDepositData={previewDepositData} />;
+  debouncedAmount: string;
+}> = ({ debouncedAmount }) => {
+  return <SummaryLocal debouncedAmount={debouncedAmount} />;
 };
 
-const SummaryLocal: React.FC<{
-  previewDepositData: Displayable<ViewPreviewDeposit>;
-}> = ({ previewDepositData }) => {
+const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
+  const { isConnected } = useAccount();
   const { asset, subStrategy, isStrategy } = useFormSettingsContext();
+  const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
+  const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
     <FlexCol className="rounded-card bg-background-selected p-6 gap-4 cursor-default">
@@ -35,17 +39,13 @@ const SummaryLocal: React.FC<{
       </FlexRow>
 
       <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          viewValue={previewDepositData.data.sharesToReceive.tokenAmount.viewValue}
-        />
+        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          {...previewDepositData.data.sharesToReceive.dollarAmount}
+          {...getAuthenticationError(isConnected)}
+          {...restShares}
+          {...sharesToReceive.sharesToReceiveInUsd}
           symbolPosition="before"
         />
       </DataRow>
@@ -63,9 +63,9 @@ const SummaryLocal: React.FC<{
         }
       >
         <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          {...previewDepositData.data.cost.dollarAmount}
+          {...getAuthenticationError(isConnected)}
+          {...restCost}
+          {...costData?.cost.dollarAmount}
           symbolPosition="before"
         />
       </DataRow>

@@ -82,3 +82,5 @@ export const assetLogos: Map<string, string> = new Map([
 ]);
 
 export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase()];
+
+export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";

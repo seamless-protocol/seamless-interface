@@ -1,44 +1,44 @@
 import React from "react";
-import {
-  FlexCol,
-  Typography,
-  DisplayTokenAmount,
-  DisplayMoney,
-  StandardTooltip,
-  Tooltip,
-  Displayable,
-  FlexRow,
-} from "@shared";
-import { ViewPreviewWithdraw } from "../../../../../state/loop-strategy/types/ViewPreviewWithdraw";
+import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, FlexRow } from "@shared";
 import { DataRow } from "../../DataRow";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { useAccount } from "wagmi";
+import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import { useFetchViewWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
-  displayablePreviewData: Displayable<ViewPreviewWithdraw>;
+  debouncedAmount: string;
   strategy: StrategyState;
-}> = ({ displayablePreviewData }) => {
-  const { data: previewWithdrawData, ...rest } = displayablePreviewData;
+}> = ({ debouncedAmount }) => {
+  const { isConnected } = useAccount();
+  const { subStrategy } = useFormSettingsContext();
+  const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, subStrategy);
+  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-background-selected p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
         <DataRow label="Min Assets to receive">
-          <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
+          <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
             <DisplayTokenAmount
-              {...previewWithdrawData?.assetsToReceive.tokenAmount}
-              {...rest}
+              {...getAuthenticationError(isConnected)}
+              {...restShares}
+              {...sharesToReceive.assetsToReceive.tokenAmount}
               typography="medium2"
               className="text-navy-1000"
             />
           </Tooltip>
         </DataRow>
         <DataRow label="Min Value to receive">
-          <Tooltip tooltip={previewWithdrawData.assetsToReceive.tokenAmount.symbol} size="small">
+          <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
             <DisplayMoney
-              {...previewWithdrawData?.assetsToReceive.dollarAmount}
+              {...getAuthenticationError(isConnected)}
+              {...restShares}
               typography="medium2"
-              {...rest}
+              {...sharesToReceive.assetsToReceive.dollarAmount}
               className="text-navy-1000"
             />
           </Tooltip>
@@ -55,10 +55,11 @@ export const Summary: React.FC<{
             </StandardTooltip>
           </FlexRow>
           <DisplayMoney
-            {...previewWithdrawData?.cost.dollarAmount}
+            {...getAuthenticationError(isConnected)}
+            {...restCost}
             typography="medium2"
             className="text-navy-1000"
-            {...rest}
+            {...costData?.cost.dollarAmount}
           />
         </FlexRow>
       </FlexCol>

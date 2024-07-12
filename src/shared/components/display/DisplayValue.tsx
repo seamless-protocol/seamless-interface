@@ -11,6 +11,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
   className?: string;
+  errorMessage?: string;
 }
 /**
  * `DisplayValue` Component
@@ -31,6 +32,8 @@ export interface DisplayValueProps extends DisplayableAmount {
  * - `loaderSkeleton`: Toggles between a spinner and a skeleton loader.
  * - `symbolPosition`: Positions the symbol either 'before' or 'after' the value.
  * - `typography`: The typography style to be used for displaying the value.
+ * - `className`: Additional class names to be applied to the component.
+ * - `errorMessage`: The error message to be displayed in case of an error.
  *
  * ## Usage:
  *
@@ -52,6 +55,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  * @returns The `DisplayValue` component.
  */
 
+
 export const DisplayValue: React.FC<DisplayValueProps> = ({
   viewValue,
   symbol,
@@ -63,14 +67,21 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbolColor,
   symbolPosition = "before",
   className = "",
+  errorMessage = 'Could not load this value, try later 😓'
 }) => {
+  if (isError) {
+    return (
+      <Tooltip tooltip={<Typography type="body1">{errorMessage}</Typography>}>
+        <ExclamationTriangleIcon width={20} height={20} />
+      </Tooltip>
+    );
+  }
+
   if (isError) {
     const { width, height } = getTypographySkeletonSize(typography, viewValue);
 
     return (
-      <Tooltip
-        tooltip={<Typography type="body1">Couldn&apos;t load this value, try refreshing the page 😓</Typography>}
-      >
+      <Tooltip tooltip={<Typography type="body1">Could not load this value, try later 😓</Typography>}>
         <ExclamationTriangleIcon width={width} height={height} />
       </Tooltip>
     );
@@ -107,6 +118,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   );
 };
 
+
 /**
  * Calculates the width and height for a skeleton loader based on typography type and text value.
  *
@@ -130,3 +142,4 @@ const getTypographySkeletonSize = (typographyType: CombinedTypographyType, viewV
 
   return { width, height };
 };
+

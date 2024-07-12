@@ -18,7 +18,6 @@ import {
 import { WETH_ADDRESS } from "@meta";
 import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
 import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { useFetchViewPreviewWithdraw } from "../../../../../state/loop-strategy/hooks/useFetchViewPreviewWithdraw";
 import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import { FormButtons } from "./FormButtons";
 import { Tag } from "../../../asset-data/Tag";
@@ -30,6 +29,7 @@ import { useFetchStrategyAsset } from "../../../../../state/loop-strategy/metada
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
+import { useFetchWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 
 export const WithdrawStrategyForm: React.FC<{
   selectedSubStrategy?: Address;
@@ -83,11 +83,11 @@ const WithdrawStrategyLocal: React.FC<{
   const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const previewWithdrawData = useFetchViewPreviewWithdraw(debouncedAmount, selectedSubStrategy);
+  const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (
-      previewWithdrawData?.data?.assetsToReceive?.tokenAmount?.bigIntValue &&
+      previewWithdrawData?.data?.assetsToReceive?.bigIntValue &&
       previewWithdrawData.isFetched &&
       previewWithdrawData.isSuccess &&
       !previewWithdrawData.isLoading
@@ -98,7 +98,7 @@ const WithdrawStrategyLocal: React.FC<{
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.data.assetsToReceive.tokenAmount.bigIntValue || 0n
+          previewWithdrawData?.data.assetsToReceive.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({
@@ -185,12 +185,7 @@ const WithdrawStrategyLocal: React.FC<{
           />
         </FlexCol>
 
-        <Summary
-          displayablePreviewData={{
-            ...previewWithdrawData,
-          }}
-          strategy={strategy}
-        />
+        <Summary debouncedAmount={debouncedAmount} strategy={strategy} />
 
         <FormButtons isLoading={previewWithdrawData.isLoading} />
       </FlexCol>

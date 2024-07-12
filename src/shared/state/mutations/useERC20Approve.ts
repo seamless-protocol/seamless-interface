@@ -61,34 +61,33 @@ export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address
     const amountToApprove = ALWAYS_APPROVE_MAX ? maxUint256 : amount;
 
     if (!spenderAddress) {
-      // eslint-disable-next-line no-console
-      console.log("spenderAddress is undefined at useERC20Approve!");
-      return;
+      throw new Error("spenderAddress is undefined!");
     }
     if (!tokenAddress) {
-      // eslint-disable-next-line no-console
-      console.log("tokenAddress is undefined at useERC20Approve!");
-      return;
+      throw new Error("tokenAddress is undefined!");
     }
     if (amountToApprove == null) {
-      // eslint-disable-next-line no-console
-      console.log("amountToApprove is undefined at useERC20Approve!");
-      return;
+      throw new Error("amountToApprove is undefined!");
     }
 
-    await approveTokenAsync(
-      {
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: "approve",
-        args: [spenderAddress, amountToApprove],
-      },
-      {
-        onSuccess: () => {
-          setJustApproved(true);
+    try {
+      await approveTokenAsync(
+        {
+          address: tokenAddress,
+          abi: erc20Abi,
+          functionName: "approve",
+          args: [spenderAddress, amountToApprove],
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            setJustApproved(true);
+          },
+        }
+      );
+    } catch (e: any) {
+      // eslint-disable-next-line no-console
+      console.error("Error approving token:", e);
+    }
   };
 
   return {
