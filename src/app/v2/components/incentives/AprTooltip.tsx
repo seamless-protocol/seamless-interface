@@ -11,6 +11,7 @@ interface IncentivesButtonProps {
   children: React.ReactNode;
   isLoading?: boolean;
   isFetched?: boolean;
+  isError?: boolean;
 }
 
 export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
@@ -19,6 +20,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   children,
   isLoading,
   isFetched,
+  isError,
 }) => {
   if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
@@ -29,7 +31,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   }
 
   return (
-    <Tooltip tooltip={children}>
+    <Tooltip tooltip={children} hidden={isError}>
       <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder">
         <FlexRow className="object-cover ">
           {rewardTokens?.map((rewardToken, index) => {
@@ -43,7 +45,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
             );
           })}
         </FlexRow>
-        <DisplayPercentage {...totalApr} typography="medium2" />
+        <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
       </FlexRow>
     </Tooltip>
   );
