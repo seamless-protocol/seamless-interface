@@ -84,7 +84,6 @@ const WithdrawStrategyLocal: React.FC<{
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
   const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
-  const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
@@ -96,8 +95,6 @@ const WithdrawStrategyLocal: React.FC<{
     }
 
     if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
-
-      // todo refactor in separate pr, create mutation
       try {
         const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),
