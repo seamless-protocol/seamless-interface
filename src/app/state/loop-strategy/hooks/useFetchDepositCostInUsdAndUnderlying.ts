@@ -43,7 +43,7 @@ export const cCostInUnderlyingAsset = (costInUsd?: bigint, assetPriceValue?: big
   return (costInUsd * ONE_ETHER) / divider;
 };
 
-interface PreviewDeposit {
+interface PreviewDepositCostInUsdAndUnderlying {
   sharesToReceive?: FetchBigInt;
   sharesToReceiveInUsd?: FetchBigInt;
   costInUnderlyingAsset?: FetchBigInt;
@@ -53,7 +53,7 @@ interface PreviewDeposit {
 export const useFetchDepositCostInUsdAndUnderlying = (
   amount: string,
   subStrategy?: Address
-): FetchData<PreviewDeposit> => {
+): FetchData<PreviewDepositCostInUsdAndUnderlying> => {
   const {
     data: { sharesToReceiveInUsd },
     ...restShares
