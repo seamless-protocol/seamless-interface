@@ -39,7 +39,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
       </FlexRow>
 
       <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} />
+        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount

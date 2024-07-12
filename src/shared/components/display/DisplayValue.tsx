@@ -69,7 +69,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   className = "",
   errorMessage = 'Could not load this value, try later 😓'
 }) => {
-  if (!isError) {
+  if (isError) {
     return (
       <Tooltip tooltip={<Typography type="body1">{errorMessage}</Typography>}>
         <ExclamationTriangleIcon width={20} height={20} />

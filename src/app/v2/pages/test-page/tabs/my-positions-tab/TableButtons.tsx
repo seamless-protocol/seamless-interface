@@ -32,6 +32,7 @@ export const TableButtons: React.FC<{
           <FormSettingsProvider
             defaultAsset={strategy?.address || asset}
             defaultSubStrategy={subStrategy}
+            defaultIsStrategy={isStrategy}
             onTransaction={() => {
               addModal.current?.close();
             }}
@@ -55,6 +56,7 @@ export const TableButtons: React.FC<{
           <FormSettingsProvider
             defaultAsset={strategy?.address || asset}
             defaultSubStrategy={subStrategy}
+            defaultIsStrategy={isStrategy}
             onTransaction={() => {
               removeModal.current?.close();
             }}
