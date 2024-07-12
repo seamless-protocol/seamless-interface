@@ -1,4 +1,4 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits, etherUnits, Address } from "viem";
@@ -10,6 +10,8 @@ export const FormButtons: React.FC<{
   onTransaction?: () => void;
   isLoading?: boolean;
 }> = ({ strategy, subStrategyAddress, onTransaction, isLoading }) => {
+  const { showNotification } = useNotificationContext();
+
   const {
     watch,
     formState: { isSubmitting },
@@ -40,6 +42,11 @@ export const FormButtons: React.FC<{
           onClick={async () => {
             try {
               await approveAsync();
+            } catch (e: any) {
+              showNotification({
+                status: "error",
+                content: e?.message,
+              });
             } finally {
               onTransaction?.();
             }

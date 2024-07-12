@@ -3,7 +3,7 @@ import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
 import { mergeQueryStates, useToken } from "@shared";
-import { FIVE_SECONDS } from "../../settings/queryConfig";
+import { FIVE_SECONDS_IN_MS } from "../../settings/queryConfig";
 
 export const useFetchSimulateDeposit = (account: Address, amount: string, subStrategy?: Address) => {
   const {
@@ -15,10 +15,10 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
 
   const { data, ...rest } = useQuery({
     queryKey: ["simulateDeposit", subStrategy, amount],
-    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset, amount),
-    staleTime: FIVE_SECONDS,
-    retry: false,
-    enabled: !!subStrategy,
+    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset!, amount),
+    staleTime: FIVE_SECONDS_IN_MS,
+    retry: true,
+    enabled: !!subStrategy && !!amount && !!underlyingAsset,
   });
 
   return {

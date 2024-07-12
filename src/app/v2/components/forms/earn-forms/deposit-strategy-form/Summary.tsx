@@ -3,9 +3,10 @@ import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { useAccount } from "wagmi";
-import { NOT_CONNECTED_WALLET_MESSAGE } from "../../../../../../meta";
 import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { AssetApr } from "../../../asset-data/AssetApr";
+import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -29,16 +30,20 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
           <AssetApy asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
         )}
       </FlexRow>
+
+      <FlexRow className="text-navy-600 justify-between">
+        <Typography type="bold2">Rewards APR</Typography>
+        {asset && (
+          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+        )}
+      </FlexRow>
+
       <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
-          {...restShares}
-          {...sharesToReceive.sharesToReceive}
-        />
+        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+          {...getAuthenticationError(isConnected)}
           {...restShares}
           {...sharesToReceive.sharesToReceiveInUsd}
           symbolPosition="before"
@@ -58,7 +63,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         }
       >
         <DisplayTokenAmount
-          errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+          {...getAuthenticationError(isConnected)}
           {...restCost}
           {...costData?.cost.dollarAmount}
           symbolPosition="before"

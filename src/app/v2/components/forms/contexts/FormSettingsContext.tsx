@@ -25,13 +25,14 @@ interface FormSettingsProviderProps {
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
-  isStrategy?: boolean;
+  defaultIsStrategy?: boolean;
 }
 
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   children,
   defaultAsset,
   defaultSubStrategy,
+  defaultIsStrategy,
   onTransaction,
   hideTag,
   overrideUrlSlug,
@@ -40,7 +41,7 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
   const [asset, setAsset] = useState<Address | undefined>(defaultAsset);
   const [subStrategy, setSubStrategy] = useState<Address | undefined>(defaultSubStrategy);
-  const [isStrategy, setIsStrategy] = useState<boolean | undefined>(false);
+  const [isStrategy, setIsStrategy] = useState<boolean | undefined>(defaultIsStrategy);
 
   useEffect(() => {
     if (overrideUrlSlug) {

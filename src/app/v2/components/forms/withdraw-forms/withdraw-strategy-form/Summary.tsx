@@ -3,10 +3,10 @@ import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip,
 import { DataRow } from "../../DataRow";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { NOT_CONNECTED_WALLET_MESSAGE } from "../../../../../../meta";
 import { useAccount } from "wagmi";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import { useFetchViewWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -24,7 +24,7 @@ export const Summary: React.FC<{
         <DataRow label="Min Assets to receive">
           <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
             <DisplayTokenAmount
-              errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+              {...getAuthenticationError(isConnected)}
               {...restShares}
               {...sharesToReceive.assetsToReceive.tokenAmount}
               typography="medium2"
@@ -35,7 +35,7 @@ export const Summary: React.FC<{
         <DataRow label="Min Value to receive">
           <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
             <DisplayMoney
-              errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+              {...getAuthenticationError(isConnected)}
               {...restShares}
               typography="medium2"
               {...sharesToReceive.assetsToReceive.dollarAmount}
@@ -55,7 +55,7 @@ export const Summary: React.FC<{
             </StandardTooltip>
           </FlexRow>
           <DisplayMoney
-            errorMessage={!isConnected ? NOT_CONNECTED_WALLET_MESSAGE : undefined}
+            {...getAuthenticationError(isConnected)}
             {...restCost}
             typography="medium2"
             className="text-navy-1000"
