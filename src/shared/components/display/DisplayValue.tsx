@@ -11,8 +11,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   loaderSkeleton?: boolean;
   symbolPosition?: "before" | "after";
   className?: string;
-  isAuthorized?: boolean;
-  notAuthorizedMessage?: string;
+  errorMessage?: string;
 }
 /**
  * `DisplayValue` Component
@@ -34,8 +33,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  * - `symbolPosition`: Positions the symbol either 'before' or 'after' the value.
  * - `typography`: The typography style to be used for displaying the value.
  * - `className`: Additional class names to be applied to the component.
- * - `isAuthorized`: Indicates if the user is authorized to view the data.
- * - `notAuthorizedMessage`: Message to be displayed if the user is not authorized to view the data.
+ * - `errorMessage`: The error message to be displayed in case of an error.
  *
  * ## Usage:
  *
@@ -57,6 +55,7 @@ export interface DisplayValueProps extends DisplayableAmount {
  * @returns The `DisplayValue` component.
  */
 
+
 export const DisplayValue: React.FC<DisplayValueProps> = ({
   viewValue,
   symbol,
@@ -68,12 +67,11 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbolColor,
   symbolPosition = "before",
   className = "",
-  isAuthorized = true,
-  notAuthorizedMessage = "Please connect your wallet.",
+  errorMessage = 'Could not load this value, try later 😓'
 }) => {
-  if (!isAuthorized) {
+  if (!isError) {
     return (
-      <Tooltip tooltip={<Typography type="body1">{notAuthorizedMessage}</Typography>}>
+      <Tooltip tooltip={<Typography type="body1">{errorMessage}</Typography>}>
         <ExclamationTriangleIcon width={20} height={20} />
       </Tooltip>
     );
@@ -120,6 +118,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   );
 };
 
+
 /**
  * Calculates the width and height for a skeleton loader based on typography type and text value.
  *
@@ -143,3 +142,4 @@ const getTypographySkeletonSize = (typographyType: CombinedTypographyType, viewV
 
   return { width, height };
 };
+
