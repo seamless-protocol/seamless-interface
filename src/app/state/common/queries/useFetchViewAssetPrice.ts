@@ -9,9 +9,9 @@ import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
-import { ONE_HOUR, ONE_MINUTE } from "../../settings/queryConfig";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../settings/queryConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -94,7 +94,7 @@ export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint,
   const { data: price, ...rest } = useQuery({
     queryFn: () => fetchAssetPriceInBlock(config, asset, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
-    staleTime: blockNumber ? ONE_MINUTE : ONE_HOUR,
+    staleTime: blockNumber ? ONE_MINUTE_IN_MS : ONE_HOUR_IN_MS,
     enabled: !!asset,
   });
 

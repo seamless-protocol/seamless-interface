@@ -50,8 +50,8 @@ export const fetchCoinGeckoAssetPriceByAddress = async ({
     queryKey: ["fetchCoinGeckoAssetPriceByAddress", finalAddress, precision],
     queryFn: () => _fetchCoinGeckoAssetPriceByAddress({ address: finalAddress, precision }),
 
-    staleTime: ONE_HOUR,
-    gcTime: ONE_HOUR,
+    staleTime: ONE_HOUR_IN_MS,
+    gcTime: ONE_HOUR_IN_MS,
   });
 };
 
