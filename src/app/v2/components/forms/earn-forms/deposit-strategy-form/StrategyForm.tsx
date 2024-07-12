@@ -8,7 +8,7 @@ import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mut
 import { Tag } from "../../../asset-data/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, Alert } from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
@@ -149,11 +149,9 @@ const StrategyFormLocal: React.FC<{
 
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
-        <AuditedByCertora />
-
         {asset && <Summary debouncedAmount={debouncedAmount} />}
 
-        <Alert text="Note* to reduce slippage costs from Dexes, recommend splitting larger deposits into multiple smaller deposits." />
+        <AuditedByCertora />
 
         <FormButtons
           isLoading={previewDepositData.isLoading}
