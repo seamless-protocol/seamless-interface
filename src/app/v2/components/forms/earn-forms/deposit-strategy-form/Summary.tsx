@@ -3,7 +3,6 @@ import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { useAccount } from "wagmi";
-import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
 import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
@@ -17,7 +16,6 @@ export const Summary: React.FC<{
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
   const { asset, subStrategy, isStrategy } = useFormSettingsContext();
-  const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
@@ -34,21 +32,10 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
         {asset && (
-          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000 underline" />
         )}
       </FlexRow>
 
-      <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
-      </DataRow>
-      <DataRow label="Min value to receive">
-        <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
-          {...restShares}
-          {...sharesToReceive.sharesToReceiveInUsd}
-          symbolPosition="before"
-        />
-      </DataRow>
       <DataRow
         label={
           <FlexRow className="gap-1">

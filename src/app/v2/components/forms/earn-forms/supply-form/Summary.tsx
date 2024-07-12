@@ -33,7 +33,7 @@ export const Summary = ({ amount }: { amount: string }) => {
       </FlexRow>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} isStrategy={false} className="text-navy-1000" />}
+        {asset && <AssetApr asset={asset} isStrategy={false} className="text-navy-1000 underline" />}
       </FlexRow>
       {account.address && asset && userAccountData?.totalDebt?.bigIntValue !== 0n && (
         <>
