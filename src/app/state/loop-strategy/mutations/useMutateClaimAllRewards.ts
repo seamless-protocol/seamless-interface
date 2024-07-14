@@ -14,20 +14,13 @@ export const useMutateClaimAllRewards = () => {
     queriesToInvalidate: [allUsersRewardsQK],
   });
 
-  console.log("allRewardsAccruingAssets", allRewardsAccruingAssets);
-
   // mutation wrapper
   const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
-    if (!allRewardsAccruingAssets) {
-      console.warn("allRewardsAccruingAssets is undefined at useMutateClaimAllRewards!");
-      return;
-    }
-
     await writeContractAsync(
       {
         ...rewardsControllerConfig,
         functionName: "claimAllRewardsToSelf",
-        args: [allRewardsAccruingAssets],
+        args: [allRewardsAccruingAssets!],
       },
       { ...settings }
     );
