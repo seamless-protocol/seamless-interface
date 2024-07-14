@@ -28,11 +28,10 @@ export interface AllRewards {
 
 async function fetchAllUserRewards(user: Address, config: Config): Promise<AllRewards> {
   const rewardsAccruingAssets = await fetchAllRewardsAccruingAssets(config);
-
   const queryClient = getQueryClient();
 
   const [rewardTokenList, unclaimedBalances] = await queryClient.fetchQuery(
-    readContractQueryOptions(config!, {
+    readContractQueryOptions(config, {
       address: rewardsControllerAddress,
       abi: rewardsControllerAbi,
       functionName: "getAllUserRewards",
@@ -40,51 +39,58 @@ async function fetchAllUserRewards(user: Address, config: Config): Promise<AllRe
     })
   );
 
-  const result = [];
-  let totalRewardsUsd = 0n;
+  const rewardDataPromises = rewardTokenList.map(async (rewardToken, i) => {
+    if (!unclaimedBalances[i]) return null;
 
-  for (let i = 0; i < rewardTokenList.length; i++) {
-    if (!unclaimedBalances[i]) {
-      continue;
-    }
-
-    const rewardTokenPrice = await fetchAssetPriceInBlock(config, rewardTokenList[i]);
-
-    const rewardTokenDecimals = await queryClient.fetchQuery(
-      readContractQueryOptions(config, {
-        address: rewardTokenList[i],
-        abi: erc20Abi,
-        functionName: "decimals",
-      })
-    );
-
-    const rewardTokenSymbol = await queryClient.fetchQuery(
-      readContractQueryOptions(config, {
-        address: rewardTokenList[i],
-        abi: erc20Abi,
-        functionName: "symbol",
-      })
-    );
+    const [rewardTokenPrice, rewardTokenDecimals, rewardTokenSymbol] = await Promise.all([
+      fetchAssetPriceInBlock(config, rewardToken),
+      queryClient.fetchQuery(
+        readContractQueryOptions(config, {
+          address: rewardToken,
+          abi: erc20Abi,
+          functionName: "decimals",
+        })
+      ),
+      queryClient.fetchQuery(
+        readContractQueryOptions(config, {
+          address: rewardToken,
+          abi: erc20Abi,
+          functionName: "symbol",
+        })
+      ),
+    ]);
 
     const unclaimedBalanceUsd = cValueInUsd(unclaimedBalances[i], rewardTokenPrice, rewardTokenDecimals);
-    totalRewardsUsd += unclaimedBalanceUsd || 0n;
 
-    result.push({
+    return {
       tokenAmount: fFetchBigIntStructured(unclaimedBalances[i], rewardTokenDecimals, rewardTokenSymbol),
       dollarAmount: fUsdValueStructured(unclaimedBalanceUsd),
       logo: assetLogos.get(rewardTokenSymbol) || "",
-    });
-  }
+      unclaimedBalanceUsd,
+    };
+  });
+
+  const rewardData = (await Promise.all(rewardDataPromises)).filter((item) => item !== null) as {
+    tokenAmount: FetchBigInt | undefined;
+    dollarAmount: FetchBigInt | undefined;
+    logo: string;
+    unclaimedBalanceUsd: bigint;
+  }[];
+
+  const totalRewardsUsd = rewardData.reduce((sum, reward) => sum + (reward.unclaimedBalanceUsd || 0n), 0n);
 
   return {
     totalRewardsUsd: fUsdValueStructured(totalRewardsUsd),
-    rewards: result,
+    rewards: rewardData.map(({ tokenAmount, dollarAmount, logo }) => ({
+      tokenAmount,
+      dollarAmount,
+      logo,
+    })),
   };
 }
 
 export const useFetchAllRewards = () => {
   const config = useConfig();
-
   const account = useAccount();
 
   return useQuery({

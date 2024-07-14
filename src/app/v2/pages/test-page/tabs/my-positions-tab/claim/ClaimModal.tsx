@@ -8,11 +8,13 @@ import {
   ViewBigInt,
   useNotificationContext,
   MyFormProvider,
+  ModalHandles,
 } from "@shared";
 import TokenRow from "./TokenRow";
 import { useMutateClaimAllRewards } from "../../../../../../state/loop-strategy/mutations/useMutateClaimAllRewards";
 import { useForm } from "react-hook-form";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
+import React, { useRef } from "react";
 
 interface Reward {
   tokenAmount: ViewBigInt;
@@ -23,10 +25,12 @@ interface Reward {
 interface ClaimModalProps {
   rewards: Reward[] | undefined;
   totalRewards: ViewBigInt | undefined;
+  disabled?: boolean;
 }
 
-export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards }) => {
-  const { claimAllAsync } = useMutateClaimAllRewards();
+export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards, disabled }) => {
+  const modalRef = useRef<ModalHandles | null>(null);
+  const { claimAllAsync, isPending } = useMutateClaimAllRewards();
 
   const { showNotification } = useNotificationContext();
 
@@ -38,6 +42,7 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards })
     await claimAllAsync({
       onSuccess: (txHash) => {
         showNotification({
+          status: "success",
           txHash,
           content: (
             <FlexCol className="w-full items-center text-center justify-center">
@@ -46,7 +51,9 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards })
           ),
         });
       },
-      onSettled: () => {},
+      onSettled: () => {
+        modalRef.current?.close();
+      },
     });
   };
 
@@ -54,12 +61,12 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards })
     <FormSettingsProvider>
       <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
         <Modal
+          ref={modalRef}
           header="Claim rewards"
           size="small"
-          buttonProps={{
-            children: "Claim",
-            className: "text-bold3 bg-metalic text-neutral-0 rounded-[10px] p-2 px-8 items-center",
-          }}
+          button={<Buttonv2 size="small" disabled={disabled}>
+            <Typography type="bold3">Claim</Typography>
+          </Buttonv2>}
         >
           <FlexCol className="gap-8">
             <FlexCol className="gap-6">
@@ -81,7 +88,7 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards })
                 </FlexCol>
               </FlexCol>
 
-              <Buttonv2 className="text-bold2" type="submit">
+              <Buttonv2 className="text-bold2" type="submit" loading={isPending}>
                 Claim all rewards
               </Buttonv2>
             </FlexCol>

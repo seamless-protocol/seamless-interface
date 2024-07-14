@@ -1,4 +1,4 @@
-import React, { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
+import React, { ReactNode, forwardRef, useImperativeHandle, useMemo, useState } from "react";
 import { ButtonProps } from "../button/Button";
 import { ModalBody } from "./ModalBody";
 
@@ -14,13 +14,14 @@ interface ModalProps {
   fullScreen?: boolean;
   className?: string;
   size?: "small" | "normal" | "big" | "biger";
+  button?: React.ReactNode;
 }
 export interface ModalHandles {
   close: () => void;
 }
 
 export const Modal = forwardRef<ModalHandles, ModalProps>(
-  ({ children, buttonProps, headerComponent, onOpen, onClose, fullScreen, header, className, size }, ref) => {
+  ({ children, buttonProps, headerComponent, onOpen, onClose, fullScreen, header, className, size, button }, ref) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -32,8 +33,19 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
       },
     }));
 
+    const buttonElement = useMemo(() => {
+      if (!button) return undefined;
+      return (React.cloneElement(button as React.ReactElement, {
+        onClick: () => {
+          setModalOpen(true);
+          if (onOpen) onOpen();
+        },
+      }))
+    }, [button]);
+
     return (
-      <>
+      <>{
+        buttonElement ||
         <button
           type="button"
           {...buttonProps}
@@ -43,7 +55,7 @@ export const Modal = forwardRef<ModalHandles, ModalProps>(
           }}
         >
           {buttonProps?.children}
-        </button>
+        </button>}
 
         {isModalOpen && (
           <ModalBody
