@@ -37,7 +37,7 @@ export const MyPositionsTab: React.FC = () => {
 
   return (
     <div className="px-4 md:px-0">
-      <div className="max-w-[40%] mb-4">
+      <div className="md:max-w-[40%] mb-4">
         <ClaimCard />
       </div>
 
