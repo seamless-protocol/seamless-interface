@@ -11,7 +11,7 @@ export const ClaimCard = () => {
       <FlexRow className="justify-between items-center">
         <DisplayMoney typography="bold6" {...data.totalRewards} {...rest} symbolPosition="before" />
 
-        <ClaimModal {...data} disabled={(data.totalRewards.bigIntValue || 0n) <= 0n || !rest.isFetched} />
+        <ClaimModal {...data} disabled={(Number(data.totalRewards.value) || 0) < 0.01 || !rest.isFetched} />
       </FlexRow>
     </FlexCol>
   );
