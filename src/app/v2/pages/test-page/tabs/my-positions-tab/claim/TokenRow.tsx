@@ -1,23 +1,21 @@
-
-import { FlexRow, FlexCol, DisplayTokenAmount, DisplayMoney, Icon } from '@shared';
+import { FlexRow, FlexCol, DisplayTokenAmount, DisplayMoney, Icon, ViewBigInt } from "@shared";
 
 // todo: props needs to be edited probably? loading state,address etc...
 interface TokenRowProps {
   logo: string;
-  value: number;
-  dollarAmount: number;
-  symbol: string;
+  tokenAmount: ViewBigInt;
+  dollarAmount: ViewBigInt;
 }
 
-const TokenRow: React.FC<TokenRowProps> = ({ logo, value, dollarAmount, symbol }) => {
+const TokenRow: React.FC<TokenRowProps> = ({ tokenAmount, dollarAmount, logo }) => {
   return (
     <FlexCol>
       <FlexRow className="items-center gap-1 justify-end">
-        <Icon src={logo} alt={symbol} width={16} />
-        <DisplayTokenAmount typography='bold2' viewValue={value.toString()} symbol={symbol} />
+        <Icon src={logo} alt={tokenAmount.symbol} width={16} />
+        <DisplayTokenAmount typography="bold2" {...tokenAmount} />
       </FlexRow>
-      <FlexRow className='justify-end'>
-        <DisplayMoney typography='regular1' viewValue={dollarAmount.toString()} symbol='$' symbolPosition='before' />
+      <FlexRow className="justify-end">
+        <DisplayMoney typography="regular1" {...dollarAmount} symbolPosition="before" />
       </FlexRow>
     </FlexCol>
   );
