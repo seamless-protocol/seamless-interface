@@ -3,7 +3,6 @@ import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHel
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 import { FetchData, buildSuccessfulFetch } from "../types/Fetch";
-import { buildSuccessfulFetch, FetchData } from "../types/Fetch";
 
 
 export interface PreviewDeposit {
