@@ -2,14 +2,14 @@ import { Address, decodeEventLog, pad, parseEther } from "viem";
 import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
-import { FetchData } from "../types/Fetch";
+import { buildSuccessfulFetch, FetchData } from "../types/Fetch";
+
 
 export interface PreviewDeposit {
   sharesToReceive: bigint;
 }
 
 export interface PreviewWithdraw {
-  isSuccess: boolean;
   assetsToReceive: bigint;
 }
 
@@ -75,12 +75,13 @@ export async function simulateDeposit(
   };
 }
 
-export async function simulateWithdraw(account: Address, strategy: Address, amount: string): Promise<PreviewWithdraw> {
+export async function simulateWithdraw(
+  account: Address,
+  strategy: Address,
+  amount: string
+): Promise<FetchData<PreviewWithdraw>> {
   if (parseEther(amount) === 0n) {
-    return {
-      isSuccess: true,
-      assetsToReceive: 0n,
-    };
+    return buildSuccessfulFetch({ assetsToReceive: 0n });
   }
 
   const { result } = await simulateBundle([createWithdrawTx(account, strategy, amount)]);
@@ -104,8 +105,5 @@ export async function simulateWithdraw(account: Address, strategy: Address, amou
     ] as any,
   });
 
-  return {
-    isSuccess: true,
-    assetsToReceive: decodedWithdrawEvent.args.assets,
-  };
+  return buildSuccessfulFetch({ assetsToReceive: decodedWithdrawEvent.args.assets });
 }
