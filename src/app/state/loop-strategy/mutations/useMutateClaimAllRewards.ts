@@ -2,12 +2,19 @@ import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { rewardsControllerConfig } from "@generated";
 import { useFetchAllRewardsAccruingAssets } from "../../common/hooks/useFetchAllRewardsAccruingAssets";
 import { useFetchViewAllUserRewards } from "../../lending-borrowing/hooks/useFetchViewAllRewards";
+import { BRETT_ADDRESS } from "../../../../meta";
+import { ViewAllUserRewards } from "../../lending-borrowing/types/ViewAllUserRewards";
+
+// TODO: Remove this dirty function once esSEAM is upgraded and works properly
+function isBrettOnlyRewardToken(allUsersRewards: ViewAllUserRewards): boolean {
+  return allUsersRewards.rewards?.length === 1 && allUsersRewards.rewards?.[0].tokenAmount.symbol === "BRETT";
+}
 
 export const useMutateClaimAllRewards = () => {
   const { data: allRewardsAccruingAssets } = useFetchAllRewardsAccruingAssets();
 
   // cache data
-  const { queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards();
+  const { data: allUsersRewards, queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards();
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
@@ -16,6 +23,20 @@ export const useMutateClaimAllRewards = () => {
 
   // mutation wrapper
   const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
+    // TODO: Remove this dirty if statement once esSEAM is upgraded and works properly
+    if (isBrettOnlyRewardToken(allUsersRewards)) {
+      const brettRewardAmount = allUsersRewards.rewards?.[0].tokenAmount?.bigIntValue;
+
+      await writeContractAsync(
+        {
+          ...rewardsControllerConfig,
+          functionName: "claimRewardsToSelf",
+          args: [allRewardsAccruingAssets!, brettRewardAmount!, BRETT_ADDRESS],
+        },
+        { ...settings }
+      );
+    }
+
     await writeContractAsync(
       {
         ...rewardsControllerConfig,
