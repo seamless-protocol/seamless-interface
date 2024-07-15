@@ -86,13 +86,15 @@ const WithdrawStrategyLocal: React.FC<{
   const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    if (
-      previewWithdrawData?.data?.assetsToReceive?.bigIntValue &&
-      previewWithdrawData.isFetched &&
-      previewWithdrawData.isSuccess &&
-      !previewWithdrawData.isLoading
-    ) {
-      // todo refactor in separate pr, create mutation
+    if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
+      showNotification({
+        content: "Couldn't fetch amount(assetsToReceive) to withdraw error. Please try again later",
+        status: "error",
+      })
+      return;
+    }
+
+    if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
       try {
         const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),

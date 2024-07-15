@@ -19,3 +19,12 @@ export type Fetch<T> = T & {
 export interface FetchData<T> extends ExtendedQueryState<T> {
   data: T;
 }
+
+export const buildSuccessfulFetch = <T>(data: T): FetchData<T> => ({
+  data,
+  isLoading: false,
+  isError: false,
+  isSuccess: true,
+  isFetched: true,
+  queryKeys: [],
+});
