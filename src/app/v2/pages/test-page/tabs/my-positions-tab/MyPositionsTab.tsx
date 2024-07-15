@@ -1,6 +1,6 @@
 import { MyStrategiesDesktopTableRow } from "./MyStrategiesDesktopTableRow";
 import { useFetchUserStrategies } from "../../../../../state/lending-borrowing/hooks/useFetchUserStrategies";
-import { Buttonv2, FlexRow, TableCell, TableRow, Typography } from "../../../../../../shared";
+import { Buttonv2, FlexCol, FlexRow, TableCell, TableRow, Typography } from "../../../../../../shared";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { MyStrategiesMobileTableRow } from "./MyStrategiesMobileTableRow";
@@ -32,7 +32,14 @@ export const MyPositionsTab: React.FC = () => {
   }
 
   if (!strategies || strategies?.length === 0) {
-    return <Typography type="bold4">You don&apos;t have any positions at the moment.</Typography>;
+    return (
+      <FlexCol>
+        <div className="md:max-w-[40%] mb-4">
+          <ClaimCard />
+        </div>
+        <Typography type="bold4">You don&apos;t have any positions at the moment.</Typography>
+      </FlexCol>
+    );
   }
 
   return (

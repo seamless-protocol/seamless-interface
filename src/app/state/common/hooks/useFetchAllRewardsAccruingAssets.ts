@@ -1,6 +1,5 @@
 import { Config, useConfig } from "wagmi";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { strategiesConfig } from "../../settings/config";
 import { readContractQueryOptions } from "wagmi/query";
 import {
   lendingPoolAbi,
@@ -9,15 +8,14 @@ import {
   protocolDataProviderAddress,
 } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
+import { getAllSubStrategies } from "../../settings/configUtils";
 
 // This function returns all assets that are accruing rewards inside RewardsController contract
 // This means that this function will return addresses of all strategies + all aTokens + all variableDebtTokens
 export async function fetchAllRewardsAccruingAssets(config: Config) {
   const queryClient = getQueryClient();
 
-  const strategies = Object.keys(strategiesConfig).flatMap((key) =>
-    strategiesConfig[key].subStrategyData.map((subStrategy) => subStrategy.address)
-  );
+  const strategies = getAllSubStrategies();
 
   const reservesList = await queryClient.fetchQuery(
     readContractQueryOptions(config, {
