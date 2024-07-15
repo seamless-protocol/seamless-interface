@@ -21,6 +21,12 @@ export const getStrategyBySubStrategyAddressOrAddress = (address?: Address): Str
   );
 };
 
+export const getIsStrategy = (address?: Address) => {
+  if (!address) return false;
+
+  return !!strategiesConfig[address];
+};
+
 export const hasFaqByAddress = (address?: Address) => {
   if (!address) return false;
 

@@ -36,6 +36,7 @@
   },
   "rules": {
     "react/destructuring-assignment": "off",
+    "no-nested-ternary": "off",
     "no-underscore-dangle": "off",
     "global-require": "off",
     "@typescript-eslint/no-throw-literal": "off",
@@ -70,7 +71,6 @@
       "warn",
       "smart"
     ],
-    "no-nested-ternary": "warn",
     "jsx-a11y/tabindex-no-positive": "warn",
     "react/no-unescaped-entities": "warn",
     "jsx-a11y/label-has-associated-control": "warn",

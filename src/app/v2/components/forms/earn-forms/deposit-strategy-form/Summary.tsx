@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
-import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
+import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -39,11 +39,11 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
       </FlexRow>
 
       <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount {...getAuthenticationError(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
+        <DisplayTokenAmount {...checkAuthentication(isConnected)} {...restShares} {...sharesToReceive.sharesToReceive} symbol="" />
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
+          {...checkAuthentication(isConnected)}
           {...restShares}
           {...sharesToReceive.sharesToReceiveInUsd}
           symbolPosition="before"
@@ -63,7 +63,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         }
       >
         <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
+          {...checkAuthentication(isConnected)}
           {...restCost}
           {...costData?.cost.dollarAmount}
           symbolPosition="before"
