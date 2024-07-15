@@ -2,6 +2,7 @@ import { Address, erc20Abi } from "viem";
 import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 import { useAccount } from "wagmi";
 import { useToken } from "../meta-data-queries/useToken";
+import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 
 /**
  * Custom hook for fetching asset allowance.
@@ -12,11 +13,9 @@ import { useToken } from "../meta-data-queries/useToken";
 export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; spender?: Address }) => {
   const account = useAccount();
 
-  const { data: tokenData, isFetched: isTokenDataFetched, isLoading: isTokenDataLoading } = useToken(asset);
+  const { data: tokenData, ...restToken } = useToken(asset);
 
   const {
-    isLoading: isAllowanceLoading,
-    isFetched: isAllowanceFetched,
     data: allowance,
     ...rest
   } = useSeamlessContractRead({
@@ -25,7 +24,7 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; sp
     functionName: "allowance",
     args: [account.address as Address, spender!],
     query: {
-      enabled: !!asset && !!spender
+      enabled: !!asset && !!spender && !!account.address,
     }
   });
 
@@ -39,9 +38,7 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; sp
       : undefined;
 
   return {
-    ...rest,
-    isLoading: isAllowanceLoading || isTokenDataLoading,
-    isFetched: isAllowanceFetched && isTokenDataFetched,
+    ...mergeQueryStates([restToken, rest]),
     data: retData,
   };
 };
