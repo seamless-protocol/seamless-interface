@@ -5,7 +5,7 @@ import { IncentivesDetailCard } from "../incentives/IncentivesDetailCard";
 import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
 
 interface AssetAprProps extends DisplayPercentageProps {
-  asset: Address;
+  asset?: Address;
   isStrategy?: boolean;
   subStrategy?: Address;
 }

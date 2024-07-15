@@ -16,7 +16,7 @@ export const Summary: React.FC<{
 
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
-  const { asset, subStrategy, isStrategy } = useFormSettingsContext();
+  const { asset, subStrategy } = useFormSettingsContext();
   const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
@@ -27,14 +27,14 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
         {asset && (
-          <AssetApy asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+          <AssetApy subStrategy={subStrategy} isStrategy className="text-navy-1000" />
         )}
       </FlexRow>
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
         {asset && (
-          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
+          <AssetApr subStrategy={subStrategy} isStrategy className="text-navy-1000" />
         )}
       </FlexRow>
 
