@@ -12,7 +12,7 @@ import { CapRemaining } from "../../../../../components/asset-data/CapRemaining"
 import { useFetchViewLendingPoolInfo } from "../../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../../components/guards/StrategyGuard";
 import { useFullTokenData } from "../../../../../../state/common/meta-data-queries/useFullTokenData";
-import { LendMarketState, StrategyState } from "../../../../../../state/common/types/StateTypes";
+import { StrategyState } from "../../../../../../state/common/types/StateTypes";
 import { useFormSettingsContext } from "../../../../../components/forms/contexts/useFormSettingsContext";
 import { useAssetPickerState } from "../../../../../hooks/useAssetPickerState";
 import { assetSlugConfig } from "../config/SlugConfig";
@@ -120,13 +120,13 @@ export const Heading = () => {
                   </>
                 )}
               </FlexRow>
-              {/* <AssetApy
+              <AssetApy
                 asset={asset}
                 isStrategy={getIsStrategy(asset)}
                 subStrategy={subStrategy}
                 typography="bold4"
                 showWarning={false}
-              /> */}
+              />
 
               <div className="max-w-40 md:max-w-full">
                 <IncentivesButton {...incentives} {...incentivesRest}>

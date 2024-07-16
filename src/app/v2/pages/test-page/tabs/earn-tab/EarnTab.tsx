@@ -8,7 +8,7 @@ import { FormCont } from "./FormCont";
 import { AdditionalInfoContainer } from "./additional-info/AdditionalInfoContainer";
 
 export const EarnTab = () => {
-  const { asset, assetState } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
+  const { asset } = useAssetPickerState({ overrideUrlSlug: assetSlugConfig });
 
   return (
     <FormSettingsProvider overrideUrlSlug={assetSlugConfig}>
@@ -27,7 +27,7 @@ export const EarnTab = () => {
             <AssetPickerWithFilter overrideUrlSlug={assetSlugConfig} />
           </div>
           <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
-            {/* <Heading /> */}
+            <Heading />
 
             {asset && <FormCont asset={asset} />}
             <AdditionalInfoContainer />

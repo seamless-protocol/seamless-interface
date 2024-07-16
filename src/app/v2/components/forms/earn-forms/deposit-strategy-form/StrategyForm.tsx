@@ -26,7 +26,7 @@ export const StrategyForm = () => {
   if (!strategy) {
     // eslint-disable-next-line no-console
     if (!asset && isStrategy) console.warn("Strategy not found!!!");
-    return undefined;
+    return <div className="min-h-[1000px]" />;
   }
 
   return <StrategyFormLocal strategy={strategy} />;
