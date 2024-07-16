@@ -36,7 +36,7 @@ export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAd
       console.warn("subStrategyAddress is undefined.");
       return;
     }
-    // todo: bugfix fetch sharesToReceive here instead of using it from props to avoid race condition bug.
+
     await writeContractAsync(
       {
         // ui -> contract arguments
