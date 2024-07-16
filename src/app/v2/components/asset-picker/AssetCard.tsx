@@ -7,6 +7,7 @@ import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
 import { AprTooltipForMaxApy } from "../incentives/AprTooltipForMaxApy";
+import { useFetchStrategyByAddress } from "../../../state/common/hooks/useFetchStrategyByAddress";
 
 export interface AssetCardProps {
   address: Address;
@@ -27,6 +28,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 }) => {
   const { data: asset } = useFetchAssetByAddress(address);
   const { data: hasMultipleApys } = useFetchStrategyHasMultipleAPYs(address);
+  const { data: strategy } = useFetchStrategyByAddress(address);
   const {
     data: { logo, name, subTitle, isGauntletOptimized },
   } = useFullTokenData(address);
@@ -53,7 +55,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </FlexRow>
         <FlexCol className="gap-1 text-end items-end">
           <FlexCol className="gap-1">
-            {hasMultipleApys && (
+            {hasMultipleApys && !strategy?.multiplier && (
               <Typography type="bold" className="text-end">
                 Up To
               </Typography>

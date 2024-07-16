@@ -36,6 +36,9 @@ import {
   ethLong,
   multiplyETH_ADDRESS_STRATEGY_ID,
   wstETHBooster_ADDRESS_STRATEGY_ID,
+  wstETHBooster4_5x_ADDRESS,
+  ethLong_3x,
+  ethLong_4_5x,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -187,6 +190,13 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
           symbol: "x",
         },
       },
+      {
+        address: wstETHBooster4_5x_ADDRESS,
+        targetMultiple: {
+          value: 4.5,
+          symbol: "x",
+        },
+      },
     ],
     vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
   },
@@ -196,7 +206,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     description:
       "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
     address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
-    multiplier: "Up to 1.5x",
+    multiplier: "Up to 4.5x",
     faq: faqsData[multiplyETH_ADDRESS_STRATEGY_ID],
     logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[WETH_ADDRESS],
@@ -206,6 +216,20 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
         address: ethLong,
         targetMultiple: {
           value: 1.5,
+          symbol: "x",
+        },
+      },
+      {
+        address: ethLong_3x,
+        targetMultiple: {
+          value: 3,
+          symbol: "x",
+        },
+      },
+      {
+        address: ethLong_4_5x,
+        targetMultiple: {
+          value: 4.5,
           symbol: "x",
         },
       },
