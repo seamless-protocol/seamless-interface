@@ -12,6 +12,7 @@ import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../settings/queryConfig";
+import { readContract } from "wagmi/actions";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -35,14 +36,26 @@ export const fetchAssetPriceInBlock = async (
 
   let price = 0n;
   if (strategy) {
-    const equityUsd = await queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+    let equityUsd = 0n;
+    try {
+      equityUsd = await readContract(config, {
         address: asset,
         abi: loopStrategyAbi,
         functionName: "equityUSD",
         blockNumber,
-      })
-    );
+      });
+      // equityUsd = await queryClient.fetchQuery(
+      //   readContractQueryOptions(config, {
+      //     address: asset,
+      //     abi: loopStrategyAbi,
+      //     functionName: "equityUSD",
+      //     blockNumber,
+      //   })
+      // );
+    } catch (e) {
+      console.log({ asset });
+      console.error({ e });
+    }
 
     const totalSupply = await queryClient.fetchQuery(
       readContractQueryOptions(config, {

@@ -39,6 +39,10 @@ export const useFetchDetailEquity = (strategy?: Address): FetchData<StrategyEqui
       enabled: !!strategy,
     },
   });
+  if (strategy) {
+    console.log({ equityUsd });
+    console.log({ strategy });
+  }
 
   return {
     ...mergeQueryStates([underlyingAssetRest, tokenDataRest, equityRest, equityUsdRest]),
