@@ -29,7 +29,7 @@ export const EarnTab = () => {
           <div className="md:w-[55%] flex flex-col gap-4 overflow-auto">
             <Heading />
 
-            {asset && <FormCont asset={asset} />}
+            <FormCont asset={asset} />
             <AdditionalInfoContainer />
           </div>
         </div>
