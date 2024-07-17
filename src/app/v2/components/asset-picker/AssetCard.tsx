@@ -66,9 +66,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </FlexCol>
 
           <FlexCol>
-            {strategy && (
+            {address === multiplyETH_ADDRESS_STRATEGY_ID && (
               <Typography type="bold" className="text-end mr-3">
-                Rewards Up To
+                Rewards Up to
               </Typography>
             )}
             {address === multiplyETH_ADDRESS_STRATEGY_ID ? (
