@@ -28,7 +28,7 @@ export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, str
     setSubStrategy(strategy?.subStrategyData?.[value]?.address || undefined);
     setTargetMultiply(
       strategy?.multiplier
-        ? `Up To ${strategy?.subStrategyData?.[value]?.targetMultiple.value}${strategy?.subStrategyData?.[value]?.targetMultiple.symbol}`
+        ? `Up to ${strategy?.subStrategyData?.[value]?.targetMultiple.value}${strategy?.subStrategyData?.[value]?.targetMultiple.symbol}`
         : undefined
     );
   }, [value, asset]);
