@@ -2,7 +2,7 @@ import { Address, decodeEventLog, pad, parseEther } from "viem";
 import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHelpers";
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
-import { buildSuccessfulFetch, FetchData } from "../types/Fetch";
+import { FetchData, buildSuccessfulFetch } from "../types/Fetch";
 
 
 export interface PreviewDeposit {

@@ -12,5 +12,8 @@ export const useFetchRawUserReservesData = () => {
     abi: poolDataProviderAbi,
     functionName: "getUserReservesData",
     args: [AAVE_ADDRESS_PROVIDER, account.address as Address],
+    query: {
+      enabled: !!account.address,
+    }
   });
 };

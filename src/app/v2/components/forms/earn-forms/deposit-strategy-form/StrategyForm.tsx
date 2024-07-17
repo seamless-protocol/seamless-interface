@@ -18,6 +18,7 @@ import { useFullTokenData } from "../../../../../state/common/meta-data-queries/
 import { useEffect } from "react";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { AuditedByCertora } from "../../../specific-components/AuditedByCertora";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -26,7 +27,7 @@ export const StrategyForm = () => {
   if (!strategy) {
     // eslint-disable-next-line no-console
     if (!asset && isStrategy) console.warn("Strategy not found!!!");
-    return <>Strategy not found!</>;
+    return <div className="min-h-[1000px]" />;
   }
 
   return <StrategyFormLocal strategy={strategy} />;
@@ -148,6 +149,9 @@ const StrategyFormLocal: React.FC<{
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
         {asset && <Summary debouncedAmount={debouncedAmount} />}
+
+        <AuditedByCertora />
+
         <FormButtons
           // isLoading={previewDepositData.isLoading}
           strategy={strategy}

@@ -15,6 +15,9 @@ export const useFetchAssetTotalSupply = (asset: Address): FetchData<FetchBigInt 
     address: asset,
     abi: erc20Abi,
     functionName: "totalSupply",
+    query: {
+      enabled: !!asset,
+    }
   });
 
   return {

@@ -3,10 +3,10 @@ import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
 import { useAccount } from "wagmi";
-import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
-import { getAuthenticationError } from "../../../../../utils/authenticationUtils";
+import { checkAuthentication } from "../../../../../utils/authenticationUtils";
+import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -39,9 +39,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && (
-          <AssetApr asset={asset} subStrategy={subStrategy} isStrategy={isStrategy} className="text-navy-1000" />
-        )}
+        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000" />}
       </FlexRow>
 
       <DataRow label="Min tokens to receive">
@@ -54,7 +52,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
       </DataRow>
       <DataRow label="Min value to receive">
         <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
+          {...checkAuthentication(isConnected)}
           {...restShares}
           {...sharesToReceive.sharesToReceiveInUsd}
           symbolPosition="before"
@@ -74,7 +72,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         }
       >
         <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
+          {...checkAuthentication(isConnected)}
           {...restCost}
           {...costData?.cost.dollarAmount}
           symbolPosition="before"

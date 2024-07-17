@@ -14,6 +14,9 @@ export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | u
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [account.address as Address],
+    query: {
+      enabled: !!account.address && !!asset,
+    }
   });
 
   return {

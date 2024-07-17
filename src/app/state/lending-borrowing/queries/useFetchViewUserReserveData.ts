@@ -29,7 +29,7 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
     functionName: "getUserReserveData",
     args: [reserve!, account.address as Address],
     query: {
-      enabled: !!reserve
+      enabled: !!reserve && !!account.address,
     }
   });
 

@@ -3,7 +3,7 @@ interface AuthenticationError {
   errorMessage: string;
 }
 
-export const getAuthenticationError = (isAuthenticated: boolean): AuthenticationError | undefined => {
+export const checkAuthentication = (isAuthenticated: boolean): AuthenticationError | undefined => {
   if (!isAuthenticated) {
     return {
       isError: true,

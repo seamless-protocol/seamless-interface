@@ -12,7 +12,7 @@ import {
 } from "@shared";
 import { LegacyModeButton } from "./LegacyMoreButton";
 import { MoreButton, moreMenuItems } from "./MoreButton";
-import { BlueCoinbaseConnectWalletButton } from "../BlueCoinbaseConnectWalletButton";
+import { BlueCoinbaseConnectWalletButton } from "../specific-components/BlueCoinbaseConnectWalletButton";
 
 const navigation = [
   {
@@ -58,7 +58,6 @@ const NavBar: React.FC<{
                   <span
                     className={`ease absolute bottom-0 left-0 w-0 border-b-2 transition-all duration-200 group-hover:w-full  [border-image:linear-gradient(to_top_right,#642EF6,#ECFFC2)_1] ${item.current ? "w-full" : ""}`}
                   />
-                  {/* eslint-disable-next-line no-nested-ternary */}
                   {item.isLifi ? (
                     <button onClick={() => toggleLifiWidget()}>
                       <Typography className="text-base text-center" type="description" color="primary">
