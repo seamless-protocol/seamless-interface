@@ -26,6 +26,9 @@ export const useFetchUserAccountData = () => {
     abi: lendingPoolAbi,
     functionName: "getUserAccountData",
     args: [account.address as Address],
+    query: {
+      enabled: !!account.address,
+    }
   });
 
   const [totalCollateralUsd, totalDebtUsd, availableBorrowUsd, currentLiquidationThreshold, ltv, healthFactor] =

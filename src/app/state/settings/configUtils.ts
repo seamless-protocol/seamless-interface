@@ -20,6 +20,12 @@ export const getStrategyBySubStrategyAddressOrAddress = (address?: Address): Str
   );
 };
 
+export const getIsStrategy = (address?: Address) => {
+  if (!address) return false;
+
+  return !!strategiesConfig[address];
+};
+
 export const getAllSubStrategies = () => {
   return Object.keys(strategiesConfig).flatMap((key) =>
     strategiesConfig[key].subStrategyData.map((subStrategy) => subStrategy.address)

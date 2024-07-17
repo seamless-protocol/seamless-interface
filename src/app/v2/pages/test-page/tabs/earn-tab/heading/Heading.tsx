@@ -7,7 +7,7 @@ import { AssetTvl } from "../../../../../components/asset-data/AssetTvl";
 import { useFetchViewSupplyIncentives } from "../../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { IncentivesButton } from "../../../../../components/incentives/AprTooltip";
 import { IncentivesDetailCard } from "../../../../../components/incentives/IncentivesDetailCard";
-import { AssetHeading } from "./AssetHeading";
+import { AssetHeading } from "./AssetHeader";
 import { CapRemaining } from "../../../../../components/asset-data/CapRemaining";
 import { useFetchViewLendingPoolInfo } from "../../../hooks/useFetchViewLendingPoolInfo";
 import { StrategyGuard } from "../../../../../components/guards/StrategyGuard";
@@ -19,9 +19,10 @@ import { assetSlugConfig } from "../config/SlugConfig";
 import { useFetchAssetByAddress } from "../../../../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyByAddress } from "../../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchStrategyIncentives } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
+import { getIsStrategy } from "../../../../../../state/settings/configUtils";
 
 export const Heading = () => {
-  const { asset, isStrategy } = useAssetPickerState({
+  const { asset } = useAssetPickerState({
     overrideUrlSlug: assetSlugConfig,
   });
   const { subStrategy } = useFormSettingsContext();
@@ -31,17 +32,21 @@ export const Heading = () => {
   const { data: debtTokenData } = useFullTokenData(strategyState?.debtAsset.address);
 
   const { data: oraclePrice, ...restOracle } = useFetchViewAssetPrice({
-    asset: isStrategy ? (assetState as StrategyState).underlyingAsset.address : asset,
+    asset: getIsStrategy(asset) ? (assetState as StrategyState)?.underlyingAsset?.address : asset,
   });
 
-  const { data: supplyIncentives, ...incentivesSupplyRest } = useFetchViewSupplyIncentives(asset);
+  const { data: supplyIncentives, ...incentivesSupplyRest } = useFetchViewSupplyIncentives(
+    getIsStrategy(asset) ? undefined : asset
+  );
 
-  const { data: strategyIncentives, ...incentivesStrategyRest } = useFetchStrategyIncentives(subStrategy);
+  const { data: strategyIncentives, ...incentivesStrategyRest } = useFetchStrategyIncentives(
+    getIsStrategy(asset) ? subStrategy : undefined
+  );
 
   const { data, ...rest } = useFetchViewLendingPoolInfo();
 
-  const incentives = isStrategy ? strategyIncentives : supplyIncentives;
-  const incentivesRest = isStrategy ? incentivesStrategyRest : incentivesSupplyRest;
+  const incentives = assetState?.isStrategy ? strategyIncentives : supplyIncentives;
+  const incentivesRest = assetState?.isStrategy ? incentivesStrategyRest : incentivesSupplyRest;
 
   return (
     <div className="">
@@ -87,7 +92,7 @@ export const Heading = () => {
             {/* item 1 */}
             <FlexCol className="gap-1 md:text-center min-w-24">
               <Typography type="regular2">TVL</Typography>
-              <AssetTvl isStrategy={isStrategy} asset={asset} subStrategy={subStrategy} typography="bold4" />
+              <AssetTvl isStrategy={getIsStrategy(asset)} asset={asset} subStrategy={subStrategy} typography="bold4" />
               <CapRemaining asset={asset} subStrategy={subStrategy} />
             </FlexCol>
             <div className="divider divider-horizontal" />
@@ -117,7 +122,7 @@ export const Heading = () => {
               </FlexRow>
               <AssetApy
                 asset={asset}
-                isStrategy={isStrategy}
+                isStrategy={getIsStrategy(asset)}
                 subStrategy={subStrategy}
                 typography="bold4"
                 showWarning={false}
