@@ -19,13 +19,18 @@ export interface StrategySelectorProps {
 }
 
 export const RHFStrategySelector: React.FC<StrategySelectorProps> = ({ name, strategy }) => {
-  const { setSubStrategy, asset } = useFormSettingsContext();
+  const { setSubStrategy, asset, setTargetMultiply } = useFormSettingsContext();
 
   const { watch, control } = useFormContext();
   const value = watch(name);
 
   useEffect(() => {
     setSubStrategy(strategy?.subStrategyData?.[value]?.address || undefined);
+    setTargetMultiply(
+      strategy?.multiplier
+        ? `Up To ${strategy?.subStrategyData?.[value]?.targetMultiple.value}${strategy?.subStrategyData?.[value]?.targetMultiple.symbol}`
+        : undefined
+    );
   }, [value, asset]);
 
   return (

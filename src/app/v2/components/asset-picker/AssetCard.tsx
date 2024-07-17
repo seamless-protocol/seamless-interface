@@ -60,7 +60,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
                 Up To
               </Typography>
             )}
-            <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
+            <AssetApy multiplier={strategy?.multiplier} asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
 
           <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />

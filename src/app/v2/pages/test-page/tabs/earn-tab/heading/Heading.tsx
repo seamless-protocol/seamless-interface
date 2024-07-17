@@ -24,7 +24,7 @@ export const Heading = () => {
   const { asset, isStrategy } = useAssetPickerState({
     overrideUrlSlug: assetSlugConfig,
   });
-  const { subStrategy } = useFormSettingsContext();
+  const { subStrategy, targetMultiply } = useFormSettingsContext();
   const { data: assetState } = useFetchAssetByAddress(asset);
   const { data: strategyState } = useFetchStrategyByAddress(asset);
   const { data: tokenData } = useFullTokenData(asset);
@@ -121,6 +121,7 @@ export const Heading = () => {
                 subStrategy={subStrategy}
                 typography="bold4"
                 showWarning={false}
+                multiplier={targetMultiply}
               />
 
               <div className="max-w-40 md:max-w-full">
