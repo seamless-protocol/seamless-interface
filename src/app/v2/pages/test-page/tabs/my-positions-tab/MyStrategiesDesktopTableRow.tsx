@@ -6,6 +6,7 @@ import { AprTooltip } from "../../../../components/incentives/AprTooltip";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -13,6 +14,9 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   hideBorder?: boolean;
 }> = ({ asset, strategy, hideBorder }) => {
   const isStrategy = !!strategy;
+
+  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy || asset);
+  const subStrategyData = strategyState?.subStrategyData.find((sub) => sub.address === strategy);
 
   const {
     data: { logo: icon, name, subTitle },
@@ -41,7 +45,15 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3">
-          <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
+          <AssetApy
+            multiplier={
+              `${subStrategyData?.targetMultiple.value}${subStrategyData?.targetMultiple.symbol}` || undefined
+            }
+            asset={asset}
+            subStrategy={strategy}
+            isStrategy={isStrategy}
+            typography="bold3"
+          />
           <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
         </TableCell>
 

@@ -85,7 +85,7 @@ export const Heading = () => {
 
           <div className="bg-neutral-100 rounded-2xl py-4  px-4 md:gap-0 gap-3 flex flex-col md:flex-row justify-evenly items-start w-full">
             {/* item 1 */}
-            <FlexCol className="gap-1 md:text-center min-w-24">
+            <FlexCol className="gap-1 md:items-center md:text-center min-w-24">
               <Typography type="regular2">TVL</Typography>
               <AssetTvl isStrategy={isStrategy} asset={asset} subStrategy={subStrategy} typography="bold4" />
               <CapRemaining asset={asset} subStrategy={subStrategy} />
@@ -132,7 +132,7 @@ export const Heading = () => {
             </FlexCol>
             <div className="divider divider-horizontal" />
             {/* item 3 */}
-            <FlexCol className="gap-1 md:text-center min-w-24">
+            <FlexCol className="gap-1 md:items-center md:text-center min-w-24">
               <Typography type="regular2">Oracle price</Typography>
               <DisplayMoney typography="bold4" {...restOracle} {...oraclePrice} />
             </FlexCol>

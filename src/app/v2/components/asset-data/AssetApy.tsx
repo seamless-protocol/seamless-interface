@@ -91,7 +91,7 @@ export const AssetApy: React.FC<AssetApyProps & { subStrategy?: Address }> = ({
   multiplier,
   ...rest
 }) => {
-  if (multiplier) return <DisplayText {...rest} viewValue={multiplier} />;
+  if (multiplier && isStrategy) return <DisplayText {...rest} viewValue={multiplier} />;
 
   if (isStrategy) {
     return subStrategy ? (
