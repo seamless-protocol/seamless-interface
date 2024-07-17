@@ -75,16 +75,18 @@ const StrategyFormLocal: React.FC<{
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
+    console.log("uslo?");
     if (
-      previewDepositData?.data?.sharesToReceive?.bigIntValue &&
-      previewDepositData.isFetched &&
-      previewDepositData.isSuccess &&
-      !previewDepositData.isLoading
+      // previewDepositData?.data?.sharesToReceive?.bigIntValue &&
+      // previewDepositData.isFetched &&
+      // previewDepositData.isSuccess &&
+      // !previewDepositData.isLoading
+      true
     ) {
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.data.sharesToReceive.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive?.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {
@@ -147,7 +149,7 @@ const StrategyFormLocal: React.FC<{
 
         {asset && <Summary debouncedAmount={debouncedAmount} />}
         <FormButtons
-          isLoading={previewDepositData.isLoading}
+          // isLoading={previewDepositData.isLoading}
           strategy={strategy}
           subStrategyAddress={subStrategy}
           onTransaction={onTransaction}
