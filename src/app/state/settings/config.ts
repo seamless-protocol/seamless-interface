@@ -36,9 +36,7 @@ import {
   ethLong,
   multiplyETH_ADDRESS_STRATEGY_ID,
   wstETHBooster_ADDRESS_STRATEGY_ID,
-  wstETHBooster4_5x_ADDRESS,
   ethLong_3x,
-  ethLong_4_5x,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -190,13 +188,13 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
           symbol: "x",
         },
       },
-      {
-        address: wstETHBooster4_5x_ADDRESS,
-        targetMultiple: {
-          value: 4.5,
-          symbol: "x",
-        },
-      },
+      // {
+      //   address: wstETHBooster4_5x_ADDRESS,
+      //   targetMultiple: {
+      //     value: 4.5,
+      //     symbol: "x",
+      //   },
+      // },
     ],
     vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
   },
@@ -226,13 +224,13 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
           symbol: "x",
         },
       },
-      {
-        address: ethLong_4_5x,
-        targetMultiple: {
-          value: 4.5,
-          symbol: "x",
-        },
-      },
+      // {
+      //   address: ethLong_4_5x,
+      //   targetMultiple: {
+      //     value: 4.5,
+      //     symbol: "x",
+      //   },
+      // },
     ],
   },
 };
