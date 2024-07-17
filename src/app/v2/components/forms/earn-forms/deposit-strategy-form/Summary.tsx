@@ -16,7 +16,7 @@ export const Summary: React.FC<{
 
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
-  const { asset, subStrategy, isStrategy, targetMultiply } = useFormSettingsContext();
+  const { asset, subStrategy, targetMultiply } = useFormSettingsContext();
   const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
@@ -30,7 +30,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
           <AssetApy
             asset={asset}
             subStrategy={subStrategy}
-            isStrategy={isStrategy}
+            isStrategy
             className="text-navy-1000"
             multiplier={targetMultiply}
           />
@@ -44,7 +44,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <DataRow label="Min tokens to receive">
         <DisplayTokenAmount
-          {...getAuthenticationError(isConnected)}
+          {...checkAuthentication(isConnected)}
           {...restShares}
           {...sharesToReceive.sharesToReceive}
           symbol=""
