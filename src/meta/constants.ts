@@ -61,7 +61,7 @@ export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba
 export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 // export const wstETHBooster4_5x_ADDRESS: Address = "0x2a351F41Bc0080c3Ae52C1708Ff7442b024Ab426";
 export const ethLong: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
-export const ethLong_3x: Address = "0x2962673cC60eE877768A38fa6d7FEe7468b3F09b";
+export const ethLong_3x: Address = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
 export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6";
 
 // FE strategies

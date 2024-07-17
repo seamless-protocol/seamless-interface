@@ -37,7 +37,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000" />}
+        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000 underline" />}
       </FlexRow>
 
       <DataRow
