@@ -86,16 +86,15 @@ const WithdrawStrategyLocal: React.FC<{
   const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    // if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
-    //   showNotification({
-    //     content: "Couldn't fetch amount(assetsToReceive) to withdraw error. Please try again later",
-    //     status: "error",
-    //   })
-    //   return;
-    // }
+    if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
+      showNotification({
+        content: "Couldn't fetch amount(assetsToReceive) to withdraw error. Please try again later",
+        status: "error",
+      });
+      return;
+    }
 
-    // if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
-    if (true) {
+    if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
       try {
         const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),
@@ -190,7 +189,7 @@ const WithdrawStrategyLocal: React.FC<{
 
         <Summary debouncedAmount={debouncedAmount} strategy={strategy} />
 
-        <FormButtons />
+        <FormButtons isLoading={previewWithdrawData.isLoading} />
       </FlexCol>
     </MyFormProvider>
   );
