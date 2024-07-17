@@ -174,6 +174,7 @@ export default {
         metalic: "radial-gradient(110.21% 100.08% at 46.09% 0%, #22457E 0%, #0C2752 93%)",
         purpleRadial: "radial-gradient(131.63% 131.63% at 17.5% 0%, #FFBFFF 0%, #4F68F7 100%)",
         holographic: "linear-gradient(97deg, #D53BD9 2.08%, #7770DA 50.55%, #5CBDE6 100%)",
+        blueGradient: "linear-gradient(95deg, #2865B2 0%, #2056A9 53.37%, #01176E 100%)",
       }),
       fontFamily: {
         primary: [FONT_PRIMARY],

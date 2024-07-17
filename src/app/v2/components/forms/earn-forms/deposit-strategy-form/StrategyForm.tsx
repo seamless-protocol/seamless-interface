@@ -18,6 +18,7 @@ import { useFullTokenData } from "../../../../../state/common/meta-data-queries/
 import { useEffect } from "react";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { AuditedByCertora } from "../../../specific-components/AuditedByCertora";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -146,6 +147,9 @@ const StrategyFormLocal: React.FC<{
         <RHFStrategySelector name="sliderValue" strategy={strategy} />
 
         {asset && <Summary debouncedAmount={debouncedAmount} />}
+
+        <AuditedByCertora />
+
         <FormButtons
           isLoading={previewDepositData.isLoading}
           strategy={strategy}
