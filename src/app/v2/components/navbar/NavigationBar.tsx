@@ -12,7 +12,7 @@ import {
 } from "@shared";
 import { LegacyModeButton } from "./LegacyMoreButton";
 import { MoreButton, moreMenuItems } from "./MoreButton";
-import { BlueCoinbaseConnectWalletButton } from "../BlueCoinbaseConnectWalletButton";
+import { BlueCoinbaseConnectWalletButton } from "../specific-components/BlueCoinbaseConnectWalletButton";
 
 const navigation = [
   {

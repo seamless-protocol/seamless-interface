@@ -1,4 +1,9 @@
 // ****** //
+// alerts //
+// ****** //
+export * from "./components/alerts/Alert";
+
+// ****** //
 // contexts //
 // ****** //
 export * from "./contexts/notification/NotificationContext";
