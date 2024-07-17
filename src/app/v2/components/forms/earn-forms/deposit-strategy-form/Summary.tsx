@@ -6,7 +6,6 @@ import { useAccount } from "wagmi";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
-import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -17,7 +16,6 @@ export const Summary: React.FC<{
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
   const { asset, subStrategy, targetMultiply } = useFormSettingsContext();
-  const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
@@ -42,22 +40,6 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000" />}
       </FlexRow>
 
-      <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          {...checkAuthentication(isConnected)}
-          {...restShares}
-          {...sharesToReceive.sharesToReceive}
-          symbol=""
-        />
-      </DataRow>
-      <DataRow label="Min value to receive">
-        <DisplayTokenAmount
-          {...checkAuthentication(isConnected)}
-          {...restShares}
-          {...sharesToReceive.sharesToReceiveInUsd}
-          symbolPosition="before"
-        />
-      </DataRow>
       <DataRow
         label={
           <FlexRow className="gap-1">
