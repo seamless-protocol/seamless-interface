@@ -67,12 +67,9 @@ export async function simulateDeposit(
   });
 
   const sharesToReceive = decodedDepositEvent.args.shares;
-  return {
-    isSuccess: true,
-    isFetched: true,
-    isLoading: false,
-    data: { sharesToReceive },
-  };
+  return buildSuccessfulFetch({
+    sharesToReceive,
+  })
 }
 
 export async function simulateWithdraw(
