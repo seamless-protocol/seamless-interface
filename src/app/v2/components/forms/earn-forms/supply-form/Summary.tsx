@@ -13,7 +13,6 @@ import { LendingApy } from "../../../asset-data/AssetApy";
 
 export const Summary = ({ amount }: { amount: string }) => {
   const account = useAccount();
-
   const { asset } = useFormSettingsContext();
 
   const { data: userAccountData, ...UADRest } = useFetchViewUserAccountData();

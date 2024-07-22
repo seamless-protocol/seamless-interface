@@ -85,7 +85,7 @@ const StrategyFormLocal: React.FC<{
       await depositAsync(
         {
           amount: data.amount,
-          sharesToReceive: previewDepositData.data.sharesToReceive.bigIntValue || 0n,
+          sharesToReceive: previewDepositData.data.sharesToReceive?.bigIntValue || 0n,
         },
         {
           onSuccess: (txHash) => {

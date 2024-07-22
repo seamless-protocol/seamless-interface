@@ -6,6 +6,7 @@ import { Tag } from "../../../../components/asset-data/Tag";
 import { AprTooltip } from "../../../../components/incentives/AprTooltip";
 import { TableButtonsMobile } from "./TableButtonsMobile";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const MyStrategiesMobileTableRow: React.FC<{
   asset: Address;
@@ -15,6 +16,9 @@ export const MyStrategiesMobileTableRow: React.FC<{
   const {
     data: { logo, name, subTitle },
   } = useFullTokenData(isStrategy ? strategy : asset);
+
+  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy || asset);
+  const subStrategyData = strategyState?.subStrategyData.find((sub) => sub.address === strategy);
 
   return (
     <div className="p-2">
@@ -36,7 +40,15 @@ export const MyStrategiesMobileTableRow: React.FC<{
             <CurrentBalance asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
           <FlexCol className="text-end items-end">
-            <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
+            <AssetApy
+              multiplier={
+                `${subStrategyData?.targetMultiple.value}${subStrategyData?.targetMultiple.symbol}` || undefined
+              }
+              asset={asset}
+              subStrategy={strategy}
+              isStrategy={isStrategy}
+              typography="bold3"
+            />
             <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
         </div>

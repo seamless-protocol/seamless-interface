@@ -6,7 +6,6 @@ import { useAccount } from "wagmi";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { AssetApr } from "../../../asset-data/AssetApr";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
-import { useFetchViewDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -16,8 +15,7 @@ export const Summary: React.FC<{
 
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
-  const { asset, subStrategy } = useFormSettingsContext();
-  const { data: sharesToReceive, ...restShares } = useFetchViewDepositSharesToReceive(debouncedAmount, subStrategy);
+  const { asset, subStrategy, targetMultiply } = useFormSettingsContext();
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
@@ -26,33 +24,25 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <AssetApy subStrategy={subStrategy} isStrategy className="text-navy-1000" />}
+        {asset && (
+          <AssetApy
+            asset={asset}
+            subStrategy={subStrategy}
+            isStrategy
+            className="text-navy-1000"
+            multiplier={targetMultiply}
+          />
+        )}
       </FlexRow>
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000" />}
+        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000 underline" />}
       </FlexRow>
 
-      <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          {...checkAuthentication(isConnected)}
-          {...restShares}
-          {...sharesToReceive.sharesToReceive}
-          symbol=""
-        />
-      </DataRow>
-      <DataRow label="Min value to receive">
-        <DisplayTokenAmount
-          {...checkAuthentication(isConnected)}
-          {...restShares}
-          {...sharesToReceive.sharesToReceiveInUsd}
-          symbolPosition="before"
-        />
-      </DataRow>
       <DataRow
         label={
-          <FlexRow className="gap-1">
+          <FlexRow className="md:gap-1 items-center">
             Maximum transaction cost
             <StandardTooltip width={1}>
               <Typography type="medium2" className="text-navy-1000">

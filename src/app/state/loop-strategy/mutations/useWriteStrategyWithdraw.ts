@@ -19,7 +19,7 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
       const ret = await waitForTransaction(config, async () => {
         if (!subStrategy) {
           // eslint-disable-next-line no-console
-          console.warn("useWriteStrategyWithdraw: subStrategy is undefined.")
+          console.warn("useWriteStrategyWithdraw: subStrategy is undefined.");
           return undefined;
         }
 

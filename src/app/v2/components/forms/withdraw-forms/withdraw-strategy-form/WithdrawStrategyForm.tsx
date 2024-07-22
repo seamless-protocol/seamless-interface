@@ -90,7 +90,7 @@ const WithdrawStrategyLocal: React.FC<{
       showNotification({
         content: "Couldn't fetch amount(assetsToReceive) to withdraw error. Please try again later",
         status: "error",
-      })
+      });
       return;
     }
 
@@ -100,7 +100,7 @@ const WithdrawStrategyLocal: React.FC<{
           parseUnits(data.amount, 18),
           account.address as Address,
           account.address as Address,
-          previewWithdrawData?.data.assetsToReceive.bigIntValue || 0n
+          previewWithdrawData?.data.assetsToReceive?.bigIntValue || 0n
         );
         modalRef.current?.close();
         showNotification({

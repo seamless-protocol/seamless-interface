@@ -5,12 +5,12 @@ import { DisplayPercentage, DisplayPercentageProps, DisplayText, FlexRow, Toolti
 import { useFetchViewSupplyApy } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyApy";
 import { useFetchViewMaxStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewMaxStrategyApy";
 import { useFetchViewStrategyApy } from "../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 interface AssetApyProps extends DisplayPercentageProps {
   asset?: Address;
   isStrategy: boolean;
   showWarning?: boolean;
+  multiplier?: string;
 }
 
 interface StrategyApyProps extends DisplayPercentageProps {
@@ -88,11 +88,10 @@ export const AssetApy: React.FC<AssetApyProps & { subStrategy?: Address }> = ({
   asset,
   isStrategy,
   subStrategy,
+  multiplier,
   ...rest
 }) => {
-  const { data: strategy } = useFetchStrategyBySubStrategyAddressOrAddress(subStrategy || asset);
-
-  if (strategy?.multiplier) return <DisplayText {...rest} viewValue={strategy?.multiplier} />;
+  if (multiplier && isStrategy) return <DisplayText {...rest} viewValue={multiplier} />;
 
   if (isStrategy) {
     return subStrategy ? (

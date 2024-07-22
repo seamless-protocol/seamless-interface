@@ -7,6 +7,7 @@ import { AssetApy } from "../asset-data/AssetApy";
 import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAssetByAddress";
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
 import { AprTooltipForMaxApy } from "../incentives/AprTooltipForMaxApy";
+import { useFetchStrategyByAddress } from "../../../state/common/hooks/useFetchStrategyByAddress";
 
 export interface AssetCardProps {
   address: Address;
@@ -27,6 +28,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 }) => {
   const { data: asset } = useFetchAssetByAddress(address);
   const { data: hasMultipleApys } = useFetchStrategyHasMultipleAPYs(address);
+  const { data: strategy } = useFetchStrategyByAddress(address);
   const {
     data: { logo, name, subTitle, isGauntletOptimized },
   } = useFullTokenData(address);
@@ -53,15 +55,20 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </FlexRow>
         <FlexCol className="gap-1 text-end items-end">
           <FlexCol className="gap-1">
-            {hasMultipleApys && (
+            {hasMultipleApys && !strategy?.multiplier && (
               <Typography type="bold" className="text-end">
                 Up To
               </Typography>
             )}
-            <AssetApy asset={address} isStrategy={isStrategy} typography="bold3" />
+            <AssetApy multiplier={strategy?.multiplier} asset={address} isStrategy={isStrategy} typography="bold3" />
           </FlexCol>
 
-          <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
+          <FlexCol>
+            {(strategy?.subStrategyData.length || 0) > 1 && <Typography type="bold" className="text-end mr-3">
+              Rewards up to
+            </Typography>}
+            <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
+          </FlexCol>
         </FlexCol>
       </FlexRow>
     </div>
