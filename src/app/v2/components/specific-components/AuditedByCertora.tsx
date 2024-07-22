@@ -6,7 +6,7 @@ const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
 
 export const AuditedByCertora = () => {
   return (
-    <FlexRow className='rounded-card gap-2 items-center p-2 px-4 bg-blueGradient justify-between text-white'>
+    <FlexRow className='flex-col md:flex-row rounded-card gap-2 items-center p-2 px-4 bg-blueGradient justify-between text-white'>
       <Typography type='bold3'>Audited by</Typography>
       <FlexRow className='items-center'>
         <Image src={certoraLogo} alt='certora-logo' width={40} className='mt-[-50px]' />

@@ -42,7 +42,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <DataRow
         label={
-          <FlexRow className="gap-1">
+          <FlexRow className="md:gap-1 items-center">
             Maximum transaction cost
             <StandardTooltip width={1}>
               <Typography type="medium2" className="text-navy-1000">

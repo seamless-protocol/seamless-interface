@@ -8,8 +8,6 @@ import { useFetchAssetByAddress } from "../../../state/common/hooks/useFetchAsse
 import { useFetchStrategyHasMultipleAPYs } from "../../../state/common/hooks/useFetchStrategyHasMultipleAPYs";
 import { AprTooltipForMaxApy } from "../incentives/AprTooltipForMaxApy";
 import { useFetchStrategyByAddress } from "../../../state/common/hooks/useFetchStrategyByAddress";
-import { multiplyETH_ADDRESS_STRATEGY_ID } from "../../../../meta";
-import { StrategyIncentivesButton } from "../incentives/AprTooltip";
 
 export interface AssetCardProps {
   address: Address;
@@ -66,16 +64,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </FlexCol>
 
           <FlexCol>
-            {address === multiplyETH_ADDRESS_STRATEGY_ID && (
-              <Typography type="bold" className="text-end mr-3">
-                Rewards Up to
-              </Typography>
-            )}
-            {address === multiplyETH_ADDRESS_STRATEGY_ID ? (
-              <StrategyIncentivesButton strategy={strategy?.subStrategyData[0]?.address} />
-            ) : (
-              <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
-            )}
+            {(strategy?.subStrategyData.length || 0) > 1 && <Typography type="bold" className="text-end mr-3">
+              Rewards up to
+            </Typography>}
+            <AprTooltipForMaxApy asset={address} isStrategy={isStrategy} />
           </FlexCol>
         </FlexCol>
       </FlexRow>
