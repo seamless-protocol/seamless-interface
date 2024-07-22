@@ -188,13 +188,6 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
           symbol: "x",
         },
       },
-      // {
-      //   address: wstETHBooster4_5x_ADDRESS,
-      //   targetMultiple: {
-      //     value: 4.5,
-      //     symbol: "x",
-      //   },
-      // },
     ],
     vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
   },
