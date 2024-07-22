@@ -54,10 +54,10 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
         }
       >
         <DisplayTokenAmount
-          {...checkAuthentication(isConnected)}
           {...restCost}
           {...costData?.cost.dollarAmount}
           symbolPosition="before"
+          {...checkAuthentication(isConnected)}
         />
       </DataRow>
     </FlexCol>

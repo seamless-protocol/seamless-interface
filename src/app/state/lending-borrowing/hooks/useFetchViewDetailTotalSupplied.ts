@@ -66,6 +66,19 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
     ...rest
   } = useFetchDetailTotalSupplied(asset);
 
+  const formattedCapacityRemainingPercentage = capacityRemainingPercentage
+    ? formatFetchBigIntToViewBigInt(
+      capacityRemainingPercentage.bigIntValue !== undefined && capacityRemainingPercentage.bigIntValue < 0n
+        ? { ...capacityRemainingPercentage, bigIntValue: 0n }
+        : capacityRemainingPercentage,
+      {
+        singleDigitNumberDecimals: 1,
+        doubleDigitNumberDecimals: 1,
+        threeDigitNumberDecimals: 0,
+      }
+    )
+    : undefined;
+
   return {
     ...rest,
     data: {
@@ -78,11 +91,7 @@ export const useFetchViewDetailTotalSupplied = (asset?: Address): FetchData<View
         doubleDigitNumberDecimals: 1,
         threeDigitNumberDecimals: 0,
       }),
-      capacityRemainingPercentage: formatFetchBigIntToViewBigInt(capacityRemainingPercentage, {
-        singleDigitNumberDecimals: 1,
-        doubleDigitNumberDecimals: 1,
-        threeDigitNumberDecimals: 0,
-      }),
+      capacityRemainingPercentage: formattedCapacityRemainingPercentage,
       noSupplyCap,
     },
   };
