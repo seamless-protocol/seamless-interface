@@ -65,13 +65,27 @@ export const useFetchViewStrategyRemainingCap = (strategy?: Address): Displayabl
     ...rest
   } = useFetchStrategyRemainingCap(strategy);
 
+  const formattedRemainingCap = remainingCap
+    ? formatFetchBigIntToViewBigInt(
+      remainingCap.bigIntValue !== undefined && remainingCap.bigIntValue < 0n
+        ? { ...remainingCap, bigIntValue: 0n }
+        : remainingCap
+    )
+    : undefined;
+
+  const formattedRemainingCapPercentage = remainingCapPercentage
+    ? formatFetchBigIntToViewBigInt(
+      remainingCapPercentage.bigIntValue !== undefined && remainingCapPercentage.bigIntValue < 0n
+        ? { ...remainingCapPercentage, bigIntValue: 0n }
+        : remainingCapPercentage
+    )
+    : undefined;
+
   return {
     ...rest,
     data: {
-      remainingCap: remainingCap ? formatFetchBigIntToViewBigInt(remainingCap) : undefined,
-      remainingCapPercentage: remainingCapPercentage
-        ? formatFetchBigIntToViewBigInt(remainingCapPercentage)
-        : undefined,
+      remainingCap: formattedRemainingCap,
+      remainingCapPercentage: formattedRemainingCapPercentage,
     },
   };
 };
