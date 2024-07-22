@@ -29,7 +29,7 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
       isFetched: true,
     }]),
     data: {
-      bigIntValue: data?.data.sharesToReceive,
+      bigIntValue: data?.sharesToReceive,
       decimals,
       symbol,
     },

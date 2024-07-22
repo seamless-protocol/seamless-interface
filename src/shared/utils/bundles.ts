@@ -43,7 +43,7 @@ export async function simulateDeposit(
   strategy: Address,
   underlyingAsset: Address,
   amount: string
-): Promise<FetchData<PreviewDeposit>> {
+): Promise<PreviewDeposit> {
   if (parseEther(amount) === 0n) throw new Error("Invalid amount");
 
   const { result } = await simulateBundle([
@@ -67,9 +67,7 @@ export async function simulateDeposit(
   });
 
   const sharesToReceive = decodedDepositEvent.args.shares;
-  return buildSuccessfulFetch({
-    sharesToReceive,
-  })
+  return { sharesToReceive }
 }
 
 export async function simulateWithdraw(
