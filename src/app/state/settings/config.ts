@@ -224,13 +224,6 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
           symbol: "x",
         },
       },
-      // {
-      //   address: ethLong_4_5x,
-      //   targetMultiple: {
-      //     value: 4.5,
-      //     symbol: "x",
-      //   },
-      // },
     ],
   },
 };
