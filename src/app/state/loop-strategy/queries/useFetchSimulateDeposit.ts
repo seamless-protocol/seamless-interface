@@ -18,7 +18,7 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
     queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset!, amount),
     staleTime: FIVE_SECONDS_IN_MS,
     retry: true,
-    enabled: !!subStrategy && !!amount && !!underlyingAsset,
+    enabled: !!subStrategy && !!account && !!amount && !!underlyingAsset,
   });
 
   return {
