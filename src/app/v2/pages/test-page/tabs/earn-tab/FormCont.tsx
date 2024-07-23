@@ -5,6 +5,7 @@ import { Address } from "viem";
 import { useFormSettingsContext } from "../../../../components/forms/contexts/useFormSettingsContext";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFetchAssetByAddress } from "../../../../../state/common/hooks/useFetchAssetByAddress";
+import { getIsStrategy } from "../../../../../state/settings/configUtils";
 
 export const FormCont: React.FC<{
   asset?: Address;
@@ -35,7 +36,7 @@ export const FormCont: React.FC<{
 
   return (
     <div className="bg-white shadow-card px-8 rounded-card py-6">
-      {assetState?.isStrategy ? <StrategyForm /> : <SupplyForm />}
+      {getIsStrategy(asset) ? <StrategyForm /> : <SupplyForm />}
     </div>
   );
 };

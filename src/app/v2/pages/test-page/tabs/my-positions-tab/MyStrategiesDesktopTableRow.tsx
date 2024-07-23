@@ -1,13 +1,12 @@
 import { Address } from "viem";
 import { FlexCol, FlexRow, Icon, TableCell, TableRow, Typography } from "../../../../../../shared";
-import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { Tag } from "../../../../components/asset-data/Tag";
 import { AssetApy } from "../../../../components/asset-data/AssetApy";
-import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
-import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
+import { AprTooltip } from "../../../../components/incentives/AprTooltip";
 import { CurrentBalance } from "./CurrentBalance";
 import { TableButtons } from "./TableButtons";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   asset: Address;
@@ -16,12 +15,12 @@ export const MyStrategiesDesktopTableRow: React.FC<{
 }> = ({ asset, strategy, hideBorder }) => {
   const isStrategy = !!strategy;
 
-  const {
-    data: { logo: icon, name, symbol, subTitle },
-  } = useFullTokenData(isStrategy ? strategy : asset);
+  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy || asset);
+  const subStrategyData = strategyState?.subStrategyData.find((sub) => sub.address === strategy);
 
-  // TODO: Don't fetch this when row is for strategy, remove when infrastructure for enabling and disabling queries is ready
-  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
+  const {
+    data: { logo: icon, name, subTitle },
+  } = useFullTokenData(isStrategy ? strategy : asset);
 
   return (
     <div className="hidden md:block py-4 border-solid border-b border-b-navy-100">
@@ -46,12 +45,16 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-3">
-          <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
-          {!strategy && (
-            <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-              <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
-            </IncentivesButton>
-          )}
+          <AssetApy
+            multiplier={
+              `${subStrategyData?.targetMultiple.value}${subStrategyData?.targetMultiple.symbol}` || undefined
+            }
+            asset={asset}
+            subStrategy={strategy}
+            isStrategy={isStrategy}
+            typography="bold3"
+          />
+          <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
         </TableCell>
 
         <TableCell className="col-span-3" alignItems="items-center">

@@ -6,6 +6,7 @@ import { react } from "@wagmi/cli/plugins";
 import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
 import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
+import { RewardsControllerAbi } from "./abis/RewardsController";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -38,6 +39,11 @@ export default defineConfig({
       name: "PoolDataProvider",
       address: "0xB7397f841a449793c634C06Cf12751d256b9bf50",
       abi: PoolDataProviderAbi,
+    },
+    {
+      name: "RewardsController",
+      address: "0x91Ac2FfF8CBeF5859eAA6DdA661feBd533cD3780",
+      abi: RewardsControllerAbi,
     },
   ],
   plugins: [react()],

@@ -23,12 +23,23 @@ import { RouterConfig } from "../../../../../router";
 import { GauntletOptimized } from "../../../specific-components/GauntletOptimized";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchAssetByAddress } from "../../../../../state/common/hooks/useFetchAssetByAddress";
+import { getIsStrategy } from "../../../../../state/settings/configUtils";
 
 interface DepositModalFormData {
   amount: string;
 }
 
 export const SupplyForm = () => {
+  const { asset } = useFormSettingsContext();
+
+  if (getIsStrategy(asset)) {
+    return <div className="min-h-[1000px]" />;
+  }
+
+  return <SupplyFormLocal />;
+}
+
+const SupplyFormLocal = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
   const { data: assetState } = useFetchAssetByAddress(asset);
 
@@ -50,7 +61,9 @@ export const SupplyForm = () => {
 
   const { supplyAsync } = useMutateSupplyLending(asset);
 
-  const maxUserDepositData = useFetchViewMaxUserReserveDeposit(asset);
+  const maxUserDepositData = useFetchViewMaxUserReserveDeposit(
+    asset
+  );
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     await supplyAsync(

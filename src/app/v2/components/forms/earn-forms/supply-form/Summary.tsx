@@ -8,12 +8,11 @@ import {
   useFetchViewHealthFactorAfterAction,
 } from "../../../../../state/lending-borrowing/hooks/useFetchViewHealthFactorAfterAction";
 import { useAccount } from "wagmi";
-import { AssetApr } from "../../../asset-data/AssetApr";
+import { SupplyApr } from "../../../asset-data/AssetApr";
 import { LendingApy } from "../../../asset-data/AssetApy";
 
 export const Summary = ({ amount }: { amount: string }) => {
   const account = useAccount();
-
   const { asset } = useFormSettingsContext();
 
   const { data: userAccountData, ...UADRest } = useFetchViewUserAccountData();
@@ -29,11 +28,11 @@ export const Summary = ({ amount }: { amount: string }) => {
       <Typography type="bold3">Summary</Typography>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Supply APY</Typography>
-        {asset && <LendingApy asset={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <LendingApy asset={asset} className="text-navy-1000" />}
       </FlexRow>
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Rewards APR</Typography>
-        {asset && <AssetApr asset={asset} className="text-navy-1000" typography="medium2" />}
+        {asset && <SupplyApr asset={asset} className="text-navy-1000" />}
       </FlexRow>
       {account.address && asset && userAccountData?.totalDebt?.bigIntValue !== 0n && (
         <>

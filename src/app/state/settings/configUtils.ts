@@ -10,7 +10,6 @@ export const getStrategyBySubStrategyAddress = (subStrategyAddress?: Address): S
   );
 };
 
-
 export const getStrategyBySubStrategyAddressOrAddress = (address?: Address): StrategyConfig | undefined => {
   if (!address) return undefined;
 
@@ -18,6 +17,18 @@ export const getStrategyBySubStrategyAddressOrAddress = (address?: Address): Str
 
   return Object.values(strategiesConfig).find((strategy) =>
     strategy.subStrategyData.some((sub) => sub.address === address)
+  );
+};
+
+export const getIsStrategy = (address?: Address) => {
+  if (!address) return false;
+
+  return !!strategiesConfig[address];
+};
+
+export const getAllSubStrategies = () => {
+  return Object.keys(strategiesConfig).flatMap((key) =>
+    strategiesConfig[key].subStrategyData.map((subStrategy) => subStrategy.address)
   );
 };
 

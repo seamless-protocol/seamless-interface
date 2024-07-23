@@ -1,13 +1,12 @@
 import { FlexCol, FlexRow, Icon, Typography } from "@shared";
 import { CurrentBalance } from "./CurrentBalance";
-import { IncentivesDetailCard } from "../../../../components/incentives/IncentivesDetailCard";
-import { useFetchViewSupplyIncentives } from "../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { AssetApy } from "../../../../components/asset-data/AssetApy";
 import { Address } from "viem";
 import { Tag } from "../../../../components/asset-data/Tag";
-import { IncentivesButton } from "../../../../components/incentives/IncentivesButton";
+import { AprTooltip } from "../../../../components/incentives/AprTooltip";
 import { TableButtonsMobile } from "./TableButtonsMobile";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 export const MyStrategiesMobileTableRow: React.FC<{
   asset: Address;
@@ -15,9 +14,11 @@ export const MyStrategiesMobileTableRow: React.FC<{
 }> = ({ asset, strategy }) => {
   const isStrategy = !!strategy;
   const {
-    data: { logo, name, symbol, subTitle },
+    data: { logo, name, subTitle },
   } = useFullTokenData(isStrategy ? strategy : asset);
-  const { data: supplyIncentives, ...incentivesRest } = useFetchViewSupplyIncentives(asset);
+
+  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy || asset);
+  const subStrategyData = strategyState?.subStrategyData.find((sub) => sub.address === strategy);
 
   return (
     <div className="p-2">
@@ -39,12 +40,16 @@ export const MyStrategiesMobileTableRow: React.FC<{
             <CurrentBalance asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
           <FlexCol className="text-end items-end">
-            <AssetApy asset={asset} subStrategy={strategy} isStrategy={isStrategy} typography="bold3" />
-            {!strategy && (
-              <IncentivesButton {...supplyIncentives} {...incentivesRest}>
-                <IncentivesDetailCard {...supplyIncentives} assetSymbol={symbol} />
-              </IncentivesButton>
-            )}
+            <AssetApy
+              multiplier={
+                `${subStrategyData?.targetMultiple.value}${subStrategyData?.targetMultiple.symbol}` || undefined
+              }
+              asset={asset}
+              subStrategy={strategy}
+              isStrategy={isStrategy}
+              typography="bold3"
+            />
+            <AprTooltip asset={isStrategy ? strategy : asset} isStrategy={isStrategy} />
           </FlexCol>
         </div>
         <div className="mt-4">

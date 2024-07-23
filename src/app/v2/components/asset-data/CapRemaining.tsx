@@ -3,13 +3,14 @@ import React from "react";
 import { useFetchViewDetailTotalSupplied } from "../../../state/lending-borrowing/hooks/useFetchViewDetailTotalSupplied";
 import { useFetchViewStrategyRemainingCap } from "../../../state/loop-strategy/queries/useFetchStrategyRemainingCap";
 import { Address } from "viem";
+import { getIsStrategy } from "../../../state/settings/configUtils";
 
 export const CapRemaining: React.FC<{
   asset?: Address;
   subStrategy?: Address;
   textProps?: DisplayTextProps;
 }> = ({ asset, subStrategy, textProps }) => {
-  return subStrategy ? (
+  return getIsStrategy(asset) ? (
     <StrategyRemainingCap asset={subStrategy} {...textProps} />
   ) : (
     <RemainingCap asset={asset} {...textProps} />

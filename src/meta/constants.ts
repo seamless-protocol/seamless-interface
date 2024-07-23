@@ -31,7 +31,10 @@ export const DEGEN_ADDRESS: Address = "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefe
 export const SEAM_ADDRESS: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85";
 export const AERO_ADDRESS: Address = "0x940181a94A35A4569E4529A3CDfB74e38FD98631";
 export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E4";
-export const ESSEAM_ADDRESS: Address = "0x998e44232bef4f8b033e5a5175bdc97f2b10d5e5";
+export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
+export const OG_POINTS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
+
+export const OG_POINTS_MOCK_PRICE: bigint = 0n;
 
 // Lending & Borrowing
 export const sWETH_ADDRESS: Address = "0x48bf8fCd44e2977c8a9A744658431A8e6C0d866c";
@@ -56,7 +59,10 @@ export const variableDebtSeamDEGEN_ADDRESS = "0xfb4acbf586010670b9454d3fd4e7a31e
 export const variableDebtSeamSEAM_ADDRESS = "0x269eff46ba6ab639f5dbd745191bd987ba03de3b";
 export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba71d02506";
 export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
+// export const wstETHBooster4_5x_ADDRESS: Address = "0x2a351F41Bc0080c3Ae52C1708Ff7442b024Ab426";
 export const ethLong: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
+export const ethLong_3x: Address = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
+export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6";
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
@@ -82,3 +88,5 @@ export const assetLogos: Map<string, string> = new Map([
 ]);
 
 export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase()];
+
+export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";

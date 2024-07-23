@@ -25,12 +25,17 @@ export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: b
   return ((1 + apr / COMPOUNDING_PERIODS_APY) ** COMPOUNDING_PERIODS_APY - 1) * 100;
 }
 
+interface StrategyApy {
+  strategy: Address | undefined;
+  apy: number | undefined;
+}
+
 export async function fetchStrategyApy(
   strategy: Address,
   latestBlockData?: any,
   prevBlockData?: any,
   strategyAssets?: StrategyAsset
-): Promise<number | undefined> {
+): Promise<StrategyApy | undefined> {
   if (latestBlockData == null || prevBlockData == null || strategyAssets == null) return undefined;
 
   const shareValueInLatestBlock = await fetchAssetPriceInBlock(
@@ -48,13 +53,16 @@ export async function fetchStrategyApy(
 
   if (shareValueInLatestBlock == null || shareValueInPrevBlock == null) return undefined;
 
-  const result = calculateApy(
+  const apy = calculateApy(
     shareValueInLatestBlock,
     shareValueInPrevBlock,
     BigInt(latestBlockData.timestamp - prevBlockData.timestamp)
   );
 
-  return result;
+  return {
+    strategy,
+    apy,
+  };
 }
 
 export const fetchStrategyApyQueryOptions = ({
@@ -100,7 +108,7 @@ export const useFetchStrategyApy = (strategy?: Address): FetchData<FetchNumber> 
   return {
     ...mergeQueryStates([latestBlockRest, prevBlockRest, strategyAssetsRest, result]),
     data: {
-      value: result.data,
+      value: result.data?.apy,
       symbol: "%",
     },
   };

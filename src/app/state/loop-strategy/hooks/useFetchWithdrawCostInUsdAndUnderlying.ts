@@ -1,25 +1,18 @@
 import { Address, parseEther } from "viem";
 import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { Displayable, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
-import { ViewPreviewWithdraw } from "../types/ViewPreviewWithdraw";
+import {
+  Displayable,
+  fFetchBigIntStructured,
+  fUsdValueStructured,
+  mergeQueryStates,
+  useToken,
+  ViewBigInt,
+} from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-
-const cAssetsToReceive = (assetsValue?: bigint) => {
-  if (assetsValue == null) return undefined;
-
-  return (assetsValue * 999n) / 1000n;
-};
-
-const cAssetsToReceiveUsd = (assetsToReceiveValue?: bigint, underlyingAssetPriceValue?: bigint) => {
-  if (assetsToReceiveValue == null || underlyingAssetPriceValue == null) return undefined;
-
-  return (assetsToReceiveValue * underlyingAssetPriceValue) / ONE_ETHER;
-};
+import { useFetchWithdrawSharesToReceive } from "./useFetchWithdrawSharesToReceive";
 
 const cCostInUsd = (sharePriceValue?: bigint, amount?: string, assetsToReceiveInUsd?: bigint) => {
   if (amount == null || assetsToReceiveInUsd == null || sharePriceValue == null) return undefined;
@@ -42,15 +35,19 @@ const cCostInUnderlyingAsset = (costInUsd?: bigint, underlyingAssetPriceValue?: 
   return (costInUsd * ONE_ETHER) / underlyingAssetPriceValue;
 };
 
-interface PreviewWithdraw {
-  assetsToReceive?: FetchBigInt;
-  assetsToReceiveInUsd?: FetchBigInt;
+interface PreviewWithdrawCostInUsdAndUnderlying {
   costInUnderlyingAsset?: FetchBigInt;
   costInUsd?: FetchBigInt;
 }
 
-export const useFetchPreviewWithdraw = (amount: string, subStrategy?: Address): FetchData<PreviewWithdraw> => {
-  const account = useAccount();
+export const useFetchWithdrawCostInUsdAndUnderlying = (
+  amount: string,
+  subStrategy?: Address
+): FetchData<PreviewWithdrawCostInUsdAndUnderlying> => {
+  const {
+    data: { assetsToReceiveInUsd },
+    ...simulateRest
+  } = useFetchWithdrawSharesToReceive(amount, subStrategy);
 
   const { data: underlyingAsset, ...strategyRest } = useFetchStrategyAsset(subStrategy);
 
@@ -58,12 +55,6 @@ export const useFetchPreviewWithdraw = (amount: string, subStrategy?: Address): 
     data: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
     ...underlyingSymbolRest
   } = useToken(underlyingAsset);
-
-  const { data: assets, ...simulateRest } = useFetchSimulateWithdraw(
-    account.address as Address,
-    amount,
-    subStrategy,
-  );
 
   const { data: sharePrice, ...sharesRest } = useFetchAssetPrice({
     asset: subStrategy,
@@ -73,16 +64,12 @@ export const useFetchPreviewWithdraw = (amount: string, subStrategy?: Address): 
     asset: underlyingAsset,
   });
 
-  const assetsToReceive = cAssetsToReceive(assets?.bigIntValue);
-  const assetsToReceiveInUsd = cAssetsToReceiveUsd(assetsToReceive, underlyingAssetPrice.bigIntValue);
-  const costInUsd = cCostInUsd(sharePrice.bigIntValue, amount, assetsToReceiveInUsd);
+  const costInUsd = cCostInUsd(sharePrice.bigIntValue, amount, assetsToReceiveInUsd?.bigIntValue);
   const costInUnderlyingAsset = cCostInUnderlyingAsset(costInUsd, underlyingAssetPrice?.bigIntValue);
 
   return {
     ...mergeQueryStates([underlyingSymbolRest, simulateRest, strategyRest, underlyingAssetRest, sharesRest]),
     data: {
-      assetsToReceive: fFetchBigIntStructured(assetsToReceive, underlyingAssetDecimals, underlyingAssetSymbol),
-      assetsToReceiveInUsd: fUsdValueStructured(assetsToReceiveInUsd),
       costInUnderlyingAsset: fFetchBigIntStructured(
         costInUnderlyingAsset,
         underlyingAssetDecimals,
@@ -93,19 +80,25 @@ export const useFetchPreviewWithdraw = (amount: string, subStrategy?: Address): 
   };
 };
 
-export const useFetchViewPreviewWithdraw = (amount: string, subStrategy?: Address): Displayable<ViewPreviewWithdraw> => {
+export interface ViewPreviewWithdraw {
+  cost: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+}
+
+export const useFetchViewWithdrawCostInUsdAndUnderlying = (
+  amount: string,
+  subStrategy?: Address
+): Displayable<ViewPreviewWithdraw> => {
   const {
-    data: { assetsToReceive, assetsToReceiveInUsd, costInUnderlyingAsset, costInUsd },
+    data: { costInUnderlyingAsset, costInUsd },
     ...rest
-  } = useFetchPreviewWithdraw(amount, subStrategy);
+  } = useFetchWithdrawCostInUsdAndUnderlying(amount, subStrategy);
 
   return {
     ...rest,
     data: {
-      assetsToReceive: {
-        tokenAmount: formatFetchBigIntToViewBigInt(assetsToReceive, walletBalanceDecimalsOptions),
-        dollarAmount: formatFetchBigIntToViewBigInt(assetsToReceiveInUsd, walletBalanceDecimalsOptions),
-      },
       cost: {
         tokenAmount: formatFetchBigIntToViewBigInt(costInUnderlyingAsset, walletBalanceDecimalsOptions),
         dollarAmount: formatFetchBigIntToViewBigInt(costInUsd, walletBalanceDecimalsOptions),

@@ -13,6 +13,8 @@ export interface FormSettingsContextType {
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
   isStrategy: boolean;
+  targetMultiply?: string;
+  setTargetMultiply: (targetMultiply?: string) => void;
 }
 
 export const FormSettingsContext = createContext<FormSettingsContextType | undefined>(undefined);
@@ -25,22 +27,26 @@ interface FormSettingsProviderProps {
   hideTag?: boolean;
   overrideUrlSlug?: OverrideUrlSlug;
   disableAssetPicker?: boolean;
-  isStrategy?: boolean;
+  defaultIsStrategy?: boolean;
+  defaultTargetMultiply?: string;
 }
 
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   children,
   defaultAsset,
   defaultSubStrategy,
+  defaultIsStrategy,
   onTransaction,
   hideTag,
   overrideUrlSlug,
   disableAssetPicker,
+  defaultTargetMultiply,
 }) => {
   const { asset: assetFromUrl, isStrategy: isStrategyUrl } = useAssetPickerState({ overrideUrlSlug });
   const [asset, setAsset] = useState<Address | undefined>(defaultAsset);
   const [subStrategy, setSubStrategy] = useState<Address | undefined>(defaultSubStrategy);
-  const [isStrategy, setIsStrategy] = useState<boolean | undefined>(false);
+  const [isStrategy, setIsStrategy] = useState<boolean | undefined>(defaultIsStrategy);
+  const [targetMultiply, setTargetMultiply] = useState<string | undefined>(defaultTargetMultiply);
 
   useEffect(() => {
     if (overrideUrlSlug) {
@@ -62,6 +68,8 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
         isStrategy: isStrategy || false,
         subStrategy,
         setSubStrategy,
+        targetMultiply,
+        setTargetMultiply,
       }}
     >
       {children}

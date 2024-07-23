@@ -4,10 +4,9 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { useAccount } from "wagmi";
 import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
-import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { useFetchDepositSharesToReceive } from "./useFetchDepositSharesToReceive";
 
 export const cSharesToReceive = (sharesValue?: bigint) => {
   if (sharesValue == null) return undefined;
@@ -23,13 +22,15 @@ export const cSharesToReceiveInUsd = (sharesToReceiveValue?: bigint, sharePriceV
 
 export const cCostInUsd = (assetPriceValue?: bigint, amount?: string, sharesToReceiveInUsd?: bigint) => {
   if (assetPriceValue == null || amount == null || sharesToReceiveInUsd == null) return undefined;
+
+  let amountInWei;
   try {
-    BigInt(amount);
+    amountInWei = parseEther(amount);
   } catch (e) {
     return undefined;
   }
 
-  const depositValueInUsd = (parseEther(amount) * assetPriceValue) / ONE_ETHER;
+  const depositValueInUsd = (amountInWei * assetPriceValue) / ONE_ETHER;
   return depositValueInUsd - sharesToReceiveInUsd;
 };
 
@@ -42,15 +43,21 @@ export const cCostInUnderlyingAsset = (costInUsd?: bigint, assetPriceValue?: big
   return (costInUsd * ONE_ETHER) / divider;
 };
 
-interface PreviewDeposit {
+interface PreviewDepositCostInUsdAndUnderlying {
   sharesToReceive?: FetchBigInt;
   sharesToReceiveInUsd?: FetchBigInt;
   costInUnderlyingAsset?: FetchBigInt;
   costInUsd?: FetchBigInt;
 }
 
-export const useFetchPreviewDeposit = (amount: string, subStrategy?: Address): FetchData<PreviewDeposit> => {
-  const account = useAccount();
+export const useFetchDepositCostInUsdAndUnderlying = (
+  amount: string,
+  subStrategy?: Address
+): FetchData<PreviewDepositCostInUsdAndUnderlying> => {
+  const {
+    data: { sharesToReceiveInUsd },
+    ...restShares
+  } = useFetchDepositSharesToReceive(amount, subStrategy);
 
   const { data: underlyingAsset, ...configRest } = useFetchStrategyAsset(subStrategy);
 
@@ -59,32 +66,16 @@ export const useFetchPreviewDeposit = (amount: string, subStrategy?: Address): F
     ...underlyingAssetRest
   } = useToken(underlyingAsset);
 
-  const {
-    data: { symbol: strategySymbol, decimals: strategyDecimals },
-    ...strategyRest
-  } = useToken(subStrategy);
-
-  const { data: shares, ...sharesRest } = useFetchSimulateDeposit(account.address as Address, amount, subStrategy);
-
-  const { data: sharePrice, ...sharePriceRest } = useFetchAssetPrice({
-    asset: subStrategy,
-  });
-
   const { data: assetPrice, ...assetPriceRest } = useFetchAssetPrice({
     asset: underlyingAsset,
   });
 
-  const sharesToReceive = cSharesToReceive(shares?.bigIntValue);
-  const sharesToReceiveInUsd = cSharesToReceiveInUsd(sharesToReceive, sharePrice?.bigIntValue);
-
-  const costInUsd = cCostInUsd(assetPrice.bigIntValue, amount, sharesToReceiveInUsd);
+  const costInUsd = cCostInUsd(assetPrice.bigIntValue, amount, sharesToReceiveInUsd?.bigIntValue);
   const costInUnderlyingAsset = cCostInUnderlyingAsset(costInUsd, assetPrice?.bigIntValue);
 
   return {
-    ...mergeQueryStates([configRest, sharePriceRest, assetPriceRest, strategyRest, underlyingAssetRest, sharesRest]),
+    ...mergeQueryStates([configRest, restShares, assetPriceRest, underlyingAssetRest]),
     data: {
-      sharesToReceive: fFetchBigIntStructured(sharesToReceive, strategyDecimals, strategySymbol),
-      sharesToReceiveInUsd: fUsdValueStructured(sharesToReceiveInUsd),
       costInUnderlyingAsset: fFetchBigIntStructured(
         costInUnderlyingAsset,
         underlyingAssetDecimals,
@@ -95,11 +86,14 @@ export const useFetchPreviewDeposit = (amount: string, subStrategy?: Address): F
   };
 };
 
-export const useFetchViewPreviewDeposit = (amount: string, subStrategy?: Address): Displayable<ViewPreviewDeposit> => {
+export const useFetchPreviewDepositCostInUsdAndUnderlying = (
+  amount: string,
+  subStrategy?: Address
+): Displayable<ViewPreviewDeposit> => {
   const {
     data: { sharesToReceive, sharesToReceiveInUsd, costInUnderlyingAsset, costInUsd },
     ...rest
-  } = useFetchPreviewDeposit(amount, subStrategy);
+  } = useFetchDepositCostInUsdAndUnderlying(amount, subStrategy);
 
   return {
     ...rest,

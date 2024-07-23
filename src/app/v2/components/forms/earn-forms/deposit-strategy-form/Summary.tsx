@@ -1,19 +1,22 @@
-import { FlexRow, Typography, FlexCol, Displayable, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { SubStrategyApy } from "../../../asset-data/AssetApy";
+import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
+import { AssetApy } from "../../../asset-data/AssetApy";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { DataRow } from "../../DataRow";
-import { ViewPreviewDeposit } from "../../../../../state/loop-strategy/types/ViewPreviewDeposit";
+import { useAccount } from "wagmi";
+import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { AssetApr } from "../../../asset-data/AssetApr";
+import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
-  previewDepositData: Displayable<ViewPreviewDeposit>;
-}> = ({ previewDepositData }) => {
-  return <SummaryLocal previewDepositData={previewDepositData} />;
+  debouncedAmount: string;
+}> = ({ debouncedAmount }) => {
+  return <SummaryLocal debouncedAmount={debouncedAmount} />;
 };
 
-const SummaryLocal: React.FC<{
-  previewDepositData: Displayable<ViewPreviewDeposit>;
-}> = ({ previewDepositData }) => {
-  const { asset, subStrategy } = useFormSettingsContext();
+const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
+  const { isConnected } = useAccount();
+  const { asset, subStrategy, targetMultiply } = useFormSettingsContext();
+  const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, subStrategy);
 
   return (
     <FlexCol className="rounded-card bg-background-selected p-6 gap-4 cursor-default">
@@ -21,26 +24,25 @@ const SummaryLocal: React.FC<{
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated APY</Typography>
-        {asset && <SubStrategyApy subStrategy={subStrategy} className="text-navy-1000" typography="medium2" />}
+        {asset && (
+          <AssetApy
+            asset={asset}
+            subStrategy={subStrategy}
+            isStrategy
+            className="text-navy-1000"
+            multiplier={targetMultiply}
+          />
+        )}
       </FlexRow>
-      <DataRow label="Min tokens to receive">
-        <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          viewValue={previewDepositData.data.sharesToReceive.tokenAmount.viewValue}
-        />
-      </DataRow>
-      <DataRow label="Min value to receive">
-        <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          {...previewDepositData.data.sharesToReceive.dollarAmount}
-          symbolPosition="before"
-        />
-      </DataRow>
+
+      <FlexRow className="text-navy-600 justify-between">
+        <Typography type="bold2">Rewards APR</Typography>
+        {asset && <AssetApr asset={asset} subStrategy={subStrategy} isStrategy className="text-navy-1000 underline" />}
+      </FlexRow>
+
       <DataRow
         label={
-          <FlexRow className="gap-1">
+          <FlexRow className="md:gap-1 items-center">
             Maximum transaction cost
             <StandardTooltip width={1}>
               <Typography type="medium2" className="text-navy-1000">
@@ -52,10 +54,10 @@ const SummaryLocal: React.FC<{
         }
       >
         <DisplayTokenAmount
-          isLoading={previewDepositData.isLoading}
-          isFetched={previewDepositData.isFetched}
-          {...previewDepositData.data.cost.dollarAmount}
+          {...restCost}
+          {...costData?.cost.dollarAmount}
           symbolPosition="before"
+          {...checkAuthentication(isConnected)}
         />
       </DataRow>
     </FlexCol>

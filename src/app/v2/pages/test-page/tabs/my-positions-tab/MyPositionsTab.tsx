@@ -1,11 +1,10 @@
 import { MyStrategiesDesktopTableRow } from "./MyStrategiesDesktopTableRow";
 import { useFetchUserStrategies } from "../../../../../state/lending-borrowing/hooks/useFetchUserStrategies";
-import { Buttonv2, FlexRow, TableCell, TableRow, Typography } from "../../../../../../shared";
+import { Buttonv2, FlexCol, FlexRow, TableCell, TableRow, Typography } from "../../../../../../shared";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { RouterConfig } from "../../../../../router";
-import { Link } from "react-router-dom";
 import { MyStrategiesMobileTableRow } from "./MyStrategiesMobileTableRow";
+import { ClaimCard } from "./claim/ClaimCard";
 
 export const MyPositionsTab: React.FC = () => {
   const { isConnected } = useAccount();
@@ -33,21 +32,26 @@ export const MyPositionsTab: React.FC = () => {
   }
 
   if (!strategies || strategies?.length === 0) {
-    return <Typography type="bold4">You don&apos;t have any positions at the moment.</Typography>;
+    return (
+      <FlexCol>
+        <div className="md:max-w-[40%] mb-4">
+          <ClaimCard />
+        </div>
+        <Typography type="bold4">You don&apos;t have any positions at the moment.</Typography>
+      </FlexCol>
+    );
   }
 
   return (
     <div className="px-4 md:px-0">
+      <div className="md:max-w-[40%] mb-4">
+        <ClaimCard />
+      </div>
+
       <div className="bg-neutral-0 shadow-card rounded-2xl">
         <div className="flex h-20 px-6 items-center">
           <FlexRow className="justify-between items-center w-full">
             <Typography type="bold4">My Earn Positions</Typography>
-            <Link
-              to={RouterConfig.Routes.lendingAndBorrowing}
-              className="text-white text-bold3 bg-background-surface2 rounded-md px-4 py-2"
-            >
-              Claim Rewards
-            </Link>
           </FlexRow>
         </div>
         <TableRow className="hidden md:grid grid-cols-12 bg-neutral-100 border-solid border-b border-b-navy-100 mt-0 py-0.5 max-h-7 justify-center">

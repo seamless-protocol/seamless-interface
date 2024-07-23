@@ -31,24 +31,13 @@ export const useMutateSupplyLending = (asset?: Address) => {
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
-    if (!asset) {
-      // eslint-disable-next-line no-console
-      console.warn("asset is undefined at useMutateSupplyLending!");
-      return;
-    }
-    if (!decimals) {
-      // eslint-disable-next-line no-console
-      console.warn("decimals are undefined at useMutateSupplyLending!");
-      return;
-    }
-
     await writeContractAsync(
       {
         ...lendingPoolConfig,
         functionName: "supply",
         // Referral supply is currently inactive, you can pass 0 as referralCode.
         // This program may be activated in the future through an Aave governance proposal
-        args: [asset, parseUnits(args.amount, decimals), address as Address, 0],
+        args: [asset!, decimals ? parseUnits(args.amount, decimals) : undefined!, address as Address, 0],
       },
       { ...settings }
     );
