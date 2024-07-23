@@ -9,21 +9,17 @@ import {
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { demoConnector } from "./demoConnector/demoConnector";
-import { mock } from "wagmi/connectors";
-// import { mock } from "wagmi/connectors";
-// import { demoConnector } from "./demoConnector/demoConnector";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
   //  Paid
-  // { url: import.meta.env.VITE_BASE_MAIN_RPC_URL, isWebSocket: false },
-  // { url: import.meta.env.VITE_BASE_RPC_PAID_WS_2, isWebSocket: true },
-  // // Free
-  // { url: import.meta.env.VITE_BASE_RPC_FREE_2, isWebSocket: false },
-  // { url: import.meta.env.VITE_BASE_RPC_FREE_3, isWebSocket: false },
-  // { url: import.meta.env.VITE_BASE_RPC_FREE_4, isWebSocket: false },
-  // { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
+  { url: import.meta.env.VITE_BASE_MAIN_RPC_URL, isWebSocket: false },
+  { url: import.meta.env.VITE_BASE_RPC_PAID_WS_2, isWebSocket: true },
+  // Free
+  { url: import.meta.env.VITE_BASE_RPC_FREE_2, isWebSocket: false },
+  { url: import.meta.env.VITE_BASE_RPC_FREE_3, isWebSocket: false },
+  { url: import.meta.env.VITE_BASE_RPC_FREE_4, isWebSocket: false },
+  { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
 ].filter(({ url }) => url);
 
 export const connectors = connectorsForWallets(
@@ -53,8 +49,7 @@ export const connectors = connectorsForWallets(
   }
 );
 export const config = createConfig({
-  // connectors: connectors,
-  connectors: [mock({ accounts: ["0x818DB96e1b5c64bBE6307c95473E313c743FF7d0"] })],
+  connectors: connectors,
   chains: [base],
   transports: {
     [base.id]: fallback(

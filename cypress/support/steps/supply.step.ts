@@ -14,15 +14,17 @@ export const supply = (
     hasApproval: boolean;
     isMaxAmount?: boolean;
   },
-  updateSkipStatus = false
 ) => {
   const name = "test";
 
-  return describe(`Supply process for ${name}`, () => {
+  describe(`Supply process for ${name}`, () => {
     it(`Open ${name} supply popup view`, () => {
+      // todo: wait for actual requests instead of hacky timeout
       cy.wait(3000);
       cy.get(`[data-cy='asset-card-${address}']`).click();
+      cy.wait(3000);
       cy.setAmount(amount, isMaxAmount);
+      cy.wait(3000);
       cy.doConfirm(hasApproval);
     });
   });

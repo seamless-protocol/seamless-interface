@@ -6,8 +6,7 @@ import ReactDOM from "react-dom/client";
 import "../global.d";
 import "./app/config/sentry.config";
 //* * WAGMI **/
-import { config } from "./app/config/rainbow.config";
-import { WagmiProvider } from "wagmi";
+import { CustomWagmiProvider } from "./app/contexts/CustomWagmiProvider";
 //* * REACT QUERY **/
 import { CustomQueryClientProvider } from "./app/contexts/CustomQueryClientProvider";
 //* * RAINBOW **/
@@ -22,7 +21,7 @@ import { myRainbowkitThemeConfigV2 } from "./app/v2/config/rainbow-modal.config"
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
-      <WagmiProvider config={config}>
+      <CustomWagmiProvider>
         <CustomQueryClientProvider>
           <RainbowKitProvider theme={myRainbowkitThemeConfigV2}>
             <LifiWidgetProvider>
@@ -31,7 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             </LifiWidgetProvider>
           </RainbowKitProvider>
         </CustomQueryClientProvider>
-      </WagmiProvider>
+      </CustomWagmiProvider>
     </Sentry.ErrorBoundary>
   </React.StrictMode>
 );

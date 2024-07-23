@@ -43,3 +43,8 @@ Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 
 easy to find icons:
 https://icon-sets.iconify.design/
+
+## Run cypress tests
+- Make sure that 0x818DB96e1b5c64bBE6307c95473E313c743FF7d0 has enough funds on tenderly rpc: https://virtual.base.rpc.tenderly.co/55ec1a11-fb48-4d5e-a7b3-dea034a0f06c
+- run `npx cypress open`
+- start your tests
