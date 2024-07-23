@@ -26,7 +26,7 @@ declare global {
 Cypress.Commands.add("setAmount", (amount: number, max?: boolean) => {
   cy.get("[data-cy=Form]").find('button:contains("Enter amount")').should("be.disabled");
   if (max) {
-    cy.wait(2000); //there is no way to know when real max amount will upload by UI
+    cy.wait(2000);
     cy.get("[data-cy=Form]").find('button:contains("Max")').click();
   } else {
     cy.get("[data-cy=Form] input").first().type(amount.toString());
@@ -38,7 +38,6 @@ Cypress.Commands.add("doConfirm", (hasApproval: boolean) => {
     cy.get(`[data-cy=approvalButton]`, { timeout: 20000 }).last().should("not.be.disabled").click({ force: true });
   }
   cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
-  // cy.get("[data-cy=Form] h2:contains('All done!')").should("be.visible"); todo: check if success
 });
 
-export {};
+export { };

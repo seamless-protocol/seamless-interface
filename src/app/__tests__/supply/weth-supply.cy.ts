@@ -1,8 +1,8 @@
 import { prepareTestForRun } from "../utils/configuration.steps";
 import { supply } from "../../../../cypress/support/steps/supply.step";
-// todo: fix aliases ?
-// import { WETH_ADDRESS } from "../../../meta";
 
+// import { WETH_ADDRESS } from "../../../meta";
+// todo: fix aliases, and import this address
 const WETH_ADDRESS = "0x4200000000000000000000000000000000000006";
 
 describe("WETH SUPPLY SPEC", () => {

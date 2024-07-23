@@ -2,6 +2,7 @@
 
 import { Address } from "viem";
 
+// todo: rename this, reconsider params
 export const supply = (
   {
     address,

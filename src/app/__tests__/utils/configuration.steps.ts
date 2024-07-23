@@ -3,6 +3,7 @@ import { connect } from '@wagmi/core';
 import { testWagmiConfig } from "../../config/demoConnector/testWagmiConfig";
 import { testConnector } from "../../config/demoConnector/testConnector";
 
+// todo: create tenderly and add funds to account, delete virtualnetwork after run?
 export const prepareTestForRun = () => {
   before(() => {
     cy.visit("/");
