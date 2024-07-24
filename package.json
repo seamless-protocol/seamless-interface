@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "switch-tailwind-config": "node switch-config.js",
     "dev": "npm run switch-tailwind-config && vite",
-    "compile": "tsc",
+    "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "npm run switch-tailwind-config && npm run lint && npm run compile",

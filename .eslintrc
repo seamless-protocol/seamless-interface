@@ -1,24 +1,12 @@
 {
-  "ignorePatterns": [
-    "src/app/generated/generated.ts"
-  ],
+  "ignorePatterns": ["src/app/generated/generated.ts", "vite.config.ts"],
   "root": true,
   "env": {
     "browser": true,
     "es2021": true,
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "cypress"
-  ],
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "prettier",
-    "plugin:cypress/recommended"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "cypress"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier", "plugin:cypress/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -73,10 +61,7 @@
     "no-sparse-arrays": "off",
     "no-console": "warn",
     "no-param-reassign": "warn",
-    "eqeqeq": [
-      "warn",
-      "smart"
-    ],
+    "eqeqeq": ["warn", "smart"],
     "jsx-a11y/tabindex-no-positive": "warn",
     "react/no-unescaped-entities": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
@@ -85,8 +70,8 @@
     "no-unused-vars": [
       "warn",
       {
-        "args": "none"
-      }
+        "args": "none",
+      },
     ],
     "react/jsx-no-useless-fragment": [
       "error",
