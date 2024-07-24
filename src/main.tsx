@@ -21,16 +21,16 @@ import { myRainbowkitThemeConfigV2 } from "./app/v2/config/rainbow-modal.config"
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
-      <CustomWagmiProvider>
-        <CustomQueryClientProvider>
+      <CustomQueryClientProvider>
+        <CustomWagmiProvider>
           <RainbowKitProvider theme={myRainbowkitThemeConfigV2}>
             <LifiWidgetProvider>
               <AppV2 />
               <LiFiWidgetWrapper />
             </LifiWidgetProvider>
           </RainbowKitProvider>
-        </CustomQueryClientProvider>
-      </CustomWagmiProvider>
+        </CustomWagmiProvider>
+      </CustomQueryClientProvider>
     </Sentry.ErrorBoundary>
   </React.StrictMode>
 );

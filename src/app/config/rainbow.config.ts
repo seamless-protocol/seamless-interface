@@ -22,7 +22,7 @@ const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_WS_5, isWebSocket: true },
 ].filter(({ url }) => url);
 
-export const connectors = connectorsForWallets(
+const connectors = connectorsForWallets(
   [
     {
       groupName: "Smart wallets",
@@ -48,8 +48,9 @@ export const connectors = connectorsForWallets(
     projectId: import.meta.env.VITE_BASE_WALLET_PROJECT_ID || "",
   }
 );
+
 export const config = createConfig({
-  connectors: connectors,
+  connectors,
   chains: [base],
   transports: {
     [base.id]: fallback(
@@ -58,3 +59,9 @@ export const config = createConfig({
     ),
   },
 });
+
+declare module "wagmi" {
+  interface Register {
+    config: typeof config;
+  }
+}

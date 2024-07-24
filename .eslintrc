@@ -37,6 +37,10 @@
     },
   },
   "rules": {
+    // cypress
+    "cypress/no-unnecessary-waiting": "off",
+    // eslint
+    "@typescript-eslint/no-empty-function": "off",
     "react/destructuring-assignment": "off",
     "no-nested-ternary": "off",
     "no-underscore-dangle": "off",
