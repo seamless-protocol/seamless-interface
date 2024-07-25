@@ -81,7 +81,6 @@ export default {
           surface: "#77037B",
           surface2: "#3AB0FF",
           surfaceLight: "#B06FB3",
-          subscribe: "#fbbf24",
           base: "#0455ff",
           lifi: "#F5B5FF",
           header: "#0C356A",
