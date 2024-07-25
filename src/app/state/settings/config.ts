@@ -93,7 +93,6 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     sTokenAddress: sUSDC_ADDRESS,
     debtTokenAddress: variableDebtSeamUSDC_ADDRESS,
     description: "USD Coin (USDC) is a digital stablecoin that is pegged to the United States dollar.",
-    isGauntletOptimized: true,
     vaultsFyiLink: RouterConfig.Builder.vaults(sUSDC_ADDRESS),
   },
   [DAI_ADDRESS]: {
