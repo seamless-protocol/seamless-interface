@@ -26,7 +26,7 @@ export const supply = (
       cy.wait(3000);
       cy.setAmount(amount, isMaxAmount);
       cy.wait(3000);
-      cy.doConfirm(hasApproval);
+      cy.doSubmit(hasApproval);
     });
   });
 };

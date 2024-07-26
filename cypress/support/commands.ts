@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
+import { mount } from 'cypress/react';
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      mount: typeof mount;
       /**
        * This will set amount in Modal
        * @param amount number
@@ -15,12 +17,14 @@ declare global {
        * @param hasApproval boolean
        * @param actionName string optional, verification button text
        * @param assetName string optional, verification asset name
-       * @example cy.doConfirm(true)
+       * @example cy.doSubmit(true)
        */
-      doConfirm(hasApproval: boolean, actionName?: string, assetName?: string): void;
+      doSubmit(hasApproval: boolean, actionName?: string, assetName?: string): void;
     }
   }
 }
+
+Cypress.Commands.add('mount', mount);
 
 Cypress.Commands.add("setAmount", (amount: number, max?: boolean) => {
   cy.get("[data-cy=Form]").find('button:contains("Enter amount")').should("be.disabled");
@@ -32,7 +36,7 @@ Cypress.Commands.add("setAmount", (amount: number, max?: boolean) => {
   }
 });
 
-Cypress.Commands.add("doConfirm", (hasApproval: boolean) => {
+Cypress.Commands.add("doSubmit", (hasApproval: boolean) => {
   if (!hasApproval) {
     cy.get(`[data-cy=approvalButton]`, { timeout: 20000 }).last().should("not.be.disabled").click({ force: true });
   }
