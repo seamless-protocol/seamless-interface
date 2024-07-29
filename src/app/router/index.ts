@@ -14,6 +14,8 @@ const uniswapUrl = "https://app.uniswap.org/swap";
 const chaosRiskDashboardUrl = "https://community.chaoslabs.xyz/seamless/risk/overview";
 const gauntletRiskDashboardUrl = "https://risk.gauntlet.xyz/protocols/seamless/markets/base";
 export const gitBookUrl = "https://docs.seamlessprotocol.com/";
+export const ilmMediumUrl =
+  "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 
 const baseScan = "https://basescan.org";

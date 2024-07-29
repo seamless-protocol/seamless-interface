@@ -38,7 +38,6 @@ export * from "./components/auth/AuthGuardv2";
 // ****** //
 export * from "./components/button/Button";
 export * from "./components/button/Buttonv2";
-export * from "./components/button/CBSubscribeButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 export * from "./components/button/icon-buttons/SmallWatchAssetButton";
 export * from "./components/button/TabButton";
