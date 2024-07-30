@@ -19,5 +19,8 @@ export default defineConfig({
       on("file:preprocessor", vitePreprocessor(config));
     },
     specPattern: "src/app/__tests__/**/*.cy.ts",
+    defaultCommandTimeout: 10000,
+    requestTimeout: 10000,
+    responseTimeout: 10000,
   },
 });
