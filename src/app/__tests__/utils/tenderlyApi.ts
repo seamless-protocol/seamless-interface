@@ -1,5 +1,3 @@
-import { base } from "viem/chains";
-
 const account = "seamless";
 const project = "dev";
 const API_KEY = "RDHizgXiBFXLHy2ZhVMSZeeo26Wufpi-";
@@ -45,7 +43,7 @@ export const createFork = async (chainId = 8453) => {
   return undefined;
 };
 
-//todo remove this function when create gets fixed
+// todo remove this function when create gets fixed
 export const getFork = async () => {
   const response = await fetch(
     `https://api.tenderly.co/api/v1/account/${account}/project/${project}/testnet/container?page=1&pageSize=10`,
