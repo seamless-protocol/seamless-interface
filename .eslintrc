@@ -1,5 +1,5 @@
 {
-  "ignorePatterns": ["src/app/generated/generated.ts", "vite.config.ts"],
+  "ignorePatterns": ["src/app/generated/generated.ts", "vite.config.ts", "run-anvil.mjs"],
   "root": true,
   "env": {
     "browser": true,
