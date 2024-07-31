@@ -3,19 +3,17 @@
 import { Address } from "viem";
 
 // todo: rename this, reconsider params
-export const supply = (
-  {
-    address,
-    amount,
-    hasApproval = true,
-    isMaxAmount = false,
-  }: {
-    address: Address;
-    amount: number;
-    hasApproval: boolean;
-    isMaxAmount?: boolean;
-  },
-) => {
+export const deposit = ({
+  address,
+  amount,
+  hasApproval = true,
+  isMaxAmount = false,
+}: {
+  address: Address;
+  amount: number;
+  hasApproval: boolean;
+  isMaxAmount?: boolean;
+}) => {
   const name = "test";
 
   describe(`Supply process for ${name}`, () => {

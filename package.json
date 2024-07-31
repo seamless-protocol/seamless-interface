@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "npm run switch-tailwind-config && npm run lint && npm run compile",
     "build": "vite build",
-    "cypress-open": "npx cypress open"
+    "anvil": "pkill -f anvil; sleep 1; anvil --fork-url https://base-mainnet.g.alchemy.com/v2/oEDlToqijlwMGsFjE0QIORFB5mM4GZsM"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

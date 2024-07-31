@@ -6,6 +6,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { initTestWagmiConfig } from "../config/demoConnector/testWagmiConfig";
 import { createTestConnector } from "../config/demoConnector/testConnector";
 
+// todo: put this in one place
 const VIRTUAL_TESTNET_KEY = "VIRTUAL_TESTNET_KEY";
 
 export const CustomWagmiProvider: React.FC<{
@@ -16,7 +17,7 @@ export const CustomWagmiProvider: React.FC<{
   }>(VIRTUAL_TESTNET_KEY);
 
   return TESTNET_URL?.forkUrl && IS_DEV_MODE ? (
-    <TestWagmiProvider testnetUrl={TESTNET_URL.forkUrl}>{children}</TestWagmiProvider>
+    <TestWagmiProvider rpcUrl={TESTNET_URL.forkUrl}>{children}</TestWagmiProvider>
   ) : (
     <StandardWagmiProvider>{children}</StandardWagmiProvider>
   );
@@ -24,13 +25,13 @@ export const CustomWagmiProvider: React.FC<{
 
 const TestWagmiProvider: React.FC<{
   children: React.ReactNode;
-  testnetUrl: string;
-}> = ({ children, testnetUrl }) => {
+  rpcUrl: string;
+}> = ({ children, rpcUrl }) => {
   // eslint-disable-next-line no-console
   console.warn("----------------USING TEST WAGMI PROVIDER----------------");
 
   return (
-    <WagmiProvider config={initTestWagmiConfig(testnetUrl)}>
+    <WagmiProvider config={initTestWagmiConfig(rpcUrl)}>
       <TestWagmiAutoConnector>{children}</TestWagmiAutoConnector>
     </WagmiProvider>
   );
@@ -42,6 +43,7 @@ const TestWagmiAutoConnector: React.FC<{
   const [TESTNET_URL] = useLocalStorage<{
     forkUrl: string;
   }>(VIRTUAL_TESTNET_KEY);
+
   const { connect } = useConnect();
 
   useEffect(() => {
