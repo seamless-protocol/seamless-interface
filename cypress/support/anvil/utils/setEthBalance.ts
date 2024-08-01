@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { testAnvilClient, targetAccount } from "../constants";
+import { targetAccount, testAnvilClient } from "../../constants";
 
 export const setEthBalance = async ({
   amount = BigInt(1e18),

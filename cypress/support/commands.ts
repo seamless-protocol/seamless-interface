@@ -1,9 +1,10 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { setErc20Balance } from "./utils/setErc20Balance";
 import { forkUrl, VIRTUAL_TESTNET_KEY } from "./constants";
-import { setEthBalance } from "./utils/setEthBalance";
 import { IBalanceConfig } from "./config/balanceConfig";
+import { setErc20Balance } from "./anvil/utils/setErc20Balance";
+import { setEthBalance } from "./anvil/utils/setEthBalance";
+import { createFork, deleteFork, fundAccount, fundAccountERC20 } from "./tenderly/utils/apiUtils";
 
 declare global {
   namespace Cypress {
@@ -25,9 +26,13 @@ declare global {
        */
       doSubmit(hasApproval: boolean, actionName?: string, assetName?: string): void;
       /**
-       * Sets up the test environment by initializing the blockchain state
+       * Sets up the anvil test environment by initializing the blockchain state
        */
-      setupTestEnvironment(testBalanceData: IBalanceConfig[]): void;
+      setupAnvilTestEnvironment(testBalanceData: IBalanceConfig[]): void;
+      /**
+       * Sets up the tenderly test environment by initializing the blockchain state
+       */
+      setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig[]): void;
     }
   }
 }
@@ -51,7 +56,7 @@ Cypress.Commands.add("doSubmit", (hasApproval: boolean) => {
   cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
 });
 
-Cypress.Commands.add("setupTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
+Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
   cy.log("Setting up test environment");
 
   // step 1: setup VIRTUAL_TESTNET_KEY
@@ -69,4 +74,31 @@ Cypress.Commands.add("setupTestEnvironment", (balanceConfig: IBalanceConfig[]) =
   });
 });
 
-export {};
+Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
+  cy.log("Setting up Tenderly test environment");
+
+  cy.wrap(null).then(async () => {
+    const oldForkUrl = localStorage.getItem(VIRTUAL_TESTNET_KEY);
+    console.log({ oldForkUrl })
+    if (oldForkUrl) {
+      const forkId = oldForkUrl.split("rpc.tenderly.co/")[1];
+      await deleteFork(forkId);
+    }
+
+    const forkUrl = await createFork();
+
+    localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl }));
+
+    await fundAccount(forkUrl);
+
+    await Promise.all(
+      balanceConfig.map(({ account, tokenAddress, balance }) =>
+        fundAccountERC20(forkUrl, tokenAddress, account, balance)
+      )
+    );
+  });
+});
+
+
+
+export { };

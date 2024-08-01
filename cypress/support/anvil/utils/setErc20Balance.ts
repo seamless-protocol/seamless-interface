@@ -14,7 +14,7 @@ import {
   walletActions,
 } from "viem";
 import { foundry } from "viem/chains";
-import { forkUrl } from "../constants";
+import { forkUrl } from "../../constants";
 
 type SetErcBalanceParameters = {
   address: Address;
@@ -95,6 +95,8 @@ const findSlot = async (address: Address, tokenAddress: Address): Promise<bigint
 export async function setErc20Balance({ address, tokenAddress, value }: SetErcBalanceParameters) {
   const slotGuess = await findSlot(address, tokenAddress);
   const encodedData = encodeAbiParameters(parseAbiParameters("address, uint"), [address, slotGuess]);
+
+  console.log({ amount: pad(toHex(value)) })
   await client.setStorageAt({
     address: tokenAddress,
     index: keccak256(encodedData),
