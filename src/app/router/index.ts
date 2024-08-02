@@ -17,6 +17,7 @@ export const gitBookUrl = "https://docs.seamlessprotocol.com/";
 export const ilmMediumUrl =
   "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
+export const SeamlessSurveyUrl = "https://form.typeform.com/to/OKhrmIDL";
 
 const baseScan = "https://basescan.org";
 
