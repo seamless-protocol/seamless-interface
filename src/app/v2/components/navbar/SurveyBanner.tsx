@@ -9,7 +9,7 @@ export const SurveyBanner = () => {
         <Typography type="bold3">
           📣 Share Your thoughts! Help Seamless enhance ILMs by taking a quick 5-minute survey. 👉{" "}
           <Link to={SeamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
-            Survey LINK
+            Take the Survey Here
           </Link>
         </Typography>
       </div>
