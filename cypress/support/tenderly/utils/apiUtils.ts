@@ -1,4 +1,3 @@
-import { pad, toHex } from "viem";
 import { targetAccount } from "../../constants";
 
 const account = "seamless";
@@ -56,7 +55,12 @@ export const deleteFork = async (forkId: string) => {
   }
 };
 
-export const fundAccount = async (forkUrl: string, account = targetAccount, amount = BigInt(1e18)) => {
+export const fundAccount = async (forkUrl: string, account = targetAccount, amount = BigInt(5 * 1e18)) => {
+  let amountHex = amount.toString(16);
+  amountHex = amountHex.replace(/^0+/, "");
+  const formattedAmount = `0x${amountHex}`;
+  console.log({ formattedAmount });
+
   const response = await fetch(forkUrl, {
     method: "POST",
     headers: {
@@ -66,7 +70,7 @@ export const fundAccount = async (forkUrl: string, account = targetAccount, amou
     body: JSON.stringify({
       jsonrpc: "2.0",
       method: "tenderly_setBalance",
-      params: [[account], pad(toHex(amount))],
+      params: [[account], formattedAmount],
       id: "1234",
     }),
   });
@@ -81,8 +85,10 @@ export const fundAccount = async (forkUrl: string, account = targetAccount, amou
 };
 
 export const fundAccountERC20 = async (forkUrl: string, tokenAddress: string, account: string, amount: bigint) => {
-  const paddedAmount = pad(toHex(amount), { size: 32 }); // Ensure padding is correct
-  console.log({ paddedAmount })
+  let amountHex = amount.toString(16);
+  amountHex = amountHex.replace(/^0+/, "");
+  const formattedAmount = `0x${amountHex}`;
+  console.log({ formattedAmount });
 
   const response = await fetch(forkUrl, {
     method: "POST",
@@ -93,7 +99,7 @@ export const fundAccountERC20 = async (forkUrl: string, tokenAddress: string, ac
     body: JSON.stringify({
       jsonrpc: "2.0",
       method: "tenderly_setErc20Balance",
-      params: [tokenAddress, account, paddedAmount],
+      params: [tokenAddress, account, formattedAmount],
       id: "1234",
     }),
   });
@@ -106,4 +112,3 @@ export const fundAccountERC20 = async (forkUrl: string, tokenAddress: string, ac
   console.log({ erc20f: data });
   return data;
 };
-
