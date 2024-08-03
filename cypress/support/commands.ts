@@ -1,10 +1,12 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { forkUrl, VIRTUAL_TESTNET_KEY } from "./constants";
+import { forkUrl, VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
 import { setErc20Balance } from "./anvil/utils/setErc20Balance";
 import { setEthBalance } from "./anvil/utils/setEthBalance";
-import { createFork, deleteFork, fundAccount, fundAccountERC20 } from "./tenderly/utils/apiUtils";
+import { evmSnapshot, fundAccount, fundAccountERC20 } from "./tenderly/utils/apiUtils";
+
+const tenderlyVirtualTestnet = "https://virtual.base.rpc.tenderly.co/ee8497a0-46bc-4a54-8412-11aa72e813c6";
 
 declare global {
   namespace Cypress {
@@ -78,16 +80,12 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   cy.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
-    const oldForkUrl = localStorage.getItem(VIRTUAL_TESTNET_KEY);
-    console.log({ oldForkUrl })
-    if (oldForkUrl) {
-      const forkId = oldForkUrl.split("rpc.tenderly.co/")[1];
-      await deleteFork(forkId);
-    }
-
-    const forkUrl = await createFork();
+    const forkUrl = tenderlyVirtualTestnet;
 
     localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl }));
+
+    const snapshotId = await evmSnapshot(forkUrl);
+    localStorage.setItem(VIRTUAL_TESTNET_SNAPSHOT, JSON.stringify({ snapshotId }));
 
     await fundAccount(forkUrl);
 
@@ -99,6 +97,4 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   });
 });
 
-
-
-export { };
+export {};
