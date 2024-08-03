@@ -9,7 +9,6 @@ export const tenderlyFundAccountERC20 = async (
   let amountHex = amount.toString(16);
   amountHex = amountHex.replace(/^0+/, "");
   const formattedAmount = `0x${amountHex}`;
-  // eslint-disable-next-line no-console
 
   const response = await fetch(forkUrl, {
     method: "POST",
