@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "./constants";
+import { PRIVATE_KEY, VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
 import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
 import { anvilSetEthBalance } from "./anvil/utils/anvilSetEthBalance";
@@ -66,6 +66,7 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
 
   // step 1: setup VIRTUAL_TESTNET_KEY
   localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl: anvilForkUrl }));
+  localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
 
   // step 2: setup balances
   cy.wrap(null).then(async () => {
@@ -86,6 +87,7 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
     const forkUrl = tenderlyVirtualTestnet;
 
     localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl }));
+    localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
 
     const snapshotId = await tenderlyEvmSnapshot(forkUrl);
     localStorage.setItem(VIRTUAL_TESTNET_SNAPSHOT, JSON.stringify({ snapshotId }));

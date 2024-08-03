@@ -8,6 +8,7 @@ import { createTestConnector } from "../config/demoConnector/testConnector";
 
 // todo: put this in one place
 const VIRTUAL_TESTNET_KEY = "VIRTUAL_TESTNET_KEY";
+const PRIVATE_KEY = "PRIVATE_KEY";
 
 export const CustomWagmiProvider: React.FC<{
   children: React.ReactNode;
@@ -29,9 +30,12 @@ const TestWagmiProvider: React.FC<{
 }> = ({ children, rpcUrl }) => {
   // eslint-disable-next-line no-console
   console.warn("----------------USING TEST WAGMI PROVIDER----------------");
+  const [KEY] = useLocalStorage<{
+    KEY: string;
+  }>(PRIVATE_KEY);
 
   return (
-    <WagmiProvider config={initTestWagmiConfig(rpcUrl)}>
+    <WagmiProvider config={initTestWagmiConfig(rpcUrl, KEY.KEY)}>
       <TestWagmiAutoConnector>{children}</TestWagmiAutoConnector>
     </WagmiProvider>
   );
@@ -43,11 +47,14 @@ const TestWagmiAutoConnector: React.FC<{
   const [TESTNET_URL] = useLocalStorage<{
     forkUrl: string;
   }>(VIRTUAL_TESTNET_KEY);
+  const [KEY] = useLocalStorage<{
+    KEY: string;
+  }>(PRIVATE_KEY);
 
   const { connect } = useConnect();
 
   useEffect(() => {
-    connect({ connector: createTestConnector(TESTNET_URL.forkUrl) });
+    connect({ connector: createTestConnector(TESTNET_URL.forkUrl, KEY.KEY) });
   }, [connect]);
 
   return <>{children}</>;

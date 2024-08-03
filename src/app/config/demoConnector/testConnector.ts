@@ -3,8 +3,8 @@ import { base } from "viem/chains";
 import createWallet from "./createRandomWallet";
 
 // Function to create test connector with dynamic wallet
-export const createTestConnector = (rpcUrl: string) => {
-  const randomWalletClient = createWallet(rpcUrl);
+export const createTestConnector = (rpcUrl: string, privateKey: string) => {
+  const randomWalletClient = createWallet(rpcUrl, privateKey);
 
   return createConnector(() => ({
     id: "testConnector",
