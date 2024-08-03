@@ -4,6 +4,9 @@ const account = "seamless";
 const project = "dev";
 const API_KEY = "RDHizgXiBFXLHy2ZhVMSZeeo26Wufpi-";
 
+const test = Cypress.env("access_key");
+console.log({ test });
+
 export const createFork = async (chainId = 8453) => {
   const response = await fetch(`https://api.tenderly.co/api/v1/account/${account}/project/${project}/vnets`, {
     method: "POST",
@@ -111,4 +114,42 @@ export const fundAccountERC20 = async (forkUrl: string, tokenAddress: string, ac
   const data = await response.json();
   console.log({ erc20f: data });
   return data;
+};
+
+export const evmSnapshot = async (forkUrl: string) => {
+  const response = await fetch(forkUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Access-Key": API_KEY,
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "evm_snapshot",
+      params: [],
+      id: "1234",
+    }),
+  });
+
+  const data = await response.json();
+  return data.result; // Returns the UUID of the snapshot
+};
+
+export const evmRevert = async (forkUrl: string, snapshotId: string) => {
+  const response = await fetch(forkUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Access-Key": API_KEY,
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "evm_revert",
+      params: [snapshotId],
+      id: "1234",
+    }),
+  });
+
+  const data = await response.json();
+  return data.result;
 };
