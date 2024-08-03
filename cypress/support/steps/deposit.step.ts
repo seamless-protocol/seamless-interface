@@ -25,6 +25,8 @@ export const deposit = ({
       cy.setAmount(amount, isMaxAmount);
       cy.wait(3000);
       cy.doSubmit(hasApproval);
+      cy.wait(12000);
+      cy.get('[data-cy="notification-success-icon"]', { timeout: 3000 }).should("be.visible");
     });
   });
 };
