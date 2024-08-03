@@ -9,6 +9,7 @@ export const WETH_ADDRESS = "0x4200000000000000000000000000000000000006";
 export const WSTETH_ADDRESS = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
 
 export const VIRTUAL_TESTNET_KEY = "VIRTUAL_TESTNET_KEY";
+export const VIRTUAL_TESTNET_SNAPSHOT = "VIRTUAL_TESTNET_SNAPSHOT";
 
 export const testAnvilClient = createTestClient({
   chain: foundry,
