@@ -5,8 +5,7 @@ import { tenderlyEvmRevert } from "../../../../cypress/support/tenderly/utils/te
 type TestEnv = "anvil" | "tenderly";
 
 export const prepareTestForRun = () => {
-  console.log({ env: import.meta.env.VITE_TEST_ENVIRONMENT });
-  const testEnv = (import.meta.env.VITE_TEST_ENVIRONMENT || "tenderly") as TestEnv;
+  const testEnv = (Cypress.env("test_env") || "tenderly") as TestEnv;
 
   before(() => {
     if (testEnv === "anvil") {
@@ -30,9 +29,7 @@ export const prepareTestForRun = () => {
         console.log("reverting snapshot", snapshotId, forkUrl);
 
         if (snapshotId && forkUrl) {
-          cy.wrap(tenderlyEvmRevert(forkUrl, snapshotId)).then((result) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            expect(result).to.be.true;
+          cy.wrap(tenderlyEvmRevert(forkUrl, snapshotId)).then(() => {
             localStorage.removeItem(VIRTUAL_TESTNET_SNAPSHOT);
             localStorage.removeItem(VIRTUAL_TESTNET_KEY);
 

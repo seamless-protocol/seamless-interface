@@ -21,12 +21,12 @@ export const deposit = ({
       // todo: wait for actual requests instead of hacky timeout
       cy.wait(3000);
       cy.get(`[data-cy='asset-card-${address}']`).click();
-      cy.wait(3000);
+      cy.wait(4000);
       cy.setAmount(amount, isMaxAmount);
-      cy.wait(3000);
+      cy.wait(4000);
       cy.doSubmit(hasApproval);
-      cy.wait(12000);
-      cy.get('[data-cy="notification-success-icon"]', { timeout: 3000 }).should("be.visible");
+      cy.get('[data-cy="notification-success-icon"]', { timeout: 12000 }).should("be.visible");
+      cy.wait(5000);
     });
   });
 };

@@ -6,10 +6,11 @@ export default defineConfig({
   env: {
     url: "http://localhost:5173",
     private_key: "0xe30165a9c8c2a7f249f1cf04ba5f2ed8afacb762cc813a66b86c898cc806d58a",
-    tenderly_test_rpc: "https://virtual.base.rpc.tenderly.co/ee8497a0-46bc-4a54-8412-11aa72e813c6",
+    tenderly_test_rpc: "https://virtual.base.rpc.tenderly.co/9e91d861-0bbc-4459-bade-777df8e83da6",
     tenderly_access_key: "RDHizgXiBFXLHy2ZhVMSZeeo26Wufpi-",
     tenderly_account: "seamless",
     tenderly_project: "dev",
+    test_env: "tenderly",
   },
   component: {
     devServer: {
