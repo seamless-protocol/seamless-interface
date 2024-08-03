@@ -1,12 +1,15 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { forkUrl, VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "./constants";
+import { VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
-import { setErc20Balance } from "./anvil/utils/setErc20Balance";
-import { setEthBalance } from "./anvil/utils/setEthBalance";
-import { evmSnapshot, fundAccount, fundAccountERC20 } from "./tenderly/utils/apiUtils";
+import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
+import { anvilSetEthBalance } from "./anvil/utils/anvilSetEthBalance";
+import { anvilForkUrl } from "./anvil/constants";
+import { tenderlyEvmSnapshot } from "./tenderly/utils/tenderlyEvmSnapshot";
+import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
+import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
 
-const tenderlyVirtualTestnet = "https://virtual.base.rpc.tenderly.co/ee8497a0-46bc-4a54-8412-11aa72e813c6";
+const tenderlyVirtualTestnet = Cypress.env("tenderly_test_rpc");
 
 declare global {
   namespace Cypress {
@@ -62,15 +65,15 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
   cy.log("Setting up test environment");
 
   // step 1: setup VIRTUAL_TESTNET_KEY
-  localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl }));
+  localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl: anvilForkUrl }));
 
   // step 2: setup balances
   cy.wrap(null).then(async () => {
-    await setEthBalance({});
+    await anvilSetEthBalance({});
 
     await Promise.all(
       balanceConfig.map(({ account, tokenAddress, balance }) =>
-        setErc20Balance({ address: account, tokenAddress, value: balance })
+        anvilSetErc20Balance({ address: account, tokenAddress, value: balance })
       )
     );
   });
@@ -84,14 +87,14 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
 
     localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl }));
 
-    const snapshotId = await evmSnapshot(forkUrl);
+    const snapshotId = await tenderlyEvmSnapshot(forkUrl);
     localStorage.setItem(VIRTUAL_TESTNET_SNAPSHOT, JSON.stringify({ snapshotId }));
 
-    await fundAccount(forkUrl);
+    await tenderlyFundAccount(forkUrl);
 
     await Promise.all(
       balanceConfig.map(({ account, tokenAddress, balance }) =>
-        fundAccountERC20(forkUrl, tokenAddress, account, balance)
+        tenderlyFundAccountERC20(forkUrl, tokenAddress, account, balance)
       )
     );
   });

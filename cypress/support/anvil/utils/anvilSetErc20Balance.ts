@@ -14,7 +14,7 @@ import {
   walletActions,
 } from "viem";
 import { foundry } from "viem/chains";
-import { forkUrl } from "../../constants";
+import { anvilForkUrl } from "../constants";
 
 type SetErcBalanceParameters = {
   address: Address;
@@ -29,7 +29,7 @@ const SLOT_VALUE_TO_CHECK = 1337_1337_1337_1337_1337_1337_1337_1337_1337n;
 const client = createTestClient({
   chain: foundry,
   mode: "anvil",
-  transport: http(forkUrl),
+  transport: http(anvilForkUrl),
 })
   .extend(publicActions)
   .extend(walletActions);
@@ -92,11 +92,10 @@ const findSlot = async (address: Address, tokenAddress: Address): Promise<bigint
   return recursiveFind(0n);
 };
 
-export async function setErc20Balance({ address, tokenAddress, value }: SetErcBalanceParameters) {
+export async function anvilSetErc20Balance({ address, tokenAddress, value }: SetErcBalanceParameters) {
   const slotGuess = await findSlot(address, tokenAddress);
   const encodedData = encodeAbiParameters(parseAbiParameters("address, uint"), [address, slotGuess]);
 
-  console.log({ amount: pad(toHex(value)) })
   await client.setStorageAt({
     address: tokenAddress,
     index: keccak256(encodedData),

@@ -1,7 +1,7 @@
 import { createTestClient, http, publicActions, walletActions } from "viem";
 import { foundry } from "viem/chains";
+import { anvilForkUrl } from "./anvil/constants";
 
-export const forkUrl = "http://127.0.0.1:8545";
 export const targetAccount = "0x818DB96e1b5c64bBE6307c95473E313c743FF7d0";
 
 export const usdcAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
@@ -14,7 +14,7 @@ export const VIRTUAL_TESTNET_SNAPSHOT = "VIRTUAL_TESTNET_SNAPSHOT";
 export const testAnvilClient = createTestClient({
   chain: foundry,
   mode: "anvil",
-  transport: http(forkUrl),
+  transport: http(anvilForkUrl),
 })
   .extend(publicActions)
   .extend(walletActions);
