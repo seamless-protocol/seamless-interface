@@ -14,6 +14,7 @@ import { QueryParamProvider } from "use-query-params";
 import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
 import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
+import { SurveyBanner } from "./components/navbar/SurveyBanner";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -27,6 +28,10 @@ export function App() {
           <ConnectButtonProvider>
             <NavigationBar />
           </ConnectButtonProvider>
+          <div className="mt-2 flex w-full justify-center">
+            <SurveyBanner />
+          </div>
+
           <FlexCol className="min-h-screen">
             <NotificationProvider>
               <SentryRoutes>
