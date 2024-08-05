@@ -17,9 +17,9 @@ if (!forkUrl) {
   process.exit(1);
 }
 
-const forkBlockNumber = 12345678;
+const forkBlockNumber = 18048376;
 const pkillCommand = `pkill -f anvil || true`; // The '|| true' part ensures the script continues even if pkill fails
-const anvilCommand = `anvil --fork-url ${forkUrl} --fork-block-number ${forkBlockNumber}`;
+const anvilCommand = `anvil --fork-url ${forkUrl} --fork-block-number ${forkBlockNumber} --auto-impersonate --no-rate-limit`;
 
 // Kill existing anvil process
 spawn(pkillCommand, { shell: true }).on("close", (code) => {
