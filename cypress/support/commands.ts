@@ -8,6 +8,7 @@ import { anvilForkUrl } from "./anvil/constants";
 import { tenderlyEvmSnapshot } from "./tenderly/utils/tenderlyEvmSnapshot";
 import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
 import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
+import { anvilEvmSnapshot } from "./anvil/utils/anvilEvmSnapshot";
 
 const tenderlyVirtualTestnet = Cypress.env("tenderly_test_rpc");
 
@@ -62,16 +63,21 @@ Cypress.Commands.add("doSubmit", (hasApproval: boolean) => {
 });
 
 Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
-  cy.log("Setting up test environment");
+  cy.log("Setting up Anvil test environment");
 
-  // step 1: setup VIRTUAL_TESTNET_KEY
+  // Setup initial state in localStorage
   localStorage.setItem(VIRTUAL_TESTNET_KEY, JSON.stringify({ forkUrl: anvilForkUrl }));
   localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
 
-  // step 2: setup balances
+  // Snapshot the blockchain state
   cy.wrap(null).then(async () => {
+    const snapshotId = await anvilEvmSnapshot();
+
     await anvilSetEthBalance({});
 
+    localStorage.setItem(VIRTUAL_TESTNET_SNAPSHOT, JSON.stringify({ snapshotId }));
+
+    // Set up balances and other test states
     await Promise.all(
       balanceConfig.map(({ account, tokenAddress, balance }) =>
         anvilSetErc20Balance({ address: account, tokenAddress, value: balance })
