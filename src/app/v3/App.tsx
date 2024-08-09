@@ -12,7 +12,6 @@ import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
-import { SurveyBanner } from "./components/navbar/SurveyBanner";
 import { LandingPageRedesign } from "./pages/landing-page-redesign/LandingPageRedesign";
 import { useFetchAllStrategies } from "../statev3/common/hooks/useFetchAllStrategies";
 
@@ -28,9 +27,6 @@ export function App() {
           <ConnectButtonProvider>
             <NavigationBar />
           </ConnectButtonProvider>
-          <div className="mt-2 flex w-full justify-center">
-            <SurveyBanner />
-          </div>
 
           <FlexCol className="min-h-screen">
             <NotificationProvider>
