@@ -1,5 +1,3 @@
-import { IS_STYLE_VERSION_2 } from "../../../globals";
-
 /**
  * `TableRow` Component
  *
@@ -41,13 +39,11 @@ import { IS_STYLE_VERSION_2 } from "../../../globals";
 export const TableRow: React.FC<{
   children?: React.ReactNode;
   className?: string;
-  hideBorder?: boolean;
   rest?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
-}> = ({ children, className, hideBorder, rest }) => {
+}> = ({ children, className, rest }) => {
   return (
     <div
-      className={` px-6 items-center h-[76px] cursor-pointer ${IS_STYLE_VERSION_2 ? "" : "hover:bg-action-hover"} 
-      ${hideBorder ? "" : "border-solid border-b border-b-divider"} 
+      className={` px-6 items-center h-[76px] cursor-pointer} 
       ${className || ""}`}
       {...rest}
     >

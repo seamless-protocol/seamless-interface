@@ -9,11 +9,8 @@ export const ILMsTab = () => {
   return (
     <div>
       <div className="bg-neutral-0 shadow-card rounded-2xl">
-        <TableRow className="hidden md:grid grid-cols-7 py-[9px] bg-neutral-0 border-solid border-b border-b-navy-100 mt-0 max-h-9 justify-center rounded-t-2xl">
-          <TableCell
-            className="col-span-2 justify-center"
-            alignItems="items-start"
-          >
+        <TableRow className="hidden md:grid grid-cols-7 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl">
+          <TableCell className="col-span-2 justify-center" alignItems="items-start">
             <Typography type="bold1">ILM Strategies</Typography>
           </TableCell>
           <TableCell className="col-span-1">
@@ -35,14 +32,8 @@ export const ILMsTab = () => {
 
         {state.data?.map((strategy, index) => (
           <div key={index}>
-            <MyStrategiesDesktopTableRow
-              strategy={strategy.address}
-              hideBorder={index === state.data.length - 1}
-            />
-            <MyStrategiesMobileTableRow
-              strategy={strategy.address}
-              hideBorder={index === state.data.length - 1}
-            />
+            <MyStrategiesDesktopTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
+            <MyStrategiesMobileTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
           </div>
         ))}
       </div>

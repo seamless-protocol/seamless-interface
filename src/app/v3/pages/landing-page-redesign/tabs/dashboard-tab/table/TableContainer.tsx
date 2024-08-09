@@ -9,11 +9,8 @@ export const TableContainer = () => {
   return (
     <div>
       <div className="bg-neutral-0 shadow-card rounded-2xl">
-        <TableRow className="hidden md:grid grid-cols-22 py-2 bg-neutral-0 border-solid border-b border-b-navy-100 mt-0 justify-center rounded-t-2xl">
-          <TableCell
-            className="col-span-6 justify-center"
-            alignItems="items-start"
-          >
+        <TableRow className="hidden md:grid grid-cols-22 py-2 max-h-9 bg-neutral-0 border-solid border-b border-b-navy-100 mt-0 justify-center rounded-t-2xl">
+          <TableCell className="col-span-6 justify-center" alignItems="items-start">
             <Typography type="bold1">Strategies</Typography>
           </TableCell>
           <TableCell className="col-span-2">
@@ -33,10 +30,7 @@ export const TableContainer = () => {
 
         {state.data?.map((strategy, index) => (
           <div key={strategy.address}>
-            <MyTableDesktopRow
-              strategy={strategy.address}
-              hideBorder={index === state.data.length - 1}
-            />
+            <MyTableDesktopRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
             <MyTableMobileRow strategy={strategy.address} />
           </div>
         ))}

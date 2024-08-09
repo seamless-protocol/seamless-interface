@@ -1,8 +1,6 @@
 import React, { HTMLAttributes } from "react";
 
-import stylesv1 from "./styles/Card.v1.module.css";
-import stylesv2 from "./styles/Card.v2.module.css";
-import { IS_STYLE_VERSION_2 } from "../../../globals";
+import styles from "./styles/Card.v2.module.css";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -28,8 +26,6 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
  */
 
 export const Card: React.FC<CardProps> = ({ children, className = "", ...props }) => {
-  const styles = IS_STYLE_VERSION_2 ? stylesv2 : stylesv1;
-
   return (
     <div className={`${styles.root} ${className || ""}`} {...props}>
       {children}
