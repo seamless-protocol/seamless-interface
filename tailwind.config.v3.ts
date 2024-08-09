@@ -29,6 +29,11 @@ export default {
         xxl: "1440px",
         xxxl: "1800px",
       },
+
+      gridTemplateColumns: {
+        22: "repeat(22, minmax(0, 1fr))",
+      },
+
       borderWidth: {
         thin: "1.3px",
       },
@@ -39,6 +44,7 @@ export default {
       borderRadius: {
         card: "16px",
       },
+
       rotate: {
         "180": "180deg",
       },
@@ -51,6 +57,12 @@ export default {
           lend: "#FCF8CF",
           ilm: "#CFFCF5",
           rewardAPY: "#E4F7E6",
+        },
+
+        tags: {
+          red: "#FD6F41",
+          blue: "#4F68F7",
+          gray: "rgba(11, 37, 79, 0.10))",
         },
 
         background: {
@@ -107,6 +119,18 @@ export default {
           end: "#5CBDE6",
         },
         metallicBorder: "#0C2752",
+
+        successv2: {
+          900: "#2A863B",
+        },
+
+        primaryv2: {
+          400: "rgba(11, 37, 79, 0.40))",
+        },
+
+        errorv2: {
+          1000: "#A9252B",
+        },
 
         // v1
 

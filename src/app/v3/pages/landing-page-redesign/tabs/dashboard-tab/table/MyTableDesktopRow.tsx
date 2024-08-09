@@ -1,12 +1,5 @@
 import { Address } from "viem";
-import {
-  TableRow,
-  TableCell,
-  Icon,
-  FlexCol,
-  Typography,
-  FlexRow,
-} from "../../../../../../../shared";
+import { TableRow, TableCell, Icon, FlexCol, Typography, FlexRow } from "../../../../../../../shared";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { RandomNumber } from "../../../../../components/specific-components/RandomNumber";
 import { AprTooltip } from "../../../../../components/incentives/AprTooltip";
@@ -41,11 +34,7 @@ export const MyTableDesktopRow: React.FC<{
       </TableCell>
 
       <TableCell className="col-span-2">
-        <FlexRow>
-          {tags?.map((tag) => (
-            <Tag key={tag} tag={tag} />
-          ))}
-        </FlexRow>
+        <FlexRow>{tags?.map((tag) => <Tag key={tag} tag={tag} />)}</FlexRow>
       </TableCell>
       <TableCell className="col-span-3">
         <RandomNumber symbol="$" />
@@ -57,7 +46,7 @@ export const MyTableDesktopRow: React.FC<{
         <AprTooltip asset={strategy} />
       </TableCell>
       <TableCell className="col-span-5 flex justify-evenly items-center">
-        <TableButtons subStrategy={strategy} isStrategy />
+        <TableButtons strategy={strategy} isStrategy />
       </TableCell>
     </TableRow>
   );

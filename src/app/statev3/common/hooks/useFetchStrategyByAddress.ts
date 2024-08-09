@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { FetchData } from "../../../../shared";
 import { StrategyState } from "../types/StateTypes";
-import { useFetchAllAssets } from "./useFetchAllAssets";
+import { useFetchAllStrategies } from "./useFetchAllStrategies";
 
 /**
  * Retrieves a strategy state by its address.
@@ -11,7 +11,7 @@ import { useFetchAllAssets } from "./useFetchAllAssets";
  * @returns FetchData object containing the found strategy state or undefined if no strategy matches the address.
  */
 export const useFetchStrategyByAddress = (address?: Address): FetchData<StrategyState | undefined> => {
-  const { state } = useFetchAllAssets();
+  const { state } = useFetchAllStrategies();
 
   return {
     ...state,

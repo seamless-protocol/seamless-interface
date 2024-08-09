@@ -17,28 +17,26 @@ const fetchUserDepositStrategies = async (
   if (!config || !user) return [];
 
   const strategiesArray = Object.values(strategiesConfig);
-  const promises: Promise<Strategy | undefined>[] = strategiesArray.flatMap((strategy) =>
-    strategy.subStrategyData.map(async (subStrategy) => {
-      const balance = await readContract(config, {
-        address: subStrategy.address,
-        abi: loopStrategyAbi,
-        functionName: "balanceOf",
-        args: [user],
-      });
+  const promises: Promise<Strategy | undefined>[] = strategiesArray.map(async (strategy) => {
+    const balance = await readContract(config, {
+      address: strategy.address,
+      abi: loopStrategyAbi,
+      functionName: "balanceOf",
+      args: [user],
+    });
 
-      if (balance && balance > 0n) {
-        return {
-          asset: strategy.underlyingAsset.address,
-          strategy: subStrategy.address,
-        };
-      }
-      return undefined;
-    })
-  );
+    if (balance && balance > 0n) {
+      return {
+        asset: strategy.underlyingAsset.address,
+        strategy: strategy.address,
+      };
+    }
+    return undefined;
+  });
 
   const strategyResults = await Promise.all(promises);
   return strategyResults.filter((strategy): strategy is Strategy => strategy !== undefined);
-}
+};
 
 export const useFetchUserDepositStrategies = () => {
   const config = useConfig();
@@ -47,6 +45,6 @@ export const useFetchUserDepositStrategies = () => {
   return useQuery({
     queryKey: ["userDepositStrategies", account?.address],
     queryFn: () => fetchUserDepositStrategies(config, account?.address),
-    enabled: !!account?.address && !!config
+    enabled: !!account?.address && !!config,
   });
 };

@@ -1,5 +1,5 @@
 import {
-  wstETHBooster_ADDRESS,
+  wstETHBooster_ADDRESS_3_x,
   WSTETH_ADDRESS,
   WETH_ADDRESS,
   USDC_ADDRESS,
@@ -34,16 +34,9 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
   ethLong,
-  multiplyETH_ADDRESS_STRATEGY_ID,
-  wstETHBooster_ADDRESS_STRATEGY_ID,
   ethLong_3x,
 } from "@meta";
-import ethLongIlm from "@assets/ilms/ethLong-ilm.svg";
-import wstETHIlm from "@assets/ilms/wstETH-ilm.svg";
-import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
-import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
-import wstEthDiagram from "@assets/wsteth-diagram.png";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import cbethLogo from "@assets/tokens/cbeth.svg";
@@ -53,11 +46,12 @@ import degenLogo from "@assets/tokens/degen.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import wethLogo from "@assets/tokens/weth.svg";
+import ethLongIlm from "@assets/ilms/ethLong-ilm.svg";
+import wstETHIlm from "@assets/ilms/wstETH-ilm.svg";
 
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
 import { LendMarketConfig, StrategyConfig } from "./configTypes";
-import { faqsData } from "./faqConfig";
 
 export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WETH_ADDRESS]: {
@@ -169,64 +163,11 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   },
 };
 
-export const strategiesConfig: { [key: string]: StrategyConfig } = {
-  [wstETHBooster_ADDRESS_STRATEGY_ID]: {
-    name: "Boost wstETH",
-    subTitle: "Increase ETH staking rewards automatically",
-    description:
-      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
-    address: wstETHBooster_ADDRESS_STRATEGY_ID as Address,
-    logo: ilmwstETHLogo,
-    diagram: wstEthDiagram,
-    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
-    debtAsset: assetsConfig[WETH_ADDRESS],
-    faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
-    subStrategyData: [
-      {
-        address: wstETHBooster_ADDRESS,
-        targetMultiple: {
-          value: 3,
-          symbol: "x",
-        },
-      },
-    ],
-    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
-  },
-  [multiplyETH_ADDRESS_STRATEGY_ID]: {
-    name: "Multiply ETH Long",
-    subTitle: "Increase ETH price exposure",
-    description:
-      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
-    address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
-    multiplier: "Up to 3x",
-    faq: faqsData[multiplyETH_ADDRESS_STRATEGY_ID],
-    logo: ilmEthUsdcLogo,
-    underlyingAsset: assetsConfig[WETH_ADDRESS],
-    debtAsset: assetsConfig[USDC_ADDRESS],
-    subStrategyData: [
-      {
-        address: ethLong,
-        targetMultiple: {
-          value: 1.5,
-          symbol: "x",
-        },
-      },
-      {
-        address: ethLong_3x,
-        targetMultiple: {
-          value: 3,
-          symbol: "x",
-        },
-      },
-    ],
-  },
-};
-
-export const strategyConfigv2: { [key: string]: StrategyConfig } = {
-  [wstETHBooster_ADDRESS]: {
+export const strategiesConfig: { [key: Address]: StrategyConfig } = {
+  [wstETHBooster_ADDRESS_3_x]: {
     name: "wstETH Leveraged Staking 3x",
     description: "Increase ETH staking rewards by magnifying a wstETH position.",
-    address: wstETHBooster_ADDRESS,
+    address: wstETHBooster_ADDRESS_3_x,
     logo: wstETHIlm,
     underlyingAsset: assetsConfig[WSTETH_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],

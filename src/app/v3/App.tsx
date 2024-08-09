@@ -6,26 +6,20 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import {
-  ConnectButtonProvider,
-  FallbackPage,
-  FlexCol,
-  NotificationProvider,
-  PageNotFound,
-} from "@shared";
+import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
-import { useFetchAllAssets } from "../statev3/common/hooks/useFetchAllAssets";
 import { SurveyBanner } from "./components/navbar/SurveyBanner";
 import { LandingPageRedesign } from "./pages/landing-page-redesign/LandingPageRedesign";
+import { useFetchAllStrategies } from "../statev3/common/hooks/useFetchAllStrategies";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
-  useFetchAllAssets();
+  useFetchAllStrategies();
 
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
@@ -41,10 +35,7 @@ export function App() {
           <FlexCol className="min-h-screen">
             <NotificationProvider>
               <SentryRoutes>
-                <Route
-                  path={RouterConfig.Routes.markets}
-                  element={<LandingPageRedesign />}
-                />
+                <Route path={RouterConfig.Routes.markets} element={<LandingPageRedesign />} />
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>
             </NotificationProvider>

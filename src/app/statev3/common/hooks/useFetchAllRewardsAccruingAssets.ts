@@ -8,14 +8,15 @@ import {
   protocolDataProviderAddress,
 } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
-import { getAllSubStrategies } from "../../settings/configUtils";
+import { strategiesConfig } from "../../settings/config";
+import { Address } from "viem";
 
 // This function returns all assets that are accruing rewards inside RewardsController contract
 // This means that this function will return addresses of all strategies + all aTokens + all variableDebtTokens
 export async function fetchAllRewardsAccruingAssets(config: Config) {
   const queryClient = getQueryClient();
 
-  const strategies = getAllSubStrategies();
+  const strategies = Object.keys(strategiesConfig) as Address[];
 
   const reservesList = await queryClient.fetchQuery(
     readContractQueryOptions(config, {
