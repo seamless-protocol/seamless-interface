@@ -1,3 +1,5 @@
+import { IS_STYLE_VERSION_2 } from "../../../globals";
+
 /**
  * `TableRow` Component
  *
@@ -39,11 +41,13 @@
 export const TableRow: React.FC<{
   children?: React.ReactNode;
   className?: string;
+  hideBorder?: boolean;
   rest?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
-}> = ({ children, className, rest }) => {
+}> = ({ children, className, rest, hideBorder }) => {
   return (
     <div
       className={` px-6 items-center h-[76px] cursor-pointer} 
+      ${IS_STYLE_VERSION_2 ? (hideBorder ? "" : "border-solid border-b border-b-divider") : ""} 
       ${className || ""}`}
       {...rest}
     >
