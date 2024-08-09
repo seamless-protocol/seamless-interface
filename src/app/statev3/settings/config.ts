@@ -38,6 +38,8 @@ import {
   wstETHBooster_ADDRESS_STRATEGY_ID,
   ethLong_3x,
 } from "@meta";
+import ethLongIlm from "@assets/ilms/ethLong-ilm.svg";
+import wstETHIlm from "@assets/ilms/wstETH-ilm.svg";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
@@ -217,5 +219,35 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
         },
       },
     ],
+  },
+};
+
+export const strategyConfigv2: { [key: string]: StrategyConfig } = {
+  [wstETHBooster_ADDRESS]: {
+    name: "wstETH Leveraged Staking 3x",
+    description: "Increase ETH staking rewards by magnifying a wstETH position.",
+    address: wstETHBooster_ADDRESS,
+    logo: wstETHIlm,
+    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
+    tags: ["Staking"],
+  },
+  [ethLong]: {
+    name: "ETH Long 1.5x",
+    description: "For ETH Bulls, increase ETH price exposure by 1.5 times long.",
+    address: ethLong,
+    logo: ethLongIlm,
+    underlyingAsset: assetsConfig[WETH_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
+    tags: ["Long"],
+  },
+  [ethLong_3x]: {
+    name: "ETH Long 3x",
+    description: "For ETH Bulls, increase ETH price exposure by 3 times long.",
+    address: ethLong_3x,
+    logo: ethLongIlm,
+    underlyingAsset: assetsConfig[WETH_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
+    tags: ["Long"],
   },
 };

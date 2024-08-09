@@ -6,11 +6,21 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
+import {
+  ConnectButtonProvider,
+  FallbackPage,
+  FlexCol,
+  NotificationProvider,
+  PageNotFound,
+} from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
-import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
+import { Footer } from "./components/footer/Footer";
+import { NavigationBar } from "./components/navbar/NavigationBar";
+import { useFetchAllAssets } from "../statev3/common/hooks/useFetchAllAssets";
+import { SurveyBanner } from "./components/navbar/SurveyBanner";
+import { LandingPageRedesign } from "./pages/landing-page-redesign/LandingPageRedesign";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -21,13 +31,24 @@ export function App() {
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
+          <ConnectButtonProvider>
+            <NavigationBar />
+          </ConnectButtonProvider>
+          <div className="mt-2 flex w-full justify-center">
+            <SurveyBanner />
+          </div>
+
           <FlexCol className="min-h-screen">
             <NotificationProvider>
               <SentryRoutes>
-                <Route path={RouterConfig.Routes.markets} element={<div>test</div>} />
+                <Route
+                  path={RouterConfig.Routes.markets}
+                  element={<LandingPageRedesign />}
+                />
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>
             </NotificationProvider>
+            <Footer />
           </FlexCol>
         </QueryParamProvider>
       </HashRouter>

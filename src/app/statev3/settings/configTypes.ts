@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import type { TagType } from "../common/types/StateTypes";
 
 export interface AssetBaseConfig {
   name?: string;
@@ -44,6 +45,7 @@ export interface StrategyConfig extends AssetBaseConfig {
   // todo remove and fetch
   debtAsset: LendMarketConfig;
   // todo remove and fetch
-  subStrategyData: SubStrategyDataConfig[];
+  subStrategyData?: SubStrategyDataConfig[]; // todo remove
 
+  tags?: TagType[]; // todo non optional
 }

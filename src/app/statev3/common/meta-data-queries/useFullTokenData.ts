@@ -3,19 +3,16 @@ import { FetchData } from "../../../../shared/types/Fetch";
 import { useSeamlessContractRead } from "../../../../shared/wagmi-wrapper/hooks/useSeamlessContractRead";
 import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
-import { assetsConfig, strategiesConfig } from "../../settings/config";
-import { AssetBaseConfig } from "../../settings/configTypes";
-import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
+import { strategyConfigv2 } from "../../settings/config";
+import { StrategyConfig } from "../../settings/configTypes";
 
-export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
+export interface FullAssetData extends Omit<StrategyConfig, "address"> {
   decimals?: number;
 }
 
 // todo rename hook
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAssetData> => {
-  const config = asset
-    ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
-    : undefined;
+  const config = asset ? strategyConfigv2[asset] : undefined;
 
   const { data: decimals, ...decimalRest } = useSeamlessContractRead({
     address: asset,
@@ -45,6 +42,6 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAss
       name,
       decimals,
       ...config,
-    },
+    } as FullAssetData,
   };
 };

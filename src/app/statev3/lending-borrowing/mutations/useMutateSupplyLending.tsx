@@ -16,7 +16,10 @@ export const useMutateSupplyLending = (asset?: Address) => {
 
   // cache data
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(asset);
-  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({ asset, spender: lendingPoolConfig.address });
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
+    asset,
+    spender: lendingPoolConfig.address,
+  });
   const { queryKey: userAccountDataQK } = useFetchUserAccountData();
 
   // hook call
