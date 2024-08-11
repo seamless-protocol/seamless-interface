@@ -11,6 +11,11 @@ export interface FetchBigInt {
   symbol?: string;
 }
 
+export interface FetchDetailBigInt {
+  tokenAmount?: FetchBigInt;
+  dollarAmount?: FetchBigInt;
+}
+
 export type Fetch<T> = T & {
   isFetched: boolean;
   isLoading: boolean;
