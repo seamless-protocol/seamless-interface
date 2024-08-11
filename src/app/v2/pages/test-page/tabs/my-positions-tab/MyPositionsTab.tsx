@@ -5,16 +5,10 @@ import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { MyStrategiesMobileTableRow } from "./MyStrategiesMobileTableRow";
 import { ClaimCard } from "./claim/ClaimCard";
-import { wstETHBooster_ADDRESS } from "../../../../../../meta";
-import { useFetchUserStrategyProfit } from "../../../../../statev3/hooks/useFetchViewUserPnL";
 
 export const MyPositionsTab: React.FC = () => {
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
   const { data: strategies, isFetched, isLoading } = useFetchUserStrategies();
-
-  const { data } = useFetchUserStrategyProfit(address, wstETHBooster_ADDRESS);
-
-  console.log(data);
 
   if (!isConnected) {
     return (
