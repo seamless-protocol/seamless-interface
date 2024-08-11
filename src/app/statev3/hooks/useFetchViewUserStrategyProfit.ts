@@ -82,30 +82,39 @@ export async function fetchUserStrategyProfit({
 
   const underlyingAssetBase = 10n ** BigInt(underlyingAssetDecimals);
 
-  let [totalDepositedUsd, totalRedeemedUsd, tempShares, tempSharesAvgPrice] = [0n, 0n, 0n, 0n];
+  const { totalDepositedUsd, totalRedeemedUsd, tempShares, tempSharesAvgPrice } = await logs.reduce(
+    async (accPromise, log) => {
+      const acc = await accPromise;
+      const { eventName, args, blockNumber } = log;
+      const { assets, shares } = args;
 
-  for (const log of logs) {
-    const { eventName, args, blockNumber } = log;
-    const { assets, shares } = args;
+      if (!assets || !shares) return acc;
 
-    if (!assets || !shares) continue;
+      const price = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
+      if (!price) return acc;
 
-    const price = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
+      if (eventName === "Deposit") {
+        const depositAmountUsd = (assets * price) / underlyingAssetBase;
+        acc.totalDepositedUsd += depositAmountUsd;
 
-    if (!price) continue;
+        acc.tempSharesAvgPrice =
+          (acc.tempShares * acc.tempSharesAvgPrice + depositAmountUsd * underlyingAssetBase) /
+          (acc.tempShares + shares);
+        acc.tempShares += shares;
+      } else if (eventName === "Withdraw") {
+        acc.totalRedeemedUsd += (assets * price) / underlyingAssetBase;
+        acc.tempShares -= shares;
+      }
 
-    if (eventName === "Deposit") {
-      const depositAmountUsd = (assets * price) / underlyingAssetBase;
-      totalDepositedUsd += depositAmountUsd;
-
-      tempSharesAvgPrice =
-        (tempShares * tempSharesAvgPrice + depositAmountUsd * underlyingAssetBase) / (tempShares + shares);
-      tempShares += shares;
-    } else if (eventName === "Withdraw") {
-      totalRedeemedUsd += (assets * price) / underlyingAssetBase;
-      tempShares -= shares;
-    }
-  }
+      return acc;
+    },
+    Promise.resolve({
+      totalDepositedUsd: 0n,
+      totalRedeemedUsd: 0n,
+      tempShares: 0n,
+      tempSharesAvgPrice: 0n,
+    })
+  );
 
   const { dollarAmount: currHoldingUsd } = await fetchDetailAssetBalance({ config, asset: strategy, account: user });
 
