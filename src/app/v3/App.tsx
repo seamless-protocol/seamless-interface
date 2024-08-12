@@ -10,14 +10,11 @@ import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, Pag
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
-import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
 import { Footer } from "./components/footer/Footer";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
-  useFetchAllAssets();
-
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
