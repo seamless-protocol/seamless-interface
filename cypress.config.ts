@@ -7,7 +7,7 @@ dotenv.config({ path: "./.env.development" });
 
 export default defineConfig({
   env: {
-    url: "http://localhost:5173",
+    url: process.env.VITE_DEV_SERVER_URL,
     private_key: "0xe30165a9c8c2a7f249f1cf04ba5f2ed8afacb762cc813a66b86c898cc806d58a",
     tenderly_test_rpc: process.env.VITE_CYPRESS_TEST_TENDERLY_RPC_URL,
     tenderly_access_key: process.env.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY,
@@ -24,8 +24,7 @@ export default defineConfig({
   },
 
   e2e: {
-    // todo: read this dynamically?
-    baseUrl: "http://localhost:5173",
+    baseUrl: process.env.VITE_DEV_SERVER_URL,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on("file:preprocessor", vitePreprocessor(config));
