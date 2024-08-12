@@ -1,19 +1,10 @@
-import { anvilForkUrl } from "../constants";
+import { Address } from "viem";
+import { testAnvilClient } from "../constants";
 
 export const anvilEvmRevert = async (snapshotId: string) => {
-  const response = await fetch(anvilForkUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "evm_revert",
-      params: [snapshotId],
-      id: 1,
-    }),
+  const result = await testAnvilClient.revert({
+    id: snapshotId as Address,
   });
 
-  const data = await response.json();
-  return data.result;
+  return result;
 };
