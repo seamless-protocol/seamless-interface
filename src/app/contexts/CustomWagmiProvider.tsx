@@ -7,7 +7,7 @@ import { initTestWagmiConfig } from "../config/demoConnector/testWagmiConfig";
 import { createTestConnector } from "../config/demoConnector/testConnector";
 
 // todo: put this in one place
-const VIRTUAL_TESTNET_KEY = "VIRTUAL_TESTNET_KEY";
+const LOCALSTORAGE_TESTNET_URL_KEY = "LOCALSTORAGE_TESTNET_URL_KEY";
 const PRIVATE_KEY = "PRIVATE_KEY";
 
 export const CustomWagmiProvider: React.FC<{
@@ -15,7 +15,7 @@ export const CustomWagmiProvider: React.FC<{
 }> = ({ children }) => {
   const [TESTNET_URL] = useLocalStorage<{
     forkUrl: string;
-  }>(VIRTUAL_TESTNET_KEY);
+  }>(LOCALSTORAGE_TESTNET_URL_KEY);
 
   return TESTNET_URL?.forkUrl && IS_DEV_MODE ? (
     <TestWagmiProvider rpcUrl={TESTNET_URL.forkUrl}>{children}</TestWagmiProvider>
@@ -46,7 +46,7 @@ const TestWagmiAutoConnector: React.FC<{
 }> = ({ children }) => {
   const [TESTNET_URL] = useLocalStorage<{
     forkUrl: string;
-  }>(VIRTUAL_TESTNET_KEY);
+  }>(LOCALSTORAGE_TESTNET_URL_KEY);
   const [KEY] = useLocalStorage<{
     KEY: string;
   }>(PRIVATE_KEY);

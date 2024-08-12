@@ -1,6 +1,6 @@
 import { anvilEvmRevert } from "../../../../cypress/support/anvil/utils/anvilEvmRevert";
 import { BalanceConfig } from "../../../../cypress/support/config/balanceConfig";
-import { VIRTUAL_TESTNET_KEY, VIRTUAL_TESTNET_SNAPSHOT } from "../../../../cypress/support/constants";
+import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "../../../../cypress/support/constants";
 import { tenderlyEvmRevert } from "../../../../cypress/support/tenderly/utils/tenderlyEvmRevert";
 
 type TestEnv = "anvil" | "tenderly";
@@ -19,8 +19,8 @@ export const prepareTestForRun = () => {
 
   after(() => {
     cy.window().then(({ localStorage }) => {
-      const snapshotIdJSON = localStorage.getItem(VIRTUAL_TESTNET_SNAPSHOT);
-      const forkUrlJSON = localStorage.getItem(VIRTUAL_TESTNET_KEY);
+      const snapshotIdJSON = localStorage.getItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
+      const forkUrlJSON = localStorage.getItem(LOCALSTORAGE_TESTNET_URL_KEY);
 
       const snapshotId = snapshotIdJSON ? JSON.parse(snapshotIdJSON).snapshotId : null;
       const forkUrl = forkUrlJSON ? JSON.parse(forkUrlJSON).forkUrl : null;
@@ -31,19 +31,17 @@ export const prepareTestForRun = () => {
       if (testEnv === "tenderly") {
         if (snapshotId && forkUrl) {
           cy.wrap(tenderlyEvmRevert(forkUrl, snapshotId)).then(() => {
-            localStorage.removeItem(VIRTUAL_TESTNET_SNAPSHOT);
-            localStorage.removeItem(VIRTUAL_TESTNET_KEY);
+            localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
+            localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
 
             // eslint-disable-next-line no-console
             console.log("snapshot reverted");
           });
         }
       } else if (testEnv === "anvil") {
-        cy.task("stopAnvil");
-
         cy.wrap(anvilEvmRevert(snapshotId)).then(() => {
-          localStorage.removeItem(VIRTUAL_TESTNET_SNAPSHOT);
-          localStorage.removeItem(VIRTUAL_TESTNET_KEY);
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
 
           // eslint-disable-next-line no-console
           console.log("reverting snapshot", snapshotId);

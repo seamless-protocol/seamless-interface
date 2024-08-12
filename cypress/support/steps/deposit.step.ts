@@ -24,7 +24,7 @@ export const deposit = ({
       cy.wait(4000);
       cy.setAmount(amount, isMaxAmount);
       cy.wait(4000);
-      cy.doSubmit(hasApproval);
+      cy.doDepositSubmit(hasApproval);
       cy.get('[data-cy="notification-success-icon"]', { timeout: 12000 }).should("be.visible");
       cy.wait(5000);
     });
