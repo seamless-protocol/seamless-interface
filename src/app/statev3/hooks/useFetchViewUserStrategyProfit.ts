@@ -6,6 +6,7 @@ import {
   Displayable,
   FetchBigInt,
   ViewBigInt,
+  fFetchBigIntStructured,
   fUsdValueStructured,
   formatFetchBigIntToViewBigInt,
 } from "../../../shared";
@@ -52,6 +53,7 @@ export async function getStrategyEventLogsForUser({ config, strategy, user }: Ge
 interface UserStrategyProfit {
   totalProfit: FetchBigInt | undefined;
   unrealizedProfit: FetchBigInt | undefined;
+  unrealizedProfitPercentage: FetchBigInt | undefined;
 }
 
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
@@ -100,10 +102,10 @@ export async function fetchUserStrategyProfit({
     })
   );
 
-  const { totalInvestedUsd, currShares, currSharesAvgPrice } = results.filter(Boolean).reduce(
+  const { currTotalProfit, currShares, currSharesAvgPrice } = results.filter(Boolean).reduce(
     (acc, { transferValueUsd, shareBalanceChange }) => {
       let { currSharesAvgPrice } = acc;
-      const { totalInvestedUsd, currShares } = acc;
+      const { currTotalProfit, currShares } = acc;
 
       if (shareBalanceChange > 0n) {
         currSharesAvgPrice =
@@ -111,13 +113,13 @@ export async function fetchUserStrategyProfit({
       }
 
       return {
-        totalInvestedUsd: totalInvestedUsd + transferValueUsd,
+        currTotalProfit: currTotalProfit - transferValueUsd,
         currSharesAvgPrice,
         currShares: currShares + shareBalanceChange,
       };
     },
     {
-      totalInvestedUsd: 0n,
+      currTotalProfit: 0n,
       currSharesAvgPrice: 0n,
       currShares: 0n,
     }
@@ -130,12 +132,16 @@ export async function fetchUserStrategyProfit({
 
   const currSharesUsd = (currShares * price) / strategyBase;
 
-  const totalProfit = currSharesUsd - totalInvestedUsd;
+  const totalProfit = currSharesUsd + currTotalProfit;
   const unrealizedProfit = currSharesUsd - (currShares * currSharesAvgPrice) / strategyBase;
+  const unrealizedProfitPercentage = currSharesUsd
+    ? (unrealizedProfit * 10000n) / (currSharesUsd - unrealizedProfit)
+    : 0n;
 
   return {
     totalProfit: fUsdValueStructured(totalProfit),
     unrealizedProfit: fUsdValueStructured(unrealizedProfit),
+    unrealizedProfitPercentage: fFetchBigIntStructured(unrealizedProfitPercentage, 2, "%"),
   };
 }
 
@@ -147,6 +153,7 @@ interface UseFetchUserStrategyProfitInput {
 interface ViewUserStrategyProfit {
   totalProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
+  unrealizedProfitPercentage: ViewBigInt;
 }
 
 export const useFetchUserStrategyProfit = ({ user, strategy }: UseFetchUserStrategyProfitInput) => {
@@ -169,6 +176,7 @@ export const useFetchViewUserStrategyProfit = (
     data: {
       totalProfit: formatFetchBigIntToViewBigInt(data?.totalProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
+      unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),
     },
   };
 };

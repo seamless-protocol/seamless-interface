@@ -7,6 +7,7 @@ import {
   Displayable,
   FetchBigInt,
   ViewBigInt,
+  fFetchBigIntStructured,
   fUsdValueStructured,
   formatFetchBigIntToViewBigInt,
 } from "../../../shared";
@@ -14,27 +15,45 @@ import {
 interface UserProfit {
   totalProfit: FetchBigInt | undefined;
   unrealizedProfit: FetchBigInt | undefined;
+  unrealizedProfitPercentage: FetchBigInt | undefined;
 }
 
 export async function fetchUserProfit({ config, account }: { config: Config; account: Address }): Promise<UserProfit> {
   const strategies = getAllSubStrategies();
 
-  let totalProfit = 0n;
-  let unrealizedProfit = 0n;
-  await Promise.all(
+  const results = await Promise.all(
     strategies.map(async (strategy) => {
       const cur = await fetchUserStrategyProfit({ config, user: account, strategy });
 
-      totalProfit += cur.totalProfit?.bigIntValue || 0n;
-      unrealizedProfit += cur.unrealizedProfit?.bigIntValue || 0n;
+      const totalProfit = cur.totalProfit?.bigIntValue || 0n;
+      const unrealizedProfit = cur.unrealizedProfit?.bigIntValue || 0n;
+      const weightedUnrealizedProfit =
+        (cur.unrealizedProfit?.bigIntValue || 0n) * (cur.unrealizedProfitPercentage?.bigIntValue || 0n);
+
+      return { totalProfit, unrealizedProfit, weightedUnrealizedProfit };
     })
   );
 
-  const profit = { totalProfit, unrealizedProfit };
+  const { totalProfit, unrealizedProfit, unrealizedProfitPercentage } = results.reduce(
+    (acc, { totalProfit, unrealizedProfit, weightedUnrealizedProfit }) => {
+      const newTotalProfit = acc.totalProfit + totalProfit;
+      const newUnrealizedProfit = acc.unrealizedProfit + unrealizedProfit;
+      const newWeightedUnrealizedProfit = acc.weightedUnrealizedProfit + weightedUnrealizedProfit;
+
+      return {
+        totalProfit: newTotalProfit,
+        unrealizedProfit: newUnrealizedProfit,
+        weightedUnrealizedProfit: newWeightedUnrealizedProfit,
+        unrealizedProfitPercentage: newUnrealizedProfit ? newWeightedUnrealizedProfit / newUnrealizedProfit : 0n,
+      };
+    },
+    { totalProfit: 0n, unrealizedProfit: 0n, weightedUnrealizedProfit: 0n, unrealizedProfitPercentage: 0n }
+  );
 
   return {
-    totalProfit: fUsdValueStructured(profit.totalProfit),
-    unrealizedProfit: fUsdValueStructured(profit.unrealizedProfit),
+    totalProfit: fUsdValueStructured(totalProfit),
+    unrealizedProfit: fUsdValueStructured(unrealizedProfit),
+    unrealizedProfitPercentage: fFetchBigIntStructured(unrealizedProfitPercentage, 2, "%"),
   };
 }
 
@@ -53,6 +72,7 @@ export const useFetchUserProfit = () => {
 interface ViewUserProfit {
   totalProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
+  unrealizedProfitPercentage: ViewBigInt;
 }
 
 export const useFetchViewUserProfit = (): Displayable<ViewUserProfit> => {
@@ -63,6 +83,7 @@ export const useFetchViewUserProfit = (): Displayable<ViewUserProfit> => {
     data: {
       totalProfit: formatFetchBigIntToViewBigInt(data?.totalProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
+      unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),
     },
   };
 };
