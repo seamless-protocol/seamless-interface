@@ -1,4 +1,4 @@
-import { testAnvilClient } from "../constants";
+import { testAnvilClient } from "..";
 
 export const anvilEvmSnapshot = async () => {
   const response = testAnvilClient.snapshot();

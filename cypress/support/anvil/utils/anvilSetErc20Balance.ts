@@ -1,20 +1,15 @@
 import {
   type Address,
   BaseError,
-  createTestClient,
   encodeAbiParameters,
   erc20Abi,
   getAbiItem,
-  http,
   keccak256,
   pad,
   parseAbiParameters,
-  publicActions,
   toHex,
-  walletActions,
 } from "viem";
-import { foundry } from "viem/chains";
-import { anvilForkUrl } from "../constants";
+import { testAnvilClient } from "..";
 
 type SetErcBalanceParameters = {
   address: Address;
@@ -26,31 +21,23 @@ const balanceOfAbiItem = getAbiItem({ abi: erc20Abi, name: "balanceOf" });
 
 const SLOT_VALUE_TO_CHECK = 1337_1337_1337_1337_1337_1337_1337_1337_1337n;
 
-const client = createTestClient({
-  chain: foundry,
-  mode: "anvil",
-  transport: http(anvilForkUrl),
-})
-  .extend(publicActions)
-  .extend(walletActions);
-
 const findSlot = async (address: Address, tokenAddress: Address): Promise<bigint> => {
   const recursiveFind = async (slotGuess: bigint): Promise<bigint> => {
     const encodedData = encodeAbiParameters(parseAbiParameters("address, uint"), [address, slotGuess]);
     const slotKey = keccak256(encodedData);
 
-    const oldSlotValue = await client.getStorageAt({
+    const oldSlotValue = await testAnvilClient.getStorageAt({
       address: tokenAddress,
       slot: slotKey,
     });
 
-    await client.setStorageAt({
+    await testAnvilClient.setStorageAt({
       address: tokenAddress,
       index: slotKey,
       value: pad(toHex(SLOT_VALUE_TO_CHECK)),
     });
 
-    const newBalance = await client.readContract({
+    const newBalance = await testAnvilClient.readContract({
       abi: [balanceOfAbiItem],
       address: tokenAddress,
       functionName: "balanceOf",
@@ -61,13 +48,13 @@ const findSlot = async (address: Address, tokenAddress: Address): Promise<bigint
       return slotGuess;
     }
 
-    await client.setStorageAt({
+    await testAnvilClient.setStorageAt({
       address: tokenAddress,
       index: slotKey,
       value: pad(toHex(SLOT_VALUE_TO_CHECK + 1n)),
     });
 
-    const newBalanceAgain = await client.readContract({
+    const newBalanceAgain = await testAnvilClient.readContract({
       abi: [balanceOfAbiItem],
       address: tokenAddress,
       functionName: "balanceOf",
@@ -78,7 +65,7 @@ const findSlot = async (address: Address, tokenAddress: Address): Promise<bigint
       return slotGuess;
     }
 
-    await client.setStorageAt({
+    await testAnvilClient.setStorageAt({
       address: tokenAddress,
       index: slotKey,
       value: oldSlotValue || pad("0x0"),
@@ -96,7 +83,7 @@ export async function anvilSetErc20Balance({ address, tokenAddress, value }: Set
   const slotGuess = await findSlot(address, tokenAddress);
   const encodedData = encodeAbiParameters(parseAbiParameters("address, uint"), [address, slotGuess]);
 
-  await client.setStorageAt({
+  await testAnvilClient.setStorageAt({
     address: tokenAddress,
     index: keccak256(encodedData),
     value: pad(toHex(value)),

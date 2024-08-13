@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { testAnvilClient } from "../constants";
+import { testAnvilClient } from "..";
 
 export const anvilEvmRevert = async (snapshotId: string) => {
   const result = await testAnvilClient.revert({

@@ -10,14 +10,15 @@ const __dirname = path.dirname(__filename);
 // Load environment variables from .env.development
 dotenv.config({ path: path.resolve(__dirname, ".env.development") });
 
+
 const forkUrl = process.env.VITE_BASE_RPC_FREE_1;
+const forkBlockNumber = process.env.VITE_CYPRESS_ANVIL_FORK_BLOCK_NUMBER;
 
 if (!forkUrl) {
   console.error("Error: VITE_BASE_RPC_FREE_1 is not defined in .env.development");
   process.exit(1);
 }
 
-const forkBlockNumber = 18048376;
 const pkillCommand = `pkill -f anvil || true`; // The '|| true' part ensures the script continues even if pkill fails
 const anvilCommand = `anvil --fork-url ${forkUrl} --fork-block-number ${forkBlockNumber} --auto-impersonate --no-rate-limit`;
 

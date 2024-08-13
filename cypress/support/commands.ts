@@ -4,7 +4,7 @@ import { PRIVATE_KEY, LOCALSTORAGE_TESTNET_URL_KEY, LOCALSTORAGE_TESTNET_SNAPSHO
 import { IBalanceConfig } from "./config/balanceConfig";
 import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
 import { anvilSetEthBalance } from "./anvil/utils/anvilSetEthBalance";
-import { anvilForkUrl } from "./anvil/constants";
+import { anvilForkUrl } from "./anvil";
 import { tenderlyEvmSnapshot } from "./tenderly/utils/tenderlyEvmSnapshot";
 import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
 import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
@@ -104,4 +104,4 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   });
 });
 
-export {};
+export { };
