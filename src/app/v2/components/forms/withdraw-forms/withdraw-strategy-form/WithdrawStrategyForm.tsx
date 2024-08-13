@@ -98,7 +98,7 @@ const WithdrawStrategyLocal: React.FC<{
     if (IS_SIMULATION_DISABLED || (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading)) {
       try {
         const { txHash } = await withdrawAsync(
-          parseUnits(data.amount, 18),
+          underlyingTokenData.decimals ? parseUnits(data.amount, underlyingTokenData.decimals) : undefined,
           account.address as Address,
           account.address as Address,
           previewWithdrawData?.data.assetsToReceive?.bigIntValue || 0n

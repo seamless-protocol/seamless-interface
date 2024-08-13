@@ -6,7 +6,7 @@ import {
   WETH_ADDRESS,
   WSTETH_ADDRESS,
   sWETH_ADDRESS,
-  ethShort_ADDRESS_3_x,
+  wstETHBooster_ADDRESS,
   DEGEN_ADDRESS,
   SEAM_ADDRESS,
   ethLong,
@@ -46,7 +46,7 @@ export const TokenDataDict: ITokenDataDict = {
   [WSTETH_ADDRESS]: {
     logo: WstEthLogo,
   },
-  [ethShort_ADDRESS_3_x]: {
+  [wstETHBooster_ADDRESS]: {
     name: "wstETH Booster",
     logo: ilmwstETHLogo,
   },

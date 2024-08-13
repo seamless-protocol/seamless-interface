@@ -1,4 +1,4 @@
-import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { SeamlessWriteAsyncParams, useSeamlessContractWrite, useToken } from "@shared";
 import { loopStrategyAbi } from "@generated";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
@@ -9,6 +9,7 @@ import { StrategyState } from "../../common/types/StateTypes";
 export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAddress?: Address) => {
   // meta data
   const { address } = useAccount();
+  const { data: { decimals } } = useToken(strategy?.underlyingAsset?.address);
 
   // cache data
   const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlyingAsset.address);
@@ -43,7 +44,7 @@ export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAd
         address: subStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "deposit",
-        args: [parseUnits(args.amount, 18), address as Address, args.sharesToReceive],
+        args: [decimals ? parseUnits(args.amount, decimals) : undefined!, address as Address, args.sharesToReceive],
       },
       { ...settings }
     );

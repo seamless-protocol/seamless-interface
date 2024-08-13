@@ -1,5 +1,5 @@
 import {
-  ethShort_ADDRESS_3_x,
+  wstETHBooster_ADDRESS,
   WSTETH_ADDRESS,
   WETH_ADDRESS,
   USDC_ADDRESS,
@@ -38,6 +38,7 @@ import {
   wstETHBooster_ADDRESS_STRATEGY_ID,
   ethLong_3x,
   ethShort_ADDRESS_1_5_x,
+  shortETH_ADDRESS_STRATEGY_ID,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -182,21 +183,14 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
     subStrategyData: [
       {
-        address: ethShort_ADDRESS_1_5_x,
-        targetMultiple: {
-          value: 1.5,
-          symbol: "x",
-        },
-      },
-      {
-        address: ethShort_ADDRESS_3_x,
+        address: wstETHBooster_ADDRESS,
         targetMultiple: {
           value: 3,
           symbol: "x",
         },
       },
     ],
-    vaultsFyiLink: RouterConfig.Builder.vaults(ethShort_ADDRESS_3_x),
+    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
   },
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",
@@ -221,6 +215,26 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
         address: ethLong_3x,
         targetMultiple: {
           value: 3,
+          symbol: "x",
+        },
+      },
+    ],
+  },
+  [shortETH_ADDRESS_STRATEGY_ID]: {
+    name: "ETH Short",
+    subTitle: "Todo: subtitle",
+    description:
+      "Todo: description.",
+    address: shortETH_ADDRESS_STRATEGY_ID as Address,
+    logo: ilmwstETHLogo, // todo logo
+    underlyingAsset: assetsConfig[USDC_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
+    faq: faqsData[shortETH_ADDRESS_STRATEGY_ID],
+    subStrategyData: [
+      {
+        address: ethShort_ADDRESS_1_5_x,
+        targetMultiple: {
+          value: 1.5,
           symbol: "x",
         },
       },

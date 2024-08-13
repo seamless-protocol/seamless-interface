@@ -13,7 +13,7 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
 
   return {
     isPending,
-    withdrawAsync: async (shares: bigint, from: Address, receiver: Address, minToReceive: bigint) => {
+    withdrawAsync: async (shares: bigint | undefined, from: Address, receiver: Address, minToReceive: bigint) => {
       setIsPending(true);
 
       const ret = await waitForTransaction(config, async () => {
@@ -27,7 +27,7 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
           address: subStrategy,
           abi: loopStrategyAbi,
           functionName: "redeem",
-          args: [shares, from, receiver, minToReceive],
+          args: [shares!, from, receiver, minToReceive],
         });
       });
 
