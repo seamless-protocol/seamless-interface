@@ -30,6 +30,7 @@ import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { IS_SIMULATION_DISABLED } from "../../../../../../globals";
 
 export const WithdrawStrategyForm: React.FC<{
   selectedSubStrategy?: Address;
@@ -94,7 +95,7 @@ const WithdrawStrategyLocal: React.FC<{
       return;
     }
 
-    if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
+    if (IS_SIMULATION_DISABLED || (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading)) {
       try {
         const { txHash } = await withdrawAsync(
           parseUnits(data.amount, 18),
