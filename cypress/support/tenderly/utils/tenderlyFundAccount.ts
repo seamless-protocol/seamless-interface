@@ -4,7 +4,7 @@ import { targetAccount } from "../../constants";
 export const tenderlyFundAccount = async (forkUrl: string, account = targetAccount, amount = BigInt(5 * 1e18)) => {
   const API_KEY = Cypress.env("tenderly_access_key");
 
-  let amountHex = toHex(amount, { size: 16 });
+  const amountHex = toHex(amount, { size: 16 });
   let formattedAmount = String(amountHex).replace(/^0+/, "");
   formattedAmount = `0x${amountHex}`;
 
