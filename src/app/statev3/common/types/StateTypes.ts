@@ -5,7 +5,6 @@ export type TagType = "Staking" | "Long";
 
 export interface StrategyState {
   address: Address;
-  isStrategy: boolean;
   tags: TagType[];
 
   // todo replace it with fetched data

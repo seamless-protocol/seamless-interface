@@ -1,5 +1,5 @@
 import {
-  wstETHBooster_ADDRESS,
+  wstETHBooster_ADDRESS_3_x,
   WSTETH_ADDRESS,
   WETH_ADDRESS,
   USDC_ADDRESS,
@@ -181,14 +181,14 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
     subStrategyData: [
       {
-        address: wstETHBooster_ADDRESS,
+        address: wstETHBooster_ADDRESS_3_x,
         targetMultiple: {
           value: 3,
           symbol: "x",
         },
       },
     ],
-    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
+    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS_3_x),
   },
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",

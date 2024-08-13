@@ -15,7 +15,6 @@ export const useFetchAllStrategies = (): {
   const strategies: StrategyState[] = [];
   Object.keys(strategiesConfig).forEach((key) => {
     strategies.push({
-      isStrategy: true,
       tags: strategiesConfig[key as Address].tags || [],
       ...strategiesConfig[key as Address],
     });
