@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, parseAbiItem } from "viem";
 import { fetchAssetPriceInBlock } from "../../state/common/queries/useFetchViewAssetPrice";
 import { Config, useConfig } from "wagmi";
-import { fetchDetailAssetBalance } from "./useFetchViewDetailAssetBalance";
 import {
   Displayable,
   FetchBigInt,
@@ -11,7 +10,6 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../shared";
 import { getPublicClient } from "wagmi/actions";
-import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
 
 const TRANSFER_EVENT = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
@@ -63,68 +61,76 @@ export async function fetchUserStrategyProfit({
   user,
   strategy,
 }: FetchUserStrategyProfitInput): Promise<UserStrategyProfit> {
-  const underlyingAsset = getStrategyBySubStrategyAddress(strategy)?.underlyingAsset?.address;
-
-  if (!underlyingAsset) {
-    throw new Error("Underlying asset not found");
-  }
-
-  const [logs, { decimals: underlyingAssetDecimals }] = await Promise.all([
+  const [logs, { decimals: strategyDecimals }] = await Promise.all([
     getStrategyEventLogsForUser({ config, strategy, user }),
-    fetchTokenData(config, underlyingAsset),
+    fetchTokenData(config, strategy),
   ]);
 
-  const underlyingAssetBase = 10n ** BigInt(underlyingAssetDecimals);
+  const strategyBase = 10n ** BigInt(strategyDecimals);
 
-  const { totalDepositedUsd, totalRedeemedUsd, tempShares, tempSharesAvgPrice } = await logs.reduce(
-    async (accPromise, log) => {
-      const acc = await accPromise;
+  const results = [] as { transferValueUsd: bigint; shareBalanceChange: bigint }[];
+
+  await Promise.all(
+    logs.map(async (log, index) => {
       const { args, blockNumber } = log;
       const { from, value: shares } = args;
 
       if (!from || !shares) {
-        return acc;
+        return;
       }
 
       const price = await fetchAssetPriceInBlock(config, strategy, blockNumber);
       if (!price) {
-        return acc;
+        return;
       }
 
-      const transferValueUsd = (shares * price) / underlyingAssetBase;
+      const transferValueUsd = (shares * price) / strategyBase;
 
       if (from === user) {
-        acc.totalRedeemedUsd += transferValueUsd;
-        acc.tempShares -= shares;
+        results[index] = {
+          transferValueUsd: -transferValueUsd,
+          shareBalanceChange: -shares,
+        };
       } else {
-        acc.totalDepositedUsd += transferValueUsd;
-        acc.tempSharesAvgPrice =
-          (acc.tempShares * acc.tempSharesAvgPrice + transferValueUsd * underlyingAssetBase) /
-          (acc.tempShares + shares);
-        acc.tempShares += shares;
+        results[index] = {
+          transferValueUsd: transferValueUsd,
+          shareBalanceChange: shares,
+        };
       }
-
-      return acc;
-    },
-    Promise.resolve({
-      totalDepositedUsd: 0n,
-      totalRedeemedUsd: 0n,
-      tempShares: 0n,
-      tempSharesAvgPrice: 0n,
     })
   );
 
-  const { dollarAmount: currHoldingUsd } = await fetchDetailAssetBalance({ config, asset: strategy, account: user });
+  const { totalInvestedUsd, currShares, currSharesAvgPrice } = results.filter(Boolean).reduce(
+    (acc, { transferValueUsd, shareBalanceChange }) => {
+      let { totalInvestedUsd, currSharesAvgPrice, currShares } = acc;
 
-  if (!currHoldingUsd || currHoldingUsd.bigIntValue === undefined) {
-    return {
-      totalProfit: undefined,
-      unrealizedProfit: undefined,
-    };
+      if (shareBalanceChange > 0n) {
+        currSharesAvgPrice =
+          (currShares * currSharesAvgPrice + transferValueUsd * strategyBase) / (currShares + shareBalanceChange);
+      }
+
+      return {
+        totalInvestedUsd: totalInvestedUsd + transferValueUsd,
+        currSharesAvgPrice,
+        currShares: currShares + shareBalanceChange,
+      };
+    },
+    {
+      totalInvestedUsd: 0n,
+      currSharesAvgPrice: 0n,
+      currShares: 0n,
+    }
+  );
+
+  const price = await fetchAssetPriceInBlock(config, strategy);
+  if (!price) {
+    throw new Error("Strategy price not found");
   }
 
-  const totalProfit = currHoldingUsd.bigIntValue - totalDepositedUsd + totalRedeemedUsd;
-  const unrealizedProfit = currHoldingUsd.bigIntValue - (tempShares * tempSharesAvgPrice) / underlyingAssetBase;
+  const currSharesUsd = (currShares * price) / strategyBase;
+
+  const totalProfit = currSharesUsd - totalInvestedUsd;
+  const unrealizedProfit = currSharesUsd - (currShares * currSharesAvgPrice) / strategyBase;
 
   return {
     totalProfit: fUsdValueStructured(totalProfit),

@@ -19,18 +19,18 @@ interface UserProfit {
 export async function fetchUserProfit({ config, account }: { config: Config; account: Address }): Promise<UserProfit> {
   const strategies = getAllSubStrategies();
 
-  const profit = await strategies.reduce(
-    async (accPromise, strategy) => {
-      const acc = await accPromise;
+  let totalProfit = 0n;
+  let unrealizedProfit = 0n;
+  await Promise.all(
+    strategies.map(async (strategy) => {
       const cur = await fetchUserStrategyProfit({ config, user: account, strategy });
 
-      return {
-        totalProfit: acc.totalProfit + (cur.totalProfit?.bigIntValue || 0n),
-        unrealizedProfit: acc.unrealizedProfit + (cur.unrealizedProfit?.bigIntValue || 0n),
-      };
-    },
-    Promise.resolve({ totalProfit: 0n, unrealizedProfit: 0n })
+      totalProfit += cur.totalProfit?.bigIntValue || 0n;
+      unrealizedProfit += cur.unrealizedProfit?.bigIntValue || 0n;
+    })
   );
+
+  const profit = { totalProfit, unrealizedProfit };
 
   return {
     totalProfit: fUsdValueStructured(profit.totalProfit),
