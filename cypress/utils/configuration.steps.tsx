@@ -1,7 +1,8 @@
-import { anvilEvmRevert } from "../../../../cypress/support/anvil/utils/anvilEvmRevert";
-import { BalanceConfig } from "../../../../cypress/support/config/balanceConfig";
-import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "../../../../cypress/support/constants";
-import { tenderlyEvmRevert } from "../../../../cypress/support/tenderly/utils/tenderlyEvmRevert";
+import { Address } from "viem";
+import { testAnvilClient } from "../support/anvil";
+import { BalanceConfig } from "../support/config/balanceConfig";
+import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "../support/constants";
+import { tenderlyEvmRevert } from "../support/tenderly/utils/tenderlyEvmRevert";
 
 type TestEnv = "anvil" | "tenderly";
 
@@ -39,7 +40,11 @@ export const prepareTestForRun = () => {
           });
         }
       } else if (testEnv === "anvil") {
-        cy.wrap(anvilEvmRevert(snapshotId)).then(() => {
+        cy.wrap(
+          testAnvilClient.revert({
+            id: snapshotId as Address,
+          })
+        ).then(() => {
           localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
           localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
 

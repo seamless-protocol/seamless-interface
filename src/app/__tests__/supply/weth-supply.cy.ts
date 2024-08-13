@@ -1,4 +1,4 @@
-import { prepareTestForRun } from "../utils/configuration.steps";
+import { prepareTestForRun } from "../../../../cypress/utils/configuration.steps";
 import { deposit } from "../../../../cypress/support/steps/deposit.step";
 
 // import { WETH_ADDRESS } from "../../../meta";

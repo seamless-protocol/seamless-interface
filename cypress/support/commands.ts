@@ -1,14 +1,17 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { PRIVATE_KEY, LOCALSTORAGE_TESTNET_URL_KEY, LOCALSTORAGE_TESTNET_SNAPSHOT_KEY } from "./constants";
+import {
+  PRIVATE_KEY,
+  LOCALSTORAGE_TESTNET_URL_KEY,
+  LOCALSTORAGE_TESTNET_SNAPSHOT_KEY,
+  targetAccount,
+} from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
 import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
-import { anvilSetEthBalance } from "./anvil/utils/anvilSetEthBalance";
-import { anvilForkUrl } from "./anvil";
+import { anvilForkUrl, testAnvilClient } from "./anvil";
 import { tenderlyEvmSnapshot } from "./tenderly/utils/tenderlyEvmSnapshot";
 import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
 import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
-import { anvilEvmSnapshot } from "./anvil/utils/anvilEvmSnapshot";
 
 const tenderlyVirtualTestnet = Cypress.env("tenderly_test_rpc");
 
@@ -68,10 +71,13 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
   localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
 
   cy.wrap(null).then(async () => {
-    const snapshotId = await anvilEvmSnapshot();
+    const snapshotId = await testAnvilClient.snapshot();
     localStorage.setItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, JSON.stringify({ snapshotId }));
 
-    await anvilSetEthBalance({});
+    await testAnvilClient.setBalance({
+      address: targetAccount,
+      value: BigInt(1e18),
+    });
 
     // Set up balances and other test states
     await Promise.all(
@@ -104,4 +110,4 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   });
 });
 
-export { };
+export {};
