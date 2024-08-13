@@ -76,12 +76,7 @@ const StrategyFormLocal: React.FC<{
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
-    if (
-      previewDepositData?.data?.sharesToReceive?.bigIntValue &&
-      previewDepositData.isFetched &&
-      previewDepositData.isSuccess &&
-      !previewDepositData.isLoading
-    ) {
+    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
       await depositAsync(
         {
           amount: data.amount,
