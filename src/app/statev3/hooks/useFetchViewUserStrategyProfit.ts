@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address, parseAbiItem } from "viem";
+import { Address, parseAbiItem, zeroAddress } from "viem";
 import { fetchAssetPriceInBlock } from "../../state/common/queries/useFetchViewAssetPrice";
 import { Config, useConfig } from "wagmi";
 import { fetchDetailAssetBalance } from "./useFetchViewDetailAssetBalance";
@@ -22,6 +22,8 @@ const WITHDRAW_EVENT = parseAbiItem(
   "event Withdraw(address indexed sender,address indexed receiver,address indexed owner, uint256 assets, uint256 shares)"
 );
 
+const TRANSFER_EVENT = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
+
 interface GetStrategyEventLogsForUserInput {
   config: Config;
   user: Address;
@@ -35,7 +37,7 @@ export async function getStrategyEventLogsForUser({ config, strategy, user }: Ge
     throw new Error("Public client not found");
   }
 
-  const [depositLogs, redeemLogs] = await Promise.all([
+  const [depositLogs, redeemLogs, transferFromLogs, transferToLogs] = await Promise.all([
     publicClient.getLogs({
       address: strategy,
       event: DEPOSIT_EVENT,
@@ -52,9 +54,32 @@ export async function getStrategyEventLogsForUser({ config, strategy, user }: Ge
       },
       fromBlock: 0n,
     }),
+    publicClient.getLogs({
+      address: strategy,
+      event: TRANSFER_EVENT,
+      args: {
+        from: user,
+      },
+      fromBlock: 0n,
+    }),
+    publicClient.getLogs({
+      address: strategy,
+      event: TRANSFER_EVENT,
+      args: {
+        to: user,
+      },
+      fromBlock: 0n,
+    }),
   ]);
 
-  return [...depositLogs, ...redeemLogs].sort((a, b) => Number(a.blockNumber) - Number(b.blockNumber));
+  const filteredTransferLogs = [
+    ...transferFromLogs.filter((log) => log.args.from != zeroAddress && log.args.to != zeroAddress),
+    ...transferToLogs.filter((log) => log.args.from != zeroAddress && log.args.to != zeroAddress),
+  ];
+
+  return [...depositLogs, ...redeemLogs, ...filteredTransferLogs].sort(
+    (a, b) => Number(a.blockNumber) - Number(b.blockNumber)
+  );
 }
 
 interface UserStrategyProfit {
@@ -86,24 +111,42 @@ export async function fetchUserStrategyProfit({
     async (accPromise, log) => {
       const acc = await accPromise;
       const { eventName, args, blockNumber } = log;
-      const { assets, shares } = args;
-
-      if (!assets || !shares) return acc;
 
       const price = await fetchAssetPriceInBlock(config, underlyingAsset, blockNumber);
-      if (!price) return acc;
+      if (!price) {
+        return acc;
+      }
 
-      if (eventName === "Deposit") {
-        const depositAmountUsd = (assets * price) / underlyingAssetBase;
-        acc.totalDepositedUsd += depositAmountUsd;
+      switch (eventName) {
+        case "Deposit":
+          const { assets, shares } = args as { assets: bigint; shares: bigint };
+          const depositAmountUsd = (assets * price) / underlyingAssetBase;
+          acc.totalDepositedUsd += depositAmountUsd;
+          acc.tempSharesAvgPrice =
+            (acc.tempShares * acc.tempSharesAvgPrice + depositAmountUsd * underlyingAssetBase) /
+            (acc.tempShares + shares);
+          acc.tempShares += shares;
+          break;
+        case "Withdraw":
+          const { assets: withdrawAssets } = args as { assets: bigint };
+          const redeemedAmountUsd = (withdrawAssets * price) / underlyingAssetBase;
+          acc.totalRedeemedUsd += redeemedAmountUsd;
+          acc.tempShares -= withdrawAssets;
+          break;
+        case "Transfer":
+          const { from, value } = args as { from: Address; to: Address; value: bigint };
+          const transferValue = (value * price) / underlyingAssetBase;
 
-        acc.tempSharesAvgPrice =
-          (acc.tempShares * acc.tempSharesAvgPrice + depositAmountUsd * underlyingAssetBase) /
-          (acc.tempShares + shares);
-        acc.tempShares += shares;
-      } else if (eventName === "Withdraw") {
-        acc.totalRedeemedUsd += (assets * price) / underlyingAssetBase;
-        acc.tempShares -= shares;
+          if (from === user) {
+            acc.totalRedeemedUsd += transferValue;
+            acc.tempShares -= value;
+          } else {
+            acc.tempSharesAvgPrice =
+              (acc.tempShares * acc.tempSharesAvgPrice + transferValue * underlyingAssetBase) /
+              (acc.tempShares + value);
+            acc.tempShares += value;
+          }
+          break;
       }
 
       return acc;
