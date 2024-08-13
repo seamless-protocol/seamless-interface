@@ -93,7 +93,7 @@ export async function fetchUserStrategyProfit({
         };
       } else {
         results[index] = {
-          transferValueUsd: transferValueUsd,
+          transferValueUsd,
           shareBalanceChange: shares,
         };
       }
@@ -102,7 +102,8 @@ export async function fetchUserStrategyProfit({
 
   const { totalInvestedUsd, currShares, currSharesAvgPrice } = results.filter(Boolean).reduce(
     (acc, { transferValueUsd, shareBalanceChange }) => {
-      let { totalInvestedUsd, currSharesAvgPrice, currShares } = acc;
+      let { currSharesAvgPrice } = acc;
+      const { totalInvestedUsd, currShares } = acc;
 
       if (shareBalanceChange > 0n) {
         currSharesAvgPrice =

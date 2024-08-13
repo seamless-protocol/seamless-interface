@@ -10,7 +10,6 @@ export const MyPositionsTab: React.FC = () => {
   const { isConnected } = useAccount();
   const { data: strategies, isFetched, isLoading } = useFetchUserStrategies();
 
-
   if (!isConnected) {
     return (
       <FlexRow className="gap-4 items-center">
