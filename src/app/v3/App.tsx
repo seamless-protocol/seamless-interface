@@ -10,8 +10,8 @@ import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, Pag
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
+import { LandingPage } from "../v2/pages/test-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
-import { LandingPageRedesign } from "./pages/landing-page-redesign/LandingPageRedesign";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -25,7 +25,7 @@ export function App() {
           <FlexCol className="min-h-screen">
             <NotificationProvider>
               <SentryRoutes>
-                <Route path={RouterConfig.Routes.markets} element={<LandingPageRedesign />} />
+                <Route path={RouterConfig.Routes.ILMs} element={<LandingPage />} />
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>
             </NotificationProvider>

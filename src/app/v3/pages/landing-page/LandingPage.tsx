@@ -1,6 +1,6 @@
 import { FlexCol, FlexRow, PageContainer, TabButton, TabContent, TabProvider } from "@shared";
-import { ILMsTab } from "./tabs/ilms-tab/ILMsTab";
-import { Dashboard } from "./tabs/dashboard-tab/Dashboard";
+import { ILMsTab } from "./tabs/ilms/ILMsTab";
+import { Dashboard } from "./tabs/dashboard/Dashboard";
 
 type Tabs = "ILMs" | "Dashboard";
 
