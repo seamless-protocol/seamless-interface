@@ -11,7 +11,7 @@ export default defineConfig({
     private_key: "0xe30165a9c8c2a7f249f1cf04ba5f2ed8afacb762cc813a66b86c898cc806d58a",
     tenderly_test_rpc: process.env.VITE_CYPRESS_TEST_TENDERLY_RPC_URL,
     tenderly_access_key: process.env.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY,
-    tenderly_account: process.env.VITE_CYPRESS_TEST_TENDERLY_PROFILE,
+    tenderly_profile: process.env.VITE_CYPRESS_TEST_TENDERLY_PROFILE,
     tenderly_project: process.env.VITE_CYPRESS_TEST_TENDERLY_PROJECT,
     test_env: process.env.VITE_CYPRESS_TEST_ENV,
   },
