@@ -54,7 +54,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
         <TableCell className="col-span-1">
           <div className="flex">
-            <RandomNumber />
+            <RandomNumber symbol="%" symbolPosition="after" />
           </div>
         </TableCell>
         <TableCell className="col-span-1">
