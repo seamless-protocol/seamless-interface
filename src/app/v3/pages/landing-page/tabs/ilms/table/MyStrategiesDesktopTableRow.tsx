@@ -2,20 +2,24 @@ import { Address } from "viem";
 
 import polygonSvg from "@assets/common/polygon.svg";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography } from "../../../../../../../shared";
-import { useFullTokenData } from "../../../../../../state/common/meta-data-queries/useFullTokenData";
+import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography } from "@shared";
 import { RandomNumber } from "../../../../../components/other/RandomNumber";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { TagType } from "../../../../../../statev3/common/types/StateTypes";
+
+import ilmIcon from "@assets/ilms/ethLong-ilm.svg"
+import { stateMock } from "../../../mocks";
 
 export const MyStrategiesDesktopTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  const {
-    data: { logo: icon, name, description },
-  } = useFullTokenData(strategy);
-  const tags = ["Staking"] as TagType[]; // todo move this in useFullTokenData
+  // todo use useFullTokenData instead of mock
+  const strategyMock = stateMock.data.find((s) => s.address === strategy);
+  const name = strategyMock?.name;
+  const description = strategyMock?.description;
+  const icon = ilmIcon;
+  const tag = "Staking" as TagType;
 
   return (
     <div
@@ -36,7 +40,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <FlexRow>{tags?.map((tag) => <Tag key={tag} tag={tag} />)}</FlexRow>
+          <FlexRow><Tag key={tag} tag={tag} /></FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
           <RandomNumber typography="bold3" className="text-primaryv2-400" symbol="$" />
