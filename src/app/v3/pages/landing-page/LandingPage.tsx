@@ -4,7 +4,7 @@ import { ILMsTab } from "./tabs/ilms/ILMsTab";
 
 type Tabs = "ILMs" | "Dashboard";
 
-export const LandingPageRedesign = () => {
+export const LandingPage = () => {
   return (
     <PageContainer className="flex justify-center py-12">
       <TabProvider<Tabs> defaultTab="ILMs">
