@@ -6,7 +6,7 @@ import {
   ethLong_3x,
   wstETHBooster_ADDRESS_3_x,
 } from "@meta";
-import WstEthLogo from "@assets/tokens/wsteth.svg";
+import wstEthLogo from "@assets/tokens/wsteth.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import wethLogo from "@assets/tokens/weth.svg";
 import ethLongIlm from "@assets/ilms/ethLong-ilm.svg";
@@ -29,7 +29,7 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WSTETH_ADDRESS]: {
     name: "Wrapped liquid Staked Ether 2.0",
     address: WSTETH_ADDRESS,
-    logo: WstEthLogo,
+    logo: wstEthLogo,
   },
 };
 
