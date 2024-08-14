@@ -4,7 +4,6 @@ import polygonSvg from "@assets/common/polygon.svg";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography } from "../../../../../../../shared";
 import { useFullTokenData } from "../../../../../../state/common/meta-data-queries/useFullTokenData";
-import { StrategyApr } from "../../../../../../v2/components/asset-data/AssetApr";
 import { RandomNumber } from "../../../../../components/other/RandomNumber";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { TagType } from "../../../../../../statev3/common/types/StateTypes";
@@ -16,7 +15,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
   const {
     data: { logo: icon, name, description },
   } = useFullTokenData(strategy);
-  const tags = ["Staking"] as TagType[];
+  const tags = ["Staking"] as TagType[]; // todo move this in useFullTokenData
 
   return (
     <div
@@ -51,7 +50,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
         </TableCell>
         <TableCell className="col-span-1">
           <div className="flex">
-            <StrategyApr asset={strategy} isStrategy />
+            <RandomNumber />
           </div>
         </TableCell>
         <TableCell className="col-span-1">
