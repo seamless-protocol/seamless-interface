@@ -217,9 +217,9 @@ export async function simulateWithdraw(
   amount: string,
   decimals: number
 ): Promise<FetchData<PreviewWithdraw>> {
-  const isDev = process.env.ENV === "DEV";
+  const isSimulatingWithTenderly = import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
 
-  return isDev
+  return isSimulatingWithTenderly
     ? simulateWithdrawTenderly(account, strategy, amount, decimals)
     : simulateWithdrawAlchemy(account, strategy, amount, decimals);
 }
