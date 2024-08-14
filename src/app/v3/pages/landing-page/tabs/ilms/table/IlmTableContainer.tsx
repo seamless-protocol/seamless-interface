@@ -1,6 +1,7 @@
 import { TableRow, TableCell, Typography } from '@shared'
 import { stateMock } from '../../../mocks';
 import { MyStrategiesDesktopTableRow } from './MyStrategiesDesktopTableRow';
+import { MyStrategiesMobileTableRow } from './MyStrategiesMobileTableRow';
 
 export const IlmTableContainer = () => {
   const state = stateMock;
@@ -31,6 +32,7 @@ export const IlmTableContainer = () => {
       {state.data?.map((strategy, index) => (
         <div key={index}>
           <MyStrategiesDesktopTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
+          <MyStrategiesMobileTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
         </div>
       ))}
     </div>
