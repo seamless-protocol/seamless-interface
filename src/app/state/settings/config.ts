@@ -223,9 +223,9 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
   [shortETH_ADDRESS_STRATEGY_ID]: {
     name: "ETH Short",
     subTitle: "Todo: subtitle",
-    description:
-      "Todo: description.",
+    description: "Todo: description.",
     address: shortETH_ADDRESS_STRATEGY_ID as Address,
+    multiplier: "Up to 1.5x",
     logo: ilmwstETHLogo, // todo logo
     underlyingAsset: assetsConfig[USDC_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],

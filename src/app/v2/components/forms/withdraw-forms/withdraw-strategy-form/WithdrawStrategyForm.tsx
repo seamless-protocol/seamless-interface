@@ -87,7 +87,7 @@ const WithdrawStrategyLocal: React.FC<{
   const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, selectedSubStrategy);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
+    if (!IS_SIMULATION_DISABLED && !previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
       showNotification({
         content: "Couldn't fetch amount(assetsToReceive) to withdraw error. Please try again later",
         status: "error",
@@ -95,7 +95,10 @@ const WithdrawStrategyLocal: React.FC<{
       return;
     }
 
-    if (IS_SIMULATION_DISABLED || (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading)) {
+    if (
+      IS_SIMULATION_DISABLED ||
+      (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading)
+    ) {
       try {
         const { txHash } = await withdrawAsync(
           underlyingTokenData.decimals ? parseUnits(data.amount, underlyingTokenData.decimals) : undefined,
