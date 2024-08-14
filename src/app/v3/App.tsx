@@ -11,7 +11,7 @@ import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, Pag
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { LandingPage } from "../v2/pages/test-page/LandingPage";
-import { Footer } from "./components/footer/Footer";
+import { Footer } from "../layout/footer/Footer";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
