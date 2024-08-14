@@ -204,9 +204,9 @@ export async function simulateDeposit(
   amount: string,
   decimals: number
 ): Promise<PreviewDeposit> {
-  const isDev = import.meta.env.VITE_ENV === "DEV";
+  const isSimulatingWithTenderly = import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
 
-  return isDev
+  return isSimulatingWithTenderly
     ? simulateDepositTenderly(account, strategy, underlyingAsset, amount, decimals)
     : simulateDepositAlchemy(account, strategy, underlyingAsset, amount, decimals);
 }
