@@ -78,12 +78,12 @@ export async function fetchUserStrategyProfit({
       const { from, value: shares } = args;
 
       if (!from || !shares) {
-        return;
+        throw new Error("Invalid log");
       }
 
       const price = await fetchAssetPriceInBlock(config, strategy, blockNumber);
       if (!price) {
-        return;
+        throw new Error("Can not fetch asset price in block");
       }
 
       const transferValueUsd = (shares * price) / strategyBase;

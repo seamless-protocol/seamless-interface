@@ -1,7 +1,8 @@
 import { Address, erc20Abi } from "viem";
 import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
-import { readContractQueryOptions, useQuery } from "wagmi/query";
-import { Config, useConfig } from "wagmi";
+import { readContractQueryOptions } from "wagmi/query";
+import { Config } from "wagmi";
+import { metadataQueryConfig } from "../../state/settings/queryConfig";
 
 interface TokenData {
   symbol: string;
@@ -12,20 +13,22 @@ export async function fetchTokenData(config: Config, token: Address): Promise<To
   const queryClient = getQueryClient();
 
   const [symbol, decimals] = await Promise.all([
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+    queryClient.fetchQuery({
+      ...readContractQueryOptions(config, {
         address: token,
         abi: erc20Abi,
         functionName: "symbol",
-      })
-    ),
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+      }),
+      ...metadataQueryConfig,
+    }),
+    queryClient.fetchQuery({
+      ...readContractQueryOptions(config, {
         address: token,
         abi: erc20Abi,
         functionName: "decimals",
-      })
-    ),
+      }),
+      ...metadataQueryConfig,
+    }),
   ]);
 
   return {
@@ -33,13 +36,3 @@ export async function fetchTokenData(config: Config, token: Address): Promise<To
     decimals,
   };
 }
-
-export const useFetchTokenData = (token: Address | undefined) => {
-  const config = useConfig();
-
-  return useQuery({
-    queryKey: ["fetchTokenData", token],
-    queryFn: () => fetchTokenData(config, token!),
-    enabled: !!token,
-  });
-};

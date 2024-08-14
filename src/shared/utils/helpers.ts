@@ -207,16 +207,6 @@ export function convertAprToApy(apr: number): number {
   return ((1 + apr / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR - 1) * 100;
 }
 
-export function convertAmountToUsd(
-  balance: bigint | undefined,
-  decimals: number | undefined,
-  price: bigint | undefined
-): bigint | undefined {
-  if (balance == null || decimals == null || price == null) return undefined;
-
-  return (balance * price) / 10n ** BigInt(decimals);
-}
-
 export function normalizeDecimals(value: bigint, valueDecimals: bigint, toDecimals: bigint): bigint {
   if (valueDecimals <= toDecimals) {
     return value * 10n ** (toDecimals - valueDecimals);

@@ -2,8 +2,9 @@ import { Address } from "viem";
 import { Config } from "wagmi";
 import { fetchAssetBalance } from "../queries/useFetchAssetBalance";
 import { fetchAssetPriceInBlock } from "../../state/common/queries/useFetchViewAssetPrice";
-import { FetchDetailBigInt, convertAmountToUsd, fUsdValueStructured } from "../../../shared";
+import { FetchDetailBigInt, fUsdValueStructured } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
+import { cValueInUsd } from "../../state/common/math/cValueInUsd";
 
 interface FetchDetailAssetBalanceInput {
   config: Config;
@@ -23,7 +24,7 @@ export async function fetchDetailAssetBalance({
 
   return {
     tokenAmount: balance,
-    dollarAmount: fUsdValueStructured(convertAmountToUsd(balance.bigIntValue, balance.decimals, price)),
+    dollarAmount: fUsdValueStructured(cValueInUsd(balance.bigIntValue, price, balance.decimals)),
   };
 }
 
@@ -33,7 +34,7 @@ export const useFetchDetailAssetBalance = (
   asset: Address | undefined
 ) => {
   return useQuery({
-    queryKey: ["fetchDetailAssetBalance", config, account, asset],
+    queryKey: ["fetchDetailAssetBalance", account, asset],
     queryFn: () => fetchDetailAssetBalance({ config, account: account!, asset: asset! }),
     enabled: !!account && !!asset,
   });
