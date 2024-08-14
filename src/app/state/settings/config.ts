@@ -221,12 +221,13 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     ],
   },
   [shortETH_ADDRESS_STRATEGY_ID]: {
-    name: "ETH Short",
-    subTitle: "Todo: subtitle",
-    description: "Todo: description.",
+    name: "Multiply ETH Short",
+    subTitle: "Increase negative ETH price exposure.",
+    description:
+      "This Integrated Liquidity Market (ILM) uses USDC deposits to borrow ETH, which is used to purchase more USDC to achieve the targeted multiple.",
     address: shortETH_ADDRESS_STRATEGY_ID as Address,
     multiplier: "Up to 1.5x",
-    logo: ilmwstETHLogo, // todo logo
+    logo: ilmwstETHLogo,
     underlyingAsset: assetsConfig[USDC_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],
     faq: faqsData[shortETH_ADDRESS_STRATEGY_ID],
