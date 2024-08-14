@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Config, useAccount, useConfig } from "wagmi";
+import { useAccount } from "wagmi";
 import { getAllSubStrategies } from "../../state/settings/configUtils";
 import { fetchUserStrategyProfit } from "./useFetchViewUserStrategyProfit";
 import { useQuery } from "@tanstack/react-query";
@@ -18,12 +18,12 @@ interface UserProfit {
   unrealizedProfitPercentage: FetchBigInt | undefined;
 }
 
-export async function fetchUserProfit({ config, account }: { config: Config; account: Address }): Promise<UserProfit> {
+export async function fetchUserProfit(account: Address): Promise<UserProfit> {
   const strategies = getAllSubStrategies();
 
   const results = await Promise.all(
     strategies.map(async (strategy) => {
-      const cur = await fetchUserStrategyProfit({ config, user: account, strategy });
+      const cur = await fetchUserStrategyProfit({ user: account, strategy });
 
       const totalProfit = cur.totalProfit?.bigIntValue || 0n;
       const unrealizedProfit = cur.unrealizedProfit?.bigIntValue || 0n;
@@ -58,13 +58,11 @@ export async function fetchUserProfit({ config, account }: { config: Config; acc
 }
 
 export const useFetchUserProfit = () => {
-  const config = useConfig();
-
   const account = useAccount();
 
   return useQuery({
     queryKey: ["fetchUserProfit", account?.address],
-    queryFn: () => fetchUserProfit({ config, account: account!.address! }),
+    queryFn: () => fetchUserProfit(account!.address!),
     enabled: !!account?.address,
   });
 };

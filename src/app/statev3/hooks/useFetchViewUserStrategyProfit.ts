@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseAbiItem } from "viem";
-import { fetchAssetPriceInBlock } from "../../state/common/queries/useFetchViewAssetPrice";
-import { Config, useConfig } from "wagmi";
 import {
   Displayable,
   FetchBigInt,
@@ -12,17 +10,18 @@ import {
 } from "../../../shared";
 import { getPublicClient } from "wagmi/actions";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
+import { fetchAssetPriceInBlock } from "../queries/useFetchViewAssetPrice";
+import { getConfig } from "../../contexts/CustomQueryClientProvider";
 
 const TRANSFER_EVENT = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 
 interface GetStrategyEventLogsForUserInput {
-  config: Config;
   user: Address;
   strategy: Address;
 }
 
-export async function getStrategyEventLogsForUser({ config, strategy, user }: GetStrategyEventLogsForUserInput) {
-  const publicClient = getPublicClient(config);
+export async function getStrategyEventLogsForUser({ strategy, user }: GetStrategyEventLogsForUserInput) {
+  const publicClient = getPublicClient(getConfig());
 
   if (!publicClient) {
     throw new Error("Public client not found");
@@ -59,13 +58,12 @@ interface UserStrategyProfit {
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
 
 export async function fetchUserStrategyProfit({
-  config,
   user,
   strategy,
 }: FetchUserStrategyProfitInput): Promise<UserStrategyProfit> {
   const [logs, { decimals: strategyDecimals }] = await Promise.all([
-    getStrategyEventLogsForUser({ config, strategy, user }),
-    fetchTokenData(config, strategy),
+    getStrategyEventLogsForUser({ strategy, user }),
+    fetchTokenData(strategy),
   ]);
 
   const strategyBase = 10n ** BigInt(strategyDecimals);
@@ -81,7 +79,7 @@ export async function fetchUserStrategyProfit({
         throw new Error("Invalid log");
       }
 
-      const price = await fetchAssetPriceInBlock(config, strategy, blockNumber);
+      const price = await fetchAssetPriceInBlock(strategy, blockNumber);
       if (!price) {
         throw new Error("Can not fetch asset price in block");
       }
@@ -125,7 +123,7 @@ export async function fetchUserStrategyProfit({
     }
   );
 
-  const price = await fetchAssetPriceInBlock(config, strategy);
+  const price = await fetchAssetPriceInBlock(strategy);
   if (!price) {
     throw new Error("Strategy price not found");
   }
@@ -157,11 +155,9 @@ interface ViewUserStrategyProfit {
 }
 
 export const useFetchUserStrategyProfit = ({ user, strategy }: UseFetchUserStrategyProfitInput) => {
-  const config = useConfig();
-
   return useQuery({
     queryKey: ["fetchUserStrategyProfit", user, strategy],
-    queryFn: () => fetchUserStrategyProfit({ config, user: user!, strategy: strategy! }),
+    queryFn: () => fetchUserStrategyProfit({ user: user!, strategy: strategy! }),
     enabled: !!user && !!strategy,
   });
 };
