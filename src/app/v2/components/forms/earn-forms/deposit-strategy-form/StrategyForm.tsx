@@ -19,7 +19,6 @@ import { useEffect } from "react";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { AuditedByCertora } from "../../../specific-components/AuditedByCertora";
-import { IS_SIMULATION_DISABLED } from "../../../../../../globals";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -77,7 +76,7 @@ const StrategyFormLocal: React.FC<{
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
-    if (IS_SIMULATION_DISABLED || (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading)) {
+    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
       await depositAsync(
         {
           amount: data.amount,

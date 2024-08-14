@@ -222,7 +222,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
   },
   [shortETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Short",
-    subTitle: "Increase negative ETH price exposure.",
+    subTitle: "Increase inverse ETH price exposure.",
     description:
       "This Integrated Liquidity Market (ILM) uses USDC deposits to borrow ETH, which is used to purchase more USDC to achieve the targeted multiple.",
     address: shortETH_ADDRESS_STRATEGY_ID as Address,
