@@ -25,7 +25,7 @@ export function App() {
           <FlexCol className="min-h-screen">
             <NotificationProvider>
               <SentryRoutes>
-                <Route path={RouterConfig.Routes.ILMs} element={<LandingPage />} />
+                <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>
             </NotificationProvider>
