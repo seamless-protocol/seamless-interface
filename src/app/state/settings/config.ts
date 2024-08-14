@@ -227,7 +227,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
       "This Integrated Liquidity Market (ILM) uses USDC deposits to borrow ETH, which is used to purchase more USDC to achieve the targeted multiple.",
     address: shortETH_ADDRESS_STRATEGY_ID as Address,
     multiplier: "Up to 1.5x",
-    logo: ilmwstETHLogo,
+    logo: ilmEthUsdcLogo,
     underlyingAsset: assetsConfig[USDC_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],
     faq: faqsData[shortETH_ADDRESS_STRATEGY_ID],
