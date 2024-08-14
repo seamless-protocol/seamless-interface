@@ -12,7 +12,7 @@ export * from "./contexts/notification/NotificationContext";
 export * from "./contexts/notification/useNotificationContext";
 export * from "./contexts/lifi/LifiWidgetContext";
 export * from "./contexts/lifi/useLifiWidgetContext";
-export * from "./contexts/connect-wallet/ConnectButtonProvider";
+export * from "./contexts/connect-wallet/ConnectButtonContext";
 export * from "./contexts/connect-wallet/useConnectButtonContext";
 export * from "./contexts/tab-context/TabContext";
 export * from "./contexts/tab-context/useTabContext";
