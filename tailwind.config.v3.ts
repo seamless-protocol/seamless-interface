@@ -51,6 +51,9 @@ export default {
           lend: "#FCF8CF",
           ilm: "#CFFCF5",
           rewardAPY: "#E4F7E6",
+          blue: "#4F68F7",
+          red: "#FD6F41",
+          gray: "rgba(11, 37, 79, 0.10))"
         },
 
         background: {

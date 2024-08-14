@@ -5,8 +5,9 @@ import { TagType } from "../../../statev3/common/types/StateTypes";
 
 // eslint-disable-next-line no-unused-vars
 const ColorByTypeDict: { [key in TagType]: string } = {
-  Long: "bg-tags-blue text-neutral-0",
-  Staking: "bg-tags-red text-neutral-0",
+  Long: "bg-smallElements-blue text-neutral-0",
+  Staking: "bg-smallElements-red text-neutral-0",
+  Short: "bg-smallElements-gray text-navy-1000",
 };
 
 export const Tag: React.FC<{ tag?: TagType }> = ({ tag }) => {

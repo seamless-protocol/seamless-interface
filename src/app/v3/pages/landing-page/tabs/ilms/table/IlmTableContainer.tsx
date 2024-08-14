@@ -7,7 +7,7 @@ export const IlmTableContainer = () => {
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
-      <TableRow className="hidden md:grid grid-cols-7 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl">
+      <TableRow className="hidden md:grid grid-cols-7 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl border-solid border-b border-b-divider">
         <TableCell className="col-span-2 justify-center" alignItems="items-start">
           <Typography type="bold1">ILM Strategies</Typography>
         </TableCell>

@@ -1,2 +1,2 @@
 
-export type TagType = "Long" | "Staking";
+export type TagType = "Long" | "Staking" | "Short";

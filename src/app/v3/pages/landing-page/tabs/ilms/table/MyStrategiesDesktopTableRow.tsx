@@ -23,12 +23,12 @@ export const MyStrategiesDesktopTableRow: React.FC<{
 
   return (
     <div
-      className={`hidden cursor-pointer md:flex items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
+      className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
         }`}
     >
       <TableRow className="md:grid grid-cols-7 relative">
-        <TableCell alignItems="items-center col-span-2 pr-6">
-          <FlexRow className="gap-4 items-center ">
+        <TableCell alignItems="items-start col-span-2 pr-6">
+          <FlexRow className="gap-4 items-start ">
             <Icon width={64} src={icon} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
@@ -58,7 +58,7 @@ export const MyStrategiesDesktopTableRow: React.FC<{
           </div>
         </TableCell>
         <TableCell className="col-span-1">
-          <RandomNumber />
+          <RandomNumber typography="bold3" symbol="$" />
         </TableCell>
 
         <ChevronRightIcon width={20} className="absolute right-6" />
