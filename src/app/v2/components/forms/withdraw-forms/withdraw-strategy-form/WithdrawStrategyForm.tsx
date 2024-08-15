@@ -62,7 +62,7 @@ const WithdrawStrategyLocal: React.FC<{
   } = useToken(selectedSubStrategy);
 
   const { data: underlyingTokenAddress } = useFetchStrategyAsset(selectedSubStrategy);
-  const { data: underlyingTokenData } = useFullTokenData(underlyingTokenAddress);
+  const { data: underlyingTokenData, isLoading: isTokenDecimalsLoading } = useFullTokenData(underlyingTokenAddress);
 
   const account = useAccount();
   const { showNotification } = useNotificationContext();
@@ -185,7 +185,7 @@ const WithdrawStrategyLocal: React.FC<{
 
         <Summary debouncedAmount={debouncedAmount} strategy={strategy} />
 
-        <FormButtons isLoading={previewWithdrawData.isLoading} />
+        <FormButtons isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading} />
       </FlexCol>
     </MyFormProvider>
   );
