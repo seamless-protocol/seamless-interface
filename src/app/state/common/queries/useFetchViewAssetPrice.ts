@@ -1,7 +1,7 @@
 import { readContractQueryOptions } from "wagmi/query";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
-import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_ETHER, ONE_USD } from "@meta";
+import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -53,8 +53,16 @@ export const fetchAssetPriceInBlock = async (
       })
     );
 
+    const decimals = await queryClient.fetchQuery(
+      readContractQueryOptions(config, {
+        address: asset,
+        abi: erc20Abi,
+        functionName: "decimals",
+      })
+    );
+
     if (totalSupply !== 0n) {
-      price = (equityUsd * ONE_ETHER) / totalSupply;
+      price = (equityUsd * 10n ** BigInt(decimals)) / totalSupply;
     }
   } else {
     // Cannot fetch past block number prices from CoingGecko

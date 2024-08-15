@@ -8,7 +8,7 @@ import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mut
 import { Tag } from "../../../asset-data/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, useToken } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
 import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { AuditedByCertora } from "../../../specific-components/AuditedByCertora";
+import { parseUnits } from "viem";
 
 export const StrategyForm = () => {
   const { asset, isStrategy } = useFormSettingsContext();
@@ -63,8 +64,9 @@ const StrategyFormLocal: React.FC<{
   const { showNotification } = useNotificationContext();
 
   const {
-    data: { symbol: strategySymbol, name, subTitle },
+    data: { name, subTitle },
   } = useFullTokenData(strategy.address);
+  const { data: { decimals: underlyingAssetDecimals }, isLoading: isUnderlyingAssetDecimalsLoading } = useToken(strategy?.underlyingAsset?.address);
 
   const { depositAsync } = useMutateDepositStrategy(strategy, subStrategy);
 
@@ -76,15 +78,10 @@ const StrategyFormLocal: React.FC<{
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, subStrategy);
 
   const onSubmitAsync = async (data: FormData) => {
-    if (
-      previewDepositData?.data?.sharesToReceive?.bigIntValue &&
-      previewDepositData.isFetched &&
-      previewDepositData.isSuccess &&
-      !previewDepositData.isLoading
-    ) {
+    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
       await depositAsync(
         {
-          amount: data.amount,
+          amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
           sharesToReceive: previewDepositData.data.sharesToReceive?.bigIntValue || 0n,
         },
         {
@@ -96,7 +93,7 @@ const StrategyFormLocal: React.FC<{
                   <Typography>
                     You Supplied {data.amount} {strategy?.underlyingAsset.symbol}
                   </Typography>
-                  {strategy && <WatchAssetComponentv2 {...strategy} symbol={strategySymbol} />}
+                  {strategy && <WatchAssetComponentv2 {...strategy} address={subStrategy} />}
                 </FlexCol>
               ),
             });
@@ -151,7 +148,7 @@ const StrategyFormLocal: React.FC<{
         <AuditedByCertora />
 
         <FormButtons
-          isLoading={previewDepositData.isLoading}
+          isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategy}
           subStrategyAddress={subStrategy}
           onTransaction={onTransaction}
