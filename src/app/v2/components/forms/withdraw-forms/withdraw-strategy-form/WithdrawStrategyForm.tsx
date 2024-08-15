@@ -129,7 +129,6 @@ const WithdrawStrategyLocal: React.FC<{
                 {underlyingTokenAddress && underlyingTokenData?.symbol && (
                   <WatchAssetComponentv2
                     address={underlyingTokenAddress}
-                    symbol={underlyingTokenData.symbol}
                     logo={underlyingTokenData.logo}
                     decimals={underlyingTokenData.decimals}
                   />
