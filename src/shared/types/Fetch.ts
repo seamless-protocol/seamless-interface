@@ -11,7 +11,7 @@ export interface FetchBigInt {
   symbol?: string;
 }
 
-export interface FetchBigIntWithUsdValue {
+export interface FetchDetailBigInt {
   tokenAmount?: FetchBigInt;
   dollarAmount?: FetchBigInt;
 }

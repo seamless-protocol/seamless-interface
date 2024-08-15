@@ -1,8 +1,6 @@
 import { Address, erc20Abi } from "viem";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
-import { readContractQueryOptions } from "wagmi/query";
-import { useQuery } from "@tanstack/react-query";
-import { config } from "../../config/rainbow.config";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
+import { metadataQueryConfig } from "../../state/settings/queryConfig";
 
 interface TokenData {
   symbol: string;
@@ -10,23 +8,23 @@ interface TokenData {
 }
 
 export async function fetchTokenData(token: Address): Promise<TokenData> {
-  const queryClient = getQueryClient();
-
   const [symbol, decimals] = await Promise.all([
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+    queryContract({
+      ...queryOptions({
         address: token,
         abi: erc20Abi,
         functionName: "symbol",
-      })
-    ),
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+      }),
+      ...metadataQueryConfig,
+    }),
+    queryContract({
+      ...queryOptions({
         address: token,
         abi: erc20Abi,
         functionName: "decimals",
-      })
-    ),
+      }),
+      ...metadataQueryConfig,
+    }),
   ]);
 
   return {
@@ -34,11 +32,3 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
     decimals,
   };
 }
-
-export const useFetchTokenData = (token: Address | undefined) => {
-  return useQuery({
-    queryKey: ["fetchTokenData", token],
-    queryFn: () => fetchTokenData(token!),
-    enabled: !!token,
-  });
-};
