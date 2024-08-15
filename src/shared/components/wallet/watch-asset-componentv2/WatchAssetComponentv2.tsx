@@ -48,8 +48,6 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ address, logo }) => {
   const {
     data: { decimals, symbol },
   } = useToken(address);
-  console.log({ symbol })
-  console.log({ address })
 
   const handleAddToWalletClick = async () => {
     if (!address || !decimals || !symbol) return;
