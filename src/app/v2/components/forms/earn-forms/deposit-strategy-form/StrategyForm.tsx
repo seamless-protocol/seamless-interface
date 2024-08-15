@@ -63,7 +63,7 @@ const StrategyFormLocal: React.FC<{
   const { showNotification } = useNotificationContext();
 
   const {
-    data: { symbol: strategySymbol, name, subTitle },
+    data: { name, subTitle },
   } = useFullTokenData(strategy.address);
 
   const { depositAsync } = useMutateDepositStrategy(strategy, subStrategy);
@@ -91,7 +91,7 @@ const StrategyFormLocal: React.FC<{
                   <Typography>
                     You Supplied {data.amount} {strategy?.underlyingAsset.symbol}
                   </Typography>
-                  {strategy && <WatchAssetComponentv2 {...strategy} symbol={strategySymbol} />}
+                  {strategy && <WatchAssetComponentv2 {...strategy} address={subStrategy} />}
                 </FlexCol>
               ),
             });
