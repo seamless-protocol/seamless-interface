@@ -1,8 +1,6 @@
 import { Address } from "viem";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { loopStrategyAbi } from "../../generated";
-import { readContractQueryOptions } from "wagmi/query";
-import { config } from "../../config/rainbow.config";
 import { ONE_ETHER, ONE_USD } from "../../../meta";
 import {
   Displayable,
@@ -24,15 +22,13 @@ interface TargeMultiples {
 }
 
 export async function fetchStrategyTargetMultiples(strategy: Address): Promise<TargeMultiples> {
-  const queryClient = getQueryClient();
-
-  const { minForRebalance, target, maxForRebalance } = await queryClient.fetchQuery({
-    ...readContractQueryOptions(config, {
+  const { minForRebalance, target, maxForRebalance } = await queryContract(
+    queryOptions({
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "getCollateralRatioTargets",
-    }),
-  });
+    })
+  );
 
   return {
     minForRebalance: fFetchBigIntStructured(cMultiple(minForRebalance), 18, "x"),

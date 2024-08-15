@@ -1,12 +1,10 @@
 import { Address } from "viem";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
-import { readContractQueryOptions } from "wagmi/query";
-import { config } from "../../config/rainbow.config";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { loopStrategyAbi } from "../../generated";
 import {
   Displayable,
-  FetchBigIntWithUsdValue,
+  FetchDetailBigInt,
   ViewBigInt,
   fFetchBigIntStructured,
   fUsdValueStructured,
@@ -14,21 +12,19 @@ import {
 } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
 
-export async function fetchDetailEquity(strategy: Address): Promise<FetchBigIntWithUsdValue> {
-  const queryClient = getQueryClient();
-
+export async function fetchDetailEquity(strategy: Address): Promise<FetchDetailBigInt> {
   const { symbol, decimals } = await fetchTokenData(strategy);
 
   const [equity, equityUsd] = await Promise.all([
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+    queryContract(
+      queryOptions({
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equity",
       })
     ),
-    queryClient.fetchQuery(
-      readContractQueryOptions(config, {
+    queryContract(
+      queryOptions({
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equityUSD",

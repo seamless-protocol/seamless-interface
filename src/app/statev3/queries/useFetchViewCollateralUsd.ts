@@ -1,16 +1,12 @@
 import { Address } from "viem";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
-import { readContractQueryOptions } from "wagmi/query";
-import { config } from "../../config/rainbow.config";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { loopStrategyAbi } from "../../generated";
 import { FetchBigInt, fUsdValueStructured, formatFetchBigIntToViewBigIntTemp } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
 
 export async function fetchCollateralUsd(strategy: Address): Promise<FetchBigInt | undefined> {
-  const queryClient = getQueryClient();
-
-  const collateralUsd = await queryClient.fetchQuery(
-    readContractQueryOptions(config, {
+  const collateralUsd = await queryContract(
+    queryOptions({
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "collateralUSD",
@@ -20,7 +16,7 @@ export async function fetchCollateralUsd(strategy: Address): Promise<FetchBigInt
   return fUsdValueStructured(collateralUsd);
 }
 
-export const useFetchDetailCollateral = (strategy: Address | undefined) => {
+export const useFetchCollateralUsd = (strategy: Address | undefined) => {
   return useQuery({
     queryKey: ["fetchDetailCollateral", strategy],
     queryFn: () => fetchCollateralUsd(strategy!),
@@ -28,8 +24,8 @@ export const useFetchDetailCollateral = (strategy: Address | undefined) => {
   });
 };
 
-export const useFetchViewDetailCollateral = (strategy: Address | undefined) => {
-  const { data, ...rest } = useFetchDetailCollateral(strategy);
+export const useFetchViewCollateralUsd = (strategy: Address | undefined) => {
+  const { data, ...rest } = useFetchCollateralUsd(strategy);
 
   return {
     ...rest,

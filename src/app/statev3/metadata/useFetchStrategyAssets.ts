@@ -1,21 +1,25 @@
 import { Address } from "viem";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { loopStrategyAbi } from "../../generated";
-import { readContractQueryOptions } from "wagmi/query";
-import { config } from "../../config/rainbow.config";
+import { metadataQueryConfig } from "../../state/settings/queryConfig";
 
 export async function fetchStrategyAssets(strategy: Address): Promise<{
   underlying: Address | undefined;
   collateral: Address | undefined;
   debt: Address | undefined;
 }> {
-  const queryClient = getQueryClient();
-
-  return await queryClient.fetchQuery(
-    readContractQueryOptions(config, {
+  const { underlying, collateral, debt } = await queryContract({
+    ...queryOptions({
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "getAssets",
-    })
-  );
+    }),
+    ...metadataQueryConfig,
+  });
+
+  return {
+    underlying,
+    collateral,
+    debt,
+  };
 }

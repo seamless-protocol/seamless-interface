@@ -1,9 +1,8 @@
 import { Address } from "viem";
-import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
-import { readContractQueryOptions } from "wagmi/query";
+import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { config } from "../../config/rainbow.config";
 import { loopStrategyAbi } from "../../generated";
-import { fetchStrategyAssets } from "./useFetchStrategyAssets";
+import { fetchStrategyAssets } from "../metadata/useFetchStrategyAssets";
 import { fetchAssetPriceInBlock } from "../../state/common/queries/useFetchViewAssetPrice";
 import { cValueInUsd } from "../../state/common/math/cValueInUsd";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
@@ -17,8 +16,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 export async function fetchDetailStrategyCap(strategy: Address) {
-  const queryClient = getQueryClient();
-
   const { underlying: underlyingAsset } = await fetchStrategyAssets(strategy);
 
   if (!underlyingAsset) throw new Error("Underlying asset not found");
@@ -27,8 +24,8 @@ export async function fetchDetailStrategyCap(strategy: Address) {
 
   const price = await fetchAssetPriceInBlock(config, underlyingAsset);
 
-  const assetCap = await queryClient.fetchQuery(
-    readContractQueryOptions(config, {
+  const assetCap = await queryContract(
+    queryOptions({
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "getAssetsCap",
