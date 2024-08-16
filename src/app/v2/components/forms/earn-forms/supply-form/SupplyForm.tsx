@@ -83,7 +83,6 @@ const SupplyFormLocal = () => {
                   <WatchAssetComponentv2
                     {...sTokenData}
                     logo={tokenData.logo}
-                    symbol={sTokenData.symbol || ""}
                     address={reserveTokenAddresses.aTokenAddress}
                   />
                 )}

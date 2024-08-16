@@ -10,11 +10,13 @@
     "preview": "vite preview",
     "switch-tailwind-config": "node switch-config.js",
     "dev": "npm run switch-tailwind-config && vite",
-    "compile": "tsc",
+    "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "npm run switch-tailwind-config && npm run lint && npm run compile",
-    "build": "vite build"
+    "build": "vite build",
+    "anvil": "node run-anvil.mjs",
+    "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -30,6 +32,8 @@
     "@types/react-dom": "^18.2.17",
     "@uidotdev/usehooks": "^2.4.1",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "ethereum-blockies-base64": "^1.0.2",
     "path": "^0.12.7",
@@ -46,13 +50,17 @@
     "wagmi": "^2.9.2"
   },
   "devDependencies": {
+    "@cypress/vite-dev-server": "^5.1.1",
     "@sentry/vite-plugin": "^2.14.3",
     "@types/lodash.debounce": "^4.0.9",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@wagmi/cli": "^2.0.3",
     "autoprefixer": "^10.4.17",
+    "cypress": "^13.12.0",
+    "cypress-vite": "^1.5.0",
     "daisyui": "^4.6.0",
+    "dotenv-cli": "7.4.2",
     "esbuild": "^0.16.17",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -60,6 +68,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-cypress": "3.3.0",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -70,6 +79,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite-plugin-node-polyfills": "^0.21.0",
-    "vitest": "^1.2.2"
+    "vitest": "^1.2.2",
+    "wait-on": "^7.2.0"
   }
 }

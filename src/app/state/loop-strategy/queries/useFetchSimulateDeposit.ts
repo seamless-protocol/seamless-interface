@@ -13,21 +13,28 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
 
   const { data: underlyingAsset, ...underlyingRest } = useFetchStrategyAsset(subStrategy);
 
-  const enabled = !!subStrategy && !!account && !!underlyingAsset && Number(amount) > 0;
+  const enabled = !!subStrategy && !!account && !!underlyingAsset && !!decimals && Number(amount) > 0;
+
   const { data, ...rest } = useQuery({
-    queryKey: ["simulateDeposit", account, subStrategy, underlyingAsset, amount],
-    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset!, amount),
+    queryKey: ["simulateDeposit", account, subStrategy, underlyingAsset, amount, decimals],
+    queryFn: () => simulateDeposit(account, subStrategy!, underlyingAsset!, amount, decimals!),
     staleTime: FIVE_SECONDS_IN_MS,
     retry: true,
     enabled,
   });
 
   return {
-    ...mergeQueryStates([tokenRest, underlyingRest, enabled ? rest : {
-      ...rest,
-      // todo: solve this differently, review displayvalue component, and render loading state in different way.
-      isFetched: true,
-    }]),
+    ...mergeQueryStates([
+      tokenRest,
+      underlyingRest,
+      enabled
+        ? rest
+        : {
+            ...rest,
+            // todo: solve this differently, review displayvalue component, and render loading state in different way.
+            isFetched: true,
+          },
+    ]),
     data: {
       bigIntValue: data?.sharesToReceive,
       decimals,

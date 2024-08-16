@@ -1,22 +1,12 @@
 {
-  "ignorePatterns": [
-    "src/app/generated/generated.ts"
-  ],
+  "ignorePatterns": ["src/app/generated/generated.ts", "vite.config.ts", "run-anvil.mjs"],
   "root": true,
   "env": {
     "browser": true,
     "es2021": true,
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier"
-  ],
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "cypress"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier", "plugin:cypress/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -35,6 +25,10 @@
     },
   },
   "rules": {
+    // cypress
+    "cypress/no-unnecessary-waiting": "off",
+    // eslint
+    "@typescript-eslint/no-empty-function": "off",
     "react/destructuring-assignment": "off",
     "no-nested-ternary": "off",
     "no-underscore-dangle": "off",
@@ -67,10 +61,7 @@
     "no-sparse-arrays": "off",
     "no-console": "warn",
     "no-param-reassign": "warn",
-    "eqeqeq": [
-      "warn",
-      "smart"
-    ],
+    "eqeqeq": ["warn", "smart"],
     "jsx-a11y/tabindex-no-positive": "warn",
     "react/no-unescaped-entities": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
@@ -79,8 +70,8 @@
     "no-unused-vars": [
       "warn",
       {
-        "args": "none"
-      }
+        "args": "none",
+      },
     ],
     "react/jsx-no-useless-fragment": [
       "error",

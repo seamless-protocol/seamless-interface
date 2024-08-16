@@ -47,6 +47,7 @@ export const srwstETH_ADDRESS: Address = "0xb01C5c4eB40d2F2b64Daa3170F89849d00eA
 export const srWETH_ADDRESS: Address = "0xC52D72B89931fDA7C7B7B13cc3359EF6207d4638";
 export const sDEGEN_ADDRESS: Address = "0x39c0926455682A2aFB5680045f309848C350de34";
 export const sSEAM_ADDRESS: Address = "0x67368dF7734aee0bc65A845AC6d73974626b7A34";
+export const rUSDC_ADDRESS: Address = "0x9660Af3B1955648A72F5C958E80449032d645755";
 
 export const variableDebtSeamcbETH_ADDRESS: Address = "0x72Dbdbe3423cdA5e92A3cC8ba9BFD41F67EE9168";
 export const variableDebtSeamDAI_ADDRESS: Address = "0x2733e1DA7d35c5ea3ed246ed6b613DC3dA97Ce2E";
@@ -58,6 +59,7 @@ export const variableDebtSeamrwstETH_ADDRESS = "0xf2306020Be299477fdd387BeFd47C6
 export const variableDebtSeamDEGEN_ADDRESS = "0xfb4acbf586010670b9454d3fd4e7a31e1c8e0d98";
 export const variableDebtSeamSEAM_ADDRESS = "0x269eff46ba6ab639f5dbd745191bd987ba03de3b";
 export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba71d02506";
+export const ethShort_ADDRESS_1_5_x: Address = "0x68DFad1A72c63897FEC5fB9De9FDb5670280291e";
 export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 // export const wstETHBooster4_5x_ADDRESS: Address = "0x2a351F41Bc0080c3Ae52C1708Ff7442b024Ab426";
 export const ethLong: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
@@ -67,6 +69,7 @@ export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
 export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
+export const shortETH_ADDRESS_STRATEGY_ID = `${USDC_ADDRESS}-${WETH_ADDRESS}`;
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
@@ -87,6 +90,6 @@ export const assetLogos: Map<string, string> = new Map([
   ["BRETT", brettLogo],
 ]);
 
-export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase()];
+export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase(), rUSDC_ADDRESS.toLowerCase()];
 
 export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
