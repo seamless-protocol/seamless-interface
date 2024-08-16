@@ -35,6 +35,7 @@ export async function getStrategyEventLogsForUser({ strategy, user }: GetStrateg
         from: user,
       },
       fromBlock: 0n,
+      toBlock: "latest",
     }),
     publicClient.getLogs({
       address: strategy,
@@ -43,6 +44,7 @@ export async function getStrategyEventLogsForUser({ strategy, user }: GetStrateg
         to: user,
       },
       fromBlock: 0n,
+      toBlock: "latest",
     }),
   ]);
 
