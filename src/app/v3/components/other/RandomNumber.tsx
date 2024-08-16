@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { DisplayValue, DisplayValueProps } from "@shared";
 
-interface AssetApyProps extends DisplayValueProps { }
+interface RandomNumberProps extends DisplayValueProps {}
 
-export const RandomNumber: React.FC<AssetApyProps> = (props) => {
+export const RandomNumber: React.FC<RandomNumberProps> = (props) => {
   const data = useMemo(() => {
-    // Generates a random number between 0 and 999
     return Math.floor(Math.random() * 1000);
   }, []);
 
