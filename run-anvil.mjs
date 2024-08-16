@@ -18,31 +18,21 @@ if (!forkUrl) {
   process.exit(1);
 }
 
-const pkillCommand = `pkill -f anvil || true`; // The '|| true' part ensures the script continues even if pkill fails
 const anvilCommand = `anvil --fork-url ${forkUrl} --fork-block-number ${forkBlockNumber} --auto-impersonate --no-rate-limit`;
 
-// Kill existing anvil process
-spawn(pkillCommand, { shell: true }).on("close", (code) => {
-  if (code !== 0 && code !== 1) {
-    // Allow code 1 for 'no processes found'
-    console.error(`pkill command failed with code ${code}`);
-    return;
+// Start anvil
+const anvilProcess = spawn(anvilCommand, { shell: true });
+
+anvilProcess.stdout.on("data", (data) => {
+  console.log(`anvil stdout: ${data}`);
+});
+
+anvilProcess.stderr.on("data", (data) => {
+  console.error(`anvil stderr: ${data}`);
+});
+
+anvilProcess.on("close", (code) => {
+  if (code !== 0) {
+    console.error(`anvil process exited with code ${code}`);
   }
-
-  // Start anvil
-  const anvilProcess = spawn(anvilCommand, { shell: true });
-
-  anvilProcess.stdout.on("data", (data) => {
-    console.log(`anvil stdout: ${data}`);
-  });
-
-  anvilProcess.stderr.on("data", (data) => {
-    console.error(`anvil stderr: ${data}`);
-  });
-
-  anvilProcess.on("close", (code) => {
-    if (code !== 0) {
-      console.error(`anvil process exited with code ${code}`);
-    }
-  });
 });

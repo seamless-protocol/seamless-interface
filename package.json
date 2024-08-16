@@ -16,7 +16,7 @@
     "prebuild": "npm run switch-tailwind-config && npm run lint && npm run compile",
     "build": "vite build",
     "anvil": "node run-anvil.mjs",
-    "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\""
+    "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
