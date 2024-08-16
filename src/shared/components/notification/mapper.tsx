@@ -2,11 +2,11 @@ import { CheckIcon, XMarkIcon, InformationCircleIcon, ExclamationCircleIcon } fr
 import { IS_STYLE_VERSION_2 } from "../../../globals";
 
 export const ENUM_STATUSES = {
-  success: <CheckIcon width={32} height={32} />,
-  loading: <div className="loading loading-spinner" />,
-  error: <XMarkIcon width={32} height={32} />,
-  info: <InformationCircleIcon width={32} height={32} />,
-  warning: <ExclamationCircleIcon width={32} height={32} />,
+  success: <CheckIcon width={32} height={32} data-cy="notification-success-icon" />,
+  loading: <div className="loading loading-spinner" data-cy="notification-loading-icon" />,
+  error: <XMarkIcon width={32} height={32} data-cy="notification-error-icon" />,
+  info: <InformationCircleIcon width={32} height={32} data-cy="notification-info-icon" />,
+  warning: <ExclamationCircleIcon width={32} height={32} data-cy="notification-warning-icon" />,
 };
 
 const ENUM_COLORSv1 = {

@@ -42,6 +42,7 @@ export const FormButtons = () => {
     <FlexCol className="gap-2">
       <AuthGuardv2 message="">
         <Buttonv2
+          data-cy="approvalButton"
           className="text-bold3"
           disabled={isApproved}
           loading={isApproving}
@@ -61,7 +62,13 @@ export const FormButtons = () => {
           {getApproveState(isApproved, justApproved)}
         </Buttonv2>
       </AuthGuardv2>
-      <Buttonv2 className="text-bold3" type="submit" disabled={!isApproved || isSubmitting} loading={isSubmitting}>
+      <Buttonv2
+        data-cy="actionButton"
+        className="text-bold3"
+        type="submit"
+        disabled={!isApproved || isSubmitting}
+        loading={isSubmitting}
+      >
         Submit
       </Buttonv2>
     </FlexCol>

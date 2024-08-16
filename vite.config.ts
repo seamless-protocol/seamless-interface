@@ -30,6 +30,10 @@ export default defineConfig(({ mode }) => {
       },
     },
 
+    define: {
+      "process.env": {},
+    },
+
     build: {
       sourcemap: true,
 
