@@ -1,6 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount } from "wagmi";
-import { FetchBigInt } from "../../../shared";
+import { FetchBigIntStrict } from "../../../shared";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ interface FetchAssetBalanceInput {
   asset: Address;
 }
 
-export async function fetchAssetBalance({ account, asset }: FetchAssetBalanceInput): Promise<FetchBigInt> {
+export async function fetchAssetBalance({ account, asset }: FetchAssetBalanceInput): Promise<FetchBigIntStrict> {
   const [balance, { symbol, decimals }] = await Promise.all([
     queryContract(
       queryOptions({

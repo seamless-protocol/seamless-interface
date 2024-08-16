@@ -1,6 +1,12 @@
 import { Address, erc20Abi, parseUnits } from "viem";
 import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_USD } from "@meta";
-import { Displayable, FetchBigInt, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../shared";
+import {
+  Displayable,
+  FetchBigIntStrict,
+  ViewBigInt,
+  formatFetchBigIntToViewBigInt,
+  formatUsdValue,
+} from "../../../shared";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
 import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
@@ -10,22 +16,13 @@ import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../generat
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
 
-export interface AssetPrice {
-  price: FetchBigInt;
-}
-
-export const fetchAssetPriceInBlock = async (
-  asset: Address,
-  blockNumber?: bigint,
-  underlyingAsset?: Address
-): Promise<bigint> => {
+export const fetchAssetPriceInUsdInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS) {
-    return OG_POINTS_MOCK_PRICE;
+    return formatUsdValue(OG_POINTS_MOCK_PRICE);
   }
 
   const strategy = getStrategyBySubStrategyAddress(asset);
 
-  let price = 0n;
   if (strategy) {
     const [equityUsd, totalSupply, decimals] = await Promise.all([
       queryContract(
@@ -47,23 +44,24 @@ export const fetchAssetPriceInBlock = async (
       fetchTokenData(asset),
     ]);
 
-    if (totalSupply !== 0n) {
-      price = (equityUsd * parseUnits("1", decimals.decimals)) / totalSupply;
-    }
-  } else {
-    if (!blockNumber) {
-      const config = asset
-        ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
-        : undefined;
-      if (config?.useCoinGeckoPrice) {
-        return fetchCoinGeckoAssetPriceByAddress({
-          address: asset,
-          precision: 8,
-        });
-      }
-    }
+    if (totalSupply === 0n) formatUsdValue(0n);
 
-    price = await queryContract(
+    return formatUsdValue((equityUsd * parseUnits("1", decimals.decimals)) / totalSupply);
+  }
+
+  const config = assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset);
+
+  if (!blockNumber && config?.useCoinGeckoPrice) {
+    return formatUsdValue(
+      await fetchCoinGeckoAssetPriceByAddress({
+        address: asset,
+        precision: 8,
+      })
+    );
+  }
+
+  return formatUsdValue(
+    await queryContract(
       queryOptions({
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
@@ -71,38 +69,31 @@ export const fetchAssetPriceInBlock = async (
         args: [asset],
         blockNumber,
       })
-    );
+    )
+  );
+};
 
-    if (underlyingAsset) {
-      const underlyingPrice = await fetchAssetPriceInBlock(underlyingAsset, blockNumber);
+export const fetchAssetPriceInBlock = async (
+  asset: Address,
+  blockNumber?: bigint,
+  underlyingAsset?: Address
+): Promise<FetchBigIntStrict> => {
+  const priceInUsd = await fetchAssetPriceInUsdInBlock(asset, blockNumber);
 
-      if (!underlyingPrice) {
-        throw new Error(`Can't fetch price of ${underlyingAsset} in the block ${blockNumber}`);
-      }
+  const underlyingAssetPriceInUsd = underlyingAsset
+    ? await fetchAssetPriceInUsdInBlock(underlyingAsset, blockNumber)
+    : formatUsdValue(ONE_USD);
 
-      return (price * ONE_USD) / underlyingPrice;
-    }
-  }
-
-  return price;
+  return formatUsdValue((priceInUsd.bigIntValue * ONE_USD) / underlyingAssetPriceInUsd.bigIntValue);
 };
 
 export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint, underlyingAsset?: Address) => {
-  const { data: price, ...rest } = useQuery({
+  return useQuery({
     queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? ONE_MINUTE_IN_MS : ONE_HOUR_IN_MS,
     enabled: !!asset,
   });
-
-  return {
-    ...rest,
-    data: {
-      bigIntValue: price || 0n,
-      decimals: 8,
-      symbol: "$",
-    },
-  };
 };
 
 interface useFetchAssetPriceParams {

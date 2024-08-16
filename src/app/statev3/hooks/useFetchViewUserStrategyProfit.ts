@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, parseAbiItem } from "viem";
 import {
   Displayable,
-  FetchBigInt,
+  FetchBigIntStrict,
   ViewBigInt,
-  fFetchBigIntStructured,
-  fUsdValueStructured,
+  formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
+  formatUsdValue,
 } from "../../../shared";
 import { getPublicClient } from "wagmi/actions";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
@@ -61,9 +61,9 @@ export async function getStrategyEventLogsForUser({ strategy, user }: GetStrateg
 }
 
 interface UserStrategyProfit {
-  totalProfit: FetchBigInt | undefined;
-  unrealizedProfit: FetchBigInt | undefined;
-  unrealizedProfitPercentage: FetchBigInt | undefined;
+  totalProfit: FetchBigIntStrict;
+  unrealizedProfit: FetchBigIntStrict;
+  unrealizedProfitPercentage: FetchBigIntStrict;
 }
 
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
@@ -93,7 +93,7 @@ export async function fetchUserStrategyProfit({
 
       const price = await fetchAssetPriceInBlock(strategy, blockNumber);
 
-      const transferValueUsd = (shares * price) / strategyBase;
+      const transferValueUsd = (shares * price.bigIntValue) / strategyBase;
 
       if (from === user) {
         results[index] = {
@@ -133,7 +133,7 @@ export async function fetchUserStrategyProfit({
   );
 
   const price = await fetchAssetPriceInBlock(strategy);
-  const currSharesUsd = (currShares * price) / strategyBase;
+  const currSharesUsd = (currShares * price.bigIntValue) / strategyBase;
 
   const totalProfit = currSharesUsd + currTotalProfit;
   const unrealizedProfit = currSharesUsd - (currShares * currSharesAvgPrice) / strategyBase;
@@ -142,9 +142,9 @@ export async function fetchUserStrategyProfit({
     : 0n;
 
   return {
-    totalProfit: fUsdValueStructured(totalProfit),
-    unrealizedProfit: fUsdValueStructured(unrealizedProfit),
-    unrealizedProfitPercentage: fFetchBigIntStructured(unrealizedProfitPercentage, 2, "%"),
+    totalProfit: formatUsdValue(totalProfit),
+    unrealizedProfit: formatUsdValue(unrealizedProfit),
+    unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, 2, "%"),
   };
 }
 

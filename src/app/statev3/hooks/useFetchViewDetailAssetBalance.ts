@@ -1,9 +1,9 @@
 import { Address } from "viem";
 import { fetchAssetBalance } from "../queries/useFetchAssetBalance";
-import { FetchTokenAmountWithUsdValue, fUsdValueStructured } from "../../../shared";
+import { FetchTokenAmountWithUsdValue, formatUsdValue } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { cValueInUsd } from "../../state/common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../math/cValueInUsd";
 
 interface FetchDetailAssetBalanceInput {
   account: Address;
@@ -18,7 +18,7 @@ export async function fetchDetailAssetBalance({
 
   return {
     tokenAmount: balance,
-    dollarAmount: fUsdValueStructured(cValueInUsd(balance.bigIntValue, price, balance.decimals)),
+    dollarAmount: formatUsdValue(cValueInUsd(balance.bigIntValue, price.bigIntValue, balance.decimals)),
   };
 }
 

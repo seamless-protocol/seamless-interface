@@ -3,16 +3,16 @@ import { fetchTokenData } from "../metadata/useFetchTokenData";
 import { loopStrategyAbi } from "../../generated";
 import {
   Displayable,
-  FetchTokenAmountWithUsdValue,
+  FetchTokenAmountWithUsdValueStrict,
   ViewBigInt,
-  fFetchBigIntStructured,
-  fUsdValueStructured,
+  formatFetchBigInt,
   formatFetchBigIntToViewBigIntTemp,
+  formatUsdValue,
 } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 
-export async function fetchDetailEquity(strategy: Address): Promise<FetchTokenAmountWithUsdValue> {
+export async function fetchDetailEquity(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { symbol, decimals } = await fetchTokenData(strategy);
 
   const [equity, equityUsd] = await Promise.all([
@@ -33,8 +33,8 @@ export async function fetchDetailEquity(strategy: Address): Promise<FetchTokenAm
   ]);
 
   return {
-    tokenAmount: fFetchBigIntStructured(equity, decimals, symbol),
-    dollarAmount: fUsdValueStructured(equityUsd),
+    tokenAmount: formatFetchBigInt(equity, decimals, symbol),
+    dollarAmount: formatUsdValue(equityUsd),
   };
 }
 

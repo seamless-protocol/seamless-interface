@@ -5,17 +5,17 @@ import { fetchUserStrategyProfit } from "./useFetchViewUserStrategyProfit";
 import { useQuery } from "@tanstack/react-query";
 import {
   Displayable,
-  FetchBigInt,
+  FetchBigIntStrict,
   ViewBigInt,
-  fFetchBigIntStructured,
-  fUsdValueStructured,
+  formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
+  formatUsdValue,
 } from "../../../shared";
 
 interface UserProfit {
-  totalProfit: FetchBigInt | undefined;
-  unrealizedProfit: FetchBigInt | undefined;
-  unrealizedProfitPercentage: FetchBigInt | undefined;
+  totalProfit: FetchBigIntStrict;
+  unrealizedProfit: FetchBigIntStrict;
+  unrealizedProfitPercentage: FetchBigIntStrict;
 }
 
 export async function fetchUserProfit(account: Address): Promise<UserProfit> {
@@ -51,9 +51,9 @@ export async function fetchUserProfit(account: Address): Promise<UserProfit> {
   );
 
   return {
-    totalProfit: fUsdValueStructured(totalProfit),
-    unrealizedProfit: fUsdValueStructured(unrealizedProfit),
-    unrealizedProfitPercentage: fFetchBigIntStructured(unrealizedProfitPercentage, 2, "%"),
+    totalProfit: formatUsdValue(totalProfit),
+    unrealizedProfit: formatUsdValue(unrealizedProfit),
+    unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, 2, "%"),
   };
 }
 
