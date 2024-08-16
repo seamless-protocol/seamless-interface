@@ -11,7 +11,7 @@ import {
 import { getPublicClient } from "wagmi/actions";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
 import { fetchAssetPriceInBlock } from "../queries/useFetchViewAssetPrice";
-import { getConfig } from "../../contexts/CustomQueryClientProvider";
+import { getExtensiveOperationsConfig } from "../../utils/queryContractUtils";
 
 const TRANSFER_EVENT = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 
@@ -21,7 +21,7 @@ interface GetStrategyEventLogsForUserInput {
 }
 
 export async function getStrategyEventLogsForUser({ strategy, user }: GetStrategyEventLogsForUserInput) {
-  const publicClient = getPublicClient(getConfig());
+  const publicClient = getPublicClient(getExtensiveOperationsConfig());
 
   if (!publicClient) {
     throw new Error("Public client not found");
@@ -46,7 +46,16 @@ export async function getStrategyEventLogsForUser({ strategy, user }: GetStrateg
     }),
   ]);
 
-  return [...transferFromLogs, ...transferToLogs].sort((a, b) => Number(a.blockNumber) - Number(b.blockNumber));
+  return [...transferFromLogs, ...transferToLogs].sort((a, b) => {
+    const blockNumberComparison = Number(a.blockNumber) - Number(b.blockNumber);
+
+    if (blockNumberComparison !== 0) {
+      return blockNumberComparison;
+    }
+
+    // If block numbers are the same, sort by logIndex
+    return Number(a.logIndex) - Number(b.logIndex);
+  });
 }
 
 interface UserStrategyProfit {
@@ -73,16 +82,14 @@ export async function fetchUserStrategyProfit({
   await Promise.all(
     logs.map(async (log, index) => {
       const { args, blockNumber } = log;
-      const { from, value: shares } = args;
+      const { from, value: shares } = args as { from: Address | undefined; value: bigint | undefined };
 
       if (!from || !shares) {
+        console.error("Invalid log", log);
         throw new Error("Invalid log");
       }
 
       const price = await fetchAssetPriceInBlock(strategy, blockNumber);
-      if (!price) {
-        throw new Error("Can not fetch asset price in block");
-      }
 
       const transferValueUsd = (shares * price) / strategyBase;
 
@@ -124,10 +131,6 @@ export async function fetchUserStrategyProfit({
   );
 
   const price = await fetchAssetPriceInBlock(strategy);
-  if (!price) {
-    throw new Error("Strategy price not found");
-  }
-
   const currSharesUsd = (currShares * price) / strategyBase;
 
   const totalProfit = currSharesUsd + currTotalProfit;

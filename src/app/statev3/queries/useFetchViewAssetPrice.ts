@@ -1,25 +1,24 @@
-import { Address, erc20Abi } from "viem";
-import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_ETHER, ONE_USD } from "@meta";
+import { Address, erc20Abi, parseUnits } from "viem";
+import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_USD } from "@meta";
 import { Displayable, FetchBigInt, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../shared";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
-import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { useQuery } from "@tanstack/react-query";
 import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../state/settings/queryConfig";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../generated";
+import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { fetchTokenData } from "../metadata/useFetchTokenData";
 
 export interface AssetPrice {
   price: FetchBigInt;
 }
 
 export const fetchAssetPriceInBlock = async (
-  asset?: Address,
+  asset: Address,
   blockNumber?: bigint,
   underlyingAsset?: Address
-): Promise<bigint | undefined> => {
-  if (!asset) return undefined;
-
+): Promise<bigint> => {
   if (asset === OG_POINTS) {
     return OG_POINTS_MOCK_PRICE;
   }
@@ -28,29 +27,30 @@ export const fetchAssetPriceInBlock = async (
 
   let price = 0n;
   if (strategy) {
-    const equityUsd = await queryContract(
-      queryOptions({
-        address: asset,
-        abi: loopStrategyAbi,
-        functionName: "equityUSD",
-        blockNumber,
-      })
-    );
-
-    const totalSupply = await queryContract(
-      queryOptions({
-        address: asset,
-        abi: erc20Abi,
-        functionName: "totalSupply",
-        blockNumber,
-      })
-    );
+    const [equityUsd, totalSupply, decimals] = await Promise.all([
+      queryContract(
+        queryOptions({
+          address: asset,
+          abi: loopStrategyAbi,
+          functionName: "equityUSD",
+          blockNumber,
+        })
+      ),
+      queryContract(
+        queryOptions({
+          address: asset,
+          abi: erc20Abi,
+          functionName: "totalSupply",
+          blockNumber,
+        })
+      ),
+      fetchTokenData(asset),
+    ]);
 
     if (totalSupply !== 0n) {
-      price = (equityUsd * ONE_ETHER) / totalSupply;
+      price = (equityUsd * parseUnits("1", decimals.decimals)) / totalSupply;
     }
   } else {
-    // Cannot fetch past block number prices from CoingGecko
     if (!blockNumber) {
       const config = asset
         ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
@@ -72,14 +72,16 @@ export const fetchAssetPriceInBlock = async (
         blockNumber,
       })
     );
-  }
 
-  if (underlyingAsset) {
-    const underlyingPrice = await fetchAssetPriceInBlock(underlyingAsset, blockNumber);
+    if (underlyingAsset) {
+      const underlyingPrice = await fetchAssetPriceInBlock(underlyingAsset, blockNumber);
 
-    if (!underlyingPrice) return undefined;
+      if (!underlyingPrice) {
+        throw new Error(`Can't fetch price of ${underlyingAsset} in the block ${blockNumber}`);
+      }
 
-    price = (price * ONE_USD) / underlyingPrice;
+      return (price * ONE_USD) / underlyingPrice;
+    }
   }
 
   return price;
@@ -87,7 +89,7 @@ export const fetchAssetPriceInBlock = async (
 
 export const useFetchAssetPriceInBlock = (asset?: Address, blockNumber?: bigint, underlyingAsset?: Address) => {
   const { data: price, ...rest } = useQuery({
-    queryFn: () => fetchAssetPriceInBlock(asset, blockNumber, underlyingAsset),
+    queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber, underlyingAsset),
     queryKey: ["fetchAssetPriceInBlock", asset, underlyingAsset, { blockNumber: blockNumber?.toString() }],
     staleTime: blockNumber ? ONE_MINUTE_IN_MS : ONE_HOUR_IN_MS,
     enabled: !!asset,

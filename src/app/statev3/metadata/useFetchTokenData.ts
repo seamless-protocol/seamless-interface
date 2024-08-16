@@ -1,6 +1,6 @@
 import { Address, erc20Abi } from "viem";
-import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { metadataQueryConfig } from "../../state/settings/queryConfig";
+import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 
 interface TokenData {
   symbol: string;

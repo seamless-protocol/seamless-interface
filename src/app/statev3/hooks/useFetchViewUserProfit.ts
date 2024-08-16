@@ -58,12 +58,12 @@ export async function fetchUserProfit(account: Address): Promise<UserProfit> {
 }
 
 export const useFetchUserProfit = () => {
-  const account = useAccount();
+  const { address: account } = useAccount();
 
   return useQuery({
-    queryKey: ["fetchUserProfit", account?.address],
-    queryFn: () => fetchUserProfit(account!.address!),
-    enabled: !!account?.address,
+    queryKey: ["fetchUserProfit", account],
+    queryFn: () => fetchUserProfit(account!),
+    enabled: !!account,
   });
 };
 

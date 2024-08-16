@@ -1,8 +1,8 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount } from "wagmi";
-import { queryContract, queryOptions } from "../../contexts/CustomQueryClientProvider";
 import { FetchBigInt } from "../../../shared";
 import { fetchTokenData } from "../metadata/useFetchTokenData";
+import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 
 interface FetchAssetBalanceInput {
