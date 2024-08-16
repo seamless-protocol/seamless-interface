@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ONE_ETHER, walletBalanceDecimalsOptions } from "@meta";
+import { walletBalanceDecimalsOptions } from "@meta";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import {
   Displayable,
@@ -21,10 +21,15 @@ const cAssetsToReceive = (assetsValue?: bigint) => {
   return (assetsValue * 999n) / 1000n;
 };
 
-const cAssetsToReceiveUsd = (assetsToReceiveValue?: bigint, underlyingAssetPriceValue?: bigint) => {
-  if (assetsToReceiveValue == null || underlyingAssetPriceValue == null) return undefined;
+const cAssetsToReceiveUsd = (
+  assetsToReceiveValue?: bigint,
+  underlyingAssetPriceValue?: bigint,
+  underlyingAssetDecimals?: number
+) => {
+  if (assetsToReceiveValue == null || underlyingAssetPriceValue == null || underlyingAssetDecimals == null)
+    return undefined;
 
-  return (assetsToReceiveValue * underlyingAssetPriceValue) / ONE_ETHER;
+  return (assetsToReceiveValue * underlyingAssetPriceValue) / 10n ** BigInt(underlyingAssetDecimals);
 };
 
 interface PreviewWithdraw {
@@ -49,7 +54,11 @@ export const useFetchWithdrawSharesToReceive = (amount: string, subStrategy?: Ad
   });
 
   const assetsToReceive = cAssetsToReceive(assets?.bigIntValue);
-  const assetsToReceiveInUsd = cAssetsToReceiveUsd(assetsToReceive, underlyingAssetPrice.bigIntValue);
+  const assetsToReceiveInUsd = cAssetsToReceiveUsd(
+    assetsToReceive,
+    underlyingAssetPrice.bigIntValue,
+    underlyingAssetDecimals
+  );
 
   return {
     ...mergeQueryStates([underlyingSymbolRest, simulateRest, strategyRest, underlyingAssetRest]),

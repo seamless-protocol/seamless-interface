@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ConnectButtonContext } from "./ConnectButtonProvider";
+import { ConnectButtonContext } from "./ConnectButtonContext";
 
 export const useConnectButtonContext = () => {
   const context = useContext(ConnectButtonContext);
