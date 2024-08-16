@@ -8,10 +8,6 @@ export const tenderlyFundAccountERC20 = async (
 ) => {
   const API_KEY = Cypress.env("tenderly_access_key");
 
-  const amountHex = toHex(amount, { size: 16 });
-  let formattedAmount = String(amountHex).replace(/^0+/, "");
-  formattedAmount = `0x${amountHex}`;
-
   const response = await fetch(forkUrl, {
     method: "POST",
     headers: {
@@ -21,7 +17,7 @@ export const tenderlyFundAccountERC20 = async (
     body: JSON.stringify({
       jsonrpc: "2.0",
       method: "tenderly_setErc20Balance",
-      params: [tokenAddress, account, formattedAmount],
+      params: [tokenAddress, account, toHex(amount)],
     }),
   });
 

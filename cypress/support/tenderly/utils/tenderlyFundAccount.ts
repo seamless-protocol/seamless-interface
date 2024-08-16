@@ -4,10 +4,6 @@ import { targetAccount } from "../../constants";
 export const tenderlyFundAccount = async (forkUrl: string, account = targetAccount, amount = BigInt(5 * 1e18)) => {
   const API_KEY = Cypress.env("tenderly_access_key");
 
-  const amountHex = toHex(amount, { size: 16 });
-  let formattedAmount = String(amountHex).replace(/^0+/, "");
-  formattedAmount = `0x${amountHex}`;
-
   const response = await fetch(forkUrl, {
     method: "POST",
     headers: {
@@ -17,7 +13,7 @@ export const tenderlyFundAccount = async (forkUrl: string, account = targetAccou
     body: JSON.stringify({
       jsonrpc: "2.0",
       method: "tenderly_setBalance",
-      params: [[account], formattedAmount],
+      params: [[account], toHex(amount)],
       id: "1234",
     }),
   });
