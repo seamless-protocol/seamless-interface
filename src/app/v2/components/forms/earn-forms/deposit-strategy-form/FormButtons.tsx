@@ -1,7 +1,7 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext, useToken } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { parseUnits, etherUnits, Address } from "viem";
+import { parseUnits, Address } from "viem";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 
 export const FormButtons: React.FC<{
@@ -11,6 +11,7 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
 }> = ({ strategy, subStrategyAddress, onTransaction, isLoading }) => {
   const { showNotification } = useNotificationContext();
+  const { data: { decimals } } = useToken(strategy.underlyingAsset.address);
 
   const {
     watch,
@@ -21,7 +22,7 @@ export const FormButtons: React.FC<{
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     strategy.underlyingAsset.address,
     subStrategyAddress,
-    parseUnits(amount || "0", etherUnits.wei)
+    decimals ? parseUnits(amount || "0", decimals) : undefined
   );
 
   if (!amount) {
