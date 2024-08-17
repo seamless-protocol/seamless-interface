@@ -1,91 +1,134 @@
 import { Address } from "viem";
-import { fetchAssetPriceInBlock } from "../../queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../math/cValueInUsd";
 
-interface CalculateUserStrategyProfitInput {
-  logs: any[];
+/// TYPES
+
+export interface Log {
+  args: { from: Address | undefined; to: Address | undefined; value: bigint | undefined };
+  blockNumber: bigint;
+}
+
+export interface LogWithStrategyPrice {
+  log: Log;
+  strategyPrice: bigint;
+}
+
+interface cAvgSharePriceInput {
+  strategyBalance: bigint;
+  strategyBalanceChange: bigint;
+  strategyBalanceChangeUsd: bigint;
+  avgSharePrice: bigint;
+  strategyBase: bigint;
+}
+
+interface cUserStatsInput {
+  logs: LogWithStrategyPrice[];
   user: Address;
-  strategy: Address;
   strategyDecimals: number;
 }
 
-interface CalculateUserStrategyProfitOutput {
+interface cUserStatsOutput {
+  totalProfit: bigint;
+  avgSharePrice: bigint;
+  strategyBalance: bigint;
+}
+
+export interface cUserStrategyProfitInput {
+  logs: LogWithStrategyPrice[];
+  currStrategyPrice: bigint;
+  user: Address;
+  strategyDecimals: number;
+}
+
+interface cUserStrategyProfitOutput {
   totalProfit: bigint;
   unrealizedProfit: bigint;
   unrealizedProfitPercentage: bigint;
 }
 
-export async function calculateUserStrategyProfit({
-  logs,
-  user,
-  strategy,
-  strategyDecimals,
-}: CalculateUserStrategyProfitInput): Promise<CalculateUserStrategyProfitOutput> {
+/// MATH FUNCTIONS
+
+function cUnrealizedProfitPercentage({
+  strategyBalanceUsd,
+  unrealizedProfit,
+}: {
+  strategyBalanceUsd: bigint;
+  unrealizedProfit: bigint;
+}): bigint {
+  return strategyBalanceUsd - unrealizedProfit > 0n
+    ? (unrealizedProfit * 10000n) / (strategyBalanceUsd - unrealizedProfit)
+    : 0n;
+}
+
+function cAvgSharePrice(input: cAvgSharePriceInput): bigint {
+  const { strategyBalance, strategyBalanceChange, strategyBalanceChangeUsd, avgSharePrice, strategyBase } = input;
+
+  return strategyBalanceChange > 0n
+    ? (strategyBalance * avgSharePrice + strategyBalanceChangeUsd * strategyBase) /
+        (strategyBalance + strategyBalanceChange)
+    : avgSharePrice;
+}
+
+function cUserStats(input: cUserStatsInput): cUserStatsOutput {
+  const { logs, user, strategyDecimals } = input;
+
   const strategyBase = 10n ** BigInt(strategyDecimals);
 
-  const results = [] as { transferValueUsd: bigint; shareBalanceChange: bigint }[];
+  const { totalProfit, strategyBalance, avgSharePrice } = logs.reduce(
+    (acc, { log, strategyPrice }) => {
+      const { from, value } = log.args;
 
-  await Promise.all(
-    logs.map(async (log, index) => {
-      const { args, blockNumber } = log;
-      const { from, value: shares } = args as { from: Address | undefined; value: bigint | undefined };
-
-      if (!from || !shares) {
-        console.error("Invalid log", log);
-        throw new Error("Invalid log");
+      if (!from || !value) {
+        throw new Error(`Invalid log ${log}`);
       }
 
-      const price = await fetchAssetPriceInBlock(strategy, blockNumber);
+      const strategyBalanceChange = from === user ? -value : value;
+      const strategyBalanceChangeUsd = cValueInUsd(strategyBalanceChange, strategyPrice, strategyDecimals);
 
-      const transferValueUsd = (shares * price.bigIntValue) / strategyBase;
-
-      if (from === user) {
-        results[index] = {
-          transferValueUsd: -transferValueUsd,
-          shareBalanceChange: -shares,
-        };
-      } else {
-        results[index] = {
-          transferValueUsd,
-          shareBalanceChange: shares,
-        };
-      }
-    })
-  );
-
-  const { currTotalProfit, currShares, currSharesAvgPrice } = results.filter(Boolean).reduce(
-    (acc, { transferValueUsd, shareBalanceChange }) => {
-      let { currSharesAvgPrice } = acc;
-      const { currTotalProfit, currShares } = acc;
-
-      if (shareBalanceChange > 0n) {
-        currSharesAvgPrice =
-          (currShares * currSharesAvgPrice + transferValueUsd * strategyBase) / (currShares + shareBalanceChange);
-      }
+      const { avgSharePrice, totalProfit, strategyBalance } = acc;
 
       return {
-        currTotalProfit: currTotalProfit - transferValueUsd,
-        currSharesAvgPrice,
-        currShares: currShares + shareBalanceChange,
+        totalProfit: totalProfit - strategyBalanceChangeUsd,
+        avgSharePrice: cAvgSharePrice({
+          strategyBalance,
+          strategyBalanceChange,
+          strategyBalanceChangeUsd,
+          avgSharePrice,
+          strategyBase,
+        }),
+        strategyBalance: strategyBalance + strategyBalanceChange,
       };
     },
     {
-      currTotalProfit: 0n,
-      currSharesAvgPrice: 0n,
-      currShares: 0n,
+      totalProfit: 0n,
+      avgSharePrice: 0n,
+      strategyBalance: 0n,
     }
   );
 
-  const price = await fetchAssetPriceInBlock(strategy);
-  const currSharesUsd = (currShares * price.bigIntValue) / strategyBase;
-
-  const totalProfit = currSharesUsd + currTotalProfit;
-  const unrealizedProfit = currSharesUsd - (currShares * currSharesAvgPrice) / strategyBase;
-  const unrealizedProfitPercentage = currSharesUsd
-    ? (unrealizedProfit * 10000n) / (currSharesUsd - unrealizedProfit)
-    : 0n;
-
   return {
     totalProfit,
+    avgSharePrice,
+    strategyBalance,
+  };
+}
+
+export function cUserStrategyProfit({
+  logs,
+  user,
+  currStrategyPrice,
+  strategyDecimals,
+}: cUserStrategyProfitInput): cUserStrategyProfitOutput {
+  const { totalProfit, strategyBalance, avgSharePrice } = cUserStats({ user, logs, strategyDecimals });
+
+  const strategyBalanceUsd = cValueInUsd(strategyBalance, currStrategyPrice, strategyDecimals);
+  const totalUsdSpentOnCurrShares = cValueInUsd(strategyBalance, avgSharePrice, strategyDecimals);
+
+  const unrealizedProfit = strategyBalanceUsd - totalUsdSpentOnCurrShares;
+  const unrealizedProfitPercentage = cUnrealizedProfitPercentage({ strategyBalanceUsd, unrealizedProfit });
+
+  return {
+    totalProfit: totalProfit + strategyBalanceUsd,
     unrealizedProfit,
     unrealizedProfitPercentage,
   };

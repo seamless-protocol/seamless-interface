@@ -1,8 +1,8 @@
 import { Address } from "viem";
-import { fetchAssetBalance } from "../queries/useFetchAssetBalance";
+import { fetchAssetBalance } from "../queries/AssetBalance.hook";
 import { FetchTokenAmountWithUsdValue, formatUsdValue } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAssetPriceInBlock } from "../queries/useFetchViewAssetPrice";
+import { fetchAssetPriceInBlock } from "../queries/AssetPrice.hook";
 import { cValueInUsd } from "../math/cValueInUsd";
 
 interface FetchDetailAssetBalanceInput {

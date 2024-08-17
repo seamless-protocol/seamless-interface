@@ -6,8 +6,8 @@ import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
-import { fetchDetailEquity } from "./useFetchViewDetailEquity";
-import { fetchAssetTotalSupply } from "./useFetchAssetTotalSupply";
+import { fetchDetailEquity } from "./DetailEquity.hook";
+import { fetchAssetTotalSupply } from "./AssetTotalSupply.hook";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS) {

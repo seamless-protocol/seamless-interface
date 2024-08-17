@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { fetchTokenData } from "../metadata/useFetchTokenData";
+import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import {
   Displayable,

@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount } from "wagmi";
 import { FetchBigIntStrict } from "../../../shared";
-import { fetchTokenData } from "../metadata/useFetchTokenData";
+import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 

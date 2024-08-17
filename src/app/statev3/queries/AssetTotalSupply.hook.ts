@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict } from "../../../shared";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
-import { fetchTokenData } from "../metadata/useFetchTokenData";
+import { fetchTokenData } from "../metadata/TokenData.fetch";
 
 export async function fetchAssetTotalSupply({ asset }: { asset: Address }): Promise<FetchBigIntStrict> {
   const [totalSupply, { symbol, decimals }] = await Promise.all([
