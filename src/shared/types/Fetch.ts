@@ -43,6 +43,6 @@ export interface FetchBigIntStrict {
 
 // TODO: Rename to FetchTokenAmountWithUsdValue when old one is deleted
 export interface FetchTokenAmountWithUsdValueStrict {
-  tokenAmount: FetchBigInt;
-  dollarAmount: FetchBigInt;
+  tokenAmount: FetchBigIntStrict;
+  dollarAmount: FetchBigIntStrict;
 }
