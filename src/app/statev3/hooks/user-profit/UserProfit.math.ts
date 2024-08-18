@@ -34,7 +34,7 @@ export function cUserProfit({ profits }: cUserProfitInput): cUserProfitOutput {
 
   const unrealizedProfitPercentage = cUnrealizedProfitPercentage({
     strategyBalanceUsd: totalBalanceUsd,
-    unrealizedProfit: unrealizedProfit,
+    unrealizedProfit,
   });
 
   return {

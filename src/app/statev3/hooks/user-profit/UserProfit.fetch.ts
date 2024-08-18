@@ -6,11 +6,7 @@ import { cUserProfit, cUserProfitOutput } from "./UserProfit.math";
 export async function fetchUserProfit({ account }: { account: Address }): Promise<cUserProfitOutput> {
   const strategies = getAllSubStrategies();
 
-  const results = await Promise.all(
-    strategies.map(async (strategy) => {
-      return await fetchUserStrategyProfit({ user: account, strategy });
-    })
-  );
+  const results = await Promise.all(strategies.map((strategy) => fetchUserStrategyProfit({ user: account, strategy })));
 
   return cUserProfit({ profits: results });
 }
