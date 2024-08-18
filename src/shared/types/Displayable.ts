@@ -18,6 +18,11 @@ export interface ViewBigInt extends ViewValueSymbolPair {
   bigIntValue?: bigint | undefined;
 }
 
+export interface ViewBigIntWithDollarValue extends ViewValueSymbolPair {
+  tokenAmount: ViewBigInt;
+  dollarAmount: ViewBigInt;
+}
+
 export interface ValueSymbolPair {
   value?: string;
   symbol?: string;

@@ -3,13 +3,22 @@ import { FetchBigIntStrict } from "../../../shared";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 
-export async function fetchAssetTotalSupply({ asset }: { asset: Address }): Promise<FetchBigIntStrict> {
+interface FetchTotalSupplyInBlockInput {
+  asset: Address;
+  blockNumber: bigint | undefined;
+}
+
+export async function fetchAssetTotalSupplyInBlock({
+  asset,
+  blockNumber,
+}: FetchTotalSupplyInBlockInput): Promise<FetchBigIntStrict> {
   const [totalSupply, { symbol, decimals }] = await Promise.all([
     queryContract(
       queryOptions({
         address: asset,
         abi: erc20Abi,
         functionName: "totalSupply",
+        blockNumber,
       })
     ),
 

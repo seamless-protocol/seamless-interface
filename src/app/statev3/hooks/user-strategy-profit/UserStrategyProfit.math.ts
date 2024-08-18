@@ -21,13 +21,13 @@ interface cAvgSharePriceInput {
   strategyBase: bigint;
 }
 
-interface cUserStatsInput {
+interface cUserStrategyStatsInput {
   logs: LogWithStrategyPrice[];
   user: Address;
   strategyDecimals: number;
 }
 
-interface cUserStatsOutput {
+interface cUserStrategyStatsOutput {
   totalProfit: bigint;
   avgSharePrice: bigint;
   strategyBalance: bigint;
@@ -41,14 +41,16 @@ export interface cUserStrategyProfitInput {
 }
 
 interface cUserStrategyProfitOutput {
-  totalProfit: bigint;
+  strategyBalance: bigint;
+  strategyBalanceUsd: bigint;
+  realizedProfit: bigint;
   unrealizedProfit: bigint;
   unrealizedProfitPercentage: bigint;
 }
 
 /// MATH FUNCTIONS
 
-function cUnrealizedProfitPercentage({
+export function cUnrealizedProfitPercentage({
   strategyBalanceUsd,
   unrealizedProfit,
 }: {
@@ -69,7 +71,7 @@ function cAvgSharePrice(input: cAvgSharePriceInput): bigint {
     : avgSharePrice;
 }
 
-function cUserStats(input: cUserStatsInput): cUserStatsOutput {
+function cUserStrategyStats(input: cUserStrategyStatsInput): cUserStrategyStatsOutput {
   const { logs, user, strategyDecimals } = input;
 
   const strategyBase = 10n ** BigInt(strategyDecimals);
@@ -119,7 +121,7 @@ export function cUserStrategyProfit({
   currStrategyPrice,
   strategyDecimals,
 }: cUserStrategyProfitInput): cUserStrategyProfitOutput {
-  const { totalProfit, strategyBalance, avgSharePrice } = cUserStats({ user, logs, strategyDecimals });
+  const { totalProfit, strategyBalance, avgSharePrice } = cUserStrategyStats({ user, logs, strategyDecimals });
 
   const strategyBalanceUsd = cValueInUsd(strategyBalance, currStrategyPrice, strategyDecimals);
   const totalUsdSpentOnCurrShares = cValueInUsd(strategyBalance, avgSharePrice, strategyDecimals);
@@ -128,7 +130,9 @@ export function cUserStrategyProfit({
   const unrealizedProfitPercentage = cUnrealizedProfitPercentage({ strategyBalanceUsd, unrealizedProfit });
 
   return {
-    totalProfit: totalProfit + strategyBalanceUsd,
+    strategyBalance,
+    strategyBalanceUsd,
+    realizedProfit: totalProfit + strategyBalanceUsd - unrealizedProfit,
     unrealizedProfit,
     unrealizedProfitPercentage,
   };

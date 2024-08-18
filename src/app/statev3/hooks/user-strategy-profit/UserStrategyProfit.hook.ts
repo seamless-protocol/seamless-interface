@@ -1,25 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { fetchUserStrategyProfit } from "./UserStrategyProfit.fetch";
-import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { Displayable, ViewBigInt, ViewBigIntWithDollarValue, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { useAccount } from "wagmi";
 
-interface UseFetchViewUserStrategyProfitInput {
-  user: Address | undefined;
+interface UseFetchFormattedUserStrategyProfitInput {
   strategy: Address | undefined;
 }
 
-interface ViewUserStrategyProfit {
-  totalProfit: ViewBigInt;
+interface FormattedUserStrategyProfit {
+  strategyBalance: ViewBigIntWithDollarValue;
+  realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
   unrealizedProfitPercentage: ViewBigInt;
 }
 
-export const useFetchViewUserStrategyProfit = ({
-  user,
+export const useFetchFormattedUserStrategyProfit = ({
   strategy,
-}: UseFetchViewUserStrategyProfitInput): Displayable<ViewUserStrategyProfit> => {
+}: UseFetchFormattedUserStrategyProfitInput): Displayable<FormattedUserStrategyProfit> => {
+  const { address: user } = useAccount();
+
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchViewUserStrategyProfit", user, strategy],
+    queryKey: ["fetchFormattedUserStrategyProfit", user, strategy],
     queryFn: () => fetchUserStrategyProfit({ user: user!, strategy: strategy! }),
     enabled: !!user && !!strategy,
   });
@@ -27,7 +29,11 @@ export const useFetchViewUserStrategyProfit = ({
   return {
     ...rest,
     data: {
-      totalProfit: formatFetchBigIntToViewBigInt(data?.totalProfit),
+      strategyBalance: {
+        tokenAmount: formatFetchBigIntToViewBigInt(data?.strategyBalance.tokenAmount),
+        dollarAmount: formatFetchBigIntToViewBigInt(data?.strategyBalance.dollarAmount),
+      },
+      realizedProfit: formatFetchBigIntToViewBigInt(data?.realizedProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
       unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),
     },

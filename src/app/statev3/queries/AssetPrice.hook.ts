@@ -6,8 +6,8 @@ import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
-import { fetchDetailEquity } from "./DetailEquity.hook";
-import { fetchAssetTotalSupply } from "./AssetTotalSupply.hook";
+import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
+import { fetchEquityInBlock } from "./Equity.hook";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS) {
@@ -18,8 +18,8 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
   if (strategy) {
     const [{ dollarAmount: equityUsd }, totalSupply] = await Promise.all([
-      fetchDetailEquity(strategy.address),
-      fetchAssetTotalSupply({ asset: strategy.address }),
+      fetchEquityInBlock({ strategy: asset, blockNumber }),
+      fetchAssetTotalSupplyInBlock({ asset, blockNumber }),
     ]);
 
     if (totalSupply.bigIntValue === 0n) formatUsdValue(0n);

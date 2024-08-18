@@ -16,19 +16,28 @@ export const useFetchUserProfit = () => {
   });
 };
 
-interface ViewUserProfit {
-  totalProfit: ViewBigInt;
+interface FormattedUserProfit {
+  realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
   unrealizedProfitPercentage: ViewBigInt;
 }
 
-export const useFetchViewUserProfit = (): Displayable<ViewUserProfit> => {
-  const { data, ...rest } = useFetchUserProfit();
+export const useFetchFormattedUserProfit = (): Displayable<FormattedUserProfit> => {
+  const { address: account } = useAccount();
+
+  const { data, ...rest } = useQuery({
+    queryKey: ["fetchUserProfit", account],
+    queryFn: () =>
+      fetchUserProfit({
+        account: account!,
+      }),
+    enabled: !!account,
+  });
 
   return {
     ...rest,
     data: {
-      totalProfit: formatFetchBigIntToViewBigInt(data?.totalProfit),
+      realizedProfit: formatFetchBigIntToViewBigInt(data?.realizedProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
       unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),
     },

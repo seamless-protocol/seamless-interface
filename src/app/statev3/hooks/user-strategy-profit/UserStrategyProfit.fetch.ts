@@ -21,7 +21,8 @@ interface GetStrategyEventLogsForUserInput {
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
 
 export interface FetchUserStrategyProfitOutput {
-  totalProfit: FetchBigIntStrict;
+  strategyBalance: { tokenAmount: FetchBigIntStrict; dollarAmount: FetchBigIntStrict };
+  realizedProfit: FetchBigIntStrict;
   unrealizedProfit: FetchBigIntStrict;
   unrealizedProfitPercentage: FetchBigIntStrict;
 }
@@ -100,7 +101,7 @@ export async function fetchUserStrategyProfit(
 ): Promise<FetchUserStrategyProfitOutput> {
   const { strategy, user } = input;
 
-  const [logs, { decimals: strategyDecimals }] = await Promise.all([
+  const [logs, { decimals: strategyDecimals, symbol: strategySymbol }] = await Promise.all([
     getStrategyEventLogsForUser({ strategy, user }),
     fetchTokenData(strategy),
   ]);
@@ -110,15 +111,20 @@ export async function fetchUserStrategyProfit(
     fetchAssetPriceInBlock(strategy),
   ]);
 
-  const { totalProfit, unrealizedProfit, unrealizedProfitPercentage } = cUserStrategyProfit({
-    logs: logsWithStrategyPrice,
-    user,
-    currStrategyPrice: currStrategyPrice.bigIntValue,
-    strategyDecimals,
-  });
+  const { strategyBalance, strategyBalanceUsd, realizedProfit, unrealizedProfit, unrealizedProfitPercentage } =
+    cUserStrategyProfit({
+      logs: logsWithStrategyPrice,
+      user,
+      currStrategyPrice: currStrategyPrice.bigIntValue,
+      strategyDecimals,
+    });
 
   return {
-    totalProfit: formatUsdValue(totalProfit),
+    strategyBalance: {
+      tokenAmount: formatFetchBigInt(strategyBalance, strategyDecimals, strategySymbol),
+      dollarAmount: formatUsdValue(strategyBalanceUsd),
+    },
+    realizedProfit: formatUsdValue(realizedProfit),
     unrealizedProfit: formatUsdValue(unrealizedProfit),
     unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, 2, "%"),
   };

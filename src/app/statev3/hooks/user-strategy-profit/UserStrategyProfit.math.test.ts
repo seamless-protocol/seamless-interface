@@ -10,7 +10,7 @@ function cUserStrategyProfitWrapper(
   logs: LogWithStrategyPrice[],
   currStrategyPrice: bigint = DEFAULT_STRATEGY_CURRENT_PRICE
 ) {
-  const { totalProfit, unrealizedProfit, unrealizedProfitPercentage } = cUserStrategyProfit({
+  const { realizedProfit, unrealizedProfit, unrealizedProfitPercentage } = cUserStrategyProfit({
     logs,
     user: USER,
     currStrategyPrice: currStrategyPrice || DEFAULT_STRATEGY_CURRENT_PRICE,
@@ -18,7 +18,7 @@ function cUserStrategyProfitWrapper(
   });
 
   return {
-    totalProfit: Number(formatUnits(totalProfit, 8)),
+    realizedProfit: Number(formatUnits(realizedProfit, 8)),
     unrealizedProfit: Number(formatUnits(unrealizedProfit, 8)),
     unrealizedProfitPercentage: Number(formatUnits(unrealizedProfitPercentage, 2)),
   };
@@ -47,34 +47,34 @@ test("cUserStrategyProfit", async () => {
   const logs: LogWithStrategyPrice[] = [];
 
   let result = cUserStrategyProfitWrapper(logs);
-  expect(result.totalProfit).toBe(0);
+  expect(result.realizedProfit).toBe(0);
   expect(result.unrealizedProfit).toBe(0);
   expect(result.unrealizedProfitPercentage).toBe(0);
 
   logs.push(actionLog({ amount: "10", price: "1000", action: Action.BUY }));
 
   result = cUserStrategyProfitWrapper(logs);
-  expect(result.totalProfit).toBe(10000);
+  expect(result.realizedProfit).toBe(0);
   expect(result.unrealizedProfit).toBe(10000);
   expect(result.unrealizedProfitPercentage).toBe(100);
 
   logs.push(actionLog({ amount: "5", price: "1200", action: Action.SELL }));
 
   result = cUserStrategyProfitWrapper(logs);
-  expect(result.totalProfit).toBe(6000);
+  expect(result.realizedProfit).toBe(1000);
   expect(result.unrealizedProfit).toBe(5000);
   expect(result.unrealizedProfitPercentage).toBe(100);
 
   logs.push(actionLog({ amount: "5", price: "1500", action: Action.BUY }));
 
   result = cUserStrategyProfitWrapper(logs);
-  expect(result.totalProfit).toBe(8500);
+  expect(result.realizedProfit).toBe(1000);
   expect(result.unrealizedProfit).toBe(7500);
   expect(result.unrealizedProfitPercentage).toBe(60);
 
   result = cUserStrategyProfitWrapper(logs, parseUnits("1000", 8));
 
-  expect(result.totalProfit).toBe(-1500);
+  expect(result.realizedProfit).toBe(1000);
   expect(result.unrealizedProfit).toBe(-2500);
   expect(result.unrealizedProfitPercentage).toBe(-20);
 });

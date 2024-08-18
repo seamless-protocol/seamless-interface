@@ -1,40 +1,44 @@
-import { FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "../../../../shared";
+import { formatFetchBigInt, formatUsdValue } from "../../../../shared/formatters/getFetchBigIntFormatted";
+import { FetchBigIntStrict } from "../../../../shared/types/Fetch";
+import { cUnrealizedProfitPercentage } from "../user-strategy-profit/UserStrategyProfit.math";
 
-interface UserStrategyProfit {
-  totalProfit: bigint;
-  unrealizedProfit: bigint;
-  weightedUnrealizedProfit: bigint;
+export interface Profit {
+  strategyBalance: { dollarAmount: FetchBigIntStrict };
+  realizedProfit: FetchBigIntStrict;
+  unrealizedProfit: FetchBigIntStrict;
 }
 
-interface CalculateUserProfitInput {
-  profits: UserStrategyProfit[];
+export interface cUserProfitInput {
+  profits: Profit[];
 }
 
-export interface CalculateUserProfitOutput {
-  totalProfit: FetchBigIntStrict;
+export interface cUserProfitOutput {
+  realizedProfit: FetchBigIntStrict;
   unrealizedProfit: FetchBigIntStrict;
   unrealizedProfitPercentage: FetchBigIntStrict;
 }
 
-export function calculateUserProfit({ profits }: CalculateUserProfitInput): CalculateUserProfitOutput {
-  const { totalProfit, unrealizedProfit, unrealizedProfitPercentage } = profits.reduce(
-    (acc, { totalProfit, unrealizedProfit, weightedUnrealizedProfit }) => {
-      const newTotalProfit = acc.totalProfit + totalProfit;
-      const newUnrealizedProfit = acc.unrealizedProfit + unrealizedProfit;
-      const newWeightedUnrealizedProfit = acc.weightedUnrealizedProfit + weightedUnrealizedProfit;
-
-      return {
-        totalProfit: newTotalProfit,
-        unrealizedProfit: newUnrealizedProfit,
-        weightedUnrealizedProfit: newWeightedUnrealizedProfit,
-        unrealizedProfitPercentage: newUnrealizedProfit ? newWeightedUnrealizedProfit / newUnrealizedProfit : 0n,
-      };
-    },
-    { totalProfit: 0n, unrealizedProfit: 0n, weightedUnrealizedProfit: 0n, unrealizedProfitPercentage: 0n }
+export function cUserProfit({ profits }: cUserProfitInput): cUserProfitOutput {
+  const { totalBalanceUsd, realizedProfit, unrealizedProfit } = profits.reduce(
+    (acc, { strategyBalance, realizedProfit: realized, unrealizedProfit: unrealized }) => ({
+      totalBalanceUsd: acc.totalBalanceUsd + strategyBalance.dollarAmount.bigIntValue,
+      realizedProfit: acc.realizedProfit + realized.bigIntValue,
+      unrealizedProfit: acc.unrealizedProfit + unrealized.bigIntValue,
+    }),
+    {
+      totalBalanceUsd: 0n,
+      realizedProfit: 0n,
+      unrealizedProfit: 0n,
+    }
   );
 
+  const unrealizedProfitPercentage = cUnrealizedProfitPercentage({
+    strategyBalanceUsd: totalBalanceUsd,
+    unrealizedProfit: unrealizedProfit,
+  });
+
   return {
-    totalProfit: formatUsdValue(totalProfit),
+    realizedProfit: formatUsdValue(realizedProfit),
     unrealizedProfit: formatUsdValue(unrealizedProfit),
     unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, 2, "%"),
   };
