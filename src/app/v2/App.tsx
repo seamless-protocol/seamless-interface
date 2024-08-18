@@ -11,10 +11,10 @@ import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, Pag
 import * as Sentry from "@sentry/react";
 import { LandingPage } from "./pages/test-page/LandingPage";
 import { QueryParamProvider } from "use-query-params";
-import { Footer } from "./components/footer/Footer";
 import { NavigationBar } from "./components/navbar/NavigationBar";
 import { useFetchAllAssets } from "../state/common/hooks/useFetchAllAssets";
 import { SurveyBanner } from "./components/navbar/SurveyBanner";
+import { Footer } from "./components/footer/Footer";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 

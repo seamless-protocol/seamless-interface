@@ -14,8 +14,10 @@ type Props = {
 
 export const MyFormProvider: React.FC<Props> = ({ children, onSubmit, methods }) => {
   return (
-    <Form {...methods}>
-      <form onSubmit={onSubmit}>{children}</form>
-    </Form>
+    <div data-cy="Form">
+      <Form {...methods}>
+        <form onSubmit={onSubmit}>{children}</form>
+      </Form>
+    </div>
   );
 };

@@ -24,6 +24,7 @@ const baseScan = "https://basescan.org";
 export const RouterConfig = {
   Routes: {
     markets: `${baseUrl}/`,
+    landingPage: `${baseUrl}/`,
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
     stakingFarms: `${stakingFarmsUrl}/`,
     governance: `${governanceUrl}/`,
