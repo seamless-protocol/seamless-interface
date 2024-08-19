@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { fetchUserProfit } from "./UserProfit.fetch";
 import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
 
 export const useFetchUserProfit = () => {
   const { address: account } = useAccount();
@@ -32,6 +33,7 @@ export const useFetchFormattedUserProfit = (): Displayable<FormattedUserProfit> 
         account: account!,
       }),
     enabled: !!account,
+    ...disableCacheQueryConfig,
   });
 
   return {

@@ -1,3 +1,8 @@
+export const disableCacheQueryConfig = {
+  staleTime: 0,
+  gcTime: 0,
+};
+
 export const metadataQueryConfig = {
   staleTime: Infinity,
 };
