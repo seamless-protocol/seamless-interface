@@ -1,4 +1,8 @@
-import { wstETHBooster_ADDRESS_STRATEGY_ID, multiplyETH_ADDRESS_STRATEGY_ID } from "@meta";
+import {
+  wstETHBooster_ADDRESS_STRATEGY_ID,
+  multiplyETH_ADDRESS_STRATEGY_ID,
+  shortETH_ADDRESS_STRATEGY_ID,
+} from "@meta";
 
 export const faqsData = {
   [wstETHBooster_ADDRESS_STRATEGY_ID]: [
@@ -53,6 +57,27 @@ export const faqsData = {
     {
       question: <>Where can I see my rewards and my position balance?</>,
       answer: <>Head to the “My Positions” Tab to see your ILM LP Token Balance and underlying ETH Balance.</>,
+    },
+  ],
+  [shortETH_ADDRESS_STRATEGY_ID]: [
+    {
+      question: <>Am I exposed to ETH price with this ILM?</>,
+      answer: (
+        <>Yes. As ETH decreases in price in bearish market conditions, returns are magnified with this Short ILM.</>
+      ),
+    },
+    {
+      question: <>Are there any costs with this ILM?</>,
+      answer: (
+        <>
+          To achieve the 1.5x loop, ETH is swapped into USDC. There are Dex and slippage costs associated with swapping,
+          however Seamless does not charge any extra fees. These costs occur on deposit & withdrawal from the ILM.
+        </>
+      ),
+    },
+    {
+      question: <>Where can I see my rewards and my position balance?</>,
+      answer: <>Head to the “My Positions” Tab to see your ILM LP Token Balance and underlying USDC Balance.</>,
     },
   ],
 };

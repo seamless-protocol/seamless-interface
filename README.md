@@ -43,3 +43,22 @@ Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 
 easy to find icons:
 https://icon-sets.iconify.design/
+
+## Run cypress tests with anvil
+
+- make sure to set `test_env` inside of a cypress.config to `anvil`
+- run `npm run anvil`
+- wait anvil to start (few mins 😕)
+- run `npx cypress open`
+- start your tests
+
+btw you don't have to kill anvil, it will be killed by next npm run anvil
+if you want to to kill anvil run:
+
+- `pkill -f anvil`
+
+## Run cypress tests with tenderly
+
+- make sure to set `test_env` empty or `tenderly`
+- run `npx cypress open`
+- start your tests

@@ -62,7 +62,7 @@ const WithdrawStrategyLocal: React.FC<{
   } = useToken(selectedSubStrategy);
 
   const { data: underlyingTokenAddress } = useFetchStrategyAsset(selectedSubStrategy);
-  const { data: underlyingTokenData } = useFullTokenData(underlyingTokenAddress);
+  const { data: underlyingTokenData, isLoading: isTokenDecimalsLoading } = useFullTokenData(underlyingTokenAddress);
 
   const account = useAccount();
   const { showNotification } = useNotificationContext();
@@ -95,75 +95,71 @@ const WithdrawStrategyLocal: React.FC<{
     }
 
     if (previewWithdrawData.isFetched && previewWithdrawData.isSuccess && !previewWithdrawData.isLoading) {
-      try {
-        const { txHash } = await withdrawAsync(
-          parseUnits(data.amount, 18),
-          account.address as Address,
-          account.address as Address,
-          previewWithdrawData?.data.assetsToReceive?.bigIntValue || 0n
-        );
-        modalRef.current?.close();
-        showNotification({
-          txHash,
-          content: (
-            <FlexCol>
-              <Typography type="regular3">
-                You Withdrew {data.amount} ${strategySymbol}
-              </Typography>
-              {underlyingTokenAddress === WETH_ADDRESS && (
-                <FlexRow className="w-full">
-                  <Link
-                    to={RouterConfig.Routes.unwrapEth}
-                    className="flex flex-row items-center justify-end gap-1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Typography type="bold2" className="text-right">
-                      To unwrap ETH, click here
-                    </Typography>
-                    <ArrowTopRightOnSquareIcon width={12} />
-                  </Link>
-                </FlexRow>
-              )}
-              {underlyingTokenAddress && underlyingTokenData?.symbol && (
-                <WatchAssetComponentv2
-                  address={underlyingTokenAddress}
-                  symbol={underlyingTokenData.symbol}
-                  logo={underlyingTokenData.logo}
-                  decimals={underlyingTokenData.decimals}
-                />
-              )}
-              {underlyingTokenAddress === WETH_ADDRESS && (
-                <FlexRow className="w-full">
-                  <Link
-                    to={RouterConfig.Routes.unwrapEth}
-                    className="flex flex-row items-center justify-end gap-1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Typography type="bold2" className="text-right">
-                      To unwrap to ETH, click here
-                    </Typography>
-                    <ArrowTopRightOnSquareIcon width={12} />
-                  </Link>
-                </FlexRow>
-              )}
-            </FlexCol>
-          ),
-        });
-        queryClient.invalidateQueries();
-      } catch (e) {
-        modalRef.current?.close();
-        showNotification({
-          status: "error",
-
-          content: (e as any)?.shortMessage,
-        });
-      } finally {
-        reset();
-        onTransaction?.();
-      }
-    }
+      await withdrawAsync(
+        {
+          shares: underlyingTokenData.decimals ? parseUnits(data.amount, underlyingTokenData.decimals) : undefined,
+          from: account.address as Address,
+          receiver: account.address as Address,
+          minToReceive: previewWithdrawData.data.assetsToReceive.bigIntValue,
+        }, {
+        onSuccess: (txHash) => {
+          modalRef.current?.close();
+          showNotification({
+            txHash,
+            content: (
+              <FlexCol>
+                <Typography type="regular3">
+                  You Withdrew {data.amount} ${strategySymbol}
+                </Typography>
+                {underlyingTokenAddress === WETH_ADDRESS && (
+                  <FlexRow className="w-full">
+                    <Link
+                      to={RouterConfig.Routes.unwrapEth}
+                      className="flex flex-row items-center justify-end gap-1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography type="bold2" className="text-right">
+                        To unwrap ETH, click here
+                      </Typography>
+                      <ArrowTopRightOnSquareIcon width={12} />
+                    </Link>
+                  </FlexRow>
+                )}
+                {underlyingTokenAddress && underlyingTokenData?.symbol && (
+                  <WatchAssetComponentv2
+                    address={underlyingTokenAddress}
+                    logo={underlyingTokenData.logo}
+                    decimals={underlyingTokenData.decimals}
+                  />
+                )}
+                {underlyingTokenAddress === WETH_ADDRESS && (
+                  <FlexRow className="w-full">
+                    <Link
+                      to={RouterConfig.Routes.unwrapEth}
+                      className="flex flex-row items-center justify-end gap-1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography type="bold2" className="text-right">
+                        To unwrap to ETH, click here
+                      </Typography>
+                      <ArrowTopRightOnSquareIcon width={12} />
+                    </Link>
+                  </FlexRow>
+                )}
+              </FlexCol>
+            ),
+          });
+          // todo: invalidate only specific queries
+          queryClient.invalidateQueries();
+        },
+        onSettled: () => {
+          reset();
+          onTransaction?.();
+        }
+      });
+    };
   };
 
   return (
@@ -189,7 +185,7 @@ const WithdrawStrategyLocal: React.FC<{
 
         <Summary debouncedAmount={debouncedAmount} strategy={strategy} />
 
-        <FormButtons isLoading={previewWithdrawData.isLoading} />
+        <FormButtons isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading} />
       </FlexCol>
     </MyFormProvider>
   );

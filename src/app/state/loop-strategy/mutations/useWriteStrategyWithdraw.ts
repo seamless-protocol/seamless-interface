@@ -1,39 +1,41 @@
-import { useConfig, useWriteContract } from "wagmi";
 import { Address } from "viem";
-import { loopStrategyAbi } from "../../../generated/generated";
-import { waitForTransaction } from "../../../../shared/utils/transactionWrapper";
-import { useState } from "react";
+import { loopStrategyAbi } from "@generated";
+import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 
 // todo: replace id with address?
 export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
-  const config = useConfig();
+  const { writeContractAsync, ...rest } = useSeamlessContractWrite();
 
-  const [isPending, setIsPending] = useState(false);
-  const { writeContractAsync } = useWriteContract();
+  const withdrawAsync = async (
+    args: {
+      shares: bigint | undefined, from: Address, receiver: Address, minToReceive: bigint
+    },
+    settings?: SeamlessWriteAsyncParams
+  ) => {
+    if (!subStrategy) {
+      // eslint-disable-next-line no-console
+      console.warn("subStrategy is undefined.");
+      return;
+    }
+
+    await writeContractAsync(
+      {
+        address: subStrategy,
+        abi: loopStrategyAbi,
+        functionName: "redeem",
+        args: [
+          args.shares!,
+          args.from,
+          args.receiver,
+          args.minToReceive
+        ],
+      },
+      { ...settings }
+    );
+  };
 
   return {
-    isPending,
-    withdrawAsync: async (shares: bigint, from: Address, receiver: Address, minToReceive: bigint) => {
-      setIsPending(true);
-
-      const ret = await waitForTransaction(config, async () => {
-        if (!subStrategy) {
-          // eslint-disable-next-line no-console
-          console.warn("useWriteStrategyWithdraw: subStrategy is undefined.");
-          return undefined;
-        }
-
-        return writeContractAsync({
-          address: subStrategy,
-          abi: loopStrategyAbi,
-          functionName: "redeem",
-          args: [shares, from, receiver, minToReceive],
-        });
-      });
-
-      setIsPending(false);
-
-      return ret;
-    },
+    withdrawAsync,
+    ...rest
   };
 };

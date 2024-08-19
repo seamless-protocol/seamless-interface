@@ -26,7 +26,15 @@
       "@meta": ["src/meta/index"]
     }
   },
-  "include": ["src/**/*", "types/**/*.d.ts", "*.ts", "config/**/*.ts"],
+  "include": [
+    "src/**/*",
+    "types/**/*.d.ts",
+    "*.ts",
+    "config/**/*.tsx",
+    "cypress/**/*.ts",
+    "vite.config.ts",
+    ".eslintrc"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

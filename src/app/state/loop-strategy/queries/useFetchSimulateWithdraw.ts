@@ -13,10 +13,10 @@ export const useFetchSimulateWithdraw = (account: Address, amount: string, strat
   } = useToken(underlyingAsset);
 
   const { data, ...rest } = useQuery({
-    queryKey: ["simulateWithdraw", strategy, amount],
-    queryFn: () => simulateWithdraw(account, strategy!, amount),
+    queryKey: ["simulateWithdraw", strategy, amount, decimals],
+    queryFn: () => simulateWithdraw(account, strategy!, amount, decimals!),
     ...DebouncedDelayConfig,
-    enabled: !!strategy,
+    enabled: !!strategy && !!decimals,
   });
 
   return {
