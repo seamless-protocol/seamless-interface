@@ -1,3 +1,5 @@
+import { IS_STYLE_VERSION_2 } from "../../../globals";
+
 /**
  * `TableCell` Component
  *
@@ -37,9 +39,9 @@ export const TableCell: React.FC<{
   className?: string;
   rest?: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
   alignItems?: string;
-}> = ({ children, className, rest, alignItems = "items-center" }) => {
+}> = ({ children, className, rest, alignItems = (IS_STYLE_VERSION_2 ? "text-center" : "text-start") }) => {
   return (
-    <div className={`flex flex-col text-center ${alignItems} ${className || ""}`} {...rest}>
+    <div className={`flex flex-col ${IS_STYLE_VERSION_2 ? "text-center" : "text-start"} ${alignItems} ${className || ""}`} {...rest}>
       {children}
     </div>
   );
