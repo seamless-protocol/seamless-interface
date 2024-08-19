@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { fetchUserStrategyProfit } from "./UserStrategyProfit.fetch";
-import { Displayable, ViewBigInt, ViewBigIntWithDollarValue, formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { Displayable, ViewBigInt, ViewBigIntWithUsdValue, formatFetchBigIntToViewBigInt } from "../../../../shared";
 import { useAccount } from "wagmi";
 
 interface UseFetchFormattedUserStrategyProfitInput {
@@ -9,7 +9,7 @@ interface UseFetchFormattedUserStrategyProfitInput {
 }
 
 interface FormattedUserStrategyProfit {
-  strategyBalance: ViewBigIntWithDollarValue;
+  strategyBalance: ViewBigIntWithUsdValue;
   realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
   unrealizedProfitPercentage: ViewBigInt;
