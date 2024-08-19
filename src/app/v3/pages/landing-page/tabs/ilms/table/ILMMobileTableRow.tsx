@@ -3,12 +3,12 @@ import { FlexRow, FlexCol, Icon, Typography } from "@shared";
 import polygonSvg from "@assets/common/polygon.svg";
 import { RandomNumber } from "../../../../../components/other/RandomNumber";
 
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg"
+import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
 import { stateMock } from "../../../mocks";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { TagType } from "../../../../../../statev3/common/types/StateTypes";
 
-export const MyStrategiesMobileTableRow: React.FC<{
+export const ILMMobileTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy }) => {
@@ -22,7 +22,9 @@ export const MyStrategiesMobileTableRow: React.FC<{
   return (
     <div className="flex md:hidden flex-col bg-white shadow rounded-lg p-4 m-2">
       <FlexCol className="items-end mb-[-10px]">
-        <FlexRow><Tag key={tag} tag={tag} /></FlexRow>
+        <FlexRow>
+          <Tag key={tag} tag={tag} />
+        </FlexRow>
       </FlexCol>
       <FlexRow className="items-center mb-4">
         <FlexRow className="gap-4 items-center">
