@@ -61,7 +61,6 @@ export const config = createConfig({
 });
 
 export const extensiveOperationsConfig = createConfig({
-  connectors,
   chains: [base],
   transports: {
     [base.id]: http(import.meta.env.VITE_EXTENSIVE_OPERATIONS_RPC_URL),
