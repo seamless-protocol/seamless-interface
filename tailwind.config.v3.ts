@@ -29,6 +29,10 @@ export default {
         xxl: "1440px",
         xxxl: "1800px",
       },
+      maxWidth: {
+        "page-content": "1020px",
+      },
+
       borderWidth: {
         thin: "1.3px",
       },
