@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { FlexCol, FlexRow, Icon, Typography } from "@shared";
+import { FlexCol, FlexRow, Icon, ImageGroup, Typography } from "@shared";
 import { TableButtons } from "./TableButtons";
 import { RandomNumber } from "../../../../../components/other/RandomNumber";
 import { Tag } from "../../../../../components/strategy-data/Tag";
@@ -7,6 +7,7 @@ import { stateMock } from "../../../mocks";
 
 import polygonSvg from "@assets/common/polygon.svg";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
+import { assetLogos } from "../../../../../../../meta";
 
 export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) => {
   // todo use useFullTokenData instead of mock
@@ -30,29 +31,37 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
           <Typography type="regular1">{description}</Typography>
         </FlexCol>
       </FlexRow>
-      <FlexRow className="justify-between">
-        <FlexCol className="gap-2">
-          <RandomNumber typography="bold3" className="" symbol="%" symbolPosition="after" />
-        </FlexCol>
-
-        <FlexCol className="items-end text-end gap-2">
-          <FlexRow className="items-center gap-1">
-            <Typography type="regular1">30d historical return: </Typography>
+      <FlexCol className="gap-5">
+        <FlexRow className="justify-between w-full">
+          <FlexCol className="items-start">
+            <Typography type="regular1">Unclaimed Rewards</Typography>
+            <FlexCol>
+              <RandomNumber symbol="$" />
+              <ImageGroup
+                imageStyle="w-4"
+                spacing="-space-x-3"
+                images={[assetLogos.get("SEAM") || "", assetLogos.get("USDC") || ""]}
+              />
+            </FlexCol>
+          </FlexCol>
+          <FlexCol className="items-end">
+            <Typography type="regular1">Unrealized Gain/Loss</Typography>
             <FlexRow className="items-center gap-1">
               <Icon src={polygonSvg} alt="polygon" width={12} height={12} />
-              <RandomNumber typography="bold3" className="text-successv2-900" symbol="%" symbolPosition="after" />
+              <RandomNumber typography="bold3" className="text-success-900" symbol="%" symbolPosition="after" />
             </FlexRow>
-          </FlexRow>
-          <FlexRow className="items-center gap-1">
-            <Typography type="regular1">TVL: </Typography>
-            <RandomNumber typography="bold3" className="" symbol="%" symbolPosition="after" />
-          </FlexRow>
-        </FlexCol>
-      </FlexRow>
+            <RandomNumber typography="medium1" symbol="$" className="text-primary-600" />
+          </FlexCol>
+        </FlexRow>
 
-      <FlexRow className="justify-between">
-        <TableButtons isStrategy strategy={strategy} />
-      </FlexRow>
+        <FlexRow className="justify-between">
+          <FlexCol>
+            <Typography type="regular1">Holdings (LP token)</Typography>
+            <RandomNumber typography="bold3" className="" symbol="%" symbolPosition="after" />
+          </FlexCol>
+          <TableButtons isStrategy strategy={strategy} />
+        </FlexRow>
+      </FlexCol>
     </div>
   );
 };

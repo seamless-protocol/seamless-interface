@@ -66,18 +66,6 @@ export const TableDesktopRow: React.FC<{
             spacing="-space-x-3"
             images={[assetLogos.get("SEAM") || "", assetLogos.get("USDC") || ""]}
           />
-          {/* <div className="flex flex-row ">
-            <div className="avatar">
-              <div className="w-4">
-                <img src={assetLogos.get("SEAM") || ""} />
-              </div>
-            </div>
-            <div className="avatar ml-[-6px]">
-              <div className="w-4">
-                <img src={assetLogos.get("SEAM") || ""} />
-              </div>
-            </div>
-          </div> */}
         </FlexCol>
         {/* assetLogos */}
       </TableCell>
