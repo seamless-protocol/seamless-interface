@@ -17,6 +17,7 @@ import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
+  console.log("kara?");
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
