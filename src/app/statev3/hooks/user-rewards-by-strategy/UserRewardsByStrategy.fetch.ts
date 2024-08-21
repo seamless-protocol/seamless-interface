@@ -1,10 +1,11 @@
 import { Address } from "viem";
 import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
 import { metadataQueryConfig } from "../../../state/settings/queryConfig";
-import { getConfig, queryContract, queryOptions } from "../../../utils/queryContractUtils";
+import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
 import { calculateTotalRewards, RewardsByStrategy, RewardsByStrategyInfo } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { USD_VALUE_DECIMALS } from "@meta";
 
 export async function fetchAllUserRewardsByStrategy({
   user,
@@ -28,13 +29,14 @@ export async function fetchAllUserRewardsByStrategy({
       const tokenDataPromise = fetchTokenData(address);
       const tokenPricePromise = fetchAssetPriceInBlock(address);
 
-      const { decimals } = await tokenDataPromise;
+      const { decimals, symbol } = await tokenDataPromise;
       const tokenPrice = await tokenPricePromise;
 
       return {
         rewardsAddress: address,
         rewardsAmount: rewardsAmounts[index],
         rewardsDecimals: decimals,
+        rewardsSymbol: symbol,
         tokenPrice,
       };
     })
@@ -44,6 +46,10 @@ export async function fetchAllUserRewardsByStrategy({
 
   return {
     info: rewardsInfo,
-    totalRewards,
+    totalRewards: {
+      bigIntValue: totalRewards,
+      decimals: USD_VALUE_DECIMALS,
+      symbol: "$",
+    },
   };
 }
