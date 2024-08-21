@@ -17,7 +17,7 @@ interface RewardsInfo {
   symbol: string;
 }
 
-export const useAllUserRewardsByStrategy = (strategy?: Address): Displayable<RewardsByStrategy> => {
+export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): Displayable<RewardsByStrategy> => {
   const { address: user } = useAccount();
 
   const { data, ...rest } = useQuery({
