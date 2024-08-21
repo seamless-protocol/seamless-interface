@@ -44,7 +44,10 @@ export default {
         button: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
       },
       borderRadius: {
+        button: "8px",
         card: "16px",
+        xl: "24px",
+        tag: "100px",
       },
       rotate: {
         "180": "180deg",
