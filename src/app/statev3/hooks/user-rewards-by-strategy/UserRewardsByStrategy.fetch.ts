@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
-import { metadataQueryConfig } from "../../../state/settings/queryConfig";
 import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
 import { calculateTotalRewards, RewardsByStrategy, RewardsByStrategyInfo } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
@@ -21,7 +20,6 @@ export async function fetchAllUserRewardsByStrategy({
       functionName: "getAllUserRewards",
       args: [[strategy], user],
     }),
-    ...metadataQueryConfig,
   });
 
   const rewardsInfo: RewardsByStrategyInfo[] = await Promise.all(
