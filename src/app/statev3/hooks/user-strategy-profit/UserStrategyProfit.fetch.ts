@@ -52,7 +52,7 @@ async function getTransferEvents(input: GetTransferEventsInput) {
     throw new Error("Public client not found");
   }
 
-  return await publicClient.getLogs({
+  const logs = await publicClient.getLogs({
     address: token,
     event: TRANSFER_EVENT,
     args: {
@@ -62,6 +62,8 @@ async function getTransferEvents(input: GetTransferEventsInput) {
     fromBlock: 0n,
     toBlock: "latest",
   });
+
+  return logs;
 }
 
 async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput): Promise<TransfersWithStrategyPrice[]> {
