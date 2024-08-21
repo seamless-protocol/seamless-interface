@@ -10,7 +10,7 @@ export const PortfolioSummary = () => {
           <FlexCol className="gap-8 mt-2 mb-2">
             <FlexCol className="gap-2">
               <Typography type="bold5">Your total balance</Typography>
-              <DisplayMoney viewValue="14.011.04" symbol="$" typography="bold7" />
+              <DisplayMoney viewValue="14.011.04" typography="bold7" />
             </FlexCol>
             <FlexCol className="gap-3">
               <Typography type="medium4" className="text-success-900">

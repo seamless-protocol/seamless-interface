@@ -1,6 +1,6 @@
-import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "../../../../../../../shared";
-import { assetLogos } from "../../../../../../../meta";
+import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
 import { ClaimButton } from "./ClaimButton";
+import { assetLogos } from "@meta";
 
 export const UnclaimedRewardsBox = () => {
   return (
