@@ -95,6 +95,7 @@ export * from "./components/form/rhf/RHFInputSliderField";
 // ***** //
 export * from "./components/images/Icon";
 export * from "./components/images/Image";
+export * from "./components/image-group/ImageGroup";
 
 // **** //
 // lifi //

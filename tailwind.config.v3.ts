@@ -32,6 +32,9 @@ export default {
       maxWidth: {
         "page-content": "1020px",
       },
+      gridTemplateColumns: {
+        22: "repeat(22, minmax(0, 1fr))",
+      },
 
       borderWidth: {
         thin: "1.3px",
@@ -156,6 +159,7 @@ export default {
           dark: "#388E3C",
           100: "#1C4B1E",
           200: "#ECF8ED",
+          900: "#2A863B",
         },
 
         gradients: {
