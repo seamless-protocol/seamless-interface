@@ -8,7 +8,7 @@ export const PortfolioSummary = () => {
       <div className="bg-neutral-0 shadow-card rounded-xl">
         <FlexRow className="py-8 px-10 justify-between">
           <FlexCol className="gap-8 mt-2 mb-2">
-            <FlexCol>
+            <FlexCol className="gap-2">
               <Typography type="bold5">Your total balance</Typography>
               <DisplayMoney viewValue="14.011.04" symbol="$" typography="bold7" />
             </FlexCol>
