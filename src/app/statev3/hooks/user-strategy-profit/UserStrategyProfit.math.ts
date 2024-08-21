@@ -3,13 +3,10 @@ import { cValueInUsd } from "../../math/cValueInUsd";
 
 /// TYPES
 
-export interface Log {
-  args: { from: Address | undefined; to: Address | undefined; value: bigint | undefined };
-  blockNumber: bigint;
-}
-
-export interface LogWithStrategyPrice {
-  log: Log;
+export interface TransfersWithStrategyPrice {
+  from: Address;
+  to: Address;
+  value: bigint;
   strategyPrice: bigint;
 }
 
@@ -22,7 +19,7 @@ interface cAvgSharePriceInput {
 }
 
 interface cUserStrategyStatsInput {
-  logs: LogWithStrategyPrice[];
+  transfers: TransfersWithStrategyPrice[];
   user: Address;
   strategyDecimals: number;
 }
@@ -34,7 +31,7 @@ interface cUserStrategyStatsOutput {
 }
 
 export interface cUserStrategyProfitInput {
-  logs: LogWithStrategyPrice[];
+  transfers: TransfersWithStrategyPrice[];
   currStrategyPrice: bigint;
   user: Address;
   strategyDecimals: number;
@@ -57,9 +54,13 @@ export function cUnrealizedProfitPercentage({
   strategyBalanceUsd: bigint;
   unrealizedProfit: bigint;
 }): bigint {
-  return strategyBalanceUsd - unrealizedProfit > 0n
-    ? (unrealizedProfit * 10000n) / (strategyBalanceUsd - unrealizedProfit)
-    : 0n;
+  const divider = strategyBalanceUsd - unrealizedProfit;
+
+  if (divider < 0n) {
+    throw new Error("Invalid unrealized profit");
+  }
+
+  return divider !== 0n ? (unrealizedProfit * 10000n) / divider : 0n;
 }
 
 function cAvgSharePrice(input: cAvgSharePriceInput): bigint {
@@ -72,18 +73,12 @@ function cAvgSharePrice(input: cAvgSharePriceInput): bigint {
 }
 
 function cUserStrategyStats(input: cUserStrategyStatsInput): cUserStrategyStatsOutput {
-  const { logs, user, strategyDecimals } = input;
+  const { transfers, user, strategyDecimals } = input;
 
   const strategyBase = 10n ** BigInt(strategyDecimals);
 
-  const { totalProfit, strategyBalance, avgSharePrice } = logs.reduce(
-    (acc, { log, strategyPrice }) => {
-      const { from, value } = log.args;
-
-      if (!from || !value) {
-        throw new Error(`Invalid log ${log}`);
-      }
-
+  const { totalProfit, strategyBalance, avgSharePrice } = transfers.reduce(
+    (acc, { from, value, strategyPrice }) => {
       const strategyBalanceChange = from === user ? -value : value;
       const strategyBalanceChangeUsd = cValueInUsd(strategyBalanceChange, strategyPrice, strategyDecimals);
 
@@ -116,12 +111,12 @@ function cUserStrategyStats(input: cUserStrategyStatsInput): cUserStrategyStatsO
 }
 
 export function cUserStrategyProfit({
-  logs,
+  transfers,
   user,
   currStrategyPrice,
   strategyDecimals,
 }: cUserStrategyProfitInput): cUserStrategyProfitOutput {
-  const { totalProfit, strategyBalance, avgSharePrice } = cUserStrategyStats({ user, logs, strategyDecimals });
+  const { totalProfit, strategyBalance, avgSharePrice } = cUserStrategyStats({ user, transfers, strategyDecimals });
 
   const strategyBalanceUsd = cValueInUsd(strategyBalance, currStrategyPrice, strategyDecimals);
   const totalUsdSpentOnCurrShares = cValueInUsd(strategyBalance, avgSharePrice, strategyDecimals);

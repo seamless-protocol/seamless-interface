@@ -4,19 +4,6 @@ import { fetchUserProfit } from "./UserProfit.fetch";
 import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
 import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
 
-export const useFetchUserProfit = () => {
-  const { address: account } = useAccount();
-
-  return useQuery({
-    queryKey: ["fetchUserProfit", account],
-    queryFn: () =>
-      fetchUserProfit({
-        account: account!,
-      }),
-    enabled: !!account,
-  });
-};
-
 interface FormattedUserProfit {
   realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;

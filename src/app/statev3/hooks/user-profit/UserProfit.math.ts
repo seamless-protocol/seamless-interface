@@ -1,3 +1,4 @@
+import { PERCENTAGE_VALUE_DECIMALS } from "../../../../meta";
 import { formatFetchBigInt, formatUsdValue } from "../../../../shared/formatters/getFetchBigIntFormatted";
 import { FetchBigIntStrict } from "../../../../shared/types/Fetch";
 import { cUnrealizedProfitPercentage } from "../user-strategy-profit/UserStrategyProfit.math";
@@ -40,6 +41,6 @@ export function cUserProfit({ profits }: cUserProfitInput): cUserProfitOutput {
   return {
     realizedProfit: formatUsdValue(realizedProfit),
     unrealizedProfit: formatUsdValue(unrealizedProfit),
-    unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, 2, "%"),
+    unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, PERCENTAGE_VALUE_DECIMALS, "%"),
   };
 }

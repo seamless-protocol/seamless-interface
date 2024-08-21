@@ -1,12 +1,24 @@
 import { Address, parseAbiItem } from "viem";
 import { getPublicClient } from "wagmi/actions";
 import { getExtensiveOperationsConfig } from "../../../utils/queryContractUtils";
-import { Log, LogWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyProfit.math";
+import { TransfersWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyProfit.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "../../../../shared";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
 
 /// TYPES
+interface Log {
+  args: { from: Address | undefined; to: Address | undefined; value: bigint | undefined };
+  blockNumber: bigint;
+}
+
+interface GetTransferEventsInput {
+  token: Address;
+  from: Address | undefined;
+  to: Address | undefined;
+}
 
 interface AddStrategyPriceToLogsInput {
   strategy: Address;
@@ -31,31 +43,8 @@ export interface FetchUserStrategyProfitOutput {
 
 const TRANSFER_EVENT = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 
-async function addStrategyPriceToLogs(input: AddStrategyPriceToLogsInput): Promise<LogWithStrategyPrice[]> {
-  const { logs, strategy } = input;
-
-  const logsWithStrategyPrice: LogWithStrategyPrice[] = [];
-
-  await Promise.all(
-    logs.map(async (log, index) => {
-      if (!log.blockNumber) {
-        throw new Error(`Invalid block number in log: ${log}`);
-      }
-
-      const strategyPrice = await fetchAssetPriceInBlock(strategy, log.blockNumber);
-
-      logsWithStrategyPrice[index] = {
-        log,
-        strategyPrice: strategyPrice.bigIntValue,
-      };
-    })
-  );
-
-  return logsWithStrategyPrice;
-}
-
-export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsForUserInput): Promise<Log[]> {
-  const { strategy, user } = input;
+async function getTransferEvents(input: GetTransferEventsInput) {
+  const { token, from, to } = input;
 
   const publicClient = getPublicClient(getExtensiveOperationsConfig());
 
@@ -63,24 +52,72 @@ export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsFor
     throw new Error("Public client not found");
   }
 
+  return await publicClient.getLogs({
+    address: token,
+    event: TRANSFER_EVENT,
+    args: {
+      from,
+      to,
+    },
+    fromBlock: 0n,
+    toBlock: "latest",
+  });
+}
+
+async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput): Promise<TransfersWithStrategyPrice[]> {
+  const { logs, strategy } = input;
+
+  const transfers: TransfersWithStrategyPrice[] = [];
+
+  await Promise.all(
+    logs.map(async (log, index) => {
+      if (!log.blockNumber) {
+        throw new Error(`Invalid block number in log: ${log}`);
+      }
+
+      if (!log.args.from || !log.args.to || !log.args.value) {
+        throw new Error(`Invalid log ${log}`);
+      }
+
+      const strategyPrice = await fetchAssetPriceInBlock(strategy, log.blockNumber);
+
+      transfers[index] = {
+        from: log.args.from,
+        to: log.args.to,
+        value: log.args.value,
+        strategyPrice: strategyPrice.bigIntValue,
+      };
+    })
+  );
+
+  return transfers;
+}
+
+export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsForUserInput): Promise<Log[]> {
+  const { strategy, user } = input;
+  const queryClient = getQueryClient();
+
   const [transferFromLogs, transferToLogs] = await Promise.all([
-    publicClient.getLogs({
-      address: strategy,
-      event: TRANSFER_EVENT,
-      args: {
-        from: user,
-      },
-      fromBlock: 0n,
-      toBlock: "latest",
+    queryClient.fetchQuery({
+      queryFn: () =>
+        getTransferEvents({
+          token: strategy,
+          from: user,
+          to: undefined,
+        }),
+      queryKey: ["getStrategyEventLogsFromUser", strategy, user],
+      ...heavyDataQueryConfig,
     }),
-    publicClient.getLogs({
-      address: strategy,
-      event: TRANSFER_EVENT,
-      args: {
-        to: user,
-      },
-      fromBlock: 0n,
-      toBlock: "latest",
+
+    queryClient.fetchQuery({
+      queryFn: () =>
+        getTransferEvents({
+          token: strategy,
+          from: undefined,
+          to: user,
+        }),
+      queryKey: ["getStrategyEventLogsToUser", strategy, user],
+      ...heavyDataQueryConfig,
     }),
   ]);
 
@@ -106,14 +143,14 @@ export async function fetchUserStrategyProfit(
     fetchTokenData(strategy),
   ]);
 
-  const [logsWithStrategyPrice, currStrategyPrice] = await Promise.all([
-    addStrategyPriceToLogs({ strategy, logs }),
+  const [transferWithStrategyPrice, currStrategyPrice] = await Promise.all([
+    addStrategyPriceAndParseLogs({ strategy, logs }),
     fetchAssetPriceInBlock(strategy),
   ]);
 
   const { strategyBalance, strategyBalanceUsd, realizedProfit, unrealizedProfit, unrealizedProfitPercentage } =
     cUserStrategyProfit({
-      logs: logsWithStrategyPrice,
+      transfers: transferWithStrategyPrice,
       user,
       currStrategyPrice: currStrategyPrice.bigIntValue,
       strategyDecimals,
