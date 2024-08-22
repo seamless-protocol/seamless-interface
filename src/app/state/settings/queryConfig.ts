@@ -13,6 +13,7 @@ export const semiSensitiveDataQueryConfig = {
 
 export const heavyDataQueryConfig = {
   staleTime: 5 * 60 * 60 * 1000, // 5 hours
+  gcTime: 5 * 60 * 60 * 1000, // 5 hours
 };
 
 export const FIVE_SECONDS_IN_MS = 5 * 1000;
