@@ -1,25 +1,56 @@
 import { Address } from "viem";
 
-import polygonSvg from "@assets/common/polygon.svg";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography } from "@shared";
-import { RandomNumber } from "../../../../../components/other/RandomNumber";
-import { Tag } from "../../../../../components/strategy-data/Tag";
-import { TagType } from "../../../../../../statev3/common/types/StateTypes";
+import polygonPositiveSvg from "@assets/common/polygon-positive.svg";
+import polygonNegativeSvg from "@assets/common/polygon-negative.svg";
 
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
-import { stateMock } from "../../../mocks";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import {
+  TableRow,
+  TableCell,
+  FlexRow,
+  Icon,
+  FlexCol,
+  Typography,
+  DisplayNumber,
+  ViewNumber,
+  DisplayMoney,
+} from "@shared";
+import { Tag } from "../../../../../components/strategy-data/Tag";
+import {
+  getStrategyDescription,
+  getStrategyIcon,
+  getStrategyName,
+  getStrategyTag,
+} from "../../../../../../statev3/settings/config";
+import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
+import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
+import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
+import { IncentivesButton } from "./IncentivesButton";
+
+export const getApyColor = (apy: ViewNumber): string | undefined => {
+  if (!apy.value) return undefined;
+  return apy.value >= 0 ? "text-success-900" : "text-error-1000";
+};
+
+export const getApyIndicatorSvg = (apy: ViewNumber): string | undefined => {
+  if (!apy.value) return undefined;
+  return apy.value >= 0 ? polygonPositiveSvg : polygonNegativeSvg;
+};
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  // todo use useFullTokenData instead of mock
-  const strategyMock = stateMock.data.find((s) => s.address === strategy);
-  const name = strategyMock?.name;
-  const description = strategyMock?.description;
-  const icon = ilmIcon;
-  const tag = "Staking" as TagType;
+  const name = getStrategyName(strategy);
+  const description = getStrategyDescription(strategy);
+  const type = getStrategyTag(strategy);
+  const icon = getStrategyIcon(strategy);
+
+  const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
+
+  const { data: apy, ...apyRest } = useFetchViewStrategyApy(strategy);
+
+  const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
 
   return (
     <div
@@ -29,7 +60,7 @@ export const ILMDesktopTableRow: React.FC<{
     >
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
-          <FlexRow className="gap-4 items-start ">
+          <FlexRow className="gap-4 items-center ">
             <Icon width={64} src={icon} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
@@ -40,28 +71,26 @@ export const ILMDesktopTableRow: React.FC<{
           </FlexRow>
         </TableCell>
 
-        <TableCell className="col-span-1">
+        <TableCell className="col-span-1 items-center">
           <FlexRow>
-            <Tag key={tag} tag={tag} />
+            <Tag key={type} tag={type} />
           </FlexRow>
         </TableCell>
-        <TableCell className="col-span-1">
-          <RandomNumber typography="bold3" className="text-primaryv2-400" symbol="$" />
+        <TableCell className="col-span-1 items-center">
+          <DisplayMoney typography="bold3" {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} />
         </TableCell>
 
-        <TableCell className="col-span-1">
+        <TableCell className="col-span-1 items-center">
           <FlexRow className="items-center gap-1">
-            <Icon src={polygonSvg} alt="polygon" width={12} height={12} />
-            <RandomNumber typography="bold3" className="text-successv2-900" symbol="%" symbolPosition="after" />
+            <Icon src={getApyIndicatorSvg(apy)} alt="polygon" width={12} height={12} hidden={!apy.value} />
+            <DisplayNumber typography="bold3" className={`${getApyColor(apy)}`} {...apy} {...apyRest} />
           </FlexRow>
         </TableCell>
-        <TableCell className="col-span-1">
-          <div className="flex">
-            <RandomNumber symbol="%" symbolPosition="after" />
-          </div>
+        <TableCell className="col-span-1 items-center">
+          <IncentivesButton strategy={strategy} />
         </TableCell>
-        <TableCell className="col-span-1">
-          <RandomNumber typography="bold3" symbol="$" />
+        <TableCell className="col-span-1 items-center">
+          <DisplayNumber typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
         </TableCell>
 
         <ChevronRightIcon width={20} className="absolute right-6" />
