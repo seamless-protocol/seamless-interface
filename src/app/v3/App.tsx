@@ -12,6 +12,7 @@ import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { LandingPage } from "./pages/landing-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
+import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -26,6 +27,7 @@ export function App() {
             <NotificationProvider>
               <SentryRoutes>
                 <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>
             </NotificationProvider>

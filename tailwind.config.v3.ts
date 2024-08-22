@@ -29,6 +29,13 @@ export default {
         xxl: "1440px",
         xxxl: "1800px",
       },
+      maxWidth: {
+        "page-content": "1020px",
+      },
+      gridTemplateColumns: {
+        22: "repeat(22, minmax(0, 1fr))",
+      },
+
       borderWidth: {
         thin: "1.3px",
       },
@@ -37,7 +44,10 @@ export default {
         button: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
       },
       borderRadius: {
+        button: "8px",
         card: "16px",
+        xl: "24px",
+        tag: "100px",
       },
       rotate: {
         "180": "180deg",
@@ -152,6 +162,7 @@ export default {
           dark: "#388E3C",
           100: "#1C4B1E",
           200: "#ECF8ED",
+          900: "#2A863B",
         },
 
         gradients: {

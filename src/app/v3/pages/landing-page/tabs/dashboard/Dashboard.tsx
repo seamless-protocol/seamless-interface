@@ -1,8 +1,12 @@
+import { FlexCol } from "../../../../../../shared";
+import { PortfolioSummary } from "./portfolio-summary/Summary";
+import { TableContainer } from "./table/TableContainer";
 
 export const Dashboard = () => {
   return (
-    <div>
-      Dashboard
-    </div>
+    <FlexCol className="gap-8">
+      <PortfolioSummary />
+      <TableContainer />
+    </FlexCol>
   );
 };
