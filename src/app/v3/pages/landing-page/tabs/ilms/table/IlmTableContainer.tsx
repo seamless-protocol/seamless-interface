@@ -2,6 +2,8 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { stateMock } from "../../../mocks";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "@router";
 
 export const IlmTableContainer = () => {
   const state = stateMock;
@@ -31,8 +33,10 @@ export const IlmTableContainer = () => {
 
       {state.data?.map((strategy, index) => (
         <div key={index}>
-          <ILMDesktopTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
-          <ILMMobileTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
+          <Link to={RouterConfig.Builder.ilmDetailsv3(strategy.address)}>
+            <ILMDesktopTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
+            <ILMMobileTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
+          </Link>
         </div>
       ))}
     </div>

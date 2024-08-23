@@ -30,7 +30,7 @@ export default {
         xxxl: "1800px",
       },
       maxWidth: {
-        "page-content": "1020px",
+        "page-content": "1220px",
       },
       gridTemplateColumns: {
         22: "repeat(22, minmax(0, 1fr))",
@@ -129,6 +129,7 @@ export default {
           dark: "#292E41",
           contrast: "#FFFFFF",
           600: "rgba(11, 37, 79, 0.60)",
+          1000: "#0B254F",
         },
         secondary: {
           main: "#FF607B",
