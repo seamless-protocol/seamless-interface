@@ -1,9 +1,19 @@
+export const disableCacheQueryConfig = {
+  staleTime: 0,
+  gcTime: 0,
+};
+
 export const metadataQueryConfig = {
   staleTime: Infinity,
 };
 
 export const semiSensitiveDataQueryConfig = {
   staleTime: 60 * 1000, // one minute
+};
+
+export const heavyDataQueryConfig = {
+  staleTime: 5 * 60 * 60 * 1000, // 5 hours
+  gcTime: 5 * 60 * 60 * 1000, // 5 hours
 };
 
 export const FIVE_SECONDS_IN_MS = 5 * 1000;
