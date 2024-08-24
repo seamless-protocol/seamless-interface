@@ -81,11 +81,9 @@ export function RHFWithdrawStrategyAmountField<T>({
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name as string);
-  console.log({ asset });
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchAssetPrice({ asset });
-  console.log({ price });
 
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(asset, walletBalanceDecimalsOptions);
