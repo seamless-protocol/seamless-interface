@@ -22,7 +22,6 @@ export const useFetchSimulateDeposit = (account: Address, amount: string, subStr
     retry: true,
     enabled,
   });
-  console.log({ data });
 
   return {
     ...mergeQueryStates([
