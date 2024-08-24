@@ -60,6 +60,13 @@ export const config = createConfig({
   },
 });
 
+export const extensiveOperationsConfig = createConfig({
+  chains: [base],
+  transports: {
+    [base.id]: http(import.meta.env.VITE_EXTENSIVE_OPERATIONS_RPC_URL),
+  },
+});
+
 declare module "wagmi" {
   interface Register {
     config: typeof config;

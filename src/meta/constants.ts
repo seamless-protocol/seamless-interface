@@ -5,6 +5,9 @@ import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import type { DecimalsOptions } from "@shared";
 
+export const USD_VALUE_DECIMALS = 8;
+export const PERCENTAGE_VALUE_DECIMALS = 2;
+
 export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
   singleDigitNumberDecimals: 6,
   doubleDigitNumberDecimals: 4,
@@ -90,6 +93,10 @@ export const assetLogos: Map<string, string> = new Map([
   ["BRETT", brettLogo],
 ]);
 
-export const lendingAssetToHide: String[] = [rwstETH_ADDRESS.toLowerCase(), rWETH_ADDRESS.toLowerCase(), rUSDC_ADDRESS.toLowerCase()];
+export const lendingAssetToHide: String[] = [
+  rwstETH_ADDRESS.toLowerCase(),
+  rWETH_ADDRESS.toLowerCase(),
+  rUSDC_ADDRESS.toLowerCase(),
+];
 
 export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
