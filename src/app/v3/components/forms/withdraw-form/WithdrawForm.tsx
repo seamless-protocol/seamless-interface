@@ -14,20 +14,20 @@ import {
   MyFormProvider,
   Typography,
   WatchAssetComponentv2,
-} from "../../../../../../shared";
+} from "@shared";
 import { WETH_ADDRESS } from "@meta";
-import { RouterConfig } from "../../../../../router";
-import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
-import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { StrategyState } from "../../../../../state/common/types/StateTypes";
-import { useFetchWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useWriteStrategyWithdraw } from "../../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { RouterConfig } from "../../../../router";
+import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
+import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { StrategyState } from "../../../../state/common/types/StateTypes";
+import { useFetchWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
+import { useFetchStrategyByAddress } from "../../../../statev3/common/hooks/useFetchStrategyByAddress";
 import { Summary } from "./Summary";
-import { useFetchStrategyByAddress } from "../../../../../statev3/common/hooks/useFetchStrategyByAddress";
 
 export const WithdrawForm: React.FC = () => {
   const { strategy } = useFormSettingsContext();
@@ -50,7 +50,6 @@ const WithdrawStrategyLocal: React.FC<{
   strategy: StrategyState;
 }> = ({ strategy }) => {
   const { onTransaction } = useFormSettingsContext();
-  const { data: tokenData } = useFullTokenData(strategy?.address);
 
   const {
     data: { symbol: strategySymbol },
@@ -162,17 +161,22 @@ const WithdrawStrategyLocal: React.FC<{
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
-        <FlexCol className="gap-6">
+        {/* <FlexCol className="gap-6">
+          
           <FlexRow className="justify-between items-start">
             <FlexCol className="gap-1 min-h-10">
               <Typography type="bold4">Withdraw</Typography>
               <Typography type="regular3">{tokenData.name}</Typography>
             </FlexCol>
           </FlexRow>
+        </FlexCol> */}
+
+        <FlexCol className="gap-3">
+          <Typography type="medium3">Withdraw</Typography>
           <RHFWithdrawStrategyAmountField strategy={strategy?.address} name="amount" />
         </FlexCol>
 
-        {/* <Summary debouncedAmount={debouncedAmount} strategy={strategy} /> */}
+        <Summary debouncedAmount={debouncedAmount} />
 
         <FormButtons isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading} />
       </FlexCol>

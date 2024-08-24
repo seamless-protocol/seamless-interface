@@ -1,21 +1,19 @@
 import React from "react";
 import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, FlexRow } from "@shared";
-import { DataRow } from "../../DataRow";
-import { StrategyState } from "../../../../../state/common/types/StateTypes";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useAccount } from "wagmi";
-import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
-import { useFetchViewWithdrawSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { checkAuthentication } from "../../../../../utils/authenticationUtils";
+import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import { useFetchViewWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { checkAuthentication } from "../../../../utils/authenticationUtils";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { DataRow } from "../DataRow";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
-  strategy: StrategyState;
 }> = ({ debouncedAmount }) => {
+  const { strategy } = useFormSettingsContext();
   const { isConnected } = useAccount();
-  const { subStrategy } = useFormSettingsContext();
-  const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, subStrategy);
-  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, subStrategy);
+  const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, strategy);
+  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);
 
   return (
     <FlexCol>
