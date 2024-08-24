@@ -3,7 +3,7 @@ import { multiplyETH_ADDRESS_STRATEGY_ID, ethLong } from "../../../../meta";
 import { strategiesConfig } from "../../../state/settings/config";
 
 // TODO replace this mock with real implementation (in next PR)
-export const useFetchStrategyByAddress = (address?: Address) => {
+export const useFetchStrategyByAddress = (_address?: Address) => {
   const strategy = strategiesConfig[multiplyETH_ADDRESS_STRATEGY_ID];
 
   return {
