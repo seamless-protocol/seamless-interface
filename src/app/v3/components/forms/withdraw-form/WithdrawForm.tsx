@@ -161,16 +161,6 @@ const WithdrawStrategyLocal: React.FC<{
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
-        {/* <FlexCol className="gap-6">
-          
-          <FlexRow className="justify-between items-start">
-            <FlexCol className="gap-1 min-h-10">
-              <Typography type="bold4">Withdraw</Typography>
-              <Typography type="regular3">{tokenData.name}</Typography>
-            </FlexCol>
-          </FlexRow>
-        </FlexCol> */}
-
         <FlexCol className="gap-3">
           <Typography type="medium3">Withdraw</Typography>
           <RHFWithdrawStrategyAmountField strategy={strategy?.address} name="amount" />
