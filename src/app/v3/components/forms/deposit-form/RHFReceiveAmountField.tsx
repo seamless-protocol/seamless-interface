@@ -6,12 +6,12 @@ import {
   mergeQueryStates,
 } from "@shared";
 import { useMemo } from "react";
-import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
-import { useFullTokenData } from "../../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

@@ -2,12 +2,12 @@ import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToV
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewAssetBalance } from "../../../../../state/common/queries/useFetchViewAssetBalance";
-import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetchViewAssetPrice";
-import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
+import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
