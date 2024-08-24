@@ -67,7 +67,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
     useEffect(() => {
       const value = getValues(name as string);
 
-      if (!tokenData?.decimals) {
+      if (!value || !tokenData?.decimals) {
         setValue(name as string, "");
       } else if (
         (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
