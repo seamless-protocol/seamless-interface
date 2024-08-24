@@ -1,10 +1,24 @@
 import { Address } from "viem";
 import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
 import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
-import { calculateTotalRewards, RewardsByStrategy, RewardsByStrategyInfo } from "./UserRewardsByStrategy.math";
+import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { USD_VALUE_DECIMALS } from "@meta";
+import { FetchBigInt, FetchBigIntStrict } from "../../../../shared";
+
+export interface FetchRewardsByStrategy {
+  info: FetchRewardsByStrategyInfo[];
+  totalRewards: FetchBigInt;
+}
+
+export interface FetchRewardsByStrategyInfo {
+  rewardsAddress: Address;
+  rewardsAmount: bigint;
+  rewardsDecimals: number;
+  rewardsSymbol?: string;
+  tokenPrice: FetchBigIntStrict;
+}
 
 export async function fetchAllUserRewardsByStrategy({
   user,
@@ -12,7 +26,7 @@ export async function fetchAllUserRewardsByStrategy({
 }: {
   user: Address;
   strategy: Address;
-}): Promise<RewardsByStrategy> {
+}): Promise<FetchRewardsByStrategy> {
   const [rewardsAddresses, rewardsAmounts] = await queryContract({
     ...queryOptions({
       address: rewardsControllerAddress,
@@ -22,13 +36,12 @@ export async function fetchAllUserRewardsByStrategy({
     }),
   });
 
-  const rewardsInfo: RewardsByStrategyInfo[] = await Promise.all(
+  const rewardsInfo: FetchRewardsByStrategyInfo[] = await Promise.all(
     rewardsAddresses.map(async (address, index) => {
-      const tokenDataPromise = fetchTokenData(address);
-      const tokenPricePromise = fetchAssetPriceInBlock(address);
-
-      const { decimals, symbol } = await tokenDataPromise;
-      const tokenPrice = await tokenPricePromise;
+      const [{ decimals, symbol }, tokenPrice] = await Promise.all([
+        fetchTokenData(address),
+        fetchAssetPriceInBlock(address),
+      ]);
 
       return {
         rewardsAddress: address,
@@ -40,7 +53,7 @@ export async function fetchAllUserRewardsByStrategy({
     })
   );
 
-  const totalRewards = calculateTotalRewards(rewardsInfo);
+  const totalRewards = cTotalRewards(rewardsInfo);
 
   return {
     info: rewardsInfo,

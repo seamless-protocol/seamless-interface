@@ -9,12 +9,14 @@ import { assetLogos } from "@meta";
 export interface RewardsByStrategy {
   info: RewardsInfo[];
   totalRewardsUsd: ViewBigInt;
+  totalRewards: ViewBigInt;
 }
 
 interface RewardsInfo {
   address: Address;
   logo: string;
-  symbol: string;
+  symbol?: string;
+  rewardsAmount: ViewBigInt;
 }
 
 export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): Displayable<RewardsByStrategy> => {
@@ -36,9 +38,15 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
       data?.info.map((info) => ({
         address: info.rewardsAddress,
         logo: assetLogos.get(info.rewardsAddress) || "",
-        symbol: info.rewardsSymbol || "",
+        symbol: info.rewardsSymbol,
+        rewardsAmount: formatFetchBigIntToViewBigInt({
+          bigIntValue: info.rewardsAmount,
+          decimals: info.rewardsDecimals,
+          symbol: info.rewardsSymbol,
+        }),
       })) || [],
     totalRewardsUsd: formatFetchBigIntToViewBigInt(data?.totalRewards),
+    totalRewards: formatFetchBigIntToViewBigInt(data?.totalRewards),
   };
 
   return {
