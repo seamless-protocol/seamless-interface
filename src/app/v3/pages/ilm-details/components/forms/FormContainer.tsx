@@ -3,7 +3,7 @@ import { FlexCol, FlexRow, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { DepositForm } from "../../../../components/forms/earn-forms/deposit-form/DepositForm";
+import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
 
 export const FormContainer: React.FC = () => {
   const { address: strategy } = useParams();
