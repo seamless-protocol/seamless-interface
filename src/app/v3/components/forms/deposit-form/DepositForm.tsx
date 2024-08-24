@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
-import { useReadAaveOracleGetAssetPrice } from "../../../../../generated";
-import { useWrappedDebounce } from "../../../../../state/common/hooks/useWrappedDebounce";
+import { useReadAaveOracleGetAssetPrice } from "../../../../generated";
+import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
 import {
   useNotificationContext,
@@ -14,14 +14,14 @@ import {
   FlexRow,
   useToken,
 } from "@shared";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
-import { RouterConfig } from "../../../../../router";
-import { StrategyState } from "../../../../../state/common/types/StateTypes";
-import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { RouterConfig } from "../../../../router";
+import { StrategyState } from "../../../../state/common/types/StateTypes";
+import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
-import { useMutateDepositStrategy } from "../../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
-import { useFetchStrategyByAddress } from "../../../../../statev3/common/hooks/useFetchStrategyByAddress";
+import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
+import { useFetchStrategyByAddress } from "../../../../statev3/common/hooks/useFetchStrategyByAddress";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 

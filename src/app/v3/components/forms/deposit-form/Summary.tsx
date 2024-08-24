@@ -1,10 +1,10 @@
 import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { DataRow } from "../../DataRow";
+import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
-import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
-import { checkAuthentication } from "../../../../../utils/authenticationUtils";
-import { AssetApy } from "../../../../../v2/components/asset-data/AssetApy";
+import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { checkAuthentication } from "../../../../utils/authenticationUtils";
+import { AssetApy } from "../../../../v2/components/asset-data/AssetApy";
 
 export const Summary: React.FC<{
   debouncedAmount: string;

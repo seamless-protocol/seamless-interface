@@ -10,7 +10,7 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { StrategyState } from "../../../../../state/common/types/StateTypes";
+import { StrategyState } from "../../../../state/common/types/StateTypes";
 
 export const FormButtons: React.FC<{
   strategy: StrategyState;
