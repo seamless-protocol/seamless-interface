@@ -29,7 +29,7 @@ import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField
 import { Summary } from "./Summary";
 import { useFetchStrategyByAddress } from "../../../../../statev3/common/hooks/useFetchStrategyByAddress";
 
-export const WithdrawStrategyForm: React.FC = () => {
+export const WithdrawForm: React.FC = () => {
   const { strategy } = useFormSettingsContext();
   const { data: strategyState } = useFetchStrategyByAddress(strategy);
 

@@ -43,7 +43,7 @@ export const FormButtons: React.FC<{
   }
 
   return (
-    <FlexCol className="gap-2">
+    <FlexCol className="gap-2 w-full">
       <AuthGuardv2 message="">
         <Buttonv2
           className="text-bold3"

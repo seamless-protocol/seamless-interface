@@ -7,10 +7,10 @@ export const ILMDetails = () => {
     <PageContainer className="flex justify-center py-2 md:py-12">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="w-full gap-8">
-          <div className="flex-grow">
+          <div className="flex flex-grow">
             <StrategyDetails />
           </div>
-          <div className="max-w-[400px]">
+          <div className="w-[450px] flex flex-none">
             <FormContainer />
           </div>
         </FlexRow>

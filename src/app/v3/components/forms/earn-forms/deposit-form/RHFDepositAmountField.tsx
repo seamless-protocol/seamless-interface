@@ -7,7 +7,7 @@ import { useFetchAssetPrice } from "../../../../../state/common/queries/useFetch
 import { cValueInUsd } from "../../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchStrategyByAddress } from "../../../../../state/common/hooks/useFetchStrategyByAddress";
+import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -50,16 +50,17 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  * @returns {React.ReactElement} The `RHFSupplyStrategyAmountField` component, integrated with functionalities for asset price fetching and balance display.
  */
 
-export function RHFSupplyStrategyAmountField<T>({ ...other }: IProps<T>) {
+export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
-  const { data: strategyState } = useFetchStrategyByAddress(strategy || strategy);
-  const underlyingAsset = strategyState?.underlyingAsset.address;
+  // todo replace this with new hooks when new state comes..
+  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy);
+  const underlyingAssetAddress = strategyState?.underlyingAsset.address;
 
   // *** metadata *** //
   const {
     data: { decimals },
-  } = useToken(underlyingAsset);
+  } = useToken(underlyingAssetAddress);
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -69,11 +70,11 @@ export function RHFSupplyStrategyAmountField<T>({ ...other }: IProps<T>) {
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset: underlyingAsset });
+  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset: underlyingAssetAddress });
 
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(
-    underlyingAsset,
+    underlyingAssetAddress,
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
@@ -91,7 +92,7 @@ export function RHFSupplyStrategyAmountField<T>({ ...other }: IProps<T>) {
   return (
     <RHFAmountInput
       {...other}
-      assetAddress={underlyingAsset}
+      assetAddress={underlyingAssetAddress}
       dollarValue={{
         ...otherPrice,
         data: dollarValueData,

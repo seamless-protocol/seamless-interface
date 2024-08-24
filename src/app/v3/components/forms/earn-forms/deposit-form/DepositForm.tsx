@@ -15,15 +15,17 @@ import {
   useToken,
 } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
+import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "../../../../../router";
 import { StrategyState } from "../../../../../state/common/types/StateTypes";
 import { useFetchDepositSharesToReceive } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { useFetchStrategyByAddress } from "../../../../../statev3/common/hooks/useFetchStrategyByAddress";
+import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
+import { Summary } from "./Summary";
 
-export const StrategyForm = () => {
+export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
   const { data: strategyState } = useFetchStrategyByAddress(strategy);
 
@@ -45,10 +47,8 @@ interface FormData {
 const StrategyFormLocal: React.FC<{
   strategy: StrategyState;
 }> = ({ strategy }) => {
-  console.log({ strategy });
   const { onTransaction } = useFormSettingsContext();
-  const anderlyingAssetAddress = strategy?.underlyingAsset.address;
-  console.log({ asset: anderlyingAssetAddress });
+  const underlyingAssetAddress = strategy?.underlyingAsset.address;
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -108,7 +108,12 @@ const StrategyFormLocal: React.FC<{
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
-          {anderlyingAssetAddress === WETH_ADDRESS && (
+          <FlexCol className="gap-3">
+            <Typography type="medium3">Deposit</Typography>
+            <RHFDepositAmountField name="amount" />
+          </FlexCol>
+
+          {underlyingAssetAddress === WETH_ADDRESS && (
             <FlexRow className="w-full">
               <Link
                 to={RouterConfig.Routes.wrapEth}
@@ -123,11 +128,14 @@ const StrategyFormLocal: React.FC<{
               </Link>
             </FlexRow>
           )}
-          <RHFSupplyStrategyAmountField name="amount" />
+
+          <FlexCol className="gap-3">
+            <Typography type="medium3">Receive</Typography>
+            <RHFReceiveAmountField debouncedAmount={debouncedAmount} name="receiveAmount" />
+          </FlexCol>
+
+          <Summary debouncedAmount={debouncedAmount} />
         </FlexCol>
-
-        {/* {asset && <Summary debouncedAmount={debouncedAmount} />} */}
-
         <FormButtons
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategy}

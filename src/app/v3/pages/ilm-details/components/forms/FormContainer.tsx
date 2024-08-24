@@ -3,17 +3,14 @@ import { FlexCol, FlexRow, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { StrategyForm } from "../../../../components/forms/earn-forms/deposit-strategy-form/StrategyForm";
-import { WithdrawStrategyForm } from "../../../../components/forms/withdraw-forms/withdraw-strategy-form/WithdrawStrategyForm";
+import { DepositForm } from "../../../../components/forms/earn-forms/deposit-form/DepositForm";
 
 export const FormContainer: React.FC = () => {
-  const { address } = useParams();
-  console.log({ address });
-  const strategy = address as Address;
+  const { address: strategy } = useParams();
   const [isDepositing, setIsDepositing] = useState(true);
 
   return (
-    <FlexCol className="bg-neutral-0 shadow-card p-6 rounded-2xl">
+    <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
       <FlexRow className="items-center gap-1">
         <LocalButtonSwitcher
           onClick={() => {
@@ -33,17 +30,18 @@ export const FormContainer: React.FC = () => {
           Withdraw
         </LocalButtonSwitcher>
       </FlexRow>
-      <FlexRow className="gap-2">
+      <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={strategy}>
-            <StrategyForm />
+          <FormSettingsProvider defaultStrategy={strategy as Address}>
+            <DepositForm />
           </FormSettingsProvider>
         ) : (
-          <FormSettingsProvider defaultStrategy={strategy}>
-            <WithdrawStrategyForm />
-          </FormSettingsProvider>
+          <>todo withdraw form</>
+          // <FormSettingsProvider defaultStrategy={strategy as Address}>
+          //   <WithdrawForm />
+          // </FormSettingsProvider>
         )}
-      </FlexRow>
+      </div>
     </FlexCol>
   );
 };

@@ -175,7 +175,7 @@ export default {
           active: "#8E92A3",
           hover: "#3AB0FF",
           selected: "#EAEBEF",
-          disabled: "#BBBECA",
+          disabled: "#FAFAFA",
           disabledBackground: "#EAEBEF",
           focus: "#F1F1F3",
         },
