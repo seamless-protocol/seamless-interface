@@ -9,7 +9,6 @@ import { assetLogos } from "@meta";
 export interface RewardsByStrategy {
   info: RewardsInfo[];
   totalRewardsUsd: ViewBigInt;
-  totalRewards: ViewBigInt;
 }
 
 interface RewardsInfo {
@@ -45,8 +44,7 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
           symbol: info.rewardsSymbol,
         }),
       })) || [],
-    totalRewardsUsd: formatFetchBigIntToViewBigInt(data?.totalRewards),
-    totalRewards: formatFetchBigIntToViewBigInt(data?.totalRewards),
+    totalRewardsUsd: formatFetchBigIntToViewBigInt(data?.totalRewardsUsd),
   };
 
   return {
