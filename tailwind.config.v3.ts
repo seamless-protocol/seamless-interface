@@ -115,6 +115,7 @@ export default {
           600: "#6EBD70",
         },
         red: {
+          // TODO: Change this when design is ready
           100: "#FFC6C6",
         },
         gradient: {
