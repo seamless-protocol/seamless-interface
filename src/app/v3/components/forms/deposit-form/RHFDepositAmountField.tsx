@@ -13,41 +13,44 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
   name: keyof T;
 };
 /**
- * `RHFSupplyStrategyAmountField` Component Documentation
+ * `RHFDepositAmountField` Component Documentation
  *
- * Wraps input functionality for assets by incorporating features for fetching asset prices, displaying wallet balances,
- * and converting input values into their equivalent dollar amounts based on the current asset prices. This component is
- * designed for seamless integration with forms managed by `react-hook-form`.
+ * This component integrates form input functionality for asset management in a DeFi context, primarily used for handling
+ * asset amounts in deposit forms. It fetches asset-related data such as prices and balances, and computes equivalent dollar values
+ * for user input amounts. It leverages the `react-hook-form` for form state management and updates.
  *
  * ## Key Features:
- * - **Asset Price and Balance Fetching**: Automatically retrieves and displays the current price and wallet balance of the specified asset.
- * - **Value-to-Dollar Conversion**: Converts the input value to its equivalent dollar value, using the current asset price for accurate conversion.
- * - **Dynamic Asset Selection**: Supports dynamic selection of assets through a UI component, which can be disabled by specifying an `assetAddress` directly.
- * - **Flexible Configuration**: Can be uniquely configured for each instance using `overrideUrlSlug` to ensure independent operation and avoid state conflicts in applications requiring multiple inputs.
+ * - **Dynamic Asset Data Fetching**: Fetches real-time data including asset prices and balances.
+ * - **USD Conversion**: Computes the USD equivalent of the entered token amount based on the fetched asset price.
+ * - **Form Integration**: Fully integrated with `react-hook-form` for seamless form state management.
+ * - **Maximum Deposit Calculation**: Determines the maximum deposit amount based on user-specific conditions and strategy parameters.
+ * - **Adaptive to Strategy Changes**: Adjusts the asset data fetching according to the selected strategy.
  *
  * ## Props:
- * - `overrideUrlSlug`: Object specifying URL query parameters. Must be unique for each component instance to ensure that each operates independently, particularly important in scenarios with multiple inputs.
- * - `assetAddress`: (Optional) Address of the asset to be used. If provided, the asset selection button is disabled, and this address is used for fetching asset prices and balances directly, bypassing the need for user selection.
- * - Inherits additional props from `IRHFAmountInputProps<T>`, excluding `assetPrice`, `walletBalance`, `assetAddress`, and `assetButton`, allowing for customized handling of asset inputs.
+ * - `name`: Identifies the form field within `react-hook-form`.
+ * - `overrideUrlSlug`: (Optional) Custom URL parameters for asset data queries to ensure component's unique operation context.
+ * - `assetAddress`: (Optional) Directly specify the asset address if no dynamic selection is needed; this disables asset selection UI elements.
+ *
+ * Inherits additional configuration options from `IRHFAmountInputProps`, minus specific props like `assetPrice`, `walletBalance`, and `assetButton` to adapt to the required context.
  *
  * ## Usage Example:
  * ```jsx
- * <RHFSupplyStrategyAmountField
- *   name="amount1"
+ * <RHFDepositAmountField
+ *   name="depositAmount"
  *   overrideUrlSlug={{
- *     asset: "supplyAsset",
- *     isStrategy: "false",
+ *     asset: "primaryAsset",
+ *     isStrategy: "true",
  *   }}
  * />
- * <RHFSupplyStrategyAmountField
- *   name="amount2"
- *   assetAddress="0x123...abc"
+ * <RHFDepositAmountField
+ *   name="secondaryDepositAmount"
+ *   assetAddress="0x123...def"
  * />
  * ```
- * In the first instance, an `overrideUrlSlug` is used for dynamic asset selection through the UI. In the second instance, a specific `assetAddress` is provided, disabling the asset selection button and focusing the input on the specified asset.
+ * The first instance uses `overrideUrlSlug` for dynamic asset querying based on UI interactions, while the second uses a static `assetAddress` for focused operations without user input.
  *
- * @param {IProps<T>} props - The props for configuring the `RHFSupplyStrategyAmountField` component.
- * @returns {React.ReactElement} The `RHFSupplyStrategyAmountField` component, integrated with functionalities for asset price fetching and balance display.
+ * @param {IProps<T>} props - The configuration props for the `RHFDepositAmountField` component, adhering to specified types and requirements.
+ * @returns {React.ReactElement} Rendered component with functionalities for asset data fetching, USD conversion, and form integration.
  */
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {

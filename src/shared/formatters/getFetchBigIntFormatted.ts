@@ -1,4 +1,4 @@
-import { FetchBigInt, FetchNumber } from "../types/Fetch";
+import { FetchBigInt, FetchBigIntStrict, FetchNumber } from "../types/Fetch";
 
 export const fFetchBigIntStructured = (
   bigIntValue?: bigint,
@@ -15,6 +15,14 @@ export const fFetchBigIntStructured = (
   };
 };
 
+export const formatFetchBigInt = (bigIntValue: bigint, decimals: number, symbol: string): FetchBigIntStrict => {
+  return {
+    bigIntValue,
+    decimals,
+    symbol,
+  };
+};
+
 export const fFetchNumberStructured = (value?: number, symbol?: string): FetchNumber | undefined => {
   return {
     value,
@@ -23,6 +31,14 @@ export const fFetchNumberStructured = (value?: number, symbol?: string): FetchNu
 };
 
 export const fUsdValueStructured = (bigIntValue?: bigint, decimals = 8, symbol = "$"): FetchBigInt | undefined => {
+  return {
+    bigIntValue,
+    symbol,
+    decimals,
+  };
+};
+
+export const formatUsdValue = (bigIntValue: bigint, decimals = 8, symbol = "$"): FetchBigIntStrict => {
   return {
     bigIntValue,
     symbol,

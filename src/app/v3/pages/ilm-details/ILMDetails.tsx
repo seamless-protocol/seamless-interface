@@ -10,7 +10,7 @@ export const ILMDetails = () => {
           <div className="flex flex-grow">
             <StrategyDetails />
           </div>
-          <div className="w-[450px] flex flex-none">
+          <div className="w-full md:w-[450px] flex flex-none">
             <FormContainer />
           </div>
         </FlexRow>
