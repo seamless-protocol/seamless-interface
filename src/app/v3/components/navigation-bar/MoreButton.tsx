@@ -6,7 +6,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
-import { RouterConfig } from "../../../router";
+import { RouterConfig } from "@router";
 import { MoreMenuButton } from "./MoreMenuButton";
 
 export const moreMenuItems = [

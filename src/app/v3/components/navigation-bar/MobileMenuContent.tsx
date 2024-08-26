@@ -1,6 +1,6 @@
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { useLifiWidgetContext, Typography, Divider, FlexRow, ConnectWalletRainbowWrapperv3 } from "../../../../shared";
+import { useLifiWidgetContext, Typography, Divider, FlexRow, ConnectWalletRainbowWrapperv3 } from "@shared";
 import { moreMenuItems } from "./MoreButton";
 import { navbarConfig } from "./navbarConfig";
 

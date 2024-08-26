@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAccount, useConnect } from "wagmi";
-import { Typography } from "../../../../shared";
+import { Typography } from "@shared";
 
 export function BlueCoinbaseConnectWalletButton() {
   const { isConnected } = useAccount();
