@@ -1,12 +1,21 @@
 import { Address } from "viem";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
-import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
+import {
+  Displayable,
+  FetchTokenAmountWithUsdValueStrict,
+  ViewBigIntWithUsdValue,
+  formatFetchBigInt,
+  formatFetchBigIntToViewBigInt,
+  formatUsdValue,
+} from "../../../shared";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { useQuery } from "@tanstack/react-query";
+import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
 
 export interface FetchEquityInBlockInput {
   strategy: Address;
-  blockNumber: bigint | undefined;
+  blockNumber?: bigint | undefined;
 }
 
 export async function fetchEquityInBlock({
@@ -39,3 +48,20 @@ export async function fetchEquityInBlock({
     dollarAmount: formatUsdValue(equityUsd),
   };
 }
+
+export const useFetchFormattedEquity = (strategy: Address): Displayable<ViewBigIntWithUsdValue> => {
+  const { data, ...rest } = useQuery({
+    queryKey: ["hookFormattedEquity", strategy],
+    queryFn: () => fetchEquityInBlock({ strategy }),
+    enabled: !!strategy,
+    ...disableCacheQueryConfig,
+  });
+
+  return {
+    ...rest,
+    data: {
+      tokenAmount: formatFetchBigIntToViewBigInt(data?.tokenAmount),
+      dollarAmount: formatFetchBigIntToViewBigInt(data?.dollarAmount),
+    },
+  };
+};
