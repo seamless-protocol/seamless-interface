@@ -36,19 +36,3 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     icon: ilmIcon,
   },
 };
-
-export const getStrategyName = (strategy: Address): string => {
-  return strategyConfig[strategy].name;
-};
-
-export const getStrategyDescription = (strategy: Address): string => {
-  return strategyConfig[strategy].description;
-};
-
-export const getStrategyTag = (strategy: Address): TagType => {
-  return strategyConfig[strategy].type;
-};
-
-export const getStrategyIcon = (strategy: Address): string => {
-  return strategyConfig[strategy].icon;
-};

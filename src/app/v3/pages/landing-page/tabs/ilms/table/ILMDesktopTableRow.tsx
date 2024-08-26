@@ -3,26 +3,18 @@ import { Address } from "viem";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography, DisplayNumber, DisplayMoney } from "@shared";
 import { Tag } from "../../../../../components/strategy-data/Tag";
-import {
-  getStrategyDescription,
-  getStrategyIcon,
-  getStrategyName,
-  getStrategyTag,
-} from "../../../../../../statev3/settings/config";
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { IncentivesButton } from "./IncentivesButton";
 import { getApyColor, getApyIndicatorSvg } from "../../../../../utils/uiUtils";
+import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  const name = getStrategyName(strategy);
-  const description = getStrategyDescription(strategy);
-  const type = getStrategyTag(strategy);
-  const icon = getStrategyIcon(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
@@ -39,11 +31,15 @@ export const ILMDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
-            <Icon width={64} src={icon} alt="logo" />
+            <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <Typography type="bold3">{name}</Typography>
-                <Typography type="regular1">{description}</Typography>
+                <Typography type="bold3" {...strategyDataRest}>
+                  {strategyData?.name}
+                </Typography>
+                <Typography type="regular1" {...strategyDataRest}>
+                  {strategyData?.description}
+                </Typography>
               </FlexCol>
             </FlexCol>
           </FlexRow>
@@ -51,7 +47,7 @@ export const ILMDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <FlexRow>
-            <Tag key={type} tag={type} />
+            <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">

@@ -1,25 +1,17 @@
 import { Address } from "viem";
 import { FlexRow, FlexCol, Icon, Typography, DisplayMoney, DisplayNumber } from "@shared";
 import { Tag } from "../../../../../components/strategy-data/Tag";
-import {
-  getStrategyDescription,
-  getStrategyIcon,
-  getStrategyName,
-  getStrategyTag,
-} from "../../../../../../statev3/settings/config";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { getApyColor, getApyIndicatorSvg } from "../../../../../utils/uiUtils";
+import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy }) => {
-  const name = getStrategyName(strategy);
-  const description = getStrategyDescription(strategy);
-  const type = getStrategyTag(strategy);
-  const icon = getStrategyIcon(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
@@ -31,15 +23,19 @@ export const ILMMobileTableRow: React.FC<{
     <div className="flex md:hidden flex-col bg-white shadow rounded-lg p-4 m-2">
       <FlexCol className="items-end mb-[-10px]">
         <FlexRow>
-          <Tag key={type} tag={type} />
+          <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
         </FlexRow>
       </FlexCol>
       <FlexRow className="items-center mb-4">
         <FlexRow className="gap-4 items-center">
-          <Icon width={40} src={icon} alt="logo" />
+          <Icon width={40} src={strategyData?.icon} alt="logo" {...strategyDataRest} />
           <FlexCol className="gap-1 text-start">
-            <Typography type="bold3">{name}</Typography>
-            <Typography type="regular1">{description}</Typography>
+            <Typography type="bold3" {...strategyDataRest}>
+              {strategyData?.name}
+            </Typography>
+            <Typography type="regular1" {...strategyDataRest}>
+              {strategyData?.symbol}
+            </Typography>
           </FlexCol>
         </FlexRow>
       </FlexRow>
