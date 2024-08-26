@@ -6,13 +6,14 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
+import { FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { LandingPage } from "./pages/landing-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
+import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -21,7 +22,7 @@ export function App() {
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
-          <ConnectButtonProvider>todo: new navbar</ConnectButtonProvider>
+          <NavigationBar />
 
           <FlexCol className="min-h-screen">
             <NotificationProvider>
