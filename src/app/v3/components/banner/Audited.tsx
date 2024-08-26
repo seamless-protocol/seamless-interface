@@ -5,9 +5,10 @@ import { CertoraAuditReportLink } from "@router";
 /*    Icons    */
 /* ----------- */
 import certoraIcon from "@assets/common/certora.svg";
+import { useFetchViewLendingPoolInfo } from "../../../v2/pages/test-page/hooks/useFetchViewLendingPoolInfo";
 
 export const Audited = () => {
-  // const equity = useFetchFormattedEquity();
+  const { data, ...rest } = useFetchViewLendingPoolInfo();
 
   return (
     <div className="flex justify-center">
@@ -21,9 +22,9 @@ export const Audited = () => {
                 Read Audit
               </ExternalLink>
             </FlexRow>
-            <FlexRow>
-              <Typography type="medium3">Platform TVL</Typography>
-              <DisplayMoney />
+            <FlexRow className="gap-2">
+              <Typography type="medium3">Platform TVL:</Typography>
+              <DisplayMoney typography="medium3" {...data?.totalMarketSizeUsd} {...rest} />
             </FlexRow>
           </FlexRow>
         </div>
