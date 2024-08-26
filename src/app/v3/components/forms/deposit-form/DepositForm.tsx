@@ -21,13 +21,13 @@ import { StrategyState } from "../../../../state/common/types/StateTypes";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
-import { useFetchStrategyByAddress } from "../../../../statev3/common/hooks/useFetchStrategyByAddress";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
-  const { data: strategyState } = useFetchStrategyByAddress(strategy);
+  const { data: strategyState } = useFetchTokenData(strategy);
 
   if (!strategyState) {
     // eslint-disable-next-line no-console
