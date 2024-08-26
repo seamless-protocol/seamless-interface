@@ -1,17 +1,10 @@
-import { FetchBigIntStrict } from "@shared";
-import { cValueInUsd } from "../../math/cValueInUsd";
-
 export interface RewardsByStrategyInfo {
-  rewardsAmount: bigint;
-  rewardsDecimals: number;
-  tokenPrice: FetchBigIntStrict;
+  dollarAmount: bigint;
 }
 
 export function cTotalRewards(info: RewardsByStrategyInfo[]): bigint {
   const result = info.reduce((total: bigint, item) => {
-    const valueInUsd = cValueInUsd(item.rewardsAmount, item.tokenPrice.bigIntValue, item.rewardsDecimals);
-
-    return total + valueInUsd;
+    return total + item.dollarAmount;
   }, 0n);
 
   return result;
