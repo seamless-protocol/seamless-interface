@@ -1,5 +1,6 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../../../../../shared";
 import { useFetchFormattedUserProfit } from "../../../../../../statev3/hooks/user-profit/UserProfit.hook";
+import { getApyColor } from "../../../../../utils/uiUtils";
 import { Profit } from "./Profit";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
 
@@ -16,7 +17,7 @@ export const PortfolioSummary = () => {
               <DisplayMoney {...data.portfolioValue} {...rest} typography="bold7" />
             </FlexCol>
             <FlexCol className="gap-3">
-              <Typography type="medium4" className="text-success-900">
+              <Typography type="medium4" className={getApyColor(data.unrealizedProfit)}>
                 Total unrealized gain/loss
               </Typography>
               <Profit />

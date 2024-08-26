@@ -113,7 +113,9 @@ export default {
           1000: "#1F662C",
           900: "#2A863B",
           600: "#6EBD70",
-          100: "#E4F7E6",
+        },
+        red: {
+          100: "#FFC6C6",
         },
         gradient: {
           start: "#D53BD9",
