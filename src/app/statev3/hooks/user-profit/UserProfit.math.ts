@@ -14,6 +14,7 @@ export interface cUserProfitInput {
 }
 
 export interface cUserProfitOutput {
+  currPortfolioValue: FetchBigIntStrict;
   realizedProfit: FetchBigIntStrict;
   unrealizedProfit: FetchBigIntStrict;
   unrealizedProfitPercentage: FetchBigIntStrict;
@@ -39,6 +40,7 @@ export function cUserProfit({ profits }: cUserProfitInput): cUserProfitOutput {
   });
 
   return {
+    currPortfolioValue: formatUsdValue(totalBalanceUsd),
     realizedProfit: formatUsdValue(realizedProfit),
     unrealizedProfit: formatUsdValue(unrealizedProfit),
     unrealizedProfitPercentage: formatFetchBigInt(unrealizedProfitPercentage, PERCENTAGE_VALUE_DECIMALS, "%"),

@@ -5,6 +5,7 @@ import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../..
 import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
 
 interface FormattedUserProfit {
+  portfolioValue: ViewBigInt;
   realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
   unrealizedProfitPercentage: ViewBigInt;
@@ -26,6 +27,7 @@ export const useFetchFormattedUserProfit = (): Displayable<FormattedUserProfit> 
   return {
     ...rest,
     data: {
+      portfolioValue: formatFetchBigIntToViewBigInt(data?.currPortfolioValue),
       realizedProfit: formatFetchBigIntToViewBigInt(data?.realizedProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
       unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),

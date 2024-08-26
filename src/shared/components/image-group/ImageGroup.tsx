@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ImageGroupProps {
-  images: string[];
+  images: (string | undefined)[];
   imageStyle: string;
   spacing?: string;
 }
