@@ -1,12 +1,12 @@
 import { TableRow, TableCell, Typography } from "@shared";
-import { stateMock } from "../../../mocks";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
+import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 
 export const IlmTableContainer = () => {
-  const state = stateMock;
+  const { data: strategies } = useFetchAllStrategies();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
@@ -31,7 +31,7 @@ export const IlmTableContainer = () => {
         </TableCell>
       </TableRow>
 
-      {state.data?.map((strategy, index) => (
+      {strategies?.map((strategy, index) => (
         <div key={index}>
           <Link to={RouterConfig.Builder.ilmDetailsv3(strategy.address)}>
             <ILMDesktopTableRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
