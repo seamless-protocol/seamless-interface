@@ -101,6 +101,7 @@ export default {
           light: "#A5A8B6",
           dark: "#62677B",
           notSelected: "#6D7C95",
+          blue: "#4F68F7",
         },
         navy: {
           1000: "#0B254F",
