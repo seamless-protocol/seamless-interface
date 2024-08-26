@@ -6,7 +6,7 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { ConnectButtonProvider, FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
+import { FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
@@ -22,9 +22,7 @@ export function App() {
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
-          <ConnectButtonProvider>
-            <NavigationBar />
-          </ConnectButtonProvider>
+          <NavigationBar />
 
           <FlexCol className="min-h-screen">
             <NotificationProvider>
