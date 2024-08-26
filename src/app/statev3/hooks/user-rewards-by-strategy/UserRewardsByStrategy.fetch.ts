@@ -14,11 +14,13 @@ export interface FetchRewardsByStrategy {
 
 export interface FetchRewardsByStrategyInfo {
   rewardsAddress: Address;
-  rewardsAmount: bigint;
-  rewardsDecimals: number;
-  rewardsSymbol?: string;
   tokenPrice: FetchBigIntStrict;
   dollarAmount: bigint;
+  tokenAmount: {
+    bigIntValue: bigint;
+    decimals: number;
+    symbol?: string;
+  };
 }
 
 export async function fetchAllUserRewardsByStrategy({
@@ -46,9 +48,11 @@ export async function fetchAllUserRewardsByStrategy({
 
       return {
         rewardsAddress: address,
-        rewardsAmount: rewardsAmounts[index],
-        rewardsDecimals: decimals,
-        rewardsSymbol: symbol,
+        tokenAmount: {
+          bigIntValue: rewardsAmounts[index],
+          decimals,
+          symbol,
+        },
         dollarAmount: cValueInUsd(rewardsAmounts[index], tokenPrice.bigIntValue, decimals),
         tokenPrice,
       };

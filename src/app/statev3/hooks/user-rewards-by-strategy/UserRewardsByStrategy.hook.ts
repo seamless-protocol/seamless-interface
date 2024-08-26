@@ -38,11 +38,8 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
       data?.info.map((info) => ({
         address: info.rewardsAddress,
         logo: assetLogos.get(info.rewardsAddress) || "",
-        symbol: info.rewardsSymbol,
         tokenAmount: formatFetchBigIntToViewBigInt({
-          bigIntValue: info.rewardsAmount,
-          decimals: info.rewardsDecimals,
-          symbol: info.rewardsSymbol,
+          ...info.tokenAmount,
         }),
         dollarAmount: formatUsdValue(info.dollarAmount),
       })) || [],
