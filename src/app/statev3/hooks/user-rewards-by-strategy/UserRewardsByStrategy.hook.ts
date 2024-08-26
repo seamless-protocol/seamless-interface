@@ -23,7 +23,7 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
   const { address: user } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchAllUserRewardsByStrategy", user, strategy],
+    queryKey: ["hookAllUserRewardsByStrategy", user, strategy],
     queryFn: () =>
       fetchAllUserRewardsByStrategy({
         user: user!,
