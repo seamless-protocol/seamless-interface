@@ -133,6 +133,7 @@ export default {
           light: "#62677B",
           dark: "#292E41",
           contrast: "#FFFFFF",
+          100: "rgba(11, 37, 79, 0.10)",
           600: "rgba(11, 37, 79, 0.60)",
         },
         secondary: {

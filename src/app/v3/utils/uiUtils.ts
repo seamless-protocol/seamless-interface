@@ -3,8 +3,23 @@ import polygonNegativeSvg from "@assets/common/polygon-negative.svg";
 import { ViewBigInt, ViewNumber } from "@shared";
 
 export const getApyColor = (apy: ViewNumber | ViewBigInt): string | undefined => {
-  if (!apy.value) return undefined;
-  return Number(apy.value) >= 0 ? "text-success-900" : "text-error-1000";
+  if (apy.value === undefined) return undefined;
+
+  const value = Number(apy.value);
+
+  if (value === 0) {
+    return "text-primary-600";
+  }
+
+  if (value > 0) {
+    return "text-success-900";
+  }
+
+  if (value < 0) {
+    return "text-error-1000";
+  }
+
+  return undefined;
 };
 
 export const getApyIndicatorSvg = (apy: ViewNumber | ViewBigInt): string | undefined => {
@@ -13,6 +28,19 @@ export const getApyIndicatorSvg = (apy: ViewNumber | ViewBigInt): string | undef
 };
 
 export const getRealizedGainBackGroundColor = (realizedGainPercentage: ViewBigInt): string | undefined => {
-  if (!realizedGainPercentage.bigIntValue) return undefined;
-  return realizedGainPercentage.bigIntValue >= 0n ? "bg-green-100" : "bg-red-100";
+  if (realizedGainPercentage.bigIntValue === undefined) return undefined;
+
+  if (realizedGainPercentage.bigIntValue === 0n) {
+    return "bg-primary-100";
+  }
+
+  if (realizedGainPercentage.bigIntValue > 0n) {
+    return "bg-green-100";
+  }
+
+  if (realizedGainPercentage.bigIntValue < 0n) {
+    return "bg-red-100";
+  }
+
+  return undefined;
 };
