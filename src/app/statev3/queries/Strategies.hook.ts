@@ -21,7 +21,7 @@ export async function fetchStrategies(): Promise<Address[]> {
 
 export function useFetchAllStrategies() {
   return useQuery({
-    queryKey: ["fetchAllStrategies"],
+    queryKey: ["hookAllStrategies"],
     queryFn: fetchStrategies,
     ...disableCacheQueryConfig,
   });

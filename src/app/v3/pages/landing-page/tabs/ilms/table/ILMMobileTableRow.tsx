@@ -9,8 +9,8 @@ import {
 } from "../../../../../../statev3/settings/config";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
-import { getApyColor, getApyIndicatorSvg } from "./ILMDesktopTableRow";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
+import { getApyColor, getApyIndicatorSvg } from "../../../../../utils/uiUtils";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;

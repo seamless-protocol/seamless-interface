@@ -14,14 +14,12 @@ export const IncentivesButton: React.FC<{ strategy: Address }> = ({ strategy }) 
   }
 
   return (
-    <FlexRow className="items-center gap-1 border border-solid px-2 py-1.5 rounded-xl border-metallicBorder bg-smallElements-rewardAPY">
-      <FlexRow className="object-cover ">
-        <ImageGroup
-          imageStyle="w-4"
-          spacing="-space-x-3"
-          images={data.rewardTokens.map((rewardToken) => rewardToken.logo)}
-        />
-      </FlexRow>
+    <FlexRow className="items-center gap-1 border border-solid px-2 py-1.5 rounded-xl border-metallicBorder bg-smallElements-rewardAPY max-w-max">
+      <ImageGroup
+        imageStyle="w-4"
+        spacing="-space-x-3"
+        images={data.rewardTokens.map((rewardToken) => rewardToken.logo)}
+      />
       <DisplayPercentage {...data.totalApr} typography="medium1" isError={isError} />
     </FlexRow>
   );

@@ -51,7 +51,7 @@ export async function fetchEquityInBlock({
 
 export const useFetchFormattedEquity = (strategy: Address): Displayable<ViewBigIntWithUsdValue> => {
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchFormattedEquity", strategy],
+    queryKey: ["hookFormattedEquity", strategy],
     queryFn: () => fetchEquityInBlock({ strategy }),
     enabled: !!strategy,
     ...disableCacheQueryConfig,

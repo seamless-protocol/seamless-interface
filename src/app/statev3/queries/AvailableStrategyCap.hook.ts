@@ -48,7 +48,7 @@ export const useFetchFormattedAvailableStrategyCap = (
   strategy: Address | undefined
 ): Displayable<ViewBigIntWithUsdValue> => {
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchFormattedStrategyCap", strategy],
+    queryKey: ["hookFormattedStrategyCap", strategy],
     queryFn: () => fetchAvailableStrategyCap(strategy!),
     enabled: !!strategy,
     ...disableCacheQueryConfig,
