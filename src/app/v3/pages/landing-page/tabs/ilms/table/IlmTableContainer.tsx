@@ -29,12 +29,14 @@ export const IlmTableContainer = () => {
         </TableCell>
       </TableRow>
 
-      {strategies?.map((strategy, index) => (
-        <div key={index}>
-          <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-          <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-        </div>
-      ))}
+      <div className="min-h-96">
+        {strategies?.map((strategy, index) => (
+          <div key={index}>
+            <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
+            <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

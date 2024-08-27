@@ -7,7 +7,7 @@ import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/h
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { IncentivesButton } from "./IncentivesButton";
-import { getApyColor, getApyIndicatorSvg } from "../../../../../utils/uiUtils";
+import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 
 export const ILMDesktopTableRow: React.FC<{
@@ -56,8 +56,8 @@ export const ILMDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <FlexRow className="items-center gap-1">
-            <Icon src={getApyIndicatorSvg(apy)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-            <DisplayNumber typography="bold3" className={`${getApyColor(apy)}`} {...apy} {...apyRest} />
+            <Icon src={getSvgBasedOnSign(apy)} alt="polygon" width={12} height={12} hidden={!apy.value} />
+            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy)}`} {...apy} {...apyRest} />
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">

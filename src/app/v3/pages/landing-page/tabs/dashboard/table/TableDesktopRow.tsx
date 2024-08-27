@@ -1,24 +1,40 @@
 import { Address } from "viem";
-import { TableRow, TableCell, Icon, FlexCol, Typography, FlexRow, ImageGroup } from "@shared";
+import {
+  TableRow,
+  TableCell,
+  Icon,
+  FlexCol,
+  Typography,
+  FlexRow,
+  ImageGroup,
+  DisplayMoney,
+  DisplayTokenAmount,
+  DisplayPercentage,
+} from "@shared";
 
 import { TableButtons } from "./TableButtons";
-import { RandomNumber } from "../../../../../components/other/RandomNumber";
-import { stateMock } from "../../../mocks";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
-import polygonSvg from "@assets/common/polygon.svg";
-import { assetLogos } from "@meta";
+import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+
+import { useAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
+import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 
 export const TableDesktopRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  // todo use useFullTokenData instead of mock
-  const strategyMock = stateMock.data.find((s) => s.address === strategy);
-  const name = strategyMock?.name;
-  const description = strategyMock?.description;
-  const icon = ilmIcon;
+  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+
+  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
+  const { data: balanceUsdPair, ...otherBalanceUsdPair } = useAssetBalanceWithUsdValue({
+    asset: strategy,
+  });
+  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ strategy });
+  console.log({ strategyProfit });
+  console.log({ strategyProfitRest });
 
   return (
     <TableRow
@@ -27,12 +43,12 @@ export const TableDesktopRow: React.FC<{
       }`}
     >
       <TableCell alignItems="items-start col-span-6 pr-6">
-        <FlexRow className="gap-4 items-start">
-          <Icon width={64} src={icon} alt="logo" />
+        <FlexRow className="gap-4 items-center">
+          <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
           <FlexCol className="gap-2 text-start">
             <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{name}</Typography>
-              <Typography type="regular1">{description}</Typography>
+              <Typography type="bold3">{strategyData?.name}</Typography>
+              <Typography type="regular1">{strategyData?.description}</Typography>
             </FlexCol>
           </FlexCol>
         </FlexRow>
@@ -40,34 +56,45 @@ export const TableDesktopRow: React.FC<{
 
       <TableCell className="col-span-2">
         <div>
-          <Tag tag="Staking" />
+          <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
         </div>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <RandomNumber />
-          <RandomNumber typography="medium1" symbol="$" className="text-primary-600" />
+          <DisplayTokenAmount viewValue={balanceUsdPair?.tokenAmount.viewValue} {...otherBalanceUsdPair} />
+          <DisplayMoney
+            typography="medium1"
+            viewValue={balanceUsdPair?.dollarAmount.viewValue}
+            {...otherBalanceUsdPair}
+            className="text-primary-600"
+          />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
           <FlexRow className="items-center gap-1">
-            <Icon src={polygonSvg} alt="polygon" width={12} height={12} />
-            <RandomNumber typography="bold3" className="text-success-900" symbol="%" symbolPosition="after" />
+            <Icon
+              src={getSvgBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}
+              alt="polygon"
+              width={12}
+              height={12}
+              hidden={!Number(strategyProfit?.unrealizedProfitPercentage.value)}
+            />
+            <DisplayPercentage
+              typography="bold3"
+              viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
+              className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}`}
+              {...strategyProfitRest}
+            />
           </FlexRow>
-          <RandomNumber typography="medium1" symbol="$" className="text-primary-600" />
+          <DisplayMoney viewValue={strategyProfit?.unrealizedProfit.viewValue} {...strategyProfitRest} />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <RandomNumber symbol="$" />
-          <ImageGroup
-            imageStyle="w-4"
-            spacing="-space-x-3"
-            images={[assetLogos.get("SEAM") || "", assetLogos.get("USDC") || ""]}
-          />
+          <DisplayMoney viewValue={allUserRewards.totalRewardsUsd.viewValue} {...allUserRewardsRest} />
+          <ImageGroup imageStyle="w-4" spacing="-space-x-3" images={allUserRewards.info.map((reward) => reward.logo)} />
         </FlexCol>
-        {/* assetLogos */}
       </TableCell>
       <TableCell className="col-span-5 flex justify-evenly items-center">
         <TableButtons strategy={strategy} isStrategy />

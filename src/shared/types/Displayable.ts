@@ -18,6 +18,7 @@ export interface ViewBigInt extends ViewValueSymbolPair {
   bigIntValue?: bigint | undefined;
 }
 
+// todo: should this extend ViewValueSymbolPair ?
 export interface ViewBigIntWithUsdValue extends ViewValueSymbolPair {
   tokenAmount: ViewBigInt;
   dollarAmount: ViewBigInt;

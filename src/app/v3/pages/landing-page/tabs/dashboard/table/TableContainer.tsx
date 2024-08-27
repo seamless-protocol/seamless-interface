@@ -1,10 +1,10 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { TableDesktopRow } from "./TableDesktopRow";
-import { stateMock } from "../../../mocks";
 import { TableMobileRow } from "./TableMobileRow";
+import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 
 export const TableContainer = () => {
-  const state = stateMock;
+  const { data: strategies } = useFetchAllStrategies();
 
   return (
     <div>
@@ -28,12 +28,14 @@ export const TableContainer = () => {
           <TableCell className="col-span-5" />
         </TableRow>
 
-        {state.data?.map((strategy, index) => (
-          <div key={strategy.address}>
-            <TableDesktopRow strategy={strategy.address} hideBorder={index === state.data.length - 1} />
-            <TableMobileRow strategy={strategy.address} />
-          </div>
-        ))}
+        <div className="min-h-96">
+          {strategies?.map((strategy, index) => (
+            <div key={strategy}>
+              <TableDesktopRow strategy={strategy} hideBorder={index === strategies.length - 1} />
+              <TableMobileRow strategy={strategy} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
