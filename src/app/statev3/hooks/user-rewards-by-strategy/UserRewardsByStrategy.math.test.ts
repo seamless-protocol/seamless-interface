@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { cTotalRewards, RewardsByStrategyInfo } from "./UserRewardsByStrategy.math";
 import { parseUnits } from "viem";
-import { USD_VALUE_DECIMALS } from "../../../../meta";
+import { USD_VALUE_DECIMALS } from "@meta";
 
 describe("calculateTotalRewards", () => {
   it("returns zero if no rewards info is provided", () => {
@@ -12,10 +12,18 @@ describe("calculateTotalRewards", () => {
   it("calculates correct total rewards with varying token decimals", () => {
     const rewardsInfo: RewardsByStrategyInfo[] = [
       {
-        dollarAmount: parseUnits("10", USD_VALUE_DECIMALS),
+        dollarAmount: {
+          bigIntValue: parseUnits("5", USD_VALUE_DECIMALS),
+          symbol: "",
+          decimals: USD_VALUE_DECIMALS,
+        },
       },
       {
-        dollarAmount: parseUnits("5", USD_VALUE_DECIMALS),
+        dollarAmount: {
+          bigIntValue: parseUnits("10", USD_VALUE_DECIMALS),
+          symbol: "",
+          decimals: USD_VALUE_DECIMALS,
+        },
       },
     ];
 
