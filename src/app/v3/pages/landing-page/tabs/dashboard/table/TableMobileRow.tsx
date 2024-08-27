@@ -51,7 +51,9 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
               <ImageGroup
                 imageStyle="w-4"
                 spacing="-space-x-3"
-                images={allUserRewards.info.map((reward) => reward.logo)}
+                images={allUserRewards.info
+                  .filter((reward) => (reward.tokenAmount.bigIntValue || 0n) > 0n)
+                  .map((reward) => reward.logo)}
               />
             </FlexCol>
           </FlexCol>

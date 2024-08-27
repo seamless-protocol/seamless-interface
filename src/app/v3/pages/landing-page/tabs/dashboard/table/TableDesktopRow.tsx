@@ -29,7 +29,7 @@ export const TableDesktopRow: React.FC<{
   const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
 
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
-  const { data: balanceUsdPair, ...otherBalanceUsdPair } = useFetchFormattedAssetBalanceWithUsdValue({
+  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
   });
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ strategy });
@@ -59,11 +59,15 @@ export const TableDesktopRow: React.FC<{
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <DisplayTokenAmount viewValue={balanceUsdPair?.tokenAmount.viewValue} {...otherBalanceUsdPair} />
+          <DisplayTokenAmount
+            typography="bold3"
+            viewValue={balanceUsdPair?.tokenAmount.viewValue}
+            {...balanceUsdPairRest}
+          />
           <DisplayMoney
             typography="medium1"
             viewValue={balanceUsdPair?.dollarAmount.viewValue}
-            {...otherBalanceUsdPair}
+            {...balanceUsdPairRest}
             className="text-primary-600"
           />
         </FlexCol>
