@@ -1,14 +1,5 @@
 import { Address } from "viem";
-import {
-  DisplayMoney,
-  DisplayPercentage,
-  DisplayTokenAmount,
-  FlexCol,
-  FlexRow,
-  Icon,
-  ImageGroup,
-  Typography,
-} from "@shared";
+import { DisplayMoney, DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography } from "@shared";
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
@@ -17,6 +8,7 @@ import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/h
 import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { getSvgBasedOnSign, getColorBasedOnSign } from "../../../../../utils/uiUtils";
+import { UserInfoImageGroup } from "./UserInfoImageGroup";
 
 export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
@@ -48,13 +40,8 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
             <Typography type="regular1">Unclaimed Rewards</Typography>
             <FlexCol>
               <DisplayMoney viewValue={allUserRewards.totalRewardsUsd.viewValue} {...allUserRewardsRest} />
-              <ImageGroup
-                imageStyle="w-4"
-                spacing="-space-x-3"
-                images={allUserRewards.info
-                  .filter((reward) => (reward.tokenAmount.bigIntValue || 0n) > 0n)
-                  .map((reward) => reward.logo)}
-              />
+
+              <UserInfoImageGroup info={allUserRewards.info} />
             </FlexCol>
           </FlexCol>
           <FlexCol className="items-end">

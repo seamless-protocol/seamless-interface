@@ -4,7 +4,6 @@ import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 
 export const TableContainer = () => {
-  // const { data: strategies } = useFetchAllStrategies();
   const { data: strategies } = useFetchUserDepositStrategies();
 
   return (

@@ -6,7 +6,6 @@ import {
   FlexCol,
   Typography,
   FlexRow,
-  ImageGroup,
   DisplayMoney,
   DisplayTokenAmount,
   DisplayPercentage,
@@ -21,6 +20,7 @@ import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../sta
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
+import { UserInfoImageGroup } from "./UserInfoImageGroup";
 
 export const TableDesktopRow: React.FC<{
   strategy: Address;
@@ -69,6 +69,7 @@ export const TableDesktopRow: React.FC<{
             viewValue={balanceUsdPair?.dollarAmount.viewValue}
             {...balanceUsdPairRest}
             className="text-primary-600"
+            isApproximate
           />
         </FlexCol>
       </TableCell>
@@ -94,6 +95,7 @@ export const TableDesktopRow: React.FC<{
             className="text-primary-600"
             viewValue={strategyProfit?.unrealizedProfit.viewValue}
             {...strategyProfitRest}
+            isApproximate
           />
         </FlexCol>
       </TableCell>
@@ -104,13 +106,7 @@ export const TableDesktopRow: React.FC<{
             viewValue={allUserRewards.totalRewardsUsd.viewValue}
             {...allUserRewardsRest}
           />
-          <ImageGroup
-            imageStyle="w-4"
-            spacing="-space-x-3"
-            images={allUserRewards.info
-              .filter((reward) => (reward.tokenAmount.bigIntValue || 0n) > 0n)
-              .map((reward) => reward.logo)}
-          />
+          <UserInfoImageGroup info={allUserRewards.info} />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-5 flex justify-evenly items-center">

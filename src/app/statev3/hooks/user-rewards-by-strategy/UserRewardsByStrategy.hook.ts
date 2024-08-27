@@ -11,7 +11,7 @@ export interface RewardsByStrategy {
   totalRewardsUsd: ViewBigInt;
 }
 
-interface RewardsInfo {
+export interface RewardsInfo {
   address: Address;
   logo: string;
   symbol?: string;
