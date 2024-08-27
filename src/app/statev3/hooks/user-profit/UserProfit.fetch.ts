@@ -1,10 +1,10 @@
 import { Address } from "viem";
-import { getAllSubStrategies } from "../../../state/settings/configUtils";
 import { fetchUserStrategyProfit } from "../user-strategy-profit/UserStrategyProfit.fetch";
 import { cUserProfit, cUserProfitOutput } from "./UserProfit.math";
+import { fetchStrategies } from "../../queries/Strategies.hook";
 
 export async function fetchUserProfit({ account }: { account: Address }): Promise<cUserProfitOutput> {
-  const strategies = getAllSubStrategies();
+  const strategies = await fetchStrategies();
 
   const results = await Promise.all(strategies.map((strategy) => fetchUserStrategyProfit({ user: account, strategy })));
 

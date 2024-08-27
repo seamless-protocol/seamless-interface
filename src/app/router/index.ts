@@ -37,10 +37,12 @@ export const RouterConfig = {
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-details/:id`,
+    ilmDetailsv3: `${baseUrl}/ilm-detailsv3/:address`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
     ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
+    ilmDetailsv3: (address: Address) => `${baseUrl}/ilm-detailsv3/${address}`,
     assetDetails: (address: Address) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${address.toLowerCase()}&marketName=proto_base_v3`,
     baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,

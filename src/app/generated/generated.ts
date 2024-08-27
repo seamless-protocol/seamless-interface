@@ -162,6 +162,79 @@ export const aaveOracleConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ILMRegistry
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ilmRegistryAbi = [
+  {
+    type: 'function',
+    inputs: [{ name: 'ilmAddress', internalType: 'address', type: 'address' }],
+    name: 'addILM',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'countILM',
+    outputs: [{ name: 'ilmCount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAllILMs',
+    outputs: [{ name: 'ilms', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
+    name: 'getILM',
+    outputs: [{ name: 'ilm', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'ilmAddress', internalType: 'address', type: 'address' }],
+    name: 'isILM',
+    outputs: [{ name: 'isContained', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'ilmAddress', internalType: 'address', type: 'address' }],
+    name: 'removeILM',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'ilm', internalType: 'address', type: 'address', indexed: false },
+    ],
+    name: 'ILMAdded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'ilm', internalType: 'address', type: 'address', indexed: false },
+    ],
+    name: 'ILMRemoved',
+  },
+] as const
+
+export const ilmRegistryAddress =
+  '0x36291d2D51a0122B9faCbE3c3F989cc6b1f859B3' as const
+
+export const ilmRegistryConfig = {
+  address: ilmRegistryAddress,
+  abi: ilmRegistryAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IncentiveDataProvider
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -4829,6 +4902,136 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'FallbackOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilmRegistryAbi}__
+ */
+export const useReadIlmRegistry = /*#__PURE__*/ createUseReadContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"countILM"`
+ */
+export const useReadIlmRegistryCountIlm = /*#__PURE__*/ createUseReadContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+  functionName: 'countILM',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"getAllILMs"`
+ */
+export const useReadIlmRegistryGetAllIlMs = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    functionName: 'getAllILMs',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"getILM"`
+ */
+export const useReadIlmRegistryGetIlm = /*#__PURE__*/ createUseReadContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+  functionName: 'getILM',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"isILM"`
+ */
+export const useReadIlmRegistryIsIlm = /*#__PURE__*/ createUseReadContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+  functionName: 'isILM',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilmRegistryAbi}__
+ */
+export const useWriteIlmRegistry = /*#__PURE__*/ createUseWriteContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"addILM"`
+ */
+export const useWriteIlmRegistryAddIlm = /*#__PURE__*/ createUseWriteContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+  functionName: 'addILM',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"removeILM"`
+ */
+export const useWriteIlmRegistryRemoveIlm =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    functionName: 'removeILM',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilmRegistryAbi}__
+ */
+export const useSimulateIlmRegistry = /*#__PURE__*/ createUseSimulateContract({
+  abi: ilmRegistryAbi,
+  address: ilmRegistryAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"addILM"`
+ */
+export const useSimulateIlmRegistryAddIlm =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    functionName: 'addILM',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilmRegistryAbi}__ and `functionName` set to `"removeILM"`
+ */
+export const useSimulateIlmRegistryRemoveIlm =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    functionName: 'removeILM',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilmRegistryAbi}__
+ */
+export const useWatchIlmRegistryEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilmRegistryAbi}__ and `eventName` set to `"ILMAdded"`
+ */
+export const useWatchIlmRegistryIlmAddedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    eventName: 'ILMAdded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilmRegistryAbi}__ and `eventName` set to `"ILMRemoved"`
+ */
+export const useWatchIlmRegistryIlmRemovedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilmRegistryAbi,
+    address: ilmRegistryAddress,
+    eventName: 'ILMRemoved',
   })
 
 /**

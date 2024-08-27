@@ -95,6 +95,7 @@ export * from "./components/form/rhf/RHFInputSliderField";
 // ***** //
 export * from "./components/images/Icon";
 export * from "./components/images/Image";
+export * from "./components/image-group/ImageGroup";
 
 // **** //
 // lifi //
@@ -158,6 +159,7 @@ export * from "./components/table/TableRow";
 // Wallet //
 // ****** //
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
+export * from "./components/wallet/connect-wallet-rainbow-wrapperv3/ConnectWalletRainbowWrapperv3";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
 export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
 export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2";

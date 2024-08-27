@@ -29,6 +29,13 @@ export default {
         xxl: "1440px",
         xxxl: "1800px",
       },
+      maxWidth: {
+        "page-content": "1020px",
+      },
+      gridTemplateColumns: {
+        22: "repeat(22, minmax(0, 1fr))",
+      },
+
       borderWidth: {
         thin: "1.3px",
       },
@@ -37,7 +44,10 @@ export default {
         button: "0px 4px 16px 0px rgba(162, 162, 162, 0.08)",
       },
       borderRadius: {
+        button: "8px",
         card: "16px",
+        xl: "24px",
+        tag: "100px",
       },
       rotate: {
         "180": "180deg",
@@ -51,7 +61,7 @@ export default {
           lend: "#FCF8CF",
           ilm: "#CFFCF5",
           rewardAPY: "#E4F7E6",
-          gray: "#0B254F",
+          gray: "#0B254F1A",
           red: "#FD6F41",
           blue: "#4F68F7",
         },
@@ -91,6 +101,7 @@ export default {
           light: "#A5A8B6",
           dark: "#62677B",
           notSelected: "#6D7C95",
+          blue: "#4F68F7",
         },
         navy: {
           1000: "#0B254F",
@@ -110,6 +121,7 @@ export default {
           end: "#5CBDE6",
         },
         metallicBorder: "#0C2752",
+        purpleBorder: "#D53BD9",
 
         // v1
 
@@ -131,6 +143,7 @@ export default {
           dark: "#BC0000",
           100: "#4F1919",
           200: "#F9EBEB",
+          1000: "#A9252B",
         },
         warning: {
           main: "#F89F1A",
@@ -150,8 +163,9 @@ export default {
           main: "#4CAF50",
           light: "#90FF95",
           dark: "#388E3C",
-          100: "#1C4B1E",
+          100: "#E4F7E6",
           200: "#ECF8ED",
+          900: "#2A863B",
         },
 
         gradients: {
