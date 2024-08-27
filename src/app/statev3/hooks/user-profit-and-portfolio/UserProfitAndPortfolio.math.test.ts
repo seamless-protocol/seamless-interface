@@ -1,10 +1,10 @@
 import { expect, test } from "vitest";
 import { formatUnits, parseUnits } from "viem";
-import { cUserProfit, cUserProfitInput } from "./UserProfit.math";
+import { cUserProfitAndPortfolio, cUserProfitAndPortfolioInput } from "./UserProfitAndPortfolio.math";
 import { PERCENTAGE_VALUE_DECIMALS, USD_VALUE_DECIMALS } from "../../../../meta";
 
-function cUserProfitWrapper(profits: cUserProfitInput) {
-  const result = cUserProfit(profits);
+function cUserProfitAndPortfolioWrapper(profits: cUserProfitAndPortfolioInput) {
+  const result = cUserProfitAndPortfolio(profits);
 
   return {
     realizedProfit: Number(formatUnits(result.realizedProfit.bigIntValue, USD_VALUE_DECIMALS)),
@@ -44,7 +44,7 @@ test("User profit - User has multiple positions", async () => {
     fStrategyProfitData("3000", "2800", "-400"),
   ];
 
-  const result = cUserProfitWrapper({ profits });
+  const result = cUserProfitAndPortfolioWrapper({ profits });
 
   expect(result.realizedProfit).toBe(4300);
   expect(result.unrealizedProfit).toBe(800);
@@ -54,7 +54,7 @@ test("User profit - User has multiple positions", async () => {
 test("User profit - User has no positions", async () => {
   const profits = [fStrategyProfitData("0", "500", "0"), fStrategyProfitData("0", "1000", "0")];
 
-  const result = cUserProfitWrapper({ profits });
+  const result = cUserProfitAndPortfolioWrapper({ profits });
 
   expect(result.realizedProfit).toBe(1500);
   expect(result.unrealizedProfit).toBe(0);
@@ -64,5 +64,5 @@ test("User profit - User has no positions", async () => {
 test("User profit - Unrealized profit bigger then user's balance", async () => {
   const profits = [fStrategyProfitData("0", "500", "1")];
 
-  expect(() => cUserProfitWrapper({ profits })).toThrow();
+  expect(() => cUserProfitAndPortfolioWrapper({ profits })).toThrow();
 });
