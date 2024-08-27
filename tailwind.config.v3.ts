@@ -134,6 +134,8 @@ export default {
           dark: "#292E41",
           contrast: "#FFFFFF",
           100: "rgba(11, 37, 79, 0.10)",
+          // TODO: Move this to color of disabled button
+          300: "#a2afc3",
           600: "rgba(11, 37, 79, 0.60)",
         },
         secondary: {
