@@ -56,8 +56,8 @@ export const ILMDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <FlexRow className="items-center gap-1">
-            <Icon src={getSvgBasedOnSign(apy)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy)}`} {...apy} {...apyRest} />
+            <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
+            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
