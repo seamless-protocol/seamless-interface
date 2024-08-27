@@ -1,9 +1,11 @@
 import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
-import { ClaimButton } from "./ClaimButton";
 import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
+import { ClaimModal } from "./claim-button/ClaimModal";
 
 export const UnclaimedRewardsBox = () => {
   const { data, ...rest } = useFetchViewAllUserRewards();
+
+  const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
 
   return (
     <div>
@@ -14,9 +16,15 @@ export const UnclaimedRewardsBox = () => {
             <DisplayMoney {...data.totalRewards} {...rest} typography="bold6" />
           </FlexCol>
 
-          <ClaimButton />
+          <ClaimModal disabled={disabled} {...data} />
         </FlexRow>
-        <ImageGroup imageStyle="w-6" spacing="-space-x-3" images={data.rewards?.map((reward) => reward.logo) || []} />
+        {disabled ? (
+          <Typography className="text-primary-600" type="medium1">
+            Deposit into ILM strategies to receive rewards
+          </Typography>
+        ) : (
+          <ImageGroup imageStyle="w-6" spacing="-space-x-3" images={data.rewards?.map((reward) => reward.logo) || []} />
+        )}
       </FlexCol>
     </div>
   );
