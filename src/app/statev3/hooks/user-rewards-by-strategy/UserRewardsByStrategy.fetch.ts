@@ -4,7 +4,7 @@ import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
 import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
-import { FetchBigInt, FetchBigIntStrict, formatUsdValue } from "@shared";
+import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../math/cValueInUsd";
 
 export interface FetchRewardsByStrategy {
@@ -16,11 +16,7 @@ export interface FetchRewardsByStrategyInfo {
   rewardsAddress: Address;
   tokenPrice: FetchBigIntStrict;
   dollarAmount: bigint;
-  tokenAmount: {
-    bigIntValue: bigint;
-    decimals: number;
-    symbol?: string;
-  };
+  tokenAmount: FetchBigIntStrict;
 }
 
 export async function fetchAllUserRewardsByStrategy({
@@ -48,11 +44,7 @@ export async function fetchAllUserRewardsByStrategy({
 
       return {
         rewardsAddress: address,
-        tokenAmount: {
-          bigIntValue: rewardsAmounts[index],
-          decimals,
-          symbol,
-        },
+        tokenAmount: formatFetchBigInt(rewardsAmounts[index], decimals, symbol),
         dollarAmount: cValueInUsd(rewardsAmounts[index], tokenPrice.bigIntValue, decimals),
         tokenPrice,
       };
