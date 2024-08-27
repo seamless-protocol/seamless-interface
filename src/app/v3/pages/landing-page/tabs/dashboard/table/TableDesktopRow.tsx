@@ -89,13 +89,28 @@ export const TableDesktopRow: React.FC<{
               {...strategyProfitRest}
             />
           </FlexRow>
-          <DisplayMoney viewValue={strategyProfit?.unrealizedProfit.viewValue} {...strategyProfitRest} />
+          <DisplayMoney
+            typography="medium1"
+            className="text-primary-600"
+            viewValue={strategyProfit?.unrealizedProfit.viewValue}
+            {...strategyProfitRest}
+          />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <DisplayMoney viewValue={allUserRewards.totalRewardsUsd.viewValue} {...allUserRewardsRest} />
-          <ImageGroup imageStyle="w-4" spacing="-space-x-3" images={allUserRewards.info.map((reward) => reward.logo)} />
+          <DisplayMoney
+            typography="bold3"
+            viewValue={allUserRewards.totalRewardsUsd.viewValue}
+            {...allUserRewardsRest}
+          />
+          <ImageGroup
+            imageStyle="w-4"
+            spacing="-space-x-3"
+            images={allUserRewards.info
+              .filter((reward) => (reward.tokenAmount.bigIntValue || 0n) > 0n)
+              .map((reward) => reward.logo)}
+          />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-5 flex justify-evenly items-center">
