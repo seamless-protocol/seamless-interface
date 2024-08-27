@@ -33,8 +33,6 @@ export const TableDesktopRow: React.FC<{
     asset: strategy,
   });
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ strategy });
-  console.log({ strategyProfit });
-  console.log({ strategyProfitRest });
 
   return (
     <TableRow
