@@ -64,11 +64,11 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards, d
           ref={modalRef}
           header="Claim rewards"
           size="small"
-          //TODO: Remove this when generic button component is ready
+          // TODO: Remove this when generic button component is ready
           buttonProps={{
             children: "Claim",
             className: `text-bold3 rounded-button text-neutral-0 py-3 px-4 ${disabled ? "bg-primary-300" : "bg-metalic"}`,
-            disabled: disabled,
+            disabled,
           }}
         >
           <FlexCol className="gap-8">
