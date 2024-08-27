@@ -20,7 +20,6 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
   useFetchAllAssets();
-
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <HashRouter>
