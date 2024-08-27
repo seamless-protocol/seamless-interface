@@ -15,7 +15,7 @@ export interface FetchRewardsByStrategy {
 export interface FetchRewardsByStrategyInfo {
   rewardsAddress: Address;
   tokenPrice: FetchBigIntStrict;
-  dollarAmount: bigint;
+  dollarAmount: FetchBigIntStrict;
   tokenAmount: FetchBigIntStrict;
 }
 
@@ -42,10 +42,12 @@ export async function fetchAllUserRewardsByStrategy({
         fetchAssetPriceInBlock(address),
       ]);
 
+      const dollarAmount = cValueInUsd(rewardsAmounts[index], tokenPrice.bigIntValue, decimals);
+
       return {
         rewardsAddress: address,
         tokenAmount: formatFetchBigInt(rewardsAmounts[index], decimals, symbol),
-        dollarAmount: cValueInUsd(rewardsAmounts[index], tokenPrice.bigIntValue, decimals),
+        dollarAmount: formatUsdValue(dollarAmount),
         tokenPrice,
       };
     })

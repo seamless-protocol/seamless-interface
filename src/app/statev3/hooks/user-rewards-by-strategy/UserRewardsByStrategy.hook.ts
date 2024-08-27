@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
-import { Displayable, formatFetchBigIntToViewBigInt, formatUsdValue, ViewBigInt } from "@shared";
+import { Displayable, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
 import { fetchAllUserRewardsByStrategy } from "./UserRewardsByStrategy.fetch";
 import { Address } from "viem";
@@ -39,7 +39,7 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
         address: info.rewardsAddress,
         logo: assetLogos.get(info.rewardsAddress) || "",
         tokenAmount: formatFetchBigIntToViewBigInt(info.tokenAmount),
-        dollarAmount: formatUsdValue(info.dollarAmount),
+        dollarAmount: formatFetchBigIntToViewBigInt(info.dollarAmount),
       })) || [],
     totalRewardsUsd: formatFetchBigIntToViewBigInt(data?.totalRewardsUsd),
   };
