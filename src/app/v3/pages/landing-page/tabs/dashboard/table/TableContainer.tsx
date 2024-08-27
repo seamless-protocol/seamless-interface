@@ -1,10 +1,11 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { TableDesktopRow } from "./TableDesktopRow";
 import { TableMobileRow } from "./TableMobileRow";
-import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
+import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 
 export const TableContainer = () => {
-  const { data: strategies } = useFetchAllStrategies();
+  // const { data: strategies } = useFetchAllStrategies();
+  const { data: strategies } = useFetchUserDepositStrategies();
 
   return (
     <div>
@@ -30,9 +31,9 @@ export const TableContainer = () => {
 
         <div className="min-h-96">
           {strategies?.map((strategy, index) => (
-            <div key={strategy}>
-              <TableDesktopRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-              <TableMobileRow strategy={strategy} />
+            <div key={strategy.strategy}>
+              <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
+              <TableMobileRow strategy={strategy.strategy} />
             </div>
           ))}
         </div>
