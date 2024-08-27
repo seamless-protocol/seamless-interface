@@ -2,6 +2,7 @@ import { defineConfig } from "@wagmi/cli";
 import { LoopStrategyAbi } from "./abis/LoopStrategy";
 import { AaveOracleAbi } from "./abis/AaveOracle";
 import { LendingPoolAbi } from "./abis/LendingPool";
+import { ILMRegistryAbi } from "./abis/ILMRegistry";
 import { react } from "@wagmi/cli/plugins";
 import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
@@ -14,6 +15,11 @@ export default defineConfig({
     {
       name: "LoopStrategy",
       abi: LoopStrategyAbi,
+    },
+    {
+      name: "ILMRegistry",
+      address: "0x36291d2D51a0122B9faCbE3c3F989cc6b1f859B3",
+      abi: ILMRegistryAbi,
     },
     {
       name: "AaveOracle",
