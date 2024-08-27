@@ -24,7 +24,7 @@ export const Audited = () => {
             </FlexRow>
             <FlexRow className="gap-2">
               <Typography type="medium3">Platform TVL:</Typography>
-              <DisplayMoney typography="medium3" {...data?.totalMarketSizeUsd} {...rest} />
+              <DisplayMoney typography="medium3" {...data?.totalAvailableUsd} {...rest} />
             </FlexRow>
           </FlexRow>
         </div>
