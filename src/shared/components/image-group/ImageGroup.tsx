@@ -1,5 +1,7 @@
 import React from "react";
 
+import placeholder from "@assets/logos/placeholder.svg";
+
 interface ImageGroupProps {
   images: (string | undefined)[];
   imageStyle: string;
@@ -43,7 +45,7 @@ export const ImageGroup: React.FC<ImageGroupProps> = ({
       {images.map((image, index) => (
         <div key={index} className="avatar">
           <div className={imageStyle}>
-            <img src={image} alt={`Avatar ${index + 1}`} />
+            <img src={image || placeholder} alt={`Avatar ${index + 1}`} />
           </div>
         </div>
       ))}

@@ -14,6 +14,7 @@ import { LandingPage } from "./pages/landing-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
+import { Audited } from "./components/banner/Audited";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -23,6 +24,7 @@ export function App() {
       <HashRouter>
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <NavigationBar />
+          <Audited />
 
           <FlexCol className="min-h-screen">
             <NotificationProvider>

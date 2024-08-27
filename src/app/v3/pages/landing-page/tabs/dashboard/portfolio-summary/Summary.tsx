@@ -1,11 +1,11 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "@shared";
-import { useFetchFormattedUserProfit } from "../../../../../../statev3/hooks/user-profit/UserProfit.hook";
+import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { getApyColor } from "../../../../../utils/uiUtils";
 import { Profit } from "./Profit";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
 
 export const PortfolioSummary = () => {
-  const { data, ...rest } = useFetchFormattedUserProfit();
+  const { data, ...rest } = useFetchFormattedUserProfitAndPortfolio();
 
   return (
     <div>
