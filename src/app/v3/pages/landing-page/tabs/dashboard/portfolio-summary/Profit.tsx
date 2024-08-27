@@ -1,13 +1,13 @@
 import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
-import { useFetchFormattedUserProfit } from "../../../../../../statev3/hooks/user-profit/UserProfit.hook";
 import { getApyColor, getApyIndicatorSvg, getRealizedGainBackGroundColor } from "../../../../../utils/uiUtils";
+import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 
 function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewBigInt): string | undefined {
   return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol})`;
 }
 
 export const Profit = () => {
-  const { data: userProfit, isLoading, isFetched } = useFetchFormattedUserProfit();
+  const { data: userProfit, isLoading, isFetched } = useFetchFormattedUserProfitAndPortfolio();
 
   if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-8" />;

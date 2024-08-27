@@ -9,18 +9,18 @@ export interface Profit {
   unrealizedProfit: FetchBigIntStrict;
 }
 
-export interface cUserProfitInput {
+export interface cUserProfitAndPortfolioInput {
   profits: Profit[];
 }
 
-export interface cUserProfitOutput {
+export interface cUserProfitAndPortfolioOutput {
   currPortfolioValue: FetchBigIntStrict;
   realizedProfit: FetchBigIntStrict;
   unrealizedProfit: FetchBigIntStrict;
   unrealizedProfitPercentage: FetchBigIntStrict;
 }
 
-export function cUserProfit({ profits }: cUserProfitInput): cUserProfitOutput {
+export function cUserProfitAndPortfolio({ profits }: cUserProfitAndPortfolioInput): cUserProfitAndPortfolioOutput {
   const { totalBalanceUsd, realizedProfit, unrealizedProfit } = profits.reduce(
     (acc, { strategyBalance, realizedProfit: realized, unrealizedProfit: unrealized }) => ({
       totalBalanceUsd: acc.totalBalanceUsd + strategyBalance.dollarAmount.bigIntValue,
