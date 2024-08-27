@@ -16,7 +16,11 @@ export const UnclaimedRewardsBox = () => {
 
           <ClaimButton />
         </FlexRow>
-        <ImageGroup imageStyle="w-6" spacing="-space-x-3" images={data.rewards?.map((reward) => reward.logo) || []} />
+        <ImageGroup
+          imageStyle="w-6"
+          spacing="-space-x-3"
+          images={data.rewards?.map((reward) => reward.logo) || []}
+        />
       </FlexCol>
     </div>
   );
