@@ -1,4 +1,4 @@
-import { DisplayText, FlexRow, Icon, ViewBigInt } from "../../../../../../../shared";
+import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
 import { useFetchFormattedUserProfit } from "../../../../../../statev3/hooks/user-profit/UserProfit.hook";
 import { getApyColor, getApyIndicatorSvg, getRealizedGainBackGroundColor } from "../../../../../utils/uiUtils";
 

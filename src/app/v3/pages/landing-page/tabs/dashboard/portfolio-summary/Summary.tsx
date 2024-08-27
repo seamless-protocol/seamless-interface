@@ -1,4 +1,4 @@
-import { DisplayMoney, FlexCol, FlexRow, Typography } from "../../../../../../../shared";
+import { DisplayMoney, FlexCol, FlexRow, Typography } from "@shared";
 import { useFetchFormattedUserProfit } from "../../../../../../statev3/hooks/user-profit/UserProfit.hook";
 import { getApyColor } from "../../../../../utils/uiUtils";
 import { Profit } from "./Profit";
