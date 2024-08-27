@@ -13,7 +13,7 @@ interface AssetBalanceUsdValuePairInput {
   blockNumber?: bigint;
 }
 
-export const useAssetBalanceWithUsdValue = ({
+export const useFetchFormattedAssetBalanceWithUsdValue = ({
   asset,
   blockNumber,
 }: AssetBalanceUsdValuePairInput): Displayable<ViewBigIntWithUsdValue | undefined> => {
