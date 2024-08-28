@@ -1,12 +1,10 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
-import { Link } from "react-router-dom";
-import { RouterConfig } from "@router";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 
 export const IlmTableContainer = () => {
-  const { data: strategies } = useFetchAllStrategies();
+  const { data: strategies, isFetched } = useFetchAllStrategies();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
@@ -31,14 +29,14 @@ export const IlmTableContainer = () => {
         </TableCell>
       </TableRow>
 
-      {strategies?.map((strategy, index) => (
-        <div key={index}>
-          <Link to={RouterConfig.Builder.ilmDetailsv3(strategy)}>
+      <div className={`${isFetched ? "" : "min-h-96"}`}>
+        {strategies?.map((strategy, index) => (
+          <div key={index}>
             <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
             <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-          </Link>
-        </div>
-      ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

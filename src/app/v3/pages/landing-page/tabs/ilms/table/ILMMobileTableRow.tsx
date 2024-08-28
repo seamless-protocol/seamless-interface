@@ -4,7 +4,7 @@ import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { getApyColor, getApyIndicatorSvg } from "../../../../../utils/uiUtils";
+import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 
 export const ILMMobileTableRow: React.FC<{
@@ -49,8 +49,8 @@ export const ILMMobileTableRow: React.FC<{
           <FlexRow className="items-center gap-1">
             <Typography type="regular1">30d historical return: </Typography>
             <FlexRow className="items-center gap-1">
-              <Icon src={getApyIndicatorSvg(apy)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-              <DisplayNumber typography="bold3" className={`${getApyColor(apy)}`} {...apy} {...apyRest} />
+              <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
+              <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
             </FlexRow>
           </FlexRow>
           <FlexRow className="items-center gap-1">

@@ -16,7 +16,7 @@ import {
 } from "@shared";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
-import { RouterConfig } from "../../../../router";
+import { RouterConfig } from "@router";
 import { StrategyState } from "../../../../state/common/types/StateTypes";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
