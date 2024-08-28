@@ -1,22 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
-import { fetchUserProfit } from "./UserProfit.fetch";
+import { fetchUserProfitAndPortfolio } from "./UserProfitAndPortfolio.fetch";
 import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
 import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
 
-interface FormattedUserProfit {
+interface FormattedUserProfitAndPortfolio {
+  portfolioValue: ViewBigInt;
   realizedProfit: ViewBigInt;
   unrealizedProfit: ViewBigInt;
   unrealizedProfitPercentage: ViewBigInt;
 }
 
-export const useFetchFormattedUserProfit = (): Displayable<FormattedUserProfit> => {
+export const useFetchFormattedUserProfitAndPortfolio = (): Displayable<FormattedUserProfitAndPortfolio> => {
   const { address: account } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchUserProfit", account],
+    queryKey: ["fetchUserProfitAndPortfolio", account],
     queryFn: () =>
-      fetchUserProfit({
+      fetchUserProfitAndPortfolio({
         account: account!,
       }),
     enabled: !!account,
@@ -26,6 +27,7 @@ export const useFetchFormattedUserProfit = (): Displayable<FormattedUserProfit> 
   return {
     ...rest,
     data: {
+      portfolioValue: formatFetchBigIntToViewBigInt(data?.currPortfolioValue),
       realizedProfit: formatFetchBigIntToViewBigInt(data?.realizedProfit),
       unrealizedProfit: formatFetchBigIntToViewBigInt(data?.unrealizedProfit),
       unrealizedProfitPercentage: formatFetchBigIntToViewBigInt(data?.unrealizedProfitPercentage),
