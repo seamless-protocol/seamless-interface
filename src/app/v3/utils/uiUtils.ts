@@ -24,7 +24,7 @@ export const getRealizedGainBackGroundColor = (value: number | string | undefine
     return "bg-green-100";
   }
 
-  if (valueNumber < 0n) {
+  if (valueNumber < 0) {
     return "bg-red-100";
   }
 
