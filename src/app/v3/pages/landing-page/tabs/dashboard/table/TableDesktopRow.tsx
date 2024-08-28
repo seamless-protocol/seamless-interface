@@ -1,24 +1,38 @@
 import { Address } from "viem";
-import { TableRow, TableCell, Icon, FlexCol, Typography, FlexRow, ImageGroup } from "@shared";
+import {
+  TableRow,
+  TableCell,
+  Icon,
+  FlexCol,
+  FlexRow,
+  DisplayMoney,
+  DisplayTokenAmount,
+  DisplayPercentage,
+  DisplayText,
+} from "@shared";
 
 import { TableButtons } from "./TableButtons";
-import { RandomNumber } from "../../../../../components/other/RandomNumber";
-import { stateMock } from "../../../mocks";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
-import polygonSvg from "@assets/common/polygon.svg";
-import { assetLogos } from "@meta";
+import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
+import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
+import { UserInfoImageGroup } from "./UserInfoImageGroup";
 
 export const TableDesktopRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  // todo use useFullTokenData instead of mock
-  const strategyMock = stateMock.data.find((s) => s.address === strategy);
-  const name = strategyMock?.name;
-  const description = strategyMock?.description;
-  const icon = ilmIcon;
+  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+
+  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
+  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
+    asset: strategy,
+  });
+  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ strategy });
 
   return (
     <TableRow
@@ -27,12 +41,12 @@ export const TableDesktopRow: React.FC<{
       }`}
     >
       <TableCell alignItems="items-start col-span-6 pr-6">
-        <FlexRow className="gap-4 items-start">
-          <Icon width={64} src={icon} alt="logo" />
-          <FlexCol className="gap-2 text-start">
-            <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{name}</Typography>
-              <Typography type="regular1">{description}</Typography>
+        <FlexRow className="gap-4 items-center max-w-full">
+          <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+          <FlexCol className="gap-2 text-start max-w-full">
+            <FlexCol className="gap-[2px] max-w-full">
+              <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
+              <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
             </FlexCol>
           </FlexCol>
         </FlexRow>
@@ -40,34 +54,65 @@ export const TableDesktopRow: React.FC<{
 
       <TableCell className="col-span-2">
         <div>
-          <Tag tag="Staking" />
+          {/* todo refactor this */}
+          {strategyDataRest?.isFetched ? (
+            <Tag key={strategyData?.type} tag={strategyData?.type} />
+          ) : (
+            <div style={{ width: "60px", height: "30px" }} className="skeleton flex mb-[0.5px]" />
+          )}
         </div>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <RandomNumber />
-          <RandomNumber typography="medium1" symbol="$" className="text-primary-600" />
+          <DisplayTokenAmount
+            typography="bold3"
+            viewValue={balanceUsdPair?.tokenAmount.viewValue}
+            {...balanceUsdPairRest}
+          />
+          <DisplayMoney
+            typography="medium1"
+            viewValue={balanceUsdPair?.dollarAmount.viewValue}
+            {...balanceUsdPairRest}
+            className="text-primary-600"
+            isApproximate
+          />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
           <FlexRow className="items-center gap-1">
-            <Icon src={polygonSvg} alt="polygon" width={12} height={12} />
-            <RandomNumber typography="bold3" className="text-success-900" symbol="%" symbolPosition="after" />
+            <Icon
+              src={getSvgBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}
+              alt="polygon"
+              width={12}
+              height={12}
+              hidden={!Number(strategyProfit?.unrealizedProfitPercentage.value)}
+            />
+            <DisplayPercentage
+              typography="bold3"
+              viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
+              className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}`}
+              {...strategyProfitRest}
+            />
           </FlexRow>
-          <RandomNumber typography="medium1" symbol="$" className="text-primary-600" />
+          <DisplayMoney
+            typography="medium1"
+            className="text-primary-600"
+            viewValue={strategyProfit?.unrealizedProfit.viewValue}
+            {...strategyProfitRest}
+            isApproximate
+          />
         </FlexCol>
       </TableCell>
       <TableCell className="col-span-3">
         <FlexCol>
-          <RandomNumber symbol="$" />
-          <ImageGroup
-            imageStyle="w-4"
-            spacing="-space-x-3"
-            images={[assetLogos.get("SEAM") || "", assetLogos.get("USDC") || ""]}
+          <DisplayMoney
+            typography="bold3"
+            viewValue={allUserRewards.totalRewardsUsd.viewValue}
+            {...allUserRewardsRest}
           />
+          <UserInfoImageGroup info={allUserRewards.info} />
         </FlexCol>
-        {/* assetLogos */}
       </TableCell>
       <TableCell className="col-span-5 flex justify-evenly items-center">
         <TableButtons strategy={strategy} isStrategy />
