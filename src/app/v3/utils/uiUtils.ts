@@ -10,3 +10,23 @@ export const getSvgBasedOnSign = (value: number | string | undefined): string | 
   if (!value) return undefined;
   return Number(value || 0) >= 0 ? polygonPositiveSvg : polygonNegativeSvg;
 };
+
+export const getRealizedGainBackGroundColor = (value: number | string | undefined): string | undefined => {
+  const valueNumber = Number(value || 0);
+
+  if (valueNumber === undefined) return undefined;
+
+  if (valueNumber === 0) {
+    return "bg-primary-100";
+  }
+
+  if (valueNumber > 0n) {
+    return "bg-green-100";
+  }
+
+  if (valueNumber < 0n) {
+    return "bg-red-100";
+  }
+
+  return undefined;
+};
