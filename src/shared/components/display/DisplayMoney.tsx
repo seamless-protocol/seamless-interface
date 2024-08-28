@@ -1,6 +1,8 @@
 import { DisplayValue, DisplayValueProps } from "./DisplayValue";
 
-export interface DisplayMoneyProps extends DisplayValueProps {}
+export interface DisplayMoneyProps extends DisplayValueProps {
+  isApproximate?: boolean;
+}
 
 /**
  * `DisplayMoney` Component
@@ -18,6 +20,7 @@ export interface DisplayMoneyProps extends DisplayValueProps {}
  * - `symbolColor`: Defines the color of the currency symbol (inherited from `DisplayValue`).
  * - `loaderSkeleton`: Shows a loading skeleton animation if the value is still loading (inherited from `DisplayValue`).
  * - `symbolPosition`: Can be set to 'before' or 'after', with 'before' as the default. Determines the placement of the currency symbol in relation to the monetary value.
+ * - `isApproximate`: Set to `true` if the monetary value is an approximate value.
  * - Inherits all props from `DisplayableAmount`.
  *
  * ## Usage:
@@ -44,5 +47,12 @@ export const DisplayMoney: React.FC<DisplayMoneyProps> = ({
   loaderSkeleton = true,
   ...props
 }) => {
-  return <DisplayValue symbol={symbol} symbolPosition={symbolPosition} loaderSkeleton={loaderSkeleton} {...props} />;
+  return (
+    <DisplayValue
+      symbol={`${props.isApproximate ? "~" : ""}${symbol}`}
+      symbolPosition={symbolPosition}
+      loaderSkeleton={loaderSkeleton}
+      {...props}
+    />
+  );
 };

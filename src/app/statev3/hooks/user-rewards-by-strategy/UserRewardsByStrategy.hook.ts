@@ -11,7 +11,7 @@ export interface RewardsByStrategy {
   totalRewardsUsd: ViewBigInt;
 }
 
-interface RewardsInfo {
+export interface RewardsInfo {
   address: Address;
   logo: string;
   symbol?: string;
@@ -37,7 +37,7 @@ export const useFetchFormattedAllUserRewardsByStrategy = (strategy?: Address): D
     info:
       data?.info.map((info) => ({
         address: info.rewardsAddress,
-        logo: assetLogos.get(info.rewardsAddress) || "",
+        logo: assetLogos.get(info.tokenAmount.symbol) || "",
         tokenAmount: formatFetchBigIntToViewBigInt(info.tokenAmount),
         dollarAmount: formatFetchBigIntToViewBigInt(info.dollarAmount),
       })) || [],

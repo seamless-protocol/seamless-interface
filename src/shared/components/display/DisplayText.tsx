@@ -5,5 +5,5 @@ export interface DisplayTextProps extends DisplayValueProps {
 }
 
 export const DisplayText: React.FC<DisplayTextProps> = ({ text, loaderSkeleton = true, ...props }) => {
-  return <DisplayValue viewValue={text} loaderSkeleton={loaderSkeleton} {...props} />;
+  return <DisplayValue viewValue={text} loaderSkeleton={loaderSkeleton} truncate={false} {...props} />;
 };
