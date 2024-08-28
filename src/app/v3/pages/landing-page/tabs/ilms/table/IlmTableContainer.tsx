@@ -1,8 +1,6 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
-import { Link } from "react-router-dom";
-import { RouterConfig } from "@router";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 
 export const IlmTableContainer = () => {
