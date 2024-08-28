@@ -4,7 +4,7 @@ import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 
 export const TableContainer = () => {
-  const { data: strategies } = useFetchUserDepositStrategies();
+  const { data: strategies, isFetched } = useFetchUserDepositStrategies();
 
   return (
     <div>
@@ -28,7 +28,7 @@ export const TableContainer = () => {
           <TableCell className="col-span-5" />
         </TableRow>
 
-        <div className="min-h-96">
+        <div className={`${isFetched ? "" : "min-h-96"}`}>
           {strategies?.map((strategy, index) => (
             <div key={strategy.strategy}>
               <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />

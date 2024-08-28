@@ -1,7 +1,7 @@
 import { Address } from "viem";
 
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { TableRow, TableCell, FlexRow, Icon, FlexCol, Typography, DisplayNumber, DisplayMoney } from "@shared";
+import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayNumber, DisplayMoney, DisplayText } from "@shared";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
@@ -34,12 +34,8 @@ export const ILMDesktopTableRow: React.FC<{
             <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <Typography type="bold3" {...strategyDataRest}>
-                  {strategyData?.name}
-                </Typography>
-                <Typography type="regular1" {...strategyDataRest}>
-                  {strategyData?.description}
-                </Typography>
+                <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
+                <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
               </FlexCol>
             </FlexCol>
           </FlexRow>
@@ -47,7 +43,11 @@ export const ILMDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <FlexRow>
-            <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
+            {strategyDataRest?.isFetched ? (
+              <Tag key={strategyData?.type} tag={strategyData?.type} />
+            ) : (
+              <div style={{ width: "60px", height: "30px" }} className="skeleton flex mb-[0.5px]" />
+            )}
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">

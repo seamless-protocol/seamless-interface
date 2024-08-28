@@ -4,11 +4,11 @@ import {
   TableCell,
   Icon,
   FlexCol,
-  Typography,
   FlexRow,
   DisplayMoney,
   DisplayTokenAmount,
   DisplayPercentage,
+  DisplayText,
 } from "@shared";
 
 import { TableButtons } from "./TableButtons";
@@ -41,12 +41,12 @@ export const TableDesktopRow: React.FC<{
       }`}
     >
       <TableCell alignItems="items-start col-span-6 pr-6">
-        <FlexRow className="gap-4 items-center">
+        <FlexRow className="gap-4 items-center max-w-full">
           <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
-          <FlexCol className="gap-2 text-start">
-            <FlexCol className="gap-[2px]">
-              <Typography type="bold3">{strategyData?.name}</Typography>
-              <Typography type="regular1">{strategyData?.description}</Typography>
+          <FlexCol className="gap-2 text-start max-w-full">
+            <FlexCol className="gap-[2px] max-w-full">
+              <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
+              <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
             </FlexCol>
           </FlexCol>
         </FlexRow>
@@ -54,7 +54,11 @@ export const TableDesktopRow: React.FC<{
 
       <TableCell className="col-span-2">
         <div>
-          <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
+          {strategyDataRest?.isFetched ? (
+            <Tag key={strategyData?.type} tag={strategyData?.type} />
+          ) : (
+            <div style={{ width: "60px", height: "30px" }} className="skeleton flex mb-[0.5px]" />
+          )}
         </div>
       </TableCell>
       <TableCell className="col-span-3">
