@@ -14,7 +14,7 @@ export const IncentivesButton: React.FC<{ strategy: Address }> = ({ strategy }) 
   }
 
   return (
-    <FlexRow className="items-center gap-1 border border-solid px-2 py-1.5 rounded-xl border-metallicBorder bg-smallElements-rewardAPY max-w-max">
+    <FlexRow className="items-center gap-1 border border-solid px-2 py-1.5 rounded-xl border-purpleBorder max-w-max">
       <ImageGroup
         imageStyle="w-4"
         spacing="-space-x-3"

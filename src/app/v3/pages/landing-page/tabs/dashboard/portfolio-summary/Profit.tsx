@@ -1,5 +1,5 @@
 import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
-import { getApyColor, getApyIndicatorSvg, getRealizedGainBackGroundColor } from "../../../../../utils/uiUtils";
+import { getColorBasedOnSign, getSvgBasedOnSign, getRealizedGainBackGroundColor } from "../../../../../utils/uiUtils";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 
 function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewBigInt): string | undefined {
@@ -19,10 +19,10 @@ export const Profit = () => {
 
   return (
     <FlexRow
-      className={`flex bg-green-100 rounded-tag p-1 justify-center gap-1 max-w-max px-2 ${getRealizedGainBackGroundColor(userProfit.unrealizedProfitPercentage)}`}
+      className={`flex bg-green-100 rounded-tag p-1 justify-center gap-1 max-w-max px-2 ${getRealizedGainBackGroundColor(userProfit.unrealizedProfitPercentage.value)}`}
     >
       <Icon
-        src={getApyIndicatorSvg(userProfit.unrealizedProfitPercentage)}
+        src={getSvgBasedOnSign(userProfit.unrealizedProfitPercentage.value)}
         alt="polygon"
         width={16}
         height={16}
@@ -30,7 +30,7 @@ export const Profit = () => {
       />
       <DisplayText
         viewValue={getProfitText(userProfit.unrealizedProfit, userProfit.unrealizedProfitPercentage)}
-        className={getApyColor(userProfit.unrealizedProfit)}
+        className={getColorBasedOnSign(userProfit.unrealizedProfit.value)}
         typography="bold4"
       />
     </FlexRow>
