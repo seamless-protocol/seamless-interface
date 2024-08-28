@@ -113,7 +113,10 @@ export default {
           1000: "#1F662C",
           900: "#2A863B",
           600: "#6EBD70",
-          100: "#E4F7E6",
+        },
+        red: {
+          // TODO: Change this when design is ready
+          100: "#FFC6C6",
         },
         gradient: {
           start: "#D53BD9",
@@ -130,6 +133,9 @@ export default {
           light: "#62677B",
           dark: "#292E41",
           contrast: "#FFFFFF",
+          100: "rgba(11, 37, 79, 0.10)",
+          // TODO: Move this to color of disabled button
+          300: "#a2afc3",
           600: "rgba(11, 37, 79, 0.60)",
         },
         secondary: {
