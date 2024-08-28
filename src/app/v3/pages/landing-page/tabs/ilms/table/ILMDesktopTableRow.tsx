@@ -43,6 +43,7 @@ export const ILMDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <FlexRow>
+            {/* todo refactor this */}
             {strategyDataRest?.isFetched ? (
               <Tag key={strategyData?.type} tag={strategyData?.type} />
             ) : (

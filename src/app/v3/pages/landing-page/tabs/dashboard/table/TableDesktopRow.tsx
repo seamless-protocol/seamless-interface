@@ -54,6 +54,7 @@ export const TableDesktopRow: React.FC<{
 
       <TableCell className="col-span-2">
         <div>
+          {/* todo refactor this */}
           {strategyDataRest?.isFetched ? (
             <Tag key={strategyData?.type} tag={strategyData?.type} />
           ) : (
