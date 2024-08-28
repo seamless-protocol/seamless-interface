@@ -12,6 +12,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   symbolPosition?: "before" | "after";
   className?: string;
   errorMessage?: string;
+  truncate?: boolean;
 }
 /**
  * `DisplayValue` Component
@@ -55,7 +56,6 @@ export interface DisplayValueProps extends DisplayableAmount {
  * @returns The `DisplayValue` component.
  */
 
-
 export const DisplayValue: React.FC<DisplayValueProps> = ({
   viewValue,
   symbol,
@@ -63,11 +63,12 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   isLoading,
   isError,
   loaderSkeleton,
+  truncate = true,
   typography = "medium3",
   symbolColor,
   symbolPosition = "before",
   className = "",
-  errorMessage = 'Could not load this value, try later 😓'
+  errorMessage = "Could not load this value, try later 😓",
 }) => {
   if (isError) {
     return (
@@ -101,7 +102,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
           {symbol}
         </Typography>
       )}
-      <Typography type={typography} className={`md:truncate md:hover:text-clip `}>
+      <Typography type={typography} className={`${truncate ? "md:truncate" : ""} md:hover:text-clip `}>
         {viewValue}
       </Typography>
       {symbolPosition === "after" && symbol && (
@@ -117,7 +118,6 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
     </div>
   );
 };
-
 
 /**
  * Calculates the width and height for a skeleton loader based on typography type and text value.
@@ -142,4 +142,3 @@ const getTypographySkeletonSize = (typographyType: CombinedTypographyType, viewV
 
   return { width, height };
 };
-
