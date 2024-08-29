@@ -2,6 +2,8 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { TableDesktopRow } from "./TableDesktopRow";
 import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
+import { NotConnectedTableGuard } from "./NotConnectedTableGuard";
+import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
 
 export const TableContainer = () => {
   const { data: strategies, isFetched } = useFetchUserDepositStrategies();
@@ -29,12 +31,16 @@ export const TableContainer = () => {
         </TableRow>
 
         <div className={`${isFetched ? "" : "min-h-96"}`}>
-          {strategies?.map((strategy, index) => (
-            <div key={strategy.strategy}>
-              <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
-              <TableMobileRow strategy={strategy.strategy} />
-            </div>
-          ))}
+          <NotConnectedTableGuard>
+            <NoStrategiesTableGuard numberOfStrategies={strategies?.length || 0}>
+              {strategies?.map((strategy, index) => (
+                <div key={strategy.strategy}>
+                  <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
+                  <TableMobileRow strategy={strategy.strategy} />
+                </div>
+              ))}
+            </NoStrategiesTableGuard>
+          </NotConnectedTableGuard>
         </div>
       </div>
     </div>
