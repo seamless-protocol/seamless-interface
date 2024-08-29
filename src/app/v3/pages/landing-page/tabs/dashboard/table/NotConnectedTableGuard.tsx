@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 
 import notConnectedImage from "@assets/common/not-connected.svg";
-import { Buttonv2, FlexCol, Image, Typography } from "../../../../../../../shared";
+import { Buttonv2, FlexCol, Image, Typography } from "@shared";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export const NotConnectedTableGuard: React.FC<{

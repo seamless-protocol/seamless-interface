@@ -1,7 +1,7 @@
 import notConnectedImage from "@assets/common/not-connected.svg";
-import { FlexCol, Image, Typography } from "../../../../../../../shared";
+import { FlexCol, Image, Typography } from "@shared";
 import { Link } from "react-router-dom";
-import { RouterConfig } from "../../../../../../router";
+import { RouterConfig } from "@router";
 
 export const NoStrategiesTableGuard: React.FC<{
   numberOfStrategies: number;
@@ -13,7 +13,7 @@ export const NoStrategiesTableGuard: React.FC<{
 
   return (
     <FlexCol className=" justify-center items-center gap-8 py-14">
-      <Image src={notConnectedImage} alt="not-connected" width={160} height={160} />
+      <Image src={notConnectedImage} alt="no-strategies" width={160} height={160} />
       <FlexCol className="gap-2 justify-center items-center">
         <Typography type="bold5">You have no positions.</Typography>
         <Typography type="medium3">
