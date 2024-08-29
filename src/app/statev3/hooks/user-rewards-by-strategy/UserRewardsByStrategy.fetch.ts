@@ -5,7 +5,7 @@ import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
-import { cValueInUsd } from "../../math/cValueInUsd";
+import { cValueInUsd } from "../../math/utils";
 
 export interface FetchRewardsByStrategy {
   info: FetchRewardsByStrategyInfo[];
