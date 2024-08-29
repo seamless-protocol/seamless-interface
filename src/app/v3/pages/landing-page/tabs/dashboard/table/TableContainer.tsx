@@ -6,7 +6,7 @@ import { NotConnectedTableGuard } from "./NotConnectedTableGuard";
 import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
 
 export const TableContainer = () => {
-  const { data: strategies, isFetched } = useFetchUserDepositStrategies();
+  const { data: strategies, ...rest } = useFetchUserDepositStrategies();
 
   return (
     <div>
@@ -30,18 +30,21 @@ export const TableContainer = () => {
           <TableCell className="col-span-5" />
         </TableRow>
 
-        <div className={`${isFetched ? "" : "min-h-96"}`}>
-          <NotConnectedTableGuard>
-            <NoStrategiesTableGuard numberOfStrategies={strategies?.length || 0}>
-              {strategies?.map((strategy, index) => (
-                <div key={strategy.strategy}>
-                  <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
-                  <TableMobileRow strategy={strategy.strategy} />
-                </div>
-              ))}
-            </NoStrategiesTableGuard>
-          </NotConnectedTableGuard>
-        </div>
+        <NotConnectedTableGuard>
+          <NoStrategiesTableGuard
+            numberOfStrategiesDisplayable={{
+              ...rest,
+              data: strategies?.length || 0,
+            }}
+          >
+            {strategies?.map((strategy, index) => (
+              <div key={strategy.strategy}>
+                <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
+                <TableMobileRow strategy={strategy.strategy} />
+              </div>
+            ))}
+          </NoStrategiesTableGuard>
+        </NotConnectedTableGuard>
       </div>
     </div>
   );
