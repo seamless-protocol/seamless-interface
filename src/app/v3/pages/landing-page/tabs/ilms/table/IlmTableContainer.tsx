@@ -2,8 +2,11 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
+import { Address } from "viem";
 
-export const IlmTableContainer = () => {
+export const IlmTableContainer: React.FC<{
+  selectedStrategy?: Address;
+}> = ({ selectedStrategy }) => {
   const { data: strategies, isFetched } = useFetchAllStrategies();
 
   return (
@@ -32,8 +35,16 @@ export const IlmTableContainer = () => {
       <div className={`${isFetched ? "" : "min-h-96"}`}>
         {strategies?.map((strategy, index) => (
           <div key={index}>
-            <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-            <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
+            <ILMDesktopTableRow
+              strategy={strategy}
+              hideBorder={index === strategies.length - 1}
+              selected={strategy === selectedStrategy}
+            />
+            <ILMMobileTableRow
+              strategy={strategy}
+              hideBorder={index === strategies.length - 1}
+              selected={strategy === selectedStrategy}
+            />
           </div>
         ))}
       </div>

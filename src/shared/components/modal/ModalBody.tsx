@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import xButton from "../../../assets/common/x-button.svg";
 import { Icon } from "../images/Icon";
 
-import { IS_STYLE_VERSION_2 } from "../../../globals";
 import { Typography } from "../text/Typography/Typography";
 
 interface ModalBodyProps {
@@ -56,7 +55,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
         style={{ opacity: 1 }}
       >
         <div className="flex flex-row items-start justify-between mb-6">
-          {headerComponent || <Typography type={IS_STYLE_VERSION_2 ? "bold4" : "h2"}>{header}</Typography>}
+          {headerComponent || <Typography type="bold4">{header}</Typography>}
           <button
             className="hover:bg-action-focus relative z-50 rounded-full p-2"
             type="button"
