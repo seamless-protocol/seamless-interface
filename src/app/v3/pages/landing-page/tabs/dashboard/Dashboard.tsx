@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi";
-import { FlexCol } from "../../../../../../shared";
+import { FlexCol } from "@shared";
 import { PortfolioSummary } from "./portfolio-summary/Summary";
 import { TableContainer } from "./table/TableContainer";
 
