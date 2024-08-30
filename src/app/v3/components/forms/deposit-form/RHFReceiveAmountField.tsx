@@ -6,12 +6,12 @@ import {
   mergeQueryStates,
 } from "@shared";
 import { useMemo } from "react";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -69,7 +69,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
   } = useFullTokenData(strategy);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset: strategy });
+  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);
 
   const dollarValueData = useMemo(() => {
     const valueBigInt = fParseUnits(value || "", decimals);
@@ -77,10 +77,10 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
-      decimals: price.decimals,
+      decimals: price?.decimals,
       symbol: "~$",
     });
-  }, [value, price.decimals, price.bigIntValue]);
+  }, [value, price?.decimals, price?.bigIntValue]);
 
   // *** rest *** //
   const rest = mergeQueryStates([sharesRest, otherPrice]);

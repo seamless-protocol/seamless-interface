@@ -37,9 +37,6 @@ export const FormContainer: React.FC = () => {
           </FormSettingsProvider>
         ) : (
           <>todo withdraw form</>
-          // <FormSettingsProvider defaultStrategy={strategy as Address}>
-          //   <WithdrawForm />
-          // </FormSettingsProvider>
         )}
       </div>
     </FlexCol>

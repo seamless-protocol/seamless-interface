@@ -1,16 +1,9 @@
-import {
-  FlexCol,
-  AuthGuardv2,
-  Buttonv2,
-  useERC20Approve,
-  getApproveState,
-  useNotificationContext,
-  useToken,
-} from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { FullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 export const FormButtons: React.FC<{
   strategy: FullStrategyData;
@@ -18,9 +11,7 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
 }> = ({ strategy, onTransaction, isLoading }) => {
   const { showNotification } = useNotificationContext();
-  const {
-    data: { decimals },
-  } = useToken(strategy.underlying);
+  const { data: { decimals } = {} } = useFetchTokenData(strategy.underlying);
 
   const {
     watch,

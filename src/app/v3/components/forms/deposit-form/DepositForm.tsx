@@ -21,9 +21,9 @@ import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
@@ -47,7 +47,7 @@ const StrategyFormLocal: React.FC<{
   strategyData: FullStrategyData;
 }> = ({ strategyData }) => {
   const { onTransaction } = useFormSettingsContext();
-  const underlyingAssetAddress = strategyData?.underlying;
+  const underlyingAssetAddress = strategyData.underlying;
   const {
     data: { symbol: underlyingAssetSymbol },
   } = useFullTokenData(underlyingAssetAddress);
@@ -69,9 +69,7 @@ const StrategyFormLocal: React.FC<{
 
   const { depositAsync } = useMutateDepositStrategy(strategyData);
 
-  const { data: assetPrice } = useFetchAssetPrice({
-    asset: strategyData?.underlying,
-  });
+  const { data: assetPrice } = useFetchFormattedAssetPrice(strategyData?.underlying);
 
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);

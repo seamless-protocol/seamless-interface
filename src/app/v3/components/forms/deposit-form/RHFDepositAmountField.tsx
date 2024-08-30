@@ -3,11 +3,11 @@ import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -73,7 +73,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchAssetPrice({ asset: underlyingAssetAddress });
+  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(underlyingAssetAddress);
 
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(
@@ -86,10 +86,10 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
-      decimals: price.decimals,
+      decimals: price?.decimals,
       symbol: "~$",
     });
-  }, [value, price.decimals, price.bigIntValue]);
+  }, [value, price?.decimals, price?.bigIntValue]);
 
   // *** JSX *** //
   return (
