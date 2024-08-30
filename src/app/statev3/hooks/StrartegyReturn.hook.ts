@@ -1,4 +1,4 @@
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 import { getBlock } from "wagmi/actions";
 import { getConfig } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "../queries/AssetPrice.hook";
@@ -13,6 +13,7 @@ import {
 } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { cValueFromUsd } from "../math/utils";
 
 interface cStrategyReturnInput {
   currStrategyPrice: bigint;
@@ -24,8 +25,8 @@ interface cStrategyReturnInput {
 export function cStrategyReturn(input: cStrategyReturnInput): FetchBigIntStrict {
   const { currStrategyPrice, prevStrategyPrice, currDebtAssetPrice, prevDebtAssetPrice } = input;
 
-  const currStrategyPriceInDebAsset = (currStrategyPrice * parseUnits("1", USD_VALUE_DECIMALS)) / currDebtAssetPrice;
-  const prevStrategyPriceInDebAsset = (prevStrategyPrice * parseUnits("1", USD_VALUE_DECIMALS)) / prevDebtAssetPrice;
+  const currStrategyPriceInDebAsset = cValueFromUsd(currStrategyPrice, currDebtAssetPrice, USD_VALUE_DECIMALS);
+  const prevStrategyPriceInDebAsset = cValueFromUsd(prevStrategyPrice, prevDebtAssetPrice, USD_VALUE_DECIMALS);
 
   const strategyReturn =
     ((currStrategyPriceInDebAsset - prevStrategyPriceInDebAsset) * 10000n) / prevStrategyPriceInDebAsset;
