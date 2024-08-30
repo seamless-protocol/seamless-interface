@@ -28,6 +28,7 @@ import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { useFetchStrategyByAddress } from "../../../../statev3/common/hooks/useFetchStrategyByAddress";
 import { Summary } from "./Summary";
+import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 
 export const WithdrawForm: React.FC = () => {
   const { strategy } = useFormSettingsContext();
@@ -164,6 +165,11 @@ const WithdrawStrategyLocal: React.FC<{
         <FlexCol className="gap-3">
           <Typography type="medium3">Withdraw</Typography>
           <RHFWithdrawStrategyAmountField strategy={strategy?.address} name="amount" />
+        </FlexCol>
+
+        <FlexCol className="gap-3">
+          <Typography type="medium3">Receive</Typography>
+          <RHFReceiveAmountField debouncedAmount={debouncedAmount} name="receiveAmount" />
         </FlexCol>
 
         <Summary debouncedAmount={debouncedAmount} />
