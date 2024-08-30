@@ -12,16 +12,11 @@ export interface FullStrategyData extends TokenData {
 }
 
 export async function fetchFullStrategyData(strategy: Address): Promise<FullStrategyData> {
-  const [tokenData, { underlying, collateral, debt }] = await Promise.all([
-    fetchTokenData(strategy),
-    fetchStrategyAssets(strategy),
-  ]);
+  const [tokenData, assets] = await Promise.all([fetchTokenData(strategy), fetchStrategyAssets(strategy)]);
 
   return {
     ...tokenData,
-    underlying,
-    collateral,
-    debt,
+    ...assets,
     address: strategy,
   };
 }

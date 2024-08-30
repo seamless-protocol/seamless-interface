@@ -14,7 +14,6 @@ interface FormSettingsProviderProps {
   children: ReactNode;
   defaultStrategy?: Address;
   onTransaction?: () => void;
-  defaultTargetMultiply?: string;
 }
 
 export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
