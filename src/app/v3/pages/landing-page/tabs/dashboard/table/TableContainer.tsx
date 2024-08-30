@@ -2,7 +2,6 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { TableDesktopRow } from "./TableDesktopRow";
 import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
-import { NotConnectedTableGuard } from "./NotConnectedTableGuard";
 import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
 
 export const TableContainer = () => {
@@ -30,21 +29,19 @@ export const TableContainer = () => {
           <TableCell className="col-span-5" />
         </TableRow>
 
-        <NotConnectedTableGuard>
-          <NoStrategiesTableGuard
-            numberOfStrategiesDisplayable={{
-              ...rest,
-              data: strategies?.length || 0,
-            }}
-          >
-            {strategies?.map((strategy, index) => (
-              <div key={strategy.strategy}>
-                <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
-                <TableMobileRow strategy={strategy.strategy} />
-              </div>
-            ))}
-          </NoStrategiesTableGuard>
-        </NotConnectedTableGuard>
+        <NoStrategiesTableGuard
+          numberOfStrategiesDisplayable={{
+            ...rest,
+            data: strategies?.length || 0,
+          }}
+        >
+          {strategies?.map((strategy, index) => (
+            <div key={strategy.strategy}>
+              <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
+              <TableMobileRow strategy={strategy.strategy} />
+            </div>
+          ))}
+        </NoStrategiesTableGuard>
       </div>
     </div>
   );
