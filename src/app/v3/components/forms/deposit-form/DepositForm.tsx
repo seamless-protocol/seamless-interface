@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
-import { useReadAaveOracleGetAssetPrice } from "../../../../generated";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
 import {
@@ -24,6 +23,7 @@ import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/muta
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
+import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
@@ -67,12 +67,11 @@ const StrategyFormLocal: React.FC<{
 
   const { depositAsync } = useMutateDepositStrategy(strategy);
 
-  // todo: replace this fetch with new hooks
-  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
-    args: [strategy?.underlyingAsset.address],
+  const { data: assetPrice } = useFetchAssetPrice({
+    asset: strategy?.underlyingAsset.address,
   });
 
-  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
+  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategy?.address);
 
   const onSubmitAsync = async (data: FormData) => {
