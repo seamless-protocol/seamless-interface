@@ -14,7 +14,7 @@ export const Summary: React.FC<{
 
 const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
   const { isConnected } = useAccount();
-  const { strategy, targetMultiply } = useFormSettingsContext();
+  const { strategy } = useFormSettingsContext();
 
   // todo: refactor useFetchPreviewDepositCostInUsdAndUnderlying to accept strategy, not substrategy..
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, strategy);
@@ -25,15 +25,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
 
       <FlexRow className="text-navy-600 justify-between">
         <Typography type="bold2">Estimated Total APY</Typography>
-        {strategy && (
-          <AssetApy
-            asset={strategy}
-            subStrategy={strategy}
-            isStrategy
-            className="text-navy-1000"
-            multiplier={targetMultiply}
-          />
-        )}
+        {strategy && <AssetApy asset={strategy} subStrategy={strategy} isStrategy className="text-navy-1000" />}
       </FlexRow>
 
       <DataRow
