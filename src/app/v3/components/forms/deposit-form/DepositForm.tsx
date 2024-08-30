@@ -67,6 +67,7 @@ const StrategyFormLocal: React.FC<{
 
   const { depositAsync } = useMutateDepositStrategy(strategy);
 
+  // todo: replace this fetch with new hooks
   const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
     args: [strategy?.underlyingAsset.address],
   });
