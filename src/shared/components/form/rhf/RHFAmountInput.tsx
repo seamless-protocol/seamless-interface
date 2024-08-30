@@ -24,6 +24,7 @@ export interface IRHFAmountInputProps extends RHFInputFieldProps {
   dollarValue?: Displayable<ViewBigInt | undefined>;
   assetButton?: React.ReactNode;
   focusOnAssetChange?: boolean;
+  hideMaxButton?: boolean;
 }
 
 export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInputProps>(
@@ -36,6 +37,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
       protocolMaxValue,
       assetButton,
       focusOnAssetChange = true,
+      hideMaxButton,
       ...other
     },
     ref
@@ -65,7 +67,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
     useEffect(() => {
       const value = getValues(name as string);
 
-      if (!tokenData?.decimals) {
+      if (!value || !tokenData?.decimals) {
         setValue(name as string, "");
       } else if (
         (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
@@ -78,9 +80,11 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
     const inputRef = useFocusOnAssetChange(assetAddress, focusOnAssetChange);
 
     return (
-      <div className="border bg-neutral-0 rounded-2xl p-4 cursor-default">
-        <FlexRow className="items-center justify-between w-full">
-          <FlexCol className="min-w-0 gap-2 text-medium4">
+      <div
+        className={`border ${other.disabled ? "bg-action-disabled text-primary-600" : "bg-neutral-0"} rounded-2xl p-4 cursor-default`}
+      >
+        <FlexCol className="items-center w-full gap-1">
+          <FlexRow className="justify-between w-full gap-1 text-medium4">
             <RHFInputField
               name={name}
               min={0}
@@ -90,13 +94,6 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
               disabled={other.disabled || !assetAddress}
               ref={ref ?? inputRef}
             />
-            {assetAddress ? (
-              <DisplayMoney {...dollarValue} {...dollarValue?.data} typography="medium2" />
-            ) : (
-              <span className="min-h-[18px]" />
-            )}
-          </FlexCol>
-          <div className="flex flex-col items-end gap-2">
             {assetButton || (
               <div className="inline-flex items-center space-x-2">
                 <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
@@ -104,11 +101,19 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
                   <DisplayText
                     className="max-w-32 text-start"
                     typography="medium4"
+                    truncate
                     text={tokenData?.symbol}
                     {...tokenDataResult}
                   />
                 </Tooltip>
               </div>
+            )}
+          </FlexRow>
+          <FlexRow className="items-center justify-between w-full gap-1">
+            {assetAddress ? (
+              <DisplayMoney {...dollarValue} {...dollarValue?.data} typography="medium2" />
+            ) : (
+              <span className="min-h-[18px]" />
             )}
             {isConnected && assetAddress && (
               <div className="inline-flex gap-2 items-end text-end">
@@ -120,14 +125,16 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
                     typography="medium2"
                   />
                 </Tooltip>
-                <button type="button" onClick={handleMaxClick}>
-                  <Typography type="bold2">MAX</Typography>
-                </button>
+                {!hideMaxButton && (
+                  <button type="button" onClick={handleMaxClick}>
+                    <Typography type="bold2">MAX</Typography>
+                  </button>
+                )}
               </div>
             )}
             {(!isConnected || !assetAddress) && <span className="min-h-[18px]" />}
-          </div>
-        </FlexRow>
+          </FlexRow>
+        </FlexCol>
       </div>
     );
   }

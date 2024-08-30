@@ -1,5 +1,6 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { StrategyDetails } from "./components/strategy-details/StrategyDetails";
+import { FormContainer } from "./components/forms/FormContainer";
 import { StrategyPickerButton } from "./components/strategy-picker/StrategyPickerButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
@@ -19,10 +20,12 @@ export const ILMDetails = () => {
         </FlexRow>
 
         <FlexRow className="w-full gap-8">
-          <div className="w-2/3">
+          <div className="flex flex-grow">
             <StrategyDetails />
           </div>
-          <div className="w-1/3">todo: form</div>
+          <div className="w-full md:w-[450px] flex flex-none">
+            <FormContainer />
+          </div>
         </FlexRow>
       </FlexCol>
     </PageContainer>

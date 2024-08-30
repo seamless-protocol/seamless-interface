@@ -3,7 +3,7 @@ import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
 
-interface StrategyConfig {
+export interface StrategyConfig {
   name: string;
   description: string;
   type: TagType;
