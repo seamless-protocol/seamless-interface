@@ -20,19 +20,18 @@ import { RouterConfig } from "../../../../router";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
-import { StrategyState } from "../../../../state/common/types/StateTypes";
 import { useFetchWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
-import { useFetchStrategyByAddress } from "../../../../statev3/common/hooks/useFetchStrategyByAddress";
 import { Summary } from "./Summary";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
+import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
 
 export const WithdrawForm: React.FC = () => {
   const { strategy } = useFormSettingsContext();
-  const { data: strategyState } = useFetchStrategyByAddress(strategy);
+  const { data: strategyState } = useFetchFullStrategyData(strategy);
 
   if (!strategyState) {
     // eslint-disable-next-line no-console
@@ -40,7 +39,7 @@ export const WithdrawForm: React.FC = () => {
     return <>Strategy not found!</>;
   }
 
-  return <WithdrawStrategyLocal strategy={strategyState as any} />;
+  return <WithdrawStrategyLocal strategy={strategyState} />;
 };
 
 interface WithdrawModalFormData {
@@ -48,7 +47,7 @@ interface WithdrawModalFormData {
 }
 
 const WithdrawStrategyLocal: React.FC<{
-  strategy: StrategyState;
+  strategy: FullStrategyData;
 }> = ({ strategy }) => {
   const { onTransaction } = useFormSettingsContext();
 
@@ -56,7 +55,7 @@ const WithdrawStrategyLocal: React.FC<{
     data: { symbol: strategySymbol },
   } = useToken(strategy?.address);
 
-  const underlyingTokenAddress = strategy.underlyingAsset.address;
+  const underlyingTokenAddress = strategy.underlying;
   const { data: underlyingTokenData, isLoading: isTokenDecimalsLoading } = useFullTokenData(underlyingTokenAddress);
 
   const account = useAccount();

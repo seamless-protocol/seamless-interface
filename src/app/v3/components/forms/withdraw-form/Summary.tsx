@@ -1,46 +1,21 @@
 import React from "react";
-import { FlexCol, Typography, DisplayTokenAmount, DisplayMoney, StandardTooltip, Tooltip, FlexRow } from "@shared";
+import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow } from "@shared";
 import { useAccount } from "wagmi";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
-import { useFetchViewWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { DataRow } from "../DataRow";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
 }> = ({ debouncedAmount }) => {
   const { strategy } = useFormSettingsContext();
   const { isConnected } = useAccount();
-  const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, strategy);
   const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);
 
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-background-selected p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
-        <DataRow label="Min Assets to receive">
-          <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
-            <DisplayTokenAmount
-              {...checkAuthentication(isConnected)}
-              {...restShares}
-              {...sharesToReceive.assetsToReceive.tokenAmount}
-              typography="medium2"
-              className="text-navy-1000"
-            />
-          </Tooltip>
-        </DataRow>
-        <DataRow label="Min Value to receive">
-          <Tooltip tooltip={sharesToReceive.assetsToReceive.tokenAmount?.symbol} size="small">
-            <DisplayMoney
-              {...checkAuthentication(isConnected)}
-              {...restShares}
-              typography="medium2"
-              {...sharesToReceive.assetsToReceive.dollarAmount}
-              className="text-navy-1000"
-            />
-          </Tooltip>
-        </DataRow>
 
         <FlexRow className="justify-between text-navy-600">
           <FlexRow className="gap-1 items-center">
