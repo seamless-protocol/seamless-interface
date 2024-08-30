@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
-import { useReadAaveOracleGetAssetPrice } from "../../../../generated";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
 import {
@@ -17,26 +16,26 @@ import {
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
-import { StrategyState } from "../../../../state/common/types/StateTypes";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
+import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
-  const { data: strategyState } = useFetchTokenData(strategy);
+  const { data: strategyData } = useFetchFullStrategyData(strategy);
 
-  if (!strategyState) {
+  if (!strategyData) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <div className="min-h-[1000px]" />;
   }
 
-  // todo: remove any when config is migrated..
-  return <StrategyFormLocal strategy={strategyState as any} />;
+  return <StrategyFormLocal strategyData={strategyData} />;
 };
 
 interface FormData {
@@ -45,10 +44,13 @@ interface FormData {
 }
 
 const StrategyFormLocal: React.FC<{
-  strategy: StrategyState;
-}> = ({ strategy }) => {
+  strategyData: FullStrategyData;
+}> = ({ strategyData }) => {
   const { onTransaction } = useFormSettingsContext();
-  const underlyingAssetAddress = strategy?.underlyingAsset.address;
+  const underlyingAssetAddress = strategyData.underlying;
+  const {
+    data: { symbol: underlyingAssetSymbol },
+  } = useFullTokenData(underlyingAssetAddress);
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -63,16 +65,14 @@ const StrategyFormLocal: React.FC<{
   const {
     data: { decimals: underlyingAssetDecimals },
     isLoading: isUnderlyingAssetDecimalsLoading,
-  } = useToken(strategy?.underlyingAsset?.address);
+  } = useToken(strategyData?.underlying);
 
-  const { depositAsync } = useMutateDepositStrategy(strategy);
+  const { depositAsync } = useMutateDepositStrategy(strategyData);
 
-  const { data: assetPrice } = useReadAaveOracleGetAssetPrice({
-    args: [strategy?.underlyingAsset.address],
-  });
+  const { data: assetPrice } = useFetchFormattedAssetPrice(strategyData?.underlying);
 
-  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice, 500);
-  const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategy?.address);
+  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
+  const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);
 
   const onSubmitAsync = async (data: FormData) => {
     if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
@@ -88,9 +88,9 @@ const StrategyFormLocal: React.FC<{
               content: (
                 <FlexCol className="w-full items-center text-center justify-center">
                   <Typography>
-                    You Supplied {data.amount} {strategy?.underlyingAsset.symbol}
+                    You Supplied {data.amount} {underlyingAssetSymbol}
                   </Typography>
-                  {strategy && <WatchAssetComponentv2 {...strategy} address={strategy?.address} />}
+                  {strategyData && <WatchAssetComponentv2 {...strategyData} address={strategyData?.address} />}
                 </FlexCol>
               ),
             });
@@ -138,7 +138,7 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
         <FormButtons
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
-          strategy={strategy}
+          strategy={strategyData}
           onTransaction={onTransaction}
         />
       </FlexCol>

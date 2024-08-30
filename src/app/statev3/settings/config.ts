@@ -13,7 +13,7 @@ import { Address } from "viem";
 import { assetsConfig } from "../../state/settings/config";
 import { LendMarketConfig } from "../../state/settings/configTypes";
 
-interface StrategyConfig {
+export interface StrategyConfig {
   name: string;
   description: string;
   type: TagType;

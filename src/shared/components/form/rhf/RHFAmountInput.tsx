@@ -101,6 +101,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
                   <DisplayText
                     className="max-w-40 text-start"
                     typography="medium4"
+                    truncate
                     text={tokenData?.symbol}
                     {...tokenDataResult}
                   />
