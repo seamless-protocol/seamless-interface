@@ -9,12 +9,10 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 };
 
 export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T>) {
-  // *** strategy *** //
   const { strategy } = useFormSettingsContext();
   const { data: { underlying } = {} } = useFetchFullStrategyData(strategy);
   const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, strategy);
 
-  // *** JSX *** //
   return (
     <RHFAmountInput
       {...other}
