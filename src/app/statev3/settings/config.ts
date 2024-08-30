@@ -4,7 +4,6 @@ import {
   ethShort_ADDRESS_1_5_x,
   USDC_ADDRESS,
   WETH_ADDRESS,
-  WSTETH_ADDRESS,
   wstETHBooster_ADDRESS,
 } from "../../../meta";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
@@ -18,7 +17,6 @@ interface StrategyConfig {
   description: string;
   type: TagType;
   icon: string;
-  underlyingAsset: LendMarketConfig;
   debtAsset: LendMarketConfig;
   address?: Address;
 }
@@ -29,7 +27,6 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     description: "Increase ETH staking rewards by magnifying a wstETH position.",
     type: "Staking",
     icon: ilmIcon,
-    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],
     address: wstETHBooster_ADDRESS,
   },
@@ -38,7 +35,6 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     description: "For ETH Bulls, increase ETH price exposure by 1.5 times long.",
     type: "Long",
     icon: ilmIcon,
-    underlyingAsset: assetsConfig[WETH_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],
     address: ethLong,
   },
@@ -47,7 +43,6 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     description: "For ETH Bulls, increase ETH price exposure by 3 times long.",
     type: "Long",
     icon: ilmIcon,
-    underlyingAsset: assetsConfig[WETH_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],
     address: ethLong_3x,
   },
@@ -56,7 +51,6 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     description: "For ETH Bears, increase ETH price exposure by 3 times short.",
     type: "Short",
     icon: ilmIcon,
-    underlyingAsset: assetsConfig[USDC_ADDRESS],
     debtAsset: assetsConfig[WETH_ADDRESS],
     address: ethShort_ADDRESS_1_5_x,
   },
