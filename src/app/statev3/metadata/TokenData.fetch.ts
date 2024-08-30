@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { strategyConfig } from "../settings/config";
 import { TagType } from "../common/types/StateTypes";
 
-interface TokenData {
+export interface TokenData {
   symbol: string;
   decimals: number;
   icon?: string;
@@ -37,6 +37,7 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
   return {
     symbol,
     decimals,
+    // todo: remove this! use it only from strategy data
     ...strategyConfig[token],
   };
 }

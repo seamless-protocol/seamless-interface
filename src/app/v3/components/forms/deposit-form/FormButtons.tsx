@@ -10,17 +10,17 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { StrategyState } from "../../../../state/common/types/StateTypes";
+import { FullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
 
 export const FormButtons: React.FC<{
-  strategy: StrategyState;
+  strategy: FullStrategyData;
   onTransaction?: () => void;
   isLoading?: boolean;
 }> = ({ strategy, onTransaction, isLoading }) => {
   const { showNotification } = useNotificationContext();
   const {
     data: { decimals },
-  } = useToken(strategy.underlyingAsset.address);
+  } = useToken(strategy.underlying);
 
   const {
     watch,
@@ -29,7 +29,7 @@ export const FormButtons: React.FC<{
   const amount = watch("amount");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    strategy.underlyingAsset.address,
+    strategy.underlying,
     strategy.address,
     decimals ? parseUnits(amount || "0", decimals) : undefined
   );

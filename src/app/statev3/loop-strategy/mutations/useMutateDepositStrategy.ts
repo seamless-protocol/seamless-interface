@@ -4,16 +4,16 @@ import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../../state/common/queries/useFetchViewAssetBalance";
-import { StrategyState } from "../../../state/common/types/StateTypes";
+import { FullStrategyData } from "../../metadata/StrategyState.all";
 
-export const useMutateDepositStrategy = (strategy?: StrategyState) => {
+export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   // meta data
   const { address } = useAccount();
 
   // cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlyingAsset.address);
+  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlying);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: strategy?.underlyingAsset.address,
+    asset: strategy?.underlying,
     spender: strategy?.address,
   });
 
