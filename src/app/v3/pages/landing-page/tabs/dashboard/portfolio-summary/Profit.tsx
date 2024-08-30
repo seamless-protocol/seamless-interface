@@ -29,6 +29,7 @@ export const Profit = () => {
         hidden={!userProfit.unrealizedProfitPercentage.bigIntValue}
       />
       <DisplayText
+        truncate
         viewValue={getProfitText(userProfit.unrealizedProfit, userProfit.unrealizedProfitPercentage)}
         className={getColorBasedOnSign(userProfit.unrealizedProfit.value)}
         typography="bold4"
