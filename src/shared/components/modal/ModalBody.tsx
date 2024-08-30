@@ -19,7 +19,7 @@ const sizeMapper = {
   small: "max-w-[420px]",
   normal: "max-w-[540px]",
   big: "max-w-[690px]",
-  biger: "max-w-[920px]",
+  biger: "max-w-[1020px]",
 };
 
 export const ModalBody: React.FC<ModalBodyProps> = ({
