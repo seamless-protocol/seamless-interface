@@ -53,7 +53,7 @@ const WithdrawStrategyLocal: React.FC<{
 
   const {
     data: { symbol: strategySymbol },
-  } = useToken(strategy?.address);
+  } = useToken(strategy.address);
 
   const underlyingTokenAddress = strategy.underlying;
   const { data: underlyingTokenData, isLoading: isTokenDecimalsLoading } = useFullTokenData(underlyingTokenAddress);
@@ -63,9 +63,9 @@ const WithdrawStrategyLocal: React.FC<{
   const modalRef = useRef<ModalHandles | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: price } = useFetchAssetPrice({ asset: strategy?.address });
+  const { data: price } = useFetchAssetPrice({ asset: strategy.address });
 
-  const { withdrawAsync } = useWriteStrategyWithdraw(strategy?.address);
+  const { withdrawAsync } = useWriteStrategyWithdraw(strategy.address);
 
   // FORM //
   const methods = useForm<WithdrawModalFormData>({
@@ -77,7 +77,7 @@ const WithdrawStrategyLocal: React.FC<{
   const amount = watch("amount", "");
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
-  const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, strategy?.address);
+  const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, strategy.address);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {
@@ -163,7 +163,7 @@ const WithdrawStrategyLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-3">
           <Typography type="medium3">Withdraw</Typography>
-          <RHFWithdrawStrategyAmountField strategy={strategy?.address} name="amount" />
+          <RHFWithdrawStrategyAmountField strategy={strategy.address} name="amount" />
         </FlexCol>
 
         <FlexCol className="gap-3">
