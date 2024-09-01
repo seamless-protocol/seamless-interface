@@ -26,7 +26,7 @@ export const UserProfit = () => {
   }
 
   return (
-    <FlexRow className={`justify-center max-w-max`}>
+    <FlexRow className="justify-center max-w-max">
       <Icon
         src={getSvgBasedOnSign(userProfit.unrealizedProfitPercentage.value)}
         alt="polygon"
