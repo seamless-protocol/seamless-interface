@@ -40,7 +40,7 @@ export const DepositForm = () => {
 
 interface FormData {
   amount: string;
-  sliderValue: number;
+  receiveAmount: string;
 }
 
 const StrategyFormLocal: React.FC<{
@@ -55,6 +55,7 @@ const StrategyFormLocal: React.FC<{
   const methods = useForm<FormData>({
     defaultValues: {
       amount: "",
+      receiveAmount: "",
     },
   });
   const { handleSubmit, watch, reset } = methods;

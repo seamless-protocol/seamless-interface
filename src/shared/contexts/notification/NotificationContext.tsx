@@ -2,8 +2,6 @@
 import React, { createContext, useState, useCallback, ReactNode } from "react";
 import { DisplayNotification } from "../../components/notification/DisplayNotification";
 import { TNotificationProps } from "../../types/INotification";
-import { IS_STYLE_VERSION_2 } from "../../../globals";
-import { DisplayNotificationv2 } from "../../components/notification/DisplayNotificationv2";
 
 interface NotificationContextType {
   showNotification: (notification: TNotificationProps) => void;
@@ -43,13 +41,9 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   return (
     <NotificationContext.Provider value={{ showNotification, closeNotification }}>
       {children}
-      {isOpen &&
-        notification &&
-        (IS_STYLE_VERSION_2 ? (
-          <DisplayNotificationv2 {...defaultNotificationSettings} {...notification} setModalOpen={setIsOpen} />
-        ) : (
-          <DisplayNotification {...defaultNotificationSettings} {...notification} setModalOpen={setIsOpen} />
-        ))}
+      {isOpen && notification && (
+        <DisplayNotification {...defaultNotificationSettings} {...notification} setModalOpen={setIsOpen} />
+      )}
     </NotificationContext.Provider>
   );
 };
