@@ -64,7 +64,7 @@ export const StrategyStats = () => {
             className="text-primary-1000"
             text={`${targetMultiples.maxForRebalance?.viewValue} - ${targetMultiples.minForRebalance?.viewValue}`}
             loaderSkeleton={false}
-          ></DisplayText>
+          />
         </FlexCol>
         <img src={border} alt="border" />
       </FlexRow>
@@ -79,7 +79,7 @@ export const StrategyStats = () => {
             className="text-primary-1000"
             text={`${currentMultiple?.viewValue}`}
             loaderSkeleton={false}
-          ></DisplayText>
+          />
         </FlexCol>
       </FlexRow>
     </FlexRow>
