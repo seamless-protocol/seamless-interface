@@ -44,6 +44,7 @@ export const WithdrawForm: React.FC = () => {
 
 interface WithdrawModalFormData {
   amount: string;
+  receiveAmount: string;
 }
 
 const WithdrawStrategyLocal: React.FC<{
@@ -71,6 +72,7 @@ const WithdrawStrategyLocal: React.FC<{
   const methods = useForm<WithdrawModalFormData>({
     defaultValues: {
       amount: "",
+      receiveAmount: "",
     },
   });
   const { handleSubmit, watch, reset } = methods;
