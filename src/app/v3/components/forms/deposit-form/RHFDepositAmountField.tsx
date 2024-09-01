@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
@@ -8,6 +8,7 @@ import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -61,9 +62,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const underlyingAssetAddress = strategyState?.underlyingAsset.address;
 
   // *** metadata *** //
-  const {
-    data: { decimals },
-  } = useToken(underlyingAssetAddress);
+  const { data: tokenData } = useFetchTokenData(underlyingAssetAddress);
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -81,8 +80,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -93,7 +92,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** JSX *** //
   return (
-    <RHFAmountInput
+    <RHFAmountInputV3
       {...other}
       assetAddress={underlyingAssetAddress}
       dollarValue={{
@@ -109,6 +108,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
+      tokenData={{ ...tokenData }}
     />
   );
 }
