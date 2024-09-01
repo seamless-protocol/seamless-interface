@@ -1,14 +1,18 @@
 import { DisplayMoney, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography } from "@shared";
 import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
-import { wstETHBooster_ADDRESS } from "../../../../../../meta";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { UserProfit } from "./UserProfit";
+import { useParams } from "react-router-dom";
+import { Address } from "viem";
 
 export const CurrentHoldings = () => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(wstETHBooster_ADDRESS);
+  const { address } = useParams();
+  const strategy = address as Address | undefined;
+
+  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
 
   const { data: strategyBalance, ...strategyBalanceRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: wstETHBooster_ADDRESS,
+    asset: strategy,
   });
 
   return (

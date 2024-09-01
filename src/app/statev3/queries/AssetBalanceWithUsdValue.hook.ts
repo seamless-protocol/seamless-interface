@@ -8,7 +8,7 @@ import { useAccount } from "wagmi";
 import { fetchAssetBalance } from "./AssetBalance.hook";
 
 interface AssetBalanceUsdValuePairInput {
-  asset: Address;
+  asset?: Address;
   blockNumber?: bigint;
 }
 
@@ -21,8 +21,8 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
     queryKey: ["hookAssetBalanceUsdValue", address, asset],
     queryFn: async () => {
       const [assetBalance, assetPrice] = await Promise.all([
-        fetchAssetBalance({ account: address!, asset }),
-        fetchAssetPriceInBlock(asset),
+        fetchAssetBalance({ account: address!, asset: asset! }),
+        fetchAssetPriceInBlock(asset!),
       ]);
 
       const usdValue = cValueInUsd(assetBalance.bigIntValue, assetPrice.bigIntValue, assetBalance.decimals);
