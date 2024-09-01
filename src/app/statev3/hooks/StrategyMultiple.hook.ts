@@ -42,6 +42,6 @@ export const useFetchFormattedStrategyMultiple = (
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigIntTemp(data),
+    data: formatFetchBigIntToViewBigIntTemp(data, { singleDigitNumberDecimals: 1 }),
   };
 };

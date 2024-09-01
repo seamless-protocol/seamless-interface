@@ -58,9 +58,9 @@ export const useFetchFormattedStrategyTargetMultiples = (
   return {
     ...rest,
     data: {
-      minForRebalance: formatFetchBigIntToViewBigIntTemp(data?.minForRebalance),
-      maxForRebalance: formatFetchBigIntToViewBigIntTemp(data?.maxForRebalance),
-      target: formatFetchBigIntToViewBigIntTemp(data?.target),
+      minForRebalance: formatFetchBigIntToViewBigIntTemp(data?.minForRebalance, { singleDigitNumberDecimals: 1 }),
+      maxForRebalance: formatFetchBigIntToViewBigIntTemp(data?.maxForRebalance, { singleDigitNumberDecimals: 1 }),
+      target: formatFetchBigIntToViewBigIntTemp(data?.target, { singleDigitNumberDecimals: 1 }),
     },
   };
 };
