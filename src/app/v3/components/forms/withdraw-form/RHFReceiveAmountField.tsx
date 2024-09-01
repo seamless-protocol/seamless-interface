@@ -16,13 +16,14 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
   return (
     <RHFAmountInput
       {...other}
+      name={other.name as string}
       assetAddress={underlying}
       dollarValue={{
         ...restShares,
         data: sharesToReceive.assetsToReceive.dollarAmount,
       }}
       disabled
-      value={sharesToReceive.assetsToReceive.tokenAmount.value}
+      value={sharesToReceive.assetsToReceive.tokenAmount.value || "0"}
       hideMaxButton
     />
   );
