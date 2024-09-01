@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { DisplayText, FlexRow, Icon, ViewBigInt } from "../../../../../../shared";
+import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../utils/uiUtils";
 import { Address } from "viem";
@@ -8,6 +8,7 @@ function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: Vie
   return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol}) All time`;
 }
 
+// TODO: Find a better way for handling loading skeleton in this component
 export const UserProfit = () => {
   const { address: strategy } = useParams();
 
