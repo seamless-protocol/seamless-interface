@@ -3,6 +3,8 @@ import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 import { Address } from "viem";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "@router";
 
 export const IlmTableContainer: React.FC<{
   selectedStrategy?: Address;
@@ -35,16 +37,18 @@ export const IlmTableContainer: React.FC<{
       <div className={`${isFetched ? "" : "min-h-96"}`}>
         {strategies?.map((strategy, index) => (
           <div key={index}>
-            <ILMDesktopTableRow
-              strategy={strategy}
-              hideBorder={index === strategies.length - 1}
-              selected={strategy === selectedStrategy}
-            />
-            <ILMMobileTableRow
-              strategy={strategy}
-              hideBorder={index === strategies.length - 1}
-              selected={strategy === selectedStrategy}
-            />
+            <Link to={RouterConfig.Builder.ilmDetailsv3(strategy)}>
+              <ILMDesktopTableRow
+                strategy={strategy}
+                hideBorder={index === strategies.length - 1}
+                selected={strategy === selectedStrategy}
+              />
+              <ILMMobileTableRow
+                strategy={strategy}
+                hideBorder={index === strategies.length - 1}
+                selected={strategy === selectedStrategy}
+              />
+            </Link>
           </div>
         ))}
       </div>

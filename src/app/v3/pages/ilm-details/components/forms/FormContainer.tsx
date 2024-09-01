@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
-import { useParams } from "react-router-dom";
-import { Address } from "viem";
 import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
 import { WithdrawForm } from "../../../../components/forms/withdraw-form/WithdrawForm";
 
 export const FormContainer: React.FC = () => {
-  const { address: strategy } = useParams();
   const [isDepositing, setIsDepositing] = useState(true);
 
   return (
@@ -33,11 +30,11 @@ export const FormContainer: React.FC = () => {
       </FlexRow>
       <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={strategy as Address}>
+          <FormSettingsProvider>
             <DepositForm />
           </FormSettingsProvider>
         ) : (
-          <FormSettingsProvider defaultStrategy={strategy as Address}>
+          <FormSettingsProvider>
             <WithdrawForm />
           </FormSettingsProvider>
         )}

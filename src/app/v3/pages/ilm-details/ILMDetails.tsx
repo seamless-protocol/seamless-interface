@@ -5,6 +5,7 @@ import { StrategyPickerButton } from "./components/strategy-picker/StrategyPicke
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { RouterConfig } from "@router";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const ILMDetails = () => {
     <PageContainer className="flex justify-center py-2 md:py-12">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
-          <button onClick={() => navigate(-1)}>
+          <button onClick={() => navigate(RouterConfig.Routes.landingPage)}>
             <ArrowLeftIcon width={24} height={24} />
           </button>
           <StrategyPickerButton strategy={address as Address} />
