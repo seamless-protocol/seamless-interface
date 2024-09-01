@@ -5,11 +5,12 @@ import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strateg
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
+import { LoadingTableGuard } from "./LoadingTableGuard";
 
 export const IlmTableContainer: React.FC<{
   selectedStrategy?: Address;
 }> = ({ selectedStrategy }) => {
-  const { data: strategies, isFetched } = useFetchAllStrategies();
+  const { data: strategies, ...rest } = useFetchAllStrategies();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
@@ -34,7 +35,12 @@ export const IlmTableContainer: React.FC<{
         </TableCell>
       </TableRow>
 
-      <div className={`${isFetched ? "" : "min-h-96"}`}>
+      <LoadingTableGuard
+        loadingState={{
+          ...rest,
+          data: undefined,
+        }}
+      >
         {strategies?.map((strategy, index) => (
           <div key={index}>
             <Link to={RouterConfig.Builder.ilmDetailsv3(strategy)}>
@@ -51,7 +57,7 @@ export const IlmTableContainer: React.FC<{
             </Link>
           </div>
         ))}
-      </div>
+      </LoadingTableGuard>
     </div>
   );
 };

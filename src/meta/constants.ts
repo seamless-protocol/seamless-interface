@@ -8,6 +8,7 @@ import type { DecimalsOptions } from "@shared";
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
 export const STRATEGY_MULTIPLE_DECIMALS = 18;
+export const STRATEGY_MULTIPLE_FORMAT_DECIMALS = 1;
 
 export const walletBalanceDecimalsOptions: Partial<DecimalsOptions> = {
   singleDigitNumberDecimals: 6,

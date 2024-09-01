@@ -4,9 +4,10 @@ import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
+import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
 
 export const TableContainer = () => {
-  const { data: strategies, isFetched } = useFetchUserDepositStrategies();
+  const { data: strategies, ...rest } = useFetchUserDepositStrategies();
 
   return (
     <div>
@@ -30,7 +31,12 @@ export const TableContainer = () => {
           <TableCell className="col-span-5" />
         </TableRow>
 
-        <div className={`${isFetched ? "" : "min-h-96"}`}>
+        <NoStrategiesTableGuard
+          numberOfStrategiesDisplayable={{
+            ...rest,
+            data: strategies?.length || 0,
+          }}
+        >
           {strategies?.map((strategy, index) => (
             <div key={strategy.strategy}>
               <Link to={RouterConfig.Builder.ilmDetailsv3(strategy.strategy)}>
@@ -39,7 +45,7 @@ export const TableContainer = () => {
               </Link>
             </div>
           ))}
-        </div>
+        </NoStrategiesTableGuard>
       </div>
     </div>
   );
