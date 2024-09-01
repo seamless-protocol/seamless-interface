@@ -1,6 +1,7 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { StrategyDetails } from "./components/strategy-details/StrategyDetails";
 import { StrategyStats } from "./components/strategy-details/strategy-stats/StrategyStats";
+import { CurrentHoldings } from "./components/current-holdings/CurrentHoldings";
 import { FormContainer } from "./components/forms/FormContainer";
 import { StrategyPickerButton } from "./components/strategy-picker/StrategyPickerButton";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,10 +23,12 @@ export const ILMDetails = () => {
         </FlexRow>
 
         <FlexRow className="w-full gap-8">
-          <div className="w-2/3">
+          <FlexCol className="w-2/3 gap-10">
+            <CurrentHoldings />
             <StrategyStats />
             <StrategyDetails />
-          </div>
+          </FlexCol>
+
           <div className="w-full md:w-[450px] flex flex-none">
             <FormContainer />
           </div>
