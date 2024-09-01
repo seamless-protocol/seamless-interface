@@ -9,7 +9,7 @@ export const LandingPage = () => {
     <PageContainer className="flex justify-center py-12">
       <TabProvider<Tabs> defaultTab="ILMs">
         {/* todo: responsive */}
-        <FlexCol className="gap-1 w-full md:max-w-[1020px]">
+        <FlexCol className="gap-1 w-full md:max-w-page-content">
           <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin">
             <TabButton<Tabs> tab="ILMs">ILMs</TabButton>
             <TabButton<Tabs> tab="Dashboard">Dashboard</TabButton>

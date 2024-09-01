@@ -8,7 +8,15 @@ import { useMutateDepositStrategy } from "../../../../../state/loop-strategy/mut
 import { Tag } from "../../../asset-data/Tag";
 import { FormButtons } from "./FormButtons";
 import { Summary } from "./Summary";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow, useToken } from "@shared";
+import {
+  useNotificationContext,
+  FlexCol,
+  Typography,
+  WatchAssetComponentv2,
+  MyFormProvider,
+  FlexRow,
+  useToken,
+} from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFSupplyStrategyAmountField } from "./RHFSupplyStrategyAmountField";
 import { RouterConfig } from "../../../../../router";
@@ -66,7 +74,10 @@ const StrategyFormLocal: React.FC<{
   const {
     data: { name, subTitle },
   } = useFullTokenData(strategy.address);
-  const { data: { decimals: underlyingAssetDecimals }, isLoading: isUnderlyingAssetDecimalsLoading } = useToken(strategy?.underlyingAsset?.address);
+  const {
+    data: { decimals: underlyingAssetDecimals },
+    isLoading: isUnderlyingAssetDecimalsLoading,
+  } = useToken(strategy?.underlyingAsset?.address);
 
   const { depositAsync } = useMutateDepositStrategy(strategy, subStrategy);
 
