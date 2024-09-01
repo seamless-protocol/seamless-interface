@@ -14,10 +14,9 @@ import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
-import { useFullTokenData } from "../../../../app/state/common/meta-data-queries/useFullTokenData";
 import { useFocusOnAssetChange } from "../../../hooks/ui-hooks/useFocusOnAssetChange";
 
-export interface IRHFAmountInputProps extends RHFInputFieldProps {
+export interface IRHFAmountInputPropsV3 extends RHFInputFieldProps {
   assetAddress?: Address;
   walletBalance?: Displayable<ViewBigInt | undefined>;
   protocolMaxValue?: Displayable<ViewBigInt | undefined>;
@@ -25,9 +24,14 @@ export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetButton?: React.ReactNode;
   focusOnAssetChange?: boolean;
   hideMaxButton?: boolean;
+  tokenData?: {
+    symbol?: string;
+    decimals?: number;
+    icon?: string;
+  };
 }
 
-export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInputProps>(
+export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInputPropsV3>(
   (
     {
       name,
@@ -36,6 +40,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
       dollarValue,
       protocolMaxValue,
       assetButton,
+      tokenData,
       focusOnAssetChange = true,
       hideMaxButton,
       ...other
@@ -44,8 +49,6 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
   ) => {
     const { setValue, getValues } = useFormContext();
     const { isConnected } = useAccount();
-    const tokenDataResult = useFullTokenData(assetAddress);
-    const { data: tokenData } = tokenDataResult;
 
     const max = protocolMaxValue?.data?.value;
     const hideTooltip = tokenData?.symbol?.length ? tokenData.symbol.length < 10 : false;
@@ -96,15 +99,9 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
             />
             {assetButton || (
               <div className="inline-flex items-center space-x-2">
-                <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
+                <Icon width={24} src={tokenData?.icon} alt="input-field-asset" />
                 <Tooltip tooltip={tokenData?.symbol} hidden={hideTooltip} size="small">
-                  <DisplayText
-                    className="max-w-40 text-start"
-                    typography="medium4"
-                    truncate
-                    text={tokenData?.symbol}
-                    {...tokenDataResult}
-                  />
+                  <DisplayText className="max-w-40 text-start" typography="medium4" truncate text={tokenData?.symbol} />
                 </Tooltip>
               </div>
             )}
@@ -141,4 +138,4 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
   }
 );
 
-RHFAmountInput.displayName = "RHFAmountInput";
+RHFAmountInputV3.displayName = "RHFAmountInputV3";

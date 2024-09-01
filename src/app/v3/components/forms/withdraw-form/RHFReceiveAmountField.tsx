@@ -1,7 +1,8 @@
-import { IRHFAmountInputProps, RHFAmountInput } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -10,11 +11,14 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 
 export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T>) {
   const { strategy } = useFormSettingsContext();
+
   const { data: { underlying } = {} } = useFetchFullStrategyData(strategy);
+  const { data: tokenData } = useFetchTokenData(underlying);
+
   const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, strategy);
 
   return (
-    <RHFAmountInput
+    <RHFAmountInputV3
       {...other}
       name={other.name as string}
       assetAddress={underlying}
@@ -25,6 +29,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
       disabled
       value={sharesToReceive.assetsToReceive.tokenAmount.value || "0"}
       hideMaxButton
+      tokenData={{ ...tokenData }}
     />
   );
 }
