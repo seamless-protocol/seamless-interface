@@ -4,6 +4,7 @@ import { FormSettingsProvider } from "../../../../components/forms/contexts/Form
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
+import { WithdrawForm } from "../../../../components/forms/withdraw-form/WithdrawForm";
 
 export const FormContainer: React.FC = () => {
   const { address: strategy } = useParams();
@@ -36,7 +37,9 @@ export const FormContainer: React.FC = () => {
             <DepositForm />
           </FormSettingsProvider>
         ) : (
-          <>todo withdraw form</>
+          <FormSettingsProvider defaultStrategy={strategy as Address}>
+            <WithdrawForm />
+          </FormSettingsProvider>
         )}
       </div>
     </FlexCol>
