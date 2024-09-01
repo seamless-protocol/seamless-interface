@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../generated";
-import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS } from "@meta";
+import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS, STRATEGY_MULTIPLE_FORMAT_DECIMALS } from "@meta";
 import { Displayable, FetchBigInt, ViewBigInt, formatFetchBigInt, formatFetchBigIntToViewBigIntTemp } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
