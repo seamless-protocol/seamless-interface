@@ -12,7 +12,7 @@ import {
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
-import { cValueInUsd } from "../math/cValueInUsd";
+import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
 

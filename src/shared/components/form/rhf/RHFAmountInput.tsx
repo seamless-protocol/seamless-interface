@@ -99,7 +99,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
                 <Icon width={24} src={tokenData?.logo} alt="input-field-asset" />
                 <Tooltip tooltip={tokenData?.symbol} hidden={hideTooltip} size="small">
                   <DisplayText
-                    className="max-w-32 text-start"
+                    className="max-w-40 text-start"
                     typography="medium4"
                     truncate
                     text={tokenData?.symbol}
@@ -119,7 +119,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
               <div className="inline-flex gap-2 items-end text-end">
                 <Tooltip tooltip={walletBalance?.data?.symbol} hidden={hideTooltip} size="small">
                   <DisplayTokenAmount
-                    className="max-w-32"
+                    className="max-w-44"
                     {...walletBalance}
                     {...walletBalance?.data}
                     typography="medium2"

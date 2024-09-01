@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { cValueInUsd } from "../../math/cValueInUsd";
+import { cValueInUsd } from "../../math/utils";
 
 /// TYPES
 
