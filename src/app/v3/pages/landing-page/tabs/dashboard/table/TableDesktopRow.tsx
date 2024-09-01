@@ -14,19 +14,19 @@ import {
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "./UserInfoImageGroup";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const TableDesktopRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({

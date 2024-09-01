@@ -7,15 +7,15 @@ import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { IncentivesButton } from "./IncentivesButton";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
   selected?: boolean;
 }> = ({ strategy, hideBorder, selected }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 

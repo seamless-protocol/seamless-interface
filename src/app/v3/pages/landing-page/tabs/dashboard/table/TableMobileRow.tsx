@@ -5,13 +5,13 @@ import { Tag } from "../../../../../components/strategy-data/Tag";
 
 import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { getSvgBasedOnSign, getColorBasedOnSign } from "../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "./UserInfoImageGroup";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
   const { data: balanceUsdPair, ...otherBalanceUsdPair } = useFetchFormattedAssetBalanceWithUsdValue({

@@ -5,14 +5,14 @@ import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3
 import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
   selected?: boolean;
 }> = ({ strategy, selected }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
