@@ -67,6 +67,7 @@ export const StrategyStats = () => {
             typography="bold5"
             className="text-primary-1000"
             text={getMinMaxLeverageText(targetMultiples?.maxForRebalance, targetMultiples?.minForRebalance)}
+            // TODO: Fix loading skeleton size inside DisplayValue component
             loaderSkeleton={false}
           />
         </FlexCol>
