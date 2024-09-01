@@ -6,7 +6,7 @@ import {
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
-} from "../../../shared";
+} from "@shared";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
