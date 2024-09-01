@@ -2,9 +2,10 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
+import { LoadingTableGuard } from "./LoadingTableGuard";
 
 export const IlmTableContainer = () => {
-  const { data: strategies, isFetched } = useFetchAllStrategies();
+  const { data: strategies, ...rest } = useFetchAllStrategies();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
@@ -29,14 +30,19 @@ export const IlmTableContainer = () => {
         </TableCell>
       </TableRow>
 
-      <div className={`${isFetched ? "" : "min-h-96"}`}>
+      <LoadingTableGuard
+        loadingState={{
+          ...rest,
+          data: undefined,
+        }}
+      >
         {strategies?.map((strategy, index) => (
           <div key={index}>
             <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
             <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
           </div>
         ))}
-      </div>
+      </LoadingTableGuard>
     </div>
   );
 };
