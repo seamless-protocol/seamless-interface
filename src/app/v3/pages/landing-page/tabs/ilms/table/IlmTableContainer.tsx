@@ -2,9 +2,14 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
 import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
+import { Address } from "viem";
+import { Link } from "react-router-dom";
+import { RouterConfig } from "@router";
 import { LoadingTableGuard } from "./LoadingTableGuard";
 
-export const IlmTableContainer = () => {
+export const IlmTableContainer: React.FC<{
+  selectedStrategy?: Address;
+}> = ({ selectedStrategy }) => {
   const { data: strategies, ...rest } = useFetchAllStrategies();
 
   return (
@@ -38,8 +43,18 @@ export const IlmTableContainer = () => {
       >
         {strategies?.map((strategy, index) => (
           <div key={index}>
-            <ILMDesktopTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
-            <ILMMobileTableRow strategy={strategy} hideBorder={index === strategies.length - 1} />
+            <Link to={RouterConfig.Builder.ilmDetailsv3(strategy)}>
+              <ILMDesktopTableRow
+                strategy={strategy}
+                hideBorder={index === strategies.length - 1}
+                selected={strategy === selectedStrategy}
+              />
+              <ILMMobileTableRow
+                strategy={strategy}
+                hideBorder={index === strategies.length - 1}
+                selected={strategy === selectedStrategy}
+              />
+            </Link>
           </div>
         ))}
       </LoadingTableGuard>

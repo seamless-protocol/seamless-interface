@@ -10,7 +10,8 @@ import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
-}> = ({ strategy }) => {
+  selected?: boolean;
+}> = ({ strategy, selected }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
@@ -20,7 +21,7 @@ export const ILMMobileTableRow: React.FC<{
   const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
 
   return (
-    <div className="flex md:hidden flex-col bg-white shadow rounded-lg p-4 m-2">
+    <div className={`flex md:hidden flex-col shadow rounded-lg p-4 m-2 ${selected ? "bg-neutral-100" : "bg-white"}`}>
       <FlexCol className="items-end mb-[-10px]">
         <FlexRow>
           <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
