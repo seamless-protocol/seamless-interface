@@ -2,6 +2,7 @@ import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { StrategyDetails } from "./components/strategy-details/StrategyDetails";
 import { StrategyStats } from "./components/strategy-details/strategy-stats/StrategyStats";
 import { CurrentHoldings } from "./components/current-holdings/CurrentHoldings";
+import { FormContainer } from "./components/forms/FormContainer";
 
 export const ILMDetails = () => {
   return (
@@ -13,7 +14,10 @@ export const ILMDetails = () => {
             <StrategyStats />
             <StrategyDetails />
           </FlexCol>
-          <div className="w-1/3">todo: form</div>
+
+          <div className="w-full md:w-[450px] flex flex-none">
+            <FormContainer />
+          </div>
         </FlexRow>
       </FlexCol>
     </PageContainer>

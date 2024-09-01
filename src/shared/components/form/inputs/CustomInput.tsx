@@ -13,7 +13,8 @@ export const CustomInput = forwardRef<HTMLInputElement, InputFieldProps>(
       <input
         ref={ref}
         type={type}
-        className={`bg-white min-w-0 border-none focus:outline-none focus:ring-0 ${className || ""}`}
+        className={` min-w-0 border-none focus:outline-none focus:ring-0 ${className || ""} *:
+          ${rest.disabled ? "bg-action-disabled text-primary-600" : "bg-neutral-0"}`}
         autoComplete="off"
         value={value as any}
         name={name}

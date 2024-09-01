@@ -28,6 +28,7 @@ export const RemainingCap: React.FC<{
       viewValue={`${remainingCap?.capacityRemainingPercentage?.viewValue || ""}% cap available`}
       {...rest}
       {...textProps}
+      truncate
       typography="medium1"
       className="text-primary-600"
     />
@@ -45,6 +46,7 @@ export const StrategyRemainingCap: React.FC<{
       viewValue={`${remainingCap?.remainingCapPercentage?.viewValue || ""}% cap available`}
       {...rest}
       {...textProps}
+      truncate
       typography="medium1"
       className="text-primary-600"
     />

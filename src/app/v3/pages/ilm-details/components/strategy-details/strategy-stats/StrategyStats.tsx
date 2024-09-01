@@ -1,11 +1,15 @@
-import { DisplayMoney, DisplayText, FlexCol, FlexRow, Typography } from "@shared";
+import { DisplayMoney, DisplayText, DisplayValue, FlexCol, FlexRow, Typography, ViewBigInt } from "@shared";
 import border from "@assets/common/border.svg";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { useFetchFormattedStrategyCap } from "../../../../../../statev3/queries/StrategyCap.hook";
 import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../statev3/metadata/StrategyTargetMultiples.hook";
-import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
+import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.all";
+
+function getMinMaxLeverageText(min: ViewBigInt | undefined, max: ViewBigInt | undefined): string | undefined {
+  return `${min?.viewValue}${min?.symbol} - ${max?.viewValue}${max?.symbol}`;
+}
 
 export const StrategyStats = () => {
   const { address } = useParams();
@@ -15,9 +19,7 @@ export const StrategyStats = () => {
 
   const { data: supplyCap, ...supplyCapRest } = useFetchFormattedStrategyCap(strategy);
 
-  const { data: targetMultiples, ...targetMultiplesRest } = useFetchFormattedStrategyTargetMultiples(
-    strategy as Address
-  );
+  const { data: targetMultiples, ...targetMultiplesRest } = useFetchFormattedStrategyTargetMultiples(strategy);
 
   const { data: currentMultiple, ...currentMultipleRest } = useFetchFormattedStrategyMultiple(strategy);
 
@@ -62,7 +64,8 @@ export const StrategyStats = () => {
             {...targetMultiplesRest}
             typography="bold5"
             className="text-primary-1000"
-            text={`${targetMultiples.maxForRebalance?.viewValue} - ${targetMultiples.minForRebalance?.viewValue}`}
+            text={getMinMaxLeverageText(targetMultiples?.maxForRebalance, targetMultiples?.minForRebalance)}
+            // TODO: Fix loading skeleton size inside DisplayValue component
             loaderSkeleton={false}
           />
         </FlexCol>
@@ -73,11 +76,12 @@ export const StrategyStats = () => {
           <Typography type="medium3" className="text-primary-600 max-w-20">
             Current leverage
           </Typography>
-          <DisplayText
+          <DisplayValue
             {...currentMultipleRest}
+            {...currentMultiple}
             typography="bold5"
             className="text-primary-1000"
-            text={`${currentMultiple?.viewValue}`}
+            symbolPosition="after"
             loaderSkeleton={false}
           />
         </FlexCol>

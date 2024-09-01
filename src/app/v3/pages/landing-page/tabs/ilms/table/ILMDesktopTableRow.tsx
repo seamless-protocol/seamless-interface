@@ -3,12 +3,12 @@ import { Address } from "viem";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayNumber, DisplayMoney, DisplayText } from "@shared";
 import { Tag } from "../../../../../components/strategy-data/Tag";
-import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { IncentivesButton } from "./IncentivesButton";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
@@ -18,7 +18,7 @@ export const ILMDesktopTableRow: React.FC<{
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
-  const { data: apy, ...apyRest } = useFetchViewStrategyApy(strategy);
+  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
 
