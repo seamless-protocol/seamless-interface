@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../generated";
-import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS } from "../../../meta";
+import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS, STRATEGY_MULTIPLE_FORMAT_DECIMALS } from "../../../meta";
 import {
   Displayable,
   FetchBigInt,
@@ -58,9 +58,15 @@ export const useFetchFormattedStrategyTargetMultiples = (
   return {
     ...rest,
     data: {
-      minForRebalance: formatFetchBigIntToViewBigIntTemp(data?.minForRebalance, { singleDigitNumberDecimals: 1 }),
-      maxForRebalance: formatFetchBigIntToViewBigIntTemp(data?.maxForRebalance, { singleDigitNumberDecimals: 1 }),
-      target: formatFetchBigIntToViewBigIntTemp(data?.target, { singleDigitNumberDecimals: 1 }),
+      minForRebalance: formatFetchBigIntToViewBigIntTemp(data?.minForRebalance, {
+        singleDigitNumberDecimals: STRATEGY_MULTIPLE_FORMAT_DECIMALS,
+      }),
+      maxForRebalance: formatFetchBigIntToViewBigIntTemp(data?.maxForRebalance, {
+        singleDigitNumberDecimals: STRATEGY_MULTIPLE_FORMAT_DECIMALS,
+      }),
+      target: formatFetchBigIntToViewBigIntTemp(data?.target, {
+        singleDigitNumberDecimals: STRATEGY_MULTIPLE_FORMAT_DECIMALS,
+      }),
     },
   };
 };

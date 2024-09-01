@@ -6,7 +6,7 @@ import {
   formatFetchBigInt,
   formatFetchBigIntToViewBigIntTemp,
 } from "../../../shared";
-import { STRATEGY_MULTIPLE_DECIMALS } from "../../../meta";
+import { STRATEGY_MULTIPLE_DECIMALS, STRATEGY_MULTIPLE_FORMAT_DECIMALS } from "../../../meta";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEquityInBlock } from "../queries/Equity.hook";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
@@ -42,6 +42,6 @@ export const useFetchFormattedStrategyMultiple = (
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigIntTemp(data, { singleDigitNumberDecimals: 1 }),
+    data: formatFetchBigIntToViewBigIntTemp(data, { singleDigitNumberDecimals: STRATEGY_MULTIPLE_FORMAT_DECIMALS }),
   };
 };
