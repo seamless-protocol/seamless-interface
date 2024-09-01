@@ -19,9 +19,7 @@ export const StrategyStats = () => {
 
   const { data: supplyCap, ...supplyCapRest } = useFetchFormattedStrategyCap(strategy);
 
-  const { data: targetMultiples, ...targetMultiplesRest } = useFetchFormattedStrategyTargetMultiples(
-    strategy as Address
-  );
+  const { data: targetMultiples, ...targetMultiplesRest } = useFetchFormattedStrategyTargetMultiples(strategy);
 
   const { data: currentMultiple, ...currentMultipleRest } = useFetchFormattedStrategyMultiple(strategy);
 
