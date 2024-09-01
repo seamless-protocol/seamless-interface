@@ -5,8 +5,8 @@ import {
   ViewBigInt,
   formatFetchBigInt,
   formatFetchBigIntToViewBigIntTemp,
-} from "../../../shared";
-import { STRATEGY_MULTIPLE_DECIMALS } from "../../../meta";
+} from "@shared";
+import { STRATEGY_MULTIPLE_DECIMALS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEquityInBlock } from "../queries/Equity.hook";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
