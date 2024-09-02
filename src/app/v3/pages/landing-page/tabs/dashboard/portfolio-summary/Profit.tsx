@@ -1,10 +1,6 @@
-import { DisplayText, ViewBigInt } from "@shared";
+import { DisplayText } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
-
-function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewBigInt): string | undefined {
-  return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol})`;
-}
 
 export const Profit = () => {
   const { data: userProfit, ...rest } = useFetchFormattedUserProfitAndPortfolio();
@@ -18,7 +14,7 @@ export const Profit = () => {
     >
       <DisplayText
         truncate
-        viewValue={getProfitText(userProfit.unrealizedProfit, userProfit.unrealizedProfitPercentage)}
+        viewValue={`${userProfit.unrealizedProfit.symbol}${userProfit.unrealizedProfit.viewValue} (${userProfit.unrealizedProfitPercentage.viewValue}${userProfit.unrealizedProfitPercentage.symbol})`}
         typography="bold4"
         skeletonSettings={{
           width: "200px",
