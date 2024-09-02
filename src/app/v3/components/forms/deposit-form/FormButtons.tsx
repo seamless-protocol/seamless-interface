@@ -38,8 +38,8 @@ export const FormButtons: React.FC<{
       <AuthGuardv2 message="">
         <Buttonv2
           className="text-bold3"
-          disabled={isApproved}
-          loading={isApproving || isLoading}
+          disabled={isApproved || isSubmitting}
+          loading={!isApproved && (isApproving || isLoading)}
           onClick={async () => {
             try {
               await approveAsync();
