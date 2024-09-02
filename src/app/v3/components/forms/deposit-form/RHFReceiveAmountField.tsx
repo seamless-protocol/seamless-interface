@@ -64,14 +64,14 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
       : "0";
 
   // *** metadata *** //
-  const { data: tokenData } = useFetchTokenData(strategy);
+  const tokenData = useFetchTokenData(strategy);
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);
 
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", tokenData?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,

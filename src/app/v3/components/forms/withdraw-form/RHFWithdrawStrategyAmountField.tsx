@@ -44,7 +44,7 @@ type IProps<T> = Omit<
  */
 export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange = true, ...other }: IProps<T>) {
   // *** metadata *** //
-  const { data: tokenData } = useFetchTokenData(strategy);
+  const tokenData = useFetchTokenData(strategy);
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -56,8 +56,8 @@ export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(strategy, walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", tokenData?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,

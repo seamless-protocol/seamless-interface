@@ -30,14 +30,14 @@ export const DepositForm = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { setStrategy } = useFormSettingsContext();
+  const { setStrategy, strategy: strategyInContext } = useFormSettingsContext();
   const { data: strategyData } = useFetchFullStrategyData(strategy);
 
   useEffect(() => {
     setStrategy(strategy);
   }, [setStrategy, strategy]);
 
-  if (!strategyData) {
+  if (!strategyData || !strategyInContext) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <div className="min-h-[1000px]" />;

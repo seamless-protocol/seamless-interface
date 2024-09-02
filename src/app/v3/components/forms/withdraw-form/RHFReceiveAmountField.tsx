@@ -13,7 +13,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
   const { strategy } = useFormSettingsContext();
 
   const { data: { underlying } = {} } = useFetchFullStrategyData(strategy);
-  const { data: tokenData } = useFetchTokenData(underlying);
+  const tokenData = useFetchTokenData(underlying);
 
   const { data: sharesToReceive, ...restShares } = useFetchViewWithdrawSharesToReceive(debouncedAmount, strategy);
 

@@ -24,11 +24,11 @@ export interface IRHFAmountInputPropsV3 extends RHFInputFieldProps {
   assetButton?: React.ReactNode;
   focusOnAssetChange?: boolean;
   hideMaxButton?: boolean;
-  tokenData?: {
+  tokenData?: Displayable<{
     symbol?: string;
     decimals?: number;
     icon?: string;
-  };
+  }>;
 }
 
 export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInputPropsV3>(
@@ -51,10 +51,10 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
     const { isConnected } = useAccount();
 
     const max = protocolMaxValue?.data?.value;
-    const hideTooltip = tokenData?.symbol?.length ? tokenData.symbol.length < 10 : false;
+    const hideTooltip = tokenData?.data?.symbol?.length ? tokenData?.data.symbol.length < 10 : false;
 
     const handleMaxClick = () => {
-      if (!tokenData?.decimals) {
+      if (!tokenData?.data?.decimals) {
         // eslint-disable-next-line no-console
         console.warn("Token data coulnd't be loaded.");
         return;
@@ -70,10 +70,10 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
     useEffect(() => {
       const value = getValues(name as string);
 
-      if (!value || !tokenData?.decimals) {
+      if (!value || !tokenData?.data?.decimals) {
         setValue(name as string, "");
       } else if (
-        (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData.decimals)) ||
+        (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData?.data.decimals)) ||
         0n
       ) {
         setValue(name as string, "");
@@ -99,9 +99,20 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
             />
             {assetButton || (
               <div className="inline-flex items-center space-x-2">
-                <Icon width={24} src={tokenData?.icon} alt="input-field-asset" />
-                <Tooltip tooltip={tokenData?.symbol} hidden={hideTooltip} size="small">
-                  <DisplayText className="max-w-40 text-start" typography="medium4" truncate text={tokenData?.symbol} />
+                <Icon
+                  width={24}
+                  src={tokenData?.data?.icon}
+                  isFetched={tokenData?.isFetched}
+                  isLoading={tokenData?.isLoading}
+                  alt="input-field-asset"
+                />
+                <Tooltip tooltip={tokenData?.data?.symbol} hidden={hideTooltip} size="small">
+                  <DisplayText
+                    className="max-w-40 text-start"
+                    typography="medium4"
+                    truncate
+                    text={tokenData?.data?.symbol}
+                  />
                 </Tooltip>
               </div>
             )}
