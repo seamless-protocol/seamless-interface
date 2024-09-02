@@ -13,7 +13,7 @@ export const SignIndicatingElement: React.FC<{
 
   return (
     <FlexRow
-      className={`items-center gap-1 p-2 rounded-tag 
+      className={`items-center gap-1 p-2 rounded-tag
       ${getBackGroundColorBasedOnSign(data.value)}
       ${getColorBasedOnSign(data.value)}`}
     >

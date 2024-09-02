@@ -16,7 +16,7 @@ export const StrategyHeading = () => {
 
   return (
     <FlexCol>
-      <FlexRow className="items-center gap-4">
+      <div className="flex md:flex-row flex-col-reverse md:items-center gap-4">
         <DisplayText
           viewValue={strategyData?.name}
           {...rest}
@@ -27,21 +27,25 @@ export const StrategyHeading = () => {
           }}
         />
 
-        <SignIndicatingElement
-          dislayable={{
-            ...apyRest,
-            data: apy,
-          }}
-        >
-          <DisplayNumber typography="bold3" {...apy} {...apyRest} />
-        </SignIndicatingElement>
-
-        {strategy && (
-          <div className="h-auto">
-            <IncentivesButton strategy={strategy} />
+        <FlexRow className="md:items-center gap-4">
+          <div className="flex w-auto">
+            <SignIndicatingElement
+              dislayable={{
+                ...apyRest,
+                data: apy,
+              }}
+            >
+              <DisplayNumber typography="bold3" {...apy} {...apyRest} />
+            </SignIndicatingElement>
           </div>
-        )}
-      </FlexRow>
+
+          {strategy && (
+            <div className="h-auto mt-[2px]">
+              <IncentivesButton strategy={strategy} />
+            </div>
+          )}
+        </FlexRow>
+      </div>
       {strategyData?.description && <Typography type="regular5">{strategyData?.description}</Typography>}
     </FlexCol>
   );
