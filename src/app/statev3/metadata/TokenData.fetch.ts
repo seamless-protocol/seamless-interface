@@ -5,9 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { addressIconMap } from "../settings/config";
 
 export interface TokenData {
+  icon: string;
   symbol: string;
   decimals: number;
-  icon: string;
   name: string;
 }
 
@@ -48,10 +48,18 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
 }
 
 export const useFetchTokenData = (asset?: Address) => {
-  return useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ["hookTokenData", asset],
     queryFn: () => fetchTokenData(asset!),
     enabled: !!asset,
     ...disableCacheQueryConfig,
   });
+
+  return {
+    ...rest,
+    data: {
+      ...data,
+      icon: addressIconMap.get(asset || "") || "",
+    },
+  };
 };

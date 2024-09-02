@@ -1,6 +1,6 @@
 import {
   IRHFAmountInputProps,
-  RHFAmountInput,
+  RHFAmountInputV3,
   fParseUnits,
   formatFetchBigIntToViewBigInt,
   mergeQueryStates,
@@ -10,8 +10,8 @@ import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
-import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -64,16 +64,14 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
       : "0";
 
   // *** metadata *** //
-  const {
-    data: { decimals },
-  } = useFullTokenData(strategy);
+  const tokenData = useFetchTokenData(strategy);
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);
 
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -87,7 +85,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
 
   // *** JSX *** //
   return (
-    <RHFAmountInput
+    <RHFAmountInputV3
       {...other}
       assetAddress={strategy}
       dollarValue={{
@@ -97,6 +95,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
       disabled
       value={value}
       hideMaxButton
+      tokenData={{ ...tokenData }}
     />
   );
 }

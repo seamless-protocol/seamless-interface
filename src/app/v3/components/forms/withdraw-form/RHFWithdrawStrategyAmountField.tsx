@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { Address } from "viem";
 import { useMemo } from "react";
@@ -6,6 +6,7 @@ import { walletBalanceDecimalsOptions } from "@meta";
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
 import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 type IProps<T> = Omit<
   IRHFAmountInputProps,
@@ -43,9 +44,7 @@ type IProps<T> = Omit<
  */
 export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange = true, ...other }: IProps<T>) {
   // *** metadata *** //
-  const {
-    data: { decimals },
-  } = useToken(strategy);
+  const tokenData = useFetchTokenData(strategy);
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -57,8 +56,8 @@ export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(strategy, walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -69,7 +68,7 @@ export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange
 
   // *** JSX *** //
   return (
-    <RHFAmountInput
+    <RHFAmountInputV3
       {...other}
       name={other.name as string}
       assetAddress={strategy}
@@ -89,6 +88,7 @@ export function RHFWithdrawStrategyAmountField<T>({ strategy, focusOnAssetChange
           ...viewBalance.balance,
         },
       }}
+      tokenData={{ ...tokenData }}
     />
   );
 }

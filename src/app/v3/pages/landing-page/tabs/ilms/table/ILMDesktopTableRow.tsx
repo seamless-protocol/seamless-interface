@@ -32,11 +32,11 @@ export const ILMDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
-            <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+            <Icon width={64} src={strategyData?.icon} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
-                <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
+                <DisplayText typography="bold3" viewValue={strategyData?.name} />
+                <DisplayText typography="regular1" viewValue={strategyData?.description} />
               </FlexCol>
             </FlexCol>
           </FlexRow>

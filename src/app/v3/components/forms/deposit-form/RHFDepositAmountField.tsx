@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInput, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
@@ -6,8 +6,9 @@ import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFe
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchStrategyBySubStrategyAddressOrAddress } from "../../../../state/common/hooks/useFetchStrategyBySubStrategyAddress";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -56,14 +57,12 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
-  // todo replace this with new hooks when new state comes..
-  const { data: strategyState } = useFetchStrategyBySubStrategyAddressOrAddress(strategy);
-  const underlyingAssetAddress = strategyState?.underlyingAsset.address;
+
+  const { data: { underlying } = {} } = useFetchFullStrategyData(strategy);
+  const underlyingAssetAddress = underlying;
 
   // *** metadata *** //
-  const {
-    data: { decimals },
-  } = useToken(underlyingAssetAddress);
+  const tokenData = useFetchTokenData(underlyingAssetAddress);
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -81,8 +80,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, decimals);
+    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -93,7 +92,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** JSX *** //
   return (
-    <RHFAmountInput
+    <RHFAmountInputV3
       {...other}
       assetAddress={underlyingAssetAddress}
       dollarValue={{
@@ -109,6 +108,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
+      tokenData={{ ...tokenData }}
     />
   );
 }

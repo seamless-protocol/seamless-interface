@@ -20,7 +20,7 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, strategy);
 
   return (
-    <FlexCol className="rounded-card bg-background-selected p-6 gap-4 cursor-default">
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
       <Typography type="bold3">Summary</Typography>
 
       <FlexRow className="text-navy-600 justify-between">
