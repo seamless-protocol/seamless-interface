@@ -5,10 +5,10 @@ import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayNumber, DisplayMone
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { IncentivesButton } from "./IncentivesButton";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
+import { StrategyIncentivesButton } from "../../../../../../v2/components/incentives/AprTooltip";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
@@ -63,7 +63,7 @@ export const ILMDesktopTableRow: React.FC<{
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
-          <IncentivesButton strategy={strategy} />
+          <StrategyIncentivesButton strategy={strategy} />
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayNumber typography="bold3" {...tvl.dollarAmount} {...tvlRest} />

@@ -19,7 +19,7 @@ export const Profit = () => {
 
   return (
     <FlexRow
-      className={`flex bg-green-100 rounded-tag p-1 justify-center gap-1 max-w-max px-2 ${getRealizedGainBackGroundColor(userProfit.unrealizedProfitPercentage.value)}`}
+      className={`flex bg-green-100 rounded-tag p-1 justify-center gap-1 max-w-max px-2 ${getRealizedGainBackGroundColor(userProfit.unrealizedProfit.value)}`}
     >
       <Icon
         src={getSvgBasedOnSign(userProfit.unrealizedProfitPercentage.value)}
