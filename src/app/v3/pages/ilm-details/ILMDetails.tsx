@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
+import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
@@ -22,6 +23,9 @@ export const ILMDetails = () => {
           <StrategyPickerButton strategy={address as Address} />
         </FlexRow>
 
+        <div className="mb-8">
+          <StrategyHeading />
+        </div>
         <FlexRow className="w-full gap-8">
           <FlexCol className="w-2/3 gap-10">
             <CurrentHoldings />
