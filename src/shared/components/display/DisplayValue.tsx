@@ -98,16 +98,21 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   return (
     <div className={`flex items-center gap-1 ${className}`}>
       {symbolPosition === "before" && symbol && (
-        <Typography type={typography} tagOverride="span" color={symbolColor}>
+        <Typography
+          className={`${truncate ? "truncate" : ""} md:hover:text-clip ${className}`}
+          type={typography}
+          tagOverride="span"
+          color={symbolColor}
+        >
           {symbol}
         </Typography>
       )}
-      <Typography type={typography} className={`${truncate ? "md:truncate" : ""} md:hover:text-clip `}>
+      <Typography type={typography} className={`${truncate ? "truncate" : ""} md:hover:text-clip `}>
         {viewValue}
       </Typography>
       {symbolPosition === "after" && symbol && (
         <Typography
-          className={`md:truncate md:hover:text-clip ${className}`}
+          className={`${truncate ? "truncate" : ""} md:hover:text-clip ${className}`}
           type={typography}
           tagOverride="span"
           color={symbolColor}

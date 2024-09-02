@@ -14,7 +14,7 @@ export const ILMDetails = () => {
   const { address } = useParams();
 
   return (
-    <PageContainer className="flex justify-center py-2 md:py-12">
+    <PageContainer className="flex justify-center py-2 md:py-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
           <button onClick={() => navigate(RouterConfig.Routes.landingPage)}>
@@ -23,17 +23,18 @@ export const ILMDetails = () => {
           <StrategyPickerButton strategy={address as Address} />
         </FlexRow>
 
-        <FlexRow className="w-full gap-8">
-          <FlexCol className="w-2/3 gap-10">
+        <div className="flex md:flex-row flex-col-reverse w-full gap-8 items-start">
+          <FlexCol className="w-full md:w-2/3 gap-10">
             <CurrentHoldings />
             <StrategyStats />
             <StrategyDetails />
           </FlexCol>
-
-          <div className="w-full md:w-[450px] flex flex-none">
-            <FormContainer />
+          <div className="w-full md:w-[450px]">
+            <div className="flex-initial h-auto md:sticky">
+              <FormContainer />
+            </div>
           </div>
-        </FlexRow>
+        </div>
       </FlexCol>
     </PageContainer>
   );
