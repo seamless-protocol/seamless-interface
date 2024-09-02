@@ -27,7 +27,7 @@ import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { Summary } from "./Summary";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 
 export const WithdrawForm: React.FC = () => {
   const { address } = useParams();

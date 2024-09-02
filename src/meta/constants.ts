@@ -37,7 +37,7 @@ export const SEAM_ADDRESS: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85
 export const AERO_ADDRESS: Address = "0x940181a94A35A4569E4529A3CDfB74e38FD98631";
 export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E4";
 export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
-export const OG_POINTS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
+export const OG_POINTS_ADDRESS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
 
 export const OG_POINTS_MOCK_PRICE: bigint = 0n;
 
@@ -87,6 +87,8 @@ export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days
 
 export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0";
 
+// todo refactor this by address or fetch this?
+// this is deprecated, please use addressIconMap from config v3.
 export const assetLogos: Map<string, string> = new Map([
   ["SEAM", seamLogo],
   ["esSEAM", seamLogo],

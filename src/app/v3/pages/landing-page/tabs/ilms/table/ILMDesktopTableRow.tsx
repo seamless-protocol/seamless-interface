@@ -7,15 +7,15 @@ import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { IncentivesButton } from "./IncentivesButton";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
   selected?: boolean;
 }> = ({ strategy, hideBorder, selected }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
@@ -32,11 +32,11 @@ export const ILMDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
-            <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+            <Icon width={64} src={strategyData?.icon} alt="logo" />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
-                <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
+                <DisplayText typography="bold3" viewValue={strategyData?.name} />
+                <DisplayText typography="regular1" viewValue={strategyData?.description} />
               </FlexCol>
             </FlexCol>
           </FlexRow>

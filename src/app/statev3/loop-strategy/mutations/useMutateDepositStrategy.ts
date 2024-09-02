@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../../state/common/queries/useFetchViewAssetBalance";
-import { FullStrategyData } from "../../metadata/StrategyState.all";
+import { FullStrategyData } from "../../metadata/FullStrategyData.all";
 
 export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   // meta data

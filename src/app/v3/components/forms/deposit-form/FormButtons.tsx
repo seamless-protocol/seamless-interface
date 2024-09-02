@@ -2,7 +2,7 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNo
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { FullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { FullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 export const FormButtons: React.FC<{

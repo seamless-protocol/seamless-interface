@@ -14,19 +14,19 @@ import {
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
-import { useFetchTokenData } from "../../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "./UserInfoImageGroup";
+import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 
 export const TableDesktopRow: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
 }> = ({ strategy, hideBorder }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
@@ -42,11 +42,11 @@ export const TableDesktopRow: React.FC<{
     >
       <TableCell alignItems="items-start col-span-6 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">
-          <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+          <Icon width={64} src={strategyData?.icon} alt="logo" />
           <FlexCol className="gap-2 text-start max-w-full">
             <FlexCol className="gap-[2px] max-w-full">
-              <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
-              <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
+              <DisplayText typography="bold3" viewValue={strategyData?.name} />
+              <DisplayText typography="regular1" viewValue={strategyData?.description} />
             </FlexCol>
           </FlexCol>
         </FlexRow>
