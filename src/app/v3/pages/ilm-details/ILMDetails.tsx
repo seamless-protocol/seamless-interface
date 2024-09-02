@@ -12,6 +12,7 @@ import { RouterConfig } from "@router";
 export const ILMDetails = () => {
   const navigate = useNavigate();
   const { address } = useParams();
+
   return (
     <PageContainer className="flex justify-center py-2 md:py-12">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
