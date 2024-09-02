@@ -16,10 +16,6 @@ export const Profit = () => {
         truncate
         viewValue={`${userProfit.unrealizedProfit.symbol}${userProfit.unrealizedProfit.viewValue} (${userProfit.unrealizedProfitPercentage.viewValue}${userProfit.unrealizedProfitPercentage.symbol})`}
         typography="bold4"
-        skeletonSettings={{
-          width: "200px",
-          height: "35px",
-        }}
         {...rest}
       />
     </SignIndicatingElement>
