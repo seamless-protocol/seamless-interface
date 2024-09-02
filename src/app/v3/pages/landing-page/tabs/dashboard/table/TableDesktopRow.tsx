@@ -42,11 +42,11 @@ export const TableDesktopRow: React.FC<{
     >
       <TableCell alignItems="items-start col-span-6 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">
-          <Icon width={64} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+          <Icon width={64} src={strategyData?.icon} alt="logo" />
           <FlexCol className="gap-2 text-start max-w-full">
             <FlexCol className="gap-[2px] max-w-full">
-              <DisplayText typography="bold3" viewValue={strategyData?.name} {...strategyDataRest} />
-              <DisplayText typography="regular1" viewValue={strategyData?.description} {...strategyDataRest} />
+              <DisplayText typography="bold3" viewValue={strategyData?.name} />
+              <DisplayText typography="regular1" viewValue={strategyData?.description} />
             </FlexCol>
           </FlexCol>
         </FlexRow>

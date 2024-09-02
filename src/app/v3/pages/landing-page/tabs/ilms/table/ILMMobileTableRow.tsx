@@ -29,14 +29,10 @@ export const ILMMobileTableRow: React.FC<{
       </FlexCol>
       <FlexRow className="items-center mb-4">
         <FlexRow className="gap-4 items-center">
-          <Icon width={40} src={strategyData?.icon} alt="logo" {...strategyDataRest} />
+          <Icon width={40} src={strategyData?.icon} alt="logo" />
           <FlexCol className="gap-1 text-start">
-            <Typography type="bold3" {...strategyDataRest}>
-              {strategyData?.name}
-            </Typography>
-            <Typography type="regular1" {...strategyDataRest}>
-              {strategyData?.symbol}
-            </Typography>
+            <Typography type="bold3">{strategyData?.name}</Typography>
+            <Typography type="regular1">{strategyData?.symbol}</Typography>
           </FlexCol>
         </FlexRow>
       </FlexRow>
