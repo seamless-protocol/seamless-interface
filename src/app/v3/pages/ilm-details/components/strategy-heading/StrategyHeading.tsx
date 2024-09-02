@@ -10,22 +10,14 @@ export const StrategyHeading = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { data: strategyData, ...rest } = useFetchFullStrategyData(strategy);
+  const { data: strategyData } = useFetchFullStrategyData(strategy);
 
   const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   return (
     <FlexCol>
       <div className="flex md:flex-row flex-col-reverse md:items-center gap-4">
-        <DisplayText
-          viewValue={strategyData?.name}
-          {...rest}
-          typography="bold7"
-          skeletonSettings={{
-            height: "40px",
-            width: "600px",
-          }}
-        />
+        <DisplayText viewValue={strategyData?.name} typography="bold7" />
 
         <FlexRow className="md:items-center gap-4">
           <div className="flex w-auto">
