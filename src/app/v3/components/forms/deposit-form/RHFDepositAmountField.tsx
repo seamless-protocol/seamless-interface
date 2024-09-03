@@ -1,7 +1,7 @@
 import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
-import { walletBalanceDecimalsOptions } from "@meta";
+import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
@@ -85,10 +85,10 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
-      decimals: price?.decimals,
+      decimals: USD_VALUE_DECIMALS,
       symbol: "~$",
     });
-  }, [value, price?.decimals, price?.bigIntValue]);
+  }, [value, price?.bigIntValue]);
 
   // *** JSX *** //
   return (
