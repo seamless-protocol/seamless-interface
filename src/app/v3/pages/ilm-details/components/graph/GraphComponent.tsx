@@ -34,6 +34,22 @@ const createRandomMockData = () => {
   return data;
 };
 
+const formatDate = (value: string, includeTime = false) => {
+  const date = new Date(value);
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "2-digit",
+  };
+
+  if (includeTime) {
+    options.hour = "2-digit";
+    options.minute = "2-digit";
+  }
+
+  return date.toLocaleDateString(undefined, options);
+};
+
 export const GraphComponent = () => {
   const [filterOption, setFilterOption] = useState<FilterOption>("1h");
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
@@ -85,10 +101,7 @@ export const GraphComponent = () => {
         categories,
         labels: {
           show: true,
-          formatter: (value) => {
-            const date = new Date(value);
-            return date.toLocaleDateString();
-          },
+          formatter: (value) => formatDate(value),
         },
         tooltip: {
           enabled: true,
