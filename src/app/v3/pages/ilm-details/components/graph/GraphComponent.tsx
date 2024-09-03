@@ -85,7 +85,7 @@ export const GraphComponent = () => {
           show: false,
         },
         zoom: {
-          enabled: false,
+          enabled: true,
         },
         animations: {
           enabled: true,
@@ -119,6 +119,16 @@ export const GraphComponent = () => {
       },
       grid: {
         strokeDashArray: 4,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
       },
       stroke: {
         curve: "straight",
