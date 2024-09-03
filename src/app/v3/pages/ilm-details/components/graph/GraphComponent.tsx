@@ -73,13 +73,13 @@ export const GraphComponent = () => {
     if (showLpTokenAmount) {
       series.push({
         name: "Lp Token Amount",
-        data: mockData.map((item) => item.LpTokenAmount),
+        data: showLpTokenAmount ? mockData.map((item) => item.LpTokenAmount) : [],
       });
     }
 
     setChartOptions({
       chart: {
-        id: "apexchart-example",
+        id: "ilm-details-graph",
         type: "line",
         toolbar: {
           show: false,
@@ -93,7 +93,7 @@ export const GraphComponent = () => {
           speed: 800,
         },
       },
-      colors: ["#4F68F7", "#00E396"],
+      colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
       dataLabels: {
         enabled: false,
       },
@@ -137,7 +137,6 @@ export const GraphComponent = () => {
       legend: {
         show: false,
       },
-      fill: {},
     });
 
     setChartSeries(series);
@@ -156,7 +155,7 @@ export const GraphComponent = () => {
       </div>
       <FlexCol>
         <Chart options={chartOptions} series={chartSeries} type={chartOptions.chart?.type} height="400" width="100%" />
-        <FlexRow className="justify-between items-center mt-[-20px] px-4">
+        <FlexRow className="justify-between items-center mt-[-10px] px-4">
           {FilterOptions.map((option) => (
             <TimeFilterButton key={option} isActive={option === filterOption} onClick={() => setFilterOption(option)}>
               {option}
