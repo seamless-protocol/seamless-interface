@@ -70,6 +70,7 @@ export default {
           default: "#F3F7FB",
           selected: "#DECFFC",
 
+          400: "rgba(11, 37, 79, 0.40))",
           default1: "#F8F0E5",
           paper: "#FFF",
           surface: "#77037B",

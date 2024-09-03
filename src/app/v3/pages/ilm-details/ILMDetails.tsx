@@ -8,10 +8,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
+import { useAccount } from "wagmi";
+import { GraphComponent } from "./components/graph/GraphComponent";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
   const { address } = useParams();
+  const { isConnected } = useAccount();
 
   return (
     <PageContainer className="flex justify-center py-2 md:py-12 px-4 md:px-0">
@@ -25,7 +28,8 @@ export const ILMDetails = () => {
 
         <div className="flex md:flex-row flex-col-reverse w-full gap-8 items-start">
           <FlexCol className="w-full md:w-2/3 gap-10">
-            <CurrentHoldings />
+            {isConnected && <CurrentHoldings />}
+            <GraphComponent />
             <StrategyStats />
             <StrategyDetails />
           </FlexCol>
