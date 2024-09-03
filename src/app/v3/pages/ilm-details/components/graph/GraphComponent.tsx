@@ -73,7 +73,7 @@ export const GraphComponent = () => {
     if (showLpTokenAmount) {
       series.push({
         name: "Lp Token Amount",
-        data: showLpTokenAmount ? mockData.map((item) => item.LpTokenAmount) : [],
+        data: mockData.map((item) => item.LpTokenAmount),
       });
     }
 
