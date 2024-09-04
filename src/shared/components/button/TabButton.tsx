@@ -1,6 +1,5 @@
 import React from "react";
 import { useTab } from "../../contexts/tab-context/useTabContext";
-import { IS_STYLE_VERSION_2 } from "../../../globals";
 
 interface TabButtonProps<T> {
   tab: T;
@@ -50,7 +49,7 @@ export const TabButton = <T extends string>({ tab, children }: TabButtonProps<T>
   return (
     <button
       onClick={() => setActiveTab(tab)}
-      className={`min-w-16 ${IS_STYLE_VERSION_2 ? "md:min-w-32" : ""} relative py-4 text-bold3 ${
+      className={`min-w-32 relative py-4 text-bold3 ${
         activeTab === tab ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin" : "text-navy-400"
       }`}
     >
