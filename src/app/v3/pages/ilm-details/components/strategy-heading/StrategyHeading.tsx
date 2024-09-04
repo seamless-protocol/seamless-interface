@@ -3,8 +3,8 @@ import { Address } from "viem";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { DisplayNumber, DisplayText, FlexCol, FlexRow, Typography } from "@shared";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
-import { IncentivesButton } from "../../../landing-page/tabs/ilms/table/IncentivesButton";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
+import { StrategyIncentivesButton } from "../../../../../v2/components/incentives/AprTooltip";
 
 export const StrategyHeading = () => {
   const { address } = useParams();
@@ -33,7 +33,7 @@ export const StrategyHeading = () => {
 
           {strategy && (
             <div className="h-auto mt-[2px]">
-              <IncentivesButton strategy={strategy} />
+              <StrategyIncentivesButton strategy={strategy} />
             </div>
           )}
         </FlexRow>

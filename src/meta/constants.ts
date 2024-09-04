@@ -1,5 +1,5 @@
 import { Address, parseEther } from "viem";
-import seamLogo from "@assets/logos/logo-seamless.svg";
+import seamLogo from "@assets/tokens/seam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
