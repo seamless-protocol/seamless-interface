@@ -13,6 +13,10 @@ export interface DisplayValueProps extends DisplayableAmount {
   className?: string;
   errorMessage?: string;
   truncate?: boolean;
+  loaderSkeletonSettings?: {
+    width: string;
+    height: string;
+  };
 }
 /**
  * `DisplayValue` Component
@@ -63,6 +67,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   isLoading,
   isError,
   loaderSkeleton,
+  loaderSkeletonSettings,
   truncate = true,
   typography = "medium3",
   symbolColor,
@@ -89,7 +94,13 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   }
   if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
-      const { width, height } = getTypographySkeletonSize(typography, viewValue);
+      let width = "";
+      let height = "";
+      if (loaderSkeletonSettings) {
+        ({ width, height } = loaderSkeletonSettings);
+      } else {
+        ({ width, height } = getTypographySkeletonSize(typography, viewValue));
+      }
 
       return <span style={{ width, height }} className="skeleton flex mb-[0.5px]" />;
     }
