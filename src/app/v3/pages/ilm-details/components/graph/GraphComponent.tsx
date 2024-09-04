@@ -5,34 +5,21 @@ import { Heading } from "./Heading";
 import { GraphButton } from "./GraphButton";
 import { FlexCol, FlexRow } from "@shared";
 import { TimeFilterButton } from "./TimeFilterButton";
+import {
+  fetchStrategyAnalytics,
+  FilterOption,
+} from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
+import { useParams } from "react-router-dom";
+import { Address } from "viem";
 
 export interface DuneData {
-  Time: string;
-  LpTokenPrice: number;
-  LpTokenAmount: number;
+  share_value_usd: number;
+  underlying_asset_price: number;
+  strategy: string;
+  time: string;
 }
 
-type FilterOption = "1h" | "1d" | "1w" | "1m" | "3m" | "1y";
 const FilterOptions: FilterOption[] = ["1h", "1d", "1w", "1m", "3m", "1y"];
-
-const createRandomMockData = () => {
-  const data: DuneData[] = [];
-  const startDate = new Date();
-
-  for (let i = 0; i < 30; i++) {
-    // Generate data for a year
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-
-    data.push({
-      Time: date.toISOString(),
-      LpTokenPrice: Math.random() * 100,
-      LpTokenAmount: Math.random() * 100,
-    });
-  }
-
-  return data;
-};
 
 const formatDate = (value: string, includeTime = false) => {
   const date = new Date(value);
@@ -51,95 +38,103 @@ const formatDate = (value: string, includeTime = false) => {
 };
 
 export const GraphComponent = () => {
-  const [filterOption, setFilterOption] = useState<FilterOption>("1h");
+  const { address } = useParams();
+  const strategy = address as Address | undefined;
+
+  const [filterOption, setFilterOption] = useState<FilterOption>("1w");
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
   const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
   const [showLpTokenPrice, setShowLpTokenPrice] = useState(true);
   const [showLpTokenAmount, setShowLpTokenAmount] = useState(false);
 
   useEffect(() => {
-    const mockData = createRandomMockData();
+    const processData = async () => {
+      if (!strategy) return;
 
-    const categories = mockData.map((item) => item.Time);
-    const series = [];
+      const data = (await fetchStrategyAnalytics(strategy, filterOption)) as DuneData[] | undefined;
 
-    if (showLpTokenPrice) {
-      series.push({
-        name: "Lp Token Price",
-        data: mockData.map((item) => item.LpTokenPrice),
-      });
-    }
+      const categories = data?.map((item) => item.time);
+      const series = [];
 
-    if (showLpTokenAmount) {
-      series.push({
-        name: "Lp Token Amount",
-        data: mockData.map((item) => item.LpTokenAmount),
-      });
-    }
+      if (showLpTokenPrice && data) {
+        series.push({
+          name: "Share Value USD",
+          data: data?.map((item) => item.share_value_usd),
+        });
+      }
 
-    setChartOptions({
-      chart: {
-        id: "ilm-details-graph",
-        type: "line",
-        toolbar: {
-          show: false,
+      if (showLpTokenAmount && data) {
+        series.push({
+          name: "Underlying Asset Price",
+          data: data?.map((item) => item.underlying_asset_price),
+        });
+      }
+
+      setChartOptions({
+        chart: {
+          id: "ilm-details-graph",
+          type: "line",
+          toolbar: {
+            show: false,
+          },
+          zoom: {
+            enabled: true,
+          },
+          animations: {
+            enabled: true,
+            easing: "easeinout",
+            speed: 800,
+          },
         },
-        zoom: {
-          enabled: true,
+        colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
+        dataLabels: {
+          enabled: false,
         },
-        animations: {
-          enabled: true,
-          easing: "easeinout",
-          speed: 800,
-        },
-      },
-      colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        categories,
-        labels: {
-          show: true,
-          formatter: (value) => formatDate(value),
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-      yaxis: {
-        labels: {
-          formatter: (value) => value.toFixed(2),
-        },
-      },
-      tooltip: {
-        x: {
-          format: "yyyy-MM-dd",
-        },
-      },
-      grid: {
-        strokeDashArray: 4,
         xaxis: {
-          lines: {
+          categories,
+          labels: {
             show: true,
+            formatter: (value) => formatDate(value),
+          },
+          tooltip: {
+            enabled: true,
           },
         },
         yaxis: {
-          lines: {
-            show: true,
+          labels: {
+            formatter: (value) => value.toFixed(2),
           },
         },
-      },
-      stroke: {
-        curve: "straight",
-        width: 2.5,
-      },
-      legend: {
-        show: false,
-      },
-    });
+        tooltip: {
+          x: {
+            format: "yyyy-MM-dd",
+          },
+        },
+        grid: {
+          strokeDashArray: 4,
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+        },
+        stroke: {
+          curve: "straight",
+          width: 2.5,
+        },
+        legend: {
+          show: false,
+        },
+      });
 
-    setChartSeries(series);
+      setChartSeries(series);
+    };
+    processData();
   }, [filterOption, showLpTokenPrice, showLpTokenAmount]);
 
   return (
