@@ -46,8 +46,8 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     type: "Long",
   },
   [ethShort_ADDRESS_1_5_x]: {
-    name: "ETH Short 3x",
-    description: "For ETH Bears, increase ETH price exposure by 3 times short.",
+    name: "ETH Short 1.5x",
+    description: "For ETH Bears, increase ETH price exposure by 1.5 times short.",
     type: "Short",
   },
 };
