@@ -1,7 +1,7 @@
 import { readContractQueryOptions } from "wagmi/query";
 import { aaveOracleAbi, aaveOracleAddress, loopStrategyAbi } from "../../../generated";
 import { Address, erc20Abi } from "viem";
-import { OG_POINTS, OG_POINTS_MOCK_PRICE, ONE_USD } from "@meta";
+import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE, ONE_USD } from "@meta";
 import { Config, useConfig } from "wagmi";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
@@ -25,7 +25,7 @@ export const fetchAssetPriceInBlock = async (
 ): Promise<bigint | undefined> => {
   if (!asset) return undefined;
 
-  if (asset === OG_POINTS) {
+  if (asset === OG_POINTS_ADDRESS) {
     return OG_POINTS_MOCK_PRICE;
   }
 

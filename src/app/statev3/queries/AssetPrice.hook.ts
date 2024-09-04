@@ -1,5 +1,5 @@
 import { Address, parseUnits } from "viem";
-import { OG_POINTS, OG_POINTS_MOCK_PRICE } from "@meta";
+import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
 import { FetchBigIntStrict, formatUsdValue } from "../../../shared";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
 import { assetsConfig, strategiesConfig } from "../../state/settings/config";
@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
-  if (asset === OG_POINTS) {
+  if (asset === OG_POINTS_ADDRESS) {
     return formatUsdValue(OG_POINTS_MOCK_PRICE);
   }
 

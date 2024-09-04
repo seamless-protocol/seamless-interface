@@ -2,15 +2,17 @@ import { Address, erc20Abi } from "viem";
 import { disableCacheQueryConfig, metadataQueryConfig } from "../../state/settings/queryConfig";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import { StrategyConfig, strategyConfig } from "../settings/config";
+import { addressIconMap } from "../settings/config";
 
-export interface TokenData extends StrategyConfig {
+export interface TokenData {
+  icon: string;
   symbol: string;
   decimals: number;
+  name: string;
 }
 
 export async function fetchTokenData(token: Address): Promise<TokenData> {
-  const [symbol, decimals] = await Promise.all([
+  const [symbol, decimals, name] = await Promise.all([
     queryContract({
       ...queryOptions({
         address: token,
@@ -27,21 +29,37 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
       }),
       ...metadataQueryConfig,
     }),
+    queryContract({
+      ...queryOptions({
+        address: token,
+        abi: erc20Abi,
+        functionName: "name",
+      }),
+      ...metadataQueryConfig,
+    }),
   ]);
 
   return {
+    name,
     symbol,
     decimals,
-    // todo: remove this! use it only from strategy data
-    ...strategyConfig[token],
+    icon: addressIconMap.get(token) || "",
   };
 }
 
 export const useFetchTokenData = (asset?: Address) => {
-  return useQuery({
+  const { data, ...rest } = useQuery({
     queryKey: ["hookTokenData", asset],
     queryFn: () => fetchTokenData(asset!),
     enabled: !!asset,
     ...disableCacheQueryConfig,
   });
+
+  return {
+    ...rest,
+    data: {
+      ...data,
+      icon: addressIconMap.get(asset || "") || "",
+    },
+  };
 };

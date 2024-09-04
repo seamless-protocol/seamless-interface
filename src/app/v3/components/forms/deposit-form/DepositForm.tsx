@@ -21,7 +21,7 @@ import { Address, parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 import { useEffect } from "react";
@@ -30,14 +30,14 @@ export const DepositForm = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { setStrategy } = useFormSettingsContext();
+  const { setStrategy, strategy: strategyInContext } = useFormSettingsContext();
   const { data: strategyData } = useFetchFullStrategyData(strategy);
 
   useEffect(() => {
     setStrategy(strategy);
   }, [setStrategy, strategy]);
 
-  if (!strategyData) {
+  if (!strategyData || !strategyInContext) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <div className="min-h-[1000px]" />;

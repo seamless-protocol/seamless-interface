@@ -27,20 +27,20 @@ import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { Summary } from "./Summary";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/StrategyState.all";
+import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 
 export const WithdrawForm: React.FC = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { setStrategy } = useFormSettingsContext();
+  const { setStrategy, strategy: strategyInContext } = useFormSettingsContext();
   const { data: strategyData } = useFetchFullStrategyData(strategy);
 
   useEffect(() => {
     setStrategy(strategy);
   }, [setStrategy, strategy]);
 
-  if (!strategyData) {
+  if (!strategyData || !strategyInContext) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;
