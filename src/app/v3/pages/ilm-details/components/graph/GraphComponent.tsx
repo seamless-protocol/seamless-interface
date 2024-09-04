@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import { Heading } from "./Heading";
 import { GraphButton } from "./GraphButton";
-import { FlexCol, FlexRow } from "../../../../../../shared";
+import { FlexCol, FlexRow } from "@shared";
 import { TimeFilterButton } from "./TimeFilterButton";
 
 export interface DuneData {
