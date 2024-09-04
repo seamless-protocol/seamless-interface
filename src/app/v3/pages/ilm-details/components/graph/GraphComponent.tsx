@@ -19,7 +19,7 @@ export interface DuneData {
   time: string;
 }
 
-const FilterOptions: FilterOption[] = ["1h", "1d", "1w", "1m", "3m", "1y"];
+const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
 const formatDate = (value: string, includeTime = false) => {
   const date = new Date(value);
@@ -81,9 +81,9 @@ export const GraphComponent = () => {
             enabled: true,
           },
           animations: {
-            enabled: true,
-            easing: "easeinout",
-            speed: 800,
+            enabled: false,
+            // easing: "easeinout",
+            // speed: 800,
           },
         },
         colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],

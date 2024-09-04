@@ -34,7 +34,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
-    "date-fns": "^3.6.0",
     "dotenv": "^16.3.1",
     "ethereum-blockies-base64": "^1.0.2",
     "path": "^0.12.7",

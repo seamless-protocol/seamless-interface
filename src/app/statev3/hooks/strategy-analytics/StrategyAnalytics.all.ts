@@ -1,75 +1,62 @@
 import { Address } from "viem";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { analyticsDataQueryConfig } from "../../../state/settings/queryConfig";
-import { subHours, subDays, subWeeks, subMonths, subYears } from "date-fns";
 
-export type FilterOption = "1h" | "1d" | "1w" | "1m" | "3m" | "1y";
+export type FilterOption = "1w" | "1m" | "3m" | "1y";
 
-const FilterOptionSkipRowsOptions: Record<FilterOption, number> = {
-  "1h": 1,
-  "1d": 3,
-  "1w": 10,
-  "1m": 40,
-  "3m": 100,
-  "1y": 300,
-};
-
-const getCalculatedTimestamp = (filter: FilterOption): number => {
-  const now = new Date();
-
-  let calculatedDate;
-  switch (filter) {
-    case "1h":
-      calculatedDate = subHours(now, 1);
-      break;
-    case "1d":
-      calculatedDate = subDays(now, 1);
-      break;
-    case "1w":
-      calculatedDate = subWeeks(now, 1);
-      break;
-    case "1m":
-      calculatedDate = subMonths(now, 1);
-      break;
-    case "3m":
-      calculatedDate = subMonths(now, 3);
-      break;
-    case "1y":
-      calculatedDate = subYears(now, 1);
-      break;
-    default:
-      calculatedDate = now;
+const FilterOptionConfig: Record<
+  FilterOption,
+  {
+    duration: number;
+    takeEvery: number;
   }
-
-  return Math.floor(calculatedDate.getTime() / 1000);
+> = {
+  "1w": {
+    duration: 7,
+    takeEvery: 3,
+  },
+  "1m": {
+    duration: 30,
+    takeEvery: 30,
+  },
+  "3m": {
+    duration: 90,
+    takeEvery: 90,
+  },
+  "1y": {
+    duration: 365,
+    takeEvery: 150,
+  },
 };
 
 export const fetchStrategyAnalytics = async (strategy: Address, filter: FilterOption) => {
   const queryClient = getQueryClient();
 
-  const queryParams = new URLSearchParams({
-    filters: `timestamp > '${getCalculatedTimestamp(filter)}' AND strategy = '${strategy.toLowerCase()}'`,
-    columns: "strategy,share_value_usd, time,underlying_asset_price",
-    sort_by: "time",
-  });
+  // const queryParams = new URLSearchParams({
+  //   query_id: import.meta.env.VITE_DUNE_QUERY_KEY,
+  //   strategy: strategy.toLocaleLowerCase(),
+  //   duration: FilterOptionConfig[filter].duration.toString(),
+  // });
 
   const result = await queryClient.fetchQuery({
     queryKey: ["fetchStrategyAnalytics", strategy, filter],
     queryFn: async () => {
       const result = await fetch(
-        `${import.meta.env.VITE_DUNE_CACHE_API}/results/${import.meta.env.VITE_DUNE_QUERY_KEY}/${queryParams}`,
+        `${import.meta.env.VITE_DUNE_CACHE_API}results/query_id/${import.meta.env.VITE_DUNE_QUERY_KEY}/strategy/${strategy.toLocaleLowerCase()}/duration/${FilterOptionConfig[filter].duration}`,
         {
           method: "GET",
         }
       );
-      const json = await result.json();
-      const skippedResult = json.result.rows.filter(
-        (_: any, index: number) => (index + 1) % FilterOptionSkipRowsOptions[filter] === 0
+      const data = await result.json();
+
+      const skippedData = data?.result?.rows.filter(
+        (_: any, index: number) => (index + 1) % FilterOptionConfig[filter].takeEvery === 0
       );
 
-      return skippedResult;
+      return skippedData;
     },
     ...analyticsDataQueryConfig,
   });
+
   return result;
 };
