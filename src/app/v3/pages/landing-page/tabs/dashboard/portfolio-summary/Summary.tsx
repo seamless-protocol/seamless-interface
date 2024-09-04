@@ -17,7 +17,9 @@ export const PortfolioSummary = () => {
             </FlexCol>
             <FlexCol className="gap-3">
               <Typography type="medium4">Total unrealized gain/loss</Typography>
-              <Profit />
+              <div className="flex w-auto">
+                <Profit />
+              </div>
             </FlexCol>
           </FlexCol>
           <UnclaimedRewardsBox />

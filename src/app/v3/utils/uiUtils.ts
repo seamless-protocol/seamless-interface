@@ -11,7 +11,7 @@ export const getSvgBasedOnSign = (value: number | string | undefined): string | 
   return Number(value || 0) >= 0 ? polygonPositiveSvg : polygonNegativeSvg;
 };
 
-export const getRealizedGainBackGroundColor = (value: number | string | undefined): string | undefined => {
+export const getBackGroundColorBasedOnSign = (value: number | string | undefined): string | undefined => {
   const valueNumber = Number(value || 0);
 
   if (valueNumber === undefined) return undefined;
