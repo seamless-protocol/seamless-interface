@@ -1,39 +1,23 @@
-import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
-import { getColorBasedOnSign, getSvgBasedOnSign, getRealizedGainBackGroundColor } from "../../../../../utils/uiUtils";
+import { DisplayText } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
-
-function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewBigInt): string | undefined {
-  return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol})`;
-}
+import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
 
 export const Profit = () => {
-  const { data: userProfit, isLoading, isFetched } = useFetchFormattedUserProfitAndPortfolio();
-
-  if (isLoading || !isFetched) {
-    return <span className="skeleton mt-[0.2px] flex w-20 h-8" />;
-  }
-
-  if (!userProfit.unrealizedProfit?.viewValue) {
-    return null;
-  }
+  const { data: userProfit, ...rest } = useFetchFormattedUserProfitAndPortfolio();
 
   return (
-    <FlexRow
-      className={`flex bg-green-100 rounded-tag p-1 justify-center gap-1 max-w-max px-2 ${getRealizedGainBackGroundColor(userProfit.unrealizedProfitPercentage.value)}`}
+    <SignIndicatingElement
+      dislayable={{
+        ...rest,
+        data: userProfit.unrealizedProfit,
+      }}
     >
-      <Icon
-        src={getSvgBasedOnSign(userProfit.unrealizedProfitPercentage.value)}
-        alt="polygon"
-        width={16}
-        height={16}
-        hidden={!userProfit.unrealizedProfitPercentage.bigIntValue}
-      />
       <DisplayText
         truncate
-        viewValue={getProfitText(userProfit.unrealizedProfit, userProfit.unrealizedProfitPercentage)}
-        className={getColorBasedOnSign(userProfit.unrealizedProfit.value)}
+        viewValue={`${userProfit.unrealizedProfit.symbol}${userProfit.unrealizedProfit.viewValue} (${userProfit.unrealizedProfitPercentage.viewValue}${userProfit.unrealizedProfitPercentage.symbol})`}
         typography="bold4"
+        {...rest}
       />
-    </FlexRow>
+    </SignIndicatingElement>
   );
 };

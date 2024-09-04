@@ -20,7 +20,9 @@ export const PortfolioSummary = () => {
               <Typography type="medium4" className={getColorBasedOnSign(data.unrealizedProfit.value)}>
                 Total unrealized gain/loss
               </Typography>
-              <Profit />
+              <div className="flex w-auto">
+                <Profit />
+              </div>
             </FlexCol>
           </FlexCol>
           <UnclaimedRewardsBox />
