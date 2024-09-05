@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import { Heading } from "./Heading";
 import { GraphButton } from "./GraphButton";
-import { FlexCol, FlexRow } from "@shared";
+import { FlexCol, FlexRow, Typography, useNotificationContext } from "@shared";
 import { TimeFilterButton } from "./TimeFilterButton";
 import {
   fetchStrategyAnalytics,
@@ -41,19 +41,32 @@ export const GraphComponent = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
+  const { showNotification } = useNotificationContext();
+
   const [filterOption, setFilterOption] = useState<FilterOption>("1w");
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
   const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
   const [showLpTokenPrice, setShowLpTokenPrice] = useState(true);
   const [showLpTokenAmount, setShowLpTokenAmount] = useState(false);
-
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const processData = async () => {
       if (!strategy) return;
 
-      const data = (await fetchStrategyAnalytics(strategy, filterOption)) as DuneData[] | undefined;
+      setIsLoading(true);
+      let data: DuneData[] | undefined;
+
+      try {
+        data = (await fetchStrategyAnalytics(strategy, filterOption)) as DuneData[] | undefined;
+      } catch (error) {
+        showNotification({
+          status: "error",
+          content: <Typography>Error fetching data for graph.</Typography>,
+        });
+      } finally {
+        setIsLoading(false);
+      }
 
       const categories = data?.map((item) => item.time);
       const series = [];
@@ -61,14 +74,14 @@ export const GraphComponent = () => {
       if (showLpTokenPrice && data) {
         series.push({
           name: "Share Value USD",
-          data: data?.map((item) => item.share_value_usd),
+          data: data.map((item) => item.share_value_usd),
         });
       }
 
       if (showLpTokenAmount && data) {
         series.push({
           name: "Underlying Asset Price",
-          data: data?.map((item) => item.underlying_asset_price),
+          data: data.map((item) => item.underlying_asset_price),
         });
       }
 
@@ -83,13 +96,8 @@ export const GraphComponent = () => {
             enabled: true,
           },
           animations: {
-            enabled: false,
-            // easing: "easeinout",
-            // speed: 800,
-            dynamicAnimation: {
-              enabled: true,
-              speed: 1000,
-            },
+            enabled: true,
+            speed: 800, // Increased animation speed for smoothness
           },
         },
         colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
@@ -101,6 +109,9 @@ export const GraphComponent = () => {
           labels: {
             show: true,
             formatter: (value) => formatDate(value),
+            style: {
+              fontSize: "10px",
+            },
           },
           tooltip: {
             enabled: true,
@@ -155,8 +166,17 @@ export const GraphComponent = () => {
         </GraphButton>
       </div>
       <FlexCol>
-        <Chart options={chartOptions} series={chartSeries} type={chartOptions.chart?.type} height="400" width="100%" />
-        <FlexRow className="justify-between items-center mt-[-10px] px-4">
+        <div className="relative">
+          {isLoading && <LocalSpinner />}
+          <Chart
+            options={chartOptions}
+            series={chartSeries}
+            type={chartOptions.chart?.type}
+            height="400"
+            width="100%"
+          />
+        </div>
+        <FlexRow className="justify-between items-center px-4">
           {FilterOptions.map((option) => (
             <TimeFilterButton key={option} isActive={option === filterOption} onClick={() => setFilterOption(option)}>
               {option}
@@ -167,3 +187,9 @@ export const GraphComponent = () => {
     </div>
   );
 };
+
+const LocalSpinner = () => (
+  <div className="flex items-center justify-center h-[90%] w-full absolute inset-0 z-10">
+    <div className="loading loading-spinner" />
+  </div>
+);

@@ -17,15 +17,15 @@ const FilterOptionConfig: Record<
   },
   "1m": {
     duration: 30,
-    takeEvery: 30,
+    takeEvery: 40,
   },
   "3m": {
     duration: 90,
-    takeEvery: 90,
+    takeEvery: 10,
   },
   "1y": {
     duration: 365,
-    takeEvery: 150,
+    takeEvery: 170,
   },
 };
 
