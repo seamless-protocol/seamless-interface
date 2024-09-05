@@ -119,7 +119,7 @@ export const GraphComponent = () => {
         },
         yaxis: {
           labels: {
-            formatter: (value) => value.toFixed(2),
+            formatter: (value) => `$ ${value.toFixed(2)}`,
           },
         },
         tooltip: {
