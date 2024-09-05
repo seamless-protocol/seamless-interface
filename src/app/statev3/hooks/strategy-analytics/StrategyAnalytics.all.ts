@@ -25,7 +25,7 @@ const FilterOptionConfig: Record<
   },
   "1y": {
     duration: 365,
-    takeEvery: 100,
+    takeEvery: 80,
   },
 };
 
