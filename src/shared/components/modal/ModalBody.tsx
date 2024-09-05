@@ -36,22 +36,23 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
     if (event.target === event.currentTarget) {
       setModalOpen(false);
       if (onClose) onClose();
+      event.stopPropagation();
+      event.preventDefault();
     }
   };
 
   return ReactDOM.createPortal(
-    // Render the modal outside the current DOM tree
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto 
       transition-opacity duration-200 ease-in-out bg-black bg-opacity-50
       ${fullScreen ? "w-full h-full" : ""} ${className}`}
-      onClick={handleOverlayClick} // Handle clicks on the overlay to close modal
+      onClick={handleOverlayClick}
     >
       <div
         className={`relative ${sizeMapper[size]} w-full rounded-md mx-auto bg-white shadow-lg p-6 
       transition-opacity duration-200 ease-in-out max-h-[92%] overflow-y-auto ${fullScreen ? "w-full h-full" : ""}
       scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100`}
-        onClick={(e) => e.stopPropagation()} // Stop event propagation inside the modal content
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row items-start justify-between mb-6">
           {headerComponent || <Typography type="bold4">{header}</Typography>}
@@ -70,6 +71,6 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
         {children}
       </div>
     </div>,
-    document.body // This renders the modal as a child of the body, not the Link component
+    document.body
   );
 };
