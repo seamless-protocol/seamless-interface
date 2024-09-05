@@ -13,30 +13,24 @@ const FilterOptionConfig: Record<
 > = {
   "1w": {
     duration: 7,
-    takeEvery: 3,
+    takeEvery: 4,
   },
   "1m": {
     duration: 30,
-    takeEvery: 40,
+    takeEvery: 16,
   },
   "3m": {
     duration: 90,
-    takeEvery: 10,
+    takeEvery: 48,
   },
   "1y": {
     duration: 365,
-    takeEvery: 170,
+    takeEvery: 100,
   },
 };
 
 export const fetchStrategyAnalytics = async (strategy: Address, filter: FilterOption) => {
   const queryClient = getQueryClient();
-
-  // const queryParams = new URLSearchParams({
-  //   query_id: import.meta.env.VITE_DUNE_QUERY_KEY,
-  //   strategy: strategy.toLocaleLowerCase(),
-  //   duration: FilterOptionConfig[filter].duration.toString(),
-  // });
 
   const result = await queryClient.fetchQuery({
     queryKey: ["fetchStrategyAnalytics", strategy, filter],
