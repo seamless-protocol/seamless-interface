@@ -36,7 +36,7 @@ export const TableDesktopRow: React.FC<{
 
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-22 cursor-pointer items-center border-solid min-h-[148px] ${
+      className={`hidden md:grid grid-cols-20 cursor-pointer items-center border-solid min-h-[148px] ${
         hideBorder ? "" : "border-b border-b-navy-100"
       }`}
     >
@@ -104,7 +104,7 @@ export const TableDesktopRow: React.FC<{
           />
         </FlexCol>
       </TableCell>
-      <TableCell className="col-span-3">
+      <TableCell className="col-span-2">
         <FlexCol>
           <DisplayMoney
             typography="bold3"
@@ -114,7 +114,7 @@ export const TableDesktopRow: React.FC<{
           <UserInfoImageGroup info={allUserRewards.info} />
         </FlexCol>
       </TableCell>
-      <TableCell className="col-span-5 flex justify-evenly items-center cursor-default">
+      <TableCell className="col-span-4 flex justify-evenly items-center cursor-default">
         <TableButtons strategy={strategy} />
       </TableCell>
     </TableRow>
