@@ -12,6 +12,7 @@ import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/
 import { formatUnits } from "viem";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
+import { USD_VALUE_DECIMALS } from "../../../../../meta";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -75,10 +76,10 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
-      decimals: price?.decimals,
+      decimals: USD_VALUE_DECIMALS,
       symbol: "~$",
     });
-  }, [value, price?.decimals, price?.bigIntValue]);
+  }, [value, price?.bigIntValue]);
 
   // *** rest *** //
   const rest = mergeQueryStates([sharesRest, otherPrice]);

@@ -56,9 +56,7 @@ export const WithdrawForm = () => {
                 <Typography>
                   You Withdrew {data.amount} {symbol}
                 </Typography>
-                {asset && symbol && (
-                  <WatchAssetComponentv2 address={asset} decimals={decimals} logo={logo} />
-                )}
+                {asset && symbol && <WatchAssetComponentv2 address={asset} decimals={decimals} icon={logo} />}
                 {asset === WETH_ADDRESS && (
                   <FlexRow className="w-full">
                     <Link

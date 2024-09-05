@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
@@ -17,27 +17,19 @@ import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
-import { Address, parseUnits } from "viem";
+import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
-import { useEffect } from "react";
 
 export const DepositForm = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
-
-  const { setStrategy, strategy: strategyInContext } = useFormSettingsContext();
+  const { strategy } = useFormSettingsContext();
   const { data: strategyData } = useFetchFullStrategyData(strategy);
 
-  useEffect(() => {
-    setStrategy(strategy);
-  }, [setStrategy, strategy]);
-
-  if (!strategyData || !strategyInContext) {
+  if (!strategyData) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <div className="min-h-[1000px]" />;

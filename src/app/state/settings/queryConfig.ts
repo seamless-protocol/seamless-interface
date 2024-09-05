@@ -1,3 +1,7 @@
+export const FIVE_SECONDS_IN_MS = 5 * 1000;
+export const ONE_MINUTE_IN_MS = 60 * 1000;
+export const ONE_HOUR_IN_MS = 60 * 60 * 1000;
+
 export const disableCacheQueryConfig = {
   staleTime: 0,
   gcTime: 0,
@@ -16,6 +20,7 @@ export const heavyDataQueryConfig = {
   gcTime: 5 * 60 * 60 * 1000, // 5 hours
 };
 
-export const FIVE_SECONDS_IN_MS = 5 * 1000;
-export const ONE_MINUTE_IN_MS = 60 * 1000;
-export const ONE_HOUR_IN_MS = 60 * 60 * 1000;
+export const analyticsDataQueryConfig = {
+  staleTime: ONE_HOUR_IN_MS,
+  gcTime: ONE_HOUR_IN_MS,
+};

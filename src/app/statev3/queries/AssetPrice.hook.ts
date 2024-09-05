@@ -1,6 +1,6 @@
+import { formatFetchBigIntToViewBigInt, Displayable, FetchBigIntStrict, formatUsdValue, ViewBigInt } from "@shared";
 import { Address, parseUnits } from "viem";
 import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
-import { FetchBigIntStrict, formatUsdValue } from "../../../shared";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
 import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
@@ -53,11 +53,16 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   );
 };
 
-export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigint) => {
-  return useQuery({
+export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigint): Displayable<ViewBigInt> => {
+  const { data: price, ...rest } = useQuery({
     queryKey: ["hookFormattedAssetPrice", asset, blockNumber],
     queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber),
     enabled: !!asset,
     ...disableCacheQueryConfig,
   });
+
+  return {
+    ...rest,
+    data: formatFetchBigIntToViewBigInt(price),
+  };
 };
