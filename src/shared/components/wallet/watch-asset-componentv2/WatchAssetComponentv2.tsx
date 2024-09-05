@@ -4,13 +4,13 @@ import { FlexCol } from "../../containers/FlexCol";
 import { Icon } from "../../images/Icon";
 import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
-import { useToken } from "../../../state/meta-data-queries/useToken";
 import { Typography } from "../../text/Typography/Typography";
 import { Buttonv2 } from "../../button/Buttonv2";
+import { useFetchTokenData } from "../../../../app/statev3/metadata/TokenData.fetch";
 
 interface Token {
   address?: Address;
-  logo?: string;
+  icon?: string;
   decimals?: number;
 }
 /**
@@ -43,11 +43,11 @@ interface Token {
  * @param {Token} props The Token details.
  * @returns {React.FC} A React functional component.
  */
-export const WatchAssetComponentv2: React.FC<Token> = ({ address, logo }) => {
+export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
   const { mutateAsync, isPending } = useWatchAsset();
   const {
     data: { decimals, symbol },
-  } = useToken(address);
+  } = useFetchTokenData(address);
 
   const handleAddToWalletClick = async () => {
     if (!address || !decimals || !symbol) return;
@@ -56,13 +56,13 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ address, logo }) => {
       symbol,
       address,
       decimals,
-      logo,
+      logo: icon,
     });
   };
 
   return (
     <FlexCol className="p-3 gap-3 bg-neutral-100 my-4 rounded-md items-center">
-      <Icon src={logo} width={30} alt={`${symbol}-icon`} />
+      <Icon src={icon} width={30} alt={`${symbol}-icon`} />
       <Typography type="medium3">
         Add <strong>{symbol}</strong> to wallet to track your balance.
       </Typography>

@@ -23,7 +23,12 @@ export const TableButtons: React.FC<{
         }}
       >
         <div className="">
-          <FormSettingsProvider defaultStrategy={strategy}>
+          <FormSettingsProvider
+            defaultStrategy={strategy}
+            onTransaction={() => {
+              addModal.current?.close();
+            }}
+          >
             <DepositForm />
           </FormSettingsProvider>
         </div>
@@ -39,7 +44,12 @@ export const TableButtons: React.FC<{
         }}
       >
         <div className="">
-          <FormSettingsProvider defaultStrategy={strategy}>
+          <FormSettingsProvider
+            defaultStrategy={strategy}
+            onTransaction={() => {
+              removeModal.current?.close();
+            }}
+          >
             <WithdrawForm />
           </FormSettingsProvider>
         </div>
