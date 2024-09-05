@@ -32,7 +32,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
 
   return (
     <Tooltip tooltip={children} hidden={isError}>
-      <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder">
+      <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
         <FlexRow className="object-cover ">
           {rewardTokens?.map((rewardToken, index) => {
             return (

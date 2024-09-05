@@ -82,16 +82,16 @@ export const TableDesktopRow: React.FC<{
         <FlexCol>
           <FlexRow className="items-center gap-1">
             <Icon
-              src={getSvgBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}
+              src={getSvgBasedOnSign(strategyProfit?.unrealizedProfit.value)}
               alt="polygon"
               width={12}
               height={12}
-              hidden={!Number(strategyProfit?.unrealizedProfitPercentage.value)}
+              hidden={!Number(strategyProfit?.unrealizedProfit.value)}
             />
             <DisplayPercentage
               typography="bold3"
               viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
-              className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfitPercentage.value)}`}
+              className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfit.value)}`}
               {...strategyProfitRest}
             />
           </FlexRow>

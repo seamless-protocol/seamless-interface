@@ -1,6 +1,5 @@
 import { DisplayMoney, FlexCol, FlexRow, Typography } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
-import { getColorBasedOnSign } from "../../../../../utils/uiUtils";
 import { Profit } from "./Profit";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
 
@@ -17,10 +16,10 @@ export const PortfolioSummary = () => {
               <DisplayMoney {...data.portfolioValue} {...rest} typography="bold7" />
             </FlexCol>
             <FlexCol className="gap-3">
-              <Typography type="medium4" className={getColorBasedOnSign(data.unrealizedProfit.value)}>
-                Total unrealized gain/loss
-              </Typography>
-              <Profit />
+              <Typography type="medium4">Total unrealized gain/loss</Typography>
+              <div className="flex w-auto">
+                <Profit />
+              </div>
             </FlexCol>
           </FlexCol>
           <UnclaimedRewardsBox />

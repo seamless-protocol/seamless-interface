@@ -10,9 +10,11 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 import { useAccount } from "wagmi";
 import { GraphComponent } from "./components/graph/GraphComponent";
+import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
+  const { isConnected } = useAccount();
   const { address } = useParams();
   const { isConnected } = useAccount();
 
@@ -26,10 +28,13 @@ export const ILMDetails = () => {
           <StrategyPickerButton strategy={address as Address} />
         </FlexRow>
 
+        <div className="mb-8">
+          <StrategyHeading />
+        </div>
         <div className="flex md:flex-row flex-col-reverse w-full gap-8 items-start">
           <FlexCol className="w-full md:w-2/3 gap-10">
-            {isConnected && <CurrentHoldings />}
             <GraphComponent />
+            {isConnected && <CurrentHoldings />}
             <StrategyStats />
             <StrategyDetails />
           </FlexCol>
