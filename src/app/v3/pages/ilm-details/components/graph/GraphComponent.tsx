@@ -152,7 +152,7 @@ export const GraphComponent = () => {
       setChartSeries(series);
     };
     processData();
-  }, [filterOption, showLpTokenPrice, showLpTokenAmount]);
+  }, [filterOption, showLpTokenPrice, showLpTokenAmount, strategy]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
