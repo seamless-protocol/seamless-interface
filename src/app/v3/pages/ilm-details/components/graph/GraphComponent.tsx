@@ -80,7 +80,7 @@ export const GraphComponent = () => {
 
       if (showLpTokenAmount && data) {
         series.push({
-          name: "Underlying Asset Price",
+          name: "Underlying Asset Price USD",
           data: data.map((item) => item.underlying_asset_price),
         });
       }
