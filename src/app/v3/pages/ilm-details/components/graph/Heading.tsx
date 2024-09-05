@@ -17,7 +17,7 @@ export const Heading = () => {
       <Typography type="bold4">Current LP token price</Typography>
       <DisplayMoney typography="bold7" {...otherPrice} {...price} />
       <FlexRow className="gap-1 items-center">
-        <SignIndicatingElement dislayable={{ ...apyRest, data: apy }}>
+        <SignIndicatingElement noBackground dislayable={{ ...apyRest, data: apy }}>
           <DisplayPercentage {...apyRest} {...apy} typography="bold3" />
         </SignIndicatingElement>
         <Typography type="bold3">Past month</Typography>

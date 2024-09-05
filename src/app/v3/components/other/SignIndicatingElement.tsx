@@ -4,7 +4,8 @@ import { getBackGroundColorBasedOnSign, getColorBasedOnSign, getSvgBasedOnSign }
 export const SignIndicatingElement: React.FC<{
   dislayable: Displayable<ViewBigInt>;
   children: React.ReactNode;
-}> = ({ dislayable, children }) => {
+  noBackground?: boolean;
+}> = ({ dislayable, children, noBackground }) => {
   const { isLoading, isFetched, data } = dislayable;
 
   if (isLoading || !isFetched) {
@@ -14,7 +15,7 @@ export const SignIndicatingElement: React.FC<{
   return (
     <FlexRow
       className={`items-center gap-1 p-2 rounded-tag
-      ${getBackGroundColorBasedOnSign(data.value)}
+       ${noBackground ? "" : getBackGroundColorBasedOnSign(data.value)}
       ${getColorBasedOnSign(data.value)}`}
     >
       <Icon src={getSvgBasedOnSign(data.value)} alt="polygon" width={16} height={16} hidden={!data.bigIntValue} />
