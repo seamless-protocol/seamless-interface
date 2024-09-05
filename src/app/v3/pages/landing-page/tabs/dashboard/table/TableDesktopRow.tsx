@@ -114,8 +114,8 @@ export const TableDesktopRow: React.FC<{
           <UserInfoImageGroup info={allUserRewards.info} />
         </FlexCol>
       </TableCell>
-      <TableCell className="col-span-5 flex justify-evenly items-center">
-        <TableButtons strategy={strategy} isStrategy />
+      <TableCell className="col-span-5 flex justify-evenly items-center cursor-default">
+        <TableButtons strategy={strategy} />
       </TableCell>
     </TableRow>
   );

@@ -1,4 +1,4 @@
-import { DisplayMoney, FlexCol, FlexRow, Typography } from "@shared";
+import { DisplayMoney, FlexCol, Typography } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { Profit } from "./Profit";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
@@ -9,7 +9,7 @@ export const PortfolioSummary = () => {
   return (
     <div>
       <div className="bg-neutral-0 shadow-card rounded-xl">
-        <FlexRow className="py-8 px-10 justify-between">
+        <div className="flex md:flex-row gap-10 md:gap-0 flex-col py-8 px-10 justify-between">
           <FlexCol className="gap-8 mt-2 mb-2">
             <FlexCol className="gap-2">
               <Typography type="bold5">Your total balance</Typography>
@@ -23,7 +23,7 @@ export const PortfolioSummary = () => {
             </FlexCol>
           </FlexCol>
           <UnclaimedRewardsBox />
-        </FlexRow>
+        </div>
       </div>
     </div>
   );

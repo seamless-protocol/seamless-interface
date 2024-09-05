@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { parseUnits, Address } from "viem";
 import { useAccount } from "wagmi";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
@@ -30,17 +30,10 @@ import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 
 export const WithdrawForm: React.FC = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
-
-  const { setStrategy, strategy: strategyInContext } = useFormSettingsContext();
+  const { strategy } = useFormSettingsContext();
   const { data: strategyData } = useFetchFullStrategyData(strategy);
 
-  useEffect(() => {
-    setStrategy(strategy);
-  }, [setStrategy, strategy]);
-
-  if (!strategyData || !strategyInContext) {
+  if (!strategyData) {
     // eslint-disable-next-line no-console
     console.warn("Strategy not found!!!");
     return <>Strategy not found!</>;

@@ -76,7 +76,7 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
               className="text-primary-600"
             />
           </FlexCol>
-          <TableButtons isStrategy strategy={strategy} />
+          <TableButtons strategy={strategy} />
         </FlexRow>
       </FlexCol>
     </div>

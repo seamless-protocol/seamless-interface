@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, createContext } from "react";
+import React, { useState, ReactNode, createContext, useEffect } from "react";
 import { Address } from "viem";
 
 export interface FormSettingsContextType {
@@ -22,6 +22,12 @@ export const FormSettingsProvider: React.FC<FormSettingsProviderProps> = ({
   onTransaction,
 }) => {
   const [strategy, setStrategy] = useState<Address | undefined>(defaultStrategy);
+
+  useEffect(() => {
+    if (defaultStrategy) {
+      setStrategy(defaultStrategy);
+    }
+  }, [defaultStrategy]);
 
   return (
     <FormSettingsContext.Provider
