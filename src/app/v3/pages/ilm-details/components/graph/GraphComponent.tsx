@@ -47,6 +47,8 @@ export const GraphComponent = () => {
   const [showLpTokenPrice, setShowLpTokenPrice] = useState(true);
   const [showLpTokenAmount, setShowLpTokenAmount] = useState(false);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const processData = async () => {
       if (!strategy) return;
@@ -84,6 +86,10 @@ export const GraphComponent = () => {
             enabled: false,
             // easing: "easeinout",
             // speed: 800,
+            dynamicAnimation: {
+              enabled: true,
+              speed: 1000,
+            },
           },
         },
         colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],

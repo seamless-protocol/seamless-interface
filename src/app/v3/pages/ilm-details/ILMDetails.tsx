@@ -14,7 +14,6 @@ import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
-  const { isConnected } = useAccount();
   const { address } = useParams();
   const { isConnected } = useAccount();
 
@@ -33,8 +32,8 @@ export const ILMDetails = () => {
         </div>
         <div className="flex md:flex-row flex-col-reverse w-full gap-8 items-start">
           <FlexCol className="w-full md:w-2/3 gap-10">
-            <GraphComponent />
             {isConnected && <CurrentHoldings />}
+            <GraphComponent />
             <StrategyStats />
             <StrategyDetails />
           </FlexCol>
