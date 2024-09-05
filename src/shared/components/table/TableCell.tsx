@@ -39,9 +39,14 @@ export const TableCell: React.FC<{
   className?: string;
   rest?: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
   alignItems?: string;
-}> = ({ children, className, rest, alignItems = (IS_STYLE_VERSION_2 ? "text-center" : "text-start") }) => {
+  onClick?: (e: any) => void;
+}> = ({ children, onClick, className, rest, alignItems = IS_STYLE_VERSION_2 ? "text-center" : "text-start" }) => {
   return (
-    <div className={`flex flex-col ${IS_STYLE_VERSION_2 ? "text-center" : "text-start"} ${alignItems} ${className || ""}`} {...rest}>
+    <div
+      onClick={onClick}
+      className={`flex flex-col ${IS_STYLE_VERSION_2 ? "text-center" : "text-start"} ${alignItems} ${className || ""}`}
+      {...rest}
+    >
       {children}
     </div>
   );

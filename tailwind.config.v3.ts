@@ -33,7 +33,7 @@ export default {
         "page-content": "1220px",
       },
       gridTemplateColumns: {
-        22: "repeat(22, minmax(0, 1fr))",
+        20: "repeat(20, minmax(0, 1fr))",
       },
 
       borderWidth: {

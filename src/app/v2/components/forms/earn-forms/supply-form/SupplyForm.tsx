@@ -37,7 +37,7 @@ export const SupplyForm = () => {
   }
 
   return <SupplyFormLocal />;
-}
+};
 
 const SupplyFormLocal = () => {
   const { asset, onTransaction, hideTag, overrideUrlSlug, disableAssetPicker } = useFormSettingsContext();
@@ -61,9 +61,7 @@ const SupplyFormLocal = () => {
 
   const { supplyAsync } = useMutateSupplyLending(asset);
 
-  const maxUserDepositData = useFetchViewMaxUserReserveDeposit(
-    asset
-  );
+  const maxUserDepositData = useFetchViewMaxUserReserveDeposit(asset);
 
   const onSubmitAsync = async (data: DepositModalFormData) => {
     await supplyAsync(
@@ -82,7 +80,7 @@ const SupplyFormLocal = () => {
                 {sTokenData && (
                   <WatchAssetComponentv2
                     {...sTokenData}
-                    logo={tokenData.logo}
+                    icon={tokenData.logo}
                     address={reserveTokenAddresses.aTokenAddress}
                   />
                 )}

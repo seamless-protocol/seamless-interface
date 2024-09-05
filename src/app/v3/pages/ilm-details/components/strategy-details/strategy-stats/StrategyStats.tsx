@@ -29,8 +29,8 @@ export const StrategyStats = () => {
   const { data: currentMultiple, ...currentMultipleRest } = useFetchFormattedStrategyMultiple(strategy);
 
   return (
-    <FlexRow className="w-full rounded-card bg-neutral-0 py-8 pl-6 h-36 gap-5">
-      <FlexRow className="w-1/4 justify-between">
+    <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
+      <FlexRow className="md:w-1/4 justify-between">
         <FlexCol className="justify-between ">
           <Typography type="medium3" className="text-primary-600">
             TVL
@@ -43,9 +43,9 @@ export const StrategyStats = () => {
             loaderSkeletonSettings={skeletonLoaderSettings}
           />
         </FlexCol>
-        <img src={border} alt="border" />
+        <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>
-      <FlexRow className="w-1/4 justify-between">
+      <FlexRow className="md:w-1/4 justify-between">
         <FlexCol className="max-w-max justify-between">
           <Typography type="medium3" className="text-primary-600">
             Supply cap
@@ -58,11 +58,11 @@ export const StrategyStats = () => {
             loaderSkeletonSettings={skeletonLoaderSettings}
           />
         </FlexCol>
-        <img src={border} alt="border" />
+        <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>
-      <FlexRow className="w-1/4 justify-between">
+      <FlexRow className="md:w-1/4 justify-between">
         <FlexCol className="justify-between">
-          <Typography type="medium3" className="text-primary-600 max-w-20">
+          <Typography type="medium3" className="text-primary-600 md:max-w-20">
             Min - Max Leverage
           </Typography>
           <DisplayText
@@ -73,11 +73,11 @@ export const StrategyStats = () => {
             loaderSkeletonSettings={skeletonLoaderSettings}
           />
         </FlexCol>
-        <img src={border} alt="border" />
+        <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>
-      <FlexRow className="w-1/4">
+      <FlexRow className="md:w-1/4">
         <FlexCol className="justify-between">
-          <Typography type="medium3" className="text-primary-600 max-w-20">
+          <Typography type="medium3" className="text-primary-600  md:max-w-20">
             Current leverage
           </Typography>
           <DisplayText
@@ -90,6 +90,6 @@ export const StrategyStats = () => {
           />
         </FlexCol>
       </FlexRow>
-    </FlexRow>
+    </div>
   );
 };
