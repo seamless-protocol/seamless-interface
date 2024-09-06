@@ -4,7 +4,6 @@ import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
-import { AssetApy } from "../../../../v2/components/asset-data/AssetApy";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -22,11 +21,6 @@ const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
       <Typography type="bold3">Summary</Typography>
-
-      <FlexRow className="text-navy-600 justify-between">
-        <Typography type="bold2">Estimated Total APY</Typography>
-        {strategy && <AssetApy asset={strategy} subStrategy={strategy} isStrategy className="text-navy-1000" />}
-      </FlexRow>
 
       <DataRow
         label={
