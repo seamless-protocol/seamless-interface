@@ -104,13 +104,13 @@ const RiskSharedAnswer = (
 const FeesSharedAnswer = (
   <>
     Seamless does not have any fees associated with this strategy. But note there are costs to maintaining this
-    strategy. Cost source are: DEX fees and slippage incurred during rebalances and interest incurred from borrowing.
+    strategy. Cost sources are: DEX fees and slippage incurred during rebalances and interest incurred from borrowing.
   </>
 );
 
 export const strategyDetails = {
   [wstETHBooster_ADDRESS]: {
-    Lavarage_Exposure: (
+    Leverage_Exposure: (
       <>
         No. Since wstETH and ETH are correlated assets, regardless of ETH price movement, you earn staking fees from
         holding a larger wstETH balance.
@@ -120,7 +120,7 @@ export const strategyDetails = {
     StrategyFees: <>{FeesSharedAnswer}</>,
   },
   [ethLong]: {
-    Lavarage_Exposure: (
+    Leverage_Exposure: (
       <>
         Yes. As ETH increases in price, returns are magnified in bullish market conditions. Conversely, losses are
         magnified when ETH decreases.
@@ -130,7 +130,7 @@ export const strategyDetails = {
     StrategyFees: FeesSharedAnswer,
   },
   [ethLong_3x]: {
-    Lavarage_Exposure: (
+    Leverage_Exposure: (
       <>
         Yes. As ETH increases in price, returns are magnified in bullish market conditions. Conversely, losses are
         magnified when ETH decreases.
@@ -140,7 +140,7 @@ export const strategyDetails = {
     StrategyFees: FeesSharedAnswer,
   },
   [ethShort_ADDRESS_1_5_x]: {
-    Lavarage_Exposure: (
+    Leverage_Exposure: (
       <>
         Yes. As ETH decreases in price in bearish market conditions, returns are magnified. Conversely, losses are
         magnified when ETH increases.

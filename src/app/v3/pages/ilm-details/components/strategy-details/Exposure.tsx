@@ -8,7 +8,7 @@ export const Exposure: React.FC<{
   if (!strategy) {
     return <div>No strategy selected</div>;
   }
-  const jsx = strategyDetails[strategy]?.Lavarage_Exposure;
+  const jsx = strategyDetails[strategy]?.Leverage_Exposure;
 
   return (
     <div>
