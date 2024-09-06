@@ -2,13 +2,13 @@ import { Address } from "viem";
 import { strategyDetails } from "../../../../../statev3/settings/config";
 import { Typography } from "../../../../../../shared";
 
-export const FeesInformation: React.FC<{
+export const Exposure: React.FC<{
   strategy?: Address;
 }> = ({ strategy }) => {
   if (!strategy) {
     return <div>No strategy selected</div>;
   }
-  const jsx = strategyDetails[strategy]?.StrategyFees;
+  const jsx = strategyDetails[strategy]?.Leverage_Exposure;
 
   return (
     <div>
