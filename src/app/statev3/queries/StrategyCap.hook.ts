@@ -14,20 +14,21 @@ import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
 
 export async function fetchStrategyCap(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { underlying } = await fetchStrategyAssets(strategy);
 
   const [cap, underlyingAssetPrice, { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals }] =
     await Promise.all([
-      queryContract(
-        queryOptions({
+      queryContract({
+        ...queryOptions({
           address: strategy,
           abi: loopStrategyAbi,
           functionName: "getAssetsCap",
-        })
-      ),
+        }),
+        ...infiniteCacheQueryConfig,
+      }),
       fetchAssetPriceInBlock(underlying),
       fetchTokenData(underlying),
     ]);

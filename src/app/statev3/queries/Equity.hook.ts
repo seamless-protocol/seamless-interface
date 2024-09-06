@@ -11,7 +11,11 @@ import {
 } from "../../../shared";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import {
+  disableCacheQueryConfig,
+  infiniteCacheQueryConfig,
+  platformDataQueryConfig,
+} from "../../state/settings/queryConfig";
 
 export interface FetchEquityInBlockInput {
   strategy: Address;
@@ -22,25 +26,29 @@ export async function fetchEquityInBlock({
   strategy,
   blockNumber,
 }: FetchEquityInBlockInput): Promise<FetchTokenAmountWithUsdValueStrict> {
+  const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;
+
   const { symbol, decimals } = await fetchTokenData(strategy);
 
   const [equity, equityUsd] = await Promise.all([
-    queryContract(
-      queryOptions({
+    queryContract({
+      ...queryOptions({
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equity",
         blockNumber,
-      })
-    ),
-    queryContract(
-      queryOptions({
+      }),
+      ...cacheConfig,
+    }),
+    queryContract({
+      ...queryOptions({
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equityUSD",
         blockNumber,
-      })
-    ),
+      }),
+      ...cacheConfig,
+    }),
   ]);
 
   return {

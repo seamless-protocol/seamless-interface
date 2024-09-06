@@ -6,19 +6,21 @@ import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
 import { cValueFromUsd } from "../math/utils";
+import { platformDataQueryConfig } from "../../state/settings/queryConfig";
 
 export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { underlying: underlyingAsset } = await fetchStrategyAssets(strategy);
 
   const [collateralUsd, underlyingAssetPrice, { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals }] =
     await Promise.all([
-      queryContract(
-        queryOptions({
+      queryContract({
+        ...queryOptions({
           address: strategy,
           abi: loopStrategyAbi,
           functionName: "collateralUSD",
-        })
-      ),
+        }),
+        ...platformDataQueryConfig,
+      }),
       fetchAssetPriceInBlock(underlyingAsset),
       fetchTokenData(underlyingAsset),
     ]);

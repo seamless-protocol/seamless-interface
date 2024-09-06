@@ -6,6 +6,7 @@ import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../math/utils";
+import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
 
 export interface FetchRewardsByStrategy {
   info: FetchRewardsByStrategyInfo[];
@@ -33,6 +34,7 @@ export async function fetchAllUserRewardsByStrategy({
       functionName: "getAllUserRewards",
       args: [[strategy], user],
     }),
+    ...heavyDataQueryConfig,
   });
 
   const rewardsInfo: FetchRewardsByStrategyInfo[] = await Promise.all(

@@ -9,7 +9,11 @@ import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
 import { fetchEquityInBlock } from "./Equity.hook";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import {
+  disableCacheQueryConfig,
+  infiniteCacheQueryConfig,
+  platformDataQueryConfig,
+} from "../../state/settings/queryConfig";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {
@@ -40,16 +44,19 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
     );
   }
 
+  const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;
+
   return formatUsdValue(
-    await queryContract(
-      queryOptions({
+    await queryContract({
+      ...queryOptions({
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",
         args: [asset],
         blockNumber,
-      })
-    )
+      }),
+      ...cacheConfig,
+    })
   );
 };
 
