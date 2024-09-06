@@ -1,13 +1,15 @@
-import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { Image } from "../../../../../../shared";
 
-export const HowStrategyWorks = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
-
+export const HowStrategyWorks: React.FC<{
+  strategy?: Address;
+}> = ({ strategy }) => {
   const { data: { diagram } = {} } = useFetchFullStrategyData(strategy);
+
+  if (!strategy) {
+    return <div>No strategy selected</div>;
+  }
 
   return (
     <div>

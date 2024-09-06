@@ -5,6 +5,7 @@ import { LearnMore } from "./LearnMore";
 import { MainRisks } from "./MainRisks";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
+import { Exposure } from "./Exposure";
 
 export const StrategyDetails = () => {
   const { address } = useParams();
@@ -22,11 +23,19 @@ export const StrategyDetails = () => {
         </LocalCollapseArrow>
 
         <LocalCollapseArrow>
-          <LocalCollapseTitle>What are main risks</LocalCollapseTitle>
+          <LocalCollapseTitle>Do I have leverage exposure to ETH price with this ILM?</LocalCollapseTitle>
+          <div className="collapse-content">
+            <Exposure strategy={strategy} />
+          </div>
+        </LocalCollapseArrow>
+
+        <LocalCollapseArrow>
+          <LocalCollapseTitle>What are main risks?</LocalCollapseTitle>
           <div className="collapse-content">
             <MainRisks strategy={strategy} />
           </div>
         </LocalCollapseArrow>
+
         <LocalCollapseArrow>
           <LocalCollapseTitle>What fees are there for using this strategy?</LocalCollapseTitle>
           <div className="collapse-content">
