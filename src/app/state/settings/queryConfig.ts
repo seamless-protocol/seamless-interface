@@ -11,6 +11,11 @@ export const metadataQueryConfig = {
   staleTime: Infinity,
 };
 
+export const infiniteCacheQueryConfig = {
+  staleTime: Infinity,
+  gcTime: Infinity,
+};
+
 export const semiSensitiveDataQueryConfig = {
   staleTime: 60 * 1000, // one minute
 };
@@ -21,6 +26,16 @@ export const heavyDataQueryConfig = {
 };
 
 export const analyticsDataQueryConfig = {
+  staleTime: ONE_HOUR_IN_MS,
+  gcTime: ONE_HOUR_IN_MS,
+};
+
+export const walletDataQueryConfig = {
+  staleTime: ONE_HOUR_IN_MS,
+  gcTime: ONE_HOUR_IN_MS,
+};
+
+export const platformDataQueryConfig = {
   staleTime: ONE_HOUR_IN_MS,
   gcTime: ONE_HOUR_IN_MS,
 };

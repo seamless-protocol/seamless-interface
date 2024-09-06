@@ -22,13 +22,13 @@ export const IlmTableContainer: React.FC<{
           <Typography type="bold1">Type</Typography>
         </TableCell>
         <TableCell className="col-span-1">
-          <Typography type="bold1">Available supply cap</Typography>
+          <Typography type="bold1">Available Supply Cap</Typography>
         </TableCell>
         <TableCell className="col-span-1">
-          <Typography type="bold1">30d historical return</Typography>
+          <Typography type="bold1">30d Historical Return</Typography>
         </TableCell>
         <TableCell className="col-span-1">
-          <Typography type="bold1">Rewards APY</Typography>
+          <Typography type="bold1">Rewards APR</Typography>
         </TableCell>
         <TableCell className="col-span-1">
           <Typography type="bold1">TVL</Typography>

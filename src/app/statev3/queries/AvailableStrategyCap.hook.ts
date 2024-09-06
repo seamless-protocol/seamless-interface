@@ -14,7 +14,7 @@ import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
 
 export async function fetchAvailableStrategyCap(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { underlying: underlyingAsset } = await fetchStrategyAssets(strategy);
@@ -24,14 +24,15 @@ export async function fetchAvailableStrategyCap(strategy: Address): Promise<Fetc
     underlyingAssetPrice,
     { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
   ] = await Promise.all([
-    queryContract(
-      queryOptions({
+    queryContract({
+      ...queryOptions({
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "maxDeposit",
         args: [zeroAddress], // This parameter is not used in smart contract so passing zeroAddress is safe
-      })
-    ),
+      }),
+      ...infiniteCacheQueryConfig,
+    }),
     fetchAssetPriceInBlock(underlyingAsset),
     fetchTokenData(underlyingAsset),
   ]);
