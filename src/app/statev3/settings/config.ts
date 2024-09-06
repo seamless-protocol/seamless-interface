@@ -23,10 +23,16 @@ import brettLogo from "@assets/tokens/brett.svg";
 import wethLogo from "@assets/tokens/weth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
 
+import ETH_USDC_1_5x_LongImage from "@assets/diagrams/ETH_USDC_1_5x_Long.png";
+import ETH_USDC_3xLongImage from "@assets/diagrams/ETH_USDC_3xLong.png";
+import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
+import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
+
 export interface StrategyConfig {
   name: string;
   description: string;
   type: TagType;
+  diagram: string;
 }
 
 export const strategyConfig: { [key: Address]: StrategyConfig } = {
@@ -34,21 +40,25 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     name: "wstETH Leveraged Staking 3x",
     description: "Increase ETH staking rewards by magnifying a wstETH position.",
     type: "Staking",
+    diagram: wstETH_ETH_3x_StakingImage,
   },
   [ethLong]: {
     name: "ETH Long 1.5x",
     description: "For ETH Bulls, increase ETH price exposure by 1.5 times long.",
     type: "Long",
+    diagram: ETH_USDC_1_5x_LongImage,
   },
   [ethLong_3x]: {
     name: "ETH Long 3x",
     description: "For ETH Bulls, increase ETH price exposure by 3 times long.",
     type: "Long",
+    diagram: ETH_USDC_3xLongImage,
   },
   [ethShort_ADDRESS_1_5_x]: {
     name: "ETH Short 1.5x",
     description: "For ETH Bears, increase ETH price exposure by 1.5 times short.",
     type: "Short",
+    diagram: USDC_ETH_1_5x_ShortImage,
   },
 };
 

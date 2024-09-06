@@ -14,6 +14,7 @@ export interface FullStrategyData {
   type: TagType;
   description: string;
   address?: Address;
+  diagram?: string;
 
   icon: string;
   symbol?: string;
