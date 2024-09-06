@@ -43,7 +43,7 @@ export const IlmTableContainer: React.FC<{
       >
         {strategies?.map((strategy, index) => (
           <div key={index}>
-            <Link to={RouterConfig.Builder.ilmDetailsv3(strategy)}>
+            <Link to={RouterConfig.Builder.ilmDetails(strategy)}>
               <ILMDesktopTableRow
                 strategy={strategy}
                 hideBorder={index === strategies.length - 1}
