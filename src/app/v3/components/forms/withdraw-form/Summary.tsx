@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { AssetApy } from "../../../../v2/components/asset-data/AssetApy";
 
 export const Summary: React.FC<{
   debouncedAmount: string;
@@ -17,11 +16,6 @@ export const Summary: React.FC<{
     <FlexCol>
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
         <Typography type="bold3">Summary</Typography>
-
-        <FlexRow className="text-navy-600 justify-between">
-          <Typography type="bold2">Estimated Total APY</Typography>
-          {strategy && <AssetApy asset={strategy} subStrategy={strategy} isStrategy className="text-navy-1000" />}
-        </FlexRow>
 
         <FlexRow className="justify-between text-navy-600">
           <FlexRow className="gap-1 items-center">

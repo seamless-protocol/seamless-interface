@@ -170,6 +170,12 @@ export const GraphComponent = () => {
           Underlying Asset (USD)
         </GraphButton>
       </div>
+      <div>
+        <Typography type="regular1">
+          Please note that the chart data presented is for <strong>historical</strong> reference <strong>only</strong>{" "}
+          and is subject to a <strong>delay</strong> of approximately <strong>one day</strong>.
+        </Typography>
+      </div>
       <FlexCol>
         <div className="relative">
           {isLoading && <LocalSpinner />}

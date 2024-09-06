@@ -5,10 +5,10 @@ import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayNumber, DisplayMone
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
 import { StrategyIncentivesButton } from "../../../../../../v2/components/incentives/AprTooltip";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
+import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
 
 export const ILMDesktopTableRow: React.FC<{
   strategy: Address;
@@ -57,10 +57,15 @@ export const ILMDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <FlexRow className="items-center gap-1">
-            <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
-          </FlexRow>
+          <SignIndicatingElement
+            noBackground
+            dislayable={{
+              ...apyRest,
+              data: apy,
+            }}
+          >
+            <DisplayNumber errorMessage="Insufficient historical data 😖" typography="bold3" {...apy} {...apyRest} />
+          </SignIndicatingElement>
         </TableCell>
         <TableCell className="col-span-1">
           <StrategyIncentivesButton strategy={strategy} />
