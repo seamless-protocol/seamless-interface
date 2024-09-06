@@ -11,6 +11,7 @@ import {
 } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
+import "./GraphComoonent.css";
 
 export interface DuneData {
   share_value_usd: number;
@@ -97,7 +98,8 @@ export const GraphComponent = () => {
           },
           animations: {
             enabled: true,
-            speed: 800, // Increased animation speed for smoothness
+            speed: 2000,
+            easing: "easeout",
           },
         },
         colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
@@ -106,12 +108,10 @@ export const GraphComponent = () => {
         },
         xaxis: {
           categories,
+          tickAmount: 5,
           labels: {
-            show: true,
+            rotate: 0,
             formatter: (value) => formatDate(value),
-            style: {
-              fontSize: "10px",
-            },
           },
           tooltip: {
             enabled: true,
@@ -124,8 +124,13 @@ export const GraphComponent = () => {
         },
         tooltip: {
           x: {
-            format: "yyyy-MM-dd",
+            show: true,
+            formatter: (value) => {
+              const date = new Date(categories?.[value - 1] || "");
+              return date?.toLocaleDateString();
+            },
           },
+          cssClass: "custom-tooltip",
         },
         grid: {
           strokeDashArray: 4,

@@ -23,7 +23,7 @@ export const ConnectWalletRainbowWrapperv3 = () => {
               </LocalButton>
             ) : chain.unsupported ? (
               <LocalButton onClick={openChainModal} className="bg-error text-medium3">
-                Switch To Mainnet
+                Switch To Base
               </LocalButton>
             ) : (
               <LocalButton onClick={openAccountModal}>

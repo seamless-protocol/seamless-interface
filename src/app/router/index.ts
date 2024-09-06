@@ -37,13 +37,13 @@ export const RouterConfig = {
     unwrapEth: `${uniswapUrl}?chain=base&inputCurrency=0x4200000000000000000000000000000000000006&outputCurrency=ETH`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
-    ilmDetails: `${baseUrl}/ilm-details/:id`,
-    ilmDetailsv3: `${baseUrl}/ilm-detailsv3/:address`,
+    ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
+    ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
-    ilmDetails: (id: number) => `${baseUrl}/ilm-details/${id}`,
-    ilmDetailsv3: (address: Address) => `${baseUrl}/ilm-detailsv3/${address}`,
+    ilmDetailsv2: (id: number) => `${baseUrl}/ilm-detailsv2/${id}`,
+    ilmDetails: (address: Address) => `${baseUrl}/ilm-details/${address}`,
     assetDetails: (address: Address) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${address.toLowerCase()}&marketName=proto_base_v3`,
     baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,
