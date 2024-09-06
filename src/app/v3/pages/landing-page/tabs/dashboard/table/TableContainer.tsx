@@ -39,7 +39,7 @@ export const TableContainer = () => {
         >
           {strategies?.map((strategy, index) => (
             <div key={strategy.strategy}>
-              <Link to={RouterConfig.Builder.ilmDetailsv3(strategy.strategy)}>
+              <Link to={RouterConfig.Builder.ilmDetails(strategy.strategy)}>
                 <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
                 <TableMobileRow strategy={strategy.strategy} />
               </Link>

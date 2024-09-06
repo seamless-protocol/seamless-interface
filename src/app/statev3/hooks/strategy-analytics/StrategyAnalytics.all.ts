@@ -34,7 +34,7 @@ export const fetchStrategyAnalytics = async (strategy: Address, filter: FilterOp
       const data = await response.json();
 
       const totalPoints = data?.result?.rows?.length || 0;
-      const targetPoints = 50;
+      const targetPoints = 70;
 
       let skip = 1;
       if (totalPoints > targetPoints) {
