@@ -36,14 +36,19 @@ export const fetchStrategyAnalytics = async (strategy: Address, filter: FilterOp
       const totalPoints = data?.result?.rows?.length || 0;
       const targetPoints = 70;
 
-      let skip = 1;
-      if (totalPoints > targetPoints) {
-        skip = Math.ceil(totalPoints / targetPoints);
-      }
+      const skip = totalPoints > targetPoints ? Math.ceil(totalPoints / targetPoints) : 1;
 
-      const filteredData = data?.result?.rows?.filter((_: any, index: number) => index % skip === 0);
+      const modifiedData = data?.result?.rows
+        ?.filter((_: any, index: number) => index % skip === 0)
+        .map((row: any) => {
+          return {
+            share_value_usd: row.share_value_usd,
+            share_value_in_debt_asset: row.share_value_usd / row.debt_token_price,
+            time: row.time,
+          };
+        });
 
-      return filteredData;
+      return modifiedData;
     },
     ...analyticsDataQueryConfig,
   });

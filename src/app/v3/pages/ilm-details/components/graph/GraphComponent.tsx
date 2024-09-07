@@ -14,13 +14,17 @@ import { Address } from "viem";
 import "./GraphComoonent.css";
 
 export interface DuneData {
+  share_value_in_debt_asset: number;
   share_value_usd: number;
-  underlying_asset_price: number;
-  strategy: string;
   time: string;
 }
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
+
+// TODO: Fix this function and find scalable solution when we decide on long term graph solution
+const numberOfDecimals = (value: number): number => {
+  return value < 1 ? 5 : 2;
+};
 
 const formatDate = (value: string, includeTime = false) => {
   const date = new Date(value);
@@ -47,8 +51,8 @@ export const GraphComponent = () => {
   const [filterOption, setFilterOption] = useState<FilterOption>("1w");
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
   const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
-  const [showLpTokenPrice, setShowLpTokenPrice] = useState(true);
-  const [showLpTokenAmount, setShowLpTokenAmount] = useState(false);
+  const [showPriceInDebtAsset, setShowPriceInDebtAsset] = useState(true);
+  const [showPriceInUsd, setShowPriceInUsd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -72,17 +76,17 @@ export const GraphComponent = () => {
       const categories = data?.map((item) => item.time);
       const series = [];
 
-      if (showLpTokenPrice && data) {
+      if (showPriceInDebtAsset && data) {
         series.push({
-          name: "Share Value USD",
-          data: data.map((item) => item.share_value_usd),
+          name: "Share Value In Debt Asset",
+          data: data.map((item) => item.share_value_in_debt_asset),
         });
       }
 
-      if (showLpTokenAmount && data) {
+      if (showPriceInUsd && data) {
         series.push({
-          name: "Underlying Asset Price USD",
-          data: data.map((item) => item.underlying_asset_price),
+          name: "Share Value USD",
+          data: data.map((item) => item.share_value_usd),
         });
       }
 
@@ -102,7 +106,7 @@ export const GraphComponent = () => {
             easing: "easeout",
           },
         },
-        colors: showLpTokenPrice ? ["#4F68F7", "#00E396"] : ["#00E396"],
+        colors: showPriceInDebtAsset ? ["#4F68F7", "#00E396"] : ["#00E396"],
         dataLabels: {
           enabled: false,
         },
@@ -119,7 +123,7 @@ export const GraphComponent = () => {
         },
         yaxis: {
           labels: {
-            formatter: (value) => `$ ${value.toFixed(2)}`,
+            formatter: (value) => `${value.toFixed(numberOfDecimals(value))}`,
           },
         },
         tooltip: {
@@ -157,17 +161,17 @@ export const GraphComponent = () => {
       setChartSeries(series);
     };
     processData();
-  }, [filterOption, showLpTokenPrice, showLpTokenAmount, strategy]);
+  }, [filterOption, showPriceInDebtAsset, showPriceInUsd, strategy]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
       <Heading />
       <div className="flex gap-2">
-        <GraphButton isActive={showLpTokenPrice} onClick={() => setShowLpTokenPrice((prev) => !prev)}>
-          Share Value (USD)
+        <GraphButton isActive={showPriceInDebtAsset} onClick={() => setShowPriceInDebtAsset((prev) => !prev)}>
+          Share Value (Debt Asset)
         </GraphButton>
-        <GraphButton isActive={showLpTokenAmount} onClick={() => setShowLpTokenAmount((prev) => !prev)}>
-          Underlying Asset (USD)
+        <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
+          Share Value (USD)
         </GraphButton>
       </div>
       <div>
