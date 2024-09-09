@@ -51,42 +51,44 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards, d
   };
 
   return (
-    <Modal
-      ref={modalRef}
-      header="Claim rewards"
-      size="small"
-      // TODO: Remove this when generic button component is ready
-      buttonProps={{
-        children: "Claim",
-        className: `text-bold3 rounded-button text-neutral-0 py-3 px-4 ${disabled ? "bg-primary-300" : "bg-metalic"}`,
-        disabled,
-      }}
-    >
-      <FlexCol className="gap-8">
-        <FlexCol className="gap-6">
-          <FlexCol className="gap-1">
-            <Typography type="bold2">Transaction overview</Typography>
-            <FlexCol className="gap-5 shadow-card rounded-card bg-neutral-100 p-4 pt-6">
-              {rewards?.map((token, index) => (
-                <TokenRow
-                  key={index}
-                  logo={token.logo}
-                  tokenAmount={token.tokenAmount}
-                  dollarAmount={token.dollarAmount}
-                />
-              ))}
-              <FlexRow className="justify-between items-center mt-4">
-                <Typography type="bold1">Total worth</Typography>
-                <DisplayMoney typography="bold2" {...totalRewards} symbolPosition="before" />
-              </FlexRow>
+    <div>
+      <Modal
+        ref={modalRef}
+        header="Claim rewards"
+        size="small"
+        // TODO: Remove this when generic button component is ready
+        buttonProps={{
+          children: "Claim",
+          className: `text-bold3 rounded-button text-neutral-0 py-3 px-4 ${disabled ? "bg-primary-300" : "bg-metalic"}`,
+          disabled,
+        }}
+      >
+        <FlexCol className="gap-8">
+          <FlexCol className="gap-6">
+            <FlexCol className="gap-1">
+              <Typography type="bold2">Transaction overview</Typography>
+              <FlexCol className="gap-5 shadow-card rounded-card bg-neutral-100 p-4 pt-6">
+                {rewards?.map((token, index) => (
+                  <TokenRow
+                    key={index}
+                    logo={token.logo}
+                    tokenAmount={token.tokenAmount}
+                    dollarAmount={token.dollarAmount}
+                  />
+                ))}
+                <FlexRow className="justify-between items-center mt-4">
+                  <Typography type="bold1">Total worth</Typography>
+                  <DisplayMoney typography="bold2" {...totalRewards} symbolPosition="before" />
+                </FlexRow>
+              </FlexCol>
             </FlexCol>
-          </FlexCol>
 
-          <Buttonv2 className="text-bold2" onClick={onSubmitAsync} loading={isPending}>
-            Claim all rewards
-          </Buttonv2>
+            <Buttonv2 className="text-bold2" onClick={onSubmitAsync} loading={isPending}>
+              Claim all rewards
+            </Buttonv2>
+          </FlexCol>
         </FlexCol>
-      </FlexCol>
-    </Modal>
+      </Modal>
+    </div>
   );
 };
