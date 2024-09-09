@@ -14,6 +14,7 @@ import { useAccount } from "wagmi";
 import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
+// todo: remove this from shared. actually delete this file after v3 migration?
 import { useFullTokenData } from "../../../../app/state/common/meta-data-queries/useFullTokenData";
 import { useFocusOnAssetChange } from "../../../hooks/ui-hooks/useFocusOnAssetChange";
 
