@@ -179,7 +179,7 @@ export const GraphComponent = () => {
       setChartSeries(series);
     };
     processData();
-  }, [filterOption, showPriceInDebtAsset, showPriceInUsd, strategy, symbol]);
+  }, [filterOption, showPriceInDebtAsset, showPriceInUsd, strategy, symbol, debtTokenDataRest.status]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
