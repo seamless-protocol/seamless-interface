@@ -15,7 +15,7 @@ import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
-import { CONTRACT_REVERT_ERROR_MESSAGE } from "../../../meta";
+import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../meta";
 
 export async function fetchMaxDeposit(strategy: Address): Promise<bigint> {
   const maxDeposit = await queryContract({
@@ -27,7 +27,7 @@ export async function fetchMaxDeposit(strategy: Address): Promise<bigint> {
     }),
     ...infiniteCacheQueryConfig,
   }).catch((error) => {
-    if (error.cause.name === CONTRACT_REVERT_ERROR_MESSAGE) {
+    if (error.cause.reason === OVERFLOW_UNDERFLOW_REASON_MESSAGE) {
       console.info(`Failed to fetch available strategy cap for strategy ${strategy}`, error);
       return 0n;
     }

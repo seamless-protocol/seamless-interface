@@ -107,4 +107,4 @@ export const lendingAssetToHide: String[] = [
 export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
 
 // Error constants
-export const CONTRACT_REVERT_ERROR_MESSAGE = "ContractFunctionRevertedError";
+export const OVERFLOW_UNDERFLOW_REASON_MESSAGE = "Arithmetic operation resulted in underflow or overflow.";
