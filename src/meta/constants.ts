@@ -105,3 +105,6 @@ export const lendingAssetToHide: String[] = [
 ];
 
 export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
+
+// Error constants
+export const CONTRACT_REVERT_ERROR_MESSAGE = "ContractFunctionRevertedError";
