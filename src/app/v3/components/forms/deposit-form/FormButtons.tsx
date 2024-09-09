@@ -7,9 +7,8 @@ import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch"
 
 export const FormButtons: React.FC<{
   strategy: FullStrategyData;
-  onTransaction?: () => void;
   isLoading?: boolean;
-}> = ({ strategy, onTransaction, isLoading }) => {
+}> = ({ strategy, isLoading }) => {
   const { showNotification } = useNotificationContext();
   const { data: { decimals } = {} } = useFetchTokenData(strategy.underlying);
 
@@ -48,8 +47,6 @@ export const FormButtons: React.FC<{
                 status: "error",
                 content: e?.message,
               });
-            } finally {
-              onTransaction?.();
             }
           }}
         >

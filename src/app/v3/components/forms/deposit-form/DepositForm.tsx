@@ -140,7 +140,6 @@ const StrategyFormLocal: React.FC<{
         <FormButtons
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategyData}
-          onTransaction={onTransaction}
         />
       </FlexCol>
     </MyFormProvider>
