@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import { Heading } from "./Heading";
 import { GraphButton } from "./GraphButton";
-import { FlexCol, FlexRow, Typography, useNotificationContext } from "@shared";
+import { ExtendedQueryState, FlexCol, FlexRow, Typography, useNotificationContext } from "@shared";
 import { TimeFilterButton } from "./TimeFilterButton";
 import {
   fetchStrategyAnalytics,
@@ -12,6 +12,8 @@ import {
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import "./GraphComoonent.css";
+import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
+import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 
 export interface DuneData {
   share_value_in_debt_asset: number;
@@ -42,9 +44,25 @@ const formatDate = (value: string, includeTime = false) => {
   return date.toLocaleDateString(undefined, options);
 };
 
+const getSymbolString = (symbol: string, rest: ExtendedQueryState<string>) => {
+  if (rest.isLoading || !rest.isFetched) {
+    return "Loading..";
+  }
+  if (rest.isError) {
+    return "Symbol cannot be found";
+  }
+  return symbol;
+};
+
 export const GraphComponent = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
+
+  const { data: strategyData } = useFetchFullStrategyData(strategy);
+  const {
+    data: { symbol },
+    ...debtTokenDataRest
+  } = useFetchTokenData(strategyData?.debt);
 
   const { showNotification } = useNotificationContext();
 
@@ -78,14 +96,14 @@ export const GraphComponent = () => {
 
       if (showPriceInDebtAsset && data) {
         series.push({
-          name: "Share Value In Debt Asset",
+          name: `Share Value (${getSymbolString(symbol || "", debtTokenDataRest)})`,
           data: data.map((item) => item.share_value_in_debt_asset),
         });
       }
 
       if (showPriceInUsd && data) {
         series.push({
-          name: "Share Value USD",
+          name: "Share Value (USD)",
           data: data.map((item) => item.share_value_usd),
         });
       }
@@ -161,14 +179,14 @@ export const GraphComponent = () => {
       setChartSeries(series);
     };
     processData();
-  }, [filterOption, showPriceInDebtAsset, showPriceInUsd, strategy]);
+  }, [filterOption, showPriceInDebtAsset, showPriceInUsd, strategy, symbol, debtTokenDataRest.status]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
       <Heading />
       <div className="flex gap-2">
         <GraphButton isActive={showPriceInDebtAsset} onClick={() => setShowPriceInDebtAsset((prev) => !prev)}>
-          Share Value (Debt Asset)
+          Share Value ({getSymbolString(symbol || "", debtTokenDataRest)})
         </GraphButton>
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
           Share Value (USD)
