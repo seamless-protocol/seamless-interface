@@ -23,6 +23,7 @@ import { Address } from "viem";
 /*    Icons    */
 /* ----------- */
 import seamLogo from "@assets/logos/logo-seamless.svg";
+import esSeamLogo from "@assets/tokens/esSeam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
@@ -76,7 +77,7 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
 /* --------- */
 export const addressIconMap: Map<string, string> = new Map([
   [SEAM_ADDRESS, seamLogo],
-  [ESSEAM_ADDRESS, seamLogo],
+  [ESSEAM_ADDRESS, esSeamLogo],
   [OG_POINTS_ADDRESS, ogPointsLogo],
   [USDC_ADDRESS, usdcLogo],
   [BRETT_ADDRESS, brettLogo],
