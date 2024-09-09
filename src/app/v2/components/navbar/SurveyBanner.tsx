@@ -1,6 +1,6 @@
 import { Typography } from "@shared";
 import { Link } from "react-router-dom";
-import { newSeamlessSurveyUrl } from "@router";
+import { seamlessSurveyUrl } from "@router";
 
 export const SurveyBanner = () => {
   return (
@@ -8,7 +8,7 @@ export const SurveyBanner = () => {
       <div className="flex flex-col justify-center text-center w-full md:flex-row py-4 px-8 bg-blueGradient rounded-[100px] text-white">
         <Typography type="bold3">
           📣 Share Your thoughts! Help Seamless enhance ILMs by taking a quick 5-minute survey. 👉{" "}
-          <Link to={newSeamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
+          <Link to={seamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
             Take the Survey Here
           </Link>
         </Typography>

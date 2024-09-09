@@ -1,6 +1,6 @@
 import { FlexRow, Typography } from "@shared";
 import { Link } from "react-router-dom";
-import { newSeamlessSurveyUrl } from "@router";
+import { seamlessSurveyUrl } from "@router";
 
 export const SurveyBanner = () => {
   return (
@@ -10,7 +10,7 @@ export const SurveyBanner = () => {
           <FlexRow className="md:flex-row flex-col md:gap-0 gap-4 items-center justify-between w-full">
             <Typography type="bold3">
               📣 Share Your thoughts! Help Seamless enhance ILMs by taking a quick 5-minute survey. 👉🏿{" "}
-              <Link to={newSeamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
+              <Link to={seamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
                 Take the Survey Here
               </Link>
             </Typography>
