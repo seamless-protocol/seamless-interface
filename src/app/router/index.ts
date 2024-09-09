@@ -18,7 +18,7 @@ export const ilmMediumUrl =
   "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/OKhrmIDL";
-export const newSeamlessSurveyUrl = "todo";
+export const newSeamlessSurveyUrl = "https://form.typeform.com/to/RC2SDcF0";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
 
 const baseScan = "https://basescan.org";
