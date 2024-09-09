@@ -14,7 +14,7 @@ import { Address } from "viem";
 import "./GraphComoonent.css";
 import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
-import { wstETHBooster_ADDRESS } from "../../../../../../meta";
+import { wstETHBooster_ADDRESS } from "@meta";
 
 export interface DuneData {
   share_value_in_debt_asset: number;
