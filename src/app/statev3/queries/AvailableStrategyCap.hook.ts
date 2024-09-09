@@ -19,23 +19,21 @@ import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/s
 export async function fetchAvailableStrategyCap(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { underlying: underlyingAsset } = await fetchStrategyAssets(strategy);
 
-  const [
-    availableStrategyCap,
-    underlyingAssetPrice,
-    { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
-  ] = await Promise.all([
-    queryContract({
-      ...queryOptions({
-        address: strategy,
-        abi: loopStrategyAbi,
-        functionName: "maxDeposit",
-        args: [zeroAddress], // This parameter is not used in smart contract so passing zeroAddress is safe
-      }),
-      ...infiniteCacheQueryConfig,
+  const availableStrategyCap = await queryContract({
+    ...queryOptions({
+      address: strategy,
+      abi: loopStrategyAbi,
+      functionName: "maxDeposit",
+      args: [zeroAddress], // This parameter is not used in smart contract so passing zeroAddress is safe
     }),
-    fetchAssetPriceInBlock(underlyingAsset),
-    fetchTokenData(underlyingAsset),
-  ]);
+    ...infiniteCacheQueryConfig,
+  }).catch((error) => {
+    console.error(`Failed to fetch available strategy cap for strategy ${strategy}`, error);
+    return 0n;
+  });
+
+  const [underlyingAssetPrice, { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals }] =
+    await Promise.all([fetchAssetPriceInBlock(underlyingAsset), fetchTokenData(underlyingAsset)]);
 
   return {
     tokenAmount: formatFetchBigInt(availableStrategyCap, underlyingAssetDecimals, underlyingAssetSymbol),

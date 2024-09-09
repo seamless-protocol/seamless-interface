@@ -53,7 +53,12 @@ export const ILMDesktopTableRow: React.FC<{
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
-          <DisplayMoney typography="bold3" {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} />
+          <DisplayMoney
+            typography="bold3"
+            className={`${!availableStrategyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
+            {...availableStrategyCap.dollarAmount}
+            {...availableStrategyCapRest}
+          />
         </TableCell>
 
         <TableCell className="col-span-1">
