@@ -1,5 +1,6 @@
 import { Address, parseEther } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
+import esSeamLogo from "@assets/tokens/esSeam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
@@ -91,7 +92,7 @@ export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0
 // this is deprecated, please use addressIconMap from config v3.
 export const assetLogos: Map<string, string> = new Map([
   ["SEAM", seamLogo],
-  ["esSEAM", seamLogo],
+  ["esSEAM", esSeamLogo],
   ["OG Points", ogPointsLogo],
   ["USDC", usdcLogo],
   ["BRETT", brettLogo],
