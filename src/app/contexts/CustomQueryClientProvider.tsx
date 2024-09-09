@@ -4,7 +4,12 @@ import React from "react";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: () => {},
+    onError: (e) => {
+      // eslint-disable-next-line no-console
+      console.error("QueryCache onError");
+      // eslint-disable-next-line no-console
+      console.error({ e });
+    },
   }),
   defaultOptions: {
     queries: {
