@@ -52,7 +52,7 @@ export const ILMMobileTableRow: React.FC<{
           </FlexRow>
           <FlexRow className="items-center gap-1">
             <Typography type="regular1">TVL: </Typography>
-            <DisplayNumber typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
+            <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
           </FlexRow>
         </FlexCol>
       </FlexRow>

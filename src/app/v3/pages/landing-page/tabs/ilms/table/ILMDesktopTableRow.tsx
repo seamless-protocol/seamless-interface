@@ -71,7 +71,7 @@ export const ILMDesktopTableRow: React.FC<{
           <StrategyIncentivesButton strategy={strategy} />
         </TableCell>
         <TableCell className="col-span-1">
-          <DisplayNumber typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
+          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
         </TableCell>
 
         <ChevronRightIcon width={20} className="absolute right-6" />
