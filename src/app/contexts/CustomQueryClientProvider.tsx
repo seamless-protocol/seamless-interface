@@ -1,8 +1,14 @@
 // src/utils/queryClient.ts
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 
 const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (e) => {
+      // eslint-disable-next-line no-console
+      console.error("QueryCache(Global error handler): Error while running query", { e });
+    },
+  }),
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
