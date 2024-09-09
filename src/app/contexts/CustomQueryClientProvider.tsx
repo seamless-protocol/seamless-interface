@@ -6,9 +6,7 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (e) => {
       // eslint-disable-next-line no-console
-      console.error("QueryCache onError");
-      // eslint-disable-next-line no-console
-      console.error({ e });
+      console.error("QueryCache onError", { e });
     },
   }),
   defaultOptions: {
