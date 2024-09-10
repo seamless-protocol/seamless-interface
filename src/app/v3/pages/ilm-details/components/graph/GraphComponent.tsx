@@ -192,10 +192,10 @@ export const GraphComponent = () => {
       <Heading />
       <div className="flex gap-2">
         <GraphButton isActive={showPriceInDebtAsset} onClick={() => setShowPriceInDebtAsset((prev) => !prev)}>
-          Share Value ({getSymbolString(symbol || "", debtTokenDataRest)})
+          LP Token Price ({getSymbolString(symbol || "", debtTokenDataRest)})
         </GraphButton>
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
-          Share Value (USD)
+          LP Token Price (USD)
         </GraphButton>
       </div>
       <div>
