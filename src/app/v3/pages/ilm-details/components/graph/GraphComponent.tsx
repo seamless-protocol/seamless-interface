@@ -33,12 +33,13 @@ const numberOfDecimals = (value: number): number => {
   return value < 1 ? 5 : 2;
 };
 
-const formatDate = (value: string, includeTime = false) => {
+const formatDate = (value: string, includeTime = false, includeYear = false) => {
   const date = new Date(value);
 
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
     month: "2-digit",
+    year: includeYear ? "numeric" : undefined,
   };
 
   if (includeTime) {
@@ -101,14 +102,14 @@ export const GraphComponent = () => {
 
       if (showPriceInDebtAsset && data) {
         series.push({
-          name: `Share Value (${getSymbolString(symbol || "", debtTokenDataRest)})`,
+          name: `LP Token Price (${getSymbolString(symbol || "", debtTokenDataRest)})`,
           data: data.map((item) => item.share_value_in_debt_asset),
         });
       }
 
       if (showPriceInUsd && data) {
         series.push({
-          name: "Share Value (USD)",
+          name: "LP Token Price (USD)",
           data: data.map((item) => item.share_value_usd),
         });
       }
@@ -154,7 +155,7 @@ export const GraphComponent = () => {
             show: true,
             formatter: (value) => {
               const date = new Date(categories?.[value - 1] || "");
-              return date?.toLocaleDateString();
+              return formatDate(date.toString(), true, true);
             },
           },
           cssClass: "custom-tooltip",
@@ -191,10 +192,10 @@ export const GraphComponent = () => {
       <Heading />
       <div className="flex gap-2">
         <GraphButton isActive={showPriceInDebtAsset} onClick={() => setShowPriceInDebtAsset((prev) => !prev)}>
-          Share Value ({getSymbolString(symbol || "", debtTokenDataRest)})
+          LP Token Price ({getSymbolString(symbol || "", debtTokenDataRest)})
         </GraphButton>
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
-          Share Value (USD)
+          LP Token Price (USD)
         </GraphButton>
       </div>
       <div>
@@ -219,6 +220,7 @@ export const GraphComponent = () => {
             type={chartOptions.chart?.type}
             height="400"
             width="100%"
+            className="mx-[-30px] md:mx-[-14px]"
           />
         </div>
         <FlexRow className="justify-between items-center px-4">

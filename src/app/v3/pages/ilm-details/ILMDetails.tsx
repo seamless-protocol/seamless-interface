@@ -12,6 +12,8 @@ import { useAccount } from "wagmi";
 import { GraphComponent } from "./components/graph/GraphComponent";
 import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 
+import "./ILMDetails.css";
+
 export const ILMDetails = () => {
   const navigate = useNavigate();
   const { address } = useParams();
@@ -30,17 +32,17 @@ export const ILMDetails = () => {
         <div className="mb-8">
           <StrategyHeading />
         </div>
-        <div className="flex md:flex-row flex-col-reverse w-full gap-8 items-start">
-          <FlexCol className="w-full md:w-2/3 gap-10">
+
+        <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
+          <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
+            <FormContainer />
+          </div>
+
+          <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings />}
             <GraphComponent />
             <StrategyStats />
             <StrategyDetails />
-          </FlexCol>
-          <div className="w-full md:w-[450px]">
-            <div className="flex-initial h-auto md:sticky">
-              <FormContainer />
-            </div>
           </div>
         </div>
       </FlexCol>
