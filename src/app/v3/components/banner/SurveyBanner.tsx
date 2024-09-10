@@ -10,7 +10,7 @@ export const SurveyBanner = () => {
           <FlexRow className="md:flex-row flex-col md:gap-0 gap-4 items-center justify-between w-full">
             <Typography type="bold3">
               📣 <strong>NEW SURVEY ! </strong> Share Your thoughts! Help Seamless enhance ILMs by taking{" "}
-              <strong>this new</strong> quick 5-minute survey. 👉🏿{" "}
+              <strong>this new and</strong> quick 5-minute survey. 👉🏿{" "}
               <Link to={seamlessSurveyUrl} className="underline" target="_blank" rel="noreferrer noopen">
                 Take the Survey Here
               </Link>
