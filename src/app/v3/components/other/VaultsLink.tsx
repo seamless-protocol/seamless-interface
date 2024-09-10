@@ -16,7 +16,7 @@ export const VaultsLink: React.FC<{
 
   return (
     <ExternalLink url={vaultsFyiLink} className="text-regular3">
-      VaultsLink.fyi
+      Vaults.fyi
     </ExternalLink>
   );
 };
