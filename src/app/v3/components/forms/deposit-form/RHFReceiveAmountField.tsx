@@ -10,7 +10,7 @@ import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/asset-price/AssetPrice.hook";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 import { USD_VALUE_DECIMALS } from "../../../../../meta";
 

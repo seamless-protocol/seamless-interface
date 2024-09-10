@@ -4,7 +4,7 @@ import { getExtensiveOperationsConfig } from "../../../utils/queryContractUtils"
 import { TransfersWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyProfit.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "../../../../shared";
-import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../queries/asset-price/AssetPrice.hook";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
 

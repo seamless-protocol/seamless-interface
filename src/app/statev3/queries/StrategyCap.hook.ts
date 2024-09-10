@@ -9,7 +9,7 @@ import {
 } from "@shared";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "./asset-price/AssetPrice.hook";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import { cValueInUsd } from "../math/utils";

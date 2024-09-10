@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "./asset-price/AssetPrice.hook";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
 import { cValueFromUsd } from "../math/utils";

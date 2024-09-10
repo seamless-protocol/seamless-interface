@@ -6,7 +6,7 @@ import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFe
 import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/asset-price/AssetPrice.hook";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 

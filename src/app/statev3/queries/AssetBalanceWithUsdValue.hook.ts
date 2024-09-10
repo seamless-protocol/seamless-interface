@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "./asset-price/AssetPrice.hook";
 import { Displayable, formatFetchBigIntToViewBigInt, formatUsdValue, ViewBigIntWithUsdValue } from "@shared";
 import { cValueInUsd } from "../math/utils";
 import { disableCacheQueryConfig } from "../../state/settings/queryConfig";

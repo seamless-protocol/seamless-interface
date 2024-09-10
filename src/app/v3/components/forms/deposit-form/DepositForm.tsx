@@ -23,7 +23,7 @@ import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/asset-price/AssetPrice.hook";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();

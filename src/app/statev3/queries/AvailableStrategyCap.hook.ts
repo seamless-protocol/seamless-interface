@@ -10,7 +10,7 @@ import {
   formatUsdValue,
 } from "../../../shared";
 import { queryContract, queryOptions } from "../../utils/queryContractUtils";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "./asset-price/AssetPrice.hook";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
