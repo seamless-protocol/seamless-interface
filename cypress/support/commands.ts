@@ -25,7 +25,7 @@ declare global {
        * @param max boolean optional
        * @example cy.setAmount('137')
        */
-      setAmount(amount: number, max?: boolean): void;
+      setAmount(amount?: number, max?: boolean): void;
       /**
        * This will make confirmation in Modal
        * @param hasApproval boolean
@@ -35,26 +35,33 @@ declare global {
        */
       doDepositSubmit(hasApproval: boolean, actionName?: string, assetName?: string): void;
       /**
+       * This will make confirmation in Modal
+       * @example cy.doDepositSubmit(true)
+       */
+      doWithdrawSubmit(): void;
+      /**
        * Sets up the anvil test environment by initializing the blockchain state
        */
-      setupAnvilTestEnvironment(testBalanceData: IBalanceConfig[]): void;
+      setupAnvilTestEnvironment(testBalanceData: IBalanceConfig): void;
       /**
        * Sets up the tenderly test environment by initializing the blockchain state
        */
-      setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig[]): void;
+      setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig): void;
     }
   }
 }
 
 Cypress.Commands.add("mount", mount);
 
-Cypress.Commands.add("setAmount", (amount: number, max?: boolean) => {
+Cypress.Commands.add("setAmount", (amount?: number, max?: boolean) => {
   cy.get("[data-cy=Form]").find('button:contains("Enter amount")').should("be.disabled");
   if (max) {
     cy.wait(2000);
-    cy.get("[data-cy=Form]").find('button:contains("Max")').click();
+    cy.get(`[data-cy='max-button']`).click();
   } else {
-    cy.get("[data-cy=Form] input").first().type(amount.toString());
+    cy.get("[data-cy=Form] input")
+      .first()
+      .type(amount?.toString() || "");
   }
 });
 
@@ -65,7 +72,11 @@ Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
   cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
 });
 
-Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
+Cypress.Commands.add("doWithdrawSubmit", () => {
+  cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
+});
+
+Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig) => {
   const forkUrl = anvilForkUrl;
   localStorage.setItem(LOCALSTORAGE_TESTNET_URL_KEY, JSON.stringify({ forkUrl }));
   localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
@@ -80,15 +91,15 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
     });
 
     // Set up balances and other test states
-    await Promise.all(
-      balanceConfig.map(({ account, tokenAddress, balance }) =>
-        anvilSetErc20Balance({ address: account, tokenAddress, value: balance })
-      )
-    );
+    await anvilSetErc20Balance({
+      address: balanceConfig.account,
+      tokenAddress: balanceConfig.tokenAddress,
+      value: balanceConfig.balance,
+    });
   });
 });
 
-Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig[]) => {
+Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig) => {
   cy.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
@@ -102,11 +113,7 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
 
     await tenderlyFundAccount(forkUrl);
 
-    await Promise.all(
-      balanceConfig.map(({ account, tokenAddress, balance }) =>
-        tenderlyFundAccountERC20(forkUrl, tokenAddress, account, balance)
-      )
-    );
+    await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
   });
 });
 

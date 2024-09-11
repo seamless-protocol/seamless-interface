@@ -47,6 +47,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * ```
    */
   variant?: "text" | "outlined" | "contained";
+
+  /**
+   * Optional attribute for test selectors.
+   * @example
+   * ```jsx
+   * <Button data-cy="submit-button">Submit</Button>
+   * ```
+   */
+  "data-cy"?: string;
 }
 
 /**

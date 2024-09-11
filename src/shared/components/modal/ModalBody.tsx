@@ -64,7 +64,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
               if (onClose) onClose?.();
             }}
           >
-            <Icon src={xButton} alt="Close" width={20} height={20} />
+            <Icon data-cy="close-modal" src={xButton} alt="Close" width={20} height={20} />
           </button>
         </div>
 

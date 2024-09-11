@@ -21,7 +21,13 @@ export const FormButtons: React.FC<{
   return (
     <FlexCol className="gap-2">
       <AuthGuardv2 message="">
-        <Buttonv2 className="text-bold3" type="submit" disabled={isSubmitting} loading={isSubmitting || isLoading}>
+        <Buttonv2
+          data-cy="actionButton"
+          className="text-bold3"
+          type="submit"
+          disabled={isSubmitting}
+          loading={isSubmitting || isLoading}
+        >
           Withdraw
         </Buttonv2>
       </AuthGuardv2>

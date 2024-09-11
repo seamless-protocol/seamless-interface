@@ -6,7 +6,6 @@ import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
 import { Icon } from "../../images/Icon";
 import { RHFInputFieldProps, RHFInputField } from "./RHFInputField";
-import { Typography } from "../../text/Typography/Typography";
 import { DisplayMoney } from "../../display/DisplayMoney";
 import { DisplayTokenAmount } from "../../display/DisplayTokenAmount";
 import React, { useEffect } from "react";
@@ -135,8 +134,8 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
                   />
                 </Tooltip>
                 {!hideMaxButton && (
-                  <button type="button" onClick={handleMaxClick}>
-                    <Typography type="bold2">MAX</Typography>
+                  <button data-cy="max-button" type="button" className="text-bold2" onClick={handleMaxClick}>
+                    MAX
                   </button>
                 )}
               </div>

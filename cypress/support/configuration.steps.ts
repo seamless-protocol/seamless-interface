@@ -1,12 +1,12 @@
 import { Address } from "viem";
 import { testAnvilClient } from "./anvil";
-import { BalanceConfig } from "./config/balanceConfig";
 import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "./constants";
 import { tenderlyEvmRevert } from "./tenderly/utils/tenderlyEvmRevert";
+import { IBalanceConfig } from "./config/balanceConfig";
 
 type TestEnv = "anvil" | "tenderly";
 
-export const prepareTestForRun = () => {
+export const prepareTestForRun = (BalanceConfig: IBalanceConfig) => {
   const testEnv = (Cypress.env("test_env") || "tenderly") as TestEnv;
 
   before(() => {

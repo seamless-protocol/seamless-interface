@@ -36,6 +36,7 @@ export const FormButtons: React.FC<{
     <FlexCol className="gap-2 w-full">
       <AuthGuardv2 message="">
         <Buttonv2
+          data-cy="approvalButton"
           className="text-bold3"
           disabled={isApproved || isSubmitting}
           loading={!isApproved && (isApproving || isLoading)}
@@ -54,6 +55,7 @@ export const FormButtons: React.FC<{
         </Buttonv2>
       </AuthGuardv2>
       <Buttonv2
+        data-cy="actionButton"
         className="text-bold3"
         type="submit"
         disabled={!isApproved || isSubmitting}
