@@ -1,8 +1,8 @@
 import { Address } from "viem";
-import { testAnvilClient } from "../support/anvil";
-import { BalanceConfig } from "../support/config/balanceConfig";
-import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "../support/constants";
-import { tenderlyEvmRevert } from "../support/tenderly/utils/tenderlyEvmRevert";
+import { testAnvilClient } from "./anvil";
+import { BalanceConfig } from "./config/balanceConfig";
+import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "./constants";
+import { tenderlyEvmRevert } from "./tenderly/utils/tenderlyEvmRevert";
 
 type TestEnv = "anvil" | "tenderly";
 

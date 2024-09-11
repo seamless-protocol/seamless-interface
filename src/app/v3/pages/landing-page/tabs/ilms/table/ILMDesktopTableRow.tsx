@@ -25,6 +25,7 @@ export const ILMDesktopTableRow: React.FC<{
 
   return (
     <div
+      data-cy={`table-row-${strategy}"`}
       className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
