@@ -1,12 +1,15 @@
-// src/utils/queryClient.ts
-import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as Sentry from "@sentry/react";
 import React from "react";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (e) => {
-      // eslint-disable-next-line no-console
-      console.error("QueryCache(Global error handler): Error while running query", { e });
+      if (!import.meta.env.VITE_QUERY_ERROR_LOGS_DISABLED) {
+        // eslint-disable-next-line no-console
+        console.error("QueryCache(Global error handler): Error while running query", { e });
+      }
+      Sentry.captureException(e);
     },
   }),
   defaultOptions: {
