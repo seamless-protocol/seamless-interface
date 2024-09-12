@@ -5,6 +5,7 @@ import { createTestConnector } from "./testConnector";
 
 export const initTestWagmiConfig = (rpcUrl: string, privateKey: string) => {
   const testConnector = createTestConnector(rpcUrl, privateKey);
+  console.log({ rpcUrl });
 
   const fallbackTransport: FallbackTransport<[HttpTransport]> = fallback([http(rpcUrl)]);
 

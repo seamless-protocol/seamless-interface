@@ -1,6 +1,6 @@
 export const tenderlyCreateFork = async (chainId = 8453) => {
-  const account = Cypress.env("seamless");
-  const project = Cypress.env("dev");
+  const account = Cypress.env("tenderly_profile");
+  const project = Cypress.env("tenderly_project");
   const API_KEY = Cypress.env("tenderly_access_key");
 
   const response = await fetch(`https://api.tenderly.co/api/v1/account/${account}/project/${project}/vnets`, {
@@ -36,5 +36,8 @@ export const tenderlyCreateFork = async (chainId = 8453) => {
     throw new Error(`Error creating fork: ${response.statusText}`);
   }
 
-  return data.rpcs[0].url;
+  return {
+    forkUrl: data.rpcs[0].url,
+    id: data.id,
+  };
 };

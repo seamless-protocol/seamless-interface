@@ -1,19 +1,7 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import {
-  PRIVATE_KEY,
-  LOCALSTORAGE_TESTNET_URL_KEY,
-  LOCALSTORAGE_TESTNET_SNAPSHOT_KEY,
-  targetAccount,
-} from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
-import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
-import { anvilForkUrl, testAnvilClient } from "./anvil";
-import { tenderlyEvmSnapshot } from "./tenderly/utils/tenderlyEvmSnapshot";
-import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
-import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
-
-const tenderlyVirtualTestnet = Cypress.env("tenderly_test_rpc");
+import "./commands/index";
 
 declare global {
   namespace Cypress {
@@ -47,6 +35,23 @@ declare global {
        * Sets up the tenderly test environment by initializing the blockchain state
        */
       setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig): void;
+
+      /**
+       * Performs a deposit action
+       * @param address string Address to deposit to
+       * @param amount number Amount to deposit
+       * @param hasApproval boolean Whether approval is required
+       * @param isMaxAmount boolean optional Whether to deposit the max amount
+       * @example cy.deposit({ address: '0x...', amount: 100, hasApproval: true })
+       */
+      deposit(params: { address: string; amount: number; hasApproval: boolean; isMaxAmount?: boolean }): void;
+      /**
+       * Performs a withdraw action
+       * @param amount number Amount to withdraw
+       * @param isMaxAmount boolean optional Whether to withdraw the max amount
+       * @example cy.withdraw({ amount: 100 })
+       */
+      withdraw(params: { amount: number; isMaxAmount?: boolean }): void;
     }
   }
 }
@@ -74,47 +79,6 @@ Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
 
 Cypress.Commands.add("doWithdrawSubmit", () => {
   cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
-});
-
-Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig) => {
-  const forkUrl = anvilForkUrl;
-  localStorage.setItem(LOCALSTORAGE_TESTNET_URL_KEY, JSON.stringify({ forkUrl }));
-  localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
-
-  cy.wrap(null).then(async () => {
-    const snapshotId = await testAnvilClient.snapshot();
-    localStorage.setItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, JSON.stringify({ snapshotId }));
-
-    await testAnvilClient.setBalance({
-      address: targetAccount,
-      value: BigInt(1e18),
-    });
-
-    // Set up balances and other test states
-    await anvilSetErc20Balance({
-      address: balanceConfig.account,
-      tokenAddress: balanceConfig.tokenAddress,
-      value: balanceConfig.balance,
-    });
-  });
-});
-
-Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig) => {
-  cy.log("Setting up Tenderly test environment");
-
-  cy.wrap(null).then(async () => {
-    const forkUrl = tenderlyVirtualTestnet;
-
-    localStorage.setItem(LOCALSTORAGE_TESTNET_URL_KEY, JSON.stringify({ forkUrl }));
-    localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
-
-    const snapshotId = await tenderlyEvmSnapshot(forkUrl);
-    localStorage.setItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, JSON.stringify({ snapshotId }));
-
-    await tenderlyFundAccount(forkUrl);
-
-    await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
-  });
 });
 
 export {};

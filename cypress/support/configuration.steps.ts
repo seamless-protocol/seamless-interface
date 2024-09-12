@@ -1,8 +1,13 @@
 import { Address } from "viem";
 import { testAnvilClient } from "./anvil";
-import { LOCALSTORAGE_TESTNET_SNAPSHOT_KEY, LOCALSTORAGE_TESTNET_URL_KEY } from "./constants";
-import { tenderlyEvmRevert } from "./tenderly/utils/tenderlyEvmRevert";
+import {
+  LOCALSTORAGE_IS_TEST_MODE_KEY,
+  LOCALSTORAGE_TESTNET_ID_KEY,
+  LOCALSTORAGE_TESTNET_SNAPSHOT_KEY,
+  LOCALSTORAGE_TESTNET_URL_KEY,
+} from "./constants";
 import { IBalanceConfig } from "./config/balanceConfig";
+import { tenderlyDeleteFork } from "./tenderly/utils/tenderlyDeleteFork";
 
 type TestEnv = "anvil" | "tenderly";
 
@@ -21,24 +26,29 @@ export const prepareTestForRun = (BalanceConfig: IBalanceConfig) => {
   after(() => {
     cy.window().then(({ localStorage }) => {
       const snapshotIdJSON = localStorage.getItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
-      const forkUrlJSON = localStorage.getItem(LOCALSTORAGE_TESTNET_URL_KEY);
+      const forkIdJson = localStorage.getItem(LOCALSTORAGE_TESTNET_ID_KEY);
 
       const snapshotId = snapshotIdJSON ? JSON.parse(snapshotIdJSON).snapshotId : null;
-      const forkUrl = forkUrlJSON ? JSON.parse(forkUrlJSON).forkUrl : null;
-
-      // eslint-disable-next-line no-console
-      console.log("reverting snapshot", snapshotId, forkUrl);
+      const forkId = forkIdJson ? JSON.parse(forkIdJson).id : null;
 
       if (testEnv === "tenderly") {
-        if (snapshotId && forkUrl) {
-          cy.wrap(tenderlyEvmRevert(forkUrl, snapshotId)).then(() => {
-            localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
-            localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
+        // eslint-disable-next-line no-console
+        console.log("Deleting fork", forkId);
+      } else {
+        // eslint-disable-next-line no-console
+        console.log("Reverting snapshot", snapshotId);
+      }
 
-            // eslint-disable-next-line no-console
-            console.log("snapshot reverted");
-          });
-        }
+      if (testEnv === "tenderly") {
+        cy.wrap(tenderlyDeleteFork(forkId)).then(() => {
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
+          localStorage.removeItem(LOCALSTORAGE_IS_TEST_MODE_KEY);
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_ID_KEY);
+
+          // eslint-disable-next-line no-console
+          console.log("fork deleted", forkId);
+        });
       } else if (testEnv === "anvil") {
         cy.wrap(
           testAnvilClient.revert({
@@ -47,9 +57,11 @@ export const prepareTestForRun = (BalanceConfig: IBalanceConfig) => {
         ).then(() => {
           localStorage.removeItem(LOCALSTORAGE_TESTNET_SNAPSHOT_KEY);
           localStorage.removeItem(LOCALSTORAGE_TESTNET_URL_KEY);
+          localStorage.removeItem(LOCALSTORAGE_IS_TEST_MODE_KEY);
+          localStorage.removeItem(LOCALSTORAGE_TESTNET_ID_KEY);
 
           // eslint-disable-next-line no-console
-          console.log("reverting snapshot", snapshotId);
+          console.log("snapshot reverted", snapshotId);
         });
       }
     });
