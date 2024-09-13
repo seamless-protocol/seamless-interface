@@ -45,7 +45,7 @@ export const Buttonv2: React.FC<ButtonProps2> = ({
       }}
     >
       {children}
-      {loading && <span className="flex loading loading-spinner ml-1.5" />}
+      {loading && <span className="flex loading loading-spinner ml-1.5" data-cy="loader" />}
     </button>
   );
 };

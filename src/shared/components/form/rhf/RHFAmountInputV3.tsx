@@ -83,6 +83,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
 
     return (
       <div
+        data-cy="amount-input-v3"
         className={`border ${other.disabled ? "bg-action-disabled text-primary-600" : "bg-neutral-0"} rounded-2xl p-4 cursor-default`}
       >
         <FlexCol className="items-center w-full gap-1">

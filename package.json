@@ -15,6 +15,7 @@
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "npm run switch-tailwind-config && npm run lint && npm run compile",
     "build": "vite build",
+    "build:prod": "npx cypress run && npm run build",
     "anvil": "node run-anvil.mjs",
     "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others"
   },

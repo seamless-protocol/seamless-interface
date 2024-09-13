@@ -15,7 +15,6 @@ export const depositAndWithdraw = ({
 
   describe(`${name} DEPOSIT & WITHDRAW process`, () => {
     it(`Deposit and Withdraw`, () => {
-      // Start with the deposit process
       cy.deposit({
         address,
         amount,
@@ -27,6 +26,9 @@ export const depositAndWithdraw = ({
         amount,
         isMaxAmount: true,
       });
+
+      // Wait to cleanup everything after test
+      cy.wait(1500);
     });
   });
 };

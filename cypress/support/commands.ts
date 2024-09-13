@@ -1,12 +1,10 @@
 /// <reference types="cypress" />
-import { mount } from "cypress/react";
 import { IBalanceConfig } from "./config/balanceConfig";
 import "./commands/index";
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      mount: typeof mount;
       /**
        * This will set amount in Modal
        * @param amount number
@@ -52,33 +50,21 @@ declare global {
        * @example cy.withdraw({ amount: 100 })
        */
       withdraw(params: { amount: number; isMaxAmount?: boolean }): void;
+
+      /**
+       * Validates that all amount inputs have non-zero values and no loaders are present
+       * @param options ValidateAmountInputsOptions optional, allows specifying custom loader or input selectors
+       * @example cy.validateAmountInputs({ loaderSelector: "[data-cy=custom-loader]" })
+       */
+      validateAmountInputs(checkValues?: boolean): void;
+
+      /**
+       * Checks if the transaction success notification is visible
+       * @example cy.checkTransactionSuccess()
+       */
+      checkTransactionSuccess(): void;
     }
   }
 }
-
-Cypress.Commands.add("mount", mount);
-
-Cypress.Commands.add("setAmount", (amount?: number, max?: boolean) => {
-  cy.get("[data-cy=Form]").find('button:contains("Enter amount")').should("be.disabled");
-  if (max) {
-    cy.wait(2000);
-    cy.get(`[data-cy='max-button']`).click();
-  } else {
-    cy.get("[data-cy=Form] input")
-      .first()
-      .type(amount?.toString() || "");
-  }
-});
-
-Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
-  if (!hasApproval) {
-    cy.get(`[data-cy=approvalButton]`, { timeout: 20000 }).last().should("not.be.disabled").click({ force: true });
-  }
-  cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
-});
-
-Cypress.Commands.add("doWithdrawSubmit", () => {
-  cy.get("[data-cy=actionButton]", { timeout: 30000 }).last().should("not.be.disabled").click({ force: true });
-});
 
 export {};
