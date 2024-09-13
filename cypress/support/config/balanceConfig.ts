@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { targetAccount, USDC_ADDRESS, WETH_ADDRESS, WSTETH_ADDRESS } from "../constants";
+import { targetAccount, usdcAddress, WETH_ADDRESS, WSTETH_ADDRESS } from "../constants";
 
 export interface IBalanceConfig {
   account: Address;
@@ -10,7 +10,7 @@ export interface IBalanceConfig {
 export const BalanceConfig: IBalanceConfig[] = [
   {
     account: targetAccount,
-    tokenAddress: USDC_ADDRESS,
+    tokenAddress: usdcAddress,
     balance: BigInt(1000 * 1e6),
   },
   {
