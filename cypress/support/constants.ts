@@ -11,6 +11,6 @@ export const LOCALSTORAGE_IS_TEST_MODE_KEY = "LOCALSTORAGE_IS_TEST_MODE_KEY";
 export const PRIVATE_KEY = "PRIVATE_KEY";
 
 export const TimeOuts = {
-  transactionTimeout: 45000,
+  transactionTimeout: 120000,
   otherTimeout: 20000,
 };
