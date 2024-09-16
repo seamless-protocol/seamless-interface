@@ -28,14 +28,12 @@ declare global {
       /**
        * This will make confirmation in Modal
        * @param hasApproval boolean
-       * @param actionName string optional, verification button text
-       * @param assetName string optional, verification asset name
        * @example cy.doDepositSubmit(true)
        */
-      doDepositSubmit(hasApproval: boolean, actionName?: string, assetName?: string): void;
+      doDepositSubmit(hasApproval: boolean): void;
       /**
        * This will make confirmation in Modal
-       * @example cy.doDepositSubmit(true)
+       * @example cy.doWithdrawSubmit()
        */
       doWithdrawSubmit(): void;
       /**
