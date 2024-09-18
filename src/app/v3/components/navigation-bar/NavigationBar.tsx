@@ -19,7 +19,7 @@ export const NavigationBar = () => {
               <img src={seamlessLogo} alt="logo" className="h-8 w-8 mr-8" />
 
               <FlexRow className="items-center gap-8">
-                <Link to="/">
+                <Link to="/" data-cy="home">
                   <Typography type="bold3" className="text-text-blue">
                     Seamless ILMs
                   </Typography>

@@ -102,9 +102,9 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
         ({ width, height } = getTypographySkeletonSize(typography, viewValue));
       }
 
-      return <span style={{ width, height }} className="skeleton flex mb-[0.5px]" />;
+      return <span style={{ width, height }} className="skeleton flex mb-[0.5px]" data-cy="loader" />;
     }
-    return <div className="loading loading-spinner flex self-center" />;
+    return <div className="loading loading-spinner flex self-center" data-cy="loader" />;
   }
   return (
     <div className={`flex items-center gap-1 ${className}`}>

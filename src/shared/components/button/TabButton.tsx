@@ -1,7 +1,7 @@
 import React from "react";
 import { useTab } from "../../contexts/tab-context/useTabContext";
 
-interface TabButtonProps<T> {
+interface TabButtonProps<T> extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   tab: T;
   children: React.ReactNode;
 }
@@ -43,11 +43,12 @@ interface TabButtonProps<T> {
  * @returns A button that, when clicked, sets its associated tab as the active one within a tabbed interface.
  */
 
-export const TabButton = <T extends string>({ tab, children }: TabButtonProps<T>) => {
+export const TabButton = <T extends string>({ tab, children, ...rest }: TabButtonProps<T>) => {
   const { activeTab, setActiveTab } = useTab<T>();
 
   return (
     <button
+      {...rest}
       onClick={() => setActiveTab(tab)}
       className={`min-w-32 relative py-4 text-bold3 ${
         activeTab === tab ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin" : "text-navy-400"

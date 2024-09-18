@@ -10,11 +10,11 @@ const __dirname = path.dirname(__filename);
 // Load environment variables from .env.development
 dotenv.config({ path: path.resolve(__dirname, ".env.development") });
 
-const forkUrl = process.env.VITE_CYPRESS_TESTONLY_FORK_RPC;
+const forkUrl = process.env.VITE_CYPRESS_RPC_ANVIL_TO_CLONE;
 const forkBlockNumber = process.env.VITE_CYPRESS_ANVIL_FORK_BLOCK_NUMBER;
 
 if (!forkUrl) {
-  console.error("Error: VITE_CYPRESS_TESTONLY_FORK_RPC is not defined in .env.development");
+  console.error("Error: VITE_CYPRESS_RPC_ANVIL_TO_CLONE is not defined in .env.development");
   process.exit(1);
 }
 

@@ -3,6 +3,7 @@ import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHel
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 import { FetchData, buildSuccessfulFetch } from "../types/Fetch";
+import { TENDERLY_RPC_URL } from "../../globals";
 
 export interface PreviewDeposit {
   sharesToReceive: bigint;
@@ -13,7 +14,7 @@ export interface PreviewWithdraw {
 }
 
 const alchemySimulationRpc = import.meta.env.VITE_ALCHEMY_SIMULATION_RPC_URL;
-const tenderlySimulationRpc = import.meta.env.VITE_TENDERLY_SIMULATION_RPC_URL;
+const tenderlySimulationRpc = TENDERLY_RPC_URL;
 
 async function simulateBundleTenderly(functionCalls: any) {
   const res = await fetch(tenderlySimulationRpc, {

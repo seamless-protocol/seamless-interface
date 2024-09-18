@@ -9,6 +9,7 @@ import {
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+import { VITE_EXTENSIVE_OPERATIONS_RPC_URL } from "../../globals";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
@@ -63,7 +64,7 @@ export const config = createConfig({
 export const extensiveOperationsConfig = createConfig({
   chains: [base],
   transports: {
-    [base.id]: http(import.meta.env.VITE_EXTENSIVE_OPERATIONS_RPC_URL),
+    [base.id]: http(VITE_EXTENSIVE_OPERATIONS_RPC_URL),
   },
 });
 
