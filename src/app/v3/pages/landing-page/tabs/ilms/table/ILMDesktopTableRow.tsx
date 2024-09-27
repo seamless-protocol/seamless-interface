@@ -73,7 +73,9 @@ export const ILMDesktopTableRow: React.FC<{
           </SignIndicatingElement>
         </TableCell>
         <TableCell className="col-span-1">
-          <StrategyIncentivesButton strategy={strategy} />
+          <div className="max-w-fit">
+            <StrategyIncentivesButton strategy={strategy} />
+          </div>
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
