@@ -26,10 +26,6 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
   }
 
-  if (!totalApr?.viewValue) {
-    return null;
-  }
-
   return (
     <Tooltip tooltip={children} hidden={isError}>
       <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
@@ -45,7 +41,13 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
             );
           })}
         </FlexRow>
-        <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
+        <DisplayPercentage
+          {...totalApr}
+          viewValue={totalApr?.viewValue || "0.00"}
+          symbol="%"
+          typography="medium2"
+          isError={isError}
+        />
       </FlexRow>
     </Tooltip>
   );

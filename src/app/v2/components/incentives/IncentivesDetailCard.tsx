@@ -39,7 +39,7 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
       <FlexRow className="items-center justify-between w-full mt-2">
         <Typography type="secondary16">Net APR</Typography>
         <FlexRow>
-          <DisplayPercentage viewValue={totalApr?.viewValue} symbol="%  APR" />
+          <DisplayPercentage viewValue={totalApr?.viewValue || "0.00"} symbol="%  APR" />
         </FlexRow>
       </FlexRow>
     </FlexCol>
