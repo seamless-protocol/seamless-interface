@@ -16,7 +16,7 @@ export const LOCALSTORAGE_IS_TEST_MODE_KEY = "LOCALSTORAGE_IS_TEST_MODE_KEY";
 // this value will be generated and set in cypress
 export const IS_TEST_MODE = localStorage.getItem(LOCALSTORAGE_IS_TEST_MODE_KEY) === "true";
 const TESTING_RPC = localStorage.getItem(LOCALSTORAGE_TESTNET_URL_KEY) || (undefined as any);
-const { forkUrl } = JSON.parse(TESTING_RPC);
+const { forkUrl } = TESTING_RPC ? JSON.parse(TESTING_RPC).forkUrl : {};
 export const TENDERLY_RPC_URL: string =
   IS_TEST_MODE && IS_DEV_MODE
     ? forkUrl || import.meta.env.VITE_TENDERLY_RPC_URL
