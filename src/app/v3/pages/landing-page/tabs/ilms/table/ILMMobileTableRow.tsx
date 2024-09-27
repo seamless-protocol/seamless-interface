@@ -6,6 +6,7 @@ import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/h
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
+import { StrategyIncentivesButton } from "../../../../../../v2/components/incentives/AprTooltip";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
@@ -40,6 +41,7 @@ export const ILMMobileTableRow: React.FC<{
       <FlexRow className="justify-between">
         <FlexCol className="gap-2">
           <DisplayMoney {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} typography="bold3" />
+          <StrategyIncentivesButton strategy={strategy} />
         </FlexCol>
 
         <FlexCol className="items-end text-end gap-2">
