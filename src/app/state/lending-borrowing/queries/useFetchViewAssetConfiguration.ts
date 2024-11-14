@@ -1,9 +1,10 @@
 import { Address } from "viem";
-import { Displayable, useSeamlessContractRead } from "../../../../shared";
+import { Displayable } from "../../../../shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewAssetConfiguration } from "../types/ViewAssetConfiguration";
+import { useReadContract } from "wagmi";
 
 interface AssetConfiguration {
   ltv: FetchBigInt;
@@ -13,7 +14,7 @@ interface AssetConfiguration {
 }
 
 export const useFetchAssetConfiguration = (asset?: Address): FetchData<AssetConfiguration> => {
-  const { data, ...rest } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveConfigurationData",

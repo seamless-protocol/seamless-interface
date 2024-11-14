@@ -5,7 +5,7 @@ import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtil
 import { assetsConfig, strategiesConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
 import { fetchEquityInBlock } from "./Equity.hook";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import {
   infiniteCacheQueryConfig,
   platformDataQueryConfig,
 } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {
@@ -48,7 +49,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
   return formatUsdValue(
     await queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: aaveOracleAddress,
         abi: aaveOracleAbi,
         functionName: "getAssetPrice",

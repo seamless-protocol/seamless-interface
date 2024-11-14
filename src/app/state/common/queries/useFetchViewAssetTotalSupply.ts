@@ -1,7 +1,8 @@
 import { Address, erc20Abi } from "viem";
-import { Displayable, ViewBigInt, useSeamlessContractRead, useToken } from "@shared";
+import { Displayable, ViewBigInt, useToken } from "@shared";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { useReadContract } from "wagmi";
 
 export const useFetchAssetTotalSupply = (asset: Address): FetchData<FetchBigInt | undefined> => {
   const { isLoading: isTokenDataLoading, isFetched: isTokenDataFetched, data: tokenData } = useToken(asset);
@@ -11,13 +12,13 @@ export const useFetchAssetTotalSupply = (asset: Address): FetchData<FetchBigInt 
     isLoading: isTotalSupplyLoading,
     isFetched: isTotalSupplyFetched,
     ...rest
-  } = useSeamlessContractRead({
+  } = useReadContract({
     address: asset,
     abi: erc20Abi,
     functionName: "totalSupply",
     query: {
       enabled: !!asset,
-    }
+    },
   });
 
   return {

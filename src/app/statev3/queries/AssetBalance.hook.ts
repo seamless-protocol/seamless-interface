@@ -1,8 +1,9 @@
 import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict } from "../../../shared";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { walletDataQueryConfig } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 interface FetchAssetBalanceInput {
   account: Address;
@@ -12,7 +13,7 @@ interface FetchAssetBalanceInput {
 export async function fetchAssetBalance({ account, asset }: FetchAssetBalanceInput): Promise<FetchBigIntStrict> {
   const [balance, { symbol, decimals }] = await Promise.all([
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: asset,
         abi: erc20Abi,
         functionName: "balanceOf",

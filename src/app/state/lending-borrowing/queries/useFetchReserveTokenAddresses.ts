@@ -1,7 +1,7 @@
 import { Address } from "viem";
-import { useSeamlessContractRead } from "@shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
 import { FetchData } from "../../../../shared/types/Fetch";
+import { useReadContract } from "wagmi";
 
 export interface ReserveTokenAddresses {
   aTokenAddress: Address | undefined;
@@ -10,14 +10,14 @@ export interface ReserveTokenAddresses {
 }
 
 export const useFetchReserveTokenAddresses = (reserve?: Address): FetchData<ReserveTokenAddresses> => {
-  const { data, ...rest } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     abi: protocolDataProviderAbi,
     address: protocolDataProviderAddress,
     functionName: "getReserveTokensAddresses",
     args: [reserve!],
     query: {
       staleTime: Infinity,
-      enabled: !!reserve
+      enabled: !!reserve,
     },
   });
 

@@ -3,9 +3,9 @@ import { FetchData } from "../../../../shared/types/Fetch";
 import { lendingAssetToHide } from "../../../../meta";
 import { strategiesConfig } from "../../settings/config";
 import { LendMarketState, StrategyState } from "../types/StateTypes";
-import { useSeamlessContractRead } from "../../../../shared";
 import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../settings/queryConfig";
+import { useReadContract } from "wagmi";
 
 /**
  * This hook combines data from multiple sources: the lending pool and configured strategies.
@@ -17,7 +17,7 @@ export const useFetchAllAssets = (): {
   state: FetchData<(LendMarketState | StrategyState)[]>;
 } => {
   // todo: use existing raw query?
-  const { data: lendingAssets, ...rest } = useSeamlessContractRead({
+  const { data: lendingAssets, ...rest } = useReadContract({
     address: lendingPoolAddress,
     abi: lendingPoolAbi,
     functionName: "getReservesList",
