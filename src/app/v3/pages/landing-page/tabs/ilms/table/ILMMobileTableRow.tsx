@@ -2,10 +2,10 @@ import { Address } from "viem";
 import { FlexRow, FlexCol, Icon, Typography, DisplayMoney, DisplayNumber } from "@shared";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
-import { useFetchViewStrategyApy } from "../../../../../../state/loop-strategy/hooks/useFetchViewStrategyApy";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
@@ -16,7 +16,7 @@ export const ILMMobileTableRow: React.FC<{
 
   const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
 
-  const { data: apy, ...apyRest } = useFetchViewStrategyApy(strategy);
+  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
 
