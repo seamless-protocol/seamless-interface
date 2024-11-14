@@ -1,6 +1,7 @@
 import { Address } from "viem";
-import { fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "@shared";
+import { fFetchBigIntStructured, mergeQueryStates, useToken } from "@shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
+import { useReadContract } from "wagmi";
 
 export const useFetchReserveData = (asset?: Address) => {
   const {
@@ -8,7 +9,7 @@ export const useFetchReserveData = (asset?: Address) => {
     ...tokenRest
   } = useToken(asset);
 
-  const { data, ...rest } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveData",

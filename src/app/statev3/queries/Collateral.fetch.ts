@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
@@ -7,6 +7,7 @@ import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
 import { cValueFromUsd } from "../math/utils";
 import { platformDataQueryConfig } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {
   const { underlying: underlyingAsset } = await fetchStrategyAssets(strategy);
@@ -14,7 +15,7 @@ export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmou
   const [collateralUsd, underlyingAssetPrice, { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals }] =
     await Promise.all([
       queryContract({
-        ...queryOptions({
+        ...readContractQueryOptions(getConfig(), {
           address: strategy,
           abi: loopStrategyAbi,
           functionName: "collateralUSD",

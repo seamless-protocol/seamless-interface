@@ -5,13 +5,13 @@ import {
   formatFetchBigIntToViewBigIntTemp,
   fUsdValueStructured,
   mergeQueryStates,
-  useSeamlessContractRead,
   useToken,
 } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { loopStrategyAbi } from "../../../generated";
 import { ViewDetailEquity } from "../types/ViewDetailEquity";
+import { useReadContract } from "wagmi";
 
 interface StrategyEquity {
   equity: FetchBigInt | undefined;
@@ -22,7 +22,7 @@ export const useFetchDetailEquity = (strategy?: Address): FetchData<StrategyEqui
   const { data: underlyingAsset, ...underlyingAssetRest } = useFetchStrategyAsset(strategy);
   const { data: tokenData, ...tokenDataRest } = useToken(underlyingAsset);
 
-  const { data: equity, ...equityRest } = useSeamlessContractRead({
+  const { data: equity, ...equityRest } = useReadContract({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "equity",
@@ -31,7 +31,7 @@ export const useFetchDetailEquity = (strategy?: Address): FetchData<StrategyEqui
     },
   });
 
-  const { data: equityUsd, ...equityUsdRest } = useSeamlessContractRead({
+  const { data: equityUsd, ...equityUsdRest } = useReadContract({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "equityUSD",

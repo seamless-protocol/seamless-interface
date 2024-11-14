@@ -3,8 +3,9 @@ import { loopStrategyAbi } from "../../generated";
 import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS, STRATEGY_MULTIPLE_FORMAT_DECIMALS } from "@meta";
 import { Displayable, FetchBigInt, ViewBigInt, formatFetchBigInt, formatFetchBigIntToViewBigIntTemp } from "@shared";
 import { useQuery } from "@tanstack/react-query";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { disableCacheQueryConfig, metadataQueryConfig } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 function cMultiple(collateralRatioTarget: bigint): bigint {
   return (collateralRatioTarget * ONE_ETHER) / (collateralRatioTarget - ONE_USD);
@@ -18,7 +19,7 @@ interface TargeMultiples {
 
 export async function fetchStrategyTargetMultiples(strategy: Address): Promise<TargeMultiples> {
   const { minForRebalance, target, maxForRebalance } = await queryContract({
-    ...queryOptions({
+    ...readContractQueryOptions(getConfig(), {
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "getCollateralRatioTargets",

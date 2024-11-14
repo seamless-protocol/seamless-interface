@@ -1,7 +1,7 @@
 import { Address } from "viem";
-import { Displayable, fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "../../../../shared";
+import { Displayable, fFetchBigIntStructured, mergeQueryStates, useToken } from "../../../../shared";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { ViewUserReserveData } from "../types/ViewUserReserveData";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
@@ -20,17 +20,14 @@ export const useFetchUserReserveData = (reserve?: Address): FetchData<UserReserv
     ...tokenRest
   } = useToken(reserve);
 
-  const {
-    data,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getUserReserveData",
     args: [reserve!, account.address as Address],
     query: {
       enabled: !!reserve && !!account.address,
-    }
+    },
   });
 
   const [aTokenBalance, , variableDebtTokenBalance, , , , , , usageAsCollateralEnabled] = data || [];

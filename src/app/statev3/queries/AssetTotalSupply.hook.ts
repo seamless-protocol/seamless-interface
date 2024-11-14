@@ -1,8 +1,9 @@
 import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict } from "../../../shared";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { infiniteCacheQueryConfig, platformDataQueryConfig } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 interface FetchTotalSupplyInBlockInput {
   asset: Address;
@@ -17,7 +18,7 @@ export async function fetchAssetTotalSupplyInBlock({
 
   const [totalSupply, { symbol, decimals }] = await Promise.all([
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: asset,
         abi: erc20Abi,
         functionName: "totalSupply",

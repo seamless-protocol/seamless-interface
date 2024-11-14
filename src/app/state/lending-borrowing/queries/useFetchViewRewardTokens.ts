@@ -1,9 +1,9 @@
 import { Address } from "viem";
-import { useSeamlessContractRead } from "../../../../shared";
 import { rewardsControllerAbi, rewardsControllerAddress } from "../../../generated";
+import { useReadContract } from "wagmi";
 
 export const useFetchViewRewardTokens = (asset?: Address) => {
-  return useSeamlessContractRead({
+  return useReadContract({
     address: rewardsControllerAddress,
     abi: rewardsControllerAbi,
     functionName: "getRewardsByAsset",

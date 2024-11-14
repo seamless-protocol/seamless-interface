@@ -9,13 +9,14 @@ import {
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
 } from "../../../shared";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 import {
   disableCacheQueryConfig,
   infiniteCacheQueryConfig,
   platformDataQueryConfig,
 } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchEquityInBlockInput {
   strategy: Address;
@@ -32,7 +33,7 @@ export async function fetchEquityInBlock({
 
   const [equity, equityUsd] = await Promise.all([
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equity",
@@ -41,7 +42,7 @@ export async function fetchEquityInBlock({
       ...cacheConfig,
     }),
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: strategy,
         abi: loopStrategyAbi,
         functionName: "equityUSD",

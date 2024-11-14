@@ -1,7 +1,7 @@
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { lendingPoolAbi, lendingPoolAddress } from "../../../generated";
 import { Address } from "viem";
-import { Displayable, useSeamlessContractRead } from "@shared";
+import { Displayable } from "@shared";
 import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { ONE_ETHER } from "@meta";
 import { ViewUserAccountData } from "../types/ViewUserAccountData";
@@ -21,14 +21,14 @@ export interface FetchUserAccountData {
 export const useFetchUserAccountData = () => {
   const account = useAccount();
 
-  const { data, ...rest } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     address: lendingPoolAddress,
     abi: lendingPoolAbi,
     functionName: "getUserAccountData",
     args: [account.address as Address],
     query: {
       enabled: !!account.address,
-    }
+    },
   });
 
   const [totalCollateralUsd, totalDebtUsd, availableBorrowUsd, currentLiquidationThreshold, ltv, healthFactor] =
