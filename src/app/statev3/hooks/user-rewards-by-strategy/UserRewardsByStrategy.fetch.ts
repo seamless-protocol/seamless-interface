@@ -3,7 +3,7 @@ import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
 import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
 import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
-import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../queries/asset-price/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../math/utils";
 import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";

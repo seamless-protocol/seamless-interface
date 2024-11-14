@@ -13,6 +13,8 @@ import {
   ethShort_ADDRESS_1_5_x,
   wstETHBooster_ADDRESS,
   WSTETH_ADDRESS,
+  DEGEN_ADDRESS,
+  AERO_ADDRESS,
 } from "@meta";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
 import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
@@ -34,6 +36,11 @@ import ETH_USDC_1_5x_LongImage from "@assets/diagrams/ETH_USDC_1_5x_Long.png";
 import ETH_USDC_3xLongImage from "@assets/diagrams/ETH_USDC_3xLong.png";
 import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
+
+export const assetToUseCoinGeckoPriceFor = [SEAM_ADDRESS, ESSEAM_ADDRESS, DEGEN_ADDRESS, AERO_ADDRESS, BRETT_ADDRESS];
+export const coinGeckoReplaceAddress: { [key: Address]: Address | undefined } = {
+  [ESSEAM_ADDRESS]: SEAM_ADDRESS,
+};
 
 export interface StrategyConfig {
   name: string;
