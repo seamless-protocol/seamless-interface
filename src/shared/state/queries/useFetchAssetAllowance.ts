@@ -1,6 +1,5 @@
 import { Address, erc20Abi } from "viem";
-import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { useToken } from "../meta-data-queries/useToken";
 import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 
@@ -15,26 +14,23 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; sp
 
   const { data: tokenData, ...restToken } = useToken(asset);
 
-  const {
-    data: allowance,
-    ...rest
-  } = useSeamlessContractRead({
+  const { data: allowance, ...rest } = useReadContract({
     address: asset,
     abi: erc20Abi,
     functionName: "allowance",
     args: [account.address as Address, spender!],
     query: {
       enabled: !!asset && !!spender && !!account.address,
-    }
+    },
   });
 
   const retData =
     tokenData && allowance
       ? {
-        bigIntValue: allowance,
-        decimals: tokenData.decimals,
-        symbol: tokenData.symbol,
-      }
+          bigIntValue: allowance,
+          decimals: tokenData.decimals,
+          symbol: tokenData.symbol,
+        }
       : undefined;
 
   return {

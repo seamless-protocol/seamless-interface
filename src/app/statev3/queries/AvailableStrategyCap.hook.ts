@@ -9,17 +9,18 @@ import {
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
 } from "../../../shared";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
 import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../meta";
+import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchMaxDeposit(strategy: Address): Promise<bigint> {
   const maxDeposit = await queryContract({
-    ...queryOptions({
+    ...readContractQueryOptions(getConfig(), {
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "maxDeposit",

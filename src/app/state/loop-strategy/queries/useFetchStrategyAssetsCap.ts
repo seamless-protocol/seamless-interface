@@ -1,7 +1,8 @@
 import { Address } from "viem";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { fFetchBigIntStructured, mergeQueryStates, useSeamlessContractRead, useToken } from "@shared";
+import { fFetchBigIntStructured, mergeQueryStates, useToken } from "@shared";
 import { loopStrategyAbi } from "../../../generated";
+import { useReadContract } from "wagmi";
 
 export const useFetchStrategyAssetsCap = (strategy?: Address): FetchData<FetchBigInt | undefined> => {
   const {
@@ -9,7 +10,7 @@ export const useFetchStrategyAssetsCap = (strategy?: Address): FetchData<FetchBi
     ...tokenDataRest
   } = useToken(strategy);
 
-  const { data, ...assetCapRest } = useSeamlessContractRead({
+  const { data, ...assetCapRest } = useReadContract({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "getAssetsCap",

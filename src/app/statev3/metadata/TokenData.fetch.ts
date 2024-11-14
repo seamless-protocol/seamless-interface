@@ -1,8 +1,9 @@
 import { Address, erc20Abi } from "viem";
 import { disableCacheQueryConfig, metadataQueryConfig } from "../../state/settings/queryConfig";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 import { addressIconMap } from "../settings/config";
+import { readContractQueryOptions } from "wagmi/query";
 
 export interface TokenData {
   icon: string;
@@ -14,7 +15,7 @@ export interface TokenData {
 export async function fetchTokenData(token: Address): Promise<TokenData> {
   const [symbol, decimals, name] = await Promise.all([
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: token,
         abi: erc20Abi,
         functionName: "symbol",
@@ -22,7 +23,7 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
       ...metadataQueryConfig,
     }),
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: token,
         abi: erc20Abi,
         functionName: "decimals",
@@ -30,7 +31,7 @@ export async function fetchTokenData(token: Address): Promise<TokenData> {
       ...metadataQueryConfig,
     }),
     queryContract({
-      ...queryOptions({
+      ...readContractQueryOptions(getConfig(), {
         address: token,
         abi: erc20Abi,
         functionName: "name",

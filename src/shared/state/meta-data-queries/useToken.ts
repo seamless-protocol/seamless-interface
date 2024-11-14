@@ -1,8 +1,8 @@
 import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../types/Fetch";
-import { useSeamlessContractRead } from "../../wagmi-wrapper/hooks/useSeamlessContractRead";
 import { metadataQueryConfig } from "../settings/config";
 import { mergeQueryStates } from "../../formatters/mergeQueryStates";
+import { useReadContract } from "wagmi";
 
 export interface Token {
   symbol?: string;
@@ -11,14 +11,14 @@ export interface Token {
 
 // todo reconsider optional param token ticket #218
 export const useToken = (asset?: Address): FetchData<Token> => {
-  const { data: decimals, ...decimalRest } = useSeamlessContractRead({
+  const { data: decimals, ...decimalRest } = useReadContract({
     address: asset,
     abi: erc20Abi,
     functionName: "decimals",
     query: { ...metadataQueryConfig, enabled: !!asset },
   });
 
-  const { data: symbol, ...symbolRest } = useSeamlessContractRead({
+  const { data: symbol, ...symbolRest } = useReadContract({
     address: asset,
     abi: erc20Abi,
     functionName: "symbol",

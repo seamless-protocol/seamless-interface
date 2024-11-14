@@ -1,8 +1,8 @@
-import { useSeamlessContractRead } from "@shared";
 import { lendingPoolAbi, lendingPoolAddress } from "@generated";
+import { useReadContract } from "wagmi";
 
 export const useFetchRawReservesList = () => {
-  return useSeamlessContractRead({
+  return useReadContract({
     address: lendingPoolAddress,
     abi: lendingPoolAbi,
     functionName: "getReservesList",

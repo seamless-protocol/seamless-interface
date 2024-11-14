@@ -1,7 +1,8 @@
 import { Address } from "viem";
-import { queryContract, queryOptions } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
 import { metadataQueryConfig } from "../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 interface StrategyAssets {
   underlying: Address;
@@ -11,7 +12,7 @@ interface StrategyAssets {
 
 export async function fetchStrategyAssets(strategy: Address): Promise<StrategyAssets> {
   const assets = await queryContract({
-    ...queryOptions({
+    ...readContractQueryOptions(getConfig(), {
       address: strategy,
       abi: loopStrategyAbi,
       functionName: "getAssets",

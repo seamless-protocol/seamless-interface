@@ -1,17 +1,18 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
-import { Displayable, fUsdValueStructured, useSeamlessContractRead } from "../../../../shared";
+import { Displayable, fUsdValueStructured } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
 import { metadataQueryConfig } from "../../settings/queryConfig";
+import { useReadContract } from "wagmi";
 
 export interface CollateralRatioTargets {
   target: FetchBigInt | undefined;
 }
 
 export const useFetchCollateralRatioTargets = (strategy: Address): FetchData<CollateralRatioTargets> => {
-  const result = useSeamlessContractRead({
+  const result = useReadContract({
     address: strategy,
     abi: loopStrategyAbi,
     functionName: "getCollateralRatioTargets",

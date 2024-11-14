@@ -1,9 +1,10 @@
 import { Address, parseUnits } from "viem";
 import { protocolDataProviderAbi, protocolDataProviderAddress } from "../../../generated";
-import { Displayable, useSeamlessContractRead, useToken, mergeQueryStates } from "../../../../shared";
+import { Displayable, useToken, mergeQueryStates } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewReserveCaps } from "../types/ViewReserveCaps";
+import { useReadContract } from "wagmi";
 
 interface AssetCaps {
   supplyCap: FetchBigInt;
@@ -16,14 +17,14 @@ export const useFetchReserveCaps = (asset?: Address): FetchData<AssetCaps> => {
     ...tokenRest
   } = useToken(asset);
 
-  const { data, ...rest } = useSeamlessContractRead({
+  const { data, ...rest } = useReadContract({
     address: protocolDataProviderAddress,
     abi: protocolDataProviderAbi,
     functionName: "getReserveCaps",
     args: [asset!],
     query: {
-      enabled: !!asset
-    }
+      enabled: !!asset,
+    },
   });
 
   return {

@@ -168,8 +168,6 @@ export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2
 // ************** //
 // wagmi wrappers //
 // ************** //
-export * from "./wagmi-wrapper/hooks/useSeamlessContractRead";
-export * from "./wagmi-wrapper/hooks/useSeamlessContractReads";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
 export * from "./wagmi-wrapper/formatters/fParseUnits";
 
