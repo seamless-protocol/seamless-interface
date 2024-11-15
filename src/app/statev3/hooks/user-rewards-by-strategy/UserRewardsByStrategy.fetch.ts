@@ -1,12 +1,13 @@
 import { Address } from "viem";
 import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
-import { queryContract, queryOptions } from "../../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../math/utils";
 import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchRewardsByStrategy {
   info: FetchRewardsByStrategyInfo[];
@@ -28,7 +29,7 @@ export async function fetchAllUserRewardsByStrategy({
   strategy: Address;
 }): Promise<FetchRewardsByStrategy> {
   const [rewardsAddresses, rewardsAmounts] = await queryContract({
-    ...queryOptions({
+    ...readContractQueryOptions(getConfig(), {
       address: rewardsControllerAddress,
       abi: rewardsControllerAbi,
       functionName: "getAllUserRewards",

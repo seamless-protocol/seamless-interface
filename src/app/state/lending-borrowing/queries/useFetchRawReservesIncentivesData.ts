@@ -1,4 +1,4 @@
-import { useSeamlessContractRead } from "../../../../shared";
+import { useReadContract } from "wagmi";
 import { incentiveDataProviderAbi, incentiveDataProviderAddress } from "../../../generated";
 import { AAVE_ADDRESS_PROVIDER } from "@meta";
 
@@ -7,7 +7,7 @@ import { AAVE_ADDRESS_PROVIDER } from "@meta";
  * @returns Returns raw incentives data from smart contract. Data is not formatted due to complexity of structure
  */
 export const useFetchRawReservesIncentivesData = () => {
-  return useSeamlessContractRead({
+  return useReadContract({
     address: incentiveDataProviderAddress,
     abi: incentiveDataProviderAbi,
     functionName: "getReservesIncentivesData",
