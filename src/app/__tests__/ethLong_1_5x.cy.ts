@@ -1,11 +1,7 @@
-// import { wstETHBooster_3x } from "../../../meta";
-
 import { prepareTestForRun } from "../../../cypress/support/configuration.steps";
 import { targetAccount, WETH_ADDRESS } from "../../../cypress/support/constants";
 import { depositAndWithdraw } from "../../../cypress/support/steps/depositAndWithdraw";
-
-// todo: fix aliases, and import this address
-const ethLong_1_5x = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
+import { ethLong_1_5x } from "../../meta";
 
 describe("ethLong_1_5x DEPOSIT & WITHDRAW SPEC", () => {
   prepareTestForRun({
