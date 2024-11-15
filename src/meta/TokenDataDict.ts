@@ -6,10 +6,10 @@ import {
   WETH_ADDRESS,
   WSTETH_ADDRESS,
   sWETH_ADDRESS,
-  wstETHBooster_ADDRESS,
+  wstETHBooster_3x,
   DEGEN_ADDRESS,
   SEAM_ADDRESS,
-  ethLong,
+  ethLong_1_5x,
   AERO_ADDRESS,
   BRETT_ADDRESS,
 } from "./constants";
@@ -46,11 +46,11 @@ export const TokenDataDict: ITokenDataDict = {
   [WSTETH_ADDRESS]: {
     logo: WstEthLogo,
   },
-  [wstETHBooster_ADDRESS]: {
+  [wstETHBooster_3x]: {
     name: "wstETH Booster",
     logo: ilmwstETHLogo,
   },
-  [ethLong]: {
+  [ethLong_1_5x]: {
     name: "Multiply ETH Long",
     logo: ethLongLogo,
   },

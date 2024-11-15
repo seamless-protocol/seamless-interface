@@ -2,7 +2,7 @@
 /*    Other    */
 /* ------------ */
 import {
-  ethLong,
+  ethLong_1_5x,
   ethLong_3x,
   BRETT_ADDRESS,
   ESSEAM_ADDRESS,
@@ -11,7 +11,7 @@ import {
   USDC_ADDRESS,
   WETH_ADDRESS,
   ethShort_ADDRESS_1_5_x,
-  wstETHBooster_ADDRESS,
+  wstETHBooster_3x,
   WSTETH_ADDRESS,
 } from "@meta";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
@@ -46,13 +46,13 @@ export interface StrategyConfig {
 /*   Config      */
 /* ------------- */
 export const strategyConfig: { [key: Address]: StrategyConfig } = {
-  [wstETHBooster_ADDRESS]: {
+  [wstETHBooster_3x]: {
     name: "wstETH Leveraged Staking 3x",
     description: "Increase ETH staking rewards by magnifying a wstETH position.",
     type: "Staking",
     diagram: wstETH_ETH_3x_StakingImage,
   },
-  [ethLong]: {
+  [ethLong_1_5x]: {
     name: "ETH Long 1.5x",
     description: "For ETH Bulls, increase ETH price exposure by 1.5 times long.",
     type: "Long",
@@ -82,8 +82,8 @@ export const addressIconMap: Map<string, string> = new Map([
   [USDC_ADDRESS, usdcLogo],
   [BRETT_ADDRESS, brettLogo],
   [WETH_ADDRESS, wethLogo],
-  [wstETHBooster_ADDRESS, wstETHIlmIcon],
-  [ethLong, ilmIcon],
+  [wstETHBooster_3x, wstETHIlmIcon],
+  [ethLong_1_5x, ilmIcon],
   [ethLong_3x, ilmIcon],
   [ethShort_ADDRESS_1_5_x, ilmIcon],
   [WSTETH_ADDRESS, wsteth],
@@ -110,7 +110,7 @@ const FeesSharedAnswer = (
 );
 
 export const strategyDetails = {
-  [wstETHBooster_ADDRESS]: {
+  [wstETHBooster_3x]: {
     Leverage_Exposure: (
       <>
         No. Since wstETH and ETH are correlated assets, regardless of ETH price movement, you earn staking fees from
@@ -120,7 +120,7 @@ export const strategyDetails = {
     MainRisks: <>{RiskSharedAnswer}</>,
     StrategyFees: <>{FeesSharedAnswer}</>,
   },
-  [ethLong]: {
+  [ethLong_1_5x]: {
     Leverage_Exposure: (
       <>
         Yes. As ETH increases in price, returns are magnified in bullish market conditions. Conversely, losses are

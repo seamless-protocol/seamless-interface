@@ -14,7 +14,7 @@ import { Address } from "viem";
 import "./GraphComoonent.css";
 import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
-import { wstETHBooster_ADDRESS } from "@meta";
+import { wstETHBooster_3x } from "@meta";
 
 export interface DuneData {
   share_value_in_debt_asset: number;
@@ -25,7 +25,7 @@ export interface DuneData {
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
 const displayExtraDisclaimer = (strategy: Address | undefined): boolean => {
-  return strategy === wstETHBooster_ADDRESS;
+  return strategy === wstETHBooster_3x;
 };
 
 // TODO: Fix this function and find scalable solution when we decide on long term graph solution

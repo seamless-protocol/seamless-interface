@@ -1,5 +1,5 @@
 import {
-  wstETHBooster_ADDRESS,
+  wstETHBooster_3x,
   WSTETH_ADDRESS,
   WETH_ADDRESS,
   USDC_ADDRESS,
@@ -33,7 +33,7 @@ import {
   variableDebtSeamUSDC_ADDRESS,
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
-  ethLong,
+  ethLong_1_5x,
   multiplyETH_ADDRESS_STRATEGY_ID,
   wstETHBooster_ADDRESS_STRATEGY_ID,
   ethLong_3x,
@@ -183,14 +183,14 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
     subStrategyData: [
       {
-        address: wstETHBooster_ADDRESS,
+        address: wstETHBooster_3x,
         targetMultiple: {
           value: 3,
           symbol: "x",
         },
       },
     ],
-    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_ADDRESS),
+    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_3x),
   },
   [multiplyETH_ADDRESS_STRATEGY_ID]: {
     name: "Multiply ETH Long",
@@ -205,7 +205,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     debtAsset: assetsConfig[USDC_ADDRESS],
     subStrategyData: [
       {
-        address: ethLong,
+        address: ethLong_1_5x,
         targetMultiple: {
           value: 1.5,
           symbol: "x",
