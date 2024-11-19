@@ -23,7 +23,13 @@ export const CurrentHoldings = () => {
         </Typography>
         <FlexCol className="gap-1">
           <FlexRow className="gap-1">
-            <Icon width={36} src={strategyData?.icon} {...strategyDataRest} alt="logo" />
+            <Icon
+              width={36}
+              src={strategyData?.icon}
+              isFetched={strategyDataRest.isFetched}
+              isLoading={strategyDataRest.isLoading}
+              alt="logo"
+            />
             <DisplayTokenAmount
               {...strategyBalance?.tokenAmount}
               {...strategyBalanceRest}
