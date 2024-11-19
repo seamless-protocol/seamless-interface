@@ -50,7 +50,7 @@ export const useFetchAllRewardsAccruingAssets = () => {
   const config = useConfig();
 
   return useQuery({
-    queryKey: ["fetchAllRewardsAccruingAssets"],
+    queryKey: ["hookAllRewardsAccruingAssets"],
     queryFn: () => fetchAllRewardsAccruingAssets(config),
     enabled: !!config,
   });

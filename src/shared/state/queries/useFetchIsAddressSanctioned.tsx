@@ -35,7 +35,7 @@ const fetchIsAddressSanctioned = async ({ queryKey }: { queryKey: string[] }) =>
 
 export const useFetchIsAddressSanctioned = (address?: Address) => {
   const { data } = useQuery({
-    queryKey: ["fetchIsAddressSanctioned", address as string],
+    queryKey: ["hookIsAddressSanctioned", address as string],
     queryFn: fetchIsAddressSanctioned,
     staleTime: 1000 * 60 * 60, // 1 hour
     enabled: !!address,

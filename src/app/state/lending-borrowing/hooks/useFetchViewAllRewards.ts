@@ -94,7 +94,7 @@ export const useFetchAllRewards = () => {
   const account = useAccount();
 
   return useQuery({
-    queryKey: ["fetchAllUserRewards", account.address],
+    queryKey: ["hookAllUserRewards", account.address],
     queryFn: () => fetchAllUserRewards(account!.address!, config),
     enabled: !!account.address && !!config,
   });

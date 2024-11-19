@@ -79,7 +79,7 @@ const mapAddress = (address?: Address): Address | undefined => {
 export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) => {
   return useQueries({
     queries: assets.map(({ address, precision }) => ({
-      queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
+      queryKey: ["hookCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
       queryFn: () =>
         _fetchCoinGeckoAssetPriceByAddress({
           address: mapAddress(address),
