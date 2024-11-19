@@ -6,9 +6,22 @@ import { CertoraAuditReportLink } from "@router";
 /* ----------- */
 import certoraIcon from "@assets/common/certora.svg";
 import { useFetchViewLendingPoolInfo } from "../../../v2/pages/test-page/hooks/useFetchViewLendingPoolInfo";
+import { useState, useEffect } from "react";
 
 export const Audited = () => {
   const { data, ...rest } = useFetchViewLendingPoolInfo();
+
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowComponent(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!showComponent) return null;
 
   return (
     <div className="flex justify-center px-2 md:px-0">
