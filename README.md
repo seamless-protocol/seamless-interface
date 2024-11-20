@@ -63,7 +63,7 @@ if you want to to kill anvil run:
 - run `npx cypress open`
 - start your tests
 
-# Frontend Deployment Workflow Secrets
+## Deployment Workflow Secrets
 
 This repository uses the following secrets for the deployment workflow. These secrets need to be configured in the GitHub repository's settings under the "Secrets and variables" section.
 
@@ -86,5 +86,5 @@ This repository uses the following secrets for the deployment workflow. These se
 
 ### IPFS Secrets
 
-- **FILEBASE_ACCESS_KEY**: Filebase access key for IPFS upload.
-- **FILEBASE_SECRET_KEY**: Filebase secret key for IPFS upload.
+- **FILEBASE_ACCESS_KEY**= (Filebase access key for IPFS upload.)
+- **FILEBASE_SECRET_KEY**= (Filebase secret key for IPFS upload.)
