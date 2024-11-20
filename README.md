@@ -62,3 +62,37 @@ if you want to to kill anvil run:
 - make sure to set `test_env` empty or `tenderly`
 - run `npx cypress open`
 - start your tests
+
+# Frontend Deployment Workflow Secrets
+
+This repository uses the following secrets for the deployment workflow. These secrets need to be configured in the GitHub repository's settings under the "Secrets and variables" section.
+
+### Environment Variables for `.env.production`
+
+4. **VITE_COIN_GECKO_API_URL**: CoinGecko API URL.
+5. **VITE_TRM_LABS_API_URL**: TRM Labs API URL.
+6. **VITE_BASE_WALLET_PROJECT_ID**: Base wallet project ID.
+7. **VITE_LIFI_INTEGRATOR**: LIFI integrator identifier.
+8. **VITE_BASE_RPC_FREE_1**: Base RPC URL.
+9. **VITE_TENDERLY_NODE_ACCESS_KEY**: Tenderly node access key.
+10. **VITE_SENTRY_AUTH_TOKEN**: Sentry authentication token.
+11. **VITE_STYLE_VERSION**: Style version (e.g., `v3`).
+12. **VITE_USE_TENDERLY_SIMULATION**: Boolean flag to enable/disable Tenderly simulation.
+13. **VITE_QUERY_ERROR_LOGS_DISABLED**: Boolean flag to enable/disable query error logs.
+14. **VITE_TENDERLY_RPC_URL**: Tenderly RPC URL.
+15. **VITE_ALCHEMY_SIMULATION_RPC_URL**: Alchemy simulation RPC URL.
+16. **VITE_EXTENSIVE_OPERATIONS_RPC_URL**: Extensive operations RPC URL.
+17. **VITE_DEV_SERVER_URL**: Local development server URL.
+18. **VITE_CYPRESS_RPC_ANVIL_TO_CLONE**: Cypress RPC Anvil URL to clone.
+19. **VITE_CYPRESS_ANVIL_FORK_BLOCK_NUMBER**: Fork block number for Cypress Anvil.
+20. **VITE_CYPRESS_TEST_ENV**: Cypress test environment name.
+21. **VITE_CYPRESS_TEST_TENDERLY_PROJECT**: Cypress Tenderly project name.
+22. **VITE_CYPRESS_TEST_TENDERLY_PROFILE**: Cypress Tenderly profile name.
+23. **VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY**: Cypress Tenderly access key.
+24. **VITE_DUNE_CACHE_API**: Dune cache API URL.
+25. **VITE_DUNE_QUERY_KEY**: Dune query key.
+
+### IPFS Secrets
+
+26. **FILEBASE_ACCESS_KEY**: Filebase access key for IPFS upload.
+27. **FILEBASE_SECRET_KEY**: Filebase secret key for IPFS upload.
