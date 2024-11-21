@@ -1,4 +1,4 @@
-import { FlexRow, Typography } from "@shared";
+import { FlexRow } from "@shared";
 import { disourseUrl } from "@router";
 import { Link } from "react-router-dom";
 
