@@ -19,6 +19,7 @@ export const ilmMediumUrl =
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/r2zubM3o";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
+export const disourseUrl = "https://disourse.com/";
 
 const baseScan = "https://basescan.org";
 
