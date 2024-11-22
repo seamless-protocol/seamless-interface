@@ -5,6 +5,7 @@ import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import type { DecimalsOptions } from "@shared";
+import { IS_DEV_MODE } from "../globals";
 
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
@@ -39,6 +40,7 @@ export const AERO_ADDRESS: Address = "0x940181a94A35A4569E4529A3CDfB74e38FD98631
 export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E4";
 export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
 export const OG_POINTS_ADDRESS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
+export const cbBTC_ADDRESS: Address = "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf";
 
 export const OG_POINTS_MOCK_PRICE: bigint = 0n;
 
@@ -71,6 +73,8 @@ export const wstETHBooster_3x: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea
 export const ethLong_1_5x: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
 export const ethLong_3x: Address = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
 export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6";
+export const cbBTCLong_1_5x: Address = IS_DEV_MODE ? "0xB36076C62A6693E720d70326b794263c65B2b98d" : "0x69e211296755Fb4F84102D2EE79fA594948023dd";
+export const cbBTCLong_3x: Address = IS_DEV_MODE ? "0xC96218a62AA3c99a6B462e07b9866f497493b9cB" : "0xD2E9652E47a95Ea2df63A503f7E310441A594E94";
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;

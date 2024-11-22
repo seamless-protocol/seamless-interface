@@ -6,6 +6,7 @@ import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { ilmRegistryAddress } from "../../generated";
 import { readContractQueryOptions } from "wagmi/query";
+import { cbBTCLong_1_5x, cbBTCLong_3x } from "../../../meta";
 
 export async function fetchStrategies(): Promise<Address[]> {
   const strategies = await queryContract({
@@ -17,7 +18,7 @@ export async function fetchStrategies(): Promise<Address[]> {
     ...metadataQueryConfig,
   });
 
-  return strategies as Address[];
+  return [...strategies, cbBTCLong_1_5x, cbBTCLong_3x] as Address[];
 }
 
 export function useFetchAllStrategies() {
