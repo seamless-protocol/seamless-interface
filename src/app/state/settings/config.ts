@@ -39,6 +39,8 @@ import {
   ethLong_3x,
   ethShort_ADDRESS_1_5_x,
   shortETH_ADDRESS_STRATEGY_ID,
+  longBTC_ADDRESS_STRATEGY_ID,
+  cbBTCLong_1_5x,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -234,6 +236,27 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     subStrategyData: [
       {
         address: ethShort_ADDRESS_1_5_x,
+        targetMultiple: {
+          value: 1.5,
+          symbol: "x",
+        },
+      },
+    ],
+  },
+  [longBTC_ADDRESS_STRATEGY_ID]: {
+    name: "Multiply BTC Long",
+    subTitle: "Increase BTC price exposure.",
+    description:
+      "This Integrated Liquidity Market (ILM) uses USDC deposits to borrow ETH, which is used to purchase more USDC to achieve the targeted multiple.",
+    address: longBTC_ADDRESS_STRATEGY_ID as Address,
+    multiplier: "Up to 1.5x",
+    logo: ilmEthUsdcLogo,
+    underlyingAsset: assetsConfig[USDC_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
+    faq: faqsData[shortETH_ADDRESS_STRATEGY_ID],
+    subStrategyData: [
+      {
+        address: cbBTCLong_1_5x,
         targetMultiple: {
           value: 1.5,
           symbol: "x",

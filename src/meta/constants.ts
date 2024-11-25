@@ -84,6 +84,7 @@ export const cbBTCLong_3x: Address = IS_DEV_MODE
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
 export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
 export const shortETH_ADDRESS_STRATEGY_ID = `${USDC_ADDRESS}-${WETH_ADDRESS}`;
+export const longBTC_ADDRESS_STRATEGY_ID = `${cbBTC_ADDRESS}-${USDC_ADDRESS}`;
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
