@@ -75,11 +75,8 @@ const StrategyFormLocal: React.FC<{
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);
 
-  console.log("test");
   const onSubmitAsync = async (data: FormData) => {
-    console.log({ previewDepositData });
-    // todo revert this removal of isSuccess change
-    if (previewDepositData.isFetched && !previewDepositData.isLoading) {
+    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
       await depositAsync(
         {
           amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
