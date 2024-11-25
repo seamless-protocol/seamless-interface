@@ -42,6 +42,7 @@ import {
   longBTC_ADDRESS_STRATEGY_ID,
   cbBTCLong_1_5x,
   cbBTCLong_3x,
+  cbBTC_ADDRESS,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
@@ -56,6 +57,7 @@ import degenLogo from "@assets/tokens/degen.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import wethLogo from "@assets/tokens/weth.svg";
+import cbBTCLogo from "@assets/tokens/cbBTC.svg";
 
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
@@ -152,6 +154,12 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     logo: brettLogo,
     useCoinGeckoPrice: true,
     description: "BRETT is PEPE's best friend on Base.",
+  },
+  [cbBTC_ADDRESS]: {
+    name: "cbBTC",
+    symbol: "cbBTC",
+    address: cbBTC_ADDRESS,
+    logo: cbBTCLogo,
   },
   [rwstETH_ADDRESS]: {
     address: rwstETH_ADDRESS,
