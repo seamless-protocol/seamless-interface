@@ -17,7 +17,7 @@ export async function fetchStrategies(): Promise<Address[]> {
     ...metadataQueryConfig,
   });
 
-  return [...strategies] as Address[];
+  return strategies as Address[];
 }
 
 export function useFetchAllStrategies() {
