@@ -257,7 +257,7 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
     name: "Multiply cbBTC Long",
     subTitle: "Increase cbBTC price exposure.",
     description:
-      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more cbBTC to achieve the targeted multiple.",
+      "This Integrated Liquidity Market (ILM) uses cbBTC deposits to borrow USDC, which is used to purchase more cbBTC to achieve the targeted multiple.",
     address: longBTC_ADDRESS_STRATEGY_ID as Address,
     multiplier: "Up to 3x",
     logo: ilmcbBtcLogo,
