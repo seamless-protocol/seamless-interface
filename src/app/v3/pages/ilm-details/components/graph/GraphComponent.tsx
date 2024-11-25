@@ -15,6 +15,7 @@ import "./GraphComoonent.css";
 import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { wstETHBooster_3x } from "@meta";
+import { IS_DEV_MODE } from "../../../../../../globals";
 
 export interface DuneData {
   share_value_in_debt_asset: number;
@@ -89,10 +90,12 @@ export const GraphComponent = () => {
       try {
         data = (await fetchStrategyAnalytics(strategy, filterOption)) as DuneData[] | undefined;
       } catch (error) {
-        showNotification({
-          status: "error",
-          content: <Typography>Error fetching data for graph.</Typography>,
-        });
+        if (!IS_DEV_MODE) {
+          showNotification({
+            status: "error",
+            content: <Typography>Error fetching data for graph.</Typography>,
+          });
+        }
       } finally {
         setIsLoading(false);
       }
