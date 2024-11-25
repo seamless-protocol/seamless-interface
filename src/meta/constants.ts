@@ -5,7 +5,6 @@ import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import type { DecimalsOptions } from "@shared";
-import { IS_DEV_MODE } from "../globals";
 
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
