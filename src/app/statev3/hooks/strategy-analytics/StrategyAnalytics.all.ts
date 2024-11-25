@@ -22,8 +22,6 @@ const FilterOptionConfig: Record<FilterOption, { duration: number }> = {
 export const fetchStrategyAnalytics = async (strategy: Address, filter: FilterOption) => {
   const queryClient = getQueryClient();
 
-  console.log({ strategy });
-
   const result = await queryClient.fetchQuery({
     queryKey: ["fetchStrategyAnalytics", strategy, filter],
     queryFn: async () => {
