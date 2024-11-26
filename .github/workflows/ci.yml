@@ -14,11 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Manually Set up AWS CLI
+      - name: Configure AWS CLI
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
           aws configure set aws_access_key_id "${{ secrets.FILEBASE_ACCESS_KEY }}"
           aws configure set aws_secret_access_key "${{ secrets.FILEBASE_SECRET_KEY }}"
           aws configure set default.region us-east-1
