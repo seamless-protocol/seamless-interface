@@ -14,6 +14,7 @@ export default defineConfig({
     tenderly_project: process.env.VITE_CYPRESS_TEST_TENDERLY_PROJECT,
     test_env: process.env.VITE_CYPRESS_TEST_ENV,
   },
+
   component: {
     devServer: {
       framework: "react",
@@ -24,9 +25,8 @@ export default defineConfig({
 
   e2e: {
     baseUrl: process.env.VITE_DEV_SERVER_URL,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-      on("file:preprocessor", vitePreprocessor(config));
+    setupNodeEvents(on, _config) {
+      on("file:preprocessor", vitePreprocessor());
     },
     specPattern: "src/app/__tests__/**/*.cy.ts",
     defaultCommandTimeout: 10000,

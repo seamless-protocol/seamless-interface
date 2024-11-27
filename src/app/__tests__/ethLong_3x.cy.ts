@@ -3,9 +3,7 @@
 import { prepareTestForRun } from "../../../cypress/support/configuration.steps";
 import { targetAccount, WETH_ADDRESS } from "../../../cypress/support/constants";
 import { depositAndWithdraw } from "../../../cypress/support/steps/depositAndWithdraw";
-
-// todo: fix aliases, and import this address
-const ethLong_3x = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
+import { ethLong_3x } from "../../meta";
 
 describe("ethLong_3x DEPOSIT & WITHDRAW SPEC", () => {
   prepareTestForRun({

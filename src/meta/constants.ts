@@ -39,6 +39,7 @@ export const AERO_ADDRESS: Address = "0x940181a94A35A4569E4529A3CDfB74e38FD98631
 export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E4";
 export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
 export const OG_POINTS_ADDRESS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
+export const cbBTC_ADDRESS: Address = "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf";
 
 export const OG_POINTS_MOCK_PRICE: bigint = 0n;
 
@@ -66,16 +67,19 @@ export const variableDebtSeamDEGEN_ADDRESS = "0xfb4acbf586010670b9454d3fd4e7a31e
 export const variableDebtSeamSEAM_ADDRESS = "0x269eff46ba6ab639f5dbd745191bd987ba03de3b";
 export const variableDebtSeamrWETH_ADDRESS = "0x2782293d989639faba72251ac1972aba71d02506";
 export const ethShort_ADDRESS_1_5_x: Address = "0x68DFad1A72c63897FEC5fB9De9FDb5670280291e";
-export const wstETHBooster_ADDRESS: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
+export const wstETHBooster_3x: Address = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e"; // 0x2962673cC60eE877768A38fa6d7FEe7468b3F09b
 // export const wstETHBooster4_5x_ADDRESS: Address = "0x2a351F41Bc0080c3Ae52C1708Ff7442b024Ab426";
-export const ethLong: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
+export const ethLong_1_5x: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
 export const ethLong_3x: Address = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
 export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6";
+export const cbBTCLong_1_5x: Address = "0x5CE6A61E60AD45dBD80565349A8B902DC461A1FE";
+export const cbBTCLong_3x: Address = "0xdeCF8c9D927275e8b25721d3EF16d14AC8eb8766";
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
 export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`;
 export const shortETH_ADDRESS_STRATEGY_ID = `${USDC_ADDRESS}-${WETH_ADDRESS}`;
+export const longBTC_ADDRESS_STRATEGY_ID = `${cbBTC_ADDRESS}-${USDC_ADDRESS}`;
 
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);

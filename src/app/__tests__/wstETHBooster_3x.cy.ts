@@ -1,11 +1,7 @@
-// import { wstETHBooster_3x } from "../../../meta";
-
 import { prepareTestForRun } from "../../../cypress/support/configuration.steps";
 import { targetAccount, WSTETH_ADDRESS } from "../../../cypress/support/constants";
 import { depositAndWithdraw } from "../../../cypress/support/steps/depositAndWithdraw";
-
-// todo: fix aliases, and import this address
-const wstETHBooster_3x_ADDRESS = "0x258730e23cF2f25887Cb962d32Bd10b878ea8a4e";
+import { wstETHBooster_3x } from "../../meta";
 
 describe("WstETHBooster_3x DEPOSIT & WITHDRAW SPEC", () => {
   prepareTestForRun({
@@ -15,7 +11,7 @@ describe("WstETHBooster_3x DEPOSIT & WITHDRAW SPEC", () => {
   });
 
   depositAndWithdraw({
-    address: wstETHBooster_3x_ADDRESS,
+    address: wstETHBooster_3x,
     amount: 1,
     hasApproval: false,
   });
