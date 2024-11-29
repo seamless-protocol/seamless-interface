@@ -5,7 +5,7 @@ export type ExtendedQueryState<TData> = Pick<UseQueryResult<TData>, "isLoading" 
   queryKey?: QueryKey;
   isError?: boolean;
   isSuccess?: boolean;
-  error?: unknown;
+  error?: any;
 };
 
 export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]): ExtendedQueryState<TData> {

@@ -18,7 +18,7 @@ export interface DisplayValueProps extends DisplayableAmount {
     height: string;
   };
   error?: {
-    message: string;
+    message?: string;
   }
 }
 /**
