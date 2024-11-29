@@ -39,9 +39,14 @@ import {
   ethLong_3x,
   ethShort_ADDRESS_1_5_x,
   shortETH_ADDRESS_STRATEGY_ID,
+  longBTC_ADDRESS_STRATEGY_ID,
+  cbBTCLong_1_5x,
+  cbBTCLong_3x,
+  cbBTC_ADDRESS,
 } from "@meta";
 import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
 import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
+import ilmcbBtcLogo from "@assets/tokens/ilmcbBTC.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import wstEthDiagram from "@assets/wsteth-diagram.png";
 import usdcLogo from "@assets/tokens/usdc.svg";
@@ -53,6 +58,7 @@ import degenLogo from "@assets/tokens/degen.svg";
 import aeroLogo from "@assets/tokens/aero.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import wethLogo from "@assets/tokens/weth.svg";
+import cbBTCLogo from "@assets/tokens/cbBTC.svg";
 
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
@@ -150,6 +156,12 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     useCoinGeckoPrice: true,
     description: "BRETT is PEPE's best friend on Base.",
   },
+  [cbBTC_ADDRESS]: {
+    name: "cbBTC",
+    symbol: "cbBTC",
+    address: cbBTC_ADDRESS,
+    logo: cbBTCLogo,
+  },
   [rwstETH_ADDRESS]: {
     address: rwstETH_ADDRESS,
     sTokenAddress: srwstETH_ADDRESS,
@@ -236,6 +248,33 @@ export const strategiesConfig: { [key: string]: StrategyConfig } = {
         address: ethShort_ADDRESS_1_5_x,
         targetMultiple: {
           value: 1.5,
+          symbol: "x",
+        },
+      },
+    ],
+  },
+  [longBTC_ADDRESS_STRATEGY_ID]: {
+    name: "Multiply cbBTC Long",
+    subTitle: "Increase cbBTC price exposure.",
+    description:
+      "This Integrated Liquidity Market (ILM) uses cbBTC deposits to borrow USDC, which is used to purchase more cbBTC to achieve the targeted multiple.",
+    address: longBTC_ADDRESS_STRATEGY_ID as Address,
+    multiplier: "Up to 3x",
+    logo: ilmcbBtcLogo,
+    underlyingAsset: assetsConfig[cbBTC_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
+    subStrategyData: [
+      {
+        address: cbBTCLong_1_5x,
+        targetMultiple: {
+          value: 1.5,
+          symbol: "x",
+        },
+      },
+      {
+        address: cbBTCLong_3x,
+        targetMultiple: {
+          value: 3,
           symbol: "x",
         },
       },

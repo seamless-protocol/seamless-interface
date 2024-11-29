@@ -19,6 +19,7 @@ export const ilmMediumUrl =
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/r2zubM3o";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
+export const disourseUrl = "https://seamlessprotocol.discourse.group/t/gp-what-drives-seamless-core-beliefs-vision-future/584";
 
 const baseScan = "https://basescan.org";
 
