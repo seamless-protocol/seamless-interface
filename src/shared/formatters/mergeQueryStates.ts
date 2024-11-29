@@ -5,6 +5,7 @@ export type ExtendedQueryState<TData> = Pick<UseQueryResult<TData>, "isLoading" 
   queryKey?: QueryKey;
   isError?: boolean;
   isSuccess?: boolean;
+  error?: unknown;
 };
 
 export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]): ExtendedQueryState<TData> {
@@ -15,6 +16,7 @@ export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]
         isError: accumulator.isError || current.isError, // true if any has error
         isFetched: accumulator.isFetched && current.isFetched, // true if all are fetched
         isSuccess: accumulator.isSuccess && current.isSuccess, // true if all are successful
+        error: accumulator.error || current.error,
         queryKeys: [
           ...(accumulator.queryKeys || []),
           ...(current.queryKeys || []),
@@ -27,6 +29,7 @@ export function mergeQueryStates<TData>(queryStates: ExtendedQueryState<TData>[]
       isError: false,
       isFetched: true,
       isSuccess: true,
+      error: undefined,
       queryKeys: [],
     }
   );

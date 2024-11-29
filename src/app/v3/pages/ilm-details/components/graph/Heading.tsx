@@ -1,5 +1,5 @@
 import { DisplayMoney, DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
@@ -9,7 +9,7 @@ export const Heading = () => {
   const { address } = useParams();
   const strategy = address as Address;
 
-  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);
+  const { data: price, ...otherPrice } = useFetchAssetPrice(strategy);
   const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   return (
