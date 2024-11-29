@@ -1,4 +1,4 @@
-import { formatFetchBigIntToViewBigInt, Displayable, FetchBigIntStrict, formatUsdValue, ViewBigInt } from "@shared";
+import { formatFetchBigIntToViewBigInt, Displayable, FetchBigIntStrict, formatUsdValue, ViewBigInt, FormattingOptions } from "@shared";
 import { Address, parseUnits } from "viem";
 import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
@@ -65,7 +65,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   );
 };
 
-export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigint): Displayable<ViewBigInt> => {
+export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigint, options?: FormattingOptions): Displayable<ViewBigInt> => {
   const { data: price, ...rest } = useQuery({
     queryKey: ["hookFormattedAssetPrice", asset, blockNumber],
     queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber),
@@ -75,20 +75,6 @@ export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigin
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigInt(price),
-  };
-};
-
-export const useFetchAssetPrice = (asset?: Address, blockNumber?: bigint): Displayable<ViewBigInt> => {
-  const { data: price, ...rest } = useQuery({
-    queryKey: ["hookFormattedAssetPrice", asset, blockNumber],
-    queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber),
-    enabled: !!asset,
-    ...disableCacheQueryConfig,
-  });
-
-  return {
-    ...rest,
-    data: formatFetchBigIntToViewBigInt(price, undefined, true),
+    data: formatFetchBigIntToViewBigInt(price, undefined, options),
   };
 };
