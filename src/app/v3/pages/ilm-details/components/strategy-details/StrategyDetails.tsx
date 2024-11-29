@@ -1,75 +1,29 @@
-import { FlexCol, Typography } from "@shared";
-import { FeesInformation } from "./FeesInformation";
-import { HowStrategyWorks } from "./HowStrategyWorks";
-import { LearnMore } from "./LearnMore";
-import { MainRisks } from "./MainRisks";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { Exposure } from "./Exposure";
+import { cbBTCLong_1_5x, cbBTCLong_3x, ethLong_1_5x, ethLong_3x, ethShort_ADDRESS_1_5_x, wstETHBooster_3x } from "../../../../../../meta";
+import { EthLong1_5xDetails } from "./details-per-strategy/EthLong1_5xDetails";
+import { EthLong3xDetails } from "./details-per-strategy/EthLong3xDetails";
+import { EthShort1_5xDetails } from "./details-per-strategy/EthShort1_5xDetails";
+import { WstETHBooster3xDetails } from "./details-per-strategy/WstETHBooster3xDetails";
+import { CbBtcLong1_5xDetails } from "./details-per-strategy/CbBtcLong1_5xDetails";
+import { CbBtcLong3xDetails } from "./details-per-strategy/CbBtcLong3xDetails";
+
+const DetailsDictionary = {
+  [ethLong_1_5x]: EthLong1_5xDetails,
+  [ethLong_3x]: EthLong3xDetails,
+  [ethShort_ADDRESS_1_5_x]: EthShort1_5xDetails,
+  [wstETHBooster_3x]: WstETHBooster3xDetails,
+  [cbBTCLong_1_5x]: CbBtcLong1_5xDetails,
+  [cbBTCLong_3x]: CbBtcLong3xDetails,
+}
 
 export const StrategyDetails = () => {
-  const { address } = useParams();
+  const { address } = useParams<{ address: string }>();
   const strategy = address as Address | undefined;
 
+  const Details = strategy ? DetailsDictionary[strategy] : undefined;
+
   return (
-    <FlexCol className="w-full gap-8">
-      <Typography type="bold5">Strategy details</Typography>
-      <FlexCol className="w-full gap-4">
-        <LocalCollapseArrow>
-          <LocalCollapseTitle>How this strategy works</LocalCollapseTitle>
-          <div className="collapse-content">
-            <HowStrategyWorks strategy={strategy} />
-          </div>
-        </LocalCollapseArrow>
-
-        <LocalCollapseArrow>
-          <LocalCollapseTitle>Do I have leverage exposure to ETH price with this ILM?</LocalCollapseTitle>
-          <div className="collapse-content">
-            <Exposure strategy={strategy} />
-          </div>
-        </LocalCollapseArrow>
-
-        <LocalCollapseArrow>
-          <LocalCollapseTitle>What are main risks?</LocalCollapseTitle>
-          <div className="collapse-content">
-            <MainRisks strategy={strategy} />
-          </div>
-        </LocalCollapseArrow>
-
-        <LocalCollapseArrow>
-          <LocalCollapseTitle>What fees are there for using this strategy?</LocalCollapseTitle>
-          <div className="collapse-content">
-            <FeesInformation strategy={strategy} />
-          </div>
-        </LocalCollapseArrow>
-        <LocalCollapseArrow>
-          <LocalCollapseTitle>Where can I learn more?</LocalCollapseTitle>
-          <div className="collapse-content">
-            <LearnMore strategy={strategy} />
-          </div>
-        </LocalCollapseArrow>
-      </FlexCol>
-    </FlexCol>
-  );
-};
-
-const LocalCollapseArrow: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
-  return (
-    <div className="collapse collapse-arrow join-item border bg-neutral-0">
-      <input type="radio" name="my-accordion-4" />
-      {children}
-    </div>
-  );
-};
-
-const LocalCollapseTitle: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
-  return (
-    <div className="collapse-title">
-      <Typography type="medium4">{children}</Typography>
-    </div>
+    (Details && strategy) ? <Details strategy={strategy} /> : <div>Strategy details not configured</div>
   );
 };

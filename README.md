@@ -62,3 +62,29 @@ if you want to to kill anvil run:
 - make sure to set `test_env` empty or `tenderly`
 - run `npx cypress open`
 - start your tests
+
+## Deployment Workflow Secrets
+
+This repository uses the following secrets for the deployment workflow. These secrets need to be configured in the GitHub repository's settings under the "Secrets and variables" section.
+
+### Environment Variables for `.env.production`
+
+- **VITE_COIN_GECKO_API_URL**=
+- **VITE_TRM_LABS_API_URL**=
+- **VITE_BASE_WALLET_PROJECT_ID**=
+- **VITE_LIFI_INTEGRATOR**=
+- **VITE_BASE_RPC_FREE_1**=
+- **VITE_BASE_MAIN_RPC_URL**=
+- **VITE_BASE_RPC_PAID_WS_2**=
+- **VITE_SENTRY_AUTH_TOKEN**=
+- **VITE_STYLE_VERSION**=
+- **VITE_USE_TENDERLY_SIMULATION**=
+- **VITE_TESTMODE**=
+- **VITE_ALCHEMY_SIMULATION_RPC_URL**=
+- **VITE_EXTENSIVE_OPERATIONS_RPC_URL**=
+- **VITE_DUNE_CACHE_API**=
+
+### IPFS Secrets
+
+- **FILEBASE_ACCESS_KEY**= (Filebase access key for IPFS upload.)
+- **FILEBASE_SECRET_KEY**= (Filebase secret key for IPFS upload.)
