@@ -24,6 +24,7 @@ import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useEffect } from "react";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
@@ -74,6 +75,19 @@ const StrategyFormLocal: React.FC<{
 
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);
+
+  useEffect(() => {
+    if (previewDepositData.isError) {
+      showNotification({
+        status: "error",
+        content: (
+          <Typography type="body1">
+            {(previewDepositData.error as any)?.message} <br /> please try later! 😓
+          </Typography>
+        ),
+      })
+    }
+  }, [previewDepositData.isError]);
 
   const onSubmitAsync = async (data: FormData) => {
     if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
@@ -137,6 +151,7 @@ const StrategyFormLocal: React.FC<{
 
           <Summary debouncedAmount={debouncedAmount} />
         </FlexCol>
+
         <FormButtons
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategyData}
