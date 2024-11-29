@@ -25,9 +25,8 @@ export const ILMDesktopTableRow: React.FC<{
 
   return (
     <div
-      className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${
-        hideBorder ? "" : "border-b border-b-navy-100"
-      } ${selected ? "bg-neutral-100" : ""}`}
+      className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
+        } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
@@ -69,7 +68,7 @@ export const ILMDesktopTableRow: React.FC<{
               data: apy,
             }}
           >
-            <DisplayNumber errorMessage="Insufficient historical data 😖" typography="bold3" {...apy} {...apyRest} />
+            <DisplayNumber typography="bold3" {...apy} {...apyRest} />
           </SignIndicatingElement>
         </TableCell>
         <TableCell className="col-span-1">

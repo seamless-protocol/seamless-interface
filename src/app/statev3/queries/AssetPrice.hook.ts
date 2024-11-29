@@ -24,14 +24,18 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   if (strategy) {
-    const [{ dollarAmount: equityUsd }, totalSupply] = await Promise.all([
-      fetchEquityInBlock({ strategy: asset, blockNumber }),
-      fetchAssetTotalSupplyInBlock({ asset, blockNumber }),
-    ]);
+    try {
+      const [{ dollarAmount: equityUsd }, totalSupply] = await Promise.all([
+        fetchEquityInBlock({ strategy: asset, blockNumber }),
+        fetchAssetTotalSupplyInBlock({ asset, blockNumber }),
+      ]);
 
-    if (totalSupply.bigIntValue === 0n) return formatUsdValue(0n);
+      if (totalSupply.bigIntValue === 0n) return formatUsdValue(0n);
 
-    return formatUsdValue((equityUsd.bigIntValue * parseUnits("1", totalSupply.decimals)) / totalSupply.bigIntValue);
+      return formatUsdValue((equityUsd.bigIntValue * parseUnits("1", totalSupply.decimals)) / totalSupply.bigIntValue);
+    } catch (error) {
+      throw new Error("Insufficient historical data 😖");
+    }
   }
 
   const config = assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset);

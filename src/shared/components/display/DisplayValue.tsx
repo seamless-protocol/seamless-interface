@@ -17,6 +17,9 @@ export interface DisplayValueProps extends DisplayableAmount {
     width: string;
     height: string;
   };
+  error?: {
+    message: string;
+  }
 }
 /**
  * `DisplayValue` Component
@@ -73,11 +76,12 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   symbolColor,
   symbolPosition = "before",
   className = "",
+  error,
   errorMessage = "Could not load this value, try later 😓",
 }) => {
   if (isError) {
     return (
-      <Tooltip tooltip={<Typography type="body1">{errorMessage}</Typography>}>
+      <Tooltip tooltip={<Typography type="body1">{error?.message || errorMessage}</Typography>}>
         <ExclamationTriangleIcon width={20} height={20} />
       </Tooltip>
     );
