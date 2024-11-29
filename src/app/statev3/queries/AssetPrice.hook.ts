@@ -78,3 +78,17 @@ export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigin
     data: formatFetchBigIntToViewBigInt(price),
   };
 };
+
+export const useFetchAssetPrice = (asset?: Address, blockNumber?: bigint): Displayable<ViewBigInt> => {
+  const { data: price, ...rest } = useQuery({
+    queryKey: ["hookFormattedAssetPrice", asset, blockNumber],
+    queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber),
+    enabled: !!asset,
+    ...disableCacheQueryConfig,
+  });
+
+  return {
+    ...rest,
+    data: formatFetchBigIntToViewBigInt(price, undefined, true),
+  };
+};
