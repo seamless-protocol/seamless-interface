@@ -33,7 +33,7 @@ async function simulateBundleTenderly(functionCalls: any) {
 
   if (!res.ok) {
     // eslint-disable-next-line no-console
-    console.error("Failed to simulate transaction!");
+    console.error("Failed to simulate transaction!", res);
     throw new Error(`Failed to simulate transaction! ${res.statusText ? `error: ${res.statusText}` : ``}`);
   }
   return res.json();
