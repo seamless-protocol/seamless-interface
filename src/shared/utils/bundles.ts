@@ -53,14 +53,18 @@ export async function simulateDepositTenderly(
     createDepositTx(account, strategy, amount, decimals),
   ]);
 
-  if (!result || !result[1].logs) throw new Error("Failed to simulate transactions");
+  if (!result || !result[1].logs) throw new Error("Failed to simulate transaction");
 
   // Take logs from second transaction
   const { logs } = result[1];
   // Deposit even is the last event
-  const depositEvent = logs ? logs[logs.length - 1].raw : undefined;
+  const depositEvent = logs ? logs[logs.length - 1]?.raw : undefined;
 
-  if (!depositEvent) throw new Error("Failed to find deposit event");
+  if (!depositEvent) {
+    // eslint-disable-next-line no-console
+    console.error("Failed to find deposit event");
+    throw new Error("Failed to simulate transaction");
+  }
 
   const decodedDepositEvent = decodeEventLog({
     abi: depositEventAbi,
