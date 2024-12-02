@@ -20,6 +20,10 @@ const defaultDecimalsOptions: DecimalsOptions = {
   fourDigitNumberDecimals: 2,
 };
 
+export interface FormattingOptions {
+  disableCompact?: boolean;
+}
+
 export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number) {
   return Number(formatUnits((value || 0) as bigint, decimals));
 }
@@ -33,8 +37,17 @@ function format(value: number, decimals: number) {
 
   return formatter.format(value);
 }
+function formatFull(value: number, decimals: number) {
+  const formatter = Intl.NumberFormat("en", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+    useGrouping: true,
+  });
 
-export function formatToDisplayable(value: number | undefined, decimalsOptions: Partial<DecimalsOptions>) {
+  return formatter.format(value);
+}
+
+export function formatToDisplayable(value: number | undefined, decimalsOptions: Partial<DecimalsOptions>, options?: FormattingOptions) {
   if (!value) return format(0, 2);
 
   const decimalsFormattingOptions = {
@@ -52,6 +65,8 @@ export function formatToDisplayable(value: number | undefined, decimalsOptions: 
   } else {
     decimals = decimalsFormattingOptions.fourDigitNumberDecimals;
   }
+
+  if (options?.disableCompact) return formatFull(value, decimals);
 
   return format(value, decimals);
 }
@@ -85,7 +100,8 @@ export function formatToDisplayableOrPlaceholder(
  */
 export function formatFetchBigIntToViewBigInt(
   data?: FetchBigInt,
-  decimalsOptions?: Partial<DecimalsOptions>
+  decimalsOptions?: Partial<DecimalsOptions>,
+  options?: FormattingOptions
 ): ViewBigInt {
   if (data === undefined) {
     return {
@@ -105,7 +121,7 @@ export function formatFetchBigIntToViewBigInt(
 
   return {
     value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
-    viewValue: formatToDisplayable(value, decimalsFormattingOptions),
+    viewValue: formatToDisplayable(value, decimalsFormattingOptions, options),
     bigIntValue,
     symbol,
   };
