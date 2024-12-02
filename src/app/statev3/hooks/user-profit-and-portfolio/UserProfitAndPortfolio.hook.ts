@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { fetchUserProfitAndPortfolio } from "./UserProfitAndPortfolio.fetch";
 import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../shared";
-import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 
 interface FormattedUserProfitAndPortfolio {
   portfolioValue: ViewBigInt;

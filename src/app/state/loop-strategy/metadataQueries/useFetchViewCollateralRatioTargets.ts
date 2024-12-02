@@ -4,7 +4,7 @@ import { Displayable, fUsdValueStructured } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewCollateralRatioTargets } from "../types/ViewCollateralRatioTargets";
-import { metadataQueryConfig } from "../../settings/queryConfig";
+import { metadataQueryConfig } from "../../../statev3/settings/queryConfig";
 import { useReadContract } from "wagmi";
 
 export interface CollateralRatioTargets {

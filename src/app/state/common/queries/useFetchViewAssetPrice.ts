@@ -11,7 +11,7 @@ import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPri
 import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../settings/queryConfig";
+import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../../statev3/settings/queryConfig";
 
 export interface AssetPrice {
   price: FetchBigInt;

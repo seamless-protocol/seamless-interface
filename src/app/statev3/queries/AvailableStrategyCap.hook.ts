@@ -14,7 +14,7 @@ import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../settings/queryConfig";
 import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../meta";
 import { readContractQueryOptions } from "wagmi/query";
 

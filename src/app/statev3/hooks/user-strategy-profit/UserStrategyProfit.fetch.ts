@@ -6,7 +6,7 @@ import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "../../../../shared";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
+import { heavyDataQueryConfig } from "../../settings/queryConfig";
 
 /// TYPES
 interface Log {

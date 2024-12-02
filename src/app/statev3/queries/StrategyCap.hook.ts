@@ -14,7 +14,7 @@ import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchStrategyCap(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {

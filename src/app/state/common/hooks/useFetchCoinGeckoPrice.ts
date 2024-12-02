@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { assetsConfig, strategiesConfig } from "../../settings/config";
-import { ONE_HOUR_IN_MS } from "../../settings/queryConfig";
+import { ONE_HOUR_IN_MS } from "../../../statev3/settings/queryConfig";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 interface CoinGeckoAssetPrice {

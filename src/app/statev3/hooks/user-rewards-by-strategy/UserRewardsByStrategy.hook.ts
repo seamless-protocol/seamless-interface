@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { Displayable, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
-import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { fetchAllUserRewardsByStrategy } from "./UserRewardsByStrategy.fetch";
 import { Address } from "viem";
 import { assetLogos } from "@meta";

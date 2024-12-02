@@ -4,7 +4,7 @@ import { lendingAssetToHide } from "../../../../meta";
 import { strategiesConfig } from "../../settings/config";
 import { LendMarketState, StrategyState } from "../types/StateTypes";
 import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
-import { metadataQueryConfig } from "../../settings/queryConfig";
+import { metadataQueryConfig } from "../../../statev3/settings/queryConfig";
 import { useReadContract } from "wagmi";
 
 /**

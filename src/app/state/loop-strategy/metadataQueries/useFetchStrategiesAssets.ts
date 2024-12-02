@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
-import { metadataQueryConfig } from "../../settings/queryConfig";
+import { metadataQueryConfig } from "../../../statev3/settings/queryConfig";
 import { readContract } from "wagmi/actions";
 import { useQueries } from "@tanstack/react-query";
 import { Fetch, mergeQueryStates } from "@shared";

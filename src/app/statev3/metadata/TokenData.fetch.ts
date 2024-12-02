@@ -1,5 +1,5 @@
 import { Address, erc20Abi } from "viem";
-import { disableCacheQueryConfig, metadataQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, metadataQueryConfig } from "../settings/queryConfig";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 import { addressIconMap } from "../settings/config";

@@ -13,7 +13,7 @@ import {
   disableCacheQueryConfig,
   infiniteCacheQueryConfig,
   platformDataQueryConfig,
-} from "../../state/settings/queryConfig";
+} from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {

@@ -3,7 +3,7 @@ import { Address } from "viem";
 import { fetchUserStrategyProfit } from "./UserStrategyProfit.fetch";
 import { Displayable, ViewBigInt, ViewBigIntWithUsdValue, formatFetchBigIntToViewBigInt } from "../../../../shared";
 import { useAccount } from "wagmi";
-import { disableCacheQueryConfig } from "../../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 
 interface UseFetchFormattedUserStrategyProfitInput {
   strategy: Address | undefined;

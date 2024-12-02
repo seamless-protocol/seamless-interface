@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { fetchTokenData } from "./TokenData.fetch";
 import { fetchStrategyAssets } from "./StrategyAssets.fetch";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../settings/queryConfig";
 import { addressIconMap, strategyConfig } from "../settings/config";
 import { TagType } from "../common/types/StateTypes";
 import { Displayable } from "../../../shared";
