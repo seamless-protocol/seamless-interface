@@ -4,7 +4,7 @@ import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullSt
 import { DisplayNumber, DisplayText, FlexCol, FlexRow, Typography } from "@shared";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
-import { StrategyIncentivesButton } from "../../../../../v2/components/incentives/AprTooltip";
+import { StrategyIncentivesButton } from "../../../../components/tooltip/AprTooltip";
 
 export const StrategyHeading = () => {
   const { address } = useParams();

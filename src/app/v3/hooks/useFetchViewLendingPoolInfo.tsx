@@ -1,14 +1,14 @@
-import { aaveOracleAbi, aaveOracleAddress } from "../../../../generated/generated";
+import { aaveOracleAbi, aaveOracleAddress } from "../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { fUsdValueStructured, mergeQueryStates } from "@shared";
-import { useFetchRawReservesData } from "../../../../state/lending-borrowing/queries/useFetchRawReservesData";
+import { useFetchRawReservesData } from "../../state/lending-borrowing/queries/useFetchRawReservesData";
 import { Address, erc20Abi } from "viem";
-import { Displayable, ViewBigInt } from "../../../../../shared/types/Displayable";
+import { Displayable, ViewBigInt } from "../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { formatFetchBigIntToViewBigInt } from "../../../../../shared/utils/helpers";
-import { useFetchCoinGeckoPricesByAddress } from "../../../../state/common/hooks/useFetchCoinGeckoPrice";
+import { formatFetchBigIntToViewBigInt } from "../../../shared/utils/helpers";
+import { useFetchCoinGeckoPricesByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { useMemo } from "react";
-import { assetsConfig } from "../../../../state/settings/config";
+import { assetsConfig } from "../../state/settings/config";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd?: FetchBigInt;

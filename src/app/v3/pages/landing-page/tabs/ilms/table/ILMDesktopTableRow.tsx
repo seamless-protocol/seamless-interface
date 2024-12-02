@@ -6,7 +6,7 @@ import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
-import { StrategyIncentivesButton } from "../../../../../../v2/components/incentives/AprTooltip";
+import { StrategyIncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
 
@@ -25,9 +25,8 @@ export const ILMDesktopTableRow: React.FC<{
 
   return (
     <div
-      className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${
-        hideBorder ? "" : "border-b border-b-navy-100"
-      } ${selected ? "bg-neutral-100" : ""}`}
+      className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
+        } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableRow className="md:grid grid-cols-7 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">

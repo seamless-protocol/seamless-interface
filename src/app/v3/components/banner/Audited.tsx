@@ -5,7 +5,7 @@ import { CertoraAuditReportLink } from "@router";
 /*    Icons    */
 /* ----------- */
 import certoraIcon from "@assets/common/certora.svg";
-import { useFetchViewLendingPoolInfo } from "../../../v2/pages/test-page/hooks/useFetchViewLendingPoolInfo";
+import { useFetchViewLendingPoolInfo } from "../../hooks/useFetchViewLendingPoolInfo";
 
 export const Audited = () => {
   const { data, ...rest } = useFetchViewLendingPoolInfo();
