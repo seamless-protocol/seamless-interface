@@ -46,14 +46,20 @@ export async function simulateDepositTenderly(
   amount: string,
   decimals: number
 ): Promise<PreviewDeposit> {
-  if (parseEther(amount) === 0n) throw new Error("Invalid amount");
+  if (parseEther(amount) === 0n) {
+    console.error("simulateDepositTenderly: Invalid amount in");
+    throw new Error("Invalid amount");
+  };
 
   const { result } = await simulateBundleTenderly([
     createApproveTx(account, underlyingAsset, strategy, amount, decimals),
     createDepositTx(account, strategy, amount, decimals),
   ]);
 
-  if (!result || !result[1].logs) throw new Error("Failed to simulate transaction");
+  if (!result || !result[1].logs) {
+    console.error("simulateDepositTenderly: No result or no logs in result object");
+    throw new Error("Failed to simulate transaction");
+  }
 
   // Take logs from second transaction
   const { logs } = result[1];
@@ -61,8 +67,7 @@ export async function simulateDepositTenderly(
   const depositEvent = logs ? logs[logs.length - 1]?.raw : undefined;
 
   if (!depositEvent) {
-    // eslint-disable-next-line no-console
-    console.error("Failed to find deposit event");
+    console.error("simulateDepositTenderly: Failed to find deposit event");
     throw new Error("Failed to simulate transaction");
   }
 
@@ -89,14 +94,20 @@ export async function simulateWithdrawTenderly(
 
   const { result } = await simulateBundleTenderly([createWithdrawTx(account, strategy, amount, decimals)]);
 
-  if (!result || !result[0].logs) throw new Error("Failed to simulate transactions");
+  if (!result || !result[0].logs) {
+    console.error("simulateWithdrawTenderly: No result or no logs in result object");
+    throw new Error("Failed to simulate transactions");
+  }
 
   const { logs } = result[0];
 
   // Withdraw event is the last event
   const withdrawEvent = logs ? logs[logs.length - 1].raw : undefined;
 
-  if (!withdrawEvent) throw new Error("Failed to find withdraw event");
+  if (!withdrawEvent) {
+    console.error("simulateWithdrawTenderly: Failed to find withdraw event");
+    throw new Error("Failed to simulate transaction");
+  }
 
   const decodedWithdrawEvent = decodeEventLog({
     abi: withdrawEventAbi,
@@ -142,21 +153,30 @@ export async function simulateDepositAlchemy(
   amount: string,
   decimals: number
 ): Promise<PreviewDeposit> {
-  if (parseEther(amount) === 0n) throw new Error("Invalid amount");
+  if (parseEther(amount) === 0n) {
+    console.error("simulateDepositAlchemy: Invalid amount in");
+    throw new Error("Invalid amount");
+  };
 
   const { result } = await simulateBundleAlchemy([
     createApproveTx(account, underlyingAsset, strategy, amount, decimals),
     createDepositTx(account, strategy, amount, decimals),
   ]);
 
-  if (!result || !result[1].logs) throw new Error("Failed to simulate transactions");
+  if (!result || !result[1].logs) {
+    console.error("simulateDepositAlchemy: No result or no logs in result object");
+    throw new Error("Failed to simulate transactions");
+  }
 
   // Take logs from second transaction
   const { logs } = result[1];
   // Deposit even is the last event
   const depositEvent = logs ? logs[logs.length - 1] : undefined;
 
-  if (!depositEvent) throw new Error("Failed to find deposit event");
+  if (!depositEvent) {
+    console.error("simulateDepositAlchemy: Failed to find deposit event");
+    throw new Error("Failed to simulate transactions");
+  }
 
   const decodedDepositEvent = decodeEventLog({
     abi: depositEventAbi,
@@ -180,13 +200,19 @@ export async function simulateWithdrawAlchemy(
 
   const { result } = await simulateBundleAlchemy([createWithdrawTx(account, strategy, amount, decimals)]);
 
-  if (!result || !result[0].logs) throw new Error("Failed to simulate transactions");
+  if (!result || !result[0].logs) {
+    console.error("simulateWithdrawAlchemy: No result or no logs in result object");
+    throw new Error("Failed to simulate transaction");
+  }
 
   const { logs } = result[0];
   // Withdraw event is the last event
   const withdrawEvent = logs ? logs[logs.length - 1] : undefined;
 
-  if (!withdrawEvent) throw new Error("Failed to find withdraw event");
+  if (!withdrawEvent) {
+    console.error("simulateWithdrawAlchemy: Failed to find withdraw event");
+    throw new Error("Failed to simulate transaction");
+  }
 
   const decodedWithdrawEvent = decodeEventLog({
     abi: withdrawEventAbi,
