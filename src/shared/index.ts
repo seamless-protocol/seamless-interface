@@ -162,7 +162,6 @@ export * from "./components/table/TableRow";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapper";
 export * from "./components/wallet/connect-wallet-rainbow-wrapperv3/ConnectWalletRainbowWrapperv3";
 export * from "./components/wallet/connect-wallet-rainbow-wrapper/ConnectWalletRainbowWrapperMobile";
-export * from "./components/wallet/watch-asset-component/WatchAssetComponent";
 export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2";
 
 // ************** //
