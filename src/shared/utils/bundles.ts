@@ -32,7 +32,6 @@ async function simulateBundleTenderly(functionCalls: any) {
   });
 
   if (!res.ok) {
-    // eslint-disable-next-line no-console
     console.error("Failed to simulate transaction!", res);
     throw new Error(`Failed to simulate transaction! ${res.statusText ? `error: ${res.statusText}` : ``}`);
   }
@@ -139,7 +138,6 @@ async function simulateBundleAlchemy(functionCalls: any) {
   });
 
   if (!res.ok) {
-    // eslint-disable-next-line no-console
     console.error("Failed to simulate transactions");
     throw new Error(`Failed to simulate transaction! ${res.statusText ? `error: ${res.statusText}` : ``}`);
   }

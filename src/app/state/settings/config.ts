@@ -1,5 +1,4 @@
 import {
-  wstETHBooster_3x,
   WSTETH_ADDRESS,
   WETH_ADDRESS,
   USDC_ADDRESS,
@@ -33,22 +32,9 @@ import {
   variableDebtSeamUSDC_ADDRESS,
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
-  ethLong_1_5x,
-  multiplyETH_ADDRESS_STRATEGY_ID,
-  wstETHBooster_ADDRESS_STRATEGY_ID,
-  ethLong_3x,
-  ethShort_ADDRESS_1_5_x,
-  shortETH_ADDRESS_STRATEGY_ID,
-  longBTC_ADDRESS_STRATEGY_ID,
-  cbBTCLong_1_5x,
-  cbBTCLong_3x,
   cbBTC_ADDRESS,
 } from "@meta";
-import ilmwstETHLogo from "@assets/tokens/ilmWstethEth.svg";
-import ilmEthUsdcLogo from "@assets/tokens/ilmEthUsdc.svg";
-import ilmcbBtcLogo from "@assets/tokens/ilmcbBTC.svg";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
-import wstEthDiagram from "@assets/wsteth-diagram.png";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import usdbcLogo from "@assets/tokens/usdbc.svg";
 import cbethLogo from "@assets/tokens/cbeth.svg";
@@ -62,8 +48,7 @@ import cbBTCLogo from "@assets/tokens/cbBTC.svg";
 
 import { Address } from "viem";
 import { RouterConfig } from "../../router";
-import { LendMarketConfig, StrategyConfig } from "./configTypes";
-import { faqsData } from "./faqConfig";
+import { LendMarketConfig } from "./configTypes";
 
 export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   [WETH_ADDRESS]: {
@@ -178,106 +163,5 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     coingGeckoConfig: {
       replaceAddress: SEAM_ADDRESS,
     },
-  },
-};
-
-export const strategiesConfig: { [key: string]: StrategyConfig } = {
-  [wstETHBooster_ADDRESS_STRATEGY_ID]: {
-    name: "Boost wstETH",
-    subTitle: "Increase ETH staking rewards automatically",
-    description:
-      "This Integrated Liquidity Market (ILM) uses wstETH deposits to borrow ETH, which is used to purchase more wstETH to achieve the targeted multiple.",
-    address: wstETHBooster_ADDRESS_STRATEGY_ID as Address,
-    logo: ilmwstETHLogo,
-    diagram: wstEthDiagram,
-    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
-    debtAsset: assetsConfig[WETH_ADDRESS],
-    faq: faqsData[wstETHBooster_ADDRESS_STRATEGY_ID],
-    subStrategyData: [
-      {
-        address: wstETHBooster_3x,
-        targetMultiple: {
-          value: 3,
-          symbol: "x",
-        },
-      },
-    ],
-    vaultsFyiLink: RouterConfig.Builder.vaults(wstETHBooster_3x),
-  },
-  [multiplyETH_ADDRESS_STRATEGY_ID]: {
-    name: "Multiply ETH Long",
-    subTitle: "Increase ETH price exposure",
-    description:
-      "This Integrated Liquidity Market (ILM) uses ETH deposits to borrow USDC, which is used to purchase more ETH to achieve the targeted multiple",
-    address: multiplyETH_ADDRESS_STRATEGY_ID as Address,
-    multiplier: "Up to 3x",
-    faq: faqsData[multiplyETH_ADDRESS_STRATEGY_ID],
-    logo: ilmEthUsdcLogo,
-    underlyingAsset: assetsConfig[WETH_ADDRESS],
-    debtAsset: assetsConfig[USDC_ADDRESS],
-    subStrategyData: [
-      {
-        address: ethLong_1_5x,
-        targetMultiple: {
-          value: 1.5,
-          symbol: "x",
-        },
-      },
-      {
-        address: ethLong_3x,
-        targetMultiple: {
-          value: 3,
-          symbol: "x",
-        },
-      },
-    ],
-  },
-  [shortETH_ADDRESS_STRATEGY_ID]: {
-    name: "Multiply ETH Short",
-    subTitle: "Increase inverse ETH price exposure.",
-    description:
-      "This Integrated Liquidity Market (ILM) uses USDC deposits to borrow ETH, which is used to purchase more USDC to achieve the targeted multiple.",
-    address: shortETH_ADDRESS_STRATEGY_ID as Address,
-    multiplier: "Up to 1.5x",
-    logo: ilmEthUsdcLogo,
-    underlyingAsset: assetsConfig[USDC_ADDRESS],
-    debtAsset: assetsConfig[WETH_ADDRESS],
-    faq: faqsData[shortETH_ADDRESS_STRATEGY_ID],
-    subStrategyData: [
-      {
-        address: ethShort_ADDRESS_1_5_x,
-        targetMultiple: {
-          value: 1.5,
-          symbol: "x",
-        },
-      },
-    ],
-  },
-  [longBTC_ADDRESS_STRATEGY_ID]: {
-    name: "Multiply cbBTC Long",
-    subTitle: "Increase cbBTC price exposure.",
-    description:
-      "This Integrated Liquidity Market (ILM) uses cbBTC deposits to borrow USDC, which is used to purchase more cbBTC to achieve the targeted multiple.",
-    address: longBTC_ADDRESS_STRATEGY_ID as Address,
-    multiplier: "Up to 3x",
-    logo: ilmcbBtcLogo,
-    underlyingAsset: assetsConfig[cbBTC_ADDRESS],
-    debtAsset: assetsConfig[USDC_ADDRESS],
-    subStrategyData: [
-      {
-        address: cbBTCLong_1_5x,
-        targetMultiple: {
-          value: 1.5,
-          symbol: "x",
-        },
-      },
-      {
-        address: cbBTCLong_3x,
-        targetMultiple: {
-          value: 3,
-          symbol: "x",
-        },
-      },
-    ],
   },
 };

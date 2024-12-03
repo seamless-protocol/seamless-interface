@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { lendingAssetToHide } from "../../../../meta";
-import { strategiesConfig } from "../../settings/config";
 import { LendMarketState, StrategyState } from "../types/StateTypes";
 import { lendingPoolAddress, lendingPoolAbi } from "../../../generated";
 import { metadataQueryConfig } from "../../../statev3/settings/queryConfig";
 import { useReadContract } from "wagmi";
+import { strategyConfig } from "../../../statev3/settings/config";
 
 /**
  * This hook combines data from multiple sources: the lending pool and configured strategies.
@@ -38,11 +38,12 @@ export const useFetchAllAssets = (): {
 
   // todo: fetch rest of the things for strategies?
   const ilmMarkets: StrategyState[] = [];
-  Object.keys(strategiesConfig).forEach((key) => {
+  Object.keys(strategyConfig).forEach((key) => {
     ilmMarkets.push({
       isStrategy: true,
+      address: key as Address,
       tags: ["ILM"],
-      ...strategiesConfig[key as Address],
+      ...strategyConfig[key as Address],
     });
   });
 

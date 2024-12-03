@@ -42,7 +42,6 @@ export function useWatchAsset() {
 
       return success ?? false;
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error("Error watching asset:", error);
       return false;
     }

@@ -24,12 +24,12 @@ interface ConnectButtonContextType {
 const defaultContextValue: ConnectButtonContextType = {
   isConnected: false,
   isDropdownVisible: false,
-  setIsDropdownVisible: () => {},
-  toggleDropdown: () => {},
-  handleDisconnect: async () => {},
-  handleSwitchWallet: async () => {},
-  handleCopyAddressClick: async () => {},
-  handleViewItOnExplorer: () => {},
+  setIsDropdownVisible: () => { },
+  toggleDropdown: () => { },
+  handleDisconnect: async () => { },
+  handleSwitchWallet: async () => { },
+  handleCopyAddressClick: async () => { },
+  handleViewItOnExplorer: () => { },
   dropdownRef: { current: null },
 };
 
@@ -72,7 +72,6 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({ children })
       try {
         await navigator.clipboard.writeText(address);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error("Failed to copy address:", error);
       }
     }

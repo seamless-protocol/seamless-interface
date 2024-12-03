@@ -20,14 +20,13 @@ const fetchIsAddressSanctioned = async ({ queryKey }: { queryKey: string[] }) =>
     });
 
     if (!res.ok) {
-      // eslint-disable-next-line no-console
+      // 
       console.error("Failed to check if address is sanctioned");
     }
 
     const data: [{ isSanctioned: boolean }] = await res.json();
     return data[0].isSanctioned;
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error("Failed to check if address is sanctioned");
     return false;
   }

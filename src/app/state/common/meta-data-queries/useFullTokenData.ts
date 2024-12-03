@@ -2,10 +2,10 @@ import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
-import { assetsConfig, strategiesConfig } from "../../settings/config";
+import { assetsConfig } from "../../settings/config";
 import { AssetBaseConfig } from "../../settings/configTypes";
-import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
 import { useReadContract } from "wagmi";
+import { strategyConfig } from "../../../statev3/settings/config";
 
 export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
   decimals?: number;
@@ -14,7 +14,7 @@ export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
 // todo rename hook
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAssetData> => {
   const config = asset
-    ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
+    ? assetsConfig[asset] || strategyConfig[asset]
     : undefined;
 
   const { data: decimals, ...decimalRest } = useReadContract({

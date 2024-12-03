@@ -8,10 +8,10 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
-import { getStrategyBySubStrategyAddress } from "../../settings/configUtils";
-import { assetsConfig, strategiesConfig } from "../../settings/config";
+import { assetsConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../../statev3/settings/queryConfig";
+import { strategyConfig } from "../../../statev3/settings/config";
 
 export interface AssetPrice {
   price: FetchBigInt;
@@ -31,7 +31,7 @@ export const fetchAssetPriceInBlock = async (
 
   const queryClient = getQueryClient();
 
-  const strategy = getStrategyBySubStrategyAddress(asset);
+  const strategy = strategyConfig[asset];
 
   let price = 0n;
   if (strategy) {
@@ -68,7 +68,7 @@ export const fetchAssetPriceInBlock = async (
     // Cannot fetch past block number prices from CoingGecko
     if (!blockNumber) {
       const config = asset
-        ? assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset)
+        ? assetsConfig[asset] || strategyConfig[asset]
         : undefined;
       if (config?.useCoinGeckoPrice) {
         return fetchCoinGeckoAssetPriceByAddress({

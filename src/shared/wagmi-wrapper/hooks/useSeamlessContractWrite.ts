@@ -75,13 +75,11 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
         } catch (error) {
           // 1. log error
           const parsedError = getParsedError(error);
-          // eslint-disable-next-line no-console
           console.error(
             `UseSeamlessContractWrite Operation failed with error(parsed): ${parsedError}`,
             { error },
             { args }
           );
-          // eslint-disable-next-line no-console
           console.error({ error });
 
           // 2. set error message
