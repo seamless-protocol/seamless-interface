@@ -15,9 +15,8 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import * as Sentry from "@sentry/react";
 //* * LIFI WIDGET **/
 import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper } from "@shared";
-import { App as AppV2 } from "./app/v2/App";
 import { App as AppV3 } from "./app/v3/App";
-import { myRainbowkitThemeConfigV2 } from "./app/v2/config/rainbow-modal.config";
+import { myRainbowkitThemeConfigV2 } from "./app/v3/config/rainbow-modal.config";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -26,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <CustomWagmiProvider>
           <RainbowKitProvider theme={myRainbowkitThemeConfigV2}>
             <LifiWidgetProvider>
-              {import.meta.env.VITE_STYLE_VERSION === "v3" ? <AppV3 /> : <AppV2 />}
+              <AppV3 />
               <LiFiWidgetWrapper />
             </LifiWidgetProvider>
           </RainbowKitProvider>

@@ -6,7 +6,7 @@ import { Tag } from "../../../../../components/strategy-data/Tag";
 import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
-import { StrategyIncentivesButton } from "../../../../../../v2/components/incentives/AprTooltip";
+import { StrategyIncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
 
