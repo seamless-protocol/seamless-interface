@@ -9,7 +9,9 @@ export const Heading = () => {
   const { address } = useParams();
   const strategy = address as Address;
 
-  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);
+  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy, undefined, {
+    disableCompact: true,
+  });
   const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   return (

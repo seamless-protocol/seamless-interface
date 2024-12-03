@@ -68,7 +68,7 @@ export const ILMDesktopTableRow: React.FC<{
               data: apy,
             }}
           >
-            <DisplayNumber errorMessage="Insufficient historical data 😖" typography="bold3" {...apy} {...apyRest} />
+            <DisplayNumber typography="bold3" {...apy} {...apyRest} />
           </SignIndicatingElement>
         </TableCell>
         <TableCell className="col-span-1">

@@ -1,4 +1,4 @@
-name: FrontendDeploymentAction
+name: Production IPFS Deployment
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    environment: production-ipfs
 
     strategy:
       matrix:

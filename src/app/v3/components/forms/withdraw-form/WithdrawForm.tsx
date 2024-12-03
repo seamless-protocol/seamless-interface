@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { parseUnits, Address } from "viem";
@@ -80,6 +80,19 @@ const WithdrawStrategyLocal: React.FC<{
   const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
 
   const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, strategy.address);
+
+  useEffect(() => {
+    if (previewWithdrawData.isError) {
+      showNotification({
+        status: "error",
+        content: (
+          <Typography type="body1">
+            {(previewWithdrawData.error as any)?.message} <br /> please try later! 😓
+          </Typography>
+        ),
+      })
+    }
+  }, [previewWithdrawData.isError]);
 
   const onSubmitAsync = async (data: WithdrawModalFormData) => {
     if (!previewWithdrawData?.data.assetsToReceive?.bigIntValue) {

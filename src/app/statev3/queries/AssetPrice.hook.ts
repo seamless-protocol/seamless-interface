@@ -1,4 +1,11 @@
-import { formatFetchBigIntToViewBigInt, Displayable, FetchBigIntStrict, formatUsdValue, ViewBigInt } from "@shared";
+import {
+  formatFetchBigIntToViewBigInt,
+  Displayable,
+  FetchBigIntStrict,
+  formatUsdValue,
+  ViewBigInt,
+  FormattingOptions,
+} from "@shared";
 import { Address, parseUnits } from "viem";
 import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
 import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
@@ -15,6 +22,7 @@ import {
   platformDataQueryConfig,
 } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
+import { checkIfContractExists } from "../../utils/wagmiUtils";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {
@@ -24,6 +32,9 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   const strategy = getStrategyBySubStrategyAddress(asset);
 
   if (strategy) {
+    const exists = await checkIfContractExists(asset, blockNumber);
+    if (!exists) throw new Error("Insufficient historical data 😖");
+
     const [{ dollarAmount: equityUsd }, totalSupply] = await Promise.all([
       fetchEquityInBlock({ strategy: asset, blockNumber }),
       fetchAssetTotalSupplyInBlock({ asset, blockNumber }),
@@ -61,7 +72,11 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   );
 };
 
-export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigint): Displayable<ViewBigInt> => {
+export const useFetchFormattedAssetPrice = (
+  asset?: Address,
+  blockNumber?: bigint,
+  options?: FormattingOptions
+): Displayable<ViewBigInt> => {
   const { data: price, ...rest } = useQuery({
     queryKey: ["hookFormattedAssetPrice", asset, blockNumber],
     queryFn: () => fetchAssetPriceInBlock(asset!, blockNumber),
@@ -71,6 +86,6 @@ export const useFetchFormattedAssetPrice = (asset?: Address, blockNumber?: bigin
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigInt(price),
+    data: formatFetchBigIntToViewBigInt(price, undefined, options),
   };
 };
