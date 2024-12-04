@@ -20,7 +20,6 @@ const fetchIsAddressSanctioned = async ({ queryKey }: { queryKey: string[] }) =>
     });
 
     if (!res.ok) {
-      // 
       console.error("Failed to check if address is sanctioned");
     }
 
