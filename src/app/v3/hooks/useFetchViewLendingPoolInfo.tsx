@@ -16,6 +16,13 @@ interface LendingPoolInfo {
   totalBorrowsUsd?: FetchBigInt;
 }
 
+const cgPriceParams = Object.keys(assetsConfig)
+  .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
+  .map((key) => ({
+    address: assetsConfig[key as Address].address,
+    precision: 8,
+  }));
+
 function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
   const { data: reservesData, ...restReservesData } = useFetchRawReservesData();
 
@@ -51,30 +58,26 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
     contracts: multicallParams,
   });
 
-  const coinGeckoPrices: { [address: string]: bigint } = {};
-  let coinGeckoAllIsFetched = true;
-  let coinGeckoAllIsLoading = false;
+  const { data: cgPricesResults, isLoading, isFetched: cgIsFetched } = useFetchCoinGeckoPricesByAddress(cgPriceParams);
 
-  const cgPriceParams = Object.keys(assetsConfig)
-    .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
-    .map((key) => ({
-      address: assetsConfig[key as Address].address,
-      precision: 8,
-    }));
+  const coinGeckoPrices = useMemo(() => {
+    if (cgPricesResults && !isLoading && cgIsFetched) {
+      const prices: { [address: string]: bigint } = {};
 
-  const cgPricesResults = useFetchCoinGeckoPricesByAddress(cgPriceParams);
+      cgPricesResults.forEach((price, i) => {
+        prices[cgPriceParams[i].address] = price || 0n;
+      });
 
-  // Hook called in a loop. Since baseAssets array is constant this does not violate rules of hooks in React since each hook is always called in the same order
-  cgPricesResults.forEach(({ data: price, isLoading, isFetched }, i) => {
-    coinGeckoPrices[cgPriceParams[i].address] = price || 0n;
-    coinGeckoAllIsFetched = coinGeckoAllIsFetched && isFetched;
-    coinGeckoAllIsLoading = coinGeckoAllIsLoading || isLoading;
-  });
+      return prices;
+    }
+
+    return {};
+  }, [cgPriceParams, cgPricesResults, isLoading, cgIsFetched]);
 
   const [totalSuppliedUsd, totalBorrowedUsd] = useMemo(() => {
     let totalSuppliedUsd = 0n;
     let totalBorrowedUsd = 0n;
-    if (results && coinGeckoAllIsFetched) {
+    if (results && cgIsFetched && reservesData) {
       for (let i = 0; i < results.length; i += 4) {
         const { underlyingAsset } = reservesData![0][i / 4]!;
         const totalSupplied = BigInt((results[i].result as bigint) || 0);
@@ -90,7 +93,7 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
       }
     }
     return [totalSuppliedUsd, totalBorrowedUsd];
-  }, [results, reservesData, coinGeckoPrices, coinGeckoAllIsFetched]);
+  }, [results, reservesData, coinGeckoPrices]);
 
   return {
     ...mergeQueryStates([rest, restReservesData]),
