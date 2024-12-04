@@ -8,6 +8,13 @@ import { mergeQueryStates } from "../../../../shared";
 import { useFetchCoinGeckoPricesByAddress } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { MOCK_PRICE_ORACLE } from "../../../../meta";
 
+const cgPriceParams = Object.keys(assetsConfig)
+    .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
+    .map((key) => ({
+      address: assetsConfig[key as Address].address,
+      precision: 8,
+    }));
+
 /**
  * Fetches incentives data for given asset from smart contract. Data is not formatted to be used directly in UI.
  * Fetches data for all assets in lending pool and filters out the one for given asset
@@ -15,14 +22,7 @@ import { MOCK_PRICE_ORACLE } from "../../../../meta";
  * @returns Returns raw incentives data for given asset from smart contract. Data is not formatted due to complexity of structure
  */
 export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchData<Incentives | undefined> => {
-  const cgPriceParams = Object.keys(assetsConfig)
-    .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
-    .map((key) => ({
-      address: assetsConfig[key as Address].address,
-      precision: 8,
-    }));
-
-  const cgPriceResults = useFetchCoinGeckoPricesByAddress(cgPriceParams);
+  const { data: cgPriceResults, ...cgPriceResultsRest } = useFetchCoinGeckoPricesByAddress(cgPriceParams);
 
   const { data, ...rest } = useFetchRawReservesIncentivesData();
 
@@ -31,10 +31,12 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
     if (!incentives) {
       return undefined;
     }
-    const cgPriceResultsObject = cgPriceResults.reduce<cgPriceMapping>((acc, result, index) => {
-      acc[cgPriceParams[index].address.toLowerCase()] = result.data;
+
+    const cgPriceResultsObject = cgPriceResults?.reduce<cgPriceMapping>((acc, result, index) => {
+      acc[cgPriceParams[index].address.toLowerCase()] = result;
       return acc;
     }, {});
+
     return {
       ...incentives,
       aIncentiveData: {
@@ -59,7 +61,7 @@ export const useFetchRawReservesIncentivesDataByAsset = (asset?: string): FetchD
   }, [data, asset, cgPriceResults]);
 
   return {
-    ...mergeQueryStates([rest, ...cgPriceResults]),
+    ...mergeQueryStates([rest, cgPriceResultsRest]),
     data: incentives,
   };
 };
@@ -69,7 +71,7 @@ interface cgPriceMapping {
 }
 
 export const mapCGPriceData =
-  (cgPriceResultsObject: cgPriceMapping) =>
+  (cgPriceResultsObject?: cgPriceMapping) =>
     ({
       rewardOracleAddress,
       priceFeedDecimals,
@@ -87,7 +89,7 @@ export const mapCGPriceData =
         rewardOracleAddress,
         rewardPriceFeed:
           rewardTokenAddress && rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase()
-            ? cgPriceResultsObject[rewardTokenAddress.toLowerCase()] || 0n
+            ? cgPriceResultsObject?.[rewardTokenAddress.toLowerCase()] || 0n
             : rewardPriceFeed,
         priceFeedDecimals: rewardOracleAddress?.toLowerCase() === MOCK_PRICE_ORACLE.toLowerCase() ? 8 : priceFeedDecimals,
       };
