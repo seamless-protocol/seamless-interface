@@ -4,7 +4,7 @@ import { ONE_ETHER, ONE_USD, STRATEGY_MULTIPLE_DECIMALS, STRATEGY_MULTIPLE_FORMA
 import { Displayable, FetchBigInt, ViewBigInt, formatFetchBigInt, formatFetchBigIntToViewBigIntTemp } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { disableCacheQueryConfig, metadataQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig, metadataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 function cMultiple(collateralRatioTarget: bigint): bigint {

@@ -6,7 +6,7 @@ import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
 import { cValueFromUsd } from "../math/utils";
-import { platformDataQueryConfig } from "../../state/settings/queryConfig";
+import { platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {

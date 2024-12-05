@@ -14,6 +14,6 @@ export interface StrategyState extends AssetBase {
   // todo replace it with fetched data
   underlyingAsset: LendMarketConfig;
   debtAsset: LendMarketConfig;
-  subStrategyData: SubStrategyDataConfig[];
+  subStrategyData?: SubStrategyDataConfig[];
   multiplier?: string;
 }

@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
-import { metadataQueryConfig } from "../../state/settings/queryConfig";
+import { metadataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 interface StrategyAssets {

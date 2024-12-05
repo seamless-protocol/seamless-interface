@@ -6,7 +6,7 @@ import { fetchTokenData } from "../../metadata/TokenData.fetch";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../math/utils";
-import { heavyDataQueryConfig } from "../../../state/settings/queryConfig";
+import { heavyDataQueryConfig } from "../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchRewardsByStrategy {

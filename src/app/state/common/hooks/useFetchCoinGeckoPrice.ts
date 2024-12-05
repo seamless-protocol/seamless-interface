@@ -1,8 +1,9 @@
 import { useQueries } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
-import { assetsConfig, strategiesConfig } from "../../settings/config";
-import { ONE_HOUR_IN_MS } from "../../settings/queryConfig";
+import { assetsConfig } from "../../settings/config";
+import { ONE_HOUR_IN_MS } from "../../../statev3/settings/queryConfig";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { strategyConfig } from "../../../statev3/settings/config";
 
 interface CoinGeckoAssetPrice {
   [address: string]: {
@@ -66,7 +67,7 @@ const mapAddress = (address?: Address): Address | undefined => {
   }
 
   const lowerCaseAddress = address.toLowerCase() as Address;
-  const assetConfig = assetsConfig[address] || strategiesConfig[address];
+  const assetConfig = assetsConfig[address] || strategyConfig[address];
 
   const finalAddress = (assetConfig?.coingGeckoConfig?.replaceAddress.toLowerCase() as Address) || lowerCaseAddress;
   if (IGNORE_ADDRESSES.find((val) => val.toLowerCase() === finalAddress) !== undefined) {

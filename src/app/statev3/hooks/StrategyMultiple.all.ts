@@ -9,7 +9,7 @@ import {
 import { STRATEGY_MULTIPLE_DECIMALS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEquityInBlock } from "../queries/Equity.hook";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../settings/queryConfig";
 import { fetchCollateral } from "../queries/Collateral.fetch";
 
 function cCurrentMultiple(collateral: bigint, equity: bigint): bigint {

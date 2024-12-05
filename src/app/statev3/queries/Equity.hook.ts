@@ -15,7 +15,7 @@ import {
   disableCacheQueryConfig,
   infiniteCacheQueryConfig,
   platformDataQueryConfig,
-} from "../../state/settings/queryConfig";
+} from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchEquityInBlockInput {

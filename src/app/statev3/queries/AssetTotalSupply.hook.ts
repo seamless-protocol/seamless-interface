@@ -2,7 +2,7 @@ import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict } from "../../../shared";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
-import { infiniteCacheQueryConfig, platformDataQueryConfig } from "../../state/settings/queryConfig";
+import { infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 interface FetchTotalSupplyInBlockInput {

@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { analyticsDataQueryConfig } from "../../../state/settings/queryConfig";
+import { analyticsDataQueryConfig } from "../../settings/queryConfig";
 
 export type FilterOption = "1w" | "1m" | "3m" | "1y";
 

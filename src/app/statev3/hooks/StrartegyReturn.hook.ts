@@ -12,7 +12,7 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../settings/queryConfig";
 import { cValueFromUsd } from "../math/utils";
 
 interface cStrategyReturnInput {

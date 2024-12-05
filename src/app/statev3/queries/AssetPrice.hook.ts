@@ -8,8 +8,7 @@ import {
 } from "@shared";
 import { Address, parseUnits } from "viem";
 import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
-import { getStrategyBySubStrategyAddress } from "../../state/settings/configUtils";
-import { assetsConfig, strategiesConfig } from "../../state/settings/config";
+import { assetsConfig } from "../../state/settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
@@ -20,16 +19,17 @@ import {
   disableCacheQueryConfig,
   infiniteCacheQueryConfig,
   platformDataQueryConfig,
-} from "../../state/settings/queryConfig";
+} from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 import { checkIfContractExists } from "../../utils/wagmiUtils";
+import { strategyConfig } from "../settings/config";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {
     return formatUsdValue(OG_POINTS_MOCK_PRICE);
   }
 
-  const strategy = getStrategyBySubStrategyAddress(asset);
+  const strategy = strategyConfig[asset];
 
   if (strategy) {
     const exists = await checkIfContractExists(asset, blockNumber);
@@ -45,7 +45,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
     return formatUsdValue((equityUsd.bigIntValue * parseUnits("1", totalSupply.decimals)) / totalSupply.bigIntValue);
   }
 
-  const config = assetsConfig[asset] || strategiesConfig[asset] || getStrategyBySubStrategyAddress(asset);
+  const config = assetsConfig[asset] || strategyConfig[asset];
 
   if (!blockNumber && config?.useCoinGeckoPrice) {
     return formatUsdValue(

@@ -3,7 +3,7 @@ import { readContract } from "wagmi/actions";
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
-import { strategiesConfig } from "../../settings/config";
+import { strategyConfig } from "../../../statev3/settings/config";
 
 interface Strategy {
   asset: Address;
@@ -16,25 +16,23 @@ const fetchUserDepositStrategies = async (
 ): Promise<Strategy[]> => {
   if (!config || !user) return [];
 
-  const strategiesArray = Object.values(strategiesConfig);
-  const promises: Promise<Strategy | undefined>[] = strategiesArray.flatMap((strategy) =>
-    strategy.subStrategyData.map(async (subStrategy) => {
-      const balance = await readContract(config, {
-        address: subStrategy.address,
-        abi: loopStrategyAbi,
-        functionName: "balanceOf",
-        args: [user],
-      });
+  const promises: Promise<Strategy | undefined>[] = Object.entries(strategyConfig).flatMap(async ([strategyAddress, strategy]) => {
+    const balance = await readContract(config, {
+      address: strategyAddress as Address,  // Using strategyAddress as the contract address
+      abi: loopStrategyAbi,
+      functionName: "balanceOf",
+      args: [user],
+    });
 
-      if (balance && balance > 0n) {
-        return {
-          asset: strategy.underlyingAsset.address,
-          strategy: subStrategy.address,
-        };
-      }
-      return undefined;
-    })
-  );
+    if (balance && balance > 0n) {
+      return {
+        asset: strategy.underlyingAsset.address as Address,  // Casting as Address
+        strategy: strategyAddress as Address,  // Casting as Address
+      };
+    }
+    return undefined;
+  });
+
 
   const strategyResults = await Promise.all(promises);
   return strategyResults.filter((strategy): strategy is Strategy => strategy !== undefined);

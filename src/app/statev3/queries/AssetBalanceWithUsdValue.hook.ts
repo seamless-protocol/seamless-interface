@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { Displayable, formatFetchBigIntToViewBigInt, formatUsdValue, ViewBigIntWithUsdValue } from "@shared";
 import { cValueInUsd } from "../math/utils";
-import { disableCacheQueryConfig } from "../../state/settings/queryConfig";
+import { disableCacheQueryConfig } from "../settings/queryConfig";
 import { useAccount } from "wagmi";
 import { fetchAssetBalance } from "./AssetBalance.hook";
 

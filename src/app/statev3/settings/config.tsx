@@ -41,12 +41,16 @@ import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
 import cbBTC_1_5x_LongImage from "@assets/diagrams/cbBTC_1_5x_Long.png";
 import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
+import { LendMarketConfig } from "../../state/settings/configTypes";
+import { assetsConfig } from "../../state/settings/config";
 
 export interface StrategyConfig {
   name: string;
   description: string;
   type: TagType;
   diagram: string;
+  underlyingAsset: LendMarketConfig;
+  debtAsset: LendMarketConfig;
 }
 
 /* ------------- */
@@ -58,36 +62,48 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     description: "Increase ETH staking rewards by magnifying a wstETH position.",
     type: "Staking",
     diagram: wstETH_ETH_3x_StakingImage,
+    underlyingAsset: assetsConfig[WSTETH_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
   },
   [ethLong_1_5x]: {
     name: "ETH Long 1.5x",
     description: "For ETH Bulls, increase ETH price exposure by 1.5 times long.",
     type: "Long",
     diagram: ETH_USDC_1_5x_LongImage,
+    underlyingAsset: assetsConfig[WETH_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
   },
   [ethLong_3x]: {
     name: "ETH Long 3x",
     description: "For ETH Bulls, increase ETH price exposure by 3 times long.",
     type: "Long",
     diagram: ETH_USDC_3xLongImage,
+    underlyingAsset: assetsConfig[WETH_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
   },
   [ethShort_ADDRESS_1_5_x]: {
     name: "ETH Short 1.5x",
     description: "For ETH Bears, increase ETH price exposure by 1.5 times short.",
     type: "Short",
     diagram: USDC_ETH_1_5x_ShortImage,
+    underlyingAsset: assetsConfig[USDC_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS],
   },
   [cbBTCLong_1_5x]: {
     name: "cbBTC Long 1.5x",
     description: "For BTC Bulls, increase cbBTC price exposure by 1.5 times long.",
     type: "Long",
     diagram: cbBTC_1_5x_LongImage,
+    underlyingAsset: assetsConfig[cbBTC_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
   },
   [cbBTCLong_3x]: {
     name: "cbBTC Long 3x",
     description: "For BTC Bulls, increase cbBTC price exposure by 3 times long.",
     type: "Long",
     diagram: cbBTC_3x_LongImage,
+    underlyingAsset: assetsConfig[cbBTC_ADDRESS],
+    debtAsset: assetsConfig[USDC_ADDRESS],
   },
 };
 

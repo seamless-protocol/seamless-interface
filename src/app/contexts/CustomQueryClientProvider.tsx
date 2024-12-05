@@ -6,7 +6,6 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (e) => {
       if (!import.meta.env.VITE_QUERY_ERROR_LOGS_DISABLED) {
-        // eslint-disable-next-line no-console
         console.error("QueryCache(Global error handler): Error while running query", { e });
       }
       Sentry.captureException(e);

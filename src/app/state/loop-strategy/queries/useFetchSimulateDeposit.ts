@@ -3,7 +3,7 @@ import { simulateDeposit } from "../../../../shared/utils/bundles";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useQuery } from "@tanstack/react-query";
 import { mergeQueryStates, useToken } from "@shared";
-import { FIVE_SECONDS_IN_MS } from "../../settings/queryConfig";
+import { FIVE_SECONDS_IN_MS } from "../../../statev3/settings/queryConfig";
 
 export const useFetchSimulateDeposit = (account: Address, amount: string, subStrategy?: Address) => {
   const {

@@ -85,7 +85,6 @@ export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address
         }
       );
     } catch (e: any) {
-      // eslint-disable-next-line no-console
       console.error("Error approving token:", e);
     }
   };

@@ -2,7 +2,7 @@ import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict } from "../../../shared";
 import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { walletDataQueryConfig } from "../../state/settings/queryConfig";
+import { walletDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 interface FetchAssetBalanceInput {
