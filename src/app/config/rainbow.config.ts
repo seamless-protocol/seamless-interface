@@ -50,6 +50,7 @@ const connectors = connectorsForWallets(
   }
 );
 
+// todo: move config outside of app, because of useToken in shared for example.
 export const config = createConfig({
   connectors,
   chains: [base],
