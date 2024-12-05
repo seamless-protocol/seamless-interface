@@ -7,9 +7,9 @@ import { Address } from "viem";
 import { useFetchStrategyAssets } from "../metadataQueries/useFetchStrategyAssets";
 import { mergeQueryStates } from "@shared";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { StrategyAsset } from "../metadataQueries/useFetchStrategiesAssets";
 import { config } from "../../../config/rainbow.config";
+import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 export function calculateApy(endValue: bigint, startValue: bigint, timeWindow: bigint): number {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {

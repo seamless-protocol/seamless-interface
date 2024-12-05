@@ -6,7 +6,7 @@ import {
   mergeQueryStates,
 } from "@shared";
 import { useMemo } from "react";
-import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
+import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";

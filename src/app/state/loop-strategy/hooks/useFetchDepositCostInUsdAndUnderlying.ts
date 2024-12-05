@@ -4,9 +4,9 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ViewPreviewDeposit } from "../types/ViewPreviewDeposit";
 import { Displayable, fFetchBigIntStructured, fUsdValueStructured, mergeQueryStates, useToken } from "@shared";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useFetchDepositSharesToReceive } from "./useFetchDepositSharesToReceive";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 export const cSharesToReceive = (sharesValue?: bigint) => {
   if (sharesValue == null) return undefined;

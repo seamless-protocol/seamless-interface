@@ -7,11 +7,11 @@ import { FetchBigInt } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, ViewBigInt } from "../../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
-import { assetsConfig } from "../../settings/config";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { ONE_HOUR_IN_MS, ONE_MINUTE_IN_MS } from "../../../statev3/settings/queryConfig";
-import { strategyConfig } from "../../../statev3/settings/config";
+import { strategyConfig } from "../../settings/config";
+import { assetsConfig } from "../../settings/landingMarketConfig";
+import { ONE_MINUTE_IN_MS, ONE_HOUR_IN_MS } from "../../settings/queryConfig";
+import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
 
 export interface AssetPrice {
   price: FetchBigInt;

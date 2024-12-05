@@ -3,9 +3,9 @@ import { useFormContext } from "react-hook-form";
 import { Address } from "viem";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
-import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
-import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
+import { useFetchViewAssetBalance } from "../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetPrice } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 
 type IProps<T> = Omit<

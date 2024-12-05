@@ -3,10 +3,10 @@ import { useMemo } from "react";
 import { Address } from "viem";
 import { Incentives, RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useFetchRawReservesIncentivesData } from "./useFetchRawReservesIncentivesData";
-import { assetsConfig } from "../../settings/config";
+import { assetsConfig } from "../../../statev3/settings/landingMarketConfig";
 import { mergeQueryStates } from "../../../../shared";
-import { useFetchCoinGeckoPricesByAddress } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { MOCK_PRICE_ORACLE } from "../../../../meta";
+import { useFetchCoinGeckoPricesByAddress } from "../../../statev3/common/hooks/useFetchCoinGeckoPrice";
 
 /**
  * Fetches incentives data for given asset from smart contract. Data is not formatted to be used directly in UI.

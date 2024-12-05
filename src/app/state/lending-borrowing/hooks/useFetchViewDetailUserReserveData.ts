@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { ViewDetailUserReserveData } from "../types/ViewDetailUserReserveData";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 export interface DetailUserReserveData {
   aTokenBalance?: FetchBigInt;

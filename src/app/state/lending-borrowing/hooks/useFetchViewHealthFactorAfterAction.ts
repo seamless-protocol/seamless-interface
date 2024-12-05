@@ -1,11 +1,11 @@
 import { Address, parseEther } from "viem";
 import { formatFetchBigIntToHealthFactor, fFetchBigIntStructured, mergeQueryStates } from "@shared";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "@meta";
 import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfiguration";
 import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData";
-import { useFullTokenData } from "../../common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 export enum Action {
   // eslint-disable-next-line no-unused-vars

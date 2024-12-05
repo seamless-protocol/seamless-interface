@@ -3,8 +3,9 @@ import { loopStrategyAbi } from "@generated";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
-import { useFetchAssetBalance } from "../../../state/common/queries/useFetchViewAssetBalance";
 import { FullStrategyData } from "../../metadata/FullStrategyData.all";
+import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
+
 
 export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   // meta data

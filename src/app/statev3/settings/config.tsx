@@ -41,8 +41,8 @@ import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
 import cbBTC_1_5x_LongImage from "@assets/diagrams/cbBTC_1_5x_Long.png";
 import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
-import { LendMarketConfig } from "../../state/settings/configTypes";
-import { assetsConfig } from "../../state/settings/config";
+import { LendMarketConfig } from "./configTypes";
+import { assetsConfig } from "./landingMarketConfig";
 
 export interface StrategyConfig {
   name: string;

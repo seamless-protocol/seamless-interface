@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
-import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { Displayable, fFetchBigIntStructured, mergeQueryStates, useToken, ViewBigInt } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
 
 export const cMaxUserDeposit = (maxDepositValue?: bigint, assetBalanceValue?: bigint) => {
   if (maxDepositValue == null && assetBalanceValue == null) return undefined;

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { strategyConfig } from "../../statev3/settings/config";
+import { strategyConfig } from "./config";
 
 export const getIsStrategy = (address?: Address) => {
   if (!address) return false;

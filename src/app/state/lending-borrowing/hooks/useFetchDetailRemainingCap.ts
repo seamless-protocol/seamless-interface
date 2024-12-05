@@ -1,5 +1,4 @@
 import { Address } from "viem";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { useFetchDetailTotalSupplied } from "./useFetchViewDetailTotalSupplied";
@@ -11,7 +10,8 @@ import {
   fFetchBigIntStructured,
   fUsdValueStructured,
 } from "../../../../shared";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
   if (supplyCapValue == null || totalSuppliedValue == null) return undefined;
