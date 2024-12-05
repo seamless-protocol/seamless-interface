@@ -1,7 +1,7 @@
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { assetsConfig } from "../../settings/config";
-import { ONE_HOUR_IN_MS } from "../../../statev3/settings/queryConfig";
+import { ONE_HOUR_IN_MS, disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { strategyConfig } from "../../../statev3/settings/config";
 
@@ -77,23 +77,14 @@ const mapAddress = (address?: Address): Address | undefined => {
   return finalAddress;
 };
 
+const fetchCoinGeckoAssetPricesByAddresses = async (assets: FetchCoinGeckoPricesByAddressParams[]) => {
+  return Promise.all(assets.map(({ address, precision }) => fetchCoinGeckoAssetPriceByAddress({ address, precision })));
+};
+
 export const useFetchCoinGeckoPricesByAddress = (assets: FetchCoinGeckoPricesByAddressParams[]) => {
-  return useQueries({
-    queries: assets.map(({ address, precision }) => ({
-      queryKey: ["fetchCoinGeckoAssetPriceByAddress", mapAddress(address), precision],
-      queryFn: () =>
-        _fetchCoinGeckoAssetPriceByAddress({
-          address: mapAddress(address),
-          precision,
-        }),
-
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      refetchIntervalInBackground: false,
-
-      staleTime: ONE_HOUR_IN_MS,
-      gcTime: ONE_HOUR_IN_MS,
-    })),
+  return useQuery({
+    queryKey: ["fetchCoinGeckoAssetPricesByAddresses", assets],
+    queryFn: () => fetchCoinGeckoAssetPricesByAddresses(assets),
+    ...disableCacheQueryConfig,
   });
 };
