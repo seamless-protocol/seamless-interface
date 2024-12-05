@@ -3,7 +3,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { rewardsControllerAbi, rewardsControllerAddress } from "../../../generated";
 import { RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens";
+import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens.all";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 import { getConfig } from "../../../utils/queryContractUtils";

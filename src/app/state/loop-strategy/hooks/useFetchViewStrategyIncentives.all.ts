@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { formatIncentiveAprToViewNumber } from "../../../../shared";
-import { fetchAssetRewardsDataByAsset } from "../../lending-borrowing/hooks/useFetchAssetRewardsData";
+import { fetchAssetRewardsDataByAsset } from "../../lending-borrowing/hooks/useFetchAssetRewardsData.all";
 import { fetchEquityData } from "../queries/useFetchViewEquity.all";
 import { useQuery } from "@tanstack/react-query";
 import { queryConfig } from "../../../statev3/settings/queryConfig";
