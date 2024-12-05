@@ -56,8 +56,8 @@ jobs:
       - name: Create IPFS .car
         run: |
           npm i -g ipfs-car@1.2.0
-          ipfs-car --pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
-          ipfs-car --list ${APP_BUILD_NAME}.car
+          ipfs-car pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
+          ipfs-car ls ${APP_BUILD_NAME}.car
 
       - name: Upload to IPFS
         env:
