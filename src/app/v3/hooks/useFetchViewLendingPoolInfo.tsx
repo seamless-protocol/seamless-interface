@@ -6,9 +6,9 @@ import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../shared/utils/helpers";
-import { useFetchCoinGeckoPricesByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
 import { useMemo } from "react";
-import { assetsConfig, assetsConfigAsCoingGeckoPriceParams } from "../../state/settings/config";
+import { useFetchCoinGeckoPricesByAddress } from "../../statev3/common/hooks/useFetchCoinGeckoPrice";
+import { assetsConfigAsCoingGeckoPriceParams, assetsConfig } from "../../statev3/settings/landingMarketConfig";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd?: FetchBigInt;
@@ -51,7 +51,11 @@ function useFetchLendingPoolInfo(): FetchData<LendingPoolInfo> {
     contracts: multicallParams,
   });
 
-  const { data: cgPricesResults, isLoading, isFetched: cgIsFetched } = useFetchCoinGeckoPricesByAddress(assetsConfigAsCoingGeckoPriceParams);
+  const {
+    data: cgPricesResults,
+    isLoading,
+    isFetched: cgIsFetched,
+  } = useFetchCoinGeckoPricesByAddress(assetsConfigAsCoingGeckoPriceParams);
 
   const coinGeckoPrices = useMemo(() => {
     if (cgPricesResults && !isLoading && cgIsFetched) {
