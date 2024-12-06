@@ -53,9 +53,15 @@ jobs:
           mv dist "${TIMESTAMP}_${GITHUB_SHA}"
           echo "APP_BUILD_NAME=${TIMESTAMP}_${GITHUB_SHA}" >> "$GITHUB_ENV"
 
+      - name: Create IPFS .car
+        run: |
+          npm i -g ipfs-car@1.2.0
+          ipfs-car pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
+          ipfs-car ls ${APP_BUILD_NAME}.car
+
       - name: Upload to IPFS
         env:
           FILEBASE_ACCESS_KEY: "${{ secrets.FILEBASE_ACCESS_KEY }}"
           FILEBASE_SECRET_KEY: "${{ secrets.FILEBASE_SECRET_KEY }}"
         run: |
-          aws --endpoint https://s3.filebase.com/ s3 sync ${APP_BUILD_NAME} s3://seamless-interface/prod/${APP_BUILD_NAME}
+          aws --endpoint https://s3.filebase.com/ s3 cp ${APP_BUILD_NAME}.car s3://seamless-interface/prod/${APP_BUILD_NAME} --debug --metadata 'import=car'
