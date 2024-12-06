@@ -45,7 +45,7 @@ jobs:
           echo VITE_DUNE_CACHE_API=${{ secrets.VITE_DUNE_CACHE_API }} >> .env.production
 
       - run: npm ci
-      - run: NODE_ENV=production npm run build --if-present
+      - run: npm run build --if-present
 
       - name: Rename dist folder
         run: |
