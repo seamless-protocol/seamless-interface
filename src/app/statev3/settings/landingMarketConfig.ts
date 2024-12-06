@@ -165,3 +165,10 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
     },
   },
 };
+
+export const assetsConfigAsCoingGeckoPriceParams = Object.keys(assetsConfig)
+  .filter((v) => !!assetsConfig[v as Address].useCoinGeckoPrice)
+  .map((key) => ({
+    address: assetsConfig[key as Address].address,
+    precision: 8,
+  }));
