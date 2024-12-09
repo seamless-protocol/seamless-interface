@@ -11,8 +11,8 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   const { address } = useAccount();
 
   // cache data
-  const { queryKey: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlying);
-  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlying);
+  const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
     asset: strategy?.underlying,
     spender: strategy?.address,
   });
