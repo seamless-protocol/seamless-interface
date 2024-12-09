@@ -153,6 +153,9 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FormButtons
+          isDisabled={
+            !previewDepositData.isSuccess
+          }
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategyData}
         />
