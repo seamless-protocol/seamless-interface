@@ -29,20 +29,22 @@ jobs:
 
       - name: Create env file
         run: |
-          echo VITE_COIN_GECKO_API_URL=${{ secrets.VITE_COIN_GECKO_API_URL }} > .env.production
-          echo VITE_TRM_LABS_API_URL=${{ secrets.VITE_TRM_LABS_API_URL }} >> .env.production
-          echo VITE_BASE_WALLET_PROJECT_ID=${{ secrets.VITE_BASE_WALLET_PROJECT_ID }} >> .env.production
-          echo VITE_LIFI_INTEGRATOR=${{ secrets.VITE_LIFI_INTEGRATOR }} >> .env.production
-          echo VITE_BASE_RPC_FREE_1=${{ secrets.VITE_BASE_RPC_FREE_1 }} >> .env.production
-          echo VITE_BASE_MAIN_RPC_URL=${{ secrets.VITE_BASE_MAIN_RPC_URL }} >> .env.production
-          echo VITE_BASE_RPC_PAID_WS_2=${{ secrets.VITE_BASE_RPC_PAID_WS_2 }} >> .env.production
-          echo VITE_SENTRY_AUTH_TOKEN=${{ secrets.VITE_SENTRY_AUTH_TOKEN }} >> .env.production
-          echo VITE_STYLE_VERSION=${{ secrets.VITE_STYLE_VERSION }} >> .env.production
-          echo VITE_USE_TENDERLY_SIMULATION=${{ secrets.VITE_USE_TENDERLY_SIMULATION }} >> .env.production
-          echo VITE_TESTMODE=${{ secrets.VITE_TESTMODE }} >> .env.production
-          echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ secrets.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
-          echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ secrets.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
-          echo VITE_DUNE_CACHE_API=${{ secrets.VITE_DUNE_CACHE_API }} >> .env.production
+          echo VITE_COIN_GECKO_API_URL=${{ vars.VITE_COIN_GECKO_API_URL }} > .env.production
+          echo VITE_TRM_LABS_API_URL=${{ vars.VITE_TRM_LABS_API_URL }} >> .env.production
+          echo VITE_BASE_WALLET_PROJECT_ID=${{ vars.VITE_BASE_WALLET_PROJECT_ID }} >> .env.production
+          echo VITE_LIFI_INTEGRATOR=${{ vars.VITE_LIFI_INTEGRATOR }} >> .env.production
+          echo VITE_BASE_RPC_FREE_1=${{ vars.VITE_BASE_RPC_FREE_1 }} >> .env.production
+          echo VITE_BASE_MAIN_RPC_URL=${{ vars.VITE_BASE_MAIN_RPC_URL }} >> .env.production
+          echo VITE_BASE_RPC_PAID_WS_2=${{ vars.VITE_BASE_RPC_PAID_WS_2 }} >> .env.production
+          echo VITE_SENTRY_AUTH_TOKEN=${{ vars.VITE_SENTRY_AUTH_TOKEN }} >> .env.production
+          echo VITE_STYLE_VERSION=${{ vars.VITE_STYLE_VERSION }} >> .env.production
+          echo VITE_USE_TENDERLY_SIMULATION=${{ vars.VITE_USE_TENDERLY_SIMULATION }} >> .env.production
+          echo VITE_TESTMODE=${{ vars.VITE_TESTMODE }} >> .env.production
+          echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
+          echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
+          echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
+          echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
+          cat .env.production
 
       - run: npm ci
       - run: npm run build --if-present
