@@ -51,9 +51,11 @@ declare global {
        * @param amount number Amount to deposit
        * @param hasApproval boolean Whether approval is required
        * @param isMaxAmount boolean optional Whether to deposit the max amount
+       * @param shouldErrorBeThrown boolean optional Whether to check if error is present in UI
        * @example cy.deposit({ address: '0x...', amount: 100, hasApproval: true })
        */
-      deposit(params: { address: string; amount: number; hasApproval: boolean; isMaxAmount?: boolean }): void;
+      deposit(params: { address: string; amount: number; hasApproval: boolean; isMaxAmount?: boolean, shouldErrorBeThrown?: boolean }): void;
+
       /**
        * Performs a withdraw action
        * @param amount number Amount to withdraw
@@ -73,7 +75,13 @@ declare global {
        * Checks if the transaction success notification is visible
        * @example cy.checkTransactionSuccess()
        */
+
       checkTransactionSuccess(): void;
+      /**
+       * Checks if the transaction error notification is visible
+       * @example cy.checkTransactionError()
+       */
+      checkTransactionError(): void;
     }
   }
 }
@@ -95,7 +103,7 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
   // *** Check success *** //
   cy.checkTransactionSuccess();
 });
-Cypress.Commands.add("deposit", ({ address, amount, hasApproval = true, isMaxAmount = false }) => {
+Cypress.Commands.add("deposit", ({ address, amount, hasApproval = true, isMaxAmount = false, shouldErrorBeThrown = false }) => {
   cy.log(`Starting deposit for address: ${address}`);
   // *** Navigate *** //
   cy.get(`[data-cy='table-row-${address}']`, { timeout: TimeOuts.otherTimeout }).click();
@@ -103,8 +111,13 @@ Cypress.Commands.add("deposit", ({ address, amount, hasApproval = true, isMaxAmo
   cy.setAmount(amount, isMaxAmount);
   // *** Submit form *** //
   cy.doDepositSubmit(hasApproval);
-  // *** Check success *** //
-  cy.checkTransactionSuccess();
+
+  if (shouldErrorBeThrown) {
+    cy.checkTransactionError();
+  } else {
+    // *** Check success *** //
+    cy.checkTransactionSuccess();
+  }
 });
 
 /* --------------------------- */
@@ -154,6 +167,12 @@ Cypress.Commands.add("doWithdrawSubmit", () => {
 /* -------------- */
 Cypress.Commands.add("checkTransactionSuccess", () => {
   cy.get(`[data-cy='notification-success-icon']`, { timeout: TimeOuts.transactionTimeout }).should("be.visible");
+
+  cy.get(`[data-cy='close-modal']`, { timeout: TimeOuts.otherTimeout }).should("be.visible").click();
+});
+
+Cypress.Commands.add("checkTransactionError", () => {
+  cy.get(`[data-cy='notification-error-icon']`, { timeout: TimeOuts.transactionTimeout }).should("be.visible");
 
   cy.get(`[data-cy='close-modal']`, { timeout: TimeOuts.otherTimeout }).should("be.visible").click();
 });
@@ -219,4 +238,4 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   });
 });
 
-export {};
+export { };

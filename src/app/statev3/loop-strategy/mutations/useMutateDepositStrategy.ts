@@ -42,16 +42,20 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
       return;
     }
 
-    await writeContractAsync(
-      {
-        // ui -> contract arguments
-        address: strategy?.address,
-        abi: loopStrategyAbi,
-        functionName: "deposit",
-        args: [args.amount!, address as Address, args.sharesToReceive],
-      },
-      { ...settings }
-    );
+    try {
+      await writeContractAsync(
+        {
+          // ui -> contract arguments
+          address: strategy?.address,
+          abi: loopStrategyAbi,
+          functionName: "deposit",
+          args: [args.amount!, address as Address, args.sharesToReceive],
+        },
+        { ...settings }
+      );
+    } catch (error) {
+      console.error("Failed to deposit", error);
+    }
   };
 
   return { ...rest, isDepositPending: rest.isPending, depositAsync };
