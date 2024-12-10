@@ -3,7 +3,8 @@ import { useFormContext } from "react-hook-form";
 
 export const FormButtons: React.FC<{
   isLoading?: boolean;
-}> = ({ isLoading }) => {
+  isDisabled?: boolean;
+}> = ({ isLoading, isDisabled }) => {
   const {
     watch,
     formState: { isSubmitting },
@@ -25,7 +26,7 @@ export const FormButtons: React.FC<{
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isDisabled}
           loading={isSubmitting || isLoading}
         >
           Withdraw
