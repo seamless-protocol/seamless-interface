@@ -3,10 +3,10 @@ import { readContractQueryOptions } from "wagmi/query";
 import { rewardsControllerAbi, rewardsControllerAddress } from "../../../generated";
 import { Config, useConfig } from "wagmi";
 import { RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
-import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import { useQuery } from "@tanstack/react-query";
 import { useFetchViewRewardTokens } from "../queries/useFetchViewRewardTokens";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 interface FetchAssetRewardsData {
   depositAsset: Address;

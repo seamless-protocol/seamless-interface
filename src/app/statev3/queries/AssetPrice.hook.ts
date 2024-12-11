@@ -8,8 +8,7 @@ import {
 } from "@shared";
 import { Address, parseUnits } from "viem";
 import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
-import { assetsConfig } from "../../state/settings/config";
-import { fetchCoinGeckoAssetPriceByAddress } from "../../state/common/hooks/useFetchCoinGeckoPrice";
+import { assetsConfig } from "../settings/landingMarketConfig";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
@@ -23,6 +22,7 @@ import {
 import { readContractQueryOptions } from "wagmi/query";
 import { checkIfContractExists } from "../../utils/wagmiUtils";
 import { strategyConfig } from "../settings/config";
+import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {

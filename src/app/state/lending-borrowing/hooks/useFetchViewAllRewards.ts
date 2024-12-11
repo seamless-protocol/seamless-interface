@@ -4,7 +4,6 @@ import { Config, useAccount, useConfig } from "wagmi";
 import { readContractQueryOptions } from "wagmi/query";
 import { rewardsControllerAbi, rewardsControllerAddress } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 import {
   Displayable,
   FetchBigInt,
@@ -12,10 +11,11 @@ import {
   fUsdValueStructured,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
 import { assetLogos } from "../../../../meta";
-import { fetchAllRewardsAccruingAssets } from "../../common/hooks/useFetchAllRewardsAccruingAssets";
 import { ViewAllUserRewards } from "../types/ViewAllUserRewards";
+import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { fetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
 
 export interface AllRewards {
   totalRewardsUsd: FetchBigInt | undefined;

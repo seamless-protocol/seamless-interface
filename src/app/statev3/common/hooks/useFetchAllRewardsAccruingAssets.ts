@@ -8,8 +8,8 @@ import {
   protocolDataProviderAddress,
 } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
-import { strategyConfig } from "../../../statev3/settings/config";
 import { Address } from "viem";
+import { strategyConfig } from "../../settings/config";
 
 // This function returns all assets that are accruing rewards inside RewardsController contract
 // This means that this function will return addresses of all strategies + all aTokens + all variableDebtTokens

@@ -3,7 +3,6 @@ import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData"
 import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfiguration";
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "../../../../meta";
 import { useFetchDetailUserReserveData } from "./useFetchViewDetailUserReserveData";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import {
   DecimalsOptions,
   formatFetchBigIntToViewBigInt,
@@ -14,6 +13,7 @@ import {
   FetchData,
   FetchBigInt,
 } from "@shared";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 const safeHealthFactor = parseEther("1.01");
 

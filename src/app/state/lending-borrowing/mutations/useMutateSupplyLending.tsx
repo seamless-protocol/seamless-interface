@@ -2,9 +2,9 @@ import { SeamlessWriteAsyncParams, useSeamlessContractWrite, useToken } from "@s
 import { lendingPoolConfig } from "@generated";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
+import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
 
 export const useMutateSupplyLending = (asset?: Address) => {
   // meta data
