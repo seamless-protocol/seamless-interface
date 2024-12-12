@@ -67,18 +67,18 @@ export const useFetchViewStrategyRemainingCap = (strategy?: Address): Displayabl
 
   const formattedRemainingCap = remainingCap
     ? formatFetchBigIntToViewBigInt(
-      remainingCap.bigIntValue !== undefined && remainingCap.bigIntValue < 0n
-        ? { ...remainingCap, bigIntValue: 0n }
-        : remainingCap
-    )
+        remainingCap.bigIntValue !== undefined && remainingCap.bigIntValue < 0n
+          ? { ...remainingCap, bigIntValue: 0n }
+          : remainingCap
+      )
     : undefined;
 
   const formattedRemainingCapPercentage = remainingCapPercentage
     ? formatFetchBigIntToViewBigInt(
-      remainingCapPercentage.bigIntValue !== undefined && remainingCapPercentage.bigIntValue < 0n
-        ? { ...remainingCapPercentage, bigIntValue: 0n }
-        : remainingCapPercentage
-    )
+        remainingCapPercentage.bigIntValue !== undefined && remainingCapPercentage.bigIntValue < 0n
+          ? { ...remainingCapPercentage, bigIntValue: 0n }
+          : remainingCapPercentage
+      )
     : undefined;
 
   return {

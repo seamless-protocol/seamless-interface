@@ -78,7 +78,7 @@ export async function fetchAssetRewardsDataByAsset(asset: Address) {
   const rewardTokens = await fetchAssetRewardsData({
     depositAsset: asset!,
     rewardTokens: rewardsTokens! as Address[],
-  })
+  });
 
   return rewardTokens;
 }
@@ -86,10 +86,9 @@ export async function fetchAssetRewardsDataByAsset(asset: Address) {
 export const useFetchAssetRewardsData = (asset?: Address) => {
   const { data, ...rest } = useQuery({
     queryKey: ["hookFetchAssetRewardsData", asset],
-    queryFn: () =>
-      fetchAssetRewardsDataByAsset(asset!),
+    queryFn: () => fetchAssetRewardsDataByAsset(asset!),
     enabled: !!asset,
-    ...queryConfig.disableCacheQueryConfig
+    ...queryConfig.disableCacheQueryConfig,
   });
 
   return { data, ...rest };
