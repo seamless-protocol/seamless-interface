@@ -8,7 +8,8 @@ import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch"
 export const FormButtons: React.FC<{
   strategy: FullStrategyData;
   isLoading?: boolean;
-}> = ({ strategy, isLoading }) => {
+  isDisabled?: boolean;
+}> = ({ strategy, isLoading, isDisabled }) => {
   const { showNotification } = useNotificationContext();
   const { data: { decimals } = {} } = useFetchTokenData(strategy.underlying);
 
@@ -58,7 +59,7 @@ export const FormButtons: React.FC<{
         data-cy="actionButton"
         className="text-bold3"
         type="submit"
-        disabled={!isApproved || isSubmitting}
+        disabled={!isApproved || isSubmitting || isDisabled}
         loading={isSubmitting || isLoading}
       >
         Submit

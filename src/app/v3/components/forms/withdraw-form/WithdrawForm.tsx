@@ -90,7 +90,7 @@ const WithdrawStrategyLocal: React.FC<{
             {(previewWithdrawData.error as any)?.message} <br /> please try later! 😓
           </Typography>
         ),
-      })
+      });
     }
   }, [previewWithdrawData.isError]);
 
@@ -188,7 +188,10 @@ const WithdrawStrategyLocal: React.FC<{
 
         <Summary debouncedAmount={debouncedAmount} />
 
-        <FormButtons isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading} />
+        <FormButtons
+          isDisabled={!previewWithdrawData.isSuccess}
+          isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading}
+        />
       </FlexCol>
     </MyFormProvider>
   );
