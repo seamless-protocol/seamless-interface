@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity";
-import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import {
   DecimalsOptions,
@@ -11,9 +10,10 @@ import {
   mergeQueryStates,
   useToken,
 } from "@shared";
-import { useFetchViewAssetTotalSupply } from "../../common/queries/useFetchViewAssetTotalSupply";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ViewDetailUserEquity } from "../types/ViewDetailUserEquity";
+import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchViewAssetTotalSupply } from "../../../statev3/common/queries/useFetchViewAssetTotalSupply";
 
 export const cUserEquity = (equityValue?: bigint, strategyBalanceValue?: bigint, strategyTotalSupplyValue?: bigint) => {
   if (equityValue == null || strategyBalanceValue == null || strategyTotalSupplyValue == null) return undefined;

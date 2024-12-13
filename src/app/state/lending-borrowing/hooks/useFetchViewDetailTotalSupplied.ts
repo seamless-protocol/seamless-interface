@@ -1,13 +1,13 @@
 import { Address, parseUnits } from "viem";
 import { useFetchReserveData } from "../queries/useFetchReserveData";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { fFetchBigIntStructured, mergeQueryStates } from "@shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ONE_ETHER } from "../../../../meta";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 const cCapacityPercentage = (totalSuppliedValue?: bigint, supplyCapValue?: bigint): bigint | undefined => {
   if (totalSuppliedValue == null || supplyCapValue == null) return undefined;

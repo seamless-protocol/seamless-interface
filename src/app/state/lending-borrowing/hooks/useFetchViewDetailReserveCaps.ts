@@ -3,9 +3,9 @@ import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { ViewDetailReserveCaps } from "../types/ViewDetailReserveCaps";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 interface DetailReserveCaps {
   supplyCap?: FetchBigInt;

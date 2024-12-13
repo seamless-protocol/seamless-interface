@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { FullStrategyData } from "../../metadata/FullStrategyData.all";
 import { QueryKey } from "@tanstack/react-query";
-import { useFetchAssetBalance } from "../../../state/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   // meta data

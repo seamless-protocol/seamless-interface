@@ -1,8 +1,8 @@
 import { Address, erc20Abi } from "viem";
 import { Displayable, mergeQueryStates, useToken, FetchData, FetchBigInt } from "@shared";
 import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { useAccount, useReadContract } from "wagmi";
+import { ViewAssetBalance } from "../types/ViewAssetBalance";
 
 export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   const account = useAccount();

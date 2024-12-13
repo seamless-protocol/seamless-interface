@@ -2,8 +2,8 @@ import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntT
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewAssetBalance } from "../../../../state/common/queries/useFetchViewAssetBalance";
-import { cValueInUsd } from "../../../../state/common/math/cValueInUsd";
+import { useFetchViewAssetBalance } from "../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";

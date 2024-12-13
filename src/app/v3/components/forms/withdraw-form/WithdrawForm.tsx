@@ -17,9 +17,9 @@ import {
 } from "@shared";
 import { WETH_ADDRESS } from "@meta";
 import { RouterConfig } from "../../../../router";
-import { useWrappedDebounce } from "../../../../state/common/hooks/useWrappedDebounce";
-import { useFullTokenData } from "../../../../state/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPrice } from "../../../../state/common/queries/useFetchViewAssetPrice";
+import { useWrappedDebounce } from "../../../../statev3/common/hooks/useWrappedDebounce";
+import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPrice } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useFetchWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { useWriteStrategyWithdraw } from "../../../../state/loop-strategy/mutations/useWriteStrategyWithdraw";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";

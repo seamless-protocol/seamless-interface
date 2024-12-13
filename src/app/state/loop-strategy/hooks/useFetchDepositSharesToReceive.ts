@@ -1,5 +1,4 @@
 import { Address } from "viem";
-import { useFetchAssetPrice } from "../../common/queries/useFetchViewAssetPrice";
 import { useFetchSimulateDeposit } from "../queries/useFetchSimulateDeposit";
 import { useAccount } from "wagmi";
 import {
@@ -15,7 +14,8 @@ import {
 } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
 interface SharesToReceiveData {
   sharesToReceive?: FetchBigInt;

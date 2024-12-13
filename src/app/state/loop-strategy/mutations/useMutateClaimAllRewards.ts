@@ -1,9 +1,9 @@
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { rewardsControllerConfig } from "@generated";
-import { useFetchAllRewardsAccruingAssets } from "../../common/hooks/useFetchAllRewardsAccruingAssets";
 import { useFetchViewAllUserRewards } from "../../lending-borrowing/hooks/useFetchViewAllRewards";
 import { BRETT_ADDRESS } from "../../../../meta";
 import { ViewAllUserRewards } from "../../lending-borrowing/types/ViewAllUserRewards";
+import { useFetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
 
 // TODO: Remove this dirty function once esSEAM is upgraded and works properly
 function isBrettOnlyRewardToken(allUsersRewards: ViewAllUserRewards): boolean {

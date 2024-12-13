@@ -2,10 +2,10 @@ import { Address, erc20Abi } from "viem";
 import { FetchData } from "../../../../shared/types/Fetch";
 import { metadataQueryConfig } from "../../../../shared/state/settings/config";
 import { mergeQueryStates } from "../../../../shared/formatters/mergeQueryStates";
-import { assetsConfig } from "../../settings/config";
-import { AssetBaseConfig } from "../../settings/configTypes";
 import { useReadContract } from "wagmi";
-import { strategyConfig } from "../../../statev3/settings/config";
+import { strategyConfig } from "../../settings/config";
+import { AssetBaseConfig } from "../../settings/configTypes";
+import { assetsConfig } from "../../settings/landingMarketConfig";
 
 export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
   decimals?: number;
