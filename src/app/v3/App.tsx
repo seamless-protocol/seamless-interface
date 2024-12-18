@@ -16,6 +16,7 @@ import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
 import { SurveyBanner } from "./components/banner/SurveyBanner";
+import { TestQuery } from "../statev3/morpho/TestQuery";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -29,6 +30,7 @@ export function App() {
             <SurveyBanner />
             <Audited />
           </div>
+          <TestQuery />
 
           <FlexCol className="min-h-screen">
             <NotificationProvider>
