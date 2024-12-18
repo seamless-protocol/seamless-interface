@@ -85,7 +85,7 @@ const StrategyFormLocal: React.FC<{
             {(previewDepositData.error as any)?.message} <br /> please try later! 😓
           </Typography>
         ),
-      })
+      });
     }
   }, [previewDepositData.isError]);
 
@@ -153,6 +153,7 @@ const StrategyFormLocal: React.FC<{
         </FlexCol>
 
         <FormButtons
+          isDisabled={!previewDepositData.isSuccess}
           isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
           strategy={strategyData}
         />

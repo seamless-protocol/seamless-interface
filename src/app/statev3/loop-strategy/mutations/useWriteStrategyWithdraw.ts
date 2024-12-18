@@ -20,15 +20,19 @@ export const useWriteStrategyWithdraw = (strategy?: Address) => {
       return;
     }
 
-    await writeContractAsync(
-      {
-        address: strategy,
-        abi: loopStrategyAbi,
-        functionName: "redeem",
-        args: [args.shares!, args.from, args.receiver, args.minToReceive],
-      },
-      { ...settings }
-    );
+    try {
+      await writeContractAsync(
+        {
+          address: strategy,
+          abi: loopStrategyAbi,
+          functionName: "redeem",
+          args: [args.shares!, args.from, args.receiver, args.minToReceive],
+        },
+        { ...settings }
+      );
+    } catch (error) {
+      console.error("Failed to withdraw", error);
+    }
   };
 
   return {
