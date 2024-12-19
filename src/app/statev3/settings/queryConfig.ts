@@ -39,3 +39,14 @@ export const platformDataQueryConfig = {
   staleTime: ONE_HOUR_IN_MS,
   gcTime: ONE_HOUR_IN_MS,
 };
+
+export const queryConfig = {
+  disableCacheQueryConfig,
+  metadataQueryConfig,
+  infiniteCacheQueryConfig,
+  semiSensitiveDataQueryConfig,
+  heavyDataQueryConfig,
+  analyticsDataQueryConfig,
+  walletDataQueryConfig,
+  platformDataQueryConfig,
+}
