@@ -22,6 +22,7 @@ import { ApolloProvider } from "@apollo/client";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
+
 export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
