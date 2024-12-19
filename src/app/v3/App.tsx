@@ -16,32 +16,38 @@ import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
 import { SurveyBanner } from "./components/banner/SurveyBanner";
+import { getApolloClient } from "../config/apollo-client";
+import { ApolloProvider } from "@apollo/client";
+
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
 
 export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
-      <HashRouter>
-        <QueryParamProvider adapter={ReactRouter6Adapter}>
-          <NavigationBar />
-          <div className="flex flex-col gap-4">
-            <SurveyBanner />
-            <Audited />
-          </div>
+      <ApolloProvider client={getApolloClient()}>
+        <HashRouter>
+          <QueryParamProvider adapter={ReactRouter6Adapter}>
+            <NavigationBar />
+            <div className="flex flex-col gap-4">
+              <SurveyBanner />
+              <Audited />
+            </div>
 
-          <FlexCol className="min-h-screen">
-            <NotificationProvider>
-              <SentryRoutes>
-                <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
-                <Route path="*" element={<PageNotFound />} />
-              </SentryRoutes>
-            </NotificationProvider>
-            <Footer />
-          </FlexCol>
-        </QueryParamProvider>
-      </HashRouter>
+            <FlexCol className="min-h-screen">
+              <NotificationProvider>
+                <SentryRoutes>
+                  <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                  <Route path="*" element={<PageNotFound />} />
+                </SentryRoutes>
+              </NotificationProvider>
+              <Footer />
+            </FlexCol>
+          </QueryParamProvider>
+        </HashRouter>
+      </ApolloProvider>
     </Sentry.ErrorBoundary>
   );
 }

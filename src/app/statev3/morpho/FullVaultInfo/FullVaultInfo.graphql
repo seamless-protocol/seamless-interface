@@ -1,0 +1,38 @@
+query FullVaultInfo($address: String!, $chainId: Int!) {
+    vaultByAddress(
+      address: $address
+      chainId: $chainId
+    ) {
+      address
+      state {
+        totalSupply
+        totalAssetsUsd
+        netApy
+        allTimeApy
+        dailyApy
+        curator
+        fee
+        timelock
+
+        allocation {
+          market {
+            uniqueKey
+            loanAsset {
+              name
+              symbol
+            }
+            collateralAsset {
+              name
+              symbol
+            }
+            irmAddress
+            oracleAddress
+            lltv
+          }
+          supplyCap
+          supplyAssets
+          supplyAssetsUsd
+        }
+      }
+    }
+  }
