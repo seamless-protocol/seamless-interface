@@ -3,8 +3,7 @@ import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFullVaultInfo } from "../../../../../../statev3/morpho/FullVaultInfo/FullVaultInfo.fetch";
 import { queryConfig } from "../../../../../../statev3/settings/queryConfig";
-
-import { formatFetchBigIntToViewBigInt, formatToDisplayable } from "@shared";
+import { mapVaultData } from "../../../../../../statev3/morpho/mappers/mapVaultData";
 
 const useFullVaultsInfo = (addresses: Address[], chainId = base.id) => {
   return useQuery({
@@ -33,34 +32,7 @@ export const useFormattedVaultsInfo = (addresses: Address[], chainId = base.id) 
 
   const formattedVaults = rawVaults
     .filter((v) => !!v?.state)
-    .map((vault) => {
-      const { address: vaultAddress, name, state, asset } = vault;
-      const totalSupply = formatFetchBigIntToViewBigInt({
-        bigIntValue: state?.totalSupply ?? 0n,
-        decimals: 18, // TODO morpho: even usdc is 18, todo: Double check with morpho team
-        symbol: asset.symbol,
-      });
-      const totalAssetsUsd = formatToDisplayable(state?.totalAssetsUsd ?? 0);
-      const netApy = formatToDisplayable(((state?.netApy) ?? 0) * 100);
-      const curator = "test"; // state?.curator; TODO morpho: how to get name of curetor from adress?
-      const feePercentage = formatToDisplayable(((state?.fee) ?? 0) * 100);
-      const allocation = state?.allocation ?? [];
-      const collateralLogos: (string | undefined)[] = allocation.map(
-        (alloc) => alloc.market.collateralAsset?.logoURI
-      ).filter((logo) => logo != null);
-
-      return {
-        totalAssetsUsd,
-        asset,
-        vaultAddress,
-        name,
-        totalSupply,
-        netApy,
-        curator,
-        feePercentage,
-        collateralLogos,
-      };
-    });
+    .map(mapVaultData);
 
   return {
     data: formattedVaults,
