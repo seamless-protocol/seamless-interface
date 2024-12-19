@@ -2,7 +2,7 @@ import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken } from 
 import { IncentivesDetailCard, ViewRewardToken } from "./IncentivesDetailCard";
 import { Address } from "viem";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
-import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives";
+import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives.all";
 import { useFetchStrategyAssets } from "../../../state/loop-strategy/metadataQueries/useFetchStrategyAssets";
 
 interface IncentivesButtonProps {
