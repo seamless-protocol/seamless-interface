@@ -2745,32 +2745,41 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, curator: any, fee: number, timelock: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
 
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
   vaultByAddress(address: $address, chainId: $chainId) {
     address
+    name
+    asset {
+      name
+      decimals
+      logoURI
+      symbol
+    }
     state {
       totalSupply
       totalAssetsUsd
       netApy
       allTimeApy
       dailyApy
-      curator
       fee
       timelock
+      curator
       allocation {
         market {
           uniqueKey
           loanAsset {
             name
             symbol
+            logoURI
           }
           collateralAsset {
             name
             symbol
+            logoURI
           }
           irmAddress
           oracleAddress
