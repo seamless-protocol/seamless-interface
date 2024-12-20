@@ -18,6 +18,7 @@ import { Audited } from "./components/banner/Audited";
 import { SurveyBanner } from "./components/banner/SurveyBanner";
 import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
+import { VaultDetails } from "./pages/vault-details/VaultDetails";
 
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
@@ -40,6 +41,7 @@ export function App() {
                 <SentryRoutes>
                   <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                   <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<VaultDetails />} />
                   <Route path="*" element={<PageNotFound />} />
                 </SentryRoutes>
               </NotificationProvider>

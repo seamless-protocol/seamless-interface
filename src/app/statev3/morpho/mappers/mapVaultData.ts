@@ -16,6 +16,7 @@ export function mapVaultData(vault: FullVaultInfoQuery['vaultByAddress']) {
   const collateralLogos: (string | undefined)[] = allocation.map(
     (alloc) => alloc.market.collateralAsset?.logoURI
   ).filter((logo) => logo != null);
+  const timelock = state?.timelock; // TODO morpho: 345600, what's the meaning of this?
 
   return {
     vaultAddress,
@@ -27,5 +28,6 @@ export function mapVaultData(vault: FullVaultInfoQuery['vaultByAddress']) {
     curator,
     feePercentage,
     collateralLogos,
+    timelock
   };
 }

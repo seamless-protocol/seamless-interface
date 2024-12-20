@@ -6,6 +6,7 @@ import { VaultDesktopRow } from "./VaultDesktopRow";
 import { VaultMobileRow } from "./VaultMobileRow";
 import { VaultsTableHeader } from "./VaultsTableHeader";
 import { useFormattedVaultsInfo } from "../hooks/useFetchAllVaults";
+import { RouterConfig } from "@router";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -66,7 +67,7 @@ export const VaultsTableContainer: React.FC = () => {
         return (
           <Link
             key={vault.vaultAddress}
-            to={`/vaults/${vault.vaultAddress}`}
+            to={RouterConfig.Builder.morphoVaultDetails(vault.vaultAddress)}
             className="no-underline text-inherit"
           >
             <div className="border-b border-b-divider last:border-b-0 hover:bg-neutral-100">
