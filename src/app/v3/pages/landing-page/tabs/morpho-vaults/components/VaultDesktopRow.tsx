@@ -1,4 +1,17 @@
-import { TableRow, TableCell, Typography, DisplayMoney, DisplayPercentage, ImageGroup, ViewBigInt, DisplayTokenAmount, DisplayText, FlexCol, FlexRow, Icon } from "@shared";
+import {
+  TableRow,
+  TableCell,
+  Typography,
+  DisplayMoney,
+  DisplayPercentage,
+  ImageGroup,
+  ViewBigInt,
+  DisplayTokenAmount,
+  DisplayText,
+  FlexCol,
+  FlexRow,
+  Icon,
+} from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 
 interface VaultProps {
@@ -10,7 +23,7 @@ interface VaultProps {
   netApy: string;
   curator: string;
   feePercentage: string;
-  collateralLogos: (string | undefined)[];
+  collateralLogos: string[];
   hideBorder?: boolean;
 }
 
@@ -27,8 +40,9 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
 }) => {
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
-        }`}
+      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${
+        hideBorder ? "" : "border-b border-b-navy-100"
+      }`}
     >
       <TableCell alignItems="items-start col-span-2 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">
@@ -44,26 +58,16 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
       <TableCell className="col-span-1">
         <DisplayTokenAmount {...totalSupply} typography="bold3" />
 
-        <DisplayMoney
-          typography="medium1"
-          viewValue={totalAssetsUsd}
-          className="text-primary-600"
-        />
+        <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayPercentage
-          viewValue={netApy}
-          typography="bold3"
-        />
+        <DisplayPercentage viewValue={netApy} typography="bold3" />
       </TableCell>
       <TableCell className="col-span-1">
         <Typography type="bold3">{curator}</Typography>
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayPercentage
-          viewValue={feePercentage}
-          typography="bold3"
-        />
+        <DisplayPercentage viewValue={feePercentage} typography="bold3" />
       </TableCell>
       <TableCell className="col-span-1">
         <ImageGroup images={collateralLogos} imageStyle="w-5 h-5 rounded-full" spacing="-space-x-3" />
