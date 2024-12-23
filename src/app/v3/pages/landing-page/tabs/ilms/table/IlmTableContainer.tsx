@@ -1,7 +1,7 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
 import { ILMMobileTableRow } from "./ILMMobileTableRow";
-import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
+import { useFetchAllConfiguredStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
@@ -10,7 +10,7 @@ import { LoadingTableGuard } from "./LoadingTableGuard";
 export const IlmTableContainer: React.FC<{
   selectedStrategy?: Address;
 }> = ({ selectedStrategy }) => {
-  const { data: strategies, ...rest } = useFetchAllStrategies();
+  const { data: strategies, ...rest } = useFetchAllConfiguredStrategies();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">

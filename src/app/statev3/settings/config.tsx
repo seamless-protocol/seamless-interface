@@ -16,12 +16,20 @@ import {
   cbBTCLong_1_5x,
   cbBTCLong_3x,
   cbBTC_ADDRESS,
+  weETHBooster_3x,
+  weETH_ADDRESS,
 } from "@meta";
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
-import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
+
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
 
+/* -------------- */
+/*   ILM Icons    */
+/* -------------- */
+import ilmEthLongIcon from "@assets/ilms/ethLong-ilm.svg";
+import ilmwstETHIcon from "@assets/ilms/wstETH-ilm.svg";
+import ilmweETHIcon from "@assets/ilms/weETH-ilm.svg";
+import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 /* ----------- */
 /*    Icons    */
 /* ----------- */
@@ -32,7 +40,6 @@ import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import wethLogo from "@assets/tokens/weth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
-import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 
 import ETH_USDC_1_5x_LongImage from "@assets/diagrams/ETH_USDC_1_5x_Long.png";
@@ -41,6 +48,7 @@ import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
 import cbBTC_1_5x_LongImage from "@assets/diagrams/cbBTC_1_5x_Long.png";
 import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
+import weETH_3x_ILM_Image from "@assets/diagrams/weETH_ILM_3x.png";
 import { LendMarketConfig } from "./configTypes";
 import { assetsConfig } from "./landingMarketConfig";
 
@@ -105,6 +113,14 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     underlyingAsset: assetsConfig[cbBTC_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],
   },
+  [weETHBooster_3x]: {
+    name: "weETH Leveraged Staking 3x",
+    description: "Increase ETH staking rewards by magnifying a weETH position.",
+    type: "Staking",
+    diagram: weETH_3x_ILM_Image,
+    underlyingAsset: assetsConfig[weETH_ADDRESS],
+    debtAsset: assetsConfig[WETH_ADDRESS], // todo doublecheck: weth address here?
+  },
 };
 
 /* --------- */
@@ -117,12 +133,13 @@ export const addressIconMap: Map<string, string> = new Map([
   [USDC_ADDRESS, usdcLogo],
   [BRETT_ADDRESS, brettLogo],
   [WETH_ADDRESS, wethLogo],
-  [wstETHBooster_3x, wstETHIlmIcon],
-  [ethLong_1_5x, ilmIcon],
-  [ethLong_3x, ilmIcon],
-  [ethShort_ADDRESS_1_5_x, ilmIcon],
+  [wstETHBooster_3x, ilmwstETHIcon],
+  [ethLong_1_5x, ilmEthLongIcon],
+  [ethLong_3x, ilmEthLongIcon],
+  [ethShort_ADDRESS_1_5_x, ilmEthLongIcon],
   [WSTETH_ADDRESS, wsteth],
   [cbBTCLong_1_5x, ilmcbBTCIcon],
   [cbBTCLong_3x, ilmcbBTCIcon],
   [cbBTC_ADDRESS, cbBTCIcon],
+  [weETHBooster_3x, ilmweETHIcon],
 ]);

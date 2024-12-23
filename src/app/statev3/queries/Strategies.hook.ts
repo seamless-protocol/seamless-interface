@@ -6,6 +6,7 @@ import { disableCacheQueryConfig } from "../settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { ilmRegistryAddress } from "../../generated";
 import { readContractQueryOptions } from "wagmi/query";
+import { strategyConfig } from "../settings/config";
 
 export async function fetchStrategies(): Promise<Address[]> {
   const strategies = await queryContract({
@@ -27,3 +28,19 @@ export function useFetchAllStrategies() {
     ...disableCacheQueryConfig,
   });
 }
+
+export function useFetchAllConfiguredStrategies() {
+  return useQuery({
+    queryKey: ["hookAllConfiguredStrategies"],
+    queryFn: async () => {
+      const allStrategies = await fetchStrategies();
+      const configuredStrategies = allStrategies.filter(
+        (strategy) => strategyConfig[strategy] !== undefined
+      );
+
+      return configuredStrategies;
+    },
+    ...disableCacheQueryConfig,
+  });
+}
+

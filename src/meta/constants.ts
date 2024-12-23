@@ -28,6 +28,7 @@ export const MOCK_PRICE_ORACLE = "0x602823807C919A92B63cF5C126387c4759976072";
 export const WETH_ADDRESS: Address = "0x4200000000000000000000000000000000000006";
 export const CBETH_ADDRESS: Address = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
 export const WSTETH_ADDRESS: Address = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
+export const weETH_ADDRESS: Address = "0x04c0599ae5a44757c0af6f9ec3b93da8976c150a";
 export const USDBC_ADDRESS: Address = "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA";
 export const DAI_ADDRESS: Address = "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb";
 export const USDC_ADDRESS: Address = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
@@ -74,6 +75,7 @@ export const ethLong_3x: Address = "0x5Ed6167232b937B0A5C84b49031139F405C09c8A";
 export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6";
 export const cbBTCLong_1_5x: Address = "0x5CE6A61E60AD45dBD80565349A8B902DC461A1FE";
 export const cbBTCLong_3x: Address = "0xdeCF8c9D927275e8b25721d3EF16d14AC8eb8766";
+export const weETHBooster_3x: Address = "0xTODO"; // todo
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
