@@ -13,7 +13,7 @@ export function mapVaultData(vault: FullVaultInfoQuery['vaultByAddress']) {
   const curator = "test"; // state?.curator; TODO morpho: how to get name of curetor from adress?
   const feePercentage = formatToDisplayable(((state?.fee) ?? 0) * 100);
   const allocation = state?.allocation ?? [];
-  const collateralLogos: (string | undefined)[] = allocation.map(
+  const collateralLogos = allocation.map(
     (alloc) => alloc.market.collateralAsset?.logoURI
   ).filter((logo) => logo != null);
   const timelock = state?.timelock; // TODO morpho: 345600, what's the meaning of this?
@@ -27,7 +27,7 @@ export function mapVaultData(vault: FullVaultInfoQuery['vaultByAddress']) {
     netApy,
     curator,
     feePercentage,
-    collateralLogos,
+    collateralLogos: (collateralLogos || []) as string[],
     timelock
   };
 }
