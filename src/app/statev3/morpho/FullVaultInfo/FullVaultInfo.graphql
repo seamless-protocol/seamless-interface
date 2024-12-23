@@ -4,15 +4,23 @@ query FullVaultInfo($address: String!, $chainId: Int!) {
       chainId: $chainId
     ) {
       address
+      name
+      asset {
+        name
+        decimals
+        logoURI
+        symbol
+      }
       state {
         totalSupply
         totalAssetsUsd
         netApy
         allTimeApy
         dailyApy
-        curator
         fee
         timelock
+        curator
+        
 
         allocation {
           market {
@@ -20,19 +28,23 @@ query FullVaultInfo($address: String!, $chainId: Int!) {
             loanAsset {
               name
               symbol
+              logoURI
             }
             collateralAsset {
               name
               symbol
+              logoURI
             }
             irmAddress
             oracleAddress
             lltv
           }
+
           supplyCap
           supplyAssets
           supplyAssetsUsd
         }
+        
       }
     }
-  }
+}
