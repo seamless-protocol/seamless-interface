@@ -27,7 +27,6 @@
     "@fontsource/roboto": "^5.0.8",
     "@heroicons/react": "^2.1.1",
     "@lifi/widget": "3.12.1",
-    "@morpho-org/morpho-blue-bundlers": "^1.1.2",
     "@rainbow-me/rainbowkit": "^2.1.0",
     "@sentry/react": "^7.106.0",
     "@tailwindcss/typography": "^0.5.10",
