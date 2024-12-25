@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 
 import { VaultStats } from "./components/VaultStats";
+import { DepositTest } from "./components/DepositTest";
 
 export const VaultDetails = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export const VaultDetails = () => {
         </FlexRow>
 
         <div className="mb-8">
+          test ur might
+          <DepositTest />
           {/* <StrategyHeading /> */}
         </div>
 
