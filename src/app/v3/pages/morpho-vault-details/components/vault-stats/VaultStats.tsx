@@ -1,8 +1,17 @@
-import { DisplayMoney, DisplayNumber, DisplayPercentage, DisplayText, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
+import {
+  DisplayMoney,
+  DisplayNumber,
+  DisplayPercentage,
+  DisplayText,
+  DisplayTokenAmount,
+  FlexCol,
+  FlexRow,
+  Typography,
+} from "@shared";
 import border from "@assets/common/border.svg";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedFullVaultInfo } from "../../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
 
 const skeletonLoaderSettings = {
   width: "120px",

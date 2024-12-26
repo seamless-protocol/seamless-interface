@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import { Heading } from "./Heading";
-import { GraphButton } from "../../../../components/graph/GraphButton";
 import { ExtendedQueryState, FlexCol, FlexRow, Typography, useNotificationContext } from "@shared";
-import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import {
   fetchStrategyAnalytics,
   FilterOption,
 } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
+import "./GraphComoonent.css";
 import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
-import { wstETHBooster_3x } from "@meta";
+import { GraphButton } from "../../../../components/graph/GraphButton";
+import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
+import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
 
 export interface DuneData {
   share_value_in_debt_asset: number;
@@ -22,10 +23,6 @@ export interface DuneData {
 }
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
-
-const displayExtraDisclaimer = (strategy: Address | undefined): boolean => {
-  return strategy === wstETHBooster_3x;
-};
 
 // TODO: Fix this function and find scalable solution when we decide on long term graph solution
 const numberOfDecimals = (value: number): number => {
@@ -202,17 +199,10 @@ export const GraphComponent = () => {
           Please note that the chart data presented is for <strong>historical</strong> reference <strong>only</strong>{" "}
           and is subject to a <strong>delay</strong> of approximately <strong>one day</strong>.
         </Typography>
-
-        {displayExtraDisclaimer(strategy) && (
-          <Typography type="regular1">
-            Also note that <strong> wstETH </strong>is using <strong> market price </strong> data not Lido exchange
-            rate.
-          </Typography>
-        )}
       </div>
       <FlexCol>
         <div className="relative">
-          {isLoading && <LocalSpinner />}
+          {isLoading && <GraphSpinner />}
           <Chart
             options={chartOptions}
             series={chartSeries}
@@ -233,9 +223,3 @@ export const GraphComponent = () => {
     </div>
   );
 };
-
-const LocalSpinner = () => (
-  <div className="flex items-center justify-center h-[90%] w-full absolute inset-0 z-10">
-    <div className="loading loading-spinner" />
-  </div>
-);
