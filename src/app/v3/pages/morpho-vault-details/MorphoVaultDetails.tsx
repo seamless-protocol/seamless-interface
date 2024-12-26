@@ -7,7 +7,7 @@ import { VaultStats } from "./components/VaultStats";
 import { Address } from "viem";
 import { useFetchFormattedFullVaultInfo } from "../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
 
-export const VaultDetails = () => {
+export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
 
   const { address } = useParams();
