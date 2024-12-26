@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 
-import { VaultStats } from "./components/VaultStats";
+import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { Address } from "viem";
 import { useFetchFormattedFullVaultInfo } from "../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
 
@@ -42,7 +42,7 @@ export const MorphoVaultDetails = () => {
               <div className="flex flex-col gap-10 order-2 md:order-1">
                 {/* {isConnected && <CurrentHoldings />} */}
                 {/* <GraphComponent /> */}
-                <VaultStats />
+                <MorphoVaultStats />
                 {/* <StrategyDetails /> */}
               </div>
             </div>

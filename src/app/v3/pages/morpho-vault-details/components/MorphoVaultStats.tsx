@@ -18,7 +18,7 @@ const skeletonLoaderSettings = {
   height: "30px",
 };
 
-export const VaultStats = () => {
+export const MorphoVaultStats = () => {
   const { address } = useParams();
   const vault = address as Address | undefined;
 
