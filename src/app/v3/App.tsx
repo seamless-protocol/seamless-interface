@@ -18,11 +18,9 @@ import { Audited } from "./components/banner/Audited";
 import { SurveyBanner } from "./components/banner/SurveyBanner";
 import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
-import { VaultDetails } from "./pages/vault-details/VaultDetails";
-
+import { VaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
-
 
 export function App() {
   return (
