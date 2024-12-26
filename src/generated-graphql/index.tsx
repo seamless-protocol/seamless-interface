@@ -2747,6 +2747,15 @@ export type FullVaultInfoQueryVariables = Exact<{
 
 export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
+export type TotalSupplyHistoricalQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+  options?: InputMaybe<TimeseriesOptions>;
+}>;
+
+
+export type TotalSupplyHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
+
 
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
@@ -2827,3 +2836,59 @@ export type FullVaultInfoQueryHookResult = ReturnType<typeof useFullVaultInfoQue
 export type FullVaultInfoLazyQueryHookResult = ReturnType<typeof useFullVaultInfoLazyQuery>;
 export type FullVaultInfoSuspenseQueryHookResult = ReturnType<typeof useFullVaultInfoSuspenseQuery>;
 export type FullVaultInfoQueryResult = Apollo.QueryResult<FullVaultInfoQuery, FullVaultInfoQueryVariables>;
+export const TotalSupplyHistoricalDocument = gql`
+    query TotalSupplyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
+  vaultByAddress(address: $address, chainId: $chainId) {
+    state {
+      totalSupply
+      totalAssetsUsd
+      totalAssets
+    }
+    historicalState {
+      totalAssetsUsd(options: $options) {
+        y
+        x
+      }
+      totalAssets(options: $options) {
+        y
+        x
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useTotalSupplyHistoricalQuery__
+ *
+ * To run a query within a React component, call `useTotalSupplyHistoricalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTotalSupplyHistoricalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTotalSupplyHistoricalQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      chainId: // value for 'chainId'
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useTotalSupplyHistoricalQuery(baseOptions: Apollo.QueryHookOptions<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables> & ({ variables: TotalSupplyHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>(TotalSupplyHistoricalDocument, options);
+      }
+export function useTotalSupplyHistoricalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>(TotalSupplyHistoricalDocument, options);
+        }
+export function useTotalSupplyHistoricalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>(TotalSupplyHistoricalDocument, options);
+        }
+export type TotalSupplyHistoricalQueryHookResult = ReturnType<typeof useTotalSupplyHistoricalQuery>;
+export type TotalSupplyHistoricalLazyQueryHookResult = ReturnType<typeof useTotalSupplyHistoricalLazyQuery>;
+export type TotalSupplyHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalSupplyHistoricalSuspenseQuery>;
+export type TotalSupplyHistoricalQueryResult = Apollo.QueryResult<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>;

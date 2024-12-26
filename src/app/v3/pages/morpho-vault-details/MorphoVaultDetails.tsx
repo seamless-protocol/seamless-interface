@@ -5,7 +5,8 @@ import { RouterConfig } from "@router";
 
 import { VaultStats } from "./components/vault-stats/VaultStats";
 import { Address } from "viem";
-import { useFetchFormattedFullVaultInfo } from "../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { TotalSupplyGraphComponent } from "./components/graph/TotalSupplyGraphComponent";
 
 export const VaultDetails = () => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export const VaultDetails = () => {
 
               <div className="flex flex-col gap-10 order-2 md:order-1">
                 {/* {isConnected && <CurrentHoldings />} */}
+                <TotalSupplyGraphComponent />
                 {/* <GraphComponent /> */}
                 <VaultStats />
                 {/* <StrategyDetails /> */}

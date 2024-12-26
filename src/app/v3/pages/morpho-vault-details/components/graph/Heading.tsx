@@ -1,29 +1,23 @@
-import { DisplayMoney, DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { DisplayMoney, FlexCol, Typography } from "@shared";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
-import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
+import { useFetchTotalSupply } from "../../hooks/TotalSupplyHistorical.hook";
 
 export const Heading = () => {
-  const { address } = useParams();
-  const strategy = address as Address;
+  const { address } = useParams() as {
+    address: Address;
+  };
 
-  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy, undefined, {
-    disableCompact: true,
-  });
-  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
-
+  const { data, ...rest } = useFetchTotalSupply(address);
   return (
     <FlexCol className="gap-2">
-      <Typography type="bold4">Current LP token price</Typography>
-      <DisplayMoney typography="bold7" {...otherPrice} {...price} />
-      <FlexRow className="gap-1 items-center">
-        <SignIndicatingElement noBackground dislayable={{ ...apyRest, data: apy }}>
-          <DisplayPercentage {...apyRest} {...apy} typography="bold3" />
-        </SignIndicatingElement>
-        <Typography type="bold3">Past month</Typography>
-      </FlexRow>
+      <Typography type="bold4">Total supply</Typography>
+      <DisplayMoney
+        typography="bold7"
+        viewValue={data?.totalSupply.viewValue}
+        isLoading={rest.isLoading}
+        errorMessage={rest.error?.message}
+      />
     </FlexCol>
   );
 };
