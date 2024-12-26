@@ -2,7 +2,6 @@ import { FlexCol, FlexRow, PageContainer, TabButton, TabContent, TabProvider } f
 import { ILMsTab } from "./tabs/ilms/ILMsTab";
 import { Dashboard } from "./tabs/dashboard/Dashboard";
 import { MorphoVaultsTab } from "./tabs/morpho-vaults/MorphoVaultsTab";
-import { IS_DEV_MODE } from "../../../../globals";
 
 type Tabs = "ILMs" | "Dashboard" | "Vaults";
 
@@ -16,9 +15,11 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-ilms" tab="ILMs">
               ILMs
             </TabButton>
-            {IS_DEV_MODE && <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
-              Vaults
-            </TabButton>}
+            {import.meta.env.VITE_DISPLAY_MORPHO_VAULTS && (
+              <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
+                Vaults
+              </TabButton>
+            )}
             <TabButton<Tabs> data-cy="tab-dashboard" tab="Dashboard">
               Dashboard
             </TabButton>
