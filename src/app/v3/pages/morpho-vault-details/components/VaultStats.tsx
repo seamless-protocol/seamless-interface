@@ -1,4 +1,13 @@
-import { DisplayMoney, DisplayNumber, DisplayPercentage, DisplayText, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
+import {
+  DisplayMoney,
+  DisplayNumber,
+  DisplayPercentage,
+  DisplayText,
+  DisplayTokenAmount,
+  FlexCol,
+  FlexRow,
+  Typography,
+} from "@shared";
 import border from "@assets/common/border.svg";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
@@ -13,7 +22,7 @@ export const VaultStats = () => {
   const { address } = useParams();
   const vault = address as Address | undefined;
 
-  const { data, isLoading } = useFetchFormattedFullVaultInfo(vault);
+  const { data, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
   const { totalSupply, totalAssetsUsd, curator, feePercentage, timelock } = data || {};
 
   return (
@@ -27,6 +36,7 @@ export const VaultStats = () => {
             <DisplayTokenAmount
               {...totalSupply}
               isLoading={isLoading}
+              errorMessage={error?.message}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
@@ -34,6 +44,7 @@ export const VaultStats = () => {
             <DisplayMoney
               viewValue={totalAssetsUsd}
               isLoading={isLoading}
+              errorMessage={error?.message}
               typography="bold2"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
@@ -50,6 +61,7 @@ export const VaultStats = () => {
           <DisplayText
             viewValue={curator}
             isLoading={isLoading}
+            errorMessage={error?.message}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
@@ -65,6 +77,7 @@ export const VaultStats = () => {
           <DisplayPercentage
             viewValue={feePercentage}
             isLoading={isLoading}
+            errorMessage={error?.message}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
@@ -80,6 +93,7 @@ export const VaultStats = () => {
           <DisplayNumber
             viewValue={timelock}
             isLoading={isLoading}
+            errorMessage={error?.message}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
