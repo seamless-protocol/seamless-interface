@@ -8,7 +8,7 @@ import { Address } from "viem";
 import { useFetchFormattedFullVaultInfo } from "../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { TotalSupplyGraphComponent } from "./components/graph/TotalSupplyGraphComponent";
 
-export const VaultDetails = () => {
+export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
 
   const { address } = useParams();
