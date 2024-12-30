@@ -4,7 +4,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 
 import { VaultStats } from "./components/VaultStats";
-import { DepositTest } from "./components/DepositTest";
+import { DepositTest } from "./components/DepositTest2";
 
 export const VaultDetails = () => {
   const navigate = useNavigate();

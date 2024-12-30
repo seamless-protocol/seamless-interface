@@ -1,24 +1,23 @@
 "use client";
 
 import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
-import { encodeFunctionData, parseEther, parseUnits } from "viem";
-import { useAccount } from "wagmi";
+import { encodeFunctionData, parseUnits } from "viem";
+import { useAccount, useSendTransaction } from "wagmi";
 import { useMorphoChainAgnosticBundlerV2 } from "./useMorphoChainAgnosticBundlerV2";
-import { useWETH } from "./useWETH";
 import { BundlerAbi } from "./BundlerAbi";
 import { useState } from "react";
-import { useSeamlessSendTransaction } from "@shared";
 import { USDC_ADDRESS } from "../../../../../meta";
+import { useERC20Approve } from "../../../../../shared";
 
 // NEW import
 
 const selectedVault = {
   address: "0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca",
+  // address: "0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1",
 };
 
-export function DepositTestSeam() {
+export function DepositTest() {
   const { address } = useAccount();
-  const WETH = useWETH();
   const [amount] = useState("10");
 
   const selectedAsset = {
@@ -27,16 +26,16 @@ export function DepositTestSeam() {
   };
 
   // Convert the user-entered amount into BigInt for the transaction
-  const finalAmount =
-    selectedAsset?.address === WETH ? parseEther(amount) : parseUnits(amount, selectedAsset?.decimals || 18);
+  const finalAmount = parseUnits(amount, selectedAsset?.decimals || 18);
 
   const bundlerAddress = useMorphoChainAgnosticBundlerV2();
 
-  const {
-    isPending,
-    errorMessage,
-    sendTransactionAsync,
-  } = useSeamlessSendTransaction();
+  const { sendTransactionAsync, isPending, error: errorMessage } = useSendTransaction();
+  const { approveAsync, isApproved } = useERC20Approve(
+    selectedAsset?.address,
+    bundlerAddress,
+    finalAmount
+  );
 
   const finalizeTransaction = async () => {
     const data = encodeFunctionData({
@@ -44,7 +43,7 @@ export function DepositTestSeam() {
       functionName: "multicall",
       args: [
         [
-          BundlerAction.wrapNative(finalAmount) as any,
+          // BundlerAction.wrapNative(finalAmount) as any,
           BundlerAction.erc4626Deposit(selectedVault.address, finalAmount, 1, address as string) as any,
         ],
       ],
@@ -71,7 +70,10 @@ export function DepositTestSeam() {
         <button onClick={finalizeTransaction} disabled={isPending}>
           {isPending ? "Sending..." : "ssss"}
         </button>
-        {errorMessage && <p>Error: {errorMessage}</p>}
+        <button onClick={approveAsync} disabled={isApproved}>
+          {isApproved ? "Approved" : "Approve"}
+        </button>
+        {errorMessage && <p>Error: {errorMessage?.message}</p>}
       </div>
     </div>
   );
