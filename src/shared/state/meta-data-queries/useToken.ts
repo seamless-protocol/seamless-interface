@@ -58,16 +58,26 @@ export async function fetchSymbol(token: Address): Promise<string> {
  * @returns The logo URL, or `undefined` if none is available.
  */
 export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
+  const queryClient = getQueryClient();
+
   const logoFromConfig = addressIconMap.get(token);
   if (logoFromConfig) return logoFromConfig;
   // eslint-disable-next-line no-console
   console.warn("Logo not found in addressIconMap", token);
 
-  const trustWalletUrl = await fetchTokenLogoFromTrustWallet(token);
+  const trustWalletUrl = await queryClient.fetchQuery({
+    queryKey: ["fetchTokenLogoFromTrustWallet", token],
+    queryFn: () => fetchTokenLogoFromTrustWallet(token),
+    ...queryConfig.metadataQueryConfig,
+  });
   if (trustWalletUrl) return trustWalletUrl;
   console.error("Could not fetch trust wallet logo", token);
 
-  const coinGeckoUrl = await fetchTokenLogoFromCoinGecko(token);
+  const coinGeckoUrl = await queryClient.fetchQuery({
+    queryKey: ["fetchTokenLogoFromCoinGecko", token],
+    queryFn: () => fetchTokenLogoFromCoinGecko(token),
+    ...queryConfig.metadataQueryConfig,
+  });
   if (coinGeckoUrl) return coinGeckoUrl;
   console.error("Could not fetch coin gecko logo", token);
 

@@ -1,9 +1,5 @@
 import { Address } from "viem";
 
-/**
- * Returns the Trust Wallet asset logo URL for an ERC-20 token on Ethereum.
- * Replace `base` with a different chain name for other EVM blockchains, if needed.
- */
 export function getTrustWalletLogoUrl(tokenAddress: string): string {
   const baseUrl = "https://raw.githubusercontent.com/trustwallet/assets/master";
   return `${baseUrl}/blockchains/base/assets/${tokenAddress}/logo.png`;
@@ -16,8 +12,9 @@ export async function fetchTokenLogoFromTrustWallet(tokenAddress: Address): Prom
     if (resp.ok) {
       return trustWalletLogoUrl;
     }
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error("Failed to fetch token logo from TrustWallet", error);
+    return null;
   }
 
   return null;
