@@ -15,9 +15,11 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-ilms" tab="ILMs">
               ILMs
             </TabButton>
-            <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
-              Vaults
-            </TabButton>
+            {import.meta.env.VITE_DISPLAY_MORPHO_VAULTS && (
+              <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
+                Vaults
+              </TabButton>
+            )}
             <TabButton<Tabs> data-cy="tab-dashboard" tab="Dashboard">
               Dashboard
             </TabButton>

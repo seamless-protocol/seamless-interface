@@ -1,14 +1,4 @@
-import {
-  Typography,
-  DisplayMoney,
-  DisplayPercentage,
-  ImageGroup,
-  ViewBigInt,
-  DisplayTokenAmount,
-  FlexCol,
-  FlexRow,
-  Icon,
-} from "@shared";
+import { Typography, DisplayMoney, DisplayPercentage, ImageGroup, ViewBigInt, DisplayTokenAmount, FlexCol, FlexRow, Icon } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 
 interface VaultProps {
@@ -19,7 +9,7 @@ interface VaultProps {
   netApy: string;
   curator: string;
   feePercentage: string;
-  collateralLogos: string[];
+  collateralLogos: (string | undefined)[];
 }
 
 export const VaultMobileRow: React.FC<VaultProps> = ({
@@ -34,6 +24,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
 }) => {
   return (
     <div className="flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow">
+
       <FlexRow className="items-center gap-4 mb-4">
         <Icon width={30} src={asset?.logoURI || ""} alt="Strategy Logo" />
         <FlexCol>
@@ -47,12 +38,19 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
           <FlexCol className="items-end">
             <DisplayTokenAmount {...totalSupply} typography="bold3" />
 
-            <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
+            <DisplayMoney
+              typography="medium1"
+              viewValue={totalAssetsUsd}
+              className="text-primary-600"
+            />
           </FlexCol>
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Net APY:</Typography>
-          <DisplayPercentage viewValue={netApy} typography="bold3" />
+          <DisplayPercentage
+            viewValue={netApy}
+            typography="bold3"
+          />
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Curator:</Typography>

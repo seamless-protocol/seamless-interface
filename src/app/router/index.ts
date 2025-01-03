@@ -40,11 +40,13 @@ export const RouterConfig = {
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
     ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
+    morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
     ilmDetailsv2: (id: number) => `${baseUrl}/ilm-detailsv2/${id}`,
     ilmDetails: (address: Address) => `${baseUrl}/ilm-details/${address}`,
+    morphoVaultDetails: (address: Address) => `${baseUrl}/vault-details/${address}`,
     assetDetails: (address: Address) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${address.toLowerCase()}&marketName=proto_base_v3`,
     baseScanTx: (txHash: string) => `${baseScan}/tx/${txHash}`,
