@@ -58,12 +58,12 @@ export async function fetchSymbol(token: Address): Promise<string> {
  * @returns The logo URL, or `undefined` if none is available.
  */
 export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
-  const queryClient = getQueryClient();
-
   const logoFromConfig = addressIconMap.get(token);
   if (logoFromConfig) return logoFromConfig;
   // eslint-disable-next-line no-console
   console.warn("Logo not found in addressIconMap", token);
+
+  const queryClient = getQueryClient();
 
   const trustWalletUrl = await queryClient.fetchQuery({
     queryKey: ["fetchTokenLogoFromTrustWallet", token],
