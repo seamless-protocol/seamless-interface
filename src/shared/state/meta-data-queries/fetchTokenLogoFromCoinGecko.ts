@@ -6,7 +6,6 @@ interface CoinGeckoTokenResponse {
     small: string;
     large: string;
   };
-  // other fields as needed
 }
 
 export async function fetchTokenLogoFromCoinGecko(tokenAddress: Address): Promise<string | null> {
