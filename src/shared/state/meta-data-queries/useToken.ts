@@ -46,9 +46,16 @@ export async function fetchSymbol(token: Address): Promise<string> {
 }
 
 /**
- * Fetches the logo URL for a given token address.
- * Before fetching from CoinGecko, it checks if the logo is available in the addressIconMap.
- * If not, it fetches the logo from Trust Wallet if it fails, it fetches the logo from CoinGecko.
+ * Attempts to retrieve a token logo URL from multiple sources, in this order:
+ * 1. **Local icon map** (addressIconMap)
+ * 2. **Trust Wallet Assets**
+ * 3. **CoinGecko**
+ *
+ * If a valid logo URL is found at any step, it returns immediately.
+ * Otherwise, returns `undefined` if no logo is found.
+ *
+ * @param token - The token address.
+ * @returns The logo URL, or `undefined` if none is available.
  */
 export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
   const logoFromConfig = addressIconMap.get(token);
@@ -67,6 +74,17 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
   return undefined;
 }
 
+/**
+ * Fetches the token metadata (symbol, decimals, and optional logo) for the given token address.
+ * Internally calls:
+ *  - `fetchSymbol(token)`   to retrieve the token symbol,
+ *  - `fetchDecimals(token)` to retrieve the token decimals, and
+ *  - `fetchTokenLogoWithFallbacks(token)` to attempt to retrieve the token’s logo.
+ *
+ * @param token - The address of the token.
+ * @returns A `Token` object containing the symbol, decimals, and optionally, a logo URL.
+ * @throws Will throw an error if symbol or decimals cannot be fetched.
+ */
 export async function fetchToken(token: Address): Promise<Token> {
   const [symbol, decimals, logoURI] = await Promise.all([
     fetchSymbol(token),
