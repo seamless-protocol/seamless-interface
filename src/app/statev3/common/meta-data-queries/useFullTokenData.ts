@@ -6,6 +6,7 @@ import { useReadContract } from "wagmi";
 import { strategyConfig } from "../../settings/config";
 import { AssetBaseConfig } from "../../settings/configTypes";
 import { assetsConfig } from "../../settings/landingMarketConfig";
+import { useToken } from "@shared";
 
 export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
   decimals?: number;
@@ -13,23 +14,9 @@ export interface FullAssetData extends Omit<AssetBaseConfig, "address"> {
 
 // todo rename hook
 export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAssetData> => {
-  const config = asset
-    ? assetsConfig[asset] || strategyConfig[asset]
-    : undefined;
+  const config = asset ? assetsConfig[asset] || strategyConfig[asset] : undefined;
 
-  const { data: decimals, ...decimalRest } = useReadContract({
-    address: asset,
-    abi: erc20Abi,
-    functionName: "decimals",
-    query: { ...metadataQueryConfig, enabled: !!asset },
-  });
-
-  const { data: symbol, ...symbolRest } = useReadContract({
-    address: asset,
-    abi: erc20Abi,
-    functionName: "symbol",
-    query: { ...metadataQueryConfig, enabled: !!asset },
-  });
+  const { data, ...dataRest } = useToken(asset);
 
   const { data: name, ...nameRest } = useReadContract({
     address: asset,
@@ -39,12 +26,12 @@ export const useFullTokenData = (asset?: Address | undefined): FetchData<FullAss
   });
 
   return {
-    ...mergeQueryStates([decimalRest, symbolRest, nameRest]),
+    ...mergeQueryStates([dataRest, nameRest]),
     data: {
-      symbol,
       name,
-      decimals,
+      ...data,
       ...config,
+      logo: config?.logo || data?.logo,
     },
   };
 };

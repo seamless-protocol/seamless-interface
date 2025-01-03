@@ -5,10 +5,14 @@ import { getQueryClient } from "../../../app/contexts/CustomQueryClientProvider"
 import { readContractQueryOptions } from "wagmi/query";
 import { queryConfig } from "../../../app/statev3/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
+import { fetchTokenLogoFromTrustWallet } from "./fetchTrustWalletLogoUrl";
+import { addressIconMap } from "@meta";
+import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
 
 export interface Token {
-  symbol?: string;
-  decimals?: number;
+  symbol: string;
+  decimals: number;
+  logo?: string;
 }
 
 export async function fetchDecimals(token: Address): Promise<number> {
@@ -20,7 +24,7 @@ export async function fetchDecimals(token: Address): Promise<number> {
       abi: erc20Abi,
       functionName: "decimals",
     }),
-    ...queryConfig.metadataQueryConfig
+    ...queryConfig.metadataQueryConfig,
   });
 
   return decimals;
@@ -35,36 +39,71 @@ export async function fetchSymbol(token: Address): Promise<string> {
       abi: erc20Abi,
       functionName: "symbol",
     }),
-    ...queryConfig.metadataQueryConfig
+    ...queryConfig.metadataQueryConfig,
   });
 
   return symbol;
 }
 
+/**
+ * Fetches the logo URL for a given token address.
+ * Before fetching from CoinGecko, it checks if the logo is available in the addressIconMap.
+ * If not, it fetches the logo from Trust Wallet if it fails, it fetches the logo from CoinGecko.
+ */
+export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
+  const logoFromConfig = addressIconMap.get(token);
+  if (logoFromConfig) return logoFromConfig;
+  // eslint-disable-next-line no-console
+  console.warn("Logo not found in addressIconMap", token);
+
+  const trustWalletUrl = await fetchTokenLogoFromTrustWallet(token);
+  if (trustWalletUrl) return trustWalletUrl;
+  console.error("Could not fetch trust wallet logo", token);
+
+  const coinGeckoUrl = await fetchTokenLogoFromCoinGecko(token);
+  if (coinGeckoUrl) return coinGeckoUrl;
+  console.error("Could not fetch coin gecko logo", token);
+
+  return undefined;
+}
 
 export async function fetchToken(token: Address): Promise<Token> {
-  const [symbol, decimals] = await Promise.all([fetchSymbol(token), fetchDecimals(token)]);
+  const [symbol, decimals, logoURI] = await Promise.all([
+    fetchSymbol(token),
+    fetchDecimals(token),
+    fetchTokenLogoWithFallbacks(token),
+  ]);
+  if (!symbol || !decimals) {
+    throw new Error("Failed to fetch token data");
+  }
 
   return {
     symbol,
-    decimals
-  }
+    decimals,
+    logo: logoURI,
+  };
 }
 
-// todo reconsider optional param token ticket #218
-export const useToken = (asset?: Address): FetchData<Token> => {
+interface TokenHookData {
+  symbol?: string;
+  decimals?: number;
+  logo?: string;
+}
+
+export const useToken = (asset?: Address): FetchData<TokenHookData> => {
   const { data, ...rest } = useQuery({
     queryKey: ["hookFetchToken", asset],
-    queryFn: () =>
-      fetchToken(asset!),
+    queryFn: () => fetchToken(asset!),
     enabled: !!asset,
-    ...queryConfig.disableCacheQueryConfig
+    ...queryConfig.disableCacheQueryConfig,
   });
 
   return {
+    ...rest,
     data: data || {
       symbol: undefined,
-      decimals: undefined
-    }, ...rest
+      decimals: undefined,
+      logo: undefined,
+    },
   };
 };

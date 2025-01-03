@@ -6,7 +6,7 @@ import { useWatchAsset } from "../../../hooks/wallet-hooks/useWatchAsset";
 import walletIconWhite from "@assets/common/wallet-icon-white.svg";
 import { Typography } from "../../text/Typography/Typography";
 import { Buttonv2 } from "../../button/Buttonv2";
-import { useFetchTokenData } from "../../../../app/statev3/metadata/TokenData.fetch";
+import { useToken } from "../../../state";
 
 interface Token {
   address?: Address;
@@ -47,7 +47,7 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
   const { mutateAsync, isPending } = useWatchAsset();
   const {
     data: { decimals, symbol },
-  } = useFetchTokenData(address);
+  } = useToken(address);
 
   const handleAddToWalletClick = async () => {
     if (!address || !decimals || !symbol) return;
