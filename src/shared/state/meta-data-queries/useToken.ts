@@ -13,6 +13,7 @@ import { fetchTokenLogoFromTrustWallet } from "./fetchTrustWalletLogoUrl";
 export interface Token {
   symbol: string;
   decimals: number;
+  name: string;
   logo?: string;
 }
 
@@ -44,6 +45,21 @@ export async function fetchSymbol(token: Address): Promise<string> {
   });
 
   return symbol;
+}
+
+export async function fetchName(token: Address): Promise<string> {
+  const queryClient = getQueryClient();
+
+  const name = await queryClient.fetchQuery({
+    ...readContractQueryOptions(getConfig(), {
+      address: token,
+      abi: erc20Abi,
+      functionName: "name",
+    }),
+    ...queryConfig.metadataQueryConfig,
+  });
+
+  return name;
 }
 
 /**
@@ -106,9 +122,10 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
  * @throws Will throw an error if symbol or decimals cannot be fetched.
  */
 export async function fetchToken(token: Address): Promise<Token> {
-  const [symbol, decimals, logoURI] = await Promise.all([
+  const [symbol, decimals, name, logoURI] = await Promise.all([
     fetchSymbol(token),
     fetchDecimals(token),
+    fetchName(token),
     fetchTokenLogoWithFallbacks(token),
   ]);
   if (!symbol || !decimals) {
@@ -118,6 +135,7 @@ export async function fetchToken(token: Address): Promise<Token> {
   return {
     symbol,
     decimals,
+    name,
     logo: logoURI,
   };
 }
