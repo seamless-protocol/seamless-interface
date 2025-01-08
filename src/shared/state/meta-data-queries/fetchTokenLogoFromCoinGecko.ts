@@ -10,9 +10,8 @@ interface CoinGeckoTokenResponse {
 
 export async function fetchTokenLogoFromCoinGecko(tokenAddress: Address): Promise<string | null> {
   try {
-    const url = `https://api.coingecko.com/api/v3/coins/base/contract/${tokenAddress}`;
+    const url = `https://cg-price-cache.seamlessprotocol.com/coins/base/contract/${tokenAddress}`;
     const response = await fetch(url);
-
     if (!response.ok) {
       return null;
     }

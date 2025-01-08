@@ -5,9 +5,10 @@ import { getQueryClient } from "../../../app/contexts/CustomQueryClientProvider"
 import { readContractQueryOptions } from "wagmi/query";
 import { queryConfig } from "../../../app/statev3/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTokenLogoFromTrustWallet } from "./fetchTrustWalletLogoUrl";
-import { addressIconMap } from "@meta";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
+import { fetchTokenLogoFromMoralis } from "./fetchTokenLogoFromMoralis";
+import { addressIconMap } from "@meta";
+import { fetchTokenLogoFromTrustWallet } from "./fetchTrustWalletLogoUrl";
 
 export interface Token {
   symbol: string;
@@ -48,6 +49,7 @@ export async function fetchSymbol(token: Address): Promise<string> {
 /**
  * Attempts to retrieve a token logo URL from multiple sources, in this order:
  * 1. **Local icon map** (addressIconMap)
+ * 2. **Moralis**
  * 2. **Trust Wallet Assets**
  * 3. **CoinGecko**
  *
@@ -64,6 +66,14 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
   console.warn("Logo not found in addressIconMap", token);
 
   const queryClient = getQueryClient();
+
+  const moralisLogo = await queryClient.fetchQuery({
+    queryKey: ["fetchTokenLogoFromMoralis", token],
+    queryFn: () => fetchTokenLogoFromMoralis(token),
+    ...queryConfig.metadataQueryConfig,
+  });
+  if (moralisLogo) return moralisLogo;
+  console.error("Could not fetch moralis logo", token);
 
   const trustWalletUrl = await queryClient.fetchQuery({
     queryKey: ["fetchTokenLogoFromTrustWallet", token],
