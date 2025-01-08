@@ -143,6 +143,7 @@ export async function fetchToken(token: Address): Promise<Token> {
 interface TokenHookData {
   symbol?: string;
   decimals?: number;
+  name?: string;
   logo?: string;
 }
 
@@ -159,6 +160,7 @@ export const useToken = (asset?: Address): FetchData<TokenHookData> => {
     data: data || {
       symbol: undefined,
       decimals: undefined,
+      name: undefined,
       logo: undefined,
     },
   };

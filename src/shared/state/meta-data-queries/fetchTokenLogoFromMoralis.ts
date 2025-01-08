@@ -1,10 +1,12 @@
 import Moralis from "moralis";
-
 import { Address } from "viem";
 
-await Moralis.start({
-  apiKey: import.meta.env.VITE_MORALIS_API_KEY,
-});
+export const StartMoralis = async () => {
+  await Moralis.start({
+    apiKey: import.meta.env.VITE_MORALIS_API_KEY,
+  });
+};
+StartMoralis();
 
 export const fetchTokenLogoFromMoralis = async (tokenAddress: Address) => {
   try {
