@@ -1,25 +1,29 @@
-import {
-  FullVaultInfoDocument,
-  FullVaultInfoQuery,
-  FullVaultInfoQueryVariables,
-} from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
+import { fetchAccrualVault } from "@morpho-org/blue-sdk-viem";
+import { getPublicClient } from "wagmi/actions";
+import { getConfig } from "../../../utils/queryContractUtils";
+import { Address } from "viem";
+import { extendAccrualVaultWithTokenData } from "../mappers/extendAccrualVaultWithTokenData";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { queryConfig } from "../../settings/queryConfig";
 
 export async function fetchFullVaultInfo(address: string, chainId: number) {
-  const client = getApolloClient();
-  const result = await client.query<FullVaultInfoQuery, FullVaultInfoQueryVariables>({
-    query: FullVaultInfoDocument,
-    variables: { address, chainId },
-    fetchPolicy: "cache-first",
+  const queryClient = getQueryClient();
+
+  const publicClient = getPublicClient(getConfig());
+  if (!publicClient) throw new Error("Public client not found");
+
+  const result = await queryClient.fetchQuery({
+    queryKey: ["fullVaultInfo", address, chainId],
+    queryFn: async () => {
+      const result = await fetchAccrualVault(address as Address, publicClient, {
+        chainId,
+      });
+      const data = await extendAccrualVaultWithTokenData(result);
+
+      return data;
+    },
+    ...queryConfig.semiSensitiveDataQueryConfig,
   });
 
-  if (result.errors) {
-    throw new Error(
-      `Failed to fetch GraphQL data: ${result.errors.map((e) => e.message).join("; ")}`
-    );
-  } else if (result.error) {
-    throw new Error(`Failed to fetch GraphQL data: ${result.error.message}`);
-  }
-
-  return result.data;
+  return result;
 }

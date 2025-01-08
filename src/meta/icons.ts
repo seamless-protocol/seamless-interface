@@ -9,6 +9,7 @@ import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
+import ethIcon from "@assets/tokens/eth.svg";
 import {
   SEAM_ADDRESS,
   ESSEAM_ADDRESS,
@@ -25,6 +26,7 @@ import {
   cbBTCLong_3x,
   cbBTC_ADDRESS,
 } from "./constants";
+import { zeroAddress } from "viem";
 
 /* --------- */
 /*   Icons   */
@@ -44,4 +46,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [cbBTCLong_1_5x, ilmcbBTCIcon],
   [cbBTCLong_3x, ilmcbBTCIcon],
   [cbBTC_ADDRESS, cbBTCIcon],
+  [zeroAddress, ethIcon],
 ]);

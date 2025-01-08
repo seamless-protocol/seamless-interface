@@ -1,20 +1,20 @@
 import { Address } from "viem";
-import { base } from '@wagmi/core/chains'
+import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFullVaultInfo } from "./FullVaultInfo.fetch";
 import { queryConfig } from "../../settings/queryConfig";
-import { mapVaultData } from "../mappers/mapVaultData";
+import { mapExtendedAccrualVaultToSimpleVaultData } from "../mappers/mapExtendedAccrualVaultToSimpleVaultData";
 
 export const useFetchFormattedFullVaultInfo = (address?: Address, chainId = base.id) => {
   const { data, ...rest } = useQuery({
     queryKey: ["fullVaultInfo", address, chainId],
     queryFn: () => fetchFullVaultInfo(address!, chainId),
     ...queryConfig.disableCacheQueryConfig,
-    enabled: !!address
-  })
+    enabled: !!address,
+  });
 
   return {
     ...rest,
-    data: data ? mapVaultData(data?.vaultByAddress) : undefined,
-  }
-}
+    data: data ? mapExtendedAccrualVaultToSimpleVaultData(data) : undefined,
+  };
+};

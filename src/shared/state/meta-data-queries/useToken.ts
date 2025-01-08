@@ -1,4 +1,4 @@
-import { Address, erc20Abi } from "viem";
+import { Address, erc20Abi, zeroAddress } from "viem";
 import { FetchData } from "../../types/Fetch";
 import { getConfig } from "../../../app/utils/queryContractUtils";
 import { getQueryClient } from "../../../app/contexts/CustomQueryClientProvider";
@@ -18,6 +18,7 @@ export interface Token {
 }
 
 export async function fetchDecimals(token: Address): Promise<number> {
+  if (token === zeroAddress) return 18;
   const queryClient = getQueryClient();
 
   const decimals = await queryClient.fetchQuery({
@@ -33,6 +34,7 @@ export async function fetchDecimals(token: Address): Promise<number> {
 }
 
 export async function fetchSymbol(token: Address): Promise<string> {
+  if (token === zeroAddress) return "ETH";
   const queryClient = getQueryClient();
 
   const symbol = await queryClient.fetchQuery({
@@ -48,6 +50,8 @@ export async function fetchSymbol(token: Address): Promise<string> {
 }
 
 export async function fetchName(token: Address): Promise<string> {
+  if (token === zeroAddress) return "Ether";
+
   const queryClient = getQueryClient();
 
   const name = await queryClient.fetchQuery({

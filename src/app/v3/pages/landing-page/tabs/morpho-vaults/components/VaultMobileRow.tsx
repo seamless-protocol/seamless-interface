@@ -1,56 +1,48 @@
-import { Typography, DisplayMoney, DisplayPercentage, ImageGroup, ViewBigInt, DisplayTokenAmount, FlexCol, FlexRow, Icon } from "@shared";
-import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
+import {
+  Typography,
+  DisplayMoney,
+  DisplayPercentage,
+  ImageGroup,
+  DisplayTokenAmount,
+  FlexCol,
+  FlexRow,
+  Icon,
+} from "@shared";
+import { SimpleVaultData } from "../../../../../../statev3/morpho/types/SimpleVaultData";
 
-interface VaultProps {
-  name: string;
-  asset: MorphoAsset;
-  totalAssetsUsd: string;
-  totalSupply: ViewBigInt;
-  netApy: string;
-  curator: string;
-  feePercentage: string;
-  collateralLogos: (string | undefined)[];
-}
+interface VaultProps extends SimpleVaultData {}
 
 export const VaultMobileRow: React.FC<VaultProps> = ({
   name,
-  asset,
+  underlyingTokenData,
   totalAssetsUsd,
-  totalSupply,
-  netApy,
+  totalSupplyFormatted,
+  netApyFormatted,
   curator,
   feePercentage,
   collateralLogos,
 }) => {
   return (
     <div className="flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow">
-
       <FlexRow className="items-center gap-4 mb-4">
-        <Icon width={30} src={asset?.logoURI || ""} alt="Strategy Logo" />
+        <Icon width={30} src={underlyingTokenData?.logo || ""} alt="Strategy Logo" />
         <FlexCol>
           <Typography type="bold3">{name}</Typography>
-          <Typography type="regular1">{asset?.symbol}</Typography>
+          <Typography type="regular1">{underlyingTokenData?.symbol}</Typography>
         </FlexCol>
       </FlexRow>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
           <Typography type="regular1">Total Supply:</Typography>
           <FlexCol className="items-end">
-            <DisplayTokenAmount {...totalSupply} typography="bold3" />
+            <DisplayTokenAmount {...totalSupplyFormatted} typography="bold3" />
 
-            <DisplayMoney
-              typography="medium1"
-              viewValue={totalAssetsUsd}
-              className="text-primary-600"
-            />
+            <DisplayMoney typography="medium1" {...totalAssetsUsd} className="text-primary-600" />
           </FlexCol>
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Net APY:</Typography>
-          <DisplayPercentage
-            viewValue={netApy}
-            typography="bold3"
-          />
+          <DisplayPercentage viewValue={netApyFormatted} typography="bold3" />
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Curator:</Typography>

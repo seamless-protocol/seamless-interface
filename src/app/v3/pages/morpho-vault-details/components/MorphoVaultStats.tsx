@@ -23,7 +23,7 @@ export const MorphoVaultStats = () => {
   const vault = address as Address | undefined;
 
   const { data, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
-  const { totalSupply, totalAssetsUsd, curator, feePercentage, timelock } = data || {};
+  const { totalSupplyFormatted, totalAssetsUsd, curator, feePercentage, timelockFormatted } = data || {};
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
@@ -34,7 +34,7 @@ export const MorphoVaultStats = () => {
           </Typography>
           <FlexCol>
             <DisplayTokenAmount
-              {...totalSupply}
+              {...totalSupplyFormatted}
               isLoading={isLoading}
               errorMessage={error?.message}
               typography="bold5"
@@ -42,9 +42,7 @@ export const MorphoVaultStats = () => {
               loaderSkeletonSettings={skeletonLoaderSettings}
             />
             <DisplayMoney
-              viewValue={totalAssetsUsd}
-              isLoading={isLoading}
-              errorMessage={error?.message}
+              {...totalAssetsUsd}
               typography="bold2"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
@@ -91,7 +89,7 @@ export const MorphoVaultStats = () => {
             Risk Curator Timelock Period
           </Typography>
           <DisplayNumber
-            viewValue={timelock}
+            viewValue={timelockFormatted}
             isLoading={isLoading}
             errorMessage={error?.message}
             typography="bold5"
