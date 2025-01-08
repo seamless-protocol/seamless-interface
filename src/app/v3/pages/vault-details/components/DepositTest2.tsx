@@ -31,11 +31,7 @@ export function DepositTest() {
   const bundlerAddress = useMorphoChainAgnosticBundlerV2();
 
   const { sendTransactionAsync, isPending, error: errorMessage } = useSendTransaction();
-  const { approveAsync, isApproved } = useERC20Approve(
-    selectedAsset?.address,
-    bundlerAddress,
-    finalAmount
-  );
+  const { approveAsync, isApproved } = useERC20Approve(selectedAsset?.address, bundlerAddress, finalAmount);
 
   const finalizeTransaction = async () => {
     const data = encodeFunctionData({
@@ -44,6 +40,7 @@ export function DepositTest() {
       args: [
         [
           // BundlerAction.wrapNative(finalAmount) as any,
+          BundlerAction.erc20TransferFrom(selectedAsset?.address, finalAmount),
           BundlerAction.erc4626Deposit(selectedVault.address, finalAmount, 1, address as string) as any,
         ],
       ],
