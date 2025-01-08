@@ -24,7 +24,7 @@ export const ILMDetails = () => {
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
           <button onClick={() => navigate(RouterConfig.Routes.landingPage)}>
-            <ArrowLeftIcon width={24} height={24} />
+            <ArrowLeftIcon width={40} height={40} />
           </button>
           <StrategyPickerButton strategy={address as Address} />
         </FlexRow>

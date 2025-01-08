@@ -7,8 +7,7 @@ import { queryConfig } from "../../../app/statev3/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
 import { fetchTokenLogoFromMoralis } from "./fetchTokenLogoFromMoralis";
-import { addressIconMap } from "@meta";
-import { fetchTokenLogoFromTrustWallet } from "./fetchTrustWalletLogoUrl";
+import { addressIconMap } from "../../../meta";
 
 export interface Token {
   symbol: string;
@@ -83,22 +82,6 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
 
   const queryClient = getQueryClient();
 
-  const moralisLogo = await queryClient.fetchQuery({
-    queryKey: ["fetchTokenLogoFromMoralis", token],
-    queryFn: () => fetchTokenLogoFromMoralis(token),
-    ...queryConfig.metadataQueryConfig,
-  });
-  if (moralisLogo) return moralisLogo;
-  console.error("Could not fetch moralis logo", token);
-
-  const trustWalletUrl = await queryClient.fetchQuery({
-    queryKey: ["fetchTokenLogoFromTrustWallet", token],
-    queryFn: () => fetchTokenLogoFromTrustWallet(token),
-    ...queryConfig.metadataQueryConfig,
-  });
-  if (trustWalletUrl) return trustWalletUrl;
-  console.error("Could not fetch trust wallet logo", token);
-
   const coinGeckoUrl = await queryClient.fetchQuery({
     queryKey: ["fetchTokenLogoFromCoinGecko", token],
     queryFn: () => fetchTokenLogoFromCoinGecko(token),
@@ -106,6 +89,14 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
   });
   if (coinGeckoUrl) return coinGeckoUrl;
   console.error("Could not fetch coin gecko logo", token);
+
+  const moralisLogo = await queryClient.fetchQuery({
+    queryKey: ["fetchTokenLogoFromMoralis", token],
+    queryFn: () => fetchTokenLogoFromMoralis(token),
+    ...queryConfig.metadataQueryConfig,
+  });
+  if (moralisLogo) return moralisLogo;
+  console.error("Could not fetch moralis logo", token);
 
   return undefined;
 }
@@ -122,7 +113,7 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
  * @throws Will throw an error if symbol or decimals cannot be fetched.
  */
 export async function fetchToken(token: Address): Promise<Token> {
-  const [symbol, decimals, name, logoURI] = await Promise.all([
+  const [symbol, decimals, name, logo] = await Promise.all([
     fetchSymbol(token),
     fetchDecimals(token),
     fetchName(token),
@@ -136,7 +127,7 @@ export async function fetchToken(token: Address): Promise<Token> {
     symbol,
     decimals,
     name,
-    logo: logoURI,
+    logo,
   };
 }
 
