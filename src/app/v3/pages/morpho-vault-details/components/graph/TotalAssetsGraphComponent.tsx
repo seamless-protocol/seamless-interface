@@ -177,7 +177,7 @@ export const TotalAssetsGraphComponent = () => {
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
-      <Heading showPriceInUsd={showPriceInUsd} />
+      <Heading showPriceInUsd={showPriceInUsd} address={address} />
       <div className="flex gap-2">
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
           USD

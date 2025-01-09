@@ -1,13 +1,8 @@
 import { DisplayMoney, DisplayTokenAmount, FlexCol, Typography } from "@shared";
-import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { useFetchTotalAssets } from "../../hooks/TotalAssetsHistorical.hook";
 
-export const Heading: React.FC<{ showPriceInUsd?: boolean }> = ({ showPriceInUsd }) => {
-  const { address } = useParams() as {
-    address: Address;
-  };
-
+export const Heading: React.FC<{ showPriceInUsd?: boolean; address: Address }> = ({ showPriceInUsd, address }) => {
   const { data, ...rest } = useFetchTotalAssets(address);
 
   const { totalAssets, totalAssetsUsd } = data || {};
