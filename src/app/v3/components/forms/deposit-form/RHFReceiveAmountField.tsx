@@ -4,6 +4,7 @@ import {
   fParseUnits,
   formatFetchBigIntToViewBigInt,
   mergeQueryStates,
+  useToken,
 } from "@shared";
 import { useMemo } from "react";
 import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
@@ -11,7 +12,6 @@ import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
-import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
 import { USD_VALUE_DECIMALS } from "../../../../../meta";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
@@ -65,7 +65,7 @@ export function RHFReceiveAmountField<T>({ debouncedAmount, ...other }: IProps<T
       : "0";
 
   // *** metadata *** //
-  const tokenData = useFetchTokenData(strategy);
+  const tokenData = useToken(strategy);
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(strategy);

@@ -28,7 +28,7 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
       </FlexCol>
 
       <FlexRow className="items-center gap-4 mb-4">
-        <Icon width={30} src={strategyData?.icon} alt="Strategy Logo" />
+        <Icon width={30} src={strategyData?.logo} alt="Strategy Logo" />
         <FlexCol>
           <Typography type="bold3">{strategyData?.name}</Typography>
           <Typography type="regular1">{strategyData?.description}</Typography>

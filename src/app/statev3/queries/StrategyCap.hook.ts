@@ -3,6 +3,7 @@ import {
   Displayable,
   FetchTokenAmountWithUsdValueStrict,
   ViewBigIntWithUsdValue,
+  fetchToken,
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
@@ -10,7 +11,6 @@ import {
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
-import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import { cValueInUsd } from "../math/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -31,7 +31,7 @@ export async function fetchStrategyCap(strategy: Address): Promise<FetchTokenAmo
         ...infiniteCacheQueryConfig,
       }),
       fetchAssetPriceInBlock(underlying),
-      fetchTokenData(underlying),
+      fetchToken(underlying),
     ]);
 
   return {

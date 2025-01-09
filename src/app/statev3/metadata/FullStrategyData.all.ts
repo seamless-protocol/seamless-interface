@@ -1,11 +1,11 @@
 import { Address } from "viem";
-import { fetchTokenData } from "./TokenData.fetch";
 import { fetchStrategyAssets } from "./StrategyAssets.fetch";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig } from "../settings/queryConfig";
-import { addressIconMap, strategyConfig } from "../settings/config";
+import { strategyConfig } from "../settings/config";
 import { TagType } from "../common/types/StateTypes";
-import { Displayable } from "../../../shared";
+import { Displayable, fetchToken } from "@shared";
+import { addressIconMap } from "@meta";
 
 export interface FullStrategyData {
   underlying?: Address;
@@ -16,14 +16,14 @@ export interface FullStrategyData {
   address?: Address;
   diagram?: string;
 
-  icon: string;
+  logo?: string;
   symbol?: string;
   decimals?: number;
   name: string;
 }
 
 export async function fetchFullStrategyData(strategy: Address): Promise<FullStrategyData> {
-  const [tokenData, assets] = await Promise.all([fetchTokenData(strategy), fetchStrategyAssets(strategy)]);
+  const [tokenData, assets] = await Promise.all([fetchToken(strategy), fetchStrategyAssets(strategy)]);
 
   const config = strategy ? strategyConfig[strategy] : undefined;
   if (!config) throw new Error(`No config found for ${strategy}`);
@@ -31,7 +31,6 @@ export async function fetchFullStrategyData(strategy: Address): Promise<FullStra
   return {
     ...tokenData,
     ...assets,
-    icon: strategy ? addressIconMap.get(strategy) || "" : "",
     address: strategy,
     ...config,
   };
@@ -53,7 +52,7 @@ export const useFetchFullStrategyData = (strategy?: Address): Displayable<FullSt
     data: {
       ...data,
       address: strategy,
-      icon: addressIconMap.get(strategy || "") || "",
+      logo: addressIconMap.get(strategy || "") || "",
       ...config,
     },
   };
