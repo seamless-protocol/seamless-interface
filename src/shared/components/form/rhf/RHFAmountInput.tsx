@@ -15,7 +15,7 @@ import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
 // todo: remove this from shared. actually delete this file after v3 migration?
 import { useFocusOnAssetChange } from "../../../hooks/ui-hooks/useFocusOnAssetChange";
-import { useFullTokenData } from "../../../../app/statev3/common/meta-data-queries/useFullTokenData";
+import { useToken } from "../../../state";
 
 export interface IRHFAmountInputProps extends RHFInputFieldProps {
   assetAddress?: Address;
@@ -44,7 +44,7 @@ export const RHFAmountInput = React.forwardRef<HTMLInputElement, IRHFAmountInput
   ) => {
     const { setValue, getValues } = useFormContext();
     const { isConnected } = useAccount();
-    const tokenDataResult = useFullTokenData(assetAddress);
+    const tokenDataResult = useToken(assetAddress);
     const { data: tokenData } = tokenDataResult;
 
     const max = protocolMaxValue?.data?.value;

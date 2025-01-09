@@ -1,10 +1,10 @@
 import { Address, zeroAddress } from "viem";
-import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import {
   Displayable,
   FetchTokenAmountWithUsdValueStrict,
   ViewBigIntWithUsdValue,
+  fetchToken,
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
@@ -29,6 +29,7 @@ export async function fetchMaxDeposit(strategy: Address): Promise<bigint> {
     ...infiniteCacheQueryConfig,
   }).catch((error) => {
     if (error.cause.reason === OVERFLOW_UNDERFLOW_REASON_MESSAGE) {
+      // eslint-disable-next-line no-console
       console.info(`Failed to fetch available strategy cap for strategy ${strategy}`, error);
       return 0n;
     }
@@ -49,7 +50,7 @@ export async function fetchAvailableStrategyCap(strategy: Address): Promise<Fetc
   ] = await Promise.all([
     fetchMaxDeposit(strategy),
     fetchAssetPriceInBlock(underlyingAsset),
-    fetchTokenData(underlyingAsset),
+    fetchToken(underlyingAsset),
   ]);
 
   return {

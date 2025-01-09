@@ -1,12 +1,12 @@
 import { fetchStrategies } from "./Strategies.hook";
-import { fetchTokenData, TokenData } from "../metadata/TokenData.fetch";
 import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig } from "../settings/queryConfig";
+import { fetchToken, Token } from "@shared";
 
-export async function fetchAllStrategyTokenData(): Promise<TokenData[]> {
+export async function fetchAllStrategyTokenData(): Promise<Token[]> {
   const strategies = await fetchStrategies();
 
-  const allStrategyData = await Promise.all(strategies.map((strategy) => fetchTokenData(strategy)));
+  const allStrategyData = await Promise.all(strategies.map((strategy) => fetchToken(strategy)));
 
   return allStrategyData;
 }
