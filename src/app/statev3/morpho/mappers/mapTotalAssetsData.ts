@@ -1,7 +1,7 @@
 import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
-import { ExtendedTotalSupplyHistoricalQuery } from "../types/ExtendedTotalSupplyHistoricalQuery";
+import { ExtendedTotalAssetsHistoricalQuery } from "../types/ExtendedTotalAssetsHistoricalQuery";
 
-export const mapTotalSupplyData = (rawData: ExtendedTotalSupplyHistoricalQuery) => {
+export const mapTotalAssetsData = (rawData: ExtendedTotalAssetsHistoricalQuery) => {
   const data = {
     totalAssetsUsd: formatFetchNumberToViewNumber({
       value: rawData?.vaultByAddress?.state?.totalAssetsUsd || undefined,

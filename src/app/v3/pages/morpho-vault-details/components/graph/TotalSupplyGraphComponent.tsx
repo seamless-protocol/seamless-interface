@@ -14,7 +14,7 @@ import { fetchTotalAssetsHistorical } from "../../../../../statev3/morpho/total-
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { GraphButton } from "../../../../components/graph/GraphButton";
-import { ExtendedTotalSupplyHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedTotalSupplyHistoricalQuery";
+import { ExtendedTotalAssetsHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedTotalAssetsHistoricalQuery";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
@@ -46,7 +46,7 @@ export const TotalSupplyGraphComponent = () => {
 
   useEffect(() => {
     const processData = async () => {
-      let result: ExtendedTotalSupplyHistoricalQuery | undefined;
+      let result: ExtendedTotalAssetsHistoricalQuery | undefined;
 
       if (address) {
         try {
