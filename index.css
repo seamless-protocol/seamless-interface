@@ -18,3 +18,10 @@ body {
     @apply dropdown-end;
   }
 }
+
+.md\\:sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 6px;
+  z-index: 10;
+}
