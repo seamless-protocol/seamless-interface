@@ -57,5 +57,5 @@ export const Icon: React.FC<IconProps> = ({
       />
     );
   }
-  return <img src={src} alt={alt} width={32} height={32} {...rest} />;
+  return <img src={src} alt={alt} width={32} height={32} {...rest} className={`rounded-full ${rest.className}`} />;
 };

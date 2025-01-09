@@ -1,21 +1,17 @@
 import { Address } from "viem";
-import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { loopStrategyAbi } from "../../generated";
 import {
   Displayable,
   FetchTokenAmountWithUsdValueStrict,
   ViewBigIntWithUsdValue,
+  fetchToken,
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
 } from "../../../shared";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import {
-  disableCacheQueryConfig,
-  infiniteCacheQueryConfig,
-  platformDataQueryConfig,
-} from "../settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchEquityInBlockInput {
@@ -29,7 +25,7 @@ export async function fetchEquityInBlock({
 }: FetchEquityInBlockInput): Promise<FetchTokenAmountWithUsdValueStrict> {
   const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;
 
-  const { symbol, decimals } = await fetchTokenData(strategy);
+  const { symbol, decimals } = await fetchToken(strategy);
 
   const [equity, equityUsd] = await Promise.all([
     queryContract({

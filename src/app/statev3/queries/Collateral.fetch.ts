@@ -3,8 +3,7 @@ import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
 import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
-import { fetchTokenData } from "../metadata/TokenData.fetch";
-import { FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "../../../shared";
+import { fetchToken, FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueFromUsd } from "../math/utils";
 import { platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
@@ -23,7 +22,7 @@ export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmou
         ...platformDataQueryConfig,
       }),
       fetchAssetPriceInBlock(underlyingAsset),
-      fetchTokenData(underlyingAsset),
+      fetchToken(underlyingAsset),
     ]);
 
   return {

@@ -2,8 +2,7 @@ import { Address, parseAbiItem } from "viem";
 import { getPublicClient } from "wagmi/actions";
 import { getExtensiveOperationsConfig } from "../../../utils/queryContractUtils";
 import { TransfersWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyProfit.math";
-import { fetchTokenData } from "../../metadata/TokenData.fetch";
-import { FetchBigIntStrict, formatFetchBigInt, formatUsdValue } from "../../../../shared";
+import { FetchBigIntStrict, fetchToken, formatFetchBigInt, formatUsdValue } from "../../../../shared";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { heavyDataQueryConfig } from "../../settings/queryConfig";
@@ -142,7 +141,7 @@ export async function fetchUserStrategyProfit(
 
   const [logs, { decimals: strategyDecimals, symbol: strategySymbol }] = await Promise.all([
     getStrategyEventLogsForUser({ strategy, user }),
-    fetchTokenData(strategy),
+    fetchToken(strategy),
   ]);
 
   const [transferWithStrategyPrice, currStrategyPrice] = await Promise.all([

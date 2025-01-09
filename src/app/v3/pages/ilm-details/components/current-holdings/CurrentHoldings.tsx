@@ -1,5 +1,4 @@
-import { DisplayMoney, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography } from "@shared";
-import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
+import { DisplayMoney, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography, useToken } from "@shared";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { UserProfit } from "./UserProfit";
 import { useParams } from "react-router-dom";
@@ -9,7 +8,7 @@ export const CurrentHoldings = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { data: strategyData, ...strategyDataRest } = useFetchTokenData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useToken(strategy);
 
   const { data: strategyBalance, ...strategyBalanceRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
@@ -23,7 +22,13 @@ export const CurrentHoldings = () => {
         </Typography>
         <FlexCol className="gap-1">
           <FlexRow className="gap-1">
-            <Icon width={36} src={strategyData?.icon} isFetched={strategyDataRest.isFetched} isLoading={strategyDataRest.isLoading} alt="logo" />
+            <Icon
+              width={36}
+              src={strategyData?.logo}
+              isFetched={strategyDataRest.isFetched}
+              isLoading={strategyDataRest.isLoading}
+              alt="logo"
+            />
             <DisplayTokenAmount
               {...strategyBalance?.tokenAmount}
               {...strategyBalanceRest}

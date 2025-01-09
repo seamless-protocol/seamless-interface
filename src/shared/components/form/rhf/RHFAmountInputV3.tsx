@@ -26,7 +26,7 @@ export interface IRHFAmountInputPropsV3 extends RHFInputFieldProps {
   tokenData?: Displayable<{
     symbol?: string;
     decimals?: number;
-    icon?: string;
+    logo?: string;
   }>;
 }
 
@@ -101,7 +101,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
               <div className="inline-flex items-center space-x-2">
                 <Icon
                   width={24}
-                  src={tokenData?.data?.icon}
+                  src={tokenData?.data?.logo}
                   isFetched={tokenData?.isFetched}
                   isLoading={tokenData?.isLoading}
                   alt="input-field-asset"

@@ -1,7 +1,6 @@
 import { Address, erc20Abi } from "viem";
-import { FetchBigIntStrict } from "../../../shared";
+import { FetchBigIntStrict, fetchToken } from "../../../shared";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { fetchTokenData } from "../metadata/TokenData.fetch";
 import { infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
@@ -26,7 +25,7 @@ export async function fetchAssetTotalSupplyInBlock({
       }),
       ...cacheConfig,
     }),
-    fetchTokenData(asset),
+    fetchToken(asset),
   ]);
 
   return {

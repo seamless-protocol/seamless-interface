@@ -4,10 +4,6 @@
 import {
   ethLong_1_5x,
   ethLong_3x,
-  BRETT_ADDRESS,
-  ESSEAM_ADDRESS,
-  OG_POINTS_ADDRESS,
-  SEAM_ADDRESS,
   USDC_ADDRESS,
   WETH_ADDRESS,
   ethShort_ADDRESS_1_5_x,
@@ -17,23 +13,8 @@ import {
   cbBTCLong_3x,
   cbBTC_ADDRESS,
 } from "@meta";
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
-import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
-
-/* ----------- */
-/*    Icons    */
-/* ----------- */
-import seamLogo from "@assets/logos/logo-seamless.svg";
-import esSeamLogo from "@assets/tokens/esSeam.svg";
-import usdcLogo from "@assets/tokens/usdc.svg";
-import ogPointsLogo from "@assets/tokens/og-points.svg";
-import brettLogo from "@assets/tokens/brett.svg";
-import wethLogo from "@assets/tokens/weth.svg";
-import wsteth from "@assets/tokens/wsteth.svg";
-import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
-import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 
 import ETH_USDC_1_5x_LongImage from "@assets/diagrams/ETH_USDC_1_5x_Long.png";
 import ETH_USDC_3xLongImage from "@assets/diagrams/ETH_USDC_3xLong.png";
@@ -106,23 +87,3 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     debtAsset: assetsConfig[USDC_ADDRESS],
   },
 };
-
-/* --------- */
-/*   Icons   */
-/* --------- */
-export const addressIconMap: Map<string, string> = new Map([
-  [SEAM_ADDRESS, seamLogo],
-  [ESSEAM_ADDRESS, esSeamLogo],
-  [OG_POINTS_ADDRESS, ogPointsLogo],
-  [USDC_ADDRESS, usdcLogo],
-  [BRETT_ADDRESS, brettLogo],
-  [WETH_ADDRESS, wethLogo],
-  [wstETHBooster_3x, wstETHIlmIcon],
-  [ethLong_1_5x, ilmIcon],
-  [ethLong_3x, ilmIcon],
-  [ethShort_ADDRESS_1_5_x, ilmIcon],
-  [WSTETH_ADDRESS, wsteth],
-  [cbBTCLong_1_5x, ilmcbBTCIcon],
-  [cbBTCLong_3x, ilmcbBTCIcon],
-  [cbBTC_ADDRESS, cbBTCIcon],
-]);

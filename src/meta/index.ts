@@ -1,3 +1,3 @@
 export * from "./constants";
-export * from "./TokenDataDict";
+export * from "./icons";
 export * from "./query-params";

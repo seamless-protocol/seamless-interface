@@ -3,14 +3,14 @@ import { FlexRow, Icon, Modal, ModalHandles, Typography } from "@shared";
 
 import polygonIcon from "@assets/common/polygon-black-down.svg";
 import { IlmTableContainer } from "../../../landing-page/tabs/ilms/table/IlmTableContainer";
-import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useRef, useEffect } from "react";
+import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 export const StrategyPickerButton: React.FC<{
   strategy?: Address;
 }> = ({ strategy }) => {
-  const { data: tokenData } = useFetchTokenData(strategy);
-  const { name, icon } = tokenData || {};
+  const { data: tokenData } = useFullTokenData(strategy);
+  const { name, logo: icon } = tokenData || {};
   const modalRef = useRef<ModalHandles | null>(null);
 
   useEffect(() => {
