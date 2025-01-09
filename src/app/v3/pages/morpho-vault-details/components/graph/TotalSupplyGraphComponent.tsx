@@ -137,7 +137,10 @@ export const TotalSupplyGraphComponent = () => {
                 show: true,
                 formatter: (value: number) => {
                   const valueData = data[value];
-                  if (!valueData) return "";
+                  if (!valueData) {
+                    console.error("formatter in TotalSupplyGraphComponent: Value data not found");
+                    return "";
+                  }
                   const date = new Date(valueData.x * 1000 || Date.now());
                   return formatDate(date, true, true);
                 },
