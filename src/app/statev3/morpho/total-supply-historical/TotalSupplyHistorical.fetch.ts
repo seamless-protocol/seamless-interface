@@ -12,7 +12,7 @@ import { Address } from "viem";
 export async function fetchTotalSupplyHistorical(
   address: string,
   chainId: number,
-  options: TimeseriesOptions
+  options?: TimeseriesOptions
 ): Promise<ExtendedTotalSupplyHistoricalQuery> {
   const client = getApolloClient();
 

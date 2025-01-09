@@ -9,7 +9,7 @@ import { queryConfig } from "../../../../statev3/settings/queryConfig";
 export const useFetchTotalSupply = (address?: Address, chainId: number = base.id, options?: TimeseriesOptions) => {
   const { data, ...rest } = useQuery({
     queryKey: ["totalSupplyHistorical", address, chainId, options],
-    queryFn: () => fetchTotalSupplyHistorical(address as string, chainId, options!),
+    queryFn: () => fetchTotalSupplyHistorical(address as string, chainId, options),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,
   });
