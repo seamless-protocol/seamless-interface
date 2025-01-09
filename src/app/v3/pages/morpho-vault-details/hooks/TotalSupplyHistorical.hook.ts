@@ -16,6 +16,6 @@ export const useFetchTotalSupply = (address?: Address, chainId: number = base.id
 
   return {
     ...rest,
-    data: data ? mapTotalSupplyData(data.vaultByAddress) : undefined,
+    data: data ? mapTotalSupplyData(data) : undefined,
   };
 };

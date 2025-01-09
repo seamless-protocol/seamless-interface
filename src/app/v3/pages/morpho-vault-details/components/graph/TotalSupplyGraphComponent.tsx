@@ -5,14 +5,16 @@ import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import { FlexCol, FlexRow, formatToDisplayable, Typography, useNotificationContext } from "@shared";
 import { useParams } from "react-router-dom";
-import { Address } from "viem";
+import { Address, formatUnits } from "viem";
 import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
-import { TimeseriesOptions, TotalSupplyHistoricalQuery } from "../../../../../../generated-graphql";
+import { TimeseriesOptions } from "../../../../../../generated-graphql";
 import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
 import { fetchTotalSupplyHistorical } from "../../../../../statev3/morpho/total-supply-historical/TotalSupplyHistorical.fetch";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
+import { GraphButton } from "../../../../components/graph/GraphButton";
+import { ExtendedTotalSupplyHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedTotalSupplyHistoricalQuery";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
@@ -40,15 +42,19 @@ export const TotalSupplyGraphComponent = () => {
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
   const [chartSeries, setChartSeries] = useState<{ name: string; data: number[] }[]>([]);
   const timeseriesOptions: TimeseriesOptions = useTimeseriesOptions(filterOption);
+  const [showPriceInUsd, setShowPriceInUsd] = useState(false);
 
   useEffect(() => {
     const processData = async () => {
-      let result: TotalSupplyHistoricalQuery | undefined;
+      let result: ExtendedTotalSupplyHistoricalQuery | undefined;
 
       if (address) {
         try {
           setIsLoading(true);
           result = await fetchTotalSupplyHistorical(address, 8453, timeseriesOptions);
+
+          if (!result?.vaultTokenData) throw new Error("Vault token data not found");
+          if (!result) throw new Error("Vault data not found");
         } catch (error) {
           showNotification({
             status: "error",
@@ -57,9 +63,17 @@ export const TotalSupplyGraphComponent = () => {
         } finally {
           setIsLoading(false);
         }
+        if (!result) return;
+        if (!result.vaultTokenData) return;
 
-        let data = result?.vaultByAddress?.historicalState?.totalAssetsUsd || [];
-        data = [...data].reverse();
+        const totalAssetsUsdData = result.vaultByAddress?.historicalState?.totalAssetsUsd || [];
+        const totalAssetsData =
+          result?.vaultByAddress?.historicalState?.totalAssets?.map((point) => ({
+            x: point.x,
+            y: formatUnits(point.y, result!.vaultTokenData.decimals),
+          })) || [];
+
+        const data = showPriceInUsd ? [...totalAssetsUsdData].reverse() : [...totalAssetsData].reverse();
 
         const categories = data?.map((point) => formatDate(new Date(point.x * 1000), false, false));
 
@@ -151,18 +165,15 @@ export const TotalSupplyGraphComponent = () => {
     };
 
     processData();
-  }, [timeseriesOptions]);
+  }, [timeseriesOptions, showPriceInUsd]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">
-      <Heading />
+      <Heading showPriceInUsd={showPriceInUsd} />
       <div className="flex gap-2">
-        {/* <GraphButton isActive={showPriceInDebtAsset} onClick={() => setShowPriceInDebtAsset((prev) => !prev)}>
-          LP Token Price ({getSymbolString(symbol || "", debtTokenDataRest)})
-        </GraphButton>
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
-          LP Token Price (USD)
-        </GraphButton> */}
+          USD
+        </GraphButton>
       </div>
       <div>
         <Typography type="regular1">

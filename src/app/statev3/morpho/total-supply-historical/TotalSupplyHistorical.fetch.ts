@@ -5,18 +5,25 @@ import {
   TotalSupplyHistoricalQueryVariables,
 } from "@generated-graphql";
 import { getApolloClient } from "../../../config/apollo-client";
+import { ExtendedTotalSupplyHistoricalQuery } from "../types/ExtendedTotalSupplyHistoricalQuery";
+import { fetchToken } from "../../../../shared";
+import { Address } from "viem";
 
 export async function fetchTotalSupplyHistorical(
   address: string,
   chainId: number,
   options: TimeseriesOptions
-): Promise<TotalSupplyHistoricalQuery> {
+): Promise<ExtendedTotalSupplyHistoricalQuery> {
   const client = getApolloClient();
-  const result = await client.query<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>({
-    query: TotalSupplyHistoricalDocument,
-    variables: { address, chainId, options },
-    fetchPolicy: "cache-first",
-  });
+
+  const [result, vaultTokenData] = await Promise.all([
+    client.query<TotalSupplyHistoricalQuery, TotalSupplyHistoricalQueryVariables>({
+      query: TotalSupplyHistoricalDocument,
+      variables: { address, chainId, options },
+      fetchPolicy: "cache-first",
+    }),
+    fetchToken(address as Address),
+  ]);
 
   if (result.errors) {
     throw new Error(`Failed to fetch GraphQL data: ${result.errors.map((e) => e.message).join("; ")}`);
@@ -24,5 +31,8 @@ export async function fetchTotalSupplyHistorical(
     throw new Error(`Failed to fetch GraphQL data: ${result.error.message}`);
   }
 
-  return result.data;
+  return {
+    ...result.data,
+    vaultTokenData,
+  };
 }

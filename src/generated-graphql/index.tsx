@@ -46,6 +46,8 @@ export type Asset = {
   oraclePriceUsd?: Maybe<Scalars['Float']['output']>;
   /** Current price in USD, for display purpose. */
   priceUsd?: Maybe<Scalars['Float']['output']>;
+  /** Risk related data on the asset */
+  riskAnalysis?: Maybe<Array<RiskAnalysis>>;
   /** Current spot price in ETH. */
   spotPriceEth?: Maybe<Scalars['Float']['output']>;
   symbol: Scalars['String']['output'];
@@ -82,6 +84,11 @@ export type AssetSpotPriceEthArgs = {
   timestamp?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export enum AssetOrderBy {
+  Address = 'Address',
+  CredoraRiskScore = 'CredoraRiskScore'
+}
+
 /** Asset yield */
 export type AssetYield = {
   __typename?: 'AssetYield';
@@ -94,6 +101,10 @@ export type AssetsFilters = {
   address_in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Filter by chain id */
   chainId_in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** Filter by credora risk score greater than or equal to given value */
+  credoraRiskScore_gte?: InputMaybe<Scalars['Float']['input']>;
+  /** Filter by credora risk score lower than or equal to given value */
+  credoraRiskScore_lte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by asset id */
   id_in?: InputMaybe<Array<Scalars['String']['input']>>;
   search?: InputMaybe<Scalars['String']['input']>;
@@ -204,6 +215,8 @@ export type Market = {
   realizedBadDebt?: Maybe<MarketBadDebt>;
   /** Underlying amount of assets that can be reallocated to this market */
   reallocatableLiquidityAssets?: Maybe<Scalars['BigInt']['output']>;
+  /** Risk related data on the market */
+  riskAnalysis?: Maybe<Array<RiskAnalysis>>;
   /** Current state */
   state?: Maybe<MarketState>;
   /** Vaults with the market in supply queue */
@@ -304,6 +317,10 @@ export type MarketFilters = {
   /** Filter by collateral asset tags. */
   collateralAssetTags_in?: InputMaybe<Array<Scalars['String']['input']>>;
   countryCode?: InputMaybe<Scalars['String']['input']>;
+  /** Filter by credora risk score greater than or equal to given value */
+  credoraRiskScore_gte?: InputMaybe<Scalars['Float']['input']>;
+  /** Filter by credora risk score lower than or equal to given value */
+  credoraRiskScore_lte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by greater than or equal to given fee rate */
   fee_gte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by lower than or equal to given fee rate */
@@ -783,6 +800,7 @@ export enum MarketOrderBy {
   BorrowAssetsUsd = 'BorrowAssetsUsd',
   BorrowShares = 'BorrowShares',
   CollateralAssetSymbol = 'CollateralAssetSymbol',
+  CredoraRiskScore = 'CredoraRiskScore',
   DailyBorrowApy = 'DailyBorrowApy',
   DailyNetBorrowApy = 'DailyNetBorrowApy',
   Fee = 'Fee',
@@ -1560,6 +1578,8 @@ export type QueryAssetByAddressArgs = {
 
 export type QueryAssetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<AssetOrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<AssetsFilters>;
 };
@@ -1795,6 +1815,19 @@ export type QueryVaultsArgs = {
   where?: InputMaybe<VaultFilters>;
 };
 
+/** Risk analysis */
+export type RiskAnalysis = {
+  __typename?: 'RiskAnalysis';
+  isUnderReview: Scalars['Boolean']['output'];
+  provider: RiskProvider;
+  score: Scalars['Float']['output'];
+  timestamp: Scalars['Float']['output'];
+};
+
+export enum RiskProvider {
+  Credora = 'CREDORA'
+}
+
 /** Global search results */
 export type SearchResults = {
   __typename?: 'SearchResults';
@@ -1952,7 +1985,7 @@ export type User = {
   __typename?: 'User';
   address: Scalars['Address']['output'];
   chain: Chain;
-  historicalState: Array<UserHistory>;
+  historicalState: UserHistory;
   id: Scalars['ID']['output'];
   marketPositions: Array<MarketPosition>;
   state: UserState;
@@ -1968,6 +2001,18 @@ export type UserHistory = {
   marketsPnlUsd?: Maybe<Array<FloatDataPoint>>;
   /** Profit (from the underlying asset's price variation) & Loss (from bad debt socialization) of all the user's vault positions, in USD. */
   vaultsPnlUsd?: Maybe<Array<FloatDataPoint>>;
+};
+
+
+/** User state history */
+export type UserHistoryMarketsPnlUsdArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** User state history */
+export type UserHistoryVaultsPnlUsdArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
 };
 
 /** User state */
@@ -2043,6 +2088,8 @@ export type Vault = {
   pendingCaps?: Maybe<Array<VaultPendingCap>>;
   /** Public allocator configuration */
   publicAllocatorConfig?: Maybe<PublicAllocatorConfig>;
+  /** Risk related data on the vault */
+  riskAnalysis?: Maybe<Array<RiskAnalysis>>;
   state?: Maybe<VaultState>;
   symbol: Scalars['String']['output'];
   /** Vault warnings */
@@ -2166,6 +2213,10 @@ export type VaultFilters = {
   countryCode?: InputMaybe<Scalars['String']['input']>;
   /** Filter by MetaMorpho creator address */
   creatorAddress_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Filter by credora risk score greater than or equal to given value */
+  credoraRiskScore_gte?: InputMaybe<Scalars['Float']['input']>;
+  /** Filter by credora risk score lower than or equal to given value */
+  credoraRiskScore_lte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by MetaMorpho current curator address */
   curatorAddress_in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Filter by greater than or equal to given fee rate. */
@@ -2449,6 +2500,7 @@ export type VaultMetadataCurator = {
 export enum VaultOrderBy {
   Address = 'Address',
   Apy = 'Apy',
+  CredoraRiskScore = 'CredoraRiskScore',
   Curator = 'Curator',
   DailyApy = 'DailyApy',
   DailyNetApy = 'DailyNetApy',
@@ -2754,7 +2806,7 @@ export type TotalSupplyHistoricalQueryVariables = Exact<{
 }>;
 
 
-export type TotalSupplyHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
+export type TotalSupplyHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
 
 export const FullVaultInfoDocument = gql`
@@ -2839,6 +2891,12 @@ export type FullVaultInfoQueryResult = Apollo.QueryResult<FullVaultInfoQuery, Fu
 export const TotalSupplyHistoricalDocument = gql`
     query TotalSupplyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
   vaultByAddress(address: $address, chainId: $chainId) {
+    asset {
+      name
+      decimals
+      logoURI
+      symbol
+    }
     state {
       totalSupply
       totalAssetsUsd

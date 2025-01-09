@@ -1,11 +1,16 @@
-import { TotalSupplyHistoricalQuery } from "@generated-graphql";
-import { formatFetchNumberToViewNumber } from "../../../../shared";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
+import { ExtendedTotalSupplyHistoricalQuery } from "../types/ExtendedTotalSupplyHistoricalQuery";
 
-export const mapTotalSupplyData = (rawData: TotalSupplyHistoricalQuery["vaultByAddress"]) => {
+export const mapTotalSupplyData = (rawData: ExtendedTotalSupplyHistoricalQuery) => {
   const data = {
-    totalSupply: formatFetchNumberToViewNumber({
-      value: rawData?.state?.totalAssetsUsd ?? 0,
+    totalSupplyUsd: formatFetchNumberToViewNumber({
+      value: rawData?.vaultByAddress.state?.totalAssetsUsd ?? 0,
       symbol: "$",
+    }),
+    totalSupply: formatFetchBigIntToViewBigInt({
+      bigIntValue: rawData?.vaultByAddress.state?.totalAssets ?? 0,
+      decimals: rawData?.vaultTokenData.decimals,
+      symbol: rawData?.vaultByAddress.asset.symbol,
     }),
   };
 
