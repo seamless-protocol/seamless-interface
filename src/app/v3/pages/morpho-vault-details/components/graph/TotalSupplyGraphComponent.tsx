@@ -77,7 +77,7 @@ export const TotalSupplyGraphComponent = () => {
         const totalAssetsData =
           result?.vaultByAddress?.historicalState?.totalAssets?.map((point) => ({
             x: point.x,
-            y: formatUnits(point.y, result!.vaultTokenData.decimals),
+            y: formatUnits(point.y, result!.vaultByAddress.asset.decimals),
           })) || [];
 
         const data = showPriceInUsd ? [...totalAssetsUsdData].reverse() : [...totalAssetsData].reverse();

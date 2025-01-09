@@ -9,7 +9,7 @@ export const mapTotalSupplyData = (rawData: ExtendedTotalSupplyHistoricalQuery) 
     }),
     totalSupply: formatFetchBigIntToViewBigInt({
       bigIntValue: rawData?.vaultByAddress.state?.totalAssets,
-      decimals: rawData?.vaultTokenData.decimals,
+      decimals: rawData?.vaultByAddress.asset.decimals,
       symbol: rawData?.vaultByAddress.asset.symbol,
     }),
   };
