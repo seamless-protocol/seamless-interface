@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 
 import { MorphoVaultStats } from "./components/MorphoVaultStats";
+import { TotalSupplyGraphComponent } from "./components/graph/TotalSupplyGraphComponent";
 
 export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export const MorphoVaultDetails = () => {
 
             <div className="flex flex-col gap-10 order-2 md:order-1">
               {/* {isConnected && <CurrentHoldings />} */}
-              {/* <GraphComponent /> */}
+              <TotalSupplyGraphComponent />
               <MorphoVaultStats />
               {/* <StrategyDetails /> */}
             </div>

@@ -47,6 +47,7 @@ export const TotalSupplyGraphComponent = () => {
 
       if (address) {
         try {
+          setIsLoading(true);
           result = await fetchTotalSupplyHistorical(address, 8453, timeseriesOptions);
         } catch (error) {
           showNotification({
