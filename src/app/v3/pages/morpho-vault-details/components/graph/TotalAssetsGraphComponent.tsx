@@ -33,7 +33,7 @@ const formatDate = (date: Date, includeTime = false, includeYear = false) => {
   return date.toLocaleDateString(undefined, options);
 };
 
-export const TotalSupplyGraphComponent = () => {
+export const TotalAssetsGraphComponent = () => {
   const { address } = useParams() as { address: Address };
   const { showNotification } = useNotificationContext();
 
