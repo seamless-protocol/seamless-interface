@@ -26,9 +26,17 @@ export async function fetchTotalSupplyHistorical(
   ]);
 
   if (result.errors) {
-    throw new Error(`Failed to fetch GraphQL data: ${result.errors.map((e) => e.message).join("; ")}`);
+    throw new Error(
+      `GraphQL Query Failed: TotalSupplyHistoricalQuery\n` +
+        `Variables: ${JSON.stringify({ address, chainId, options })}\n` +
+        `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+    );
   } else if (result.error) {
-    throw new Error(`Failed to fetch GraphQL data: ${result.error.message}`);
+    throw new Error(
+      `GraphQL Query Failed: TotalSupplyHistoricalQuery\n` +
+        `Variables: ${JSON.stringify({ address, chainId, options })}\n` +
+        `Error: ${result.error.message}`
+    );
   }
 
   return {

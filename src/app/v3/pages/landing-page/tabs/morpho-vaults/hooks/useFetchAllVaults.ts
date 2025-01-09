@@ -27,7 +27,7 @@ export const useFormattedVaultsInfo = (addresses: Address[], chainId = base.id) 
     };
   }
 
-  const formattedVaults = rawVaults.filter((v) => !!v?.state).map(mapVaultData);
+  const formattedVaults = rawVaults.map(mapVaultData);
 
   return {
     data: formattedVaults,
