@@ -53,8 +53,14 @@ export const TotalSupplyGraphComponent = () => {
           setIsLoading(true);
           result = await fetchTotalSupplyHistorical(address, 8453, timeseriesOptions);
 
-          if (!result?.vaultTokenData) throw new Error("Vault token data not found");
-          if (!result) throw new Error("Vault data not found");
+          if (!result?.vaultTokenData)
+            throw new Error(
+              `Vault token data not found for address: ${address}. Make sure the vault exists and the correct address is used.`
+            );
+          if (!result)
+            throw new Error(
+              `Failed to retrieve vault data for address: ${address}. Ensure the query returns data and the endpoint is reachable.`
+            );
         } catch (error) {
           console.error("Error fetching data for graph:", error);
           showNotification({
@@ -175,12 +181,6 @@ export const TotalSupplyGraphComponent = () => {
         <GraphButton isActive={showPriceInUsd} onClick={() => setShowPriceInUsd((prev) => !prev)}>
           USD
         </GraphButton>
-      </div>
-      <div>
-        <Typography type="regular1">
-          Please note that the chart data presented is for <strong>historical</strong> reference <strong>only</strong>{" "}
-          and is subject to a <strong>delay</strong> of approximately <strong>one day</strong>.
-        </Typography>
       </div>
       <FlexCol>
         <div className="relative">
