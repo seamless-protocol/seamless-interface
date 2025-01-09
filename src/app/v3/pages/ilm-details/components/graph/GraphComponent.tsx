@@ -11,7 +11,6 @@ import {
 } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchTokenData } from "../../../../../statev3/metadata/TokenData.fetch";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { wstETHBooster_3x } from "@meta";
 
