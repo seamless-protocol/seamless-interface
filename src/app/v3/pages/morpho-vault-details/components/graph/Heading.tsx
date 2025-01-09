@@ -10,7 +10,7 @@ export const Heading: React.FC<{ showPriceInUsd?: boolean }> = ({ showPriceInUsd
 
   const { data, ...rest } = useFetchTotalSupply(address);
 
-  const { totalSupply, totalSupplyUsd } = data || {};
+  const { totalAssets: totalSupply, totalAssetsUsd: totalSupplyUsd } = data || {};
 
   return (
     <FlexCol className="gap-2">

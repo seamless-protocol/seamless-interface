@@ -3,11 +3,11 @@ import { ExtendedTotalSupplyHistoricalQuery } from "../types/ExtendedTotalSupply
 
 export const mapTotalSupplyData = (rawData: ExtendedTotalSupplyHistoricalQuery) => {
   const data = {
-    totalSupplyUsd: formatFetchNumberToViewNumber({
+    totalAssetsUsd: formatFetchNumberToViewNumber({
       value: rawData?.vaultByAddress?.state?.totalAssetsUsd || undefined,
       symbol: "$",
     }),
-    totalSupply: formatFetchBigIntToViewBigInt({
+    totalAssets: formatFetchBigIntToViewBigInt({
       bigIntValue: rawData?.vaultByAddress.state?.totalAssets,
       decimals: rawData?.vaultByAddress.asset.decimals,
       symbol: rawData?.vaultByAddress.asset.symbol,

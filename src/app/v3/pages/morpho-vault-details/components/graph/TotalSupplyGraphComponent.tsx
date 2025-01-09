@@ -10,7 +10,7 @@ import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton"
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
 import { TimeseriesOptions } from "../../../../../../generated-graphql";
 import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
-import { fetchTotalSupplyHistorical } from "../../../../../statev3/morpho/total-supply-historical/TotalSupplyHistorical.fetch";
+import { fetchTotalAssetsHistorical } from "../../../../../statev3/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { GraphButton } from "../../../../components/graph/GraphButton";
@@ -51,7 +51,7 @@ export const TotalSupplyGraphComponent = () => {
       if (address) {
         try {
           setIsLoading(true);
-          result = await fetchTotalSupplyHistorical(address, 8453, timeseriesOptions);
+          result = await fetchTotalAssetsHistorical(address, 8453, timeseriesOptions);
 
           if (!result?.vaultTokenData)
             throw new Error(

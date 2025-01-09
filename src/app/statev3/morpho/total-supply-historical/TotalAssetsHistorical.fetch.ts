@@ -9,7 +9,7 @@ import { ExtendedTotalSupplyHistoricalQuery } from "../types/ExtendedTotalSupply
 import { fetchToken } from "../../../../shared";
 import { Address } from "viem";
 
-export async function fetchTotalSupplyHistorical(
+export async function fetchTotalAssetsHistorical(
   address: string,
   chainId: number,
   options?: TimeseriesOptions

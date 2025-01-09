@@ -1,4 +1,4 @@
-query TotalSupplyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
+query TotalAssetsHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
   vaultByAddress(address: $address, chainId: $chainId) {
     asset {
       name
