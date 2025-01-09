@@ -56,6 +56,7 @@ export const TotalSupplyGraphComponent = () => {
           if (!result?.vaultTokenData) throw new Error("Vault token data not found");
           if (!result) throw new Error("Vault data not found");
         } catch (error) {
+          console.error("Error fetching data for graph:", error);
           showNotification({
             status: "error",
             content: <Typography>Error fetching data for graph.</Typography>,
