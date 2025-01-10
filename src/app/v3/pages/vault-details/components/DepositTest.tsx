@@ -5,7 +5,7 @@ import { encodeFunctionData, parseEther, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useMorphoChainAgnosticBundlerV2 } from "./useMorphoChainAgnosticBundlerV2";
 import { useWETH } from "./useWETH";
-import { BundlerAbi } from "./BundlerAbi";
+import { BundlerAbi } from "../../../../../../abis/BundlerAbi";
 import { useState } from "react";
 import { useSeamlessSendTransaction } from "@shared";
 import { USDC_ADDRESS } from "../../../../../meta";

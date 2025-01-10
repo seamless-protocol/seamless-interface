@@ -50,7 +50,8 @@
     "config/**/*.tsx",
     "cypress/**/*.ts",
     "vite.config.ts",
-    ".eslintrc"
+    ".eslintrc",
+    "abis/BundlerAbi.ts"
   ],
   "exclude": [
     "src/generated-graphql"

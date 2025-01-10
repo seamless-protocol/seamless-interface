@@ -4,10 +4,10 @@ import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { cValueInUsd } from "../../../../../statev3/math/utils";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
-import { useFormSettingsContext } from "../../../forms/contexts/useFormSettingsContext";
+import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
+import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {

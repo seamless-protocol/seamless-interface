@@ -4,7 +4,7 @@ import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
 import { encodeFunctionData, parseUnits } from "viem";
 import { useAccount, useSendTransaction } from "wagmi";
 import { useMorphoChainAgnosticBundlerV2 } from "./useMorphoChainAgnosticBundlerV2";
-import { BundlerAbi } from "./BundlerAbi";
+import { BundlerAbi } from "../../../../../../abis/BundlerAbi";
 import { useState } from "react";
 import { USDC_ADDRESS } from "../../../../../meta";
 import { useERC20Approve } from "../../../../../shared";

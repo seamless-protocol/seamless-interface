@@ -1,17 +1,16 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext, useToken } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { FullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
+import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
+import { useMorphoChainAgnosticBundlerV2 } from "../../../../../statev3/morpho/hooks/useMorphoChainAgnosticBundlerV2";
 
 export const FormButtons: React.FC<{
-  strategy: FullStrategyData;
+  vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
-}> = ({ strategy, isLoading, isDisabled }) => {
-  const { showNotification } = useNotificationContext();
-  const { data: { decimals } = {} } = useToken(strategy.underlying);
-
+}> = ({ vaultData, isLoading, isDisabled }) => {
+  const bundlerv2Address = useMorphoChainAgnosticBundlerV2();
   const {
     watch,
     formState: { isSubmitting },
@@ -19,9 +18,9 @@ export const FormButtons: React.FC<{
   const amount = watch("amount");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    strategy.underlying,
-    strategy.address,
-    decimals ? parseUnits(amount || "0", decimals) : undefined
+    vaultData.asset.address,
+    bundlerv2Address,
+    parseUnits(amount || "0", vaultData.asset.decimals)
   );
 
   if (!amount) {
@@ -40,16 +39,7 @@ export const FormButtons: React.FC<{
           className="text-bold3"
           disabled={isApproved || isSubmitting}
           loading={!isApproved && (isApproving || isLoading)}
-          onClick={async () => {
-            try {
-              await approveAsync();
-            } catch (e: any) {
-              showNotification({
-                status: "error",
-                content: e?.message,
-              });
-            }
-          }}
+          onClick={async () => { await approveAsync(); }}
         >
           {getApproveState(isApproved, justApproved)}
         </Buttonv2>

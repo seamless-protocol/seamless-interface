@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import * as Apollo from "@apollo/client";
+import { Address } from "viem";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -2670,7 +2671,7 @@ export type FullVaultInfoQuery = {
     __typename?: "Vault";
     address: any;
     name: string;
-    asset: { __typename?: "Asset"; name: string; decimals: number; logoURI?: string | null; symbol: string };
+    asset: { __typename?: "Asset"; name: string; address: Address; decimals: number; logoURI?: string | null; symbol: string };
     state?: {
       __typename?: "VaultState";
       totalSupply: any;

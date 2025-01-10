@@ -10,6 +10,7 @@ query FullVaultInfo($address: String!, $chainId: Int!) {
         decimals
         logoURI
         symbol
+        address
       }
       state {
         totalSupply
