@@ -3,14 +3,13 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
-import { useMorphoChainAgnosticBundlerV2 } from "../../../../../statev3/morpho/hooks/useMorphoChainAgnosticBundlerV2";
+import { MORPHO_BundlerV2_ADDRESS } from "../../../../../../meta";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
-  const bundlerv2Address = useMorphoChainAgnosticBundlerV2();
   const {
     watch,
     formState: { isSubmitting },
@@ -19,7 +18,7 @@ export const FormButtons: React.FC<{
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     vaultData.asset.address,
-    bundlerv2Address,
+    MORPHO_BundlerV2_ADDRESS,
     parseUnits(amount || "0", vaultData.asset.decimals)
   );
 
@@ -39,7 +38,9 @@ export const FormButtons: React.FC<{
           className="text-bold3"
           disabled={isApproved || isSubmitting}
           loading={!isApproved && (isApproving || isLoading)}
-          onClick={async () => { await approveAsync(); }}
+          onClick={async () => {
+            await approveAsync();
+          }}
         >
           {getApproveState(isApproved, justApproved)}
         </Buttonv2>

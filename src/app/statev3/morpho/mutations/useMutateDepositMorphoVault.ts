@@ -5,20 +5,19 @@ import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetc
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { MappedVaultData } from "../types/MappedFullVaultData";
-import { useMorphoChainAgnosticBundlerV2 } from "../hooks/useMorphoChainAgnosticBundlerV2";
 import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
 import { BundlerAbi } from "../../../../../abis/BundlerAbi";
+import { MORPHO_BundlerV2_ADDRESS } from "../../../../meta";
 
 export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
   // meta data
   const { address } = useAccount();
-  const bundlerv2Address = useMorphoChainAgnosticBundlerV2();
 
   // cache data
   const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(vault?.asset.address);
   const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
     asset: vault?.asset.address,
-    spender: bundlerv2Address,
+    spender: MORPHO_BundlerV2_ADDRESS,
   });
 
   // hook call
@@ -70,7 +69,7 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
 
       await sendTransactionAsync(
         {
-          to: bundlerv2Address,
+          to: MORPHO_BundlerV2_ADDRESS,
           data,
         },
         { ...settings }
