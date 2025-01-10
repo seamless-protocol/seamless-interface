@@ -57,7 +57,7 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
         args: [
           [
             BundlerAction.erc20TransferFrom(vault.asset.address, args.amount),
-            // todo shares
+            // todo shares ?
             BundlerAction.erc4626Deposit(
               vault.vaultAddress,
               args.amount,
@@ -75,16 +75,6 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
         },
         { ...settings }
       );
-      // await sendTransactionAsync(
-      //   {
-      //     // ui -> contract arguments
-      //     address: vault?.vaultAddress,
-      //     abi: BundlerAbi,
-      //     functionName: "multicall",
-      //     args: [args.amount!, address as Address, args.sharesToReceive],
-      //   },
-      //   { ...settings }
-      // );
     } catch (error) {
       console.error("Failed to deposit", error);
     }
