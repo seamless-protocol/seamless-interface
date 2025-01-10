@@ -8,6 +8,7 @@ import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
 import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
 import { RewardsControllerAbi } from "./abis/RewardsController";
+import { BundlerAbi } from "./abis/BundlerAbi";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -50,6 +51,11 @@ export default defineConfig({
       name: "RewardsController",
       address: "0x91Ac2FfF8CBeF5859eAA6DdA661feBd533cD3780",
       abi: RewardsControllerAbi,
+    },
+    {
+      name: "MorphoBundlerV2",
+      address: "0x23055618898e202386e6c13955a58d3c68200bfb",
+      abi: BundlerAbi,
     },
   ],
   plugins: [react()],

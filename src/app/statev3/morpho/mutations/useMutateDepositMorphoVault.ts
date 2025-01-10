@@ -6,8 +6,8 @@ import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { MappedVaultData } from "../types/MappedFullVaultData";
 import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
-import { BundlerAbi } from "../../../../../abis/BundlerAbi";
-import { MORPHO_BundlerV2_ADDRESS } from "../../../../meta";
+import { MORPHO_BundlerV2_ADDRESS } from "@meta";
+import { morphoBundlerV2Abi } from "@generated";
 
 export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
   // meta data
@@ -51,7 +51,7 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
 
     try {
       const data = encodeFunctionData({
-        abi: BundlerAbi,
+        abi: morphoBundlerV2Abi,
         functionName: "multicall",
         args: [
           [
