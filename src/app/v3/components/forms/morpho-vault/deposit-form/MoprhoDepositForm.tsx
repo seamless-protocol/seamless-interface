@@ -22,7 +22,7 @@ export const MoprhoDepositForm = () => {
 
   if (!vaultData) {
     // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
+    console.warn("Vault not found!!!");
     return <div className="min-h-[1000px]" />;
   }
 

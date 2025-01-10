@@ -4,10 +4,10 @@ import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
+import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
@@ -58,8 +58,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const { data: { underlying } = {} } = useFetchFullStrategyData(strategy);
-  const underlyingAssetAddress = underlying;
+  const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(strategy);
+  const underlyingAssetAddress = asset?.address;
 
   // *** metadata *** //
   const tokenData = useToken(underlyingAssetAddress);
@@ -69,6 +69,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const value = watch(other.name);
 
   // *** max *** //
+  // todo implement hook for vault
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
