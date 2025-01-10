@@ -41,7 +41,7 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
   ) => {
     if (!vault?.vaultAddress) {
       // eslint-disable-next-line no-console
-      console.warn("strategy address is undefined.");
+      console.warn("vault address is undefined.");
       return;
     }
     if (!args.amount) {
@@ -58,15 +58,23 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
           [
             BundlerAction.erc20TransferFrom(vault.asset.address, args.amount),
             // todo shares
-            BundlerAction.erc4626Deposit(vault.asset.address, args.amount, args.sharesToReceive, address as string) as any,
+            BundlerAction.erc4626Deposit(
+              vault.vaultAddress,
+              args.amount,
+              args.sharesToReceive,
+              address as string
+            ) as any,
           ],
         ],
       });
 
-      await sendTransactionAsync({
-        to: bundlerv2Address,
-        data,
-      }, { ...settings });
+      await sendTransactionAsync(
+        {
+          to: bundlerv2Address,
+          data,
+        },
+        { ...settings }
+      );
       // await sendTransactionAsync(
       //   {
       //     // ui -> contract arguments
