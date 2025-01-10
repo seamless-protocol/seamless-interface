@@ -83,17 +83,10 @@ const MoprhoDepositFormLocal: React.FC<{
 
           <FlexCol className="gap-3">
             <Typography type="medium3">Receive</Typography>
-            {/* <RHFReceiveAmountField debouncedAmount={debouncedAmount} name="receiveAmount" /> */}
           </FlexCol>
-
-          {/* <Summary debouncedAmount={debouncedAmount} /> */}
         </FlexCol>
 
-        <FormButtons
-          // isDisabled={!previewDepositData.isSuccess}
-          // isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
-          vaultData={vaultData}
-        />
+        <FormButtons vaultData={vaultData} />
       </FlexCol>
     </MyFormProvider>
   );
