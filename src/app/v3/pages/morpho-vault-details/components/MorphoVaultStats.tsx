@@ -9,19 +9,15 @@ import {
   Typography,
 } from "@shared";
 import border from "@assets/common/border.svg";
-import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedFullVaultInfo } from "../../../../statev3/morpho/FullVaultInfo/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 
 const skeletonLoaderSettings = {
   width: "120px",
   height: "30px",
 };
 
-export const MorphoVaultStats = () => {
-  const { address } = useParams();
-  const vault = address as Address | undefined;
-
+export const MorphoVaultStats: React.FC<{ vault: Address | undefined }> = ({ vault }) => {
   const { data, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
   const { totalSupply, totalAssetsUsd, curator, feePercentage, timelock } = data || {};
 

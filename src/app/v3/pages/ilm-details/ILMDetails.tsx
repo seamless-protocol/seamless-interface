@@ -12,8 +12,6 @@ import { useAccount } from "wagmi";
 import { GraphComponent } from "./components/graph/GraphComponent";
 import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 
-import "./ILMDetails.css";
-
 export const ILMDetails = () => {
   const navigate = useNavigate();
   const { address } = useParams();

@@ -1,12 +1,16 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { RouterConfig } from "@router";
 
 import { MorphoVaultStats } from "./components/MorphoVaultStats";
+import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
+import { Address } from "viem";
 
 export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
+  const { address } = useParams();
+  const vault = address as Address | undefined;
 
   return (
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
@@ -26,8 +30,8 @@ export const MorphoVaultDetails = () => {
 
             <div className="flex flex-col gap-10 order-2 md:order-1">
               {/* {isConnected && <CurrentHoldings />} */}
-              {/* <GraphComponent /> */}
-              <MorphoVaultStats />
+              <TotalAssetsGraphComponent />
+              <MorphoVaultStats vault={vault} />
               {/* <StrategyDetails /> */}
             </div>
           </div>
