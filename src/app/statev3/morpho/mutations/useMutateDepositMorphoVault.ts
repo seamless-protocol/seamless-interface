@@ -75,7 +75,7 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
         { ...settings }
       );
     } catch (error) {
-      console.error("Failed to deposit", error);
+      console.error("Failed to deposit to morpho vault", error);
     }
   };
 
