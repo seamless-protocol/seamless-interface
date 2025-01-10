@@ -1,14 +1,14 @@
-import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewAssetBalance } from "../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
-import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
-import { useFetchTokenData } from "../../../../statev3/metadata/TokenData.fetch";
-import { useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { cValueInUsd } from "../../../../../statev3/math/utils";
+import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFormSettingsContext } from "../../../forms/contexts/useFormSettingsContext";
+
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -62,7 +62,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const underlyingAssetAddress = underlying;
 
   // *** metadata *** //
-  const tokenData = useFetchTokenData(underlyingAssetAddress);
+  const tokenData = useToken(underlyingAssetAddress);
 
   // *** form functions *** //
   const { watch } = useFormContext();
