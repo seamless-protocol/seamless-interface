@@ -48,7 +48,7 @@ const MoprhoDepositFormLocal: React.FC<{
     await depositAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
-        sharesToReceive: 1n, // todo
+        sharesToReceive: 0n, // todo: remove this
       },
       {
         onSuccess: (txHash) => {

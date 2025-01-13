@@ -7,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -2805,7 +2806,7 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
 export type TotalAssetsHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -2840,6 +2841,7 @@ export const FullVaultInfoDocument = gql`
       curator
       allocation {
         market {
+          id
           uniqueKey
           loanAsset {
             name
@@ -2863,6 +2865,39 @@ export const FullVaultInfoDocument = gql`
   }
 }
     `;
+
+/**
+ * __useFullVaultInfoQuery__
+ *
+ * To run a query within a React component, call `useFullVaultInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFullVaultInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFullVaultInfoQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      chainId: // value for 'chainId'
+ *   },
+ * });
+ */
+export function useFullVaultInfoQuery(baseOptions: Apollo.QueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables> & ({ variables: FullVaultInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+      }
+export function useFullVaultInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+        }
+export function useFullVaultInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+        }
+export type FullVaultInfoQueryHookResult = ReturnType<typeof useFullVaultInfoQuery>;
+export type FullVaultInfoLazyQueryHookResult = ReturnType<typeof useFullVaultInfoLazyQuery>;
+export type FullVaultInfoSuspenseQueryHookResult = ReturnType<typeof useFullVaultInfoSuspenseQuery>;
 export type FullVaultInfoQueryResult = Apollo.QueryResult<FullVaultInfoQuery, FullVaultInfoQueryVariables>;
 export const TotalAssetsHistoricalDocument = gql`
     query TotalAssetsHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
@@ -2891,4 +2926,38 @@ export const TotalAssetsHistoricalDocument = gql`
   }
 }
     `;
+
+/**
+ * __useTotalAssetsHistoricalQuery__
+ *
+ * To run a query within a React component, call `useTotalAssetsHistoricalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTotalAssetsHistoricalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTotalAssetsHistoricalQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      chainId: // value for 'chainId'
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useTotalAssetsHistoricalQuery(baseOptions: Apollo.QueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables> & ({ variables: TotalAssetsHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+      }
+export function useTotalAssetsHistoricalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+        }
+export function useTotalAssetsHistoricalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+        }
+export type TotalAssetsHistoricalQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalQuery>;
+export type TotalAssetsHistoricalLazyQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalLazyQuery>;
+export type TotalAssetsHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalSuspenseQuery>;
 export type TotalAssetsHistoricalQueryResult = Apollo.QueryResult<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>;

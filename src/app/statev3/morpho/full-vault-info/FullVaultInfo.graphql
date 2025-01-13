@@ -1,51 +1,47 @@
 query FullVaultInfo($address: String!, $chainId: Int!) {
-    vaultByAddress(
-      address: $address
-      chainId: $chainId
-    ) {
-      address
+  vaultByAddress(address: $address, chainId: $chainId) {
+    address
+    name
+    asset {
       name
-      asset {
-        name
-        decimals
-        logoURI
-        symbol
-        address
-      }
-      state {
-        totalSupply
-        totalAssetsUsd
-        netApy
-        allTimeApy
-        dailyApy
-        fee
-        timelock
-        curator
-        
+      decimals
+      logoURI
+      symbol
+      address
+    }
+    state {
+      totalSupply
+      totalAssetsUsd
+      netApy
+      allTimeApy
+      dailyApy
+      fee
+      timelock
+      curator
 
-        allocation {
-          market {
-            uniqueKey
-            loanAsset {
-              name
-              symbol
-              logoURI
-            }
-            collateralAsset {
-              name
-              symbol
-              logoURI
-            }
-            irmAddress
-            oracleAddress
-            lltv
+      allocation {
+        market {
+          id
+          uniqueKey
+          loanAsset {
+            name
+            symbol
+            logoURI
           }
-
-          supplyCap
-          supplyAssets
-          supplyAssetsUsd
+          collateralAsset {
+            name
+            symbol
+            logoURI
+          }
+          irmAddress
+          oracleAddress
+          lltv
         }
-        
+
+        supplyCap
+        supplyAssets
+        supplyAssetsUsd
       }
     }
+  }
 }
