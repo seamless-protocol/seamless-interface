@@ -1,8 +1,7 @@
-import { SeamlessWriteAsyncParams, useSeamlessSendTransaction } from "@shared";
+import { SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
 import { Address } from "viem";
 import { useAccount, useBlock } from "wagmi";
-import { MappedVaultData } from "../types/MappedFullVaultData";
-import { ChainId, addresses } from "@morpho-org/blue-sdk";
+import { ChainId, DEFAULT_SLIPPAGE_TOLERANCE, addresses } from "@morpho-org/blue-sdk";
 import { useSimulationState } from "@morpho-org/simulation-sdk-wagmi";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
@@ -10,34 +9,49 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "./setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 
-export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
-  // meta data
-  const { data: fullVaultData } = useFetchRawFullVaultInfo(vault?.vaultAddress);
+export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
+  /* ------------- */
+  /*   Meta data   */
+  /* ------------- */
   const { address } = useAccount();
   const { data: block } = useBlock();
   const { bundler } = addresses[ChainId.BaseMainnet];
+  const { showNotification } = useNotificationContext();
 
+  /* ------------- */
+  /*   Vault data  */
+  /* ------------- */
+  const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
   const marketIds = fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [];
 
-  // console.log({ marketIds });
-  const { data: simulationState } = useSimulationState({
+  /* ------------- */
+  /*   Simulation  */
+  /* ------------- */
+  const { data: simulationState, isPending: isSimulating } = useSimulationState({
     marketIds,
-    // marketIds: [],
-    users: [address, bundler, vault?.vaultAddress],
-    tokens: [vault?.asset.address, vault?.vaultAddress],
-    vaults: [vault?.vaultAddress],
+    users: [address, bundler, vaultAddress],
+    tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
+    vaults: [vaultAddress],
     block,
     chainId: ChainId.BaseMainnet,
+    query: {
+      enabled: !!block && !!fullVaultData && !!address && !!vaultAddress,
+    },
   });
 
-  // cache data
-  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(vault?.asset.address);
+  /* -------------------- */
+  /*   Query cache keys   */
+  /* -------------------- */
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultByAddress?.asset.address);
   const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: vault?.asset.address,
+    asset: fullVaultData?.vaultByAddress?.asset.address,
     spender: bundler,
   });
 
-  // hook call
+  /* ----------------- */
+  /*   Mutation config */
+  /* ----------------- */
+
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
@@ -46,51 +60,34 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
     ],
   });
 
-  // mutation wrapper
+  /* -------------------- */
+  /*   Mutation wrapper   */
+  /* -------------------- */
   const depositAsync = async (
     // ui arguments
     args: {
       amount: bigint | undefined;
-      sharesToReceive: bigint;
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
-    if (!vault?.vaultAddress) {
-      // eslint-disable-next-line no-console
-      console.warn("vault address is undefined.");
-      return;
-    }
-    if (!args.amount) {
-      // eslint-disable-next-line no-console
-      console.warn("amount is undefined.");
-      return;
-    }
-    if (!simulationState) {
-      // eslint-disable-next-line no-console
-      console.warn("Simulation state is undefined.");
-      return;
-    }
-    if (!address) {
-      // eslint-disable-next-line no-console
-      console.warn("Address is undefined.");
-      return;
-    }
-
     try {
+      if (!vaultAddress) throw new Error("Vault address is not found. Please try again later.");
+      if (!args.amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
+      if (!simulationState) throw new Error("Simulation could not be found. Please try again later.");
+      if (!address) throw new Error("Account address is not found. Please try again later.");
+
       const txs = await setupBundle(address, simulationState, [
         {
           type: "MetaMorpho_Deposit",
           sender: address as Address,
-          address: vault.vaultAddress,
+          address: vaultAddress,
           args: {
             assets: args.amount,
             owner: address as Address,
-            slippage: undefined,
+            slippage: DEFAULT_SLIPPAGE_TOLERANCE,
           },
         },
       ]);
-
-      console.log({ txs });
 
       txs.forEach(async (tx) => {
         await sendTransactionAsync(
@@ -103,8 +100,12 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
       });
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);
+      showNotification({
+        status: "error",
+        content: `Failed to deposit to morpho vault: ${error}`,
+      });
     }
   };
 
-  return { ...rest, isDepositPending: false, depositAsync };
+  return { ...rest, isDepositPending: rest.isPending, depositAsync, isSimulating };
 };
