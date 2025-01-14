@@ -28,7 +28,6 @@ export const useMutateDepositMorphoVault = (vault?: MappedVaultData) => {
     vaults: [vault?.vaultAddress],
     block,
     chainId: ChainId.BaseMainnet,
-    account: address,
   });
 
   // cache data
