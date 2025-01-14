@@ -3,13 +3,15 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
-import { MORPHO_BundlerV2_ADDRESS } from "../../../../../../meta";
+import { ChainId, addresses } from "@morpho-org/blue-sdk";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
+  const { bundler } = addresses[ChainId.BaseMainnet];
+
   const {
     watch,
     formState: { isSubmitting },
@@ -18,7 +20,7 @@ export const FormButtons: React.FC<{
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     vaultData.asset.address,
-    MORPHO_BundlerV2_ADDRESS,
+    bundler,
     parseUnits(amount || "0", vaultData.asset.decimals)
   );
 

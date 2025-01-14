@@ -81,9 +81,6 @@ export const multiplyETH_ADDRESS_STRATEGY_ID = `${WETH_ADDRESS}-${USDC_ADDRESS}`
 export const shortETH_ADDRESS_STRATEGY_ID = `${USDC_ADDRESS}-${WETH_ADDRESS}`;
 export const longBTC_ADDRESS_STRATEGY_ID = `${cbBTC_ADDRESS}-${USDC_ADDRESS}`;
 
-// Morpho
-export const MORPHO_BundlerV2_ADDRESS = "0x23055618898e202386e6c13955a58d3c68200bfb";
-
 export const ONE_USD = BigInt(10 ** 8);
 export const ONE_ETHER = BigInt(10 ** 18);
 
