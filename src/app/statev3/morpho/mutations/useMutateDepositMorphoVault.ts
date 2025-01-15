@@ -1,7 +1,11 @@
 import { SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
 import { Address } from "viem";
 import { useAccount, useBlock } from "wagmi";
-import { ChainId, DEFAULT_SLIPPAGE_TOLERANCE, addresses } from "@morpho-org/blue-sdk";
+import {
+  ChainId,
+  DEFAULT_SLIPPAGE_TOLERANCE,
+  getChainAddresses as getMorphoChainAddresses,
+} from "@morpho-org/blue-sdk";
 import { useSimulationState } from "@morpho-org/simulation-sdk-wagmi";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
@@ -15,7 +19,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
   const { address } = useAccount();
   const { data: block } = useBlock();
-  const { bundler } = addresses[ChainId.BaseMainnet];
+  const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
 
   /* ------------- */
@@ -76,7 +80,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       if (!simulationState) throw new Error("Simulation could not be found. Please try again later.");
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
-      const txs = await setupBundle(address, simulationState, [
+      const txs = setupBundle(address, simulationState, [
         {
           type: "MetaMorpho_Deposit",
           sender: address as Address,

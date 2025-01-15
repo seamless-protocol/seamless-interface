@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { MorphoDepositForm } from "../../../components/forms/morpho-vault/deposit-form/MoprhoDepositForm";
+import { MorphoDepositForm } from "../../../components/forms/morpho-vault/deposit-form/MorphoDepositForm";
 import { FormSettingsProvider } from "../../../components/forms/contexts/FormSettingsContext";
 
 export const FormContainer: React.FC = () => {

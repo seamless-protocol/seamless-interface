@@ -2,11 +2,7 @@ import { InputBundlerOperation, populateBundle, finalizeBundle, encodeBundle } f
 import { SimulationState } from "@morpho-org/simulation-sdk";
 import { Address } from "viem";
 
-export const setupBundle = async (
-  address: Address,
-  startData: SimulationState,
-  inputOperations: InputBundlerOperation[]
-) => {
+export const setupBundle = (address: Address, startData: SimulationState, inputOperations: InputBundlerOperation[]) => {
   let { operations } = populateBundle(inputOperations, startData);
 
   operations = finalizeBundle(operations, startData, address);
