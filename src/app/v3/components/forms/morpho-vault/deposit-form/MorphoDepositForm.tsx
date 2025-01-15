@@ -38,11 +38,15 @@ const MoprhoDepositFormLocal: React.FC<{
       receiveAmount: "",
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+  const amount = watch("amount", "");
 
   const { showNotification } = useNotificationContext();
 
-  const { depositAsync, isLoading, isPending } = useMutateDepositMorphoVault(vaultData.vaultAddress);
+  const { depositAsync, isLoading, isPending } = useMutateDepositMorphoVault(
+    vaultData.vaultAddress,
+    underlyingAssetDecimals ? parseUnits(amount, underlyingAssetDecimals) : undefined
+  );
 
   const onSubmitAsync = async (data: FormData) => {
     await depositAsync(

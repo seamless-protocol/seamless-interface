@@ -13,12 +13,16 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "./setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 
-export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
+export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: bigint) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
   const { address } = useAccount();
-  const { data: block } = useBlock();
+  const { data: block } = useBlock({
+    query: {
+      staleTime: 60_000,
+    },
+  });
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
 
@@ -43,7 +47,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     block,
     chainId: ChainId.BaseMainnet,
     query: {
-      enabled: !!block && !!fullVaultData && !!address && !!vaultAddress,
+      enabled: !!block && !!fullVaultData && !!address && !!vaultAddress && !!amount,
     },
   });
 
@@ -96,7 +100,8 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         },
       ]);
 
-      txs.forEach(async (tx) => {
+      await txs.reduce<Promise<void>>(async (prevPromise, tx) => {
+        await prevPromise;
         await sendTransactionAsync(
           {
             to: bundler,
@@ -104,7 +109,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
           },
           { ...settings }
         );
-      });
+      }, Promise.resolve());
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);
       showNotification({
