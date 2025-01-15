@@ -96,8 +96,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
         },
       ]);
 
-      await txs.reduce<Promise<void>>(async (prevPromise, tx) => {
-        await prevPromise;
+      for (const tx of txs) {
         await sendTransactionAsync(
           {
             to: bundler,
@@ -105,7 +104,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
           },
           { ...settings }
         );
-      }, Promise.resolve());
+      }
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);
       showNotification({

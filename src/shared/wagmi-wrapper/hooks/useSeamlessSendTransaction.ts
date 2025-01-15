@@ -33,13 +33,16 @@ export function useSeamlessSendTransaction(settings?: SeamlessSendAsyncParams) {
   const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const handleTransactionMutation = useHandleTransactionMutation();
+  const handleTransactionMutation = useHandleTransactionMutation({
+    setIsPending,
+    setErrorMessage,
+    settings,
+  });
 
   const { sendTransactionAsync, ...rest } = useSendTransaction({
     mutation: {
       onMutate: () => setIsPending(true),
-      onSettled: (txHash, error, args) =>
-        handleTransactionMutation(txHash, error, args, setIsPending, setErrorMessage, settings),
+      onSettled: handleTransactionMutation,
     },
   });
 

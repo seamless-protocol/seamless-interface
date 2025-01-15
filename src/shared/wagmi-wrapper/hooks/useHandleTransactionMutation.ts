@@ -20,19 +20,20 @@ export type SeamlessWriteAsyncParams = {
  *
  * @returns {Function} A shared `onSettled` callback for transaction mutations.
  */
-export function useHandleTransactionMutation() {
+export function useHandleTransactionMutation({
+  setIsPending,
+  setErrorMessage,
+  settings,
+}: {
+  setIsPending: (isPending: boolean) => void;
+  setErrorMessage: (errorMessage: string | undefined) => void;
+  settings?: SeamlessWriteAsyncParams;
+}) {
   const { invalidateMany } = useInvalidateQueries();
   const { showNotification } = useNotificationContext();
   const wagmiConfig = useConfig();
 
-  return async (
-    txHash: Address | undefined,
-    error: any,
-    args: any,
-    setIsPending: (pending: boolean) => void,
-    setErrorMessage: (error: string | undefined) => void,
-    settings?: SeamlessWriteAsyncParams
-  ) => {
+  return async (txHash: Address | undefined, error: any, args: any) => {
     try {
       if (error) throw error;
 

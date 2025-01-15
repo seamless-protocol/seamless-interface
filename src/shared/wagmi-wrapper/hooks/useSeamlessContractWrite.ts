@@ -23,13 +23,16 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
   const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const handleTransactionMutation = useHandleTransactionMutation();
+  const handleTransactionMutation = useHandleTransactionMutation({
+    setIsPending,
+    setErrorMessage,
+    settings,
+  });
 
   const { writeContractAsync, ...rest } = useWriteContract({
     mutation: {
       onMutate: () => setIsPending(true),
-      onSettled: (txHash, error, args) =>
-        handleTransactionMutation(txHash, error, args, setIsPending, setErrorMessage, settings),
+      onSettled: handleTransactionMutation,
     },
   });
 
