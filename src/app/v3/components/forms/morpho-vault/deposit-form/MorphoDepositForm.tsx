@@ -42,7 +42,7 @@ const MoprhoDepositFormLocal: React.FC<{
 
   const { showNotification } = useNotificationContext();
 
-  const { depositAsync, isSimulating, isPending } = useMutateDepositMorphoVault(vaultData.vaultAddress);
+  const { depositAsync, isLoading, isPending } = useMutateDepositMorphoVault(vaultData.vaultAddress);
 
   const onSubmitAsync = async (data: FormData) => {
     await depositAsync(
@@ -85,7 +85,7 @@ const MoprhoDepositFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons vaultData={vaultData} isLoading={isPending || isSimulating} />
+        <FormButtons vaultData={vaultData} isLoading={isPending || isLoading} />
       </FlexCol>
     </MyFormProvider>
   );

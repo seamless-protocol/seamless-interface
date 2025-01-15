@@ -1,11 +1,8 @@
 import { Hash } from "viem";
-import { useConfig, useSendTransaction } from "wagmi";
-import { waitForTransactionReceipt } from "wagmi/actions";
+import { useSendTransaction } from "wagmi";
 import { useState } from "react";
-import { getParsedError } from "../../utils/errorParser";
-import { useInvalidateQueries } from "./useInvalidateQueries";
 import { QueryKey } from "@tanstack/query-core";
-import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
+import { useHandleTransactionMutation } from "./useHandleTransactionMutation";
 
 export type SeamlessSendAsyncParams = {
   onSuccess?: (txHash: Hash) => void;
@@ -18,80 +15,31 @@ export type SeamlessSendAsyncParams = {
 /**
  * Custom hook for sending a transaction using Wagmi.
  *
- * This hook provides functionality for sending a transaction,
- * handling the asynchronous nature, error handling, notifications, etc.
+ * This hook provides functionality for sending a transaction using Wagmi, handling the asynchronous nature of the operation, error handling, and notifications.
  *
- * @param {SeamlessSendAsyncParams} [settings] - Optional settings for the transaction.
+ * @param {SeamlessWriteAsyncParams} [settings] - Optional settings for the write operation.
+ * @param {Function} [settings.onSuccess] - Callback function to be called on successful transaction.
+ * @param {Function} [settings.onError] - Callback function to be called on transaction error.
+ * @param {Function} [settings.onSettled] - Callback function to be called after the transaction settles (whether success or failure).
+ * @param {boolean} [settings.hideDefaultErrorOnNotification] - If true, hides the default error notification.
+ * @param {QueryKey[]} [settings.queriesToInvalidate] - Array of query keys to invalidate after the transaction settles.
  * @returns {Object} Object containing the following properties:
  * - {boolean} isPending - Indicates whether the transaction is pending.
- * - {string|undefined} errorMessage - The error message, if an error occurred.
- * - {Function} sendTransactionAsync - Function to trigger the send operation.
+ * - {string|undefined} errorMessage - The error message, if an error occurred during the transaction.
+ * - {Function} sendTransactionAsync - Function to trigger the send transaction mutation.
  */
 
 export function useSeamlessSendTransaction(settings?: SeamlessSendAsyncParams) {
-  const wagmiConfig = useConfig();
-  const [isPending, setIsPending] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const { invalidateMany } = useInvalidateQueries();
-  const { showNotification } = useNotificationContext();
+  const handleTransactionMutation = useHandleTransactionMutation();
 
-  // The `useSendTransaction` hook from Wagmi
   const { sendTransactionAsync, ...rest } = useSendTransaction({
     mutation: {
-      onMutate: async () => setIsPending(true),
-      onSettled: async (txHash, error, args) => {
-        try {
-          if (error) throw error;
-
-          // 1. wait for transaction receipt
-          const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
-            hash: txHash!,
-          });
-
-          // 2. throw if receipt is not valid
-          if (txReceipt.status === "reverted") {
-            throw new Error("Execution reverted.");
-          }
-
-          // 3. invalidate queries if provided
-          if (settings?.queriesToInvalidate) {
-            await invalidateMany(settings.queriesToInvalidate);
-          }
-
-          // 4. call onSuccess callback
-          settings?.onSuccess?.(txHash!);
-
-          // 5. logging
-          // eslint-disable-next-line no-console
-          console.info("Transaction successful:", txHash);
-
-          // 6. return result
-          return txHash;
-        } catch (err) {
-          const parsedError = getParsedError(err);
-          console.error(`useSeamlessSendTransaction failed with error: ${parsedError}`, { err }, { args });
-
-          // show error notification
-          if (!settings?.hideDefaultErrorOnNotification) {
-            showNotification({
-              status: "error",
-              content: parsedError,
-            });
-          }
-
-          // set error message
-          setErrorMessage(parsedError);
-
-          // call onError callback
-          settings?.onError?.(err);
-        } finally {
-          setIsPending(false);
-          // call onSettled callback
-          settings?.onSettled?.();
-        }
-        return undefined;
-      },
+      onMutate: () => setIsPending(true),
+      onSettled: (txHash, error, args) =>
+        handleTransactionMutation(txHash, error, args, setIsPending, setErrorMessage, settings),
     },
   });
 

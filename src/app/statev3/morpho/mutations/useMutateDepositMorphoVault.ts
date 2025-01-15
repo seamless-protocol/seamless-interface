@@ -31,8 +31,11 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
   /*   Simulation  */
   /* ------------- */
-  // todo should we use isPending or isFetchingAny or isFetching ?
-  const { data: simulationState, isPending: isSimulating } = useSimulationState({
+  const {
+    data: simulationState,
+    isPending: isSimulating,
+    isFetchingAny,
+  } = useSimulationState({
     marketIds,
     users: [address, bundler, vaultAddress],
     tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
@@ -111,5 +114,5 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     }
   };
 
-  return { ...rest, isDepositPending: rest.isPending, depositAsync, isSimulating };
+  return { ...rest, isDepositPending: rest.isPending, depositAsync, isLoading: isSimulating || isFetchingAny };
 };
