@@ -27,6 +27,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
   /*   Simulation  */
   /* ------------- */
+  // todo should we use isPending or isFetchingAny or isFetching ?
   const { data: simulationState, isPending: isSimulating } = useSimulationState({
     marketIds,
     users: [address, bundler, vaultAddress],
@@ -51,7 +52,6 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
-
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
