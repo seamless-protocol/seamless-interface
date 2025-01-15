@@ -12,6 +12,7 @@ import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetc
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { setupBundle } from "./setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
+import { logSimulationErrors } from "../utils/logSimulationErrors";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: bigint) => {
   /* ------------- */
@@ -35,6 +36,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
     data: simulationState,
     isPending: isSimulating,
     isFetchingAny,
+    error: simulationError,
   } = useSimulationState({
     marketIds,
     users: [address, bundler, vaultAddress],
@@ -107,6 +109,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
       }
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);
+      logSimulationErrors(simulationError);
       showNotification({
         status: "error",
         content: `Failed to deposit to morpho vault: ${error}`,
