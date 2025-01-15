@@ -8,7 +8,7 @@ import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/fu
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
 
-export const MoprhoDepositForm = () => {
+export const MorphoDepositForm = () => {
   const { strategy } = useFormSettingsContext();
   const { data: vaultData } = useFetchFormattedFullVaultInfo(strategy);
 
