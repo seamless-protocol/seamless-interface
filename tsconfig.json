@@ -34,8 +34,7 @@
     "config/**/*.tsx",
     "cypress/**/*.ts",
     "vite.config.ts",
-    ".eslintrc",
-    "abis/**/*.ts"
+    ".eslintrc"
   ],
   "exclude": ["src/generated-graphql"],
   "references": [
