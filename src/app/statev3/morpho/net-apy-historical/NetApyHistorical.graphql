@@ -1,0 +1,26 @@
+query NetApyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
+  vaultByAddress(address: $address, chainId: $chainId) {
+    asset {
+      name
+      decimals
+      logoURI
+      symbol
+    }
+    state {
+      netApy
+      netApyWithoutRewards
+
+      apy
+    }
+    historicalState {
+      netApy(options: $options) {
+        y
+        x
+      }
+      netApyWithoutRewards(options: $options) {
+        y
+        x
+      }
+    }
+  }
+}

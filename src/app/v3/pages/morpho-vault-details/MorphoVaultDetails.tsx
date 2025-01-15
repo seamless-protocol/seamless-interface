@@ -6,6 +6,7 @@ import { RouterConfig } from "@router";
 import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
 import { Address } from "viem";
+import { NetApyGraphComponent } from "./components/net-apy-graph/NetApyGraphComponent";
 
 export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ export const MorphoVaultDetails = () => {
 
             <div className="flex flex-col gap-10 order-2 md:order-1">
               {/* {isConnected && <CurrentHoldings />} */}
+              {/* todo add vault as param in TotalAssetsGraphComponent as wellw */}
               <TotalAssetsGraphComponent />
+              <NetApyGraphComponent vault={vault} />
               <MorphoVaultStats vault={vault} />
               {/* <StrategyDetails /> */}
             </div>
