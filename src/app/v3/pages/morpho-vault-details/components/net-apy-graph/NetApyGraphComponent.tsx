@@ -104,9 +104,7 @@ export const NetApyGraphComponent: React.FC<{
               },
             },
             yaxis: {
-              tickAmount: 4, // or 3, 5, etc.
-              forceNiceScale: true, // helps generate "nice" even intervals
-
+              tickAmount: 4,
               labels: {
                 formatter: (value: number) => `${formatToDisplayable(value)}%`,
               },
