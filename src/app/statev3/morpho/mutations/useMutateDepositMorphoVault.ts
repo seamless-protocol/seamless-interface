@@ -21,6 +21,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
   const { data: block } = useBlock({
     query: {
       staleTime: 60_000,
+      gcTime: 60_000,
     },
   });
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
