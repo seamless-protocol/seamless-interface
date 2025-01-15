@@ -18,7 +18,8 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
-  const { address } = useAccount();
+  const account = useAccount();
+  const { address } = account;
   const { data: block } = useBlock();
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
@@ -85,7 +86,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
       if (!simulationState) throw new Error("Simulation could not be found. Please try again later.");
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
-      const txs = setupBundle(address, simulationState, [
+      const txs = await setupBundle(account, simulationState, [
         {
           type: "MetaMorpho_Deposit",
           sender: address as Address,
