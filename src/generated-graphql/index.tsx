@@ -892,16 +892,24 @@ export type MarketPositionHistory = {
   __typename?: 'MarketPositionHistory';
   /** Borrow assets history. */
   borrowAssets?: Maybe<Array<BigIntDataPoint>>;
+  /** Borrow assets history, in USD. */
+  borrowAssetsUsd?: Maybe<Array<FloatDataPoint>>;
   /** Borrow shares history. */
   borrowShares?: Maybe<Array<BigIntDataPoint>>;
   /** Collateral history. */
   collateral?: Maybe<Array<BigIntDataPoint>>;
+  /** Collateral value history, in USD. */
+  collateralUsd?: Maybe<Array<FloatDataPoint>>;
+  /** Collateral value history, in loan assets. */
+  collateralValue?: Maybe<Array<BigIntDataPoint>>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) history, in loan assets. */
   pnl?: Maybe<Array<BigIntDataPoint>>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) history, in USD for display purposes. */
   pnlUsd?: Maybe<Array<FloatDataPoint>>;
   /** Supply assets history. */
   supplyAssets?: Maybe<Array<BigIntDataPoint>>;
+  /** Supply assets history, in USD. */
+  supplyAssetsUsd?: Maybe<Array<FloatDataPoint>>;
   /** Supply shares history. */
   supplyShares?: Maybe<Array<BigIntDataPoint>>;
 };
@@ -914,6 +922,12 @@ export type MarketPositionHistoryBorrowAssetsArgs = {
 
 
 /** Market position state history */
+export type MarketPositionHistoryBorrowAssetsUsdArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** Market position state history */
 export type MarketPositionHistoryBorrowSharesArgs = {
   options?: InputMaybe<TimeseriesOptions>;
 };
@@ -921,6 +935,18 @@ export type MarketPositionHistoryBorrowSharesArgs = {
 
 /** Market position state history */
 export type MarketPositionHistoryCollateralArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** Market position state history */
+export type MarketPositionHistoryCollateralUsdArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** Market position state history */
+export type MarketPositionHistoryCollateralValueArgs = {
   options?: InputMaybe<TimeseriesOptions>;
 };
 
@@ -944,6 +970,12 @@ export type MarketPositionHistorySupplyAssetsArgs = {
 
 
 /** Market position state history */
+export type MarketPositionHistorySupplyAssetsUsdArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** Market position state history */
 export type MarketPositionHistorySupplySharesArgs = {
   options?: InputMaybe<TimeseriesOptions>;
 };
@@ -959,7 +991,7 @@ export enum MarketPositionOrderBy {
 export type MarketPositionState = {
   __typename?: 'MarketPositionState';
   /** The last borrow assets used to update the position's P&L. */
-  borrowAssets: Scalars['BigInt']['output'];
+  borrowAssets?: Maybe<Scalars['BigInt']['output']>;
   /** The last borrow shares used to update the position's P&L. */
   borrowShares: Scalars['BigInt']['output'];
   /** The last collateral assets used to update the position's P&L. */
@@ -967,17 +999,17 @@ export type MarketPositionState = {
   /** The last collateral asset USD price used to update the position's P&L in USD. */
   collateralAssetUsdPrice?: Maybe<Scalars['Float']['output']>;
   /** The last collateral price used to update the position's P&L. */
-  collateralPrice: Scalars['BigInt']['output'];
+  collateralPrice?: Maybe<Scalars['BigInt']['output']>;
   id: Scalars['ID']['output'];
   /** The last loan asset USD price used to update the position's P&L in USD. */
   loanAssetUsdPrice?: Maybe<Scalars['Float']['output']>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in loan assets. */
-  pnl: Scalars['BigInt']['output'];
+  pnl?: Maybe<Scalars['BigInt']['output']>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in USD for display purpose */
   pnlUsd?: Maybe<Scalars['Float']['output']>;
   position: MarketPosition;
   /** The last supply assets used to update the position's P&L. */
-  supplyAssets: Scalars['BigInt']['output'];
+  supplyAssets?: Maybe<Scalars['BigInt']['output']>;
   /** The last supply shares used to update the position's P&L. */
   supplyShares: Scalars['BigInt']['output'];
   /** Last update timestamp. */
@@ -1360,6 +1392,12 @@ export type PaginatedMarkets = {
   pageInfo?: Maybe<PageInfo>;
 };
 
+export type PaginatedMetaMorphoFactories = {
+  __typename?: 'PaginatedMetaMorphoFactories';
+  items?: Maybe<Array<VaultFactory>>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
 export type PaginatedMetaMorphoPositions = {
   __typename?: 'PaginatedMetaMorphoPositions';
   items?: Maybe<Array<VaultPosition>>;
@@ -1559,6 +1597,9 @@ export type Query = {
   users: PaginatedUsers;
   vault: Vault;
   vaultByAddress: Vault;
+  vaultFactories: PaginatedMetaMorphoFactories;
+  vaultFactory: VaultFactory;
+  vaultFactoryByAddress: VaultFactory;
   vaultPosition: VaultPosition;
   vaultPositions: PaginatedMetaMorphoPositions;
   vaultReallocates: PaginatedVaultReallocates;
@@ -1783,6 +1824,17 @@ export type QueryVaultByAddressArgs = {
 };
 
 
+export type QueryVaultFactoryArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryVaultFactoryByAddressArgs = {
+  address: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryVaultPositionArgs = {
   chainId?: InputMaybe<Scalars['Int']['input']>;
   userAddress: Scalars['String']['input'];
@@ -1872,7 +1924,7 @@ export type Transaction = {
   user: User;
 };
 
-export type TransactionData = MarketCollateralTransferTransactionData | MarketLiquidationTransactionData | MarketTransferTransactionData | VaultTransactionData | VaultTransferTransactionData;
+export type TransactionData = MarketCollateralTransferTransactionData | MarketLiquidationTransactionData | MarketTransferTransactionData | VaultTransactionData;
 
 /** Filtering options for transactions. AND operator is used for multiple filters, while OR operator is used for multiple values in the same filter. */
 export type TransactionFilters = {
@@ -2073,6 +2125,7 @@ export type Vault = {
   dailyApy?: Maybe<Scalars['Float']['output']>;
   /** Daily vault APYs */
   dailyApys?: Maybe<VaultApyAggregates>;
+  factory: VaultFactory;
   historicalState: VaultHistory;
   id: Scalars['ID']['output'];
   /** Vault liquidity */
@@ -2193,6 +2246,15 @@ export type VaultApyAggregates = {
   netApy?: Maybe<Scalars['Float']['output']>;
 };
 
+/** MetaMorpho Vault Factories */
+export type VaultFactory = {
+  __typename?: 'VaultFactory';
+  address: Scalars['Address']['output'];
+  chain: Chain;
+  creationBlockNumber: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+};
+
 export type VaultFilters = {
   /** Filter by MetaMorpho vault address */
   address_in?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -2221,6 +2283,8 @@ export type VaultFilters = {
   credoraRiskScore_lte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by MetaMorpho current curator address */
   curatorAddress_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Filter by MetaMorphoFactory address */
+  factoryAddress_in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Filter by greater than or equal to given fee rate. */
   fee_gte?: InputMaybe<Scalars['Float']['input']>;
   /** Filter by lower than or equal to given fee rate. */
@@ -2572,6 +2636,8 @@ export type VaultPositionHistory = {
   __typename?: 'VaultPositionHistory';
   /** Value of the position since its inception, in underlying assets. */
   assets?: Maybe<Array<BigIntDataPoint>>;
+  /** Value of the position since its inception, in USD. */
+  assetsUsd?: Maybe<Array<FloatDataPoint>>;
   /** Profit (from the underlying asset's price variation) & Loss (from bad debt socialization) of the position since its inception, in underlying assets. */
   pnl?: Maybe<Array<BigIntDataPoint>>;
   /** Profit (from the underlying asset's price variation) & Loss (from bad debt socialization) of the position since its inception, in USD for display purposes. */
@@ -2583,6 +2649,12 @@ export type VaultPositionHistory = {
 
 /** Vault position state history */
 export type VaultPositionHistoryAssetsArgs = {
+  options?: InputMaybe<TimeseriesOptions>;
+};
+
+
+/** Vault position state history */
+export type VaultPositionHistoryAssetsUsdArgs = {
   options?: InputMaybe<TimeseriesOptions>;
 };
 
@@ -2615,12 +2687,12 @@ export type VaultPositionState = {
   assetUsdPrice?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in loan assets. */
-  pnl: Scalars['BigInt']['output'];
+  pnl?: Maybe<Scalars['BigInt']['output']>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in USD for display purpose */
   pnlUsd?: Maybe<Scalars['Float']['output']>;
   position: VaultPosition;
   /** The last supply assets used to update the position's P&L. */
-  supplyAssets: Scalars['BigInt']['output'];
+  supplyAssets?: Maybe<Scalars['BigInt']['output']>;
   /** The last supply shares used to update the position's P&L. */
   supplyShares: Scalars['BigInt']['output'];
   /** Last update timestamp. */
@@ -2781,13 +2853,6 @@ export type VaultTransactionData = {
   vault: Vault;
 };
 
-/** Meta Morpho vault transfer transaction data */
-export type VaultTransferTransactionData = {
-  __typename?: 'VaultTransferTransactionData';
-  shares: Scalars['BigInt']['output'];
-  vault: Vault;
-};
-
 /** Vault warning */
 export type VaultWarning = {
   __typename?: 'VaultWarning';
@@ -2806,7 +2871,16 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+
+export type NetApyHistoricalQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+  options?: InputMaybe<TimeseriesOptions>;
+}>;
+
+
+export type NetApyHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', netApy?: number | null, netApyWithoutRewards: number, apy: number } | null, historicalState: { __typename?: 'VaultHistory', netApy?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, netApyWithoutRewards?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null } } };
 
 export type TotalAssetsHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -2828,7 +2902,6 @@ export const FullVaultInfoDocument = gql`
       decimals
       logoURI
       symbol
-      address
     }
     state {
       totalSupply
@@ -2841,7 +2914,6 @@ export const FullVaultInfoDocument = gql`
       curator
       allocation {
         market {
-          id
           uniqueKey
           loanAsset {
             name
@@ -2899,6 +2971,68 @@ export type FullVaultInfoQueryHookResult = ReturnType<typeof useFullVaultInfoQue
 export type FullVaultInfoLazyQueryHookResult = ReturnType<typeof useFullVaultInfoLazyQuery>;
 export type FullVaultInfoSuspenseQueryHookResult = ReturnType<typeof useFullVaultInfoSuspenseQuery>;
 export type FullVaultInfoQueryResult = Apollo.QueryResult<FullVaultInfoQuery, FullVaultInfoQueryVariables>;
+export const NetApyHistoricalDocument = gql`
+    query NetApyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
+  vaultByAddress(address: $address, chainId: $chainId) {
+    asset {
+      name
+      decimals
+      logoURI
+      symbol
+    }
+    state {
+      netApy
+      netApyWithoutRewards
+      apy
+    }
+    historicalState {
+      netApy(options: $options) {
+        y
+        x
+      }
+      netApyWithoutRewards(options: $options) {
+        y
+        x
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useNetApyHistoricalQuery__
+ *
+ * To run a query within a React component, call `useNetApyHistoricalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNetApyHistoricalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNetApyHistoricalQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      chainId: // value for 'chainId'
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useNetApyHistoricalQuery(baseOptions: Apollo.QueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables> & ({ variables: NetApyHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+      }
+export function useNetApyHistoricalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+        }
+export function useNetApyHistoricalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+        }
+export type NetApyHistoricalQueryHookResult = ReturnType<typeof useNetApyHistoricalQuery>;
+export type NetApyHistoricalLazyQueryHookResult = ReturnType<typeof useNetApyHistoricalLazyQuery>;
+export type NetApyHistoricalSuspenseQueryHookResult = ReturnType<typeof useNetApyHistoricalSuspenseQuery>;
+export type NetApyHistoricalQueryResult = Apollo.QueryResult<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>;
 export const TotalAssetsHistoricalDocument = gql`
     query TotalAssetsHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
   vaultByAddress(address: $address, chainId: $chainId) {
