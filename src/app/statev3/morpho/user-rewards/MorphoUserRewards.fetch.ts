@@ -4,10 +4,11 @@ import { FetchUserRewardsResponse } from "../types/UserReward";
 import { base } from "viem/chains";
 import { Address } from "viem";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { extendAndMapMorphoRewards } from "../mappers/extendAndMapMorphoRewards";
 
 const BASE_URL = "https://rewards.morpho.org/v1";
 
-export async function fetchMorphoUserRewards(
+export async function fetchRawMorphoUserRewards(
   userAddress: Address,
   chainId = base.id
 ): Promise<FetchUserRewardsResponse> {
@@ -24,4 +25,11 @@ export async function fetchMorphoUserRewards(
   });
 
   return response;
+}
+
+export async function fetchMorphoExtendedMappedUserRewards(userAddress: Address, chainId = base.id) {
+  const rewardsResponse = await fetchRawMorphoUserRewards(userAddress, chainId);
+  const extendedRewards = await extendAndMapMorphoRewards(rewardsResponse);
+
+  return extendedRewards;
 }
