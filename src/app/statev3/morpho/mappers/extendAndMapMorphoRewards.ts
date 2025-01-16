@@ -1,149 +1,160 @@
 import { Address } from "viem";
-import { FetchUserRewardsResponse, ExtendedUserReward, RewardAmount } from "../types/UserReward";
 import {
-  fetchToken,
-  formatFetchBigIntToViewBigInt,
-  Token,
-} from "@shared";
+  FetchUserRewardsResponse,
+  RewardAmount,
+  RewardAmountBigInt,
+  SummedUserReward,
+  UserReward
+} from "../types/UserReward";
+
+import { fetchToken, Token, formatFetchBigIntToViewBigInt } from "@shared";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
 export const pricePrecision = 8;
 
-function addOptionalStrings(a?: string, b?: string): string | undefined {
-  if (a === undefined || b === undefined) {
-    return undefined;
+export function parseRewardAmount(amount?: RewardAmount): RewardAmountBigInt {
+  if (!amount) {
+    return {};
   }
-  return (BigInt(a) + BigInt(b)).toString();
-}
-
-/** Sums two user rewards (amount or for_supply) objects together. */
-function sumUserRewards(
-  current: { total?: string; claimable_now?: string; claimable_next?: string; claimed?: string },
-  incoming: { total?: string; claimable_now?: string; claimable_next?: string; claimed?: string }
-) {
 
   return {
-    total: addOptionalStrings(current.total, incoming.total),
-    claimable_now: addOptionalStrings(current.claimable_now, incoming.claimable_now),
-    claimable_next: addOptionalStrings(current.claimable_next, incoming.claimable_next),
-    claimed: addOptionalStrings(current.claimed, incoming.claimed),
+    total: amount.total ? BigInt(amount.total) : undefined,
+    claimable_now: amount.claimable_now ? BigInt(amount.claimable_now) : undefined,
+    claimable_next: amount.claimable_next ? BigInt(amount.claimable_next) : undefined,
+    claimed: amount.claimed ? BigInt(amount.claimed) : undefined,
   };
 }
 
-function formatUsdBigInt(usdAmount?: bigint) {
-  return formatFetchBigIntToViewBigInt({
-    bigIntValue: usdAmount,
-    decimals: pricePrecision,
-    symbol: "$",
-  });
+function addOptionalBigInt(a?: bigint, b?: bigint): bigint | undefined {
+  if (a === undefined) return b;
+  if (b === undefined) return a;
+  return a + b;
 }
 
-/**
- * Extends the rewards data by:
- * 1. Grouping by token address
- * 2. Summing the numeric fields
- * 3. Fetching token metadata & USD price
- * 4. Computing USD values for each field
- * 5. Formatting the amounts
- */
+export function sumRewardAmountsBigInt(
+  current: RewardAmountBigInt,
+  incoming: RewardAmountBigInt
+): RewardAmountBigInt {
+  return {
+    total: addOptionalBigInt(current.total, incoming.total),
+    claimable_now: addOptionalBigInt(current.claimable_now, incoming.claimable_now),
+    claimable_next: addOptionalBigInt(current.claimable_next, incoming.claimable_next),
+    claimed: addOptionalBigInt(current.claimed, incoming.claimed),
+  };
+}
+
 export async function extendAndMapMorphoRewards(
   rewardsResponse: FetchUserRewardsResponse
-): Promise<ExtendedUserReward[]> {
-  // 1. Group by asset address
-  const grouped = new Map<string, typeof rewardsResponse.data>();
+): Promise<SummedUserReward[]> {
+  // 1. Group by asset.address
+  const grouped = new Map<string, UserReward[]>();
 
   // eslint-disable-next-line no-restricted-syntax
   for (const reward of rewardsResponse.data) {
-    const { address } = reward.asset;
-    if (!grouped.has(address)) {
-      grouped.set(address, []);
+    const addr = reward.asset.address;
+    if (!grouped.has(addr)) {
+      grouped.set(addr, []);
     }
-    grouped.get(address)?.push(reward);
+    grouped.get(addr)!.push(reward);
   }
 
-  // 2. For each group, sum up the amounts & fetch token metadata once
-  const extendedRewardsPromises = Array.from(grouped.entries()).map(async ([address, rewards]) => {
+  // 2. For each group, sum up the amounts in BigInt
+  const extendedRewardsPromises = Array.from(grouped.entries()).map(
+    async ([address, rewards]) => {
+      const first = rewards[0];
 
-    const token: Token = await fetchToken(address as Address);
-    const priceValue = await fetchCoinGeckoAssetPriceByAddress({
-      address: address as Address,
-      precision: pricePrecision,
-    });
+      // 2a. Fetch token metadata
+      const token: Token = await fetchToken(address as Address);
 
-    // Sum up amounts across all matching rewards
-    const combined = rewards.reduce<RewardAmount>((acc, r) => {
-      const userRewards = r.amount ?? r.for_supply;
-      if (userRewards) {
-        return sumUserRewards(acc, userRewards);
-      }
-      return acc;
-    }, {
-      total: "0",
-      claimable_now: "0",
-      claimable_next: "0",
-      claimed: "0",
-    });
+      // 2b. Fetch USD price
+      const priceValue = await fetchCoinGeckoAssetPriceByAddress({
+        address: address as Address,
+        precision: pricePrecision,
+      });
 
-    // Convert to bigint for each field
-    const totalBigInt = combined.total ? BigInt(combined.total) : undefined;
-    const claimableNowBigInt = combined.claimable_now ? BigInt(combined.claimable_now) : undefined;
-    const claimableNextBigInt = combined.claimable_next ? BigInt(combined.claimable_next) : undefined;
-    const claimedBigInt = combined.claimed ? BigInt(combined.claimed) : undefined;
+      // 2c. Sum up amounts across all matching rewards, but in BigInt
+      const combinedAmountBigInt = rewards.reduce<RewardAmountBigInt>(
+        (acc, r) => {
+          const userRewards = parseRewardAmount(r.amount ?? r.for_supply);
+          return sumRewardAmountsBigInt(acc, userRewards);
+        },
+        {}
+      );
 
-    // 3. Compute USD value (raw bigint) for each field
-    const totalUsd = cValueInUsd(totalBigInt, priceValue, token.decimals);
-    const claimableNowUsd = cValueInUsd(claimableNowBigInt, priceValue, token.decimals);
-    const claimableNextUsd = cValueInUsd(claimableNextBigInt, priceValue, token.decimals);
-    const claimedUsd = cValueInUsd(claimedBigInt, priceValue, token.decimals);
+      // Extract each field
+      const totalBigInt = combinedAmountBigInt.total;
+      const claimableNowBigInt = combinedAmountBigInt.claimable_now;
+      const claimableNextBigInt = combinedAmountBigInt.claimable_next;
+      const claimedBigInt = combinedAmountBigInt.claimed;
 
-    // 4. Format the raw token amounts for user-friendly display
-    const formatted = {
-      total: formatFetchBigIntToViewBigInt({
-        bigIntValue: combined.total ? BigInt(combined.total) : undefined,
-        decimals: token.decimals,
-        symbol: token.symbol,
-      }),
-      totalUsd: formatUsdBigInt(totalUsd),
+      // 2d. Compute USD value for each field (bigint -> bigint)
+      const totalUsdBigInt = cValueInUsd(totalBigInt, priceValue, token.decimals);
+      const claimableNowUsdBigInt = cValueInUsd(claimableNowBigInt, priceValue, token.decimals);
+      const claimableNextUsdBigInt = cValueInUsd(claimableNextBigInt, priceValue, token.decimals);
+      const claimedUsdBigInt = cValueInUsd(claimedBigInt, priceValue, token.decimals);
 
-      claimableNow: formatFetchBigIntToViewBigInt({
-        bigIntValue: claimableNowBigInt,
-        decimals: token.decimals,
-        symbol: token.symbol,
-      }),
-      claimableNowUsd: formatUsdBigInt(claimableNowUsd),
+      // 2e. Format for display only
+      const formatted = {
+        total: formatFetchBigIntToViewBigInt({
+          bigIntValue: totalBigInt,
+          decimals: token.decimals,
+          symbol: token.symbol,
+        }),
+        totalUsd: formatFetchBigIntToViewBigInt({
+          bigIntValue: totalUsdBigInt,
+          decimals: pricePrecision, // Show 8 decimals for USD
+          symbol: "$",
+        }),
 
-      claimableNext: formatFetchBigIntToViewBigInt({
-        bigIntValue: claimableNextBigInt,
-        decimals: token.decimals,
-        symbol: token.symbol,
-      }),
-      claimableNextUsd: formatUsdBigInt(claimableNextUsd),
+        claimableNow: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimableNowBigInt,
+          decimals: token.decimals,
+          symbol: token.symbol,
+        }),
+        claimableNowUsd: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimableNowUsdBigInt,
+          decimals: pricePrecision,
+          symbol: "$",
+        }),
 
-      claimed: formatFetchBigIntToViewBigInt({
-        bigIntValue: claimedBigInt,
-        decimals: token.decimals,
-        symbol: token.symbol,
-      }),
-      claimedUsd: formatUsdBigInt(claimedUsd),
-    };
+        claimableNext: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimableNextBigInt,
+          decimals: token.decimals,
+          symbol: token.symbol,
+        }),
+        claimableNextUsd: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimableNextUsdBigInt,
+          decimals: pricePrecision,
+          symbol: "$",
+        }),
 
-    // 5. Return a single aggregated object for this token address
-    const [firstReward] = rewards;
-    return {
-      ...firstReward,
-      token,
-      combinedAmount: combined,
-      combinedAmountUsd: {
-        bigIntValue: totalUsd,
-        symbol: "$",
-        decimals: pricePrecision,
-      },
-      for_supply: undefined,
-      amount: undefined,
-      formatted,
-    };
-  });
+        claimed: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimedBigInt,
+          decimals: token.decimals,
+          symbol: token.symbol,
+        }),
+        claimedUsd: formatFetchBigIntToViewBigInt({
+          bigIntValue: claimedUsdBigInt,
+          decimals: pricePrecision,
+          symbol: "$",
+        }),
+      };
+
+      // 2f. Build the SummedUserReward
+      return {
+        asset: first.asset,
+        token,
+        combinedAmount: combinedAmountBigInt,
+        combinedAmountUsd: {
+          bigIntValue: totalUsdBigInt,
+          decimals: pricePrecision,
+          symbol: "$",
+        },
+        formatted,
+      };
+    }
+  );
 
   const extendedRewards = await Promise.all(extendedRewardsPromises);
   return extendedRewards;
