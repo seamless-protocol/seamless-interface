@@ -14,7 +14,8 @@ export async function fetchMorphoUserDistributions(userAddress: Address, chainId
   const response = await client.fetchQuery({
     queryKey: ["fetchMorphoUserDistributions", userAddress, chainId],
     queryFn: async () => {
-      const url = `${BASE_URL}/users/${userAddress}/distributions?chain_id=${chainId}&per_page=${100}`;
+      // todo is pagination an issue??
+      const url = `${BASE_URL}/users/${userAddress}/distributions?chain_id=${chainId}`;
       const response = await axios.get<FetchMorphoResponse>(url);
 
       return response.data;
