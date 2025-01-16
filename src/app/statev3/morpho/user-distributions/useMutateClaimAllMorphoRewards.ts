@@ -1,14 +1,19 @@
-import { SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
+import { SeamlessWriteAsyncParams, useSeamlessSendTransaction } from "@shared";
 import { fetchMorphoUserDistributions } from "./MorphoUserDistributions.fetch";
 import { useAccount } from "wagmi";
 import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
-import { Address, encodeFunctionData } from "viem";
+import { encodeFunctionData } from "viem";
 import { MORPHO_USER_REWARDS_QUERY_KEY } from "../user-rewards/MorphoUserRewards.fetch";
+import { baseBundlerAbi } from "../../../../../abis/urdBundler";
+import {
+  ChainId,
+  getChainAddresses as getMorphoChainAddresses,
+} from "@morpho-org/blue-sdk";
 
-export const useMutateClaimAllRewards = () => {
+export const useMutateClaimAllMorphoRewards = () => {
   const { address } = useAccount();
 
-  const { showNotification } = useNotificationContext();
+  const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
@@ -20,35 +25,37 @@ export const useMutateClaimAllRewards = () => {
     try {
       if (!address) throw new Error("Account address is not found. Please connect your wallet.");
 
-      const inputData = await fetchMorphoUserDistributions(address);
+      const distributions = await fetchMorphoUserDistributions(address);
 
-      const claimAction = BundlerAction.urdClaim(
-        inputData.distributor.address,
-        address,
-        "0x0000000000000000000000000000000000000000", // todo: reward?
-        inputData.claimable,
-        inputData.proof,
-        false
-      );
+      const actions: any = [];
+      distributions.data.map((item) =>
+        actions.push(
+          BundlerAction.urdClaim(
+            item.distributor.address,
+            address,
+            item.asset.address,
+            item.claimable,
+            item.proof,
+            false // todo : doublecheck
+          )
+        )
+      )
 
       const data = encodeFunctionData({
-        abi: {} as any,
-        functionName: "urdClaim",
-        args: [[claimAction]],
+        abi: baseBundlerAbi,
+        functionName: "multicall",
+        args: [actions] as any,
       });
 
       await sendTransactionAsync(
         {
-          to: inputData.distributor.address as Address,
+          to: bundler,
           data,
         },
         { ...settings }
       );
-
-      showNotification({ status: "success", content: "Claimed all rewards successfully!" });
     } catch (error) {
       console.error("Failed to claim all rewards", error);
-      showNotification({ status: "error", content: "Failed to claim all rewards" });
     }
   };
 
