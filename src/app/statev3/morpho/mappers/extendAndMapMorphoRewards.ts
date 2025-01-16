@@ -7,7 +7,7 @@ import {
   UserReward
 } from "../types/UserReward";
 
-import { fetchToken, Token, formatFetchBigIntToViewBigInt } from "@shared";
+import { fetchToken, Token, formatFetchBigIntToViewBigInt, fUsdValueStructured } from "@shared";
 import { fetchCoinGeckoAssetPriceByAddress } from "../../common/hooks/useFetchCoinGeckoPrice";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 
@@ -103,7 +103,7 @@ export async function extendAndMapMorphoRewards(
         }),
         totalUsd: formatFetchBigIntToViewBigInt({
           bigIntValue: totalUsdBigInt,
-          decimals: pricePrecision, // Show 8 decimals for USD
+          decimals: pricePrecision,
           symbol: "$",
         }),
 
@@ -146,11 +146,7 @@ export async function extendAndMapMorphoRewards(
         asset: first.asset,
         token,
         combinedAmount: combinedAmountBigInt,
-        combinedAmountUsd: {
-          bigIntValue: totalUsdBigInt,
-          decimals: pricePrecision,
-          symbol: "$",
-        },
+        combinedAmountUsd: fUsdValueStructured(totalUsdBigInt),
         formatted,
       };
     }
