@@ -1,4 +1,4 @@
-import { Token, ViewBigInt } from "@shared";
+import { FetchBigInt, Token, ViewBigInt } from "@shared";
 
 // Interfaces for API response
 export interface RewardAsset {
@@ -46,8 +46,14 @@ export interface ExtendedUserReward extends UserReward {
     claimableNow?: ViewBigInt;
     claimableNext?: ViewBigInt;
     claimed?: ViewBigInt;
+
+    totalUsd?: ViewBigInt;
+    claimableNowUsd?: ViewBigInt;
+    claimableNextUsd?: ViewBigInt;
+    claimedUsd?: ViewBigInt;
   };
   combinedAmount: RewardAmount
+  combinedAmountUsd: FetchBigInt;
 }
 
 export interface RewardsPagination {

@@ -4,7 +4,8 @@ import { FetchUserRewardsResponse } from "../types/UserReward";
 import { base } from "viem/chains";
 import { Address } from "viem";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { extendAndMapMorphoRewards } from "../mappers/extendAndMapMorphoRewards";
+import { extendAndMapMorphoRewards, pricePrecision } from "../mappers/extendAndMapMorphoRewards";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared";
 
 const BASE_URL = "https://rewards.morpho.org/v1";
 
@@ -28,8 +29,20 @@ export async function fetchRawMorphoUserRewards(
 }
 
 export async function fetchMorphoExtendedMappedUserRewards(userAddress: Address, chainId = base.id) {
+  console.log("????")
   const rewardsResponse = await fetchRawMorphoUserRewards(userAddress, chainId);
   const extendedRewards = await extendAndMapMorphoRewards(rewardsResponse);
+  const totalUsdValue = extendedRewards?.reduce((acc, reward) => acc + (reward.combinedAmountUsd.bigIntValue || 0n), 0n);
 
-  return extendedRewards;
+  console.log({ extendedRewards })
+  console.log({ totalUsdValue })
+  return {
+    rewards: extendedRewards,
+    totalUsdValueViewValue: formatFetchBigIntToViewBigInt({
+      bigIntValue: totalUsdValue,
+      decimals: pricePrecision,
+      symbol: "$",
+    }),
+    totalUsdValue,
+  };
 }

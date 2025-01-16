@@ -2,6 +2,7 @@ import { DisplayMoney, FlexCol, Typography } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { Profit } from "./Profit";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
+import { MorphoUnclaimedRewardsBox } from "./morpho-vaults/rewards/MorphoUnclaimedRewardsBox";
 
 export const PortfolioSummary = () => {
   const { data, ...rest } = useFetchFormattedUserProfitAndPortfolio();
@@ -22,7 +23,10 @@ export const PortfolioSummary = () => {
               </div>
             </FlexCol>
           </FlexCol>
-          <UnclaimedRewardsBox />
+          <div className="flex md:flex-row flex-col md:gap-2 gap-2">
+            <MorphoUnclaimedRewardsBox />
+            <UnclaimedRewardsBox />
+          </div>
         </div>
       </div>
     </div>
