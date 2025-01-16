@@ -25,7 +25,11 @@ export const MorphoUnclaimedRewardsBox = () => {
         <ClaimModal
           {...{
             totalUsdValue: rewardData.totalUsdValueViewValue,
-            rewards: rewardData.rewards,
+            rewards: rewardData.rewards?.map((reward) => ({
+              claimableNow: reward.formatted.claimableNow,
+              claimableNowUsd: reward.formatted.claimableNowUsd,
+              token: reward.token
+            })),
             disabled,
           }}
         />
