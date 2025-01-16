@@ -1,51 +1,56 @@
-import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
-import { rewardsControllerConfig } from "@generated";
-import { useFetchViewAllUserRewards } from "../../lending-borrowing/hooks/useFetchViewAllRewards";
-import { BRETT_ADDRESS } from "../../../../meta";
-import { ViewAllUserRewards } from "../../lending-borrowing/types/ViewAllUserRewards";
-import { useFetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
-
-// TODO: Remove this dirty function once esSEAM is upgraded and works properly
-function isBrettOnlyRewardToken(allUsersRewards: ViewAllUserRewards): boolean {
-  return allUsersRewards.rewards?.length === 1 && allUsersRewards.rewards?.[0].tokenAmount.symbol === "BRETT";
-}
+import { SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
+import { fetchMorphoUserDistributions } from "./MorphoUserDistributions.fetch";
+import { useAccount } from "wagmi";
+import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
+import { Address, encodeFunctionData } from "viem";
+import { MORPHO_USER_REWARDS_QUERY_KEY } from "../user-rewards/MorphoUserRewards.fetch";
 
 export const useMutateClaimAllRewards = () => {
-  const { data: allRewardsAccruingAssets } = useFetchAllRewardsAccruingAssets();
+  const { address } = useAccount();
 
-  // cache data
-  const { data: allUsersRewards, queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards();
+  const { showNotification } = useNotificationContext();
 
   // hook call
-  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [allUsersRewardsQK],
+  const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
+    queriesToInvalidate: [[MORPHO_USER_REWARDS_QUERY_KEY]],
   });
 
   // mutation wrapper
   const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
-    // TODO: Remove this dirty if statement once esSEAM is upgraded and works properly
-    if (isBrettOnlyRewardToken(allUsersRewards)) {
-      const brettRewardAmount = allUsersRewards.rewards?.[0].tokenAmount?.bigIntValue;
+    try {
+      if (!address) throw new Error("Account address is not found. Please connect your wallet.");
 
-      await writeContractAsync(
+      const inputData = await fetchMorphoUserDistributions(address);
+
+      const claimAction = BundlerAction.urdClaim(
+        inputData.distributor.address,
+        address,
+        "0x0000000000000000000000000000000000000000", // todo: reward?
+        inputData.claimable,
+        inputData.proof,
+        false
+      );
+
+      const data = encodeFunctionData({
+        abi: {} as any,
+        functionName: "urdClaim",
+        args: [[claimAction]],
+      });
+
+      await sendTransactionAsync(
         {
-          ...rewardsControllerConfig,
-          functionName: "claimRewardsToSelf",
-          args: [allRewardsAccruingAssets!, brettRewardAmount!, BRETT_ADDRESS],
+          to: inputData.distributor.address as Address,
+          data,
         },
         { ...settings }
       );
-    }
 
-    await writeContractAsync(
-      {
-        ...rewardsControllerConfig,
-        functionName: "claimAllRewardsToSelf",
-        args: [allRewardsAccruingAssets!],
-      },
-      { ...settings }
-    );
+      showNotification({ status: "success", content: "Claimed all rewards successfully!" });
+    } catch (error) {
+      console.error("Failed to claim all rewards", error);
+      showNotification({ status: "error", content: "Failed to claim all rewards" });
+    }
   };
 
-  return { ...rest, isClaimAllPending: rest.isPending, claimAllAsync };
+  return { claimAllAsync, isClaiming: rest.isPending, ...rest };
 };
