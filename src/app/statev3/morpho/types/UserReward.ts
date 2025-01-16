@@ -8,10 +8,10 @@ export interface RewardAsset {
 }
 
 export interface RewardAmount {
-  total: string;
-  claimable_now: string;
-  claimable_next: string;
-  claimed: string;
+  total?: string;
+  claimable_now?: string;
+  claimable_next?: string;
+  claimed?: string;
 }
 
 export interface RewardProgram {
