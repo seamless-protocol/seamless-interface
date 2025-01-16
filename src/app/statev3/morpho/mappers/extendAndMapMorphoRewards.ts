@@ -79,10 +79,10 @@ export async function extendAndMapMorphoRewards(
       }
       return acc;
     }, {
-      total: undefined,
-      claimable_now: undefined,
-      claimable_next: undefined,
-      claimed: undefined,
+      total: "0",
+      claimable_now: "0",
+      claimable_next: "0",
+      claimed: "0",
     });
 
     // Convert to bigint for each field
