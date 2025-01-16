@@ -12,8 +12,10 @@ export interface MorphoUserRewardsData {
   totalUsdValueViewValue: ViewBigInt;
 }
 
-export function useMorphoExtendedUserRewards(userAddress?: Address, chainId = base.id): FetchData<MorphoUserRewardsData | undefined> {
-  console.log('test')
+export function useMorphoExtendedUserRewards(
+  userAddress?: Address,
+  chainId = base.id
+): FetchData<MorphoUserRewardsData | undefined> {
   return useQuery({
     queryKey: ["hookMorphoExtende234dUserRewards", userAddress, chainId],
     queryFn: () => fetchMorphoExtendedMappedUserRewards(userAddress!, chainId),
