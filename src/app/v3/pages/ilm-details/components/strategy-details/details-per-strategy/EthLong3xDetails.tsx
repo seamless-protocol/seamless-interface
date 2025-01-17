@@ -3,10 +3,11 @@ import { FlexCol, Typography } from '@shared'
 import { HowStrategyWorks } from '../HowStrategyWorks'
 import { LearnMore } from '../LearnMore'
 import { Address } from 'viem'
-import { LocalCollapseArrow } from '../common/LocalCollapseArrow'
-import { LocalCollapseTitle } from '../common/LocalCollapseTitle'
 import { FeesSharedAnswer } from '../common/FeesSharedAnswer'
 import { RiskSharedAnswer } from '../common/RiskSharedAnswer'
+import { LocalCollapseArrow } from '../../../../../components/details-section/DetailsCollapseArrow'
+import { LocalCollapseTitle } from '../../../../../components/details-section/DetailsCollapseTitle'
+
 
 export const EthLong3xDetails: React.FC<{
   strategy: Address

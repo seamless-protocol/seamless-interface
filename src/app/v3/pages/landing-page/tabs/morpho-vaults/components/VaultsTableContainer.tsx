@@ -7,6 +7,7 @@ import { VaultMobileRow } from "./VaultMobileRow";
 import { VaultsTableHeader } from "./VaultsTableHeader";
 import { useFormattedVaultsInfo } from "../hooks/useFetchAllVaults";
 import { RouterConfig } from "@router";
+import { seamless_Flagship_USDC_Vault } from "@meta";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -17,11 +18,14 @@ const Spinner = () => (
 const vaultAddresses: Address[] = [
   "0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1",
   "0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca",
+  seamless_Flagship_USDC_Vault,
 ];
 
 const columnsCount = 6;
 
-export const VaultsTableContainer: React.FC = () => {
+export const VaultsTableContainer: React.FC<{
+  selectedVault?: Address;
+}> = ({ selectedVault }) => {
   const { data: vaults, isLoading, error } = useFormattedVaultsInfo(vaultAddresses);
 
   return (
@@ -74,9 +78,11 @@ export const VaultsTableContainer: React.FC = () => {
               <VaultDesktopRow
                 {...vault}
                 hideBorder={index === vaults.length - 1}
+                selected={vault.vaultAddress === selectedVault}
               />
               <VaultMobileRow
                 {...vault}
+                selected={vault.vaultAddress === selectedVault}
               />
             </div>
           </Link>

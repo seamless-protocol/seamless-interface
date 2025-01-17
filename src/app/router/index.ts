@@ -1,4 +1,5 @@
 import { Address } from "viem";
+import { seamless_Flagship_USDC_Vault } from "../../meta";
 
 const baseUrl = "";
 
@@ -53,4 +54,12 @@ export const RouterConfig = {
     baseScanAddress: (address: string) => `${baseScan}/address/${address}`,
     vaults: (address: string) => `${vaultsFyiUrl}/${address}`,
   },
+};
+
+const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } = {
+  [seamless_Flagship_USDC_Vault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-flagship-usdc-vaults/770"
+}
+
+export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {
+  return vaultAddress ? _VaultSeamlessprotocolDiscourseGroupUrl[vaultAddress] : "";
 };

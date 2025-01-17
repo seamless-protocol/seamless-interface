@@ -10,6 +10,7 @@ interface VaultProps {
   curator: string;
   feePercentage: string;
   collateralLogos: (string | undefined)[];
+  selected?: boolean;
 }
 
 export const VaultMobileRow: React.FC<VaultProps> = ({
@@ -21,9 +22,10 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
   curator,
   feePercentage,
   collateralLogos,
+  selected
 }) => {
   return (
-    <div className="flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow">
+    <div className={`flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow  ${selected ? "bg-neutral-100" : "bg-white"}`}>
 
       <FlexRow className="items-center gap-4 mb-4">
         <Icon width={30} src={asset?.logoURI || ""} alt="Strategy Logo" />
