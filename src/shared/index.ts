@@ -186,4 +186,5 @@ export * from "./state";
 // utils //
 // ******** //
 export * from "./utils/helpers";
+export * from "./utils/errorParser";
 export * from "./formatters/getFetchBigIntFormatted";
