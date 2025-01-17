@@ -1,0 +1,14 @@
+query UserVaultPositions($address: String!, $chainId: Int) {
+  userByAddress(address: $address, chainId: $chainId) {
+    address
+    id
+    vaultPositions {
+      vault {
+        address
+      }
+      shares
+      assetsUsd
+      assets
+    }
+  }
+}

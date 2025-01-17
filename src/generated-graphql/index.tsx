@@ -2891,6 +2891,14 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
+export type UserVaultPositionsQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UserVaultPositionsQuery = { __typename?: 'Query', userByAddress: { __typename?: 'User', address: any, id: string, vaultPositions: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any } }> } };
+
 
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
@@ -3095,3 +3103,53 @@ export type TotalAssetsHistoricalQueryHookResult = ReturnType<typeof useTotalAss
 export type TotalAssetsHistoricalLazyQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalLazyQuery>;
 export type TotalAssetsHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalSuspenseQuery>;
 export type TotalAssetsHistoricalQueryResult = Apollo.QueryResult<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>;
+export const UserVaultPositionsDocument = gql`
+    query UserVaultPositions($address: String!, $chainId: Int) {
+  userByAddress(address: $address, chainId: $chainId) {
+    address
+    id
+    vaultPositions {
+      vault {
+        address
+      }
+      shares
+      assetsUsd
+      assets
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserVaultPositionsQuery__
+ *
+ * To run a query within a React component, call `useUserVaultPositionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserVaultPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserVaultPositionsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      chainId: // value for 'chainId'
+ *   },
+ * });
+ */
+export function useUserVaultPositionsQuery(baseOptions: Apollo.QueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables> & ({ variables: UserVaultPositionsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
+      }
+export function useUserVaultPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
+        }
+export function useUserVaultPositionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
+        }
+export type UserVaultPositionsQueryHookResult = ReturnType<typeof useUserVaultPositionsQuery>;
+export type UserVaultPositionsLazyQueryHookResult = ReturnType<typeof useUserVaultPositionsLazyQuery>;
+export type UserVaultPositionsSuspenseQueryHookResult = ReturnType<typeof useUserVaultPositionsSuspenseQuery>;
+export type UserVaultPositionsQueryResult = Apollo.QueryResult<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>;
