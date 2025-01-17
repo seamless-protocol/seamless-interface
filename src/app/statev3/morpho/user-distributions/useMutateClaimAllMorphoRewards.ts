@@ -1,8 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
 import { fetchMorphoUserDistributions } from "./MorphoUserDistributions.fetch";
 import { useAccount } from "wagmi";
-import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
-import { encodeFunctionData } from "viem";
+import { BundlerAction } from "@morpho-org/bundler-sdk-viem/lib/BundlerAction";
+import { Address, encodeFunctionData } from "viem";
 import { getFetchRawMorphoUserRewardsQueryKey } from "../user-rewards/MorphoUserRewards.fetch";
 import { baseBundlerAbi } from "../../../../../abis/urdBundler";
 import {
@@ -28,13 +28,13 @@ export const useMutateClaimAllMorphoRewards = () => {
       if (!address) throw new Error("Account address is not found. Please connect your wallet.");
 
       const distributions = await fetchMorphoUserDistributions(address);
-      const actions: BundlerAction[] = distributions.data.map((item) =>
+      const actions = distributions.data.map((item) =>
         BundlerAction.urdClaim(
           item.distributor.address,
           address,
           item.asset.address,
-          item.claimable,
-          item.proof,
+          BigInt(item.claimable),
+          item.proof as Address[],
           false
         )
       )
