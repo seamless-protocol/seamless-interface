@@ -50,7 +50,6 @@ export async function extendAndMapMorphoRewards(
   // 1. Group by asset.address
   const grouped = new Map<string, UserReward[]>();
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const reward of rewardsResponse.data) {
     const addr = reward.asset.address;
     if (!grouped.has(addr)) {
