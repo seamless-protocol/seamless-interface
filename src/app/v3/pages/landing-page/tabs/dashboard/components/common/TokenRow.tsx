@@ -2,16 +2,16 @@ import { FlexRow, FlexCol, DisplayTokenAmount, DisplayMoney, Icon, ViewBigInt } 
 
 // todo: props needs to be edited probably? loading state,address etc...
 interface TokenRowProps {
-  logo: string;
-  tokenAmount: ViewBigInt;
-  dollarAmount: ViewBigInt;
+  logo?: string;
+  tokenAmount?: ViewBigInt;
+  dollarAmount?: ViewBigInt;
 }
 
 const TokenRow: React.FC<TokenRowProps> = ({ tokenAmount, dollarAmount, logo }) => {
   return (
     <FlexCol>
       <FlexRow className="items-center gap-1 justify-end">
-        <Icon src={logo} alt={tokenAmount.symbol || "symbol"} width={16} />
+        <Icon src={logo} alt={tokenAmount?.symbol || "symbol"} width={16} />
         <DisplayTokenAmount typography="bold2" {...tokenAmount} />
       </FlexRow>
       <FlexRow className="justify-end">
