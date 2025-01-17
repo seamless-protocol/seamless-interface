@@ -7,6 +7,7 @@ import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
 import { Address } from "viem";
 import { NetApyGraphComponent } from "./components/net-apy-graph/NetApyGraphComponent";
+import { FormContainer } from "./components/FormContainer";
 
 export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
@@ -27,7 +28,9 @@ export const MorphoVaultDetails = () => {
           <div className="mb-8">{/* <StrategyHeading /> */}</div>
 
           <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
-            <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">{/* <FormContainer /> */}</div>
+            <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
+              <FormContainer />
+            </div>
 
             <div className="flex flex-col gap-10 order-2 md:order-1">
               {/* {isConnected && <CurrentHoldings />} */}

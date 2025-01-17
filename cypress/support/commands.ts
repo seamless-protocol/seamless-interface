@@ -54,7 +54,14 @@ declare global {
        * @param shouldErrorBeThrown boolean optional Whether to check if error is present in UI
        * @example cy.deposit({ address: '0x...', amount: 100, hasApproval: true })
        */
-      deposit(params: { address: string; amount: number; hasApproval: boolean; isMaxAmount?: boolean, shouldErrorBeThrown?: boolean }): void;
+      deposit(params: {
+        address: string;
+        amount: number;
+        hasApproval: boolean;
+        isMaxAmount?: boolean;
+        shouldErrorBeThrown?: boolean;
+        tab?: string;
+      }): void;
 
       /**
        * Performs a withdraw action
@@ -103,22 +110,29 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
   // *** Check success *** //
   cy.checkTransactionSuccess();
 });
-Cypress.Commands.add("deposit", ({ address, amount, hasApproval = true, isMaxAmount = false, shouldErrorBeThrown = false }) => {
-  cy.log(`Starting deposit for address: ${address}`);
-  // *** Navigate *** //
-  cy.get(`[data-cy='table-row-${address}']`, { timeout: TimeOuts.otherTimeout }).click();
-  // *** Set amount *** //
-  cy.setAmount(amount, isMaxAmount);
-  // *** Submit form *** //
-  cy.doDepositSubmit(hasApproval);
+Cypress.Commands.add(
+  "deposit",
+  ({ address, amount, hasApproval = true, isMaxAmount = false, shouldErrorBeThrown = false, tab }) => {
+    cy.log(`Starting deposit for address: ${address}`);
 
-  if (shouldErrorBeThrown) {
-    cy.checkTransactionError();
-  } else {
-    // *** Check success *** //
-    cy.checkTransactionSuccess();
+    if (tab) {
+      cy.get(`[data-cy='tab-${tab}']`, { timeout: TimeOuts.otherTimeout }).click();
+    }
+    // *** Navigate *** //
+    cy.get(`[data-cy='table-row-${address}']`, { timeout: TimeOuts.otherTimeout }).click();
+    // *** Set amount *** //
+    cy.setAmount(amount, isMaxAmount);
+    // *** Submit form *** //
+    cy.doDepositSubmit(hasApproval);
+
+    if (shouldErrorBeThrown) {
+      cy.checkTransactionError();
+    } else {
+      // *** Check success *** //
+      cy.checkTransactionSuccess();
+    }
   }
-});
+);
 
 /* --------------------------- */
 /*   Input field interaction   */
@@ -238,4 +252,4 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
   });
 });
 
-export { };
+export {};

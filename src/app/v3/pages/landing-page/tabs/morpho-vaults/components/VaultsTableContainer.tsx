@@ -63,25 +63,23 @@ export const VaultsTableContainer: React.FC = () => {
       )}
 
       {/* Data Rows */}
-      {!isLoading && !error && vaults?.map((vault, index) => {
-        return (
-          <Link
-            key={vault.vaultAddress}
-            to={RouterConfig.Builder.morphoVaultDetails(vault.vaultAddress)}
-            className="no-underline text-inherit"
-          >
-            <div className="border-b border-b-divider last:border-b-0 hover:bg-neutral-100">
-              <VaultDesktopRow
-                {...vault}
-                hideBorder={index === vaults.length - 1}
-              />
-              <VaultMobileRow
-                {...vault}
-              />
-            </div>
-          </Link>
-        );
-      })}
+      {!isLoading &&
+        !error &&
+        vaults?.map((vault, index) => {
+          return (
+            <Link
+              key={vault.vaultAddress}
+              to={RouterConfig.Builder.morphoVaultDetails(vault.vaultAddress)}
+              className="no-underline text-inherit"
+              data-cy={`table-row-${vault.vaultAddress}`}
+            >
+              <div className="border-b border-b-divider last:border-b-0 hover:bg-neutral-100">
+                <VaultDesktopRow {...vault} hideBorder={index === vaults.length - 1} />
+                <VaultMobileRow {...vault} />
+              </div>
+            </Link>
+          );
+        })}
 
       {/* If no error, no loading, but no data */}
       {!isLoading && !error && vaults && vaults.length === 0 && (

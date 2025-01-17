@@ -167,7 +167,9 @@ export * from "./components/wallet/watch-asset-componentv2/WatchAssetComponentv2
 // ************** //
 // wagmi wrappers //
 // ************** //
+export * from "./wagmi-wrapper/hooks/useHandleTransactionMutation";
 export * from "./wagmi-wrapper/hooks/useSeamlessContractWrite";
+export * from "./wagmi-wrapper/hooks/useSeamlessSendTransaction";
 export * from "./wagmi-wrapper/formatters/fParseUnits";
 
 // ****** //
@@ -184,4 +186,5 @@ export * from "./state";
 // utils //
 // ******** //
 export * from "./utils/helpers";
+export * from "./utils/errorParser";
 export * from "./formatters/getFetchBigIntFormatted";

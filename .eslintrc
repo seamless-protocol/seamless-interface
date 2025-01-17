@@ -1,26 +1,12 @@
 {
-  "ignorePatterns": [
-    "src/app/generated/generated.ts",
-    "vite.config.ts",
-    "run-anvil.mjs"
-  ],
+  "ignorePatterns": ["src/app/generated/generated.ts", "vite.config.ts", "run-anvil.mjs"],
   "root": true,
   "env": {
     "browser": true,
     "es2021": true,
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "cypress"
-  ],
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "prettier",
-    "plugin:cypress/recommended"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "cypress"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier", "plugin:cypress/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -73,19 +59,16 @@
     "no-continue": "off",
     "react/button-has-type": "off",
     "no-sparse-arrays": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
     "no-console": [
       "warn",
       {
-        "allow": [
-          "error"
-        ]
-      }
+        "allow": ["error"],
+      },
     ],
     "no-param-reassign": "warn",
-    "eqeqeq": [
-      "warn",
-      "smart"
-    ],
+    "eqeqeq": ["warn", "smart"],
     "jsx-a11y/tabindex-no-positive": "warn",
     "react/no-unescaped-entities": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
