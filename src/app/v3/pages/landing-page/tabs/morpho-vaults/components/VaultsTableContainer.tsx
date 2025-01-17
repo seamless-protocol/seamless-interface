@@ -78,8 +78,13 @@ export const VaultsTableContainer: React.FC<{
               data-cy={`table-row-${vault.vaultAddress}`}
             >
               <div className="border-b border-b-divider last:border-b-0 hover:bg-neutral-100">
-                <VaultDesktopRow {...vault} hideBorder={index === vaults.length - 1} />
-                <VaultMobileRow {...vault} />
+                <VaultDesktopRow {...vault}
+                  hideBorder={index === vaults.length - 1}
+                  selected={vault.vaultAddress === selectedVault}
+                />
+                <VaultMobileRow {...vault}
+                  selected={vault.vaultAddress === selectedVault}
+                />
               </div>
             </Link>
           );
