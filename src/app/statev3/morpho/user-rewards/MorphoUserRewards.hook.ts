@@ -17,7 +17,7 @@ export function useMorphoExtendedUserRewards(
   chainId = base.id
 ): FetchData<MorphoUserRewardsData | undefined> {
   return useQuery({
-    queryKey: ["hookMorphoExtende234dUserRewards", userAddress, chainId],
+    queryKey: ["hookMorphoExtendedUserRewards", userAddress, chainId],
     queryFn: () => fetchMorphoExtendedMappedUserRewards(userAddress!, chainId),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!userAddress,

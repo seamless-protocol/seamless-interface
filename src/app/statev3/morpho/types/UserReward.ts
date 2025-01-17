@@ -14,6 +14,13 @@ export interface RewardAmount {
   claimed?: string;
 }
 
+export interface RewardAmountBigInt {
+  total?: bigint;
+  claimable_now?: bigint;
+  claimable_next?: bigint;
+  claimed?: bigint;
+}
+
 export interface RewardProgram {
   vault?: string;
   chain_id: number;
@@ -68,4 +75,25 @@ export interface FetchUserRewardsResponse {
   timestamp: string;
   pagination: RewardsPagination;
   data: UserReward[];
+}
+
+export interface SummedUserReward {
+  token: Token;
+  asset: RewardAsset;
+
+  combinedAmount: RewardAmountBigInt;
+
+  combinedAmountUsd?: FetchBigInt;
+
+  formatted: {
+    total?: ViewBigInt;
+    claimableNow?: ViewBigInt;
+    claimableNext?: ViewBigInt;
+    claimed?: ViewBigInt;
+
+    totalUsd?: ViewBigInt;
+    claimableNowUsd?: ViewBigInt;
+    claimableNextUsd?: ViewBigInt;
+    claimedUsd?: ViewBigInt;
+  };
 }

@@ -34,10 +34,7 @@ export async function fetchRawMorphoUserRewards(
 export async function fetchMorphoExtendedMappedUserRewards(userAddress: Address, chainId = base.id) {
   const rewardsResponse = await fetchRawMorphoUserRewards(userAddress, chainId);
   const extendedRewards = await extendAndMapMorphoRewards(rewardsResponse);
-  const totalUsdValue = extendedRewards?.reduce(
-    (acc, reward) => acc + (reward.combinedAmountUsd.bigIntValue || 0n),
-    0n
-  );
+  const totalUsdValue = extendedRewards?.reduce((acc, reward) => acc + (reward?.combinedAmountUsd?.bigIntValue || 0n), 0n);
 
   return {
     rewards: extendedRewards,
