@@ -5,6 +5,7 @@ import {
 } from "@shared";
 import React, { useRef } from "react";
 import { ClaimModalComponent } from "../../../components/common/ClaimModalComponent";
+import { useMutateClaimAllMorphoRewards } from "../../../../../../../../statev3/morpho/user-distributions/useMutateClaimAllMorphoRewards";
 
 interface Reward {
   claimableNow?: ViewBigInt;
@@ -22,9 +23,10 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalUsdValue, rewards, 
   const modalRef = useRef<ModalHandles | null>(null);
   const isPending = false;
 
+  const { claimAllAsync } = useMutateClaimAllMorphoRewards();
+
   const onSubmitAsync = async () => {
-    // eslint-disable-next-line no-console
-    console.log("Todo in next pr")
+    await claimAllAsync();
   };
 
   return (
