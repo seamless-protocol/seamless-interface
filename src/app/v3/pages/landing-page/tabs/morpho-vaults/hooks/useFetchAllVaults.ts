@@ -35,3 +35,17 @@ export const useFormattedVaultsInfo = (addresses: Address[], chainId = base.id) 
     error,
   };
 };
+
+export const useFormattedVaultInfo = (address?: Address, chainId = base.id) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ["hookFullVaultInfo", address, chainId],
+    queryFn: () => fetchFullVaultInfo(address!, chainId),
+    ...queryConfig.disableCacheQueryConfig,
+    enabled: !!address,
+  });
+
+  return {
+    ...rest,
+    data: data ? mapVaultData(data?.vaultByAddress) : undefined,
+  };
+};
