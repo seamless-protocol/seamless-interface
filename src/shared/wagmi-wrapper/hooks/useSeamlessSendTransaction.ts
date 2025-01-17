@@ -1,11 +1,21 @@
-import { useWriteContract } from "wagmi";
+import { Hash } from "viem";
+import { useSendTransaction } from "wagmi";
 import { useState } from "react";
-import { SeamlessWriteAsyncParams, useHandleTransactionMutation } from "./useHandleTransactionMutation";
+import { QueryKey } from "@tanstack/query-core";
+import { useHandleTransactionMutation } from "./useHandleTransactionMutation";
+
+export type SeamlessSendAsyncParams = {
+  onSuccess?: (txHash: Hash) => void;
+  onError?: (e: any) => void;
+  onSettled?: () => void;
+  hideDefaultErrorOnNotification?: boolean;
+  queriesToInvalidate?: (QueryKey | undefined)[];
+};
 
 /**
- * Custom hook for writing to a smart contract using Wagmi.
+ * Custom hook for sending a transaction using Wagmi.
  *
- * This hook provides functionality for writing to a smart contract using Wagmi, handling the asynchronous nature of the operation, error handling, and notifications.
+ * This hook provides functionality for sending a transaction using Wagmi, handling the asynchronous nature of the operation, error handling, and notifications.
  *
  * @param {SeamlessWriteAsyncParams} [settings] - Optional settings for the write operation.
  * @param {Function} [settings.onSuccess] - Callback function to be called on successful transaction.
@@ -16,10 +26,10 @@ import { SeamlessWriteAsyncParams, useHandleTransactionMutation } from "./useHan
  * @returns {Object} Object containing the following properties:
  * - {boolean} isPending - Indicates whether the transaction is pending.
  * - {string|undefined} errorMessage - The error message, if an error occurred during the transaction.
- * - {Function} writeContractAsync - Function to trigger the write operation.
+ * - {Function} sendTransactionAsync - Function to trigger the send transaction mutation.
  */
 
-export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
+export function useSeamlessSendTransaction(settings?: SeamlessSendAsyncParams) {
   const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
@@ -29,7 +39,7 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
     settings,
   });
 
-  const { writeContractAsync, ...rest } = useWriteContract({
+  const { sendTransactionAsync, ...rest } = useSendTransaction({
     mutation: {
       onMutate: () => setIsPending(true),
       onSettled: handleTransactionMutation,
@@ -40,6 +50,6 @@ export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
     ...rest,
     isPending,
     errorMessage,
-    writeContractAsync,
+    sendTransactionAsync,
   };
 }

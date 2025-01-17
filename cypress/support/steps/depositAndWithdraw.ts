@@ -5,11 +5,15 @@ export const depositAndWithdraw = ({
   amount,
   hasApproval = false,
   isMaxAmount = false,
+  tab,
+  skipWithdraw = false,
 }: {
   address: Address;
   amount: number;
   hasApproval: boolean;
   isMaxAmount?: boolean;
+  tab?: string;
+  skipWithdraw?: boolean;
 }) => {
   const name = "test";
 
@@ -20,12 +24,15 @@ export const depositAndWithdraw = ({
         amount,
         hasApproval,
         isMaxAmount,
+        tab,
       });
 
-      cy.withdraw({
-        amount,
-        isMaxAmount: true,
-      });
+      if (!skipWithdraw) {
+        cy.withdraw({
+          amount,
+          isMaxAmount: true,
+        });
+      }
 
       // Wait to cleanup everything after test
       cy.wait(1500);

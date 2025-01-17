@@ -9,6 +9,9 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared";
 
 const BASE_URL = "https://rewards.morpho.org/v1";
 
+export const MORPHO_USER_REWARDS_QUERY_KEY = "fetchMorphoUserRewards";
+export const getFetchRawMorphoUserRewardsQueryKey = (userAddress?: Address, chainId = base.id) => [MORPHO_USER_REWARDS_QUERY_KEY, userAddress, chainId];
+
 export async function fetchRawMorphoUserRewards(
   userAddress: Address,
   chainId = base.id
@@ -16,7 +19,7 @@ export async function fetchRawMorphoUserRewards(
   const client = getQueryClient();
 
   const response = await client.fetchQuery({
-    queryKey: ["fetchMorphoUserRewards", userAddress, chainId],
+    queryKey: [getFetchRawMorphoUserRewardsQueryKey(userAddress, chainId)],
     queryFn: async () => {
       const url = `${BASE_URL}/users/${userAddress}/rewards?chain_id=${chainId}`;
       const response = await axios.get<FetchUserRewardsResponse>(url);

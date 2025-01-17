@@ -4,6 +4,7 @@ import { Address } from "viem";
 export interface FormSettingsContextType {
   hideTag?: boolean;
   onTransaction?: () => void;
+  // todo: rename to address
   strategy?: Address;
   setStrategy: (strategy?: Address) => void;
 }
