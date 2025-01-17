@@ -3,7 +3,7 @@ import { fetchMorphoUserDistributions } from "./MorphoUserDistributions.fetch";
 import { useAccount } from "wagmi";
 import { BundlerAction } from "@morpho-org/morpho-blue-bundlers/pkg";
 import { encodeFunctionData } from "viem";
-import { MORPHO_USER_REWARDS_QUERY_KEY } from "../user-rewards/MorphoUserRewards.fetch";
+import { getFetchRawMorphoUserRewardsQueryKey } from "../user-rewards/MorphoUserRewards.fetch";
 import { baseBundlerAbi } from "../../../../../abis/urdBundler";
 import {
   ChainId,
@@ -18,7 +18,7 @@ export const useMutateClaimAllMorphoRewards = () => {
 
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
-    queriesToInvalidate: [[MORPHO_USER_REWARDS_QUERY_KEY]],
+    queriesToInvalidate: [getFetchRawMorphoUserRewardsQueryKey(address)],
     hideDefaultErrorOnNotification: true,
   });
 
