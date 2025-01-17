@@ -1,26 +1,24 @@
-import { SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
 import { Address } from "viem";
-import { useAccount, useBlock } from "wagmi";
+import { useAccount } from "wagmi";
 import {
   ChainId,
   DEFAULT_SLIPPAGE_TOLERANCE,
   getChainAddresses as getMorphoChainAddresses,
 } from "@morpho-org/blue-sdk";
-import { useSimulationState } from "@morpho-org/simulation-sdk-wagmi";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
-import { setupBundle } from "./setupBundle";
+import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
-import { logSimulationErrors } from "../utils/logSimulationErrors";
+import { fetchSimulationState } from "../simulation/fetchSimulationState";
 
-export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: bigint) => {
+export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
   const account = useAccount();
   const { address } = account;
-  const { data: block } = useBlock();
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
 
@@ -28,27 +26,6 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
-  const marketIds = fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [];
-
-  /* ------------- */
-  /*   Simulation  */
-  /* ------------- */
-  const {
-    data: simulationState,
-    isPending: isSimulating,
-    isFetchingAny,
-    error: simulationError,
-  } = useSimulationState({
-    marketIds,
-    users: [address, bundler, vaultAddress],
-    tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
-    vaults: [vaultAddress],
-    block,
-    chainId: ChainId.BaseMainnet,
-    query: {
-      enabled: !!block && !!fullVaultData && !!address && !!vaultAddress && !!amount,
-    },
-  });
 
   /* -------------------- */
   /*   Query cache keys   */
@@ -68,6 +45,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       ...((assetAllowanceQK ?? []) as QueryKey[]),
     ],
+    hideDefaultErrorOnNotification: true,
   });
 
   /* -------------------- */
@@ -83,8 +61,15 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
     try {
       if (!vaultAddress) throw new Error("Vault address is not found. Please try again later.");
       if (!args.amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
-      if (!simulationState) throw new Error("Simulation could not be found. Please try again later.");
       if (!address) throw new Error("Account address is not found. Please try again later.");
+
+      const simulationState = await fetchSimulationState({
+        marketIds: fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
+        users: [address, bundler, vaultAddress],
+        tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
+        vaults: [vaultAddress]
+      });
+      if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 
       const txs = await setupBundle(account, simulationState, [
         {
@@ -110,13 +95,12 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address, amount?: big
       }
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);
-      logSimulationErrors(simulationError);
       showNotification({
         status: "error",
-        content: `Failed to deposit to morpho vault: ${error}`,
+        content: `Failed to deposit to morpho vault: ${getParsedError(error)}`,
       });
     }
   };
 
-  return { ...rest, isDepositPending: rest.isPending, depositAsync, isLoading: isSimulating || isFetchingAny };
+  return { ...rest, isDepositPending: rest.isPending, depositAsync };
 };
