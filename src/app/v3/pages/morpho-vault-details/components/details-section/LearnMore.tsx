@@ -12,7 +12,7 @@ export const LearnMore: React.FC<{
   }
   return (
     <FlexRow className="items-center gap-2">
-      {discourseGroupUrl && <ExternalLink url={RouterConfig.Builder.baseScanAddress(vault)}>BaseScan</ExternalLink>}
+      {discourseGroupUrl && <ExternalLink url={discourseGroupUrl}>Discourse</ExternalLink>}
       <ExternalLink url={RouterConfig.Builder.baseScanAddress(vault)}>BaseScan</ExternalLink>
       <ExternalLink url={gitBookUrl}>GitBook</ExternalLink>
     </FlexRow>

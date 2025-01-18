@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { seamless_Flagship_USDC_Vault } from "../../meta";
+import { seamlessUSDCMorphoVault } from "../../meta";
 
 const baseUrl = "";
 
@@ -20,7 +20,8 @@ export const ilmMediumUrl =
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/r2zubM3o";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
-export const disourseUrl = "https://seamlessprotocol.discourse.group/t/gp-what-drives-seamless-core-beliefs-vision-future/584";
+export const disourseUrl =
+  "https://seamlessprotocol.discourse.group/t/gp-what-drives-seamless-core-beliefs-vision-future/584";
 
 const baseScan = "https://basescan.org";
 
@@ -57,8 +58,8 @@ export const RouterConfig = {
 };
 
 const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } = {
-  [seamless_Flagship_USDC_Vault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-flagship-usdc-vaults/770"
-}
+  [seamlessUSDCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-flagship-usdc-vaults/770",
+};
 
 export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {
   return vaultAddress ? _VaultSeamlessprotocolDiscourseGroupUrl[vaultAddress] : "";
