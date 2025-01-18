@@ -12,6 +12,7 @@ interface VaultProps {
   feePercentage: string;
   collateralLogos: (string | undefined)[];
   hideBorder?: boolean;
+  selected?: boolean;
 }
 
 export const VaultDesktopRow: React.FC<VaultProps> = ({
@@ -24,11 +25,12 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   feePercentage,
   collateralLogos,
   hideBorder,
+  selected
 }) => {
   return (
     <TableRow
       className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
-        }`}
+        } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableCell alignItems="items-start col-span-2 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">

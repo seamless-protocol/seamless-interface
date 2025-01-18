@@ -7,6 +7,8 @@ import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
 import { Address } from "viem";
 import { NetApyGraphComponent } from "./components/net-apy-graph/NetApyGraphComponent";
+import { VaultDetails } from "./components/details-section/VaultDetails";
+import { VaultPickerButton } from "./components/vault-picker/VaultPickerButton";
 import { FormContainer } from "./components/FormContainer";
 
 export const MorphoVaultDetails = () => {
@@ -21,7 +23,7 @@ export const MorphoVaultDetails = () => {
           <button onClick={() => navigate(`${RouterConfig.Routes.landingPage}/?tab=Vaults`)}>
             <ArrowLeftIcon width={24} height={24} />
           </button>
-          {/* <StrategyPickerButton strategy={address as Address} /> */}
+          <VaultPickerButton vault={address as Address} />
         </FlexRow>
 
         <div>
@@ -38,7 +40,7 @@ export const MorphoVaultDetails = () => {
               <TotalAssetsGraphComponent />
               <NetApyGraphComponent vault={vault} />
               <MorphoVaultStats vault={vault} />
-              {/* <StrategyDetails /> */}
+              <VaultDetails />
             </div>
           </div>
         </div>
