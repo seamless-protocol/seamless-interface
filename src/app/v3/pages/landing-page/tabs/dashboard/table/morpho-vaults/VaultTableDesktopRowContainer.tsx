@@ -27,7 +27,7 @@ export const VaultTableDesktopRowContainer: React.FC<{
       hideBorder={hideBorder}
       name={<DisplayText typography="bold3" viewValue={vault.mappedVaultDetails.name} />}
       description={<DisplayText typography="regular1" viewValue={vault.mappedVaultDetails.asset.name} />}
-      logo={<Icon width={64} src={vault.mappedVaultDetails.asset.logoURI || ""} alt="logo" />}
+      logo={<Icon width={48} src={vault.mappedVaultDetails.asset.logoURI || ""} alt="logo" />}
       tag={
         <div>
           {vaultDataRest?.isFetched ? (
