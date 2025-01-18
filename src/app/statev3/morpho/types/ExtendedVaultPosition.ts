@@ -1,9 +1,14 @@
 import { UserVaultPositionsQuery } from "../../../../generated-graphql";
-import { ViewNumber } from "@shared";
+import { ViewBigInt, ViewNumber } from "@shared";
 import { MappedVaultData } from "./MappedFullVaultData";
 
 export interface ExtendedVaultPosition {
-  vaultPosition: UserVaultPositionsQuery["userByAddress"]["vaultPositions"][number];
+  vaultPosition: {
+    baseData: UserVaultPositionsQuery["userByAddress"]["vaultPositions"][number];
+    shares: ViewBigInt;
+    assetsUsd: ViewNumber;
+    assets: ViewBigInt;
+  };
   mappedVaultDetails: MappedVaultData;
 }
 

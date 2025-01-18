@@ -1,11 +1,5 @@
 import { Address } from "viem";
-import {
-  Icon,
-  DisplayMoney,
-  DisplayTokenAmount,
-  DisplayPercentage,
-  DisplayText,
-} from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText } from "@shared";
 
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
@@ -20,7 +14,6 @@ import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 
-
 export const StrategyTableDesktopRowContainer: React.FC<{
   strategy: Address;
   hideBorder?: boolean;
@@ -31,7 +24,10 @@ export const StrategyTableDesktopRowContainer: React.FC<{
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
   });
-  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ address: strategy });
+  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
+    address: strategy,
+    assetAddress: strategy,
+  });
 
   return (
     <TableDesktopRowComponent
@@ -65,10 +61,13 @@ export const StrategyTableDesktopRowContainer: React.FC<{
         />
       }
       profitPercentage={
-        <SignIndicatingElement noBackground dislayable={{
-          data: strategyProfit?.unrealizedProfit,
-          ...strategyProfitRest
-        }}>
+        <SignIndicatingElement
+          noBackground
+          dislayable={{
+            data: strategyProfit?.unrealizedProfit,
+            ...strategyProfitRest,
+          }}
+        >
           <DisplayPercentage
             typography="bold3"
             viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}

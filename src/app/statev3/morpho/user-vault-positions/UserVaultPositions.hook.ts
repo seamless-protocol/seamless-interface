@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { base } from "viem/chains";
 import { queryConfig } from "../../settings/queryConfig";
-import { Address } from "viem";
 import { fetchExtendedMappedVaultPositions } from "./UserVaultPositions.fetch";
+import { useAccount } from "wagmi";
 
-export function useFetchUserVaultPositions(
-  userAddress?: Address,
-  chainId = base.id
-) {
+export function useFetchUserVaultPositions(chainId = base.id) {
+  const { address: userAddress } = useAccount();
+
   const { data, ...rest } = useQuery({
     queryKey: ["hookExtendedMappedVaultPositions", userAddress, chainId],
     queryFn: () => fetchExtendedMappedVaultPositions(userAddress!, chainId),
@@ -15,5 +14,5 @@ export function useFetchUserVaultPositions(
     enabled: !!userAddress,
   });
 
-  return { ...rest, data };
+  return { data, ...rest };
 }

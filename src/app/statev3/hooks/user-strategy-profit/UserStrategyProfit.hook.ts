@@ -18,15 +18,15 @@ interface FormattedUserStrategyProfit {
 }
 
 export const useFetchFormattedUserStrategyProfit = ({
-  address: strategy,
-  assetAddress
+  address,
+  assetAddress,
 }: UseFetchFormattedUserStrategyProfitInput): Displayable<FormattedUserStrategyProfit> => {
   const { address: user } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchFormattedUserStrategyProfit", user, strategy, assetAddress],
-    queryFn: () => fetchUserStrategyProfit({ user: user!, address: strategy!, assetAddress }),
-    enabled: !!user && !!strategy && !!assetAddress,
+    queryKey: ["fetchFormattedUserStrategyProfit", user, address, assetAddress],
+    queryFn: () => fetchUserStrategyProfit({ user: user!, address: address!, assetAddress }),
+    enabled: !!user && !!address && !!assetAddress,
     ...disableCacheQueryConfig,
   });
 

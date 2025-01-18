@@ -1,11 +1,4 @@
-import {
-  Icon,
-  DisplayMoney,
-  DisplayTokenAmount,
-  DisplayPercentage,
-  DisplayText,
-  Displayable,
-} from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, Displayable } from "@shared";
 
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
@@ -16,7 +9,7 @@ import { SignIndicatingElement } from "../../../../../../components/other/SignIn
 import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
-
+import { MorphoTableButtons } from "./MorphoTableButtons";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
@@ -26,7 +19,7 @@ export const VaultTableDesktopRowContainer: React.FC<{
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
-    assetAddress: vault.mappedVaultDetails.asset.address
+    assetAddress: vault.mappedVaultDetails.asset.address,
   });
 
   return (
@@ -44,27 +37,24 @@ export const VaultTableDesktopRowContainer: React.FC<{
           )}
         </div>
       }
-      tokenAmount={
-        <DisplayTokenAmount
-          typography="bold3"
-          viewValue={vault.vaultPosition.assets}
-          {...vaultDataRest}
-        />
-      }
+      tokenAmount={<DisplayTokenAmount typography="bold3" {...vault.vaultPosition.assets} {...vaultDataRest} />}
       dollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={vault.vaultPosition.assetsUsd?.toString()}
+          {...vault.vaultPosition.assetsUsd}
           className="text-primary-600"
           isApproximate
           {...vaultDataRest}
         />
       }
       profitPercentage={
-        <SignIndicatingElement noBackground dislayable={{
-          data: strategyProfit?.unrealizedProfit,
-          ...vaultDataRest
-        }}>
+        <SignIndicatingElement
+          noBackground
+          dislayable={{
+            data: strategyProfit?.unrealizedProfit,
+            ...vaultDataRest,
+          }}
+        >
           <DisplayPercentage
             typography="bold3"
             viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
@@ -82,15 +72,9 @@ export const VaultTableDesktopRowContainer: React.FC<{
           {...strategyProfitRest}
         />
       }
-      rewards={
-        <DisplayMoney
-          typography="bold3"
-          viewValue={vault.vaultPosition.vault.address}
-          {...vaultDataRest}
-        />
-      }
+      rewards={<DisplayMoney typography="bold3" viewValue="TBD" symbol="" {...vaultDataRest} />}
       imageInfoGroup={<UserInfoImageGroup info={[]} />}
-      tableButtons={<>todo</>}
+      tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}
     />
   );
 };
