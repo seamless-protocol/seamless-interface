@@ -2,7 +2,7 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
-import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
+import { NoPositionsTableGuard } from "./NoStrategiesTableGuard";
 import { useFetchUserVaultPositions } from "../../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
 import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRowContainer";
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
@@ -35,10 +35,11 @@ export const TableContainer = () => {
           <TableCell className="col-span-4" />
         </TableRow>
 
-        <NoStrategiesTableGuard
+        <NoPositionsTableGuard
           numberOfStrategiesDisplayable={{
             ...rest,
-            data: strategies?.length || 0,
+            ...vaultsRest,
+            data: (strategies?.length || 0) + (vaults?.vaultPositions?.length || 0),
           }}
         >
           {vaults?.vaultPositions?.map((position) => (
@@ -65,7 +66,7 @@ export const TableContainer = () => {
               </Link>
             </div>
           ))}
-        </NoStrategiesTableGuard>
+        </NoPositionsTableGuard>
       </div>
     </div>
   );
