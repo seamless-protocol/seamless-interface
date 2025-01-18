@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { DisplayMoney, DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography } from "@shared";
-import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../components/strategy-data/Tag";
 
 import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
@@ -9,6 +8,7 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../sta
 import { getSvgBasedOnSign, getColorBasedOnSign } from "../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "./UserInfoImageGroup";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
+import { TableButtons } from "./ilms/TableButtons";
 
 export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
@@ -17,7 +17,7 @@ export const TableMobileRow: React.FC<{ strategy: Address }> = ({ strategy }) =>
   const { data: balanceUsdPair, ...otherBalanceUsdPair } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
   });
-  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ strategy });
+  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({ address: strategy });
 
   return (
     <div className="flex md:hidden flex-col bg-white shadow rounded-lg p-4 m-2">

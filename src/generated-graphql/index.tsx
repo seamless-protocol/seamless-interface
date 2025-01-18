@@ -2897,7 +2897,7 @@ export type UserVaultPositionsQueryVariables = Exact<{
 }>;
 
 
-export type UserVaultPositionsQuery = { __typename?: 'Query', userByAddress: { __typename?: 'User', address: any, id: string, vaultPositions: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } } }> } };
+export type UserVaultPositionsQuery = { __typename?: 'Query', userByAddress: { __typename?: 'User', address: any, id: string, vaultPositions: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null } }> } };
 
 
 export const FullVaultInfoDocument = gql`
@@ -3120,6 +3120,19 @@ export const UserVaultPositionsDocument = gql`
           logoURI
           symbol
           address
+        }
+        state {
+          rewards {
+            amountPerSuppliedToken
+            supplyApr
+            asset {
+              name
+              decimals
+              logoURI
+              symbol
+              address
+            }
+          }
         }
       }
       shares

@@ -13,6 +13,19 @@ query UserVaultPositions($address: String!, $chainId: Int) {
           symbol
           address
         }
+        state {
+          rewards {
+            amountPerSuppliedToken
+            supplyApr
+            asset {
+              name
+              decimals
+              logoURI
+              symbol
+              address
+            }
+          }
+        }
       }
       shares
       assetsUsd

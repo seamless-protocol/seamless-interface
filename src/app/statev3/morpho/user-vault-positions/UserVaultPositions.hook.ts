@@ -4,7 +4,7 @@ import { queryConfig } from "../../settings/queryConfig";
 import { Address } from "viem";
 import { fetchExtendedMappedVaultPositions } from "./UserVaultPositions.fetch";
 
-export function useUserVaultPositions(
+export function useFetchUserVaultPositions(
   userAddress?: Address,
   chainId = base.id
 ) {

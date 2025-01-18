@@ -1,13 +1,17 @@
 import { TableRow, TableCell, Typography } from "@shared";
-import { TableDesktopRow } from "./TableDesktopRow";
 import { TableMobileRow } from "./TableMobileRow";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { NoStrategiesTableGuard } from "./NoStrategiesTableGuard";
+import { useFetchUserVaultPositions } from "../../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
+import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRowContainer";
+import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
 
 export const TableContainer = () => {
   const { data: strategies, ...rest } = useFetchUserDepositStrategies();
+  const { data: vaults, ...vaultsRest } = useFetchUserVaultPositions();
+  console.log({ vaults })
 
   return (
     <div>
@@ -26,7 +30,7 @@ export const TableContainer = () => {
             <Typography type="bold1">Unrealized Gain/Loss</Typography>
           </TableCell>
           <TableCell className="col-span-2">
-            <Typography type="bold1">Unclaimed Rewards</Typography>
+            <Typography type="bold1">Rewards</Typography>
           </TableCell>
           <TableCell className="col-span-4" />
         </TableRow>
@@ -37,10 +41,21 @@ export const TableContainer = () => {
             data: strategies?.length || 0,
           }}
         >
+          {vaults?.vaultPositions?.map((position, index) => (
+            <div key={position.mappedVaultDetails.vaultAddress}>
+              <Link to={RouterConfig.Builder.morphoVaultDetails(position.mappedVaultDetails.vaultAddress)}>
+                <VaultTableDesktopRowContainer vaultData={{
+                  data: position,
+                  ...vaultsRest
+                }} hideBorder={index === vaults.vaultPositions.length - 1} />
+                {/* <TableMobileRow vault={vault.vault} /> */}
+              </Link>
+            </div>
+          ))}
           {strategies?.map((strategy, index) => (
             <div key={strategy.strategy}>
               <Link to={RouterConfig.Builder.ilmDetails(strategy.strategy)}>
-                <TableDesktopRow strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
+                <StrategyTableDesktopRowContainer strategy={strategy.strategy} hideBorder={index === strategies.length - 1} />
                 <TableMobileRow strategy={strategy.strategy} />
               </Link>
             </div>
