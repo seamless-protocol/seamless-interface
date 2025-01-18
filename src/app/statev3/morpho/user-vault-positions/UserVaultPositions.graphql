@@ -5,6 +5,14 @@ query UserVaultPositions($address: String!, $chainId: Int) {
     vaultPositions {
       vault {
         address
+        name
+        asset {
+          name
+          decimals
+          logoURI
+          symbol
+          address
+        }
       }
       shares
       assetsUsd

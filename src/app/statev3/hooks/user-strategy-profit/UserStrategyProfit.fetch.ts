@@ -20,13 +20,14 @@ interface GetTransferEventsInput {
 }
 
 interface AddStrategyPriceToLogsInput {
-  strategy: Address;
+  address: Address;
   logs: Log[];
 }
 
 interface GetStrategyEventLogsForUserInput {
   user: Address;
-  strategy: Address;
+  address: Address;
+  assetAddress?: Address;
 }
 
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
@@ -66,7 +67,7 @@ async function getTransferEvents(input: GetTransferEventsInput) {
 }
 
 async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput): Promise<TransfersWithStrategyPrice[]> {
-  const { logs, strategy } = input;
+  const { logs, address: strategy } = input;
 
   const transfers: TransfersWithStrategyPrice[] = [];
 
@@ -95,7 +96,7 @@ async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput):
 }
 
 export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsForUserInput): Promise<Log[]> {
-  const { strategy, user } = input;
+  const { address: strategy, user } = input;
   const queryClient = getQueryClient();
 
   const [transferFromLogs, transferToLogs] = await Promise.all([
@@ -137,16 +138,16 @@ export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsFor
 export async function fetchUserStrategyProfit(
   input: FetchUserStrategyProfitInput
 ): Promise<FetchUserStrategyProfitOutput> {
-  const { strategy, user } = input;
+  const { address, user, assetAddress } = input;
 
   const [logs, { decimals: strategyDecimals, symbol: strategySymbol }] = await Promise.all([
-    getStrategyEventLogsForUser({ strategy, user }),
-    fetchToken(strategy),
+    getStrategyEventLogsForUser({ address, user }),
+    fetchToken(address),
   ]);
 
   const [transferWithStrategyPrice, currStrategyPrice] = await Promise.all([
-    addStrategyPriceAndParseLogs({ strategy, logs }),
-    fetchAssetPriceInBlock(strategy),
+    addStrategyPriceAndParseLogs({ address: assetAddress || address, logs }),
+    fetchAssetPriceInBlock(assetAddress || address),
   ]);
 
   const { strategyBalance, strategyBalanceUsd, realizedProfit, unrealizedProfit, unrealizedProfitPercentage } =
