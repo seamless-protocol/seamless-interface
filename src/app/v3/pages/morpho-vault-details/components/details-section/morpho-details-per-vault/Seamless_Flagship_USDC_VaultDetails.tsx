@@ -12,7 +12,7 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
 }> = ({ vault }) => {
   return (
     <FlexCol className="w-full gap-8">
-      <Typography type="bold5">Strategy details</Typography>
+      <Typography type="bold5">Vault details</Typography>
       <FlexCol className="w-full gap-4">
         <LocalCollapseArrow>
           <LocalCollapseTitle>How this vault works</LocalCollapseTitle>
