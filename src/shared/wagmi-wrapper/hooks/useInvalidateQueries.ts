@@ -28,6 +28,9 @@ export function useInvalidateQueries() {
   const invalidateMany = async (seamlessQueriesToInvalidate: (QueryKey | undefined)[]) => {
     const promises = seamlessQueriesToInvalidate.map((queryKey) => queryClient.invalidateQueries({ queryKey }));
     await Promise.all(promises);
+    // reset query cache
+    const resetPromises = seamlessQueriesToInvalidate.map((queryKey) => queryClient.resetQueries({ queryKey }));
+    await Promise.all(resetPromises);
   };
 
   return { invalidateMany };

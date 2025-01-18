@@ -8,33 +8,50 @@ import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@s
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { queryConfig } from "../../settings/queryConfig";
+
+export const MORPHO_USER_VAULT_POSITIONS_QUERY_KEY = "MORPHO_USER_VAULT_POSITIONS_QUERY_KEY";
+export const getUserVaultPositionsQueryKey = (address: string, chainId: number) => [
+  MORPHO_USER_VAULT_POSITIONS_QUERY_KEY,
+  address,
+  chainId,
+];
 
 export async function fetchUserVaultPositions(address: string, chainId: number): Promise<UserVaultPositionsQuery> {
   const client = getApolloClient();
+  const queryClient = getQueryClient();
 
-  const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-    query: UserVaultPositionsDocument,
-    variables: { address, chainId },
-    fetchPolicy: "cache-first",
+  const result = await queryClient.fetchQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
+    queryKey: ["MORPHO_USER_VAULT_POSITIONS_QUERY_KEY", address, chainId],
+    queryFn: async () => {
+      console.log("refetching positions");
+      const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
+        query: UserVaultPositionsDocument,
+        variables: { address, chainId },
+        fetchPolicy: "network-only",
+      });
+
+      if (result.errors) {
+        throw new Error(
+          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+            `Variables: ${JSON.stringify({ address, chainId })}\n` +
+            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+        );
+      } else if (result.error) {
+        throw new Error(
+          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+            `Variables: ${JSON.stringify({ address, chainId })}\n` +
+            `Error: ${result.error.message}`
+        );
+      }
+
+      return result.data;
+    },
+    ...queryConfig.semiSensitiveDataQueryConfig,
   });
 
-  if (result.errors) {
-    throw new Error(
-      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId })}\n` +
-        `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-    );
-  } else if (result.error) {
-    throw new Error(
-      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId })}\n` +
-        `Error: ${result.error.message}`
-    );
-  }
-
-  return {
-    ...result.data,
-  };
+  return result;
 }
 
 export async function fetchExtendedMappedVaultPositions(

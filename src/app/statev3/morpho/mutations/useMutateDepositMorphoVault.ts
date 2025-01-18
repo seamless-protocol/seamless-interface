@@ -12,6 +12,7 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
+import { getUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.fetch";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -44,6 +45,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       ...((assetAllowanceQK ?? []) as QueryKey[]),
+      getUserVaultPositionsQueryKey(address as string, ChainId.BaseMainnet),
     ],
     hideDefaultErrorOnNotification: true,
   });
@@ -67,7 +69,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         marketIds: fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
         users: [address, bundler, vaultAddress],
         tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
-        vaults: [vaultAddress]
+        vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 

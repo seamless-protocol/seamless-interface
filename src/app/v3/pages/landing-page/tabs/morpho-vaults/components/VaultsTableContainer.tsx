@@ -25,7 +25,7 @@ export const VaultsTableContainer: React.FC<{
   const { data: vaults, isLoading, error } = useFormattedVaultsInfo(vaultAddresses);
 
   return (
-    <div className="md:bg-neutral-0 bg-none shadow-card rounded-2xl w-full min-h-[300px] flex flex-col">
+    <div className="md:bg-neutral-0 bg-none shadow-card rounded-2xl w-full min-h-[150px] flex flex-col">
       <VaultsTableHeader />
 
       {/* Loading State */}

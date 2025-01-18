@@ -59,7 +59,7 @@ export interface ExtendedUserReward extends UserReward {
     claimableNextUsd?: ViewBigInt;
     claimedUsd?: ViewBigInt;
   };
-  combinedAmount: RewardAmount
+  combinedAmount: RewardAmount;
   combinedAmountUsd: FetchBigInt;
 }
 
@@ -83,7 +83,7 @@ export interface SummedUserReward {
 
   combinedAmount: RewardAmountBigInt;
 
-  combinedAmountUsd?: FetchBigInt;
+  combinedClaimableNowUsd?: FetchBigInt;
 
   formatted: {
     total?: ViewBigInt;

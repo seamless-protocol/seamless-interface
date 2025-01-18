@@ -1,26 +1,36 @@
-import React from 'react'
-import { FlexCol, Typography } from '@shared'
-import { Address } from 'viem'
-import { Link } from 'react-router-dom'
-import { getVaultSeamlessprotocolDiscourseGroupUrl } from '@router'
-import { LearnMore } from '../LearnMore'
-import { LocalCollapseArrow } from '../../../../../components/details-section/DetailsCollapseArrow'
-import { LocalCollapseTitle } from '../../../../../components/details-section/DetailsCollapseTitle'
+import React from "react";
+import { FlexCol, Typography } from "@shared";
+import { Address } from "viem";
+import { Link } from "react-router-dom";
+import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
+import { LearnMore } from "../LearnMore";
+import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
+import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
 
 export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
-  vault?: Address
+  vault?: Address;
 }> = ({ vault }) => {
   return (
     <FlexCol className="w-full gap-8">
-      <Typography type="bold5">Strategy details</Typography>
+      <Typography type="bold5">Vault details</Typography>
       <FlexCol className="w-full gap-4">
         <LocalCollapseArrow>
           <LocalCollapseTitle>How this vault works</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                The Seamless USDC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s curation approach on the Seamless Governance Forum in
-                {" "}<Link className='underline' to={getVaultSeamlessprotocolDiscourseGroupUrl(vault)} target="_blank" rel="noopener noreferrer">Discourse</Link>.
+                The Seamless USDC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
+                streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s
+                curation approach on the Seamless Governance Forum in{" "}
+                <Link
+                  className="underline"
+                  to={getVaultSeamlessprotocolDiscourseGroupUrl(vault)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Discourse
+                </Link>
+                .
               </Typography>
             </div>
           </div>
@@ -31,7 +41,9 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                As with other DeFi lending and borrowing protocols, risks can include bad debt accrual, liquidation risk, and smart contract vulnerabilities. Always conduct research and assess risks before using any DeFi product.
+                As with other DeFi lending and borrowing protocols, risks can include bad debt accrual, liquidation
+                risk, and smart contract vulnerabilities. Always conduct research and assess risks before using any DeFi
+                product.
               </Typography>
             </div>
           </div>
@@ -55,5 +67,5 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
         </LocalCollapseArrow>
       </FlexCol>
     </FlexCol>
-  )
-}
+  );
+};

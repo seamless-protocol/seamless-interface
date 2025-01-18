@@ -41,6 +41,12 @@ export function useHandleTransactionMutation({
       const txReceipt = await waitForTransactionReceipt(wagmiConfig, {
         hash: txHash!,
       });
+      // wait 10 seconds
+      console.log("test");
+      await new Promise((resolve) => {
+        setTimeout(resolve, 30000);
+      });
+      console.log("test1");
 
       // 2. throw if receipt is not valid
       if (txReceipt.status === "reverted") throw new Error("Execution reverted."); // todo: better way to handle reverted?
