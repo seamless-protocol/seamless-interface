@@ -26,7 +26,7 @@ export const useFetchFormattedUserStrategyProfit = ({
   const { data, ...rest } = useQuery({
     queryKey: ["fetchFormattedUserStrategyProfit", user, address, assetAddress],
     queryFn: () => fetchUserStrategyProfit({ user: user!, address: address!, assetAddress }),
-    enabled: !!user && !!address && !!assetAddress,
+    enabled: !!user && !!address,
     ...disableCacheQueryConfig,
   });
 
