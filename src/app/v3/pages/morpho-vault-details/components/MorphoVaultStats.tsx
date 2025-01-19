@@ -55,8 +55,8 @@ export const MorphoVaultStats: React.FC<{ vault: Address | undefined }> = ({ vau
           <Typography type="medium2" className="text-primary-600">
             Curators
           </Typography>
-          <FlexRow>
-            <Icon src={curator?.icon || ""} alt="curator-icon" width={15.6} />
+          <FlexRow className="gap-2">
+            <Icon src={curator?.icon || ""} alt="curator-icon" width={20} />
             <DisplayText
               viewValue={curator?.name}
               isLoading={isLoading}

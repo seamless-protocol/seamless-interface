@@ -1,11 +1,11 @@
 import { formatFetchBigIntToViewBigInt, formatToDisplayable } from "@shared";
 import { FullVaultInfoQuery } from "@generated-graphql";
-import { formatDuration, intervalToDuration } from "date-fns";
 import { getCuratorConfig } from "../../settings/config";
 
 function convertSecondsToHours(seconds: number) {
-  const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
-  return formatDuration(duration, { format: ["hours"] });
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
 
 export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]) {
@@ -23,7 +23,7 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]) {
   const collateralLogos = allocation
     .map((alloc) => alloc.market.collateralAsset?.logoURI)
     .filter((logo) => logo != null);
-  const timelock = state ? `${convertSecondsToHours(state?.timelock)} Hours` : "/";
+  const timelock = state?.timelock ? `${convertSecondsToHours(state?.timelock)} Hours` : "/";
 
   return {
     vaultAddress,
