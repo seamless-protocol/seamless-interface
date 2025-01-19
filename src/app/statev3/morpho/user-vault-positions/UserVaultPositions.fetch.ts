@@ -9,8 +9,6 @@ import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
-import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { queryConfig } from "../../settings/queryConfig";
 
 export async function fetchUserVaultPositions(
   userAddress: string,
@@ -18,7 +16,6 @@ export async function fetchUserVaultPositions(
   chainId = base.id
 ): Promise<UserVaultPositionsQuery> {
   const client = getApolloClient();
-  const queryClient = getQueryClient();
 
   const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
     query: UserVaultPositionsDocument,
@@ -46,12 +43,7 @@ export async function fetchUserVaultPositions(
     );
   }
 
-      return result.data;
-    },
-    ...queryConfig.semiSensitiveDataQueryConfig,
-  });
-
-  return result;
+  return result.data;
 }
 
 export async function fetchExtendedMappedVaultPositions(
