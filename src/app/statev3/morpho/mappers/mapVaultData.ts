@@ -23,7 +23,7 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]) {
   const collateralLogos = allocation
     .map((alloc) => alloc.market.collateralAsset?.logoURI)
     .filter((logo) => logo != null);
-  const timelock = state?.timelock ? `${convertSecondsToHours(state?.timelock)} Hours` : "/";
+  const timelock = state?.timelock ? `${convertSecondsToHours(Number(state?.timelock))} Hours` : "/";
 
   return {
     vaultAddress,
