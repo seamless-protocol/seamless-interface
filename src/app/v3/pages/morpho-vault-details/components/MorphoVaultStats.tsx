@@ -6,6 +6,7 @@ import {
   DisplayTokenAmount,
   FlexCol,
   FlexRow,
+  Icon,
   Typography,
 } from "@shared";
 import border from "@assets/common/border.svg";
@@ -54,14 +55,17 @@ export const MorphoVaultStats: React.FC<{ vault: Address | undefined }> = ({ vau
           <Typography type="medium2" className="text-primary-600">
             Curators
           </Typography>
-          <DisplayText
-            viewValue={curator}
-            isLoading={isLoading}
-            errorMessage={error?.message}
-            typography="bold5"
-            className="text-primary-1000"
-            loaderSkeletonSettings={skeletonLoaderSettings}
-          />
+          <FlexRow className="gap-2">
+            <Icon src={curator?.icon || ""} alt="curator-icon" width={20} />
+            <DisplayText
+              viewValue={curator?.name}
+              isLoading={isLoading}
+              errorMessage={error?.message}
+              typography="bold5"
+              className="text-primary-1000"
+              loaderSkeletonSettings={skeletonLoaderSettings}
+            />
+          </FlexRow>
         </FlexCol>
         <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>

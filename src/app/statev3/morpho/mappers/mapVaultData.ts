@@ -1,5 +1,12 @@
 import { formatFetchBigIntToViewBigInt, formatToDisplayable } from "@shared";
 import { FullVaultInfoQuery } from "@generated-graphql";
+import { getCuratorConfig } from "../../settings/config";
+
+function convertSecondsToHours(seconds: number) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
+}
 
 export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]) {
   const { address: vaultAddress, name, asset, state } = vault;
@@ -10,13 +17,13 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]) {
   });
   const totalAssetsUsd = formatToDisplayable(state?.totalAssetsUsd ?? 0);
   const netApy = formatToDisplayable((state?.netApy ?? 0) * 100);
-  const curator = "Gauntlet"; // state?.curator; TODO morpho: how to get name of curetor from adress?
+  const curator = getCuratorConfig(state?.curator); // state?.curator; TODO morpho: how to get name of curetor from adress?
   const feePercentage = formatToDisplayable((state?.fee ?? 0) * 100);
   const allocation = state?.allocation ?? [];
   const collateralLogos = allocation
     .map((alloc) => alloc.market.collateralAsset?.logoURI)
     .filter((logo) => logo != null);
-  const timelock = state?.timelock; // TODO morpho: 345600, what's the meaning of this?
+  const timelock = state?.timelock ? `${convertSecondsToHours(state?.timelock)} Hours` : "/";
 
   return {
     vaultAddress,

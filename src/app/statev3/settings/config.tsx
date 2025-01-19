@@ -22,6 +22,7 @@ import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
 import cbBTC_1_5x_LongImage from "@assets/diagrams/cbBTC_1_5x_Long.png";
 import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
+import logoGauntlet from "@assets/logos/logo-gauntlet.svg";
 import { LendMarketConfig } from "./configTypes";
 import { assetsConfig } from "./landingMarketConfig";
 
@@ -86,4 +87,20 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     underlyingAsset: assetsConfig[cbBTC_ADDRESS],
     debtAsset: assetsConfig[USDC_ADDRESS],
   },
+};
+
+const CuratorConfig = {
+  "0x9E33faAE38ff641094fa68c65c2cE600b3410585": {
+    name: "Gauntlet",
+    icon: logoGauntlet,
+  },
+};
+
+export const getCuratorConfig = (curator?: Address) => {
+  return curator
+    ? {
+        address: curator,
+        ...CuratorConfig[curator as keyof typeof CuratorConfig],
+      }
+    : undefined;
 };
