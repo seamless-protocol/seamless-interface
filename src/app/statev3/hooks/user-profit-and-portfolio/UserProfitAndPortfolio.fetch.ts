@@ -14,14 +14,12 @@ export async function fetchUserProfitAndPortfolio({
   const vaults = await fetchUserVaultPositions(account, base.id);
 
   const strategyObjects = strategies.map((strategy) => ({
-    address: strategy,
-    assetAddress: strategy,
+    address: strategy
   }));
 
   const vaultObjects =
     vaults?.userByAddress.vaultPositions.map((vault) => ({
-      address: vault.vault.address,
-      assetAddress: vault.vault.asset.address,
+      address: vault.vault.address
     })) || [];
 
   const results = await Promise.all(

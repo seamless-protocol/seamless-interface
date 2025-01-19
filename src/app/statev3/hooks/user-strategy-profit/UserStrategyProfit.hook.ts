@@ -7,7 +7,6 @@ import { disableCacheQueryConfig } from "../../settings/queryConfig";
 
 interface UseFetchFormattedUserStrategyProfitInput {
   address: Address | undefined;
-  assetAddress?: Address;
 }
 
 interface FormattedUserStrategyProfit {
@@ -19,13 +18,12 @@ interface FormattedUserStrategyProfit {
 
 export const useFetchFormattedUserStrategyProfit = ({
   address,
-  assetAddress,
 }: UseFetchFormattedUserStrategyProfitInput): Displayable<FormattedUserStrategyProfit> => {
   const { address: user } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchFormattedUserStrategyProfit", user, address, assetAddress],
-    queryFn: () => fetchUserStrategyProfit({ user: user!, address: address!, assetAddress }),
+    queryKey: ["fetchFormattedUserStrategyProfit", user, address],
+    queryFn: () => fetchUserStrategyProfit({ user: user!, address: address! }),
     enabled: !!user && !!address,
     ...disableCacheQueryConfig,
   });

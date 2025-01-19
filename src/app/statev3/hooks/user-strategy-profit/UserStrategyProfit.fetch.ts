@@ -27,7 +27,6 @@ interface AddStrategyPriceToLogsInput {
 interface GetStrategyEventLogsForUserInput {
   user: Address;
   address: Address;
-  assetAddress?: Address;
 }
 
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
@@ -138,7 +137,7 @@ export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsFor
 export async function fetchUserStrategyProfit(
   input: FetchUserStrategyProfitInput
 ): Promise<FetchUserStrategyProfitOutput> {
-  const { address, user, assetAddress } = input;
+  const { address, user } = input;
 
   const [logs, { decimals: strategyDecimals, symbol: strategySymbol }] = await Promise.all([
     getStrategyEventLogsForUser({ address, user }),
@@ -146,8 +145,8 @@ export async function fetchUserStrategyProfit(
   ]);
 
   const [transferWithStrategyPrice, currStrategyPrice] = await Promise.all([
-    addStrategyPriceAndParseLogs({ address: assetAddress || address, logs }),
-    fetchAssetPriceInBlock(assetAddress || address),
+    addStrategyPriceAndParseLogs({ address, logs }),
+    fetchAssetPriceInBlock(address),
   ]);
 
   const { strategyBalance, strategyBalanceUsd, realizedProfit, unrealizedProfit, unrealizedProfitPercentage } =
@@ -157,6 +156,8 @@ export async function fetchUserStrategyProfit(
       currStrategyPrice: currStrategyPrice.bigIntValue,
       strategyDecimals,
     });
+
+  console.log("fetchUserStrategyProfit - input: ", input, " { decimals: strategyDecimals, symbol: strategySymbol }: ", { strategyDecimals, strategySymbol }, " currStrategyPrice: ", currStrategyPrice, " strategyBalance: ", strategyBalance, " strategyBalanceUsd: ", strategyBalanceUsd, " realizedProfit: ", realizedProfit, " unrealizedProfit: ", unrealizedProfit, " unrealizedProfitPercentage: ", unrealizedProfitPercentage);
 
   return {
     strategyBalance: {
