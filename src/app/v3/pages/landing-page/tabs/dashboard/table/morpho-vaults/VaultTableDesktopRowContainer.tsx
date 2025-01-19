@@ -19,7 +19,6 @@ export const VaultTableDesktopRowContainer: React.FC<{
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
-    assetAddress: vault.mappedVaultDetails.asset.address,
   });
 
   return (

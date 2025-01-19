@@ -26,7 +26,6 @@ export const StrategyTableDesktopRowContainer: React.FC<{
   });
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: strategy,
-    assetAddress: strategy,
   });
 
   return (
