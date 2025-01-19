@@ -54,8 +54,8 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     invalidateDelay: !userVaultPositions?.vaultPositions.find(
       (pos) => pos.vaultPosition.baseData.vault.address === vaultAddress
     )
-      ? 0
-      : 30000,
+      ? 30000
+      : undefined,
   });
 
   /* -------------------- */
