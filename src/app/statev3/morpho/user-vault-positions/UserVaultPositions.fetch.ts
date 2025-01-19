@@ -8,26 +8,37 @@ import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@s
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
+import { base } from "viem/chains";
 
-export async function fetchUserVaultPositions(address: string, chainId: number): Promise<UserVaultPositionsQuery> {
+export async function fetchUserVaultPositions(
+  userAddress: string,
+  whiteListedVaultAddresses?: string[],
+  chainId = base.id
+): Promise<UserVaultPositionsQuery> {
   const client = getApolloClient();
 
   const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
     query: UserVaultPositionsDocument,
-    variables: { address, chainId },
+    variables: {
+      where: {
+        userAddress_in: [userAddress],
+        vaultAddress_in: whiteListedVaultAddresses,
+        chainId_in: [chainId],
+      },
+    },
     fetchPolicy: "cache-first",
   });
 
   if (result.errors) {
     throw new Error(
       `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId })}\n` +
+        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
         `Errors: ${result.errors.map((e) => e.message).join("; ")}`
     );
   } else if (result.error) {
     throw new Error(
       `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId })}\n` +
+        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
         `Error: ${result.error.message}`
     );
   }
@@ -38,15 +49,17 @@ export async function fetchUserVaultPositions(address: string, chainId: number):
 }
 
 export async function fetchExtendedMappedVaultPositions(
-  address: string,
-  chainId: number
-): Promise<ExtendedMappedVaultPositionsResult> {
+  userAddress: string,
+  whiteListedVaultAddresses?: string[],
+  chainId = base.id
+): Promise<ExtendedMappedVaultPositionsResult | undefined> {
   // Step 1: Fetch raw vault positions
-  const rawVaultPositions = await fetchUserVaultPositions(address, chainId);
+  const rawVaultPositions = await fetchUserVaultPositions(userAddress, whiteListedVaultAddresses, chainId);
+  if (!rawVaultPositions.vaultPositions.items) return undefined;
 
   // Step 2: Fetch detailed vault info for each position
   const extendedVaultPositions = await Promise.all(
-    rawVaultPositions.userByAddress.vaultPositions.map(async (vaultPosition) => {
+    rawVaultPositions.vaultPositions.items?.map(async (vaultPosition) => {
       const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault.address, chainId);
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultByAddress);
 

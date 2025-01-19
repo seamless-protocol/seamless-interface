@@ -1,8 +1,6 @@
-query UserVaultPositions($address: String!, $chainId: Int) {
-  userByAddress(address: $address, chainId: $chainId) {
-    address
-    id
-    vaultPositions {
+query UserVaultPositions($where: VaultPositionFilters) {
+  vaultPositions(where: $where) {
+    items {
       vault {
         address
         name
@@ -14,6 +12,7 @@ query UserVaultPositions($address: String!, $chainId: Int) {
           address
         }
         state {
+          owner
           rewards {
             amountPerSuppliedToken
             supplyApr

@@ -2892,12 +2892,11 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
 export type UserVaultPositionsQueryVariables = Exact<{
-  address: Scalars['String']['input'];
-  chainId?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<VaultPositionFilters>;
 }>;
 
 
-export type UserVaultPositionsQuery = { __typename?: 'Query', userByAddress: { __typename?: 'User', address: any, id: string, vaultPositions: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null } }> } };
+export type UserVaultPositionsQuery = { __typename?: 'Query', vaultPositions: { __typename?: 'PaginatedMetaMorphoPositions', items?: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', owner: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null } }> | null } };
 
 
 export const FullVaultInfoDocument = gql`
@@ -3106,11 +3105,9 @@ export type TotalAssetsHistoricalLazyQueryHookResult = ReturnType<typeof useTota
 export type TotalAssetsHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalSuspenseQuery>;
 export type TotalAssetsHistoricalQueryResult = Apollo.QueryResult<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>;
 export const UserVaultPositionsDocument = gql`
-    query UserVaultPositions($address: String!, $chainId: Int) {
-  userByAddress(address: $address, chainId: $chainId) {
-    address
-    id
-    vaultPositions {
+    query UserVaultPositions($where: VaultPositionFilters) {
+  vaultPositions(where: $where) {
+    items {
       vault {
         address
         name
@@ -3122,6 +3119,7 @@ export const UserVaultPositionsDocument = gql`
           address
         }
         state {
+          owner
           rewards {
             amountPerSuppliedToken
             supplyApr
@@ -3155,12 +3153,11 @@ export const UserVaultPositionsDocument = gql`
  * @example
  * const { data, loading, error } = useUserVaultPositionsQuery({
  *   variables: {
- *      address: // value for 'address'
- *      chainId: // value for 'chainId'
+ *      where: // value for 'where'
  *   },
  * });
  */
-export function useUserVaultPositionsQuery(baseOptions: Apollo.QueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables> & ({ variables: UserVaultPositionsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useUserVaultPositionsQuery(baseOptions?: Apollo.QueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
       }
