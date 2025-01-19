@@ -15,6 +15,7 @@ export interface ViewNumber extends ViewValueSymbolPair {
 
 export interface ViewBigInt extends ViewValueSymbolPair {
   value?: string | undefined;
+  decimals?: number | undefined;
   bigIntValue?: bigint | undefined;
 }
 

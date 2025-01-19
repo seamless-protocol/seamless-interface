@@ -47,7 +47,11 @@ function formatFull(value: number, decimals: number) {
   return formatter.format(value);
 }
 
-export function formatToDisplayable(value: number | undefined, decimalsOptions?: Partial<DecimalsOptions>, options?: FormattingOptions) {
+export function formatToDisplayable(
+  value: number | undefined,
+  decimalsOptions?: Partial<DecimalsOptions>,
+  options?: FormattingOptions
+) {
   if (!value) return format(0, 2);
 
   const decimalsFormattingOptions = {
@@ -124,6 +128,7 @@ export function formatFetchBigIntToViewBigInt(
     viewValue: formatToDisplayable(value, decimalsFormattingOptions, options),
     bigIntValue,
     symbol,
+    decimals,
   };
 }
 
