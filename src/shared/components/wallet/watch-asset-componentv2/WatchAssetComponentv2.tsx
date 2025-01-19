@@ -46,7 +46,7 @@ interface Token {
 export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
   const { mutateAsync, isPending } = useWatchAsset();
   const {
-    data: { decimals, symbol },
+    data: { decimals, symbol, logo },
   } = useToken(address);
 
   const handleAddToWalletClick = async () => {
@@ -56,7 +56,7 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
       symbol,
       address,
       decimals,
-      logo: icon,
+      logo: logo || icon,
     });
   };
 
