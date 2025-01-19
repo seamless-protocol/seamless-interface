@@ -4,7 +4,7 @@ import { MappedVaultData } from "./MappedFullVaultData";
 
 export interface ExtendedVaultPosition {
   vaultPosition: {
-    baseData: UserVaultPositionsQuery["userByAddress"]["vaultPositions"][number];
+    baseData: NonNullable<NonNullable<UserVaultPositionsQuery["vaultPositions"]["items"]>[number]>;
     shares: ViewBigInt;
     assetsUsd: ViewNumber;
     assets: ViewBigInt;
