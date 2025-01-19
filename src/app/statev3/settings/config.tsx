@@ -87,3 +87,14 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
     debtAsset: assetsConfig[USDC_ADDRESS],
   },
 };
+
+const CuratorConfig = {
+  ss: {
+    name: "Gauntlet",
+    icon: "",
+  },
+};
+
+export const getCuratorConfig = (curator?: Address) => {
+  return curator ? CuratorConfig[curator as keyof typeof CuratorConfig] : undefined;
+};
