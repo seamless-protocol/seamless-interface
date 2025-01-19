@@ -112,10 +112,10 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         );
       }
     } catch (error) {
-      console.error("Failed to deposit to vault", error);
+      console.error("Failed to deposit to a vault", error);
       showNotification({
         status: "error",
-        content: `Failed to deposit to vault: ${getParsedError(error)}`,
+        content: `Failed to deposit to a vault: ${getParsedError(error)}`,
       });
     } finally {
       setIsSimulating(false);
