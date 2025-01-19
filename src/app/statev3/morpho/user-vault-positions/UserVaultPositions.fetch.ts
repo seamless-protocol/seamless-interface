@@ -10,7 +10,6 @@ import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { result } from "cypress/types/lodash";
 
 export async function fetchUserVaultPositions(
   userAddress: string,
@@ -53,7 +52,7 @@ export async function fetchUserVaultPositions(
     },
   });
 
-  return result.data;
+  return data;
 }
 
 export async function fetchExtendedMappedVaultPositions(
