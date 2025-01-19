@@ -1,5 +1,6 @@
 import { ViewBigInt } from "@shared";
 import { MorphoAsset } from "./MorphoAsset";
+import { Curator } from "./Curator";
 
 export interface MappedVaultData {
   /**
@@ -36,9 +37,8 @@ export interface MappedVaultData {
 
   /**
    * The curator of the vault. Currently hardcoded as "test".
-   * TODO: Replace with actual curator name retrieval logic.
    */
-  curator: string;
+  curator?: Curator;
 
   /**
    * The fee percentage, formatted as a percentage string.
@@ -53,5 +53,5 @@ export interface MappedVaultData {
   /**
    * The timelock duration in seconds.
    */
-  timelock?: number;
+  timelock?: string;
 }

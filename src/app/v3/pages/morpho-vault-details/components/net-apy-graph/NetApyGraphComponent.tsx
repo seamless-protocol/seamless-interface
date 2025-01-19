@@ -128,7 +128,7 @@ export const NetApyGraphComponent: React.FC<{
               strokeDashArray: 4,
               xaxis: {
                 lines: {
-                  show: true,
+                  show: false,
                 },
               },
               yaxis: {

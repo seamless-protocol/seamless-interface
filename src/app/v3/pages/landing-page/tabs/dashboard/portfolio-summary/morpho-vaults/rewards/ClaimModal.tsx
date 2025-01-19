@@ -1,8 +1,4 @@
-import {
-  ViewBigInt,
-  ModalHandles,
-  Token,
-} from "@shared";
+import { ViewBigInt, ModalHandles, Token } from "@shared";
 import React, { useRef } from "react";
 import { ClaimModalComponent } from "../../../components/common/ClaimModalComponent";
 import { useMutateClaimAllMorphoRewards } from "../../../../../../../../statev3/morpho/user-distributions/useMutateClaimAllMorphoRewards";
@@ -21,9 +17,8 @@ interface ClaimModalProps {
 
 export const ClaimModal: React.FC<ClaimModalProps> = ({ totalUsdValue, rewards, disabled }) => {
   const modalRef = useRef<ModalHandles | null>(null);
-  const isPending = false;
 
-  const { claimAllAsync } = useMutateClaimAllMorphoRewards();
+  const { claimAllAsync, isPending } = useMutateClaimAllMorphoRewards();
 
   const onSubmitAsync = async () => {
     await claimAllAsync();

@@ -46,7 +46,7 @@ interface Token {
 export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
   const { mutateAsync, isPending } = useWatchAsset();
   const {
-    data: { decimals, symbol },
+    data: { decimals, symbol, logo },
   } = useToken(address);
 
   const handleAddToWalletClick = async () => {
@@ -56,13 +56,13 @@ export const WatchAssetComponentv2: React.FC<Token> = ({ address, icon }) => {
       symbol,
       address,
       decimals,
-      logo: icon,
+      logo: logo || icon,
     });
   };
 
   return (
     <FlexCol className="p-3 gap-3 bg-neutral-100 my-4 rounded-md items-center">
-      <Icon src={icon} width={30} alt={`${symbol}-icon`} />
+      <Icon src={logo || icon} width={30} alt={`${symbol}-icon`} />
       <Typography type="medium3">
         Add <strong>{symbol}</strong> to wallet to track your balance.
       </Typography>

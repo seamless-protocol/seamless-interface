@@ -43,9 +43,7 @@ export async function fetchUserVaultPositions(
     );
   }
 
-  return {
-    ...result.data,
-  };
+  return result.data;
 }
 
 export async function fetchExtendedMappedVaultPositions(

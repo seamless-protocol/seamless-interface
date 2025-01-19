@@ -10,7 +10,11 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared";
 const BASE_URL = "https://rewards.morpho.org/v1";
 
 export const MORPHO_USER_REWARDS_QUERY_KEY = "fetchMorphoUserRewards";
-export const getFetchRawMorphoUserRewardsQueryKey = (userAddress?: Address, chainId = base.id) => [MORPHO_USER_REWARDS_QUERY_KEY, userAddress, chainId];
+export const getFetchRawMorphoUserRewardsQueryKey = (userAddress?: Address, chainId = base.id) => [
+  MORPHO_USER_REWARDS_QUERY_KEY,
+  userAddress,
+  chainId,
+];
 
 export async function fetchRawMorphoUserRewards(
   userAddress: Address,
@@ -34,11 +38,14 @@ export async function fetchRawMorphoUserRewards(
 export async function fetchMorphoExtendedMappedUserRewards(userAddress: Address, chainId = base.id) {
   const rewardsResponse = await fetchRawMorphoUserRewards(userAddress, chainId);
   const extendedRewards = await extendAndMapMorphoRewards(rewardsResponse);
-  const totalUsdValue = extendedRewards?.reduce((acc, reward) => acc + (reward?.combinedAmountUsd?.bigIntValue || 0n), 0n);
+  const totalUsdValue = extendedRewards?.reduce(
+    (acc, reward) => acc + (reward?.combinedClaimableNowUsd?.bigIntValue || 0n),
+    0n
+  );
 
   return {
     rewards: extendedRewards,
-    totalUsdValueViewValue: formatFetchBigIntToViewBigInt({
+    combinedClaimableNowViewValue: formatFetchBigIntToViewBigInt({
       bigIntValue: totalUsdValue,
       decimals: pricePrecision,
       symbol: "$",

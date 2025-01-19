@@ -149,7 +149,7 @@ export const TotalAssetsGraphComponent = () => {
               strokeDashArray: 4,
               xaxis: {
                 lines: {
-                  show: true,
+                  show: false,
                 },
               },
               yaxis: {

@@ -67,7 +67,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         marketIds: fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
         users: [address, bundler, vaultAddress],
         tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
-        vaults: [vaultAddress]
+        vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 

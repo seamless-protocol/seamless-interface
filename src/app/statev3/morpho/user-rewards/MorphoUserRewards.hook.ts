@@ -9,7 +9,7 @@ import { FetchData, ViewBigInt } from "@shared";
 export interface MorphoUserRewardsData {
   rewards?: ExtendedUserReward[];
   totalUsdValue: bigint;
-  totalUsdValueViewValue: ViewBigInt;
+  combinedClaimableNowViewValue: ViewBigInt;
 }
 
 export function useMorphoExtendedUserRewards(

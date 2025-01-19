@@ -19,16 +19,16 @@ export const MorphoUnclaimedRewardsBox = () => {
       <FlexRow className="gap-[88px]">
         <FlexCol className="gap-2">
           <Typography type="regular5">Unclaimed vault rewards</Typography>
-          <DisplayMoney {...rewardData.totalUsdValueViewValue} {...rest} typography="bold6" />
+          <DisplayMoney {...rewardData.combinedClaimableNowViewValue} {...rest} typography="bold6" />
         </FlexCol>
 
         <ClaimModal
           {...{
-            totalUsdValue: rewardData.totalUsdValueViewValue,
+            totalUsdValue: rewardData.combinedClaimableNowViewValue,
             rewards: rewardData.rewards?.map((reward) => ({
               claimableNow: reward.formatted.claimableNow,
               claimableNowUsd: reward.formatted.claimableNowUsd,
-              token: reward.token
+              token: reward.token,
             })),
             disabled,
           }}
