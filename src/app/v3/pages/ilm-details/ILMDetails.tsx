@@ -1,7 +1,6 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { StrategyDetails } from "./components/strategy-details/StrategyDetails";
 import { StrategyStats } from "./components/strategy-details/strategy-stats/StrategyStats";
-import { CurrentHoldings } from "./components/current-holdings/CurrentHoldings";
 import { FormContainer } from "./components/forms/FormContainer";
 import { StrategyPickerButton } from "./components/strategy-picker/StrategyPickerButton";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,6 +10,7 @@ import { RouterConfig } from "@router";
 import { useAccount } from "wagmi";
 import { GraphComponent } from "./components/graph/GraphComponent";
 import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
+import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
 
 export const ILMDetails = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const ILMDetails = () => {
           </div>
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
-            {isConnected && <CurrentHoldings />}
+            {isConnected && <CurrentHoldings address={address as Address} />}
             <GraphComponent />
             <StrategyStats />
             <StrategyDetails />

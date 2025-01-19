@@ -1,17 +1,15 @@
 import { DisplayMoney, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography, useToken } from "@shared";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { UserProfit } from "./UserProfit";
-import { useParams } from "react-router-dom";
 import { Address } from "viem";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 
-export const CurrentHoldings = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
-
-  const { data: strategyData, ...strategyDataRest } = useToken(strategy);
+export const CurrentHoldings: React.FC<{
+  address?: Address;
+}> = ({ address }) => {
+  const { data: strategyData, ...strategyDataRest } = useToken(address);
 
   const { data: strategyBalance, ...strategyBalanceRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: strategy,
+    asset: address,
   });
 
   return (

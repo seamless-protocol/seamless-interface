@@ -6,13 +6,19 @@ import {
   DEFAULT_SLIPPAGE_TOLERANCE,
   getChainAddresses as getMorphoChainAddresses,
 } from "@morpho-org/blue-sdk";
-import { QueryKey } from "@tanstack/react-query";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
-import { getUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.fetch";
+import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue.hook";
+import {
+  getFetchUserVaultPositionsQueryKey,
+  useFetchUserVaultPositions,
+} from "../user-vault-positions/UserVaultPositions.hook";
+import { base } from "viem/chains";
+import { whiteListedMorphoVaults } from "../../../../meta";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -22,11 +28,13 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   const { address } = account;
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
+  const queryClient = useQueryClient();
 
   /* ------------- */
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
+  const { data: userVaultPositions } = useFetchUserVaultPositions();
 
   /* -------------------- */
   /*   Query cache keys   */
@@ -45,7 +53,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       ...((assetAllowanceQK ?? []) as QueryKey[]),
-      getUserVaultPositionsQueryKey(address as string, ChainId.BaseMainnet),
+      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultByAddress.address),
     ],
     hideDefaultErrorOnNotification: true,
   });
@@ -94,6 +102,17 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
           },
           { ...settings }
         );
+      }
+
+      // todo: fix this properly
+      if (
+        !userVaultPositions?.vaultPositions.find((pos) => pos.vaultPosition.baseData.vault.address === vaultAddress)
+      ) {
+        setTimeout(() => {
+          queryClient.invalidateQueries({
+            queryKey: getFetchUserVaultPositionsQueryKey(address as string, whiteListedMorphoVaults, base.id),
+          });
+        }, 3000);
       }
     } catch (error) {
       console.error("Failed to deposit to morpho vault", error);

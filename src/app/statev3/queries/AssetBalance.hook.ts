@@ -1,7 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { FetchBigIntStrict, fetchToken } from "@shared";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { walletDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 interface FetchAssetBalanceInput {
@@ -18,7 +17,6 @@ export async function fetchAssetBalance({ account, asset }: FetchAssetBalanceInp
         functionName: "balanceOf",
         args: [account],
       }),
-      ...walletDataQueryConfig,
     }),
     fetchToken(asset),
   ]);
