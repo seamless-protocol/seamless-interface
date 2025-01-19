@@ -3,7 +3,7 @@ import { Displayable, FlexCol, Image, Typography } from "@shared";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 
-export const NoStrategiesTableGuard: React.FC<{
+export const NoPositionsTableGuard: React.FC<{
   numberOfStrategiesDisplayable: Displayable<number>;
   children: React.ReactNode;
 }> = ({ numberOfStrategiesDisplayable, children }) => {

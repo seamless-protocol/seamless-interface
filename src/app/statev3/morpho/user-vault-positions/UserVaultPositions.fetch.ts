@@ -8,43 +8,43 @@ import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@s
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
+import { base } from "viem/chains";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../settings/queryConfig";
 
-export const MORPHO_USER_VAULT_POSITIONS_QUERY_KEY = "MORPHO_USER_VAULT_POSITIONS_QUERY_KEY";
-export const getUserVaultPositionsQueryKey = (address: string, chainId: number) => [
-  MORPHO_USER_VAULT_POSITIONS_QUERY_KEY,
-  address,
-  chainId,
-];
-
-export async function fetchUserVaultPositions(address: string, chainId: number): Promise<UserVaultPositionsQuery> {
+export async function fetchUserVaultPositions(
+  userAddress: string,
+  whiteListedVaultAddresses?: string[],
+  chainId = base.id
+): Promise<UserVaultPositionsQuery> {
   const client = getApolloClient();
   const queryClient = getQueryClient();
 
-  const result = await queryClient.fetchQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-    queryKey: ["MORPHO_USER_VAULT_POSITIONS_QUERY_KEY", address, chainId],
-    queryFn: async () => {
-      console.log("refetching positions");
-      const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-        query: UserVaultPositionsDocument,
-        variables: { address, chainId },
-        fetchPolicy: "network-only",
-      });
+  const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
+    query: UserVaultPositionsDocument,
+    variables: {
+      where: {
+        userAddress_in: [userAddress],
+        vaultAddress_in: whiteListedVaultAddresses,
+        chainId_in: [chainId],
+      },
+    },
+    fetchPolicy: "cache-first",
+  });
 
-      if (result.errors) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ address, chainId })}\n` +
-            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-        );
-      } else if (result.error) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ address, chainId })}\n` +
-            `Error: ${result.error.message}`
-        );
-      }
+  if (result.errors) {
+    throw new Error(
+      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
+        `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+    );
+  } else if (result.error) {
+    throw new Error(
+      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
+        `Error: ${result.error.message}`
+    );
+  }
 
       return result.data;
     },
@@ -55,15 +55,17 @@ export async function fetchUserVaultPositions(address: string, chainId: number):
 }
 
 export async function fetchExtendedMappedVaultPositions(
-  address: string,
-  chainId: number
-): Promise<ExtendedMappedVaultPositionsResult> {
+  userAddress: string,
+  whiteListedVaultAddresses?: string[],
+  chainId = base.id
+): Promise<ExtendedMappedVaultPositionsResult | undefined> {
   // Step 1: Fetch raw vault positions
-  const rawVaultPositions = await fetchUserVaultPositions(address, chainId);
+  const rawVaultPositions = await fetchUserVaultPositions(userAddress, whiteListedVaultAddresses, chainId);
+  if (!rawVaultPositions.vaultPositions.items) return undefined;
 
   // Step 2: Fetch detailed vault info for each position
   const extendedVaultPositions = await Promise.all(
-    rawVaultPositions.userByAddress.vaultPositions.map(async (vaultPosition) => {
+    rawVaultPositions.vaultPositions.items?.map(async (vaultPosition) => {
       const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault.address, chainId);
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultByAddress);
 

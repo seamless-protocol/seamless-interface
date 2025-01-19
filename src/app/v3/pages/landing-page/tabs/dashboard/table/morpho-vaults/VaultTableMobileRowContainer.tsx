@@ -15,7 +15,6 @@ export const VaultTableMobileRowContainer: React.FC<{
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
-    assetAddress: vault.mappedVaultDetails.asset.address,
   });
   return (
     <TableMobileRowComponent
