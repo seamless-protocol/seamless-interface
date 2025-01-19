@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { Address } from "viem";
 import { ModalHandles, FlexRow, Modal } from "@shared";
-import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
-import { DepositForm } from "../../../../../components/forms/deposit-form/DepositForm";
-import { WithdrawForm } from "../../../../../components/forms/withdraw-form/WithdrawForm";
+import { FormSettingsProvider } from "../../../../../../components/forms/contexts/FormSettingsContext";
+import { DepositForm } from "../../../../../../components/forms/deposit-form/DepositForm";
+import { WithdrawForm } from "../../../../../../components/forms/withdraw-form/WithdrawForm";
 
 export const TableButtons: React.FC<{
   strategy?: Address;

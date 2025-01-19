@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { disableCacheQueryConfig } from "../../settings/queryConfig";
 
 interface UseFetchFormattedUserStrategyProfitInput {
-  strategy: Address | undefined;
+  address: Address | undefined;
 }
 
 interface FormattedUserStrategyProfit {
@@ -17,14 +17,14 @@ interface FormattedUserStrategyProfit {
 }
 
 export const useFetchFormattedUserStrategyProfit = ({
-  strategy,
+  address,
 }: UseFetchFormattedUserStrategyProfitInput): Displayable<FormattedUserStrategyProfit> => {
   const { address: user } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchFormattedUserStrategyProfit", user, strategy],
-    queryFn: () => fetchUserStrategyProfit({ user: user!, strategy: strategy! }),
-    enabled: !!user && !!strategy,
+    queryKey: ["fetchFormattedUserStrategyProfit", user, address],
+    queryFn: () => fetchUserStrategyProfit({ user: user!, address: address! }),
+    enabled: !!user && !!address,
     ...disableCacheQueryConfig,
   });
 

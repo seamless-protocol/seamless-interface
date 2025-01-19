@@ -15,7 +15,7 @@ export const useFetchFormattedUserProfitAndPortfolio = (): Displayable<Formatted
   const { address: account } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: ["fetchUserProfitAndPortfolio", account],
+    queryKey: ["hookUserProfitAndPortfolio", account],
     queryFn: () =>
       fetchUserProfitAndPortfolio({
         account: account!,

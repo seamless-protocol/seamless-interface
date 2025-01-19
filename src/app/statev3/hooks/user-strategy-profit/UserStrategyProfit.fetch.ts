@@ -20,13 +20,13 @@ interface GetTransferEventsInput {
 }
 
 interface AddStrategyPriceToLogsInput {
-  strategy: Address;
+  address: Address;
   logs: Log[];
 }
 
 interface GetStrategyEventLogsForUserInput {
   user: Address;
-  strategy: Address;
+  address: Address;
 }
 
 type FetchUserStrategyProfitInput = GetStrategyEventLogsForUserInput;
@@ -66,7 +66,7 @@ async function getTransferEvents(input: GetTransferEventsInput) {
 }
 
 async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput): Promise<TransfersWithStrategyPrice[]> {
-  const { logs, strategy } = input;
+  const { logs, address: strategy } = input;
 
   const transfers: TransfersWithStrategyPrice[] = [];
 
@@ -95,7 +95,7 @@ async function addStrategyPriceAndParseLogs(input: AddStrategyPriceToLogsInput):
 }
 
 export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsForUserInput): Promise<Log[]> {
-  const { strategy, user } = input;
+  const { address: strategy, user } = input;
   const queryClient = getQueryClient();
 
   const [transferFromLogs, transferToLogs] = await Promise.all([
@@ -137,16 +137,16 @@ export async function getStrategyEventLogsForUser(input: GetStrategyEventLogsFor
 export async function fetchUserStrategyProfit(
   input: FetchUserStrategyProfitInput
 ): Promise<FetchUserStrategyProfitOutput> {
-  const { strategy, user } = input;
+  const { address, user } = input;
 
   const [logs, { decimals: strategyDecimals, symbol: strategySymbol }] = await Promise.all([
-    getStrategyEventLogsForUser({ strategy, user }),
-    fetchToken(strategy),
+    getStrategyEventLogsForUser({ address, user }),
+    fetchToken(address),
   ]);
 
   const [transferWithStrategyPrice, currStrategyPrice] = await Promise.all([
-    addStrategyPriceAndParseLogs({ strategy, logs }),
-    fetchAssetPriceInBlock(strategy),
+    addStrategyPriceAndParseLogs({ address, logs }),
+    fetchAssetPriceInBlock(address),
   ]);
 
   const { strategyBalance, strategyBalanceUsd, realizedProfit, unrealizedProfit, unrealizedProfitPercentage } =
@@ -156,6 +156,8 @@ export async function fetchUserStrategyProfit(
       currStrategyPrice: currStrategyPrice.bigIntValue,
       strategyDecimals,
     });
+
+  console.log("fetchUserStrategyProfit - input: ", input, " { decimals: strategyDecimals, symbol: strategySymbol }: ", { strategyDecimals, strategySymbol }, " currStrategyPrice: ", currStrategyPrice, " strategyBalance: ", strategyBalance, " strategyBalanceUsd: ", strategyBalanceUsd, " realizedProfit: ", realizedProfit, " unrealizedProfit: ", unrealizedProfit, " unrealizedProfitPercentage: ", unrealizedProfitPercentage);
 
   return {
     strategyBalance: {

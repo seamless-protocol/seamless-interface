@@ -16,7 +16,7 @@ export const UserProfit = () => {
     data: userProfit,
     isLoading,
     isFetched,
-  } = useFetchFormattedUserStrategyProfit({ strategy: strategy as Address | undefined });
+  } = useFetchFormattedUserStrategyProfit({ address: strategy as Address | undefined });
 
   if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;

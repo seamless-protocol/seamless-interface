@@ -1,0 +1,34 @@
+query UserVaultPositions($where: VaultPositionFilters) {
+  vaultPositions(where: $where) {
+    items {
+      vault {
+        address
+        name
+        asset {
+          name
+          decimals
+          logoURI
+          symbol
+          address
+        }
+        state {
+          owner
+          rewards {
+            amountPerSuppliedToken
+            supplyApr
+            asset {
+              name
+              decimals
+              logoURI
+              symbol
+              address
+            }
+          }
+        }
+      }
+      shares
+      assetsUsd
+      assets
+    }
+  }
+}
