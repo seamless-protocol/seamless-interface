@@ -10,12 +10,17 @@ import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
   hideBorder?: boolean;
 }> = ({ vaultData, hideBorder }) => {
   const { data: vault, ...vaultDataRest } = vaultData;
+
+  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
+    asset: vault.mappedVaultDetails.vaultAddress,
+  });
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
@@ -36,14 +41,20 @@ export const VaultTableDesktopRowContainer: React.FC<{
           )}
         </div>
       }
-      tokenAmount={<DisplayTokenAmount typography="bold3" {...vault.vaultPosition.assets} {...vaultDataRest} />}
+      tokenAmount={
+        <DisplayTokenAmount
+          typography="bold3"
+          viewValue={balanceUsdPair?.tokenAmount.viewValue}
+          {...balanceUsdPairRest}
+        />
+      }
       dollarAmount={
         <DisplayMoney
           typography="medium1"
-          {...vault.vaultPosition.assetsUsd}
+          viewValue={balanceUsdPair?.dollarAmount.viewValue}
           className="text-primary-600"
           isApproximate
-          {...vaultDataRest}
+          {...balanceUsdPairRest}
         />
       }
       profitPercentage={

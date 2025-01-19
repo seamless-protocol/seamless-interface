@@ -24,6 +24,7 @@ import {
   cbBTCLong_1_5x,
   cbBTCLong_3x,
   cbBTC_ADDRESS,
+  seamlessUSDCMorphoVault,
 } from "./constants";
 
 /* --------- */
@@ -44,4 +45,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [cbBTCLong_1_5x, ilmcbBTCIcon],
   [cbBTCLong_3x, ilmcbBTCIcon],
   [cbBTC_ADDRESS, cbBTCIcon],
+  [seamlessUSDCMorphoVault, usdcLogo],
 ]);

@@ -9,41 +9,50 @@ import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 export async function fetchUserVaultPositions(
   userAddress: string,
   whiteListedVaultAddresses?: string[],
   chainId = base.id
 ): Promise<UserVaultPositionsQuery> {
-  const client = getApolloClient();
+  const queryClient = getQueryClient();
 
-  const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-    query: UserVaultPositionsDocument,
-    variables: {
-      where: {
-        userAddress_in: [userAddress],
-        vaultAddress_in: whiteListedVaultAddresses,
-        chainId_in: [chainId],
-      },
+  // Let React Query handle caching/staleness
+  const data = await queryClient.fetchQuery<UserVaultPositionsQuery>({
+    queryKey: ["fetchUserVaultPositions", userAddress, whiteListedVaultAddresses, chainId],
+    queryFn: async () => {
+      const client = getApolloClient();
+      const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
+        query: UserVaultPositionsDocument,
+        variables: {
+          where: {
+            userAddress_in: [userAddress],
+            vaultAddress_in: whiteListedVaultAddresses,
+            chainId_in: [chainId],
+          },
+        },
+        fetchPolicy: "no-cache",
+      });
+
+      if (result.errors?.length) {
+        throw new Error(
+          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+        );
+      } else if (result.error) {
+        throw new Error(
+          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
+            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+            `Error: ${result.error.message}`
+        );
+      }
+      return result.data;
     },
-    fetchPolicy: "cache-first",
   });
 
-  if (result.errors) {
-    throw new Error(
-      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
-        `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-    );
-  } else if (result.error) {
-    throw new Error(
-      `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-        `Variables: ${JSON.stringify({ address: userAddress, chainId })}\n` +
-        `Error: ${result.error.message}`
-    );
-  }
-
-  return result.data;
+  return data;
 }
 
 export async function fetchExtendedMappedVaultPositions(

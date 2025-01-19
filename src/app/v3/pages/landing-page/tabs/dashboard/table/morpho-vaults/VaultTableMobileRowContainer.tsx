@@ -7,11 +7,16 @@ import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
 import { MorphoTableButtons } from "./MorphoTableButtons";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
 }> = ({ vaultData }) => {
   const { data: vault, ...vaultDataRest } = vaultData;
+
+  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
+    asset: vault.mappedVaultDetails.vaultAddress,
+  });
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
@@ -55,12 +60,14 @@ export const VaultTableMobileRowContainer: React.FC<{
           <DisplayMoney viewValue={strategyProfit?.unrealizedProfit.viewValue} {...strategyProfitRest} />
         </SignIndicatingElement>
       }
-      holdingTokenAmount={<DisplayTokenAmount viewValue={vault.vaultPosition.assetsUsd.viewValue} {...vaultDataRest} />}
+      holdingTokenAmount={
+        <DisplayTokenAmount viewValue={balanceUsdPair?.tokenAmount.viewValue} {...balanceUsdPairRest} />
+      }
       holdingDollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={vault.vaultPosition.assetsUsd.viewValue}
-          {...vaultDataRest}
+          viewValue={balanceUsdPair?.dollarAmount.viewValue}
+          {...balanceUsdPairRest}
           className="text-primary-600"
         />
       }
