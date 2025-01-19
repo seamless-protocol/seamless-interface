@@ -31,7 +31,6 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
         fetchAssetBalance({ account: userAddress!, asset: asset! }),
         fetchAssetPriceInBlock(asset!),
       ]);
-      console.log("testtest");
 
       const usdValue = cValueInUsd(assetBalance.bigIntValue, assetPrice.bigIntValue, assetBalance.decimals);
 
