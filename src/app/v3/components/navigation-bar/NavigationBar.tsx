@@ -21,7 +21,7 @@ export const NavigationBar = () => {
               <FlexRow className="items-center gap-8">
                 <Link to="/" data-cy="home">
                   <Typography type="bold3" className="text-text-blue">
-                    Seamless ILMs
+                    Seamless
                   </Typography>
                 </Link>
 
