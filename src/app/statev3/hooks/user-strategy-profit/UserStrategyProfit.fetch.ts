@@ -157,8 +157,6 @@ export async function fetchUserStrategyProfit(
       strategyDecimals,
     });
 
-  console.log("fetchUserStrategyProfit - input: ", input, " { decimals: strategyDecimals, symbol: strategySymbol }: ", { strategyDecimals, strategySymbol }, " currStrategyPrice: ", currStrategyPrice, " strategyBalance: ", strategyBalance, " strategyBalanceUsd: ", strategyBalanceUsd, " realizedProfit: ", realizedProfit, " unrealizedProfit: ", unrealizedProfit, " unrealizedProfitPercentage: ", unrealizedProfitPercentage);
-
   return {
     strategyBalance: {
       tokenAmount: formatFetchBigInt(strategyBalance, strategyDecimals, strategySymbol),

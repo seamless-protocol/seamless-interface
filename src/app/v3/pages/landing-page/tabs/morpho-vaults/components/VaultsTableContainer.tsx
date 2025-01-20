@@ -7,7 +7,7 @@ import { VaultMobileRow } from "./VaultMobileRow";
 import { VaultsTableHeader } from "./VaultsTableHeader";
 import { useFormattedVaultsInfo } from "../hooks/useFetchAllVaults";
 import { RouterConfig } from "@router";
-import { seamlessUSDCMorphoVault } from "@meta";
+import { whiteListedMorphoVaults } from "@meta";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -15,14 +15,12 @@ const Spinner = () => (
   </div>
 );
 
-const vaultAddresses: Address[] = [seamlessUSDCMorphoVault];
-
 const columnsCount = 6;
 
 export const VaultsTableContainer: React.FC<{
   selectedVault?: Address;
 }> = ({ selectedVault }) => {
-  const { data: vaults, isLoading, error } = useFormattedVaultsInfo(vaultAddresses);
+  const { data: vaults, isLoading, error } = useFormattedVaultsInfo(whiteListedMorphoVaults);
 
   return (
     <div className="md:bg-neutral-0 bg-none shadow-card rounded-2xl w-full min-h-[150px] flex flex-col">
