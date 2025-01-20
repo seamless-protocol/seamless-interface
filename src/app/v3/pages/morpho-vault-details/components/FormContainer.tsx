@@ -2,8 +2,9 @@ import { useState } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { MorphoDepositForm } from "../../../components/forms/morpho-vault/deposit-form/MorphoDepositForm";
 import { FormSettingsProvider } from "../../../components/forms/contexts/FormSettingsContext";
+import { MorphoDepositForm } from "../../../components/forms/morpho-vault/deposit-form/MorphoDepositForm";
+import { MorphoWithdrawForm } from "../../../components/forms/morpho-vault/withdraw-form/MorphoWithdrawForm";
 
 export const FormContainer: React.FC = () => {
   const { address } = useParams();
@@ -40,7 +41,7 @@ export const FormContainer: React.FC = () => {
           </FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={vault}>
-            <div>x</div>
+            <MorphoWithdrawForm />
           </FormSettingsProvider>
         )}
       </div>

@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
-import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
-import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
+import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
+import { useMutateWithdrawMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateWithdrawMorphoVault";
 
-export const MorphoDepositForm = () => {
+export const MorphoWithdrawForm = () => {
   const { strategy: vault } = useFormSettingsContext();
   const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
 
@@ -18,7 +18,7 @@ export const MorphoDepositForm = () => {
     return <div className="min-h-[1000px]" />;
   }
 
-  return <MoprhoDepositFormLocal vaultData={vaultData} />;
+  return <MoprhoVaultFormLocal vaultData={vaultData} />;
 };
 
 interface FormData {
@@ -26,7 +26,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const MoprhoDepositFormLocal: React.FC<{
+const MoprhoVaultFormLocal: React.FC<{
   vaultData: MappedVaultData;
 }> = ({ vaultData }) => {
   const { onTransaction } = useFormSettingsContext();
@@ -38,14 +38,15 @@ const MoprhoDepositFormLocal: React.FC<{
       receiveAmount: "",
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+  const amount = watch("amount", "");
 
   const { showNotification } = useNotificationContext();
 
-  const { depositAsync, isPending } = useMutateDepositMorphoVault(vaultData.vaultAddress);
+  const { withdrawAsync, isWithdrawPending } = useMutateWithdrawMorphoVault(vaultData.vaultAddress);
 
   const onSubmitAsync = async (data: FormData) => {
-    await depositAsync(
+    await withdrawAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
       },
@@ -56,7 +57,7 @@ const MoprhoDepositFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Supplied {data.amount} {underlyingAssetSymbol}
+                  You Withdrew {data.amount} {underlyingAssetSymbol}
                 </Typography>
                 {vaultData && <WatchAssetComponentv2 {...vaultData} address={vaultData?.vaultAddress} />}
               </FlexCol>
@@ -76,12 +77,12 @@ const MoprhoDepositFormLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
-            <Typography type="medium3">Deposit</Typography>
-            <RHFDepositAmountField name="amount" />
+            <Typography type="medium3">Withdraw</Typography>
+            <RHFWithdrawVaultAmountField vault={vaultData.vaultAddress} name="amount" />
           </FlexCol>
         </FlexCol>
 
-        <FormButtons vaultData={vaultData} isLoading={isPending} />
+        <FormButtons amount={Number(amount)} isDisabled={isWithdrawPending} isLoading={isWithdrawPending} />
       </FlexCol>
     </MyFormProvider>
   );

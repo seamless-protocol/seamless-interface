@@ -7,16 +7,14 @@ import {
   getChainAddresses as getMorphoChainAddresses,
 } from "@morpho-org/blue-sdk";
 import { QueryKey } from "@tanstack/react-query";
-import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue.hook";
-import { useFetchUserVaultPositions } from "../user-vault-positions/UserVaultPositions.hook";
 import { useState } from "react";
 
-export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
+export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
   /*   Local state */
   /* ------------- */
@@ -34,16 +32,11 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
-  const { data: userVaultPositions } = useFetchUserVaultPositions();
 
   /* -------------------- */
   /*   Query cache keys   */
   /* -------------------- */
-  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultByAddress?.asset.address);
-  const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: fullVaultData?.vaultByAddress?.asset.address,
-    spender: bundler,
-  });
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultByAddress.address);
 
   /* ----------------- */
   /*   Mutation config */
@@ -52,22 +45,15 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
-      ...((assetAllowanceQK ?? []) as QueryKey[]),
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultByAddress.address),
     ],
     hideDefaultErrorOnNotification: true,
-    // TODO IMPORTANT: replace this with better fix
-    invalidateDelay: !userVaultPositions?.vaultPositions.find(
-      (pos) => pos.vaultPosition.baseData.vault.address === vaultAddress
-    )
-      ? 30000
-      : undefined,
   });
 
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const depositAsync = async (
+  const withdrawAsync = async (
     // ui arguments
     args: {
       amount: bigint | undefined;
@@ -76,7 +62,6 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   ) => {
     try {
       setIsSimulating(true);
-
       if (!vaultAddress) throw new Error("Vault address is not found. Please try again later.");
       if (!args.amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please try again later.");
@@ -91,12 +76,13 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
 
       const txs = await setupBundle(account, simulationState, [
         {
-          type: "MetaMorpho_Deposit",
+          type: "MetaMorpho_Withdraw",
           sender: address as Address,
           address: vaultAddress,
           args: {
-            assets: args.amount,
+            shares: args.amount,
             owner: address as Address,
+            receiver: address as Address,
             slippage: DEFAULT_SLIPPAGE_TOLERANCE,
           },
         },
@@ -112,15 +98,15 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         );
       }
     } catch (error) {
-      console.error("Failed to deposit to a vault", error);
+      console.error("Failed to withdraw from a vault", error);
       showNotification({
         status: "error",
-        content: `Failed to deposit to a vault: ${getParsedError(error)}`,
+        content: `Failed to withdraw from a vault: ${getParsedError(error)}`,
       });
     } finally {
       setIsSimulating(false);
     }
   };
 
-  return { ...rest, isDepositPending: rest.isPending || isSimulating, depositAsync };
+  return { ...rest, isWithdrawPending: rest.isPending || isSimulating, withdrawAsync };
 };

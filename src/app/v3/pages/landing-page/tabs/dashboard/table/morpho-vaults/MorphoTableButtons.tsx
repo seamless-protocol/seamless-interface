@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Address } from "viem";
 import { ModalHandles, FlexRow, Modal } from "@shared";
 import { FormSettingsProvider } from "../../../../../../components/forms/contexts/FormSettingsContext";
+import { MorphoWithdrawForm } from "../../../../../../components/forms/morpho-vault/withdraw-form/MorphoWithdrawForm";
 import { MorphoDepositForm } from "../../../../../../components/forms/morpho-vault/deposit-form/MorphoDepositForm";
 
 export const MorphoTableButtons: React.FC<{
@@ -51,7 +52,7 @@ export const MorphoTableButtons: React.FC<{
               removeModal.current?.close();
             }}
           >
-            <div>todo</div>
+            <MorphoWithdrawForm />
           </FormSettingsProvider>
         </div>
       </Modal>
