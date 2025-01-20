@@ -15,6 +15,11 @@ export interface MappedVaultData {
   name: string;
 
   /**
+   * The description of the vault.
+   */
+  description?: string;
+
+  /**
    * The underlying token associated with the vault.
    * todo remove to underylingAsset
    */

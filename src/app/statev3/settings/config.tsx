@@ -12,6 +12,7 @@ import {
   cbBTCLong_1_5x,
   cbBTCLong_3x,
   cbBTC_ADDRESS,
+  seamlessUSDCMorphoVault,
 } from "@meta";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
@@ -25,6 +26,7 @@ import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
 import logoGauntlet from "@assets/logos/logo-gauntlet.svg";
 import { LendMarketConfig } from "./configTypes";
 import { assetsConfig } from "./landingMarketConfig";
+import type { Curator } from "../morpho/types/Curator";
 
 export interface StrategyConfig {
   name: string;
@@ -89,18 +91,25 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
   },
 };
 
-const CuratorConfig = {
-  "0x9E33faAE38ff641094fa68c65c2cE600b3410585": {
-    name: "Gauntlet",
-    icon: logoGauntlet,
-  },
-};
+/* -------------- */
+/*   Vault config */
+/* -------------- */
+export interface VaultConfig {
+  name: string;
+  description: string;
+  curator?: Curator;
+  type: TagType;
+}
 
-export const getCuratorConfig = (curator?: Address) => {
-  return curator
-    ? {
-        address: curator,
-        ...CuratorConfig[curator as keyof typeof CuratorConfig],
-      }
-    : undefined;
+export const vaultConfig: { [key: Address]: VaultConfig } = {
+  [seamlessUSDCMorphoVault]: {
+    name: "Seamless USDC Vault",
+    description: "Morpho Vault with USDC as collateral",
+    type: "Vault",
+    curator: {
+      address: seamlessUSDCMorphoVault,
+      name: "Gauntlet",
+      icon: logoGauntlet,
+    },
+  },
 };
