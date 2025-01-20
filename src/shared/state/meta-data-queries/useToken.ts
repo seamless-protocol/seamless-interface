@@ -6,7 +6,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { queryConfig } from "../../../app/statev3/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
-import { fetchTokenLogoFromMoralis } from "./fetchTokenLogoFromMoralis";
+// import { fetchTokenLogoFromMoralis } from "./fetchTokenLogoFromMoralis";
 import { addressIconMap } from "../../../meta";
 import emptyToken from "@assets/tokens/empty-token.svg";
 
@@ -91,13 +91,13 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
     if (coinGeckoUrl) return coinGeckoUrl;
     console.error("Could not fetch coingecko logo", token);
 
-    const moralisLogo = await queryClient.fetchQuery({
-      queryKey: ["fetchTokenLogoFromMoralis", token],
-      queryFn: () => fetchTokenLogoFromMoralis(token),
-      ...queryConfig.metadataQueryConfig,
-    });
-    if (moralisLogo) return moralisLogo;
-    console.error("Could not fetch moralis logo", token);
+    // const moralisLogo = await queryClient.fetchQuery({
+    //   queryKey: ["fetchTokenLogoFromMoralis", token],
+    //   queryFn: () => fetchTokenLogoFromMoralis(token),
+    //   ...queryConfig.metadataQueryConfig,
+    // });
+    // if (moralisLogo) return moralisLogo;
+    // console.error("Could not fetch moralis logo", token);
 
     return emptyToken;
   } catch (err) {
