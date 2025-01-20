@@ -29,6 +29,10 @@ export const NoPositionsTableGuard: React.FC<{
           <Link className="underline" to={RouterConfig.Routes.landingPage}>
             ILM tab
           </Link>{" "}
+          or{" "}
+          <Link className="underline" to={RouterConfig.Routes.morphoVaultsTab}>
+            Vault tab
+          </Link>{" "}
           to create a new position!
         </Typography>
       </FlexCol>

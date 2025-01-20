@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
 import { fetchTokenLogoFromMoralis } from "./fetchTokenLogoFromMoralis";
 import { addressIconMap } from "../../../meta";
+import emptyToken from "@assets/tokens/empty-token.svg";
 
 export interface Token {
   symbol: string;
@@ -64,9 +65,8 @@ export async function fetchName(token: Address): Promise<string> {
 /**
  * Attempts to retrieve a token logo URL from multiple sources, in this order:
  * 1. **Local icon map** (addressIconMap)
+ * 2. **CoinGecko**
  * 2. **Moralis**
- * 2. **Trust Wallet Assets**
- * 3. **CoinGecko**
  *
  * If a valid logo URL is found at any step, it returns immediately.
  * Otherwise, returns `undefined` if no logo is found.
@@ -75,30 +75,35 @@ export async function fetchName(token: Address): Promise<string> {
  * @returns The logo URL, or `undefined` if none is available.
  */
 export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
-  const logoFromConfig = addressIconMap.get(token);
-  if (logoFromConfig) return logoFromConfig;
-  // eslint-disable-next-line no-console
-  console.warn("Logo not found in addressIconMap", token);
+  try {
+    const logoFromConfig = addressIconMap.get(token);
+    if (logoFromConfig) return logoFromConfig;
+    // eslint-disable-next-line no-console
+    console.warn("Logo not found in addressIconMap", token);
 
-  const queryClient = getQueryClient();
+    const queryClient = getQueryClient();
 
-  const coinGeckoUrl = await queryClient.fetchQuery({
-    queryKey: ["fetchTokenLogoFromCoinGecko", token],
-    queryFn: () => fetchTokenLogoFromCoinGecko(token),
-    ...queryConfig.metadataQueryConfig,
-  });
-  if (coinGeckoUrl) return coinGeckoUrl;
-  console.error("Could not fetch coin gecko logo", token);
+    const coinGeckoUrl = await queryClient.fetchQuery({
+      queryKey: ["fetchTokenLogoFromCoinGecko", token],
+      queryFn: () => fetchTokenLogoFromCoinGecko(token),
+      ...queryConfig.metadataQueryConfig,
+    });
+    if (coinGeckoUrl) return coinGeckoUrl;
+    console.error("Could not fetch coingecko logo", token);
 
-  const moralisLogo = await queryClient.fetchQuery({
-    queryKey: ["fetchTokenLogoFromMoralis", token],
-    queryFn: () => fetchTokenLogoFromMoralis(token),
-    ...queryConfig.metadataQueryConfig,
-  });
-  if (moralisLogo) return moralisLogo;
-  console.error("Could not fetch moralis logo", token);
+    const moralisLogo = await queryClient.fetchQuery({
+      queryKey: ["fetchTokenLogoFromMoralis", token],
+      queryFn: () => fetchTokenLogoFromMoralis(token),
+      ...queryConfig.metadataQueryConfig,
+    });
+    if (moralisLogo) return moralisLogo;
+    console.error("Could not fetch moralis logo", token);
 
-  return undefined;
+    return emptyToken;
+  } catch (err) {
+    console.error("Error fetching token logo: ", err);
+    return emptyToken;
+  }
 }
 
 /**

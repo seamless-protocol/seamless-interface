@@ -7,8 +7,8 @@ import {
   FormattingOptions,
   fetchToken,
 } from "@shared";
-import { Address, parseUnits, erc4626Abi } from "viem";
-import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
+import { Address, parseUnits, erc4626Abi, isAddressEqual } from "viem";
+import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE, whiteListedMorphoVaults } from "@meta";
 import { assetsConfig } from "../settings/landingMarketConfig";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
@@ -44,7 +44,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
   const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;
 
-  try {
+  if (whiteListedMorphoVaults.find((whitelistedVaultAddress) => isAddressEqual(whitelistedVaultAddress, asset))) {
     const { decimals: vaultDecimals } = await fetchToken(asset);
 
     const [vaultSharePrice, vaultAsset] = await Promise.all([
@@ -74,8 +74,6 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
     const { bigIntValue: usdAssetPrice } = await fetchAssetPriceInBlock(vaultAsset, blockNumber);
 
     return formatUsdValue((vaultSharePrice * usdAssetPrice) / parseUnits("1", erc4646AssetDecimals));
-  } catch (e) {
-    console.debug("is likely not ERC4626");
   }
 
   const config = assetsConfig[asset] || strategyConfig[asset];

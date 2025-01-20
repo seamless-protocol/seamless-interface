@@ -19,5 +19,5 @@ export const fetchTokenLogoFromMoralis = async (tokenAddress: Address) => {
   } catch (e) {
     console.error(e);
   }
-  return undefined;
+  return null;
 };
