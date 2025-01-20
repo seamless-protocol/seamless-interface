@@ -57,7 +57,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     ],
     hideDefaultErrorOnNotification: true,
     // TODO IMPORTANT: replace this with better fix
-    invalidateDelay: hasPositionAlready ? 30000 : undefined,
+    invalidateDelay: !hasPositionAlready ? 30000 : undefined,
   });
 
   /* -------------------- */
