@@ -8,9 +8,8 @@ export const RewardsWarningTooltip: React.FC<{
     <Tooltip
       tooltip={
         <Typography type="body1">
-          Currently, the <strong>Rewards amount</strong> may include rewards from other markets or vaults
-          <br />
-          that have allocations in any market shared with Seamless vault.
+          Note: the rewards amount includes any rewards earned across all Morpho vaults and markets, <br />
+          but SEAM rewards are earned only through Seamless vaults.
         </Typography>
       }
     >
