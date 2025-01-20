@@ -5,6 +5,7 @@ import {
 } from "../../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { ClaimModal } from "./ClaimModal";
 import { useAccount } from "wagmi";
+import { RewardsWarningTooltip } from "../../../components/common/RewardsWarningTooltip";
 
 export const MorphoUnclaimedRewardsBox = () => {
   const { address } = useAccount();
@@ -19,7 +20,17 @@ export const MorphoUnclaimedRewardsBox = () => {
       <FlexRow className="gap-[88px]">
         <FlexCol className="gap-2">
           <Typography type="regular5">Unclaimed vault rewards</Typography>
-          <DisplayMoney {...rewardData.combinedClaimableNowViewValue} {...rest} typography="bold6" />
+
+          <div className="flex">
+            <RewardsWarningTooltip>
+              <DisplayMoney
+                {...rewardData.combinedClaimableNowViewValue}
+                {...rest}
+                typography="bold6"
+                className="underline"
+              />
+            </RewardsWarningTooltip>
+          </div>
         </FlexCol>
 
         <ClaimModal
