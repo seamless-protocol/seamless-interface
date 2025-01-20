@@ -15,7 +15,7 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
       <Typography type="bold5">Vault details</Typography>
       <FlexCol className="w-full gap-4">
         <LocalCollapseArrow>
-          <LocalCollapseTitle>How this vault works</LocalCollapseTitle>
+          <LocalCollapseTitle>How does this vault work</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
@@ -37,7 +37,7 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
         </LocalCollapseArrow>
 
         <LocalCollapseArrow>
-          <LocalCollapseTitle>What are main risks?</LocalCollapseTitle>
+          <LocalCollapseTitle>What are the main risks?</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
