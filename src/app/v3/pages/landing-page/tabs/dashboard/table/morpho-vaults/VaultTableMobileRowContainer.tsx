@@ -8,10 +8,14 @@ import { SignIndicatingElement } from "../../../../../../components/other/SignIn
 import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
+import { useAccount } from "wagmi";
+import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
 }> = ({ vaultData }) => {
+  const { address } = useAccount();
+
   const { data: vault, ...vaultDataRest } = vaultData;
 
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
@@ -21,6 +25,9 @@ export const VaultTableMobileRowContainer: React.FC<{
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });
+
+  const { data: rewardData, ...restRewardData } = useMorphoExtendedUserRewards(address);
+
   return (
     <TableMobileRowComponent
       tag={<Tag tag="Vault" {...vaultDataRest} />}
@@ -28,20 +35,7 @@ export const VaultTableMobileRowContainer: React.FC<{
       name={<Typography type="bold3">{vault?.mappedVaultDetails?.name}</Typography>}
       description={<Typography type="regular1">{vault?.mappedVaultDetails?.asset.name}</Typography>}
       rewards={
-        <SignIndicatingElement
-          noBackground
-          dislayable={{
-            data: strategyProfit?.unrealizedProfit,
-            ...vaultDataRest,
-          }}
-        >
-          <DisplayPercentage
-            typography="bold3"
-            viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
-            className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfit.value)}`}
-            {...strategyProfitRest}
-          />
-        </SignIndicatingElement>
+        <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="regular1" />
       }
       profit={
         <SignIndicatingElement

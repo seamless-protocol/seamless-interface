@@ -3,7 +3,6 @@ import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText,
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
-import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
@@ -11,11 +10,17 @@ import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
+import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+import { useAccount } from "wagmi";
+import { RewardsImageGroup } from "./RewardsImageGroup";
+import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
   hideBorder?: boolean;
 }> = ({ vaultData, hideBorder }) => {
+  const { address } = useAccount();
+
   const { data: vault, ...vaultDataRest } = vaultData;
 
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
@@ -25,6 +30,8 @@ export const VaultTableDesktopRowContainer: React.FC<{
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });
+
+  const { data: rewardData, ...restRewardData } = useMorphoExtendedUserRewards(address);
 
   return (
     <TableDesktopRowComponent
@@ -82,8 +89,25 @@ export const VaultTableDesktopRowContainer: React.FC<{
           {...strategyProfitRest}
         />
       }
-      rewards={<DisplayMoney typography="bold3" viewValue="TBD" symbol="" {...vaultDataRest} />}
-      imageInfoGroup={<UserInfoImageGroup info={[]} />}
+      rewards={
+        <div className="flex">
+          <RewardsWarningTooltip>
+            <DisplayMoney
+              className="underline"
+              {...rewardData?.combinedClaimableNowViewValue}
+              {...restRewardData}
+              typography="bold3"
+            />
+          </RewardsWarningTooltip>
+        </div>
+      }
+      imageInfoGroup={
+        <RewardsImageGroup
+          icons={
+            (vault.vaultPosition.baseData.vault.state?.rewards?.map((reward) => reward.asset.logoURI) as string[]) || []
+          }
+        />
+      }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}
     />
   );
