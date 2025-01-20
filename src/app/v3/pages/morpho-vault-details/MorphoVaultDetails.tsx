@@ -12,6 +12,7 @@ import { VaultPickerButton } from "./components/vault-picker/VaultPickerButton";
 import { FormContainer } from "./components/FormContainer";
 import { useAccount } from "wagmi";
 import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
+import { VaultHeading } from "./components/VaultHeading";
 
 export const MorphoVaultDetails = () => {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ export const MorphoVaultDetails = () => {
         </FlexRow>
 
         <div>
-          <div className="mb-8">{/* <StrategyHeading /> */}</div>
+          <div className="mb-8">
+            <VaultHeading vault={vault} />
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
             <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">

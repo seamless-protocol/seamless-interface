@@ -1,15 +1,17 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, Typography } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { ChainId, addresses } from "@morpho-org/blue-sdk";
+import { useFetchUserHasPositionInVault } from "../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
+  const { data: hasPositionAlready } = useFetchUserHasPositionInVault(vaultData?.vaultAddress);
   const { bundler } = addresses[ChainId.BaseMainnet];
 
   const {
@@ -56,6 +58,16 @@ export const FormButtons: React.FC<{
       >
         Submit
       </Buttonv2>
+
+      {!hasPositionAlready && (
+        <div>
+          <Typography type="body1">
+            Estimated transaction time ~30 seconds. <br />
+            Feel free to wonder trough the DAPP while <br />
+            the transaction is being processed.
+          </Typography>
+        </div>
+      )}
     </FlexCol>
   );
 };
