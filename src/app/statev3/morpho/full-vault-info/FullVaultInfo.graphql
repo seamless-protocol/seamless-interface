@@ -11,6 +11,7 @@ query FullVaultInfo($address: String!, $chainId: Int!) {
     }
     state {
       totalSupply
+      totalAssets
       totalAssetsUsd
       netApy
       allTimeApy

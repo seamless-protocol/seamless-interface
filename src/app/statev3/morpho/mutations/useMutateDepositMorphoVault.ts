@@ -39,9 +39,11 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* -------------------- */
   /*   Query cache keys   */
   /* -------------------- */
-  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultByAddress?.asset.address);
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(
+    fullVaultData?.vaultData.vaultByAddress?.asset.address
+  );
   const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: fullVaultData?.vaultByAddress?.asset.address,
+    asset: fullVaultData?.vaultData.vaultByAddress?.asset.address,
     spender: bundler,
   });
 
@@ -53,7 +55,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       ...((assetAllowanceQK ?? []) as QueryKey[]),
-      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultByAddress.address),
+      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
     ],
     hideDefaultErrorOnNotification: true,
     // TODO IMPORTANT: replace this with better fix
@@ -82,9 +84,10 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
       const simulationState = await fetchSimulationState({
-        marketIds: fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
+        marketIds:
+          fullVaultData?.vaultData.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
         users: [address, bundler, vaultAddress],
-        tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
+        tokens: [fullVaultData?.vaultData.vaultByAddress.asset.address, vaultAddress],
         vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");

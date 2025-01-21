@@ -36,7 +36,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* -------------------- */
   /*   Query cache keys   */
   /* -------------------- */
-  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultByAddress.address);
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultData.vaultByAddress.address);
 
   /* ----------------- */
   /*   Mutation config */
@@ -45,7 +45,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
-      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultByAddress.address),
+      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
     ],
     hideDefaultErrorOnNotification: true,
   });
@@ -67,9 +67,10 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
       const simulationState = await fetchSimulationState({
-        marketIds: fullVaultData?.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
+        marketIds:
+          fullVaultData?.vaultData.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
         users: [address, bundler, vaultAddress],
-        tokens: [fullVaultData?.vaultByAddress.asset.address, vaultAddress],
+        tokens: [fullVaultData?.vaultData.vaultByAddress.asset.address, vaultAddress],
         vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");

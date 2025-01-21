@@ -21,7 +21,6 @@ export * from "./contexts/tab-context/useTabContext";
 // formatters //
 // ******** //
 export * from "./formatters/mergeQueryStates";
-export * from "./formatters/bigintOperators";
 
 // ****** //
 // pages //
