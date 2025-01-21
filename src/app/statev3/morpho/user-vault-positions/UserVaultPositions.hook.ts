@@ -4,6 +4,7 @@ import { queryConfig } from "../../settings/queryConfig";
 import { fetchExtendedMappedVaultPositions } from "./UserVaultPositions.fetch";
 import { useAccount } from "wagmi";
 import { whiteListedMorphoVaults } from "@meta";
+import { Address } from "viem";
 
 export const MORPHO_USER_VAULT_POSITIONS_QUERY_KEY = "MORPHO_USER_VAULT_POSITIONS_QUERY_KEY";
 
@@ -24,4 +25,17 @@ export function useFetchUserVaultPositions(chainId = base.id) {
   });
 
   return { data, ...rest };
+}
+
+export function useFetchUserHasPositionInVault(vaultAddress?: Address, chainId = base.id) {
+  const { data, ...rest } = useFetchUserVaultPositions(chainId);
+
+  const position = data?.vaultPositions.find(
+    (position) => position.vaultPosition.baseData.vault.address === vaultAddress
+  );
+
+  return {
+    data: !!position,
+    ...rest,
+  };
 }
