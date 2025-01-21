@@ -59,7 +59,14 @@ const MoprhoVaultFormLocal: React.FC<{
                 <Typography>
                   You Withdrew {data.amount} {underlyingAssetSymbol}
                 </Typography>
-                {vaultData && <WatchAssetComponentv2 {...vaultData} address={vaultData?.vaultAddress} />}
+                {vaultData && (
+                  <WatchAssetComponentv2
+                    {...vaultData}
+                    address={vaultData?.asset.address}
+                    icon={vaultData?.asset.logoURI || undefined}
+                    decimals={vaultData?.asset.decimals || undefined}
+                  />
+                )}
               </FlexCol>
             ),
           });

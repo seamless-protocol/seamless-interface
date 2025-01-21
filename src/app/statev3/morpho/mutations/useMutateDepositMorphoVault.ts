@@ -13,7 +13,7 @@ import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue.hook";
-import { useFetchUserVaultPositions } from "../user-vault-positions/UserVaultPositions.hook";
+import { useFetchUserHasPositionInVault } from "../user-vault-positions/UserVaultPositions.hook";
 import { useState } from "react";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
@@ -34,7 +34,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
-  const { data: userVaultPositions } = useFetchUserVaultPositions();
+  const { data: hasPositionAlready } = useFetchUserHasPositionInVault(vaultAddress);
 
   /* -------------------- */
   /*   Query cache keys   */
@@ -57,11 +57,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     ],
     hideDefaultErrorOnNotification: true,
     // TODO IMPORTANT: replace this with better fix
-    invalidateDelay: !userVaultPositions?.vaultPositions.find(
-      (pos) => pos.vaultPosition.baseData.vault.address === vaultAddress
-    )
-      ? 30000
-      : undefined,
+    invalidateDelay: !hasPositionAlready ? 30000 : undefined,
   });
 
   /* -------------------- */
