@@ -21,16 +21,10 @@ export const MorphoUnclaimedRewardsBox = () => {
         <FlexCol className="gap-2">
           <Typography type="regular5">Unclaimed vault rewards</Typography>
 
-          <div className="flex">
-            <RewardsWarningTooltip>
-              <DisplayMoney
-                {...rewardData.combinedClaimableNowViewValue}
-                {...rest}
-                typography="bold6"
-                className="underline"
-              />
-            </RewardsWarningTooltip>
-          </div>
+          <FlexRow className="gap-2 items-center">
+            <DisplayMoney {...rewardData.combinedClaimableNowViewValue} {...rest} typography="bold6" />
+            <RewardsWarningTooltip />
+          </FlexRow>
         </FlexCol>
 
         <ClaimModal

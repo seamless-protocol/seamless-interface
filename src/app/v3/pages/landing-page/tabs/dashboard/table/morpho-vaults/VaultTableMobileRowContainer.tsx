@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable } from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable, FlexRow } from "@shared";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
@@ -10,6 +10,7 @@ import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useAccount } from "wagmi";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
@@ -35,7 +36,10 @@ export const VaultTableMobileRowContainer: React.FC<{
       name={<Typography type="bold3">{vault?.mappedVaultDetails?.name}</Typography>}
       description={<Typography type="regular1">{vault?.mappedVaultDetails?.asset.name}</Typography>}
       rewards={
-        <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="regular1" />
+        <FlexRow className="gap-1">
+          <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="bold3" />
+          <RewardsWarningTooltip />
+        </FlexRow>
       }
       profit={
         <SignIndicatingElement

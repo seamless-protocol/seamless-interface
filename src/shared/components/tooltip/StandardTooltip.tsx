@@ -4,9 +4,10 @@ import { Tooltip } from "./Tooltip";
 export const StandardTooltip: React.FC<{
   children: React.ReactNode;
   width?: number;
-}> = ({ children, width = 1.2 }) => {
+  openOnClick?: boolean;
+}> = ({ children, width = 1.2, openOnClick = true }) => {
   return (
-    <Tooltip tooltip={children} openOnClick>
+    <Tooltip tooltip={children} openOnClick={openOnClick}>
       <svg
         className="cursor-pointer hover:stroke-[#7fb0e8]"
         xmlns="http://www.w3.org/2000/svg"

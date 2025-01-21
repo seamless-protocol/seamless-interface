@@ -1,4 +1,4 @@
-import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, Displayable } from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, Displayable, FlexRow } from "@shared";
 
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
@@ -90,16 +90,10 @@ export const VaultTableDesktopRowContainer: React.FC<{
         />
       }
       rewards={
-        <div className="flex">
-          <RewardsWarningTooltip>
-            <DisplayMoney
-              className="underline"
-              {...rewardData?.combinedClaimableNowViewValue}
-              {...restRewardData}
-              typography="bold3"
-            />
-          </RewardsWarningTooltip>
-        </div>
+        <FlexRow className="gap-1">
+          <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="bold3" />
+          <RewardsWarningTooltip />
+        </FlexRow>
       }
       imageInfoGroup={
         <RewardsImageGroup

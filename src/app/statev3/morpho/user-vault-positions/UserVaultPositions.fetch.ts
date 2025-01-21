@@ -4,7 +4,7 @@ import {
   UserVaultPositionsQueryVariables,
 } from "@generated-graphql";
 import { getApolloClient } from "../../../config/apollo-client";
-import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
+import { fetchToken, formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
@@ -60,15 +60,41 @@ export async function fetchExtendedMappedVaultPositions(
   whiteListedVaultAddresses?: string[],
   chainId = base.id
 ): Promise<ExtendedMappedVaultPositionsResult | undefined> {
-  // Step 1: Fetch raw vault positions
   const rawVaultPositions = await fetchUserVaultPositions(userAddress, whiteListedVaultAddresses, chainId);
   if (!rawVaultPositions.vaultPositions.items) return undefined;
 
-  // Step 2: Fetch detailed vault info for each position
   const extendedVaultPositions = await Promise.all(
     rawVaultPositions.vaultPositions.items?.map(async (vaultPosition) => {
       const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault.address, chainId);
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultByAddress);
+
+      const rewards = await Promise.all(
+        (vaultPosition.vault.state?.rewards || []).map(async (reward) => {
+          if (!reward.asset.logoURI) {
+            const tokenData = await fetchToken(reward.asset.address);
+            return {
+              ...reward,
+              asset: {
+                ...reward.asset,
+                logoURI: tokenData.logo,
+              },
+            };
+          }
+          return reward;
+        })
+      );
+
+      const extendedPosition = {
+        ...vaultPosition,
+        vault: {
+          ...vaultPosition.vault,
+          state: {
+            ...vaultPosition.vault.state,
+            owner: vaultPosition.vault.state?.owner,
+            rewards,
+          },
+        },
+      };
 
       const shares = formatFetchBigIntToViewBigInt({
         bigIntValue: vaultPosition.shares,
@@ -89,7 +115,7 @@ export async function fetchExtendedMappedVaultPositions(
 
       return {
         vaultPosition: {
-          baseData: vaultPosition,
+          baseData: extendedPosition,
           shares,
           assetsUsd,
           assets,
@@ -99,19 +125,16 @@ export async function fetchExtendedMappedVaultPositions(
     })
   );
 
-  // Step 3: Compute total USD value
   const totalUsdValue = extendedVaultPositions.reduce(
     (acc, position) => acc + (position.vaultPosition.assetsUsd.value || 0),
     0
   );
 
-  // Step 4: Format the total USD value for display
   const totalUsdValueViewValue = formatFetchNumberToViewNumber({
     value: totalUsdValue,
     symbol: "$",
   });
 
-  // Return extended data
   return {
     vaultPositions: extendedVaultPositions,
     totalUsdValueViewValue,
