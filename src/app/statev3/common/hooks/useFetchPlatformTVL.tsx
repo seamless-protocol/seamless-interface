@@ -14,11 +14,11 @@ export const useFetchPlatformTVL = () => {
   return {
     ...mergeQueryStates([restLandingPool, restMorpho]),
     TVL:
-      totalMarketSizeUsd && morphoVaultsTotalAssets
+      totalMarketSizeUsd && morphoVaultsTotalAssets && totalMarketSizeUsd.value
         ? formatFetchBigIntToViewBigInt({
             ...formatUsdValue(
-              parseUnits(totalMarketSizeUsd.value || "0", USD_VALUE_DECIMALS) +
-                parseUnits(morphoVaultsTotalAssets.toString(), USD_VALUE_DECIMALS)
+              parseUnits(totalMarketSizeUsd.value, USD_VALUE_DECIMALS) +
+                parseUnits(String(morphoVaultsTotalAssets), USD_VALUE_DECIMALS)
             ),
           })
         : undefined,

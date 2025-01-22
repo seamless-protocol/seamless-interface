@@ -27,16 +27,11 @@ export const useFetchTotalAssetsForWhitelistedVaults = () => {
     queryFn: async () => {
       const results = await Promise.all(whiteListedMorphoVaults.map((vault) => fetchFullVaultInfo(vault, base.id)));
 
-      try {
-        const totalAssetsUsd = results
-          .map((result) => Number(result?.vaultData.vaultByAddress.state?.totalAssetsUsd || 0))
-          .reduce((acc, curr) => acc + curr, 0);
+      const totalAssetsUsd = results
+        .map((result) => Number(result?.vaultData.vaultByAddress.state?.totalAssetsUsd))
+        .reduce((acc, curr) => acc + curr);
 
-        return totalAssetsUsd;
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
+      return totalAssetsUsd;
     },
     ...queryConfig.disableCacheQueryConfig,
   });
