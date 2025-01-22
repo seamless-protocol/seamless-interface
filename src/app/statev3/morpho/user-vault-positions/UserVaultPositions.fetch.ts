@@ -66,7 +66,7 @@ export async function fetchExtendedMappedVaultPositions(
   const extendedVaultPositions = await Promise.all(
     rawVaultPositions.vaultPositions.items?.map(async (vaultPosition) => {
       const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault.address, chainId);
-      const mappedVaultDetails = mapVaultData(vaultDetails.vaultByAddress);
+      const mappedVaultDetails = mapVaultData(vaultDetails.vaultData.vaultByAddress, vaultDetails.vaultTokenData);
 
       const rewards = await Promise.all(
         (vaultPosition.vault.state?.rewards || []).map(async (reward) => {

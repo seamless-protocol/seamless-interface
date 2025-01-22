@@ -5,12 +5,12 @@ import {
   DisplayMoney,
   DisplayPercentage,
   ImageGroup,
-  ViewBigInt,
   DisplayTokenAmount,
   DisplayText,
   FlexCol,
   FlexRow,
   Icon,
+  ViewBigInt,
 } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
@@ -19,7 +19,7 @@ interface VaultProps {
   name: string;
   vaultAddress: string;
   asset: MorphoAsset;
-  totalSupply: ViewBigInt;
+  totalAssets: ViewBigInt;
   totalAssetsUsd: string;
   netApy: string;
   curator?: Curator;
@@ -33,7 +33,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   name,
   asset,
   totalAssetsUsd,
-  totalSupply,
+  totalAssets,
   netApy,
   curator,
   feePercentage,
@@ -59,7 +59,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         </FlexRow>
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayTokenAmount {...totalSupply} typography="bold3" />
+        <DisplayTokenAmount {...totalAssets} typography="bold3" />
 
         <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
