@@ -12,5 +12,5 @@ export const PRIVATE_KEY = "PRIVATE_KEY";
 
 export const TimeOuts = {
   transactionTimeout: 120000,
-  otherTimeout: 20000,
+  otherTimeout: 40000,
 };

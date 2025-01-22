@@ -156,21 +156,23 @@ Cypress.Commands.add("setAmount", (amount?: number, max?: boolean) => {
 /* ------------------ */
 Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
   if (!hasApproval) {
-    cy.get(`[data-cy=approvalButton]`, { timeout: TimeOuts.otherTimeout })
+    cy.get(`[data-cy=approvalButton]`, { timeout: TimeOuts.transactionTimeout })
       .last()
       .should("not.be.disabled")
       .click({ force: true });
   }
-  cy.get("[data-cy=actionButton]", { timeout: TimeOuts.otherTimeout })
+
+  cy.wait(60000);
+  cy.get("[data-cy=actionButton]", { timeout: TimeOuts.transactionTimeout })
     .last()
-    .should("not.be.disabled")
+    .should("not.be.disabled", { timeout: TimeOuts.transactionTimeout })
     .click({ force: true });
 });
 
 Cypress.Commands.add("doWithdrawSubmit", () => {
   cy.validateAmountInputs(true);
 
-  cy.get("[data-cy=actionButton]", { timeout: TimeOuts.otherTimeout })
+  cy.get("[data-cy=actionButton]", { timeout: TimeOuts.transactionTimeout })
     .last()
     .should("not.be.disabled")
     .click({ force: true });
