@@ -45,7 +45,6 @@ const MoprhoVaultFormLocal: React.FC<{
 
   const { withdrawAsync, isWithdrawPending } = useMutateWithdrawMorphoVault(vaultData.vaultAddress);
 
-  console.log({ lpTokenDecimals });
   const onSubmitAsync = async (data: FormData) => {
     await withdrawAsync(
       {
