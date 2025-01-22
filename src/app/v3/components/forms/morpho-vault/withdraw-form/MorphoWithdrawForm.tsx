@@ -30,7 +30,7 @@ const MoprhoVaultFormLocal: React.FC<{
   vaultData: MappedVaultData;
 }> = ({ vaultData }) => {
   const { onTransaction } = useFormSettingsContext();
-  const { decimals: underlyingAssetDecimals, symbol: underlyingAssetSymbol } = vaultData.asset;
+  const { decimals: lpTokenDecimals, symbol: lpTokenSymbol } = vaultData.vaultTokenData;
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -45,10 +45,11 @@ const MoprhoVaultFormLocal: React.FC<{
 
   const { withdrawAsync, isWithdrawPending } = useMutateWithdrawMorphoVault(vaultData.vaultAddress);
 
+  console.log({ lpTokenDecimals });
   const onSubmitAsync = async (data: FormData) => {
     await withdrawAsync(
       {
-        amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
+        amount: lpTokenDecimals ? parseUnits(data.amount, lpTokenDecimals) : undefined,
       },
       {
         onSuccess: (txHash) => {
@@ -57,7 +58,7 @@ const MoprhoVaultFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Withdrew {data.amount} {underlyingAssetSymbol}
+                  You Withdrew {data.amount} {lpTokenSymbol}
                 </Typography>
                 {vaultData && (
                   <WatchAssetComponentv2
