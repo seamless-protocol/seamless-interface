@@ -1,8 +1,12 @@
-import { ViewBigInt } from "@shared";
+import { Token, ViewBigInt } from "@shared";
 import { MorphoAsset } from "./MorphoAsset";
 import { Curator } from "./Curator";
 
 export interface MappedVaultData {
+  /**
+   * The token data associated with the vault.
+   */
+  vaultTokenData: Token;
   /**
    * The address of the vault.
    * todo fix any in mapper
@@ -29,6 +33,11 @@ export interface MappedVaultData {
    * The total supply of the vault, formatted for display.
    */
   totalSupply: ViewBigInt;
+
+  /**
+   * The total assets of the vault, formatted for display.
+   */
+  totalAssets: ViewBigInt;
 
   /**
    * The total assets in USD, formatted for display.

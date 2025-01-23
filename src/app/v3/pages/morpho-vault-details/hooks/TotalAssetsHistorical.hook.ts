@@ -1,10 +1,12 @@
 import { Address } from "viem";
 import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
+import { whiteListedMorphoVaults } from "@meta";
 import { TimeseriesOptions } from "../../../../../generated-graphql";
 import { mapTotalAssetsData } from "../../../../statev3/morpho/mappers/mapTotalAssetsData";
 import { fetchTotalAssetsHistorical } from "../../../../statev3/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { fetchFullVaultInfo } from "../../../../statev3/morpho/full-vault-info/FullVaultInfo.fetch";
 
 export const useFetchTotalAssets = (address?: Address, chainId: number = base.id, options?: TimeseriesOptions) => {
   const { data, ...rest } = useQuery({
@@ -18,4 +20,19 @@ export const useFetchTotalAssets = (address?: Address, chainId: number = base.id
     ...rest,
     data: data ? mapTotalAssetsData(data) : undefined,
   };
+};
+export const useFetchTotalAssetsForWhitelistedVaults = () => {
+  return useQuery({
+    queryKey: ["hookFetchTotalAssetsForWhitelistedVaults"],
+    queryFn: async () => {
+      const results = await Promise.all(whiteListedMorphoVaults.map((vault) => fetchFullVaultInfo(vault, base.id)));
+
+      const totalAssetsUsd = results
+        .map((result) => Number(result?.vaultData.vaultByAddress.state?.totalAssetsUsd))
+        .reduce((acc, curr) => acc + curr);
+
+      return totalAssetsUsd;
+    },
+    ...queryConfig.disableCacheQueryConfig,
+  });
 };

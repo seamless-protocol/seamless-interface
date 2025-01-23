@@ -3,11 +3,11 @@ import {
   DisplayMoney,
   DisplayPercentage,
   ImageGroup,
-  ViewBigInt,
   DisplayTokenAmount,
   FlexCol,
   FlexRow,
   Icon,
+  ViewBigInt,
 } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
@@ -16,7 +16,7 @@ interface VaultProps {
   name: string;
   asset: MorphoAsset;
   totalAssetsUsd: string;
-  totalSupply: ViewBigInt;
+  totalAssets: ViewBigInt;
   netApy: string;
   curator?: Curator;
   feePercentage: string;
@@ -28,7 +28,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
   name,
   asset,
   totalAssetsUsd,
-  totalSupply,
+  totalAssets,
   netApy,
   curator,
   feePercentage,
@@ -50,7 +50,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
         <div className="flex justify-between">
           <Typography type="regular1">Total Supply:</Typography>
           <FlexCol className="items-end">
-            <DisplayTokenAmount {...totalSupply} typography="bold3" />
+            <DisplayTokenAmount {...totalAssets} typography="bold3" />
 
             <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
           </FlexCol>

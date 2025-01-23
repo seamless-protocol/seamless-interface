@@ -10,7 +10,12 @@ const useFullVaultsInfo = (addresses: Address[], chainId = base.id) => {
     queryKey: ["fullVaultsInfo", addresses, chainId],
     queryFn: async () => {
       const results = await Promise.all(addresses.map((address) => fetchFullVaultInfo(address, chainId)));
-      return results.map((res) => res.vaultByAddress);
+      return results.map((res) => {
+        return {
+          vaultByAddress: res.vaultData.vaultByAddress,
+          vaultTokenData: res.vaultTokenData,
+        };
+      });
     },
     ...queryConfig.disableCacheQueryConfig,
   });
@@ -27,7 +32,7 @@ export const useFormattedVaultsInfo = (addresses: Address[], chainId = base.id) 
     };
   }
 
-  const formattedVaults = rawVaults.map(mapVaultData);
+  const formattedVaults = rawVaults.map((vault) => mapVaultData(vault.vaultByAddress, vault.vaultTokenData));
 
   return {
     data: formattedVaults,
@@ -46,6 +51,6 @@ export const useFormattedVaultInfo = (address?: Address, chainId = base.id) => {
 
   return {
     ...rest,
-    data: data ? mapVaultData(data?.vaultByAddress) : undefined,
+    data: data ? mapVaultData(data?.vaultData.vaultByAddress, data?.vaultTokenData) : undefined,
   };
 };

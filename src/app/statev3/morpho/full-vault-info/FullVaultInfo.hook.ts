@@ -15,7 +15,7 @@ export const useFetchFormattedFullVaultInfo = (address?: Address, chainId = base
 
   return {
     ...rest,
-    data: data ? mapVaultData(data?.vaultByAddress) : undefined,
+    data: data ? mapVaultData(data.vaultData.vaultByAddress, data.vaultTokenData) : undefined,
   };
 };
 

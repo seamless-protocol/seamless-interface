@@ -1,4 +1,4 @@
-import { formatFetchBigIntToViewBigInt, formatToDisplayable } from "@shared";
+import { formatFetchBigIntToViewBigInt, formatToDisplayable, Token } from "@shared";
 import { FullVaultInfoQuery } from "@generated-graphql";
 import { vaultConfig } from "../../settings/config";
 import { MappedVaultData } from "../types/MappedFullVaultData";
@@ -9,12 +9,17 @@ function convertSecondsToHours(seconds: number) {
   return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
 
-export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]): MappedVaultData {
+export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultTokenData: Token): MappedVaultData {
   const config = vaultConfig[vault.address];
   const { address: vaultAddress, name, asset, state } = vault;
   const totalSupply = formatFetchBigIntToViewBigInt({
-    bigIntValue: state?.totalSupply ?? 0n,
-    decimals: 18, // TODO morpho: even usdc is 18, todo: Double check with morpho team
+    bigIntValue: state?.totalSupply,
+    decimals: vaultTokenData.decimals,
+    symbol: asset.symbol,
+  });
+  const totalAssets = formatFetchBigIntToViewBigInt({
+    bigIntValue: state?.totalAssets,
+    decimals: asset.decimals,
     symbol: asset.symbol,
   });
   const totalAssetsUsd = formatToDisplayable(state?.totalAssetsUsd ?? 0);
@@ -28,11 +33,13 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"]): Mappe
   const timelock = state?.timelock ? `${convertSecondsToHours(Number(state?.timelock))} Hours` : "/";
 
   return {
+    vaultTokenData,
     vaultAddress,
     name: config?.name || name || "Unknown Vault",
     description: config?.description || asset.name || "",
     asset,
     totalSupply,
+    totalAssets,
     totalAssetsUsd,
     netApy,
     curator,

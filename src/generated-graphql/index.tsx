@@ -833,19 +833,13 @@ export type MarketPosition = {
   collateralUsd?: Maybe<Scalars['Float']['output']>;
   /** Health factor of the position, computed as collateral value divided by borrow value. */
   healthFactor?: Maybe<Scalars['Float']['output']>;
-  /**
-   * State history
-   * @deprecated Not indexed yet.
-   */
+  /** State history */
   historicalState?: Maybe<MarketPositionHistory>;
   id: Scalars['ID']['output'];
   market: Market;
   /** Price variation required for the given position to reach its liquidation threshold (scaled by WAD) */
   priceVariationToLiquidationPrice?: Maybe<Scalars['Float']['output']>;
-  /**
-   * Current state
-   * @deprecated Not indexed yet.
-   */
+  /** Current state */
   state?: Maybe<MarketPositionState>;
   /** Amount of loan asset supplied, in underlying token units. */
   supplyAssets: Scalars['BigInt']['output'];
@@ -990,29 +984,31 @@ export enum MarketPositionOrderBy {
 /** Market position state */
 export type MarketPositionState = {
   __typename?: 'MarketPositionState';
-  /** The last borrow assets used to update the position's P&L. */
+  /** The latest borrow assets indexed for this position. */
   borrowAssets?: Maybe<Scalars['BigInt']['output']>;
-  /** The last borrow shares used to update the position's P&L. */
+  /** The latest borrow assets indexed for this position, in USD. */
+  borrowAssetsUsd?: Maybe<Scalars['Float']['output']>;
+  /** The latest borrow shares indexed for this position. */
   borrowShares: Scalars['BigInt']['output'];
-  /** The last collateral assets used to update the position's P&L. */
+  /** The latest collateral assets indexed for this position. */
   collateral: Scalars['BigInt']['output'];
-  /** The last collateral asset USD price used to update the position's P&L in USD. */
-  collateralAssetUsdPrice?: Maybe<Scalars['Float']['output']>;
-  /** The last collateral price used to update the position's P&L. */
-  collateralPrice?: Maybe<Scalars['BigInt']['output']>;
+  /** The latest collateral assets indexed for this position, in USD. */
+  collateralUsd?: Maybe<Scalars['Float']['output']>;
+  /** The latest collateral assets indexed for this position, in loan assets. */
+  collateralValue?: Maybe<Scalars['BigInt']['output']>;
   id: Scalars['ID']['output'];
-  /** The last loan asset USD price used to update the position's P&L in USD. */
-  loanAssetUsdPrice?: Maybe<Scalars['Float']['output']>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in loan assets. */
   pnl?: Maybe<Scalars['BigInt']['output']>;
-  /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in USD for display purpose */
+  /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in USD for display purpose. */
   pnlUsd?: Maybe<Scalars['Float']['output']>;
   position: MarketPosition;
-  /** The last supply assets used to update the position's P&L. */
+  /** The latest supply assets indexed for this position. */
   supplyAssets?: Maybe<Scalars['BigInt']['output']>;
-  /** The last supply shares used to update the position's P&L. */
+  /** The latest supply assets indexed for this position, in USD. */
+  supplyAssetsUsd?: Maybe<Scalars['Float']['output']>;
+  /** The latest supply shares indexed for this position. */
   supplyShares: Scalars['BigInt']['output'];
-  /** Last update timestamp. */
+  /** The latest update timestamp. */
   timestamp: Scalars['BigInt']['output'];
 };
 
@@ -2595,18 +2591,12 @@ export type VaultPosition = {
   assets: Scalars['BigInt']['output'];
   /** Value of vault shares held, in USD for display purpose. */
   assetsUsd?: Maybe<Scalars['Float']['output']>;
-  /**
-   * State history
-   * @deprecated Not indexed yet.
-   */
+  /** State history */
   historicalState?: Maybe<VaultPositionHistory>;
   id: Scalars['ID']['output'];
   /** Amount of vault shares */
   shares: Scalars['BigInt']['output'];
-  /**
-   * Current state
-   * @deprecated Not indexed yet.
-   */
+  /** Current state */
   state?: Maybe<VaultPositionState>;
   user: User;
   vault: Vault;
@@ -2683,19 +2673,19 @@ export enum VaultPositionOrderBy {
 /** Vault position state */
 export type VaultPositionState = {
   __typename?: 'VaultPositionState';
-  /** The last asset USD price used to update the position's P&L in USD. */
-  assetUsdPrice?: Maybe<Scalars['Float']['output']>;
+  /** The latest supply assets indexed for this position. */
+  assets?: Maybe<Scalars['BigInt']['output']>;
+  /** The latest supply assets indexed for this position, in USD. */
+  assetsUsd?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in loan assets. */
   pnl?: Maybe<Scalars['BigInt']['output']>;
   /** Profit (from the collateral's price variation) & Loss (from the loan interest) of the position since its inception, in USD for display purpose */
   pnlUsd?: Maybe<Scalars['Float']['output']>;
   position: VaultPosition;
-  /** The last supply assets used to update the position's P&L. */
-  supplyAssets?: Maybe<Scalars['BigInt']['output']>;
-  /** The last supply shares used to update the position's P&L. */
-  supplyShares: Scalars['BigInt']['output'];
-  /** Last update timestamp. */
+  /** The latest supply shares indexed for this position. */
+  shares: Scalars['BigInt']['output'];
+  /** The latest update timestamp. */
   timestamp: Scalars['BigInt']['output'];
 };
 
@@ -2871,7 +2861,7 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
 export type NetApyHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -2913,6 +2903,7 @@ export const FullVaultInfoDocument = gql`
     }
     state {
       totalSupply
+      totalAssets
       totalAssetsUsd
       netApy
       allTimeApy
