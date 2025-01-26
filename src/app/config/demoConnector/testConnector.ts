@@ -16,7 +16,7 @@ export const createTestConnector = (rpcUrl: string, privateKey: string) => {
         chainId: base.id,
       };
     },
-    async disconnect() {},
+    async disconnect() { },
     async getAccounts() {
       return [randomWalletClient.account.address];
     },
@@ -31,9 +31,9 @@ export const createTestConnector = (rpcUrl: string, privateKey: string) => {
     async isAuthorized() {
       return true;
     },
-    onAccountsChanged() {},
-    onChainChanged() {},
-    async onDisconnect() {},
-    async getProvider() {},
+    onAccountsChanged() { },
+    onChainChanged() { },
+    async onDisconnect() { },
+    async getProvider() { },
   }));
 };
