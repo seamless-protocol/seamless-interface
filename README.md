@@ -29,8 +29,8 @@ React front end application for interacting with [Seamless Protocol](https://sea
 Create .env.production file and copy content from .env.production.sample file.
 Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 
-- run `npm run build`
-- test your prod build locally `npm run preview` (after building it)
+- run `yarn build`
+- test your prod build locally `yarn preview` (after building it)
 
 ## Run application locally
 
@@ -39,7 +39,7 @@ Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 Create .env.development file and copy content from .env.development.sample file.
 Don't forget to add your `VITE_BASE_WALLET_PROJECT_ID`
 
-- run `npm run dev`
+- run `yarn dev`
 
 easy to find icons:
 https://icon-sets.iconify.design/
@@ -47,12 +47,12 @@ https://icon-sets.iconify.design/
 ## Run cypress tests with anvil
 
 - make sure to set `test_env` inside of a cypress.config to `anvil`
-- run `npm run anvil`
+- run `yarn anvil`
 - wait anvil to start (few mins 😕)
 - run `npx cypress open`
 - start your tests
 
-btw you don't have to kill anvil, it will be killed by next npm run anvil
+btw you don't have to kill anvil, it will be killed by next yarn anvil
 if you want to to kill anvil run:
 
 - `pkill -f anvil`

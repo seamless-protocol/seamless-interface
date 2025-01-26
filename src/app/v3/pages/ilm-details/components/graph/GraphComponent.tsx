@@ -122,10 +122,10 @@ export const GraphComponent = () => {
           zoom: {
             enabled: true,
           },
+
           animations: {
             enabled: true,
             speed: 2000,
-            easing: "easeout",
           },
         },
         colors: showPriceInDebtAsset ? ["#4F68F7", "#00E396"] : ["#00E396"],
