@@ -25,7 +25,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          # Switch the cache to yarn
+          cache: 'yarn'
 
       - name: Create env file
         run: |
@@ -46,8 +47,13 @@ jobs:
           echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
           cat .env.production
 
-      - run: npm ci
-      - run: npm run build --if-present
+      # Use yarn to install dependencies
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      # Build your project
+      - name: Build
+        run: yarn build
 
       - name: Rename dist folder
         run: |
@@ -57,7 +63,7 @@ jobs:
 
       - name: Create IPFS .car
         run: |
-          npm i -g ipfs-car@1.2.0
+          yarn global add ipfs-car@1.2.0
           ipfs-car pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
           ipfs-car ls ${APP_BUILD_NAME}.car
 

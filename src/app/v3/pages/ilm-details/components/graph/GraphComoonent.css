@@ -1,0 +1,21 @@
+.custom-tooltip {
+  background: white !important;
+  box-shadow: 0px 4px 16px 0px rgba(162, 162, 162, 0.08) !important;
+  color: black !important;
+  border-radius: 16px !important;
+  padding: 10px;
+}
+
+.apexcharts-tooltip-title {
+  background: white !important;
+}
+
+/* class="apexcharts-xaxistooltip apexcharts-xaxistooltip-bottom apexcharts-theme-light" */
+
+.apexcharts-xaxistooltip {
+  background: white !important;
+  box-shadow: 0px 4px 16px 0px rgba(162, 162, 162, 0.08) !important;
+  color: black !important;
+  border-radius: 20px !important;
+  padding: 10px;
+}
