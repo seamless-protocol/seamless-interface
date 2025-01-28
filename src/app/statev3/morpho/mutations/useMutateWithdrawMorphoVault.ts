@@ -11,8 +11,8 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
-import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { useState } from "react";
+import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 
 export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
