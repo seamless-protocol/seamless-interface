@@ -1,14 +1,13 @@
-import { UserVaultPositionsQuery } from "../../../../generated-graphql";
-import { ViewBigInt, ViewNumber } from "@shared";
+import { ViewNumber } from "@shared";
 import { MappedVaultData } from "./MappedFullVaultData";
 
 export interface ExtendedVaultPosition {
-  vaultPosition: {
-    baseData: NonNullable<NonNullable<UserVaultPositionsQuery["vaultPositions"]["items"]>[number]>;
-    shares: ViewBigInt;
-    assetsUsd: ViewNumber;
-    assets: ViewBigInt;
-  };
+  // vaultPosition: {
+  //   baseData: NonNullable<NonNullable<UserVaultPositionsQuery["vaultPositions"]["items"]>[number]>;
+  //   shares: ViewBigInt;
+  //   assetsUsd: ViewNumber;
+  //   assets: ViewBigInt;
+  // };
   mappedVaultDetails: MappedVaultData;
 }
 

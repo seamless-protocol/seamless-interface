@@ -24,29 +24,25 @@ interface VaultPositionAddress {
 /**
  * Fetches all vaults in which a user has a non-zero balance.
  */
-const fetchUserDepositVaults = async (
-  user: string | undefined
-): Promise<VaultPositionAddress[]> => {
+const fetchUserDepositVaults = async (user: string | undefined) => {
   const config = getConfig();
   if (!config || !user) return [];
 
   // Check the user's balance in each vault
-  const promises: Promise<VaultPositionAddress | undefined>[] = Object.entries(vaultConfig).map(
-    async ([vaultAddress]) => {
-      const balance = await readContract(config, {
-        // todo add query client 
-        address: vaultAddress as Address,
-        abi: erc20Abi,
-        functionName: "balanceOf",
-        args: [user as Address],
-      });
+  const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
+    const balance = await readContract(config, {
+      // todo add query client
+      address: vaultAddress as Address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [user as Address],
+    });
 
-      if (balance && balance > 0n) {
-        return { vault: vaultAddress as Address };
-      }
-      return undefined;
+    if (balance && balance > 0n) {
+      return { vault: vaultAddress as Address };
     }
-  );
+    return undefined;
+  });
 
   const vaultResults = await Promise.all(promises);
   return vaultResults.filter((vault): vault is VaultPositionAddress => vault !== undefined);
@@ -56,7 +52,7 @@ export async function fetchUserVaultPositions(
   userAddress: string,
   whiteListedVaultAddresses?: string[],
   chainId = base.id
-): Promise<UserVaultPositionsQuery> {
+) {
   const queryClient = getQueryClient();
 
   // Let React Query handle caching/staleness
@@ -79,14 +75,14 @@ export async function fetchUserVaultPositions(
       if (result.errors?.length) {
         throw new Error(
           `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-          `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
         );
       } else if (result.error) {
         throw new Error(
           `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-          `Error: ${result.error.message}`
+            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+            `Error: ${result.error.message}`
         );
       }
       return result.data;
@@ -100,7 +96,7 @@ export async function fetchExtendedMappedVaultPositions(
   userAddress: string,
   whiteListedVaultAddresses?: string[],
   chainId = base.id
-): Promise<ExtendedMappedVaultPositionsResult | undefined> {
+) {
   const rawVaultPositions = await fetchUserDepositVaults(userAddress);
   if (!rawVaultPositions) return undefined;
 
@@ -111,7 +107,7 @@ export async function fetchExtendedMappedVaultPositions(
       const assetBalance = await fetchFormattedAssetBalanceUsdValue({
         asset: vaultPosition.vault,
         userAddress: userAddress as Address,
-      })
+      });
 
       const shares = formatFetchBigIntToViewBigInt({
         bigIntValue: undefined, // vaultPosition.shares, TODO!
@@ -121,7 +117,6 @@ export async function fetchExtendedMappedVaultPositions(
 
       return {
         vaultPosition: {
-          baseData: extendedPosition,
           shares,
           assetsUsd: assetBalance?.dollarAmount,
           assets: assetBalance?.tokenAmount,
@@ -132,7 +127,7 @@ export async function fetchExtendedMappedVaultPositions(
   );
 
   const totalUsdValue = extendedVaultPositions.reduce(
-    (acc, position) => acc + (position.vaultPosition.assetsUsd.value || 0),
+    (acc, position) => acc + Number(position?.vaultPosition?.assetsUsd?.value || 0),
     0
   );
 
@@ -145,5 +140,5 @@ export async function fetchExtendedMappedVaultPositions(
     vaultPositions: extendedVaultPositions,
     totalUsdValueViewValue,
     totalUsdValue,
-  };
+  } as ExtendedMappedVaultPositionsResult;
 }

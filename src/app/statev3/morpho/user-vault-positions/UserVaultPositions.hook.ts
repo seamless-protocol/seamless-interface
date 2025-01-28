@@ -30,9 +30,7 @@ export function useFetchUserVaultPositions(chainId = base.id) {
 export function useFetchUserHasPositionInVault(vaultAddress?: Address, chainId = base.id) {
   const { data, ...rest } = useFetchUserVaultPositions(chainId);
 
-  const position = data?.vaultPositions.find(
-    (position) => position.vaultPosition.baseData.vault.address === vaultAddress
-  );
+  const position = data?.vaultPositions.find((position) => position.mappedVaultDetails.vaultAddress === vaultAddress);
 
   return {
     data: !!position,

@@ -1,6 +1,7 @@
 import { Token, ViewBigInt } from "@shared";
 import { MorphoAsset } from "./MorphoAsset";
 import { Curator } from "./Curator";
+import { VaultStateReward } from "./UserReward";
 
 export interface MappedVaultData {
   /**
@@ -68,4 +69,6 @@ export interface MappedVaultData {
    * The timelock duration in seconds.
    */
   timelock?: string;
+
+  rewards?: VaultStateReward[] | undefined;
 }
