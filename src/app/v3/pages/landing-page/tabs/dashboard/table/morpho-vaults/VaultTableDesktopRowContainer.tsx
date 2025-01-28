@@ -9,7 +9,7 @@ import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
