@@ -1,6 +1,6 @@
 // fetchFormattedAssetBalanceUsdValue.ts
 import { Address } from "viem";
-import { formatUsdValue, ViewBigIntWithUsdValue } from "@shared";
+import { formatUsdValue } from "@shared";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { cValueInUsd } from "../../math/utils";
 import { queryConfig } from "../../settings/queryConfig";
@@ -27,10 +27,7 @@ export interface AssetBalanceUsdValuePairInput {
  * Non-hook version of fetching an asset balance and its USD value.
  * Uses React Query's `fetchQuery` under the hood, but no React hooks.
  */
-export async function fetchFormattedAssetBalanceUsdValue({
-  userAddress,
-  asset,
-}: AssetBalanceUsdValuePairInput): Promise<ViewBigIntWithUsdValue | undefined> {
+export async function fetchFormattedAssetBalanceUsdValue({ userAddress, asset }: AssetBalanceUsdValuePairInput) {
   const queryClient = getQueryClient();
 
   // Safety check: if either is missing, return early or handle as you wish
@@ -38,7 +35,7 @@ export async function fetchFormattedAssetBalanceUsdValue({
     return undefined;
   }
 
-  return queryClient.fetchQuery({
+  const result = await queryClient.fetchQuery({
     queryKey: getFormattedAssetBalanceUsdValueQueryKey(userAddress, asset),
     queryFn: async () => {
       // 1) Fetch the raw asset balance & asset price
@@ -48,18 +45,16 @@ export async function fetchFormattedAssetBalanceUsdValue({
       ]);
 
       // 2) Convert the raw balance to a USD amount
-      const usdValue = cValueInUsd(
-        assetBalance.bigIntValue,
-        assetPrice.bigIntValue,
-        assetBalance.decimals
-      );
+      const usdValue = cValueInUsd(assetBalance.bigIntValue, assetPrice.bigIntValue, assetBalance.decimals);
 
       // 3) Return a nicely formatted object
       return {
         tokenAmount: assetBalance,
         dollarAmount: formatUsdValue(usdValue),
-      } as ViewBigIntWithUsdValue;
+      };
     },
     ...queryConfig.semiSensitiveDataQueryConfig,
   });
+
+  return result;
 }

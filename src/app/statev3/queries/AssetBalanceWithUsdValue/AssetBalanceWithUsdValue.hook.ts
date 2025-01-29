@@ -2,7 +2,10 @@ import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
 import { queryConfig } from "../../settings/queryConfig";
 import { useAccount } from "wagmi";
-import { fetchFormattedAssetBalanceUsdValue, getFormattedAssetBalanceUsdValueQueryKey } from "./AssetBalanceWithUsdValue.fetch";
+import {
+  fetchFormattedAssetBalanceUsdValue,
+  getFormattedAssetBalanceUsdValueQueryKey,
+} from "./AssetBalanceWithUsdValue.fetch";
 import { Displayable, ViewBigIntWithUsdValue, formatFetchBigIntToViewBigInt } from "@shared";
 
 interface AssetBalanceUsdValuePairInput {
@@ -16,16 +19,17 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
   const { address: userAddress } = useAccount();
 
   return useQuery({
-    queryKey: getFormattedAssetBalanceUsdValueQueryKey(userAddress, asset),
+    // todo
+    queryKey: ["hook", ...getFormattedAssetBalanceUsdValueQueryKey(userAddress, asset)],
     queryFn: async () => {
-      const data = await fetchFormattedAssetBalanceUsdValue({ userAddress, asset });
+      const result = await fetchFormattedAssetBalanceUsdValue({ userAddress, asset });
 
       return {
-        tokenAmount: formatFetchBigIntToViewBigInt(data?.tokenAmount),
-        dollarAmount: formatFetchBigIntToViewBigInt(data?.dollarAmount),
-      } as ViewBigIntWithUsdValue;
+        tokenAmount: formatFetchBigIntToViewBigInt(result?.tokenAmount),
+        dollarAmount: formatFetchBigIntToViewBigInt(result?.dollarAmount),
+      };
     },
     enabled: !!userAddress && !!asset,
-    ...queryConfig.semiSensitiveDataQueryConfig,
+    ...queryConfig.disableCacheQueryConfig,
   });
 };

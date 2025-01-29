@@ -31,7 +31,7 @@ const fetchUserDepositVaults = async (user: string | undefined) => {
   // Check the user's balance in each vault
   const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
     const balance = await readContract(config, {
-      // todo add query client
+      // todo add query client, use fetchFormattedAssetBalanceUsdValue instead?
       address: vaultAddress as Address,
       abi: erc20Abi,
       functionName: "balanceOf",
@@ -115,11 +115,21 @@ export async function fetchExtendedMappedVaultPositions(
         symbol: mappedVaultDetails.asset.symbol,
       });
 
+      const assetsUsd = formatFetchBigIntToViewBigInt({
+        ...assetBalance?.dollarAmount,
+        bigIntValue: assetBalance?.dollarAmount.bigIntValue,
+      });
+
+      const assets = formatFetchBigIntToViewBigInt({
+        ...assetBalance?.tokenAmount,
+        bigIntValue: assetBalance?.tokenAmount.bigIntValue,
+      });
+
       return {
         vaultPosition: {
           shares,
-          assetsUsd: assetBalance?.dollarAmount,
-          assets: assetBalance?.tokenAmount,
+          assetsUsd,
+          assets,
         },
         mappedVaultDetails,
       };
