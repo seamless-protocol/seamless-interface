@@ -4,7 +4,7 @@ import {
   UserVaultPositionsQueryVariables,
 } from "@generated-graphql";
 import { getApolloClient } from "../../../config/apollo-client";
-import { formatFetchNumberToViewNumber } from "@shared";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
@@ -31,7 +31,7 @@ const fetchUserDepositVaults = async (user: string | undefined) => {
   // Check the user's balance in each vault
   const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
     const balance = await readContract(config, {
-      // todo add query client
+      // todo add query client, use fetchFormattedAssetBalanceUsdValue instead?
       address: vaultAddress as Address,
       abi: erc20Abi,
       functionName: "balanceOf",
@@ -109,10 +109,21 @@ export async function fetchExtendedMappedVaultPositions(
         userAddress: userAddress as Address,
       });
 
+      const assetsUsd = formatFetchBigIntToViewBigInt({
+        ...assetBalance?.dollarAmount,
+        bigIntValue: assetBalance?.dollarAmount.bigIntValue,
+      });
+
+      const assets = formatFetchBigIntToViewBigInt({
+        ...assetBalance?.tokenAmount,
+        bigIntValue: assetBalance?.tokenAmount.bigIntValue,
+      });
+
       return {
         vaultPosition: {
-          assetsUsd: assetBalance?.dollarAmount,
-          assets: assetBalance?.tokenAmount,
+          shares,
+          assetsUsd,
+          assets,
         },
         mappedVaultDetails,
       };
