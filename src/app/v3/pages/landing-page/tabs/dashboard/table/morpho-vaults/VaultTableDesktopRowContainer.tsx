@@ -22,10 +22,6 @@ export const VaultTableDesktopRowContainer: React.FC<{
 
   const { data: vault, ...vaultDataRest } = vaultData;
 
-  // const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
-  //   asset: vault.mappedVaultDetails.vaultAddress,
-  // });
-
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });

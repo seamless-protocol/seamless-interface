@@ -1,15 +1,8 @@
-import {
-  UserVaultPositionsDocument,
-  UserVaultPositionsQuery,
-  UserVaultPositionsQueryVariables,
-} from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
 import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
-import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
 import { readContract } from "wagmi/actions";
 import { Address, erc20Abi } from "viem";
@@ -24,7 +17,7 @@ interface VaultPositionAddress {
 /**
  * Fetches all vaults in which a user has a non-zero balance.
  */
-const fetchUserDepositVaults = async (user: string | undefined) => {
+export const fetchUserVaultPositions = async (user: string | undefined) => {
   const config = getConfig();
   if (!config || !user) return [];
 
@@ -48,56 +41,11 @@ const fetchUserDepositVaults = async (user: string | undefined) => {
   return vaultResults.filter((vault): vault is VaultPositionAddress => vault !== undefined);
 };
 
-export async function fetchUserVaultPositions(
-  userAddress: string,
-  whiteListedVaultAddresses?: string[],
-  chainId = base.id
-) {
-  const queryClient = getQueryClient();
-
-  // Let React Query handle caching/staleness
-  const data = await queryClient.fetchQuery<UserVaultPositionsQuery>({
-    queryKey: ["fetchUserVaultPositions", userAddress, whiteListedVaultAddresses, chainId],
-    queryFn: async () => {
-      const client = getApolloClient();
-      const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-        query: UserVaultPositionsDocument,
-        variables: {
-          where: {
-            userAddress_in: [userAddress],
-            vaultAddress_in: whiteListedVaultAddresses,
-            chainId_in: [chainId],
-          },
-        },
-        fetchPolicy: "no-cache",
-      });
-
-      if (result.errors?.length) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-          `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-        );
-      } else if (result.error) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-          `Error: ${result.error.message}`
-        );
-      }
-      return result.data;
-    },
-  });
-
-  return data;
-}
-
 export async function fetchExtendedMappedVaultPositions(
   userAddress: string,
-  whiteListedVaultAddresses?: string[],
   chainId = base.id
 ) {
-  const rawVaultPositions = await fetchUserDepositVaults(userAddress);
+  const rawVaultPositions = await fetchUserVaultPositions(userAddress);
   if (!rawVaultPositions) return undefined;
 
   const extendedVaultPositions = await Promise.all(
@@ -121,7 +69,6 @@ export async function fetchExtendedMappedVaultPositions(
 
       return {
         vaultPosition: {
-          shares,
           assetsUsd,
           assets,
         },

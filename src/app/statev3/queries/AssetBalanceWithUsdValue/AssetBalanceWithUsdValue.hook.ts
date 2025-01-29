@@ -13,6 +13,11 @@ interface AssetBalanceUsdValuePairInput {
   blockNumber?: bigint;
 }
 
+export const getHookFetchFormattedAssetBalanceWithUsdValueQueryKey = (userAddress?: Address, asset?: Address) => [
+  "hook",
+  ...getFormattedAssetBalanceUsdValueQueryKey(userAddress, asset),
+]
+
 export const useFetchFormattedAssetBalanceWithUsdValue = ({
   asset,
 }: AssetBalanceUsdValuePairInput): Displayable<ViewBigIntWithUsdValue | undefined> => {
@@ -20,7 +25,7 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
 
   return useQuery({
     // todo
-    queryKey: ["hook", ...getFormattedAssetBalanceUsdValueQueryKey(userAddress, asset)],
+    queryKey: getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(userAddress, asset),
     queryFn: async () => {
       const result = await fetchFormattedAssetBalanceUsdValue({ userAddress, asset });
 

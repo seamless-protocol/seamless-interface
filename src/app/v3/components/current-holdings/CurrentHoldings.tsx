@@ -11,7 +11,6 @@ export const CurrentHoldings: React.FC<{
   const { data: balance, ...balanceData } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
   });
-  console.log({ balance })
 
   return (
     <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">

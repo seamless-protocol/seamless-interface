@@ -3,23 +3,21 @@ import { base } from "viem/chains";
 import { queryConfig } from "../../settings/queryConfig";
 import { fetchExtendedMappedVaultPositions } from "./UserVaultPositions.fetch";
 import { useAccount } from "wagmi";
-import { whiteListedMorphoVaults } from "@meta";
 import { Address } from "viem";
 
 export const MORPHO_USER_VAULT_POSITIONS_QUERY_KEY = "MORPHO_USER_VAULT_POSITIONS_QUERY_KEY";
 
-export const getFetchUserVaultPositionsQueryKey = (
-  userAddress: string,
-  whiteListedVaultAddresses?: string[],
-  chainId?: number
-) => [MORPHO_USER_VAULT_POSITIONS_QUERY_KEY, userAddress, whiteListedVaultAddresses, chainId];
+export const getHookFetchUserVaultPositionsQueryKey = (
+  userAddress?: Address,
+  chainId = base.id
+) => ["hook", MORPHO_USER_VAULT_POSITIONS_QUERY_KEY, userAddress, chainId];
 
 export function useFetchUserVaultPositions(chainId = base.id) {
   const { address: userAddress } = useAccount();
 
   const { data, ...rest } = useQuery({
-    queryKey: getFetchUserVaultPositionsQueryKey(userAddress as string, whiteListedMorphoVaults, chainId),
-    queryFn: () => fetchExtendedMappedVaultPositions(userAddress!, whiteListedMorphoVaults, chainId),
+    queryKey: getHookFetchUserVaultPositionsQueryKey(userAddress, chainId),
+    queryFn: () => fetchExtendedMappedVaultPositions(userAddress!, chainId),
     ...queryConfig.semiSensitiveDataQueryConfig,
     enabled: !!userAddress,
   });

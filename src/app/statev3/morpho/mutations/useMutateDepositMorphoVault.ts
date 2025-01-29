@@ -12,9 +12,10 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
-import { useFetchUserHasPositionInVault } from "../user-vault-positions/UserVaultPositions.hook";
+import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
 import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -34,7 +35,6 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
-  const { data: hasPositionAlready } = useFetchUserHasPositionInVault(vaultAddress);
 
   /* -------------------- */
   /*   Query cache keys   */
@@ -56,10 +56,10 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       ...((assetAllowanceQK ?? []) as QueryKey[]),
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
+      getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
+      getHookFetchUserVaultPositionsQueryKey(address)
     ],
     hideDefaultErrorOnNotification: true,
-    // TODO IMPORTANT: replace this with better fix
-    invalidateDelay: !hasPositionAlready ? 30000 : undefined,
   });
 
   /* -------------------- */
