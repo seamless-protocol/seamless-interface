@@ -24,7 +24,6 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
   // Check the user's balance in each vault
   const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
     const balance = await readContract(config, {
-      // todo add query client, use fetchFormattedAssetBalanceUsdValue instead?
       address: vaultAddress as Address,
       abi: erc20Abi,
       functionName: "balanceOf",
