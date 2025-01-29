@@ -1,13 +1,11 @@
-import { ViewNumber } from "@shared";
+import { ViewBigInt, ViewNumber } from "@shared";
 import { MappedVaultData } from "./MappedFullVaultData";
 
 export interface ExtendedVaultPosition {
-  // vaultPosition: {
-  //   baseData: NonNullable<NonNullable<UserVaultPositionsQuery["vaultPositions"]["items"]>[number]>;
-  //   shares: ViewBigInt;
-  //   assetsUsd: ViewNumber;
-  //   assets: ViewBigInt;
-  // };
+  vaultPosition: {
+    assetsUsd: ViewNumber;
+    assets: ViewBigInt;
+  }
   mappedVaultDetails: MappedVaultData;
 }
 

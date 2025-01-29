@@ -9,7 +9,6 @@ import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
@@ -23,9 +22,9 @@ export const VaultTableDesktopRowContainer: React.FC<{
 
   const { data: vault, ...vaultDataRest } = vaultData;
 
-  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: vault.mappedVaultDetails.vaultAddress,
-  });
+  // const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
+  //   asset: vault.mappedVaultDetails.vaultAddress,
+  // });
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
@@ -51,17 +50,17 @@ export const VaultTableDesktopRowContainer: React.FC<{
       tokenAmount={
         <DisplayTokenAmount
           typography="bold3"
-          viewValue={balanceUsdPair?.tokenAmount.viewValue}
-          {...balanceUsdPairRest}
+          viewValue={vaultData?.data.vaultPosition?.assets.viewValue}
+          {...vaultData}
         />
       }
       dollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={balanceUsdPair?.dollarAmount.viewValue}
+          viewValue={vaultData?.data.vaultPosition?.assetsUsd.viewValue}
           className="text-primary-600"
           isApproximate
-          {...balanceUsdPairRest}
+          {...vaultData}
         />
       }
       profitPercentage={

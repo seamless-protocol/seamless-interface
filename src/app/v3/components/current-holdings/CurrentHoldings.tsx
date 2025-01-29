@@ -6,11 +6,12 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../statev3/quer
 export const CurrentHoldings: React.FC<{
   address?: Address;
 }> = ({ address }) => {
-  const { data: strategyData, ...strategyDataRest } = useToken(address);
+  const { data: tokenData, ...tokenDataRest } = useToken(address);
 
-  const { data: strategyBalance, ...strategyBalanceRest } = useFetchFormattedAssetBalanceWithUsdValue({
+  const { data: balance, ...balanceData } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
   });
+  console.log({ balance })
 
   return (
     <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
@@ -22,21 +23,21 @@ export const CurrentHoldings: React.FC<{
           <FlexRow className="gap-1">
             <Icon
               width={36}
-              src={strategyData?.logo}
-              isFetched={strategyDataRest.isFetched}
-              isLoading={strategyDataRest.isLoading}
+              src={tokenData?.logo}
+              isFetched={tokenDataRest.isFetched}
+              isLoading={tokenDataRest.isLoading}
               alt="logo"
             />
             <DisplayTokenAmount
-              {...strategyBalance?.tokenAmount}
-              {...strategyBalanceRest}
+              {...balance?.tokenAmount}
+              {...balanceData}
               typography="bold4"
               className="text-navy-1000"
             />
           </FlexRow>
           <DisplayMoney
-            {...strategyBalance?.dollarAmount}
-            {...strategyBalanceRest}
+            {...balance?.dollarAmount}
+            {...balanceData}
             typography="medium2"
             className="text-primary-600"
             isApproximate

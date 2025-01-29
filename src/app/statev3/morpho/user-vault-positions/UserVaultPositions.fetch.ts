@@ -4,7 +4,7 @@ import {
   UserVaultPositionsQueryVariables,
 } from "@generated-graphql";
 import { getApolloClient } from "../../../config/apollo-client";
-import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
+import { formatFetchNumberToViewNumber } from "@shared";
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
@@ -75,14 +75,14 @@ export async function fetchUserVaultPositions(
       if (result.errors?.length) {
         throw new Error(
           `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
+          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+          `Errors: ${result.errors.map((e) => e.message).join("; ")}`
         );
       } else if (result.error) {
         throw new Error(
           `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-            `Error: ${result.error.message}`
+          `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
+          `Error: ${result.error.message}`
         );
       }
       return result.data;
@@ -109,15 +109,8 @@ export async function fetchExtendedMappedVaultPositions(
         userAddress: userAddress as Address,
       });
 
-      const shares = formatFetchBigIntToViewBigInt({
-        bigIntValue: undefined, // vaultPosition.shares, TODO!
-        decimals: mappedVaultDetails.asset.decimals,
-        symbol: mappedVaultDetails.asset.symbol,
-      });
-
       return {
         vaultPosition: {
-          shares,
           assetsUsd: assetBalance?.dollarAmount,
           assets: assetBalance?.tokenAmount,
         },
