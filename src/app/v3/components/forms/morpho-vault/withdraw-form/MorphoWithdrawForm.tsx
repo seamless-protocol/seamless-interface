@@ -10,12 +10,18 @@ import { useMutateWithdrawMorphoVault } from "../../../../../statev3/morpho/muta
 
 export const MorphoWithdrawForm = () => {
   const { strategy: vault } = useFormSettingsContext();
-  const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
+  const { data: vaultData, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
 
-  if (!vaultData) {
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!vaultData || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    return <div className="min-h-[1000px]" />;
+    if (error) console.error('MorphoWithdrawForm error while fetching full vault info', error);
+
+    return <div className="min-h-[300px]" />;
   }
 
   return <MoprhoVaultFormLocal vaultData={vaultData} />;
