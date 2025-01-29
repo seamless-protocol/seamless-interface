@@ -92,7 +92,7 @@ export const VaultTableDesktopRowContainer: React.FC<{
       }
       imageInfoGroup={
         <RewardsImageGroup
-          icons={(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI) as string[]) || []}
+          icons={[...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || [])]}
         />
       }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}

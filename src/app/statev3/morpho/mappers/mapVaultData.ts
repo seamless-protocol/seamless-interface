@@ -46,6 +46,6 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     feePercentage,
     collateralLogos: (collateralLogos || []) as string[],
     timelock,
-    rewards: vault.state?.rewards || undefined,
+    rewards: vault.state?.rewards ? [...vault.state.rewards] : undefined,
   };
 }
