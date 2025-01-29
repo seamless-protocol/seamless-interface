@@ -24,7 +24,6 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
   const { address: userAddress } = useAccount();
 
   return useQuery({
-    // todo
     queryKey: getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(userAddress, asset),
     queryFn: async () => {
       const result = await fetchFormattedAssetBalanceUsdValue({ userAddress, asset });
