@@ -3,6 +3,7 @@ import { MorphoAsset } from "./MorphoAsset";
 import { Curator } from "./Curator";
 import { VaultStateReward } from "./UserReward";
 
+
 export interface MappedVaultData {
   /**
    * The token data associated with the vault.
@@ -70,5 +71,5 @@ export interface MappedVaultData {
    */
   timelock?: string;
 
-  rewards?: VaultStateReward[] | undefined;
+  rewards?: VaultStateReward[];
 }

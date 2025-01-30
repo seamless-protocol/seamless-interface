@@ -46,14 +46,14 @@ export const VaultTableDesktopRowContainer: React.FC<{
       tokenAmount={
         <DisplayTokenAmount
           typography="bold3"
-          viewValue={vaultData?.data.vaultPosition?.assets.viewValue}
+          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
           {...vaultData}
         />
       }
       dollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={vaultData?.data.vaultPosition?.assetsUsd.viewValue}
+          viewValue={vaultData?.data.vaultPosition?.sharesUsd.viewValue}
           className="text-primary-600"
           isApproximate
           {...vaultData}

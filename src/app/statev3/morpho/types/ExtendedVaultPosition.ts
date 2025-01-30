@@ -3,8 +3,8 @@ import { MappedVaultData } from "./MappedFullVaultData";
 
 export interface ExtendedVaultPosition {
   vaultPosition: {
-    assetsUsd: ViewNumber;
-    assets: ViewBigInt;
+    sharesUsd: ViewNumber;
+    shares: ViewBigInt;
   }
   mappedVaultDetails: MappedVaultData;
 }

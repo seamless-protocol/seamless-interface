@@ -8,7 +8,7 @@ import { readContract } from "wagmi/actions";
 import { Address, erc20Abi } from "viem";
 import { vaultConfig } from "../../settings/config";
 import { getConfig } from "../../../utils/queryContractUtils";
-import { fetchFormattedAssetBalanceUsdValue } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { fetchAssetBalanceUsdValue } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 
 interface VaultPositionAddress {
   vault: Address;
@@ -51,25 +51,25 @@ export async function fetchExtendedMappedVaultPositions(
     rawVaultPositions.map(async (vaultPosition) => {
       const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault, chainId);
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultData.vaultByAddress, vaultDetails.vaultTokenData);
-      const assetBalance = await fetchFormattedAssetBalanceUsdValue({
+      const shareBalance = await fetchAssetBalanceUsdValue({
         asset: vaultPosition.vault,
         userAddress: userAddress as Address,
       });
 
-      const assetsUsd = formatFetchBigIntToViewBigInt({
-        ...assetBalance?.dollarAmount,
-        bigIntValue: assetBalance?.dollarAmount.bigIntValue,
+      const sharesUsd = formatFetchBigIntToViewBigInt({
+        ...shareBalance?.dollarAmount,
+        bigIntValue: shareBalance?.dollarAmount.bigIntValue,
       });
 
-      const assets = formatFetchBigIntToViewBigInt({
-        ...assetBalance?.tokenAmount,
-        bigIntValue: assetBalance?.tokenAmount.bigIntValue,
+      const shares = formatFetchBigIntToViewBigInt({
+        ...shareBalance?.tokenAmount,
+        bigIntValue: shareBalance?.tokenAmount.bigIntValue,
       });
 
       return {
         vaultPosition: {
-          assetsUsd,
-          assets,
+          sharesUsd,
+          shares,
         },
         mappedVaultDetails,
       };
@@ -77,7 +77,7 @@ export async function fetchExtendedMappedVaultPositions(
   );
 
   const totalUsdValue = extendedVaultPositions.reduce(
-    (acc, position) => acc + Number(position?.vaultPosition?.assetsUsd?.value || 0),
+    (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
     0
   );
 

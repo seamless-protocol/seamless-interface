@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryConfig } from "../../settings/queryConfig";
 import { useAccount } from "wagmi";
 import {
-  fetchFormattedAssetBalanceUsdValue,
+  fetchAssetBalanceUsdValue,
   getFormattedAssetBalanceUsdValueQueryKey,
 } from "./AssetBalanceWithUsdValue.fetch";
 import { Displayable, ViewBigIntWithUsdValue, formatFetchBigIntToViewBigInt } from "@shared";
@@ -26,7 +26,7 @@ export const useFetchFormattedAssetBalanceWithUsdValue = ({
   return useQuery({
     queryKey: getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(userAddress, asset),
     queryFn: async () => {
-      const result = await fetchFormattedAssetBalanceUsdValue({ userAddress, asset });
+      const result = await fetchAssetBalanceUsdValue({ userAddress, asset });
 
       return {
         tokenAmount: formatFetchBigIntToViewBigInt(result?.tokenAmount),
