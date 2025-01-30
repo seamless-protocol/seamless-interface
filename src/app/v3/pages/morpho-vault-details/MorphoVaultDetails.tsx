@@ -31,9 +31,10 @@ export const MorphoVaultDetails = () => {
         </FlexRow>
 
         <div>
-          <div className="mb-8">
+          <div className="mb-8 w-3/4">
             <VaultHeading vault={vault} />
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
             <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">

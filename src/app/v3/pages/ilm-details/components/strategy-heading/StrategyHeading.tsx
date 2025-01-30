@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
-import { DisplayNumber, DisplayText, FlexCol, FlexRow, Typography } from "@shared";
+import { DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 import { StrategyIncentivesButton } from "../../../../components/tooltip/AprTooltip";
@@ -10,14 +10,14 @@ export const StrategyHeading = () => {
   const { address } = useParams();
   const strategy = address as Address | undefined;
 
-  const { data: strategyData } = useFetchFullStrategyData(strategy);
+  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
   const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
 
   return (
     <FlexCol>
       <div className="flex md:flex-row flex-col-reverse md:items-center gap-4">
-        <DisplayText viewValue={strategyData?.name} typography="bold7" />
+        <DisplayText viewValue={strategyData?.name} {...strategyDataRest} typography="bold7" />
 
         <FlexRow className="md:items-center gap-4">
           <div className="flex w-auto">
@@ -38,7 +38,7 @@ export const StrategyHeading = () => {
           )}
         </FlexRow>
       </div>
-      {strategyData?.description && <Typography type="regular5">{strategyData?.description}</Typography>}
+      {strategyData?.description && <DisplayText {...strategyDataRest} typography="regular5" text={strategyData?.description} />}
     </FlexCol>
   );
 };
