@@ -49,12 +49,14 @@ export async function fetchExtendedMappedVaultPositions(
 
   const extendedVaultPositions = await Promise.all(
     rawVaultPositions.map(async (vaultPosition) => {
-      const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault, chainId);
+      const [vaultDetails, shareBalance] = await Promise.all([
+        fetchFullVaultInfo(vaultPosition.vault, chainId),
+        fetchAssetBalanceUsdValue({
+          asset: vaultPosition.vault,
+          userAddress: userAddress as Address,
+        })]);
+
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultData.vaultByAddress, vaultDetails.vaultTokenData);
-      const shareBalance = await fetchAssetBalanceUsdValue({
-        asset: vaultPosition.vault,
-        userAddress: userAddress as Address,
-      });
 
       const sharesUsd = formatFetchBigIntToViewBigInt({
         ...shareBalance?.dollarAmount,
