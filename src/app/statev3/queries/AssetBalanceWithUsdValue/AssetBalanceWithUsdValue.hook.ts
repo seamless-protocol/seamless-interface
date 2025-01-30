@@ -20,13 +20,14 @@ export const getHookFetchFormattedAssetBalanceWithUsdValueQueryKey = (userAddres
 
 export const useFetchFormattedAssetBalanceWithUsdValue = ({
   asset,
+  blockNumber
 }: AssetBalanceUsdValuePairInput): Displayable<ViewBigIntWithUsdValue | undefined> => {
   const { address: userAddress } = useAccount();
 
   return useQuery({
     queryKey: getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(userAddress, asset),
     queryFn: async () => {
-      const result = await fetchAssetBalanceUsdValue({ userAddress, asset });
+      const result = await fetchAssetBalanceUsdValue({ userAddress, asset, blockNumber });
 
       return {
         tokenAmount: formatFetchBigIntToViewBigInt(result?.tokenAmount),
