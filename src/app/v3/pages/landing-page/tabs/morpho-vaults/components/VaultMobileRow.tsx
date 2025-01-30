@@ -68,7 +68,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Performance Fee:</Typography>
-          <Typography type="bold3">{feePercentage}</Typography>
+          <DisplayPercentage viewValue={feePercentage} typography="bold3" />
         </div>
         <div className="flex justify-between items-center">
           <Typography type="regular1">Collateral:</Typography>
