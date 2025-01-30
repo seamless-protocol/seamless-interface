@@ -55,7 +55,6 @@ export const VaultTableMobileRowContainer: React.FC<{
       }
       holdingTokenAmount={
         <DisplayTokenAmount
-          typography="bold3"
           viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
           {...vaultData}
         />}
