@@ -104,7 +104,7 @@ export interface VaultConfig {
 export const vaultConfig: { [key: Address]: VaultConfig } = {
   [seamlessUSDCMorphoVault]: {
     name: "Seamless USDC Vault",
-    description: "Morpho Vault with USDC as collateral",
+    description: "The Seamless USDC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
     curator: {
       address: seamlessUSDCMorphoVault,
