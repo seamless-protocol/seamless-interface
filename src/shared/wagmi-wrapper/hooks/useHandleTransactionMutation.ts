@@ -13,7 +13,6 @@ export type SeamlessWriteAsyncParams = {
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
-  invalidateDelay?: number;
 };
 
 /**
@@ -49,12 +48,6 @@ export function useHandleTransactionMutation({
 
       // 2. throw if receipt is not valid
       if (txReceipt.status === "reverted") throw new Error("Execution reverted."); // todo: better way to handle reverted?
-
-      if (settings?.invalidateDelay) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, settings?.invalidateDelay);
-        });
-      }
 
       // 3. invalidate queries
       if (settings?.queriesToInvalidate) await invalidateMany(settings?.queriesToInvalidate);

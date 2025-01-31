@@ -14,7 +14,7 @@ export const MorphoTableButtons: React.FC<{
   return (
     <FlexRow className="gap-2 text-start cursor-default">
       <Modal
-        header="Deposit to Strategy"
+        header="Deposit to Vault"
         ref={addModal}
         size="normal"
         buttonProps={{

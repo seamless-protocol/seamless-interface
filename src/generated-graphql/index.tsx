@@ -150,10 +150,23 @@ export type CollateralAtRiskDataPoint = {
   collateralUsd: Scalars['Float']['output'];
 };
 
+/** Custom Warning Metadata */
+export type CustomMetadata = {
+  __typename?: 'CustomMetadata';
+  content?: Maybe<Scalars['String']['output']>;
+};
+
 export type FloatDataPoint = {
   __typename?: 'FloatDataPoint';
   x: Scalars['Float']['output'];
   y?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Hardcoded Price Metadata */
+export type HardcodedPriceMetadata = {
+  __typename?: 'HardcodedPriceMetadata';
+  symbolFrom?: Maybe<Scalars['String']['output']>;
+  symbolTo?: Maybe<Scalars['String']['output']>;
 };
 
 /** IRM curve data point */
@@ -1156,8 +1169,11 @@ export type MarketTransferTransactionData = {
 export type MarketWarning = {
   __typename?: 'MarketWarning';
   level: WarningLevel;
+  metadata?: Maybe<MarketWarningMetadata>;
   type: Scalars['String']['output'];
 };
+
+export type MarketWarningMetadata = CustomMetadata | HardcodedPriceMetadata;
 
 /** Morpho Blue deployment */
 export type MorphoBlue = {
@@ -2861,7 +2877,7 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
 export type NetApyHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -2911,6 +2927,17 @@ export const FullVaultInfoDocument = gql`
       fee
       timelock
       curator
+      rewards {
+        amountPerSuppliedToken
+        supplyApr
+        asset {
+          name
+          decimals
+          logoURI
+          symbol
+          address
+        }
+      }
       allocation {
         market {
           id
