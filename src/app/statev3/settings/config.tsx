@@ -13,6 +13,7 @@ import {
   cbBTCLong_3x,
   cbBTC_ADDRESS,
   seamlessUSDCMorphoVault,
+  seamlesscbBTCMorphoVault,
 } from "@meta";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
@@ -105,6 +106,16 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
   [seamlessUSDCMorphoVault]: {
     name: "Seamless USDC Vault",
     description: "The Seamless USDC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
+    type: "Vault",
+    curator: {
+      address: seamlessUSDCMorphoVault,
+      name: "Gauntlet",
+      icon: logoGauntlet,
+    },
+  },
+  [seamlesscbBTCMorphoVault]: {
+    name: "Seamless cbBTC Vault",
+    description: "The Seamless cbBTC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
     curator: {
       address: seamlessUSDCMorphoVault,
