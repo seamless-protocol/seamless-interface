@@ -3,8 +3,6 @@ import { fetchUserStrategyProfit } from "../user-strategy-profit/UserStrategyPro
 import { cUserProfitAndPortfolio, cUserProfitAndPortfolioOutput } from "./UserProfitAndPortfolio.math";
 import { fetchStrategies } from "../../queries/Strategies.hook";
 import { fetchUserVaultPositions } from "../../morpho/user-vault-positions/UserVaultPositions.fetch";
-import { base } from "viem/chains";
-import { whiteListedMorphoVaults } from "@meta";
 
 export async function fetchUserProfitAndPortfolio({
   account,
@@ -12,15 +10,15 @@ export async function fetchUserProfitAndPortfolio({
   account: Address;
 }): Promise<cUserProfitAndPortfolioOutput> {
   const strategies = await fetchStrategies();
-  const vaults = await fetchUserVaultPositions(account, whiteListedMorphoVaults, base.id);
+  const vaults = await fetchUserVaultPositions(account);
 
   const strategyObjects = strategies.map((strategy) => ({
     address: strategy,
   }));
 
   const vaultObjects =
-    vaults?.vaultPositions.items?.map((vault) => ({
-      address: vault.vault.address,
+    vaults?.map((item) => ({
+      address: item.vault,
     })) || [];
 
   const results = await Promise.all(
