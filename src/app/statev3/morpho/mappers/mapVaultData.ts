@@ -2,28 +2,13 @@ import { formatFetchBigIntToViewBigInt, formatToDisplayable, Token } from "@shar
 import { FullVaultInfoQuery } from "@generated-graphql";
 import { vaultConfig } from "../../settings/config";
 import { MappedVaultData } from "../types/MappedFullVaultData";
+import { NetApyData } from "../types/UserReward";
 
 function convertSecondsToHours(seconds: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
-
-// Add this type to your types
-export type NetApyData = {
-  netApy: string;
-  rest: string;
-  rewards: Array<{
-    asset: {
-      name: string;
-      symbol: string;
-      address: any;
-      logoURI?: string | null;
-      decimals: number;
-    };
-    totalAprPercent: string;
-  }>;
-};
 
 // Updated utility function
 function getNetApyData(
@@ -36,7 +21,7 @@ function getNetApyData(
     totalApr: number;
   }>();
 
-  let totalRewards = 0;
+  let totalRewards = 0; // todo take this from vault instead of calculating it
   const { totalAssetsUsd } = vaultState;
   if (totalAssetsUsd == null) throw new Error("totalAssetsUsd is undefined");
 
@@ -53,7 +38,6 @@ function getNetApyData(
     }
   }
 
-  console.log({ test: vaultState.allocation })
   // Process market-level rewards with weighting
   if (vaultState.allocation) {
     for (const allocation of vaultState.allocation) {

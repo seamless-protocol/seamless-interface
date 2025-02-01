@@ -40,7 +40,7 @@ export async function fetchFullVaultInfo(address: string, chainId: number) {
     client.query<FullVaultInfoQuery, FullVaultInfoQueryVariables>({
       query: FullVaultInfoDocument,
       variables: { address, chainId },
-      fetchPolicy: "cache-first",
+      fetchPolicy: "no-cache",
     }),
     fetchToken(address as Address),
   ]);

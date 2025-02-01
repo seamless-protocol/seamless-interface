@@ -111,3 +111,19 @@ export interface VaultStateReward {
     address: any;
   };
 }
+
+export type NetApyData = {
+  netApy: string;
+  rest: string;
+  // todo share asset type
+  rewards: Array<{
+    asset: {
+      name: string;
+      symbol: string;
+      address: any;
+      logoURI?: string | null;
+      decimals: number;
+    };
+    totalAprPercent: string;
+  }>;
+};
