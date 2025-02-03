@@ -22,7 +22,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   isFetched,
   isError,
 }) => {
-  if (isLoading || !isFetched) {
+  if ((isLoading != null && isLoading) || (isFetched != null && !isFetched)) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
   }
 

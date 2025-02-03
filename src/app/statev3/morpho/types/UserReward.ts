@@ -1,4 +1,4 @@
-import { FetchBigInt, Token, ViewBigInt } from "@shared";
+import { FetchBigInt, Token, ViewBigInt, ViewNumber } from "@shared";
 
 // Interfaces for API response
 export interface RewardAsset {
@@ -113,8 +113,8 @@ export interface VaultStateReward {
 }
 
 export type NetApyData = {
-  netApy: string;
-  rest: string;
+  netApy: ViewNumber;
+  rest: ViewNumber;
   // todo share asset type
   rewards: Array<{
     asset: {
@@ -124,6 +124,6 @@ export type NetApyData = {
       logoURI?: string | null;
       decimals: number;
     };
-    totalAprPercent: string;
+    totalAprPercent: ViewNumber;
   }>;
 };

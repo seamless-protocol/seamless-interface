@@ -1,10 +1,14 @@
 import { Token, ViewBigInt } from "@shared";
 import { MorphoAsset } from "./MorphoAsset";
 import { Curator } from "./Curator";
-import { VaultStateReward } from "./UserReward";
+import { NetApyData, VaultStateReward } from "./UserReward";
 
 
 export interface MappedVaultData {
+  /**
+   * The net APY data, if available.
+   */
+  netApyData?: NetApyData;
   /**
    * The token data associated with the vault.
    */

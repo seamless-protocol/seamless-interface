@@ -1,4 +1,4 @@
-import { formatFetchBigIntToViewBigInt, formatToDisplayable, Token } from "@shared";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, formatToDisplayable, Token } from "@shared";
 import { FullVaultInfoQuery } from "@generated-graphql";
 import { vaultConfig } from "../../settings/config";
 import { MappedVaultData } from "../types/MappedFullVaultData";
@@ -21,8 +21,8 @@ function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]
     }
   >();
 
-  const { totalAssetsUsd, netApy } = vaultState;
-  if (totalAssetsUsd == null) throw new Error("totalAssetsUsd is undefined");
+  const { totalAssets, netApy } = vaultState;
+  if (totalAssets == null) throw new Error("totalAssetsUsd is undefined");
   if (netApy == null) throw new Error("netApy is undefined");
 
   let totalRewards = 0;
@@ -45,16 +45,16 @@ function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]
   if (vaultState.allocation) {
     for (const allocation of vaultState.allocation) {
       const { market } = allocation;
-      const supplyAssetsUsd = allocation.supplyAssetsUsd || 0;
+      const supplyAssets = allocation.supplyAssets || 0;
 
-      if (supplyAssetsUsd <= 0 || !market.state?.rewards) continue;
+      if (supplyAssets <= 0 || !market.state?.rewards) continue;
 
       for (const reward of market.state.rewards) {
         const key = reward.asset.address;
         if (reward.supplyApr == null) throw new Error("reward.supplyApr is null");
 
         // Calculate weighted APR contribution for this market
-        const aprContribution = (reward.supplyApr * supplyAssetsUsd) / totalAssetsUsd;
+        const aprContribution = (reward.supplyApr * supplyAssets) / totalAssets;
 
         if (rewardsMap.has(key)) {
           rewardsMap.get(key)!.totalApr += aprContribution;
@@ -71,14 +71,23 @@ function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]
 
   // Calculate rest and net APY
   const restValue = netApy - totalRewards;
-  if (restValue < 0) throw new Error("restValue is negative");
+  if (restValue < 0) throw new Error("getNetApyData: restValue is negative");
 
   return {
-    netApy: formatToDisplayable(netApy * 100),
-    rest: formatToDisplayable(restValue * 100),
+    netApy: formatFetchNumberToViewNumber({
+      value: netApy * 100,
+      symbol: "%",
+    }),
+    rest: formatFetchNumberToViewNumber({
+      value: restValue * 100,
+      symbol: "%",
+    }),
     rewards: Array.from(rewardsMap.values()).map((reward) => ({
       asset: reward.asset,
-      totalAprPercent: formatToDisplayable(reward.totalApr * 100),
+      totalAprPercent: formatFetchNumberToViewNumber({
+        value: reward.totalApr * 100,
+        symbol: "%",
+      }),
     })),
   };
 }
@@ -106,9 +115,6 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     .filter((logo) => logo != null);
   const timelock = state?.timelock ? `${convertSecondsToHours(Number(state?.timelock))} Hours` : "/";
 
-  const netApyData = getNetApyData(state);
-  console.log({ netApyData });
-
   return {
     vaultTokenData,
     vaultAddress,
@@ -124,5 +130,6 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     collateralLogos: (collateralLogos || []) as string[],
     timelock,
     rewards: vault.state?.rewards ? vault.state.rewards : undefined,
+    netApyData: getNetApyData(state)
   };
 }

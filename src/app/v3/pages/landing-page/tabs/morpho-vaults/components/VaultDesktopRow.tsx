@@ -14,6 +14,11 @@ import {
 } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
+import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
+
+import chartIcon from "@assets/common/chart.svg";
+import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 
 interface VaultProps {
   name: string;
@@ -21,7 +26,7 @@ interface VaultProps {
   asset: MorphoAsset;
   totalAssets: ViewBigInt;
   totalAssetsUsd: string;
-  netApy: string;
+  netApyData?: NetApyData;
   curator?: Curator;
   feePercentage: string;
   collateralLogos: (string | undefined)[];
@@ -34,18 +39,32 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   asset,
   totalAssetsUsd,
   totalAssets,
-  netApy,
+  netApyData,
   curator,
   feePercentage,
   collateralLogos,
   hideBorder,
   selected,
 }) => {
+  const rewardsOnly = netApyData?.rewards
+    ? [...netApyData.rewards.map((reward) => ({
+      symbol: reward.asset?.symbol || "",
+      logo: reward.asset?.logoURI || "",
+      apr: reward.totalAprPercent || "0",
+    })),]
+    : [];
+  const rewardsWithRest = [
+    {
+      symbol: "Rate",
+      apr: netApyData?.rest,
+      logo: chartIcon,
+    },
+    ...rewardsOnly,]
+
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${
-        hideBorder ? "" : "border-b border-b-navy-100"
-      } ${selected ? "bg-neutral-100" : ""}`}
+      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
+        } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableCell alignItems="items-start col-span-2 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">
@@ -64,7 +83,13 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayPercentage viewValue={netApy} typography="bold3" />
+
+        <IncentivesButton rewardTokens={rewardsOnly} totalApr={netApyData?.netApy}>
+          <IncentivesDetailCard totalApr={
+            netApyData?.netApy
+          } rewardTokens={rewardsWithRest} />
+        </IncentivesButton>
+
       </TableCell>
       <TableCell className="col-span-1">
         <FlexRow className="gap-1">
