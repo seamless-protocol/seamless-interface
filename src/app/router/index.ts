@@ -43,7 +43,7 @@ export const RouterConfig = {
     ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
     ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
-    morphoVaultsTab: `${baseUrl}/#/?tab=Vaults`,
+    morphoVaultsTab: `${baseUrl}/?tab=Vaults`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
