@@ -19,7 +19,7 @@ export const fetchAllowance = async (asset: Address, spender: Address, userAddre
     }),
   ]);
 
-  if (!tokenData || allowance === undefined || allowance === null) {
+  if (!tokenData || allowance == null) {
     throw new Error("Failed to fetch token data or allowance");
   }
 
