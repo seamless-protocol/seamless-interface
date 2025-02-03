@@ -44,10 +44,7 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
     })) as VaultPositionAddress[];
 };
 
-export async function fetchExtendedMappedVaultPositions(
-  userAddress: string,
-  chainId = base.id
-) {
+export async function fetchExtendedMappedVaultPositions(userAddress: string, chainId = base.id) {
   const rawVaultPositions = await fetchUserVaultPositions(userAddress);
   if (!rawVaultPositions) return undefined;
 
@@ -58,7 +55,8 @@ export async function fetchExtendedMappedVaultPositions(
         fetchAssetBalanceUsdValue({
           asset: vaultPosition.vault,
           userAddress: userAddress as Address,
-        })]);
+        }),
+      ]);
 
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultData.vaultByAddress, vaultDetails.vaultTokenData);
 
@@ -83,7 +81,6 @@ export async function fetchExtendedMappedVaultPositions(
   );
 
   const totalUsdValue = extendedVaultPositions.reduce(
-    (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
     (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
     0
   );
