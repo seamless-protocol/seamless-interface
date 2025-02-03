@@ -10,20 +10,22 @@ function convertSecondsToHours(seconds: number) {
   return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
 
-// Updated utility function
-function getNetApyData(
-  vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]
-): NetApyData | undefined {
+function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]): NetApyData | undefined {
   if (!vaultState) return undefined;
 
-  const rewardsMap = new Map<string, {
-    asset: any;
-    totalApr: number;
-  }>();
+  const rewardsMap = new Map<
+    string,
+    {
+      asset: any;
+      totalApr: number;
+    }
+  >();
 
-  let totalRewards = 0; // todo take this from vault instead of calculating it
-  const { totalAssetsUsd } = vaultState;
+  const { totalAssetsUsd, netApy } = vaultState;
   if (totalAssetsUsd == null) throw new Error("totalAssetsUsd is undefined");
+  if (netApy == null) throw new Error("netApy is undefined");
+
+  let totalRewards = 0;
 
   // Process vault-level rewards
   if (vaultState.rewards) {
@@ -38,7 +40,8 @@ function getNetApyData(
     }
   }
 
-  // Process market-level rewards with weighting
+  // Process market-level rewards using the formula:
+  // RewardsAPY = (RewardsMarketA * AssetsAllocatedInMarketA + RewardsMarketB * AssetsAllocatedInMarketB + ...) / TotalAssetsAllocated
   if (vaultState.allocation) {
     for (const allocation of vaultState.allocation) {
       const { market } = allocation;
@@ -46,14 +49,12 @@ function getNetApyData(
 
       if (supplyAssetsUsd <= 0 || !market.state?.rewards) continue;
 
-      const weight = totalAssetsUsd > 0
-        ? supplyAssetsUsd / totalAssetsUsd
-        : 0;
-
       for (const reward of market.state.rewards) {
         const key = reward.asset.address;
         if (reward.supplyApr == null) throw new Error("reward.supplyApr is null");
-        const aprContribution = (reward.supplyApr) * weight;
+
+        // Calculate weighted APR contribution for this market
+        const aprContribution = (reward.supplyApr * supplyAssetsUsd) / totalAssetsUsd;
 
         if (rewardsMap.has(key)) {
           rewardsMap.get(key)!.totalApr += aprContribution;
@@ -69,20 +70,18 @@ function getNetApyData(
   }
 
   // Calculate rest and net APY
-  const netApyValue = vaultState.netApy || 0;
-  const restValue = netApyValue - totalRewards;
-  // if (restValue < 0) throw new Error("restValue is negative");
+  const restValue = netApy - totalRewards;
+  if (restValue < 0) throw new Error("restValue is negative");
 
   return {
-    netApy: formatToDisplayable(netApyValue * 100),
+    netApy: formatToDisplayable(netApy * 100),
     rest: formatToDisplayable(restValue * 100),
-    rewards: Array.from(rewardsMap.values()).map(reward => ({
+    rewards: Array.from(rewardsMap.values()).map((reward) => ({
       asset: reward.asset,
-      totalAprPercent: formatToDisplayable(reward.totalApr * 100)
-    }))
+      totalAprPercent: formatToDisplayable(reward.totalApr * 100),
+    })),
   };
 }
-
 
 export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultTokenData: Token): MappedVaultData {
   const config = vaultConfig[vault.address];
@@ -108,7 +107,7 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
   const timelock = state?.timelock ? `${convertSecondsToHours(Number(state?.timelock))} Hours` : "/";
 
   const netApyData = getNetApyData(state);
-  console.log({ netApyData })
+  console.log({ netApyData });
 
   return {
     vaultTokenData,
