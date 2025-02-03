@@ -46,8 +46,9 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
 }) => {
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
-        } ${selected ? "bg-neutral-100" : ""}`}
+      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${
+        hideBorder ? "" : "border-b border-b-navy-100"
+      } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableCell alignItems="items-start col-span-2 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">
@@ -61,12 +62,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         </FlexRow>
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayTokenAmount {...totalAssets} typography="bold3" />
-
-        <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
-      </TableCell>
-      <TableCell className="col-span-1">
-        <MorphoAprTooltip netApyData={netApyData} />
+        <ImageGroup images={collateralLogos} imageStyle="w-5 h-5 rounded-full" spacing="-space-x-3" />
       </TableCell>
       <TableCell className="col-span-1">
         <FlexRow className="gap-1">
@@ -78,7 +74,12 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         <DisplayPercentage viewValue={feePercentage} typography="bold3" />
       </TableCell>
       <TableCell className="col-span-1">
-        <ImageGroup images={collateralLogos} imageStyle="w-5 h-5 rounded-full" spacing="-space-x-3" />
+        <MorphoAprTooltip netApyData={netApyData} />
+      </TableCell>
+      <TableCell className="col-span-1">
+        <DisplayTokenAmount {...totalAssets} typography="bold3" />
+
+        <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
     </TableRow>
   );
