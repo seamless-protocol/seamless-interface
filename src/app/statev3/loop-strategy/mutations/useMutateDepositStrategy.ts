@@ -13,7 +13,7 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
 
   // cache data
   const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(strategy?.underlying);
-  const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
     asset: strategy?.underlying,
     spender: strategy?.address,
   });
@@ -21,10 +21,7 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     // array of query keys to invalidate, when mutation happens!
-    queriesToInvalidate: [
-      ...((accountAssetBalanceQK ?? []) as QueryKey[]),
-      ...((assetAllowanceQK ?? []) as QueryKey[]),
-    ],
+    queriesToInvalidate: [...((accountAssetBalanceQK ?? []) as QueryKey[]), assetAllowanceQK],
   });
 
   // mutation wrapper
