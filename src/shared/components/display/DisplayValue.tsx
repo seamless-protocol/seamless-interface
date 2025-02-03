@@ -19,7 +19,7 @@ export interface DisplayValueProps extends DisplayableAmount {
   };
   error?: {
     message?: string;
-  }
+  } | null;
 }
 /**
  * `DisplayValue` Component

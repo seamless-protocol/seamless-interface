@@ -4,6 +4,8 @@ import { Curator } from "./Curator";
 import { NetApyData, VaultStateReward } from "./UserReward";
 
 
+
+
 export interface MappedVaultData {
   /**
    * The net APY data, if available.

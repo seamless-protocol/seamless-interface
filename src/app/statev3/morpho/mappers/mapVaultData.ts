@@ -10,6 +10,7 @@ function convertSecondsToHours(seconds: number) {
   return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
 
+
 export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultTokenData: Token): MappedVaultData {
   const config = vaultConfig[vault.address];
   const { address: vaultAddress, name, asset, state } = vault;
@@ -49,5 +50,6 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     timelock,
     rewards: vault.state?.rewards ? vault.state.rewards : undefined,
     netApyData: getNetApyData(state)
+    rewards: vault.state?.rewards ? vault.state.rewards : undefined,
   };
 }

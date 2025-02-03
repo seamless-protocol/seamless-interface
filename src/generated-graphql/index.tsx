@@ -156,10 +156,23 @@ export type CustomMetadata = {
   content?: Maybe<Scalars['String']['output']>;
 };
 
+/** Custom Warning Metadata */
+export type CustomMetadata = {
+  __typename?: 'CustomMetadata';
+  content?: Maybe<Scalars['String']['output']>;
+};
+
 export type FloatDataPoint = {
   __typename?: 'FloatDataPoint';
   x: Scalars['Float']['output'];
   y?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Hardcoded Price Metadata */
+export type HardcodedPriceMetadata = {
+  __typename?: 'HardcodedPriceMetadata';
+  symbolFrom?: Maybe<Scalars['String']['output']>;
+  symbolTo?: Maybe<Scalars['String']['output']>;
 };
 
 /** Hardcoded Price Metadata */
@@ -1170,8 +1183,11 @@ export type MarketWarning = {
   __typename?: 'MarketWarning';
   level: WarningLevel;
   metadata?: Maybe<MarketWarningMetadata>;
+  metadata?: Maybe<MarketWarningMetadata>;
   type: Scalars['String']['output'];
 };
+
+export type MarketWarningMetadata = CustomMetadata | HardcodedPriceMetadata;
 
 export type MarketWarningMetadata = CustomMetadata | HardcodedPriceMetadata;
 
@@ -2931,6 +2947,17 @@ export const FullVaultInfoDocument = gql`
           address
         }
       }
+      rewards {
+        amountPerSuppliedToken
+        supplyApr
+        asset {
+          name
+          decimals
+          logoURI
+          symbol
+          address
+        }
+      }
       allocation {
         market {
           state {
@@ -2988,18 +3015,18 @@ export const FullVaultInfoDocument = gql`
  *   },
  * });
  */
-export function useFullVaultInfoQuery(baseOptions: Apollo.QueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables> & ({ variables: FullVaultInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
-      }
+export function useFullVaultInfoQuery(baseOptions: Apollo.QueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables> & ({ variables: FullVaultInfoQueryVariables; skip?: boolean; } | { skip: boolean; })) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+}
 export function useFullVaultInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+}
 export function useFullVaultInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FullVaultInfoQuery, FullVaultInfoQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
-        }
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FullVaultInfoQuery, FullVaultInfoQueryVariables>(FullVaultInfoDocument, options);
+}
 export type FullVaultInfoQueryHookResult = ReturnType<typeof useFullVaultInfoQuery>;
 export type FullVaultInfoLazyQueryHookResult = ReturnType<typeof useFullVaultInfoLazyQuery>;
 export type FullVaultInfoSuspenseQueryHookResult = ReturnType<typeof useFullVaultInfoSuspenseQuery>;
@@ -3050,18 +3077,18 @@ export const NetApyHistoricalDocument = gql`
  *   },
  * });
  */
-export function useNetApyHistoricalQuery(baseOptions: Apollo.QueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables> & ({ variables: NetApyHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
-      }
+export function useNetApyHistoricalQuery(baseOptions: Apollo.QueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables> & ({ variables: NetApyHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; })) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+}
 export function useNetApyHistoricalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+}
 export function useNetApyHistoricalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
-        }
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>(NetApyHistoricalDocument, options);
+}
 export type NetApyHistoricalQueryHookResult = ReturnType<typeof useNetApyHistoricalQuery>;
 export type NetApyHistoricalLazyQueryHookResult = ReturnType<typeof useNetApyHistoricalLazyQuery>;
 export type NetApyHistoricalSuspenseQueryHookResult = ReturnType<typeof useNetApyHistoricalSuspenseQuery>;
@@ -3112,18 +3139,18 @@ export const TotalAssetsHistoricalDocument = gql`
  *   },
  * });
  */
-export function useTotalAssetsHistoricalQuery(baseOptions: Apollo.QueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables> & ({ variables: TotalAssetsHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
-      }
+export function useTotalAssetsHistoricalQuery(baseOptions: Apollo.QueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables> & ({ variables: TotalAssetsHistoricalQueryVariables; skip?: boolean; } | { skip: boolean; })) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+}
 export function useTotalAssetsHistoricalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+}
 export function useTotalAssetsHistoricalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
-        }
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>(TotalAssetsHistoricalDocument, options);
+}
 export type TotalAssetsHistoricalQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalQuery>;
 export type TotalAssetsHistoricalLazyQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalLazyQuery>;
 export type TotalAssetsHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalSuspenseQuery>;

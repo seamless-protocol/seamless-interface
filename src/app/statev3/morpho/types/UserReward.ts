@@ -112,6 +112,20 @@ export interface VaultStateReward {
   };
 }
 
+export interface VaultStateReward {
+  __typename?: "VaultStateReward";
+  amountPerSuppliedToken: any;
+  supplyApr?: number | null;
+  asset: {
+    __typename?: "Asset";
+    name: string;
+    decimals: number;
+    logoURI?: string | null;
+    symbol: string;
+    address: any;
+  };
+}
+
 export type NetApyData = {
   netApy: ViewNumber;
   rest: ViewNumber;

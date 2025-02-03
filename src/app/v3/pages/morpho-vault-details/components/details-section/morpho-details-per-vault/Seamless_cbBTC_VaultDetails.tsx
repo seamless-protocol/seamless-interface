@@ -1,15 +1,19 @@
 import React from "react";
-import { FlexCol, Typography } from "@shared";
+import { DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
 import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
+import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 
-export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
+export const Seamless_cbBTC_VaultDetails: React.FC<{
   vault?: Address;
 }> = ({ vault }) => {
+  const { data, ...rest } = useFetchFormattedFullVaultInfo(vault);
+  const { feePercentage } = data || {};
+
   return (
     <FlexCol className="w-full gap-8">
       <Typography type="bold5">Vault details</Typography>
@@ -19,9 +23,9 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                The Seamless USDC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
-                streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s
-                curation approach on the Seamless Governance Forum in{" "}
+                The Seamless cbBTC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and streamlining efficiencies across various blue-chip collateral markets.
+                Dive deeper into Gauntlet&apos;s curation approach on the Seamless Governance Forum in
+                {" "}
                 <Link
                   className="underline"
                   to={getVaultSeamlessprotocolDiscourseGroupUrl(vault)}
@@ -53,9 +57,19 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
           <LocalCollapseTitle>Are there fees for using this vault?</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
-              <Typography type="regular3">
-                There is a 15% performance fee on interest collected from borrowers.
-              </Typography>
+              <FlexRow className="gap-1">
+                <Typography type="regular3">
+                  There is a {" "}
+                </Typography>
+                <DisplayPercentage
+                  viewValue={feePercentage}
+                  {...rest}
+                  typography="bold3"
+                />
+                <Typography type="regular3">
+                  performance fee on interest collected from borrowers.
+                </Typography>
+              </FlexRow>
             </div>
           </div>
         </LocalCollapseArrow>
@@ -66,6 +80,6 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
           </div>
         </LocalCollapseArrow>
       </FlexCol>
-    </FlexCol>
+    </FlexCol >
   );
 };

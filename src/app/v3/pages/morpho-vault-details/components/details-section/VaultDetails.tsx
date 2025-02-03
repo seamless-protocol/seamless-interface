@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { seamlessUSDCMorphoVault } from "@meta";
-import { Seamless_Flagship_USDC_VaultDetails } from "./morpho-details-per-vault/Seamless_Flagship_USDC_VaultDetails";
+import { seamlesscbBTCMorphoVault, seamlessUSDCMorphoVault } from "@meta";
+import { Seamless_USDC_VaultDetails } from "./morpho-details-per-vault/Seamless_USDC_VaultDetails";
+import { Seamless_cbBTC_VaultDetails } from "./morpho-details-per-vault/Seamless_cbBTC_VaultDetails";
 
 const DetailsDictionary = {
-  [seamlessUSDCMorphoVault]: Seamless_Flagship_USDC_VaultDetails,
+  [seamlessUSDCMorphoVault]: Seamless_USDC_VaultDetails,
+  [seamlesscbBTCMorphoVault]: Seamless_cbBTC_VaultDetails,
 };
 
 export const VaultDetails = () => {

@@ -25,14 +25,14 @@ export interface AssetBalanceUsdValuePairInput {
  * Non-hook version of fetching an asset balance and its USD value.
  * Uses React Query's `fetchQuery` under the hood, but no React hooks.
  */
-export async function fetchAssetBalanceUsdValue({ userAddress, asset }: AssetBalanceUsdValuePairInput) {
+export async function fetchAssetBalanceUsdValue({ userAddress, asset, blockNumber }: AssetBalanceUsdValuePairInput) {
   if (!userAddress || !asset) {
     return undefined;
   }
 
   const [assetBalance, assetPrice] = await Promise.all([
     fetchAssetBalance({ account: userAddress, asset }),
-    fetchAssetPriceInBlock(asset),
+    fetchAssetPriceInBlock(asset, blockNumber),
   ]);
 
   // 2) Convert the raw balance to a USD amount

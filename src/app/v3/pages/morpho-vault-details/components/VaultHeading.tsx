@@ -1,12 +1,12 @@
 import { Address } from "viem";
-import { DisplayText, FlexCol, Typography } from "@shared";
+import { DisplayText, FlexCol } from "@shared";
 import { useFormattedVaultInfo } from "../../landing-page/tabs/morpho-vaults/hooks/useFetchAllVaults";
 import { MorphoAprTooltip } from "../../../components/tooltip/MorphoAprTooltip";
 
 export const VaultHeading: React.FC<{
   vault?: Address;
 }> = ({ vault }) => {
-  const { data: vaultInfo, ...restVaultInfo } = useFormattedVaultInfo(vault);
+  const { data: vaultInfo, ...vaultInfoRest } = useFormattedVaultInfo(vault);
 
   return (
     <FlexCol>
@@ -14,9 +14,9 @@ export const VaultHeading: React.FC<{
         <DisplayText
           viewValue={vaultInfo?.name}
           typography="bold7"
-          {...restVaultInfo}
+          {...vaultInfoRest}
           error={{
-            message: restVaultInfo.error?.message,
+            message: vaultInfoRest.error?.message,
           }}
         />
 
@@ -26,7 +26,9 @@ export const VaultHeading: React.FC<{
           </div>
         )}
       </div>
-      {vaultInfo?.description && <Typography type="regular5">{vaultInfo?.description}</Typography>}
+      {vaultInfo?.description && <DisplayText {...vaultInfoRest} error={{
+        message: vaultInfoRest.error?.message
+      }} typography="regular5" text={vaultInfo?.description} />}
     </FlexCol>
   );
 };

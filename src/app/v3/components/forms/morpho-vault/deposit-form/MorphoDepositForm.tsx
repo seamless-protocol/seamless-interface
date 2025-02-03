@@ -10,12 +10,20 @@ import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutat
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
-  const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
+  const { data: vaultData, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
 
-  if (!vaultData) {
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!vaultData || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    return <div className="min-h-[1000px]" />;
+    if (error) console.error('MorphoDepositForm error while fetching full vault info', error);
+
+    return <div className="min-h-[300px]" >
+      <Typography type="medium3" className="text-red-600">Error while fetching full vault info: {error?.message}</Typography>
+    </div>
   }
 
   return <MoprhoDepositFormLocal vaultData={vaultData} />;

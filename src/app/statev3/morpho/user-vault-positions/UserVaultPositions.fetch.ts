@@ -30,14 +30,18 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
       args: [user as Address],
     });
 
-    if (balance && balance > 0n) {
-      return { vault: vaultAddress as Address };
-    }
-    return undefined;
+    return {
+      balance,
+      vault: vaultAddress as Address,
+    };
   });
 
   const vaultResults = await Promise.all(promises);
-  return vaultResults.filter((vault): vault is VaultPositionAddress => vault !== undefined);
+  return vaultResults
+    .filter((item) => item.balance && item.balance > 0n)
+    .map((item) => ({
+      vault: item.vault,
+    })) as VaultPositionAddress[];
 };
 
 export async function fetchExtendedMappedVaultPositions(
@@ -80,6 +84,7 @@ export async function fetchExtendedMappedVaultPositions(
 
   const totalUsdValue = extendedVaultPositions.reduce(
     (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
+    (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
     0
   );
 
@@ -92,5 +97,5 @@ export async function fetchExtendedMappedVaultPositions(
     vaultPositions: extendedVaultPositions,
     totalUsdValueViewValue,
     totalUsdValue,
-  } as ExtendedMappedVaultPositionsResult;
+  } as ExtendedMappedVaultPositionsResult as ExtendedMappedVaultPositionsResult;
 }

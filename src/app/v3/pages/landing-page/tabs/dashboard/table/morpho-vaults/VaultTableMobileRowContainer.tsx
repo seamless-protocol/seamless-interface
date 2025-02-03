@@ -19,10 +19,6 @@ export const VaultTableMobileRowContainer: React.FC<{
 
   const { data: vault, ...vaultDataRest } = vaultData;
 
-  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: vault.mappedVaultDetails.vaultAddress,
-  });
-
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });
@@ -59,14 +55,17 @@ export const VaultTableMobileRowContainer: React.FC<{
         </SignIndicatingElement>
       }
       holdingTokenAmount={
-        <DisplayTokenAmount viewValue={balanceUsdPair?.tokenAmount.viewValue} {...balanceUsdPairRest} />
-      }
+        <DisplayTokenAmount
+          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
+          {...vaultData}
+        />}
       holdingDollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={balanceUsdPair?.dollarAmount.viewValue}
-          {...balanceUsdPairRest}
+          viewValue={vaultData?.data.vaultPosition?.sharesUsd.viewValue}
           className="text-primary-600"
+          isApproximate
+          {...vaultData}
         />
       }
       buttons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}
