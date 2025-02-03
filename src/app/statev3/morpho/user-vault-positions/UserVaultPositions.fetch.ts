@@ -94,5 +94,5 @@ export async function fetchExtendedMappedVaultPositions(userAddress: string, cha
     vaultPositions: extendedVaultPositions,
     totalUsdValueViewValue,
     totalUsdValue,
-  } as ExtendedMappedVaultPositionsResult as ExtendedMappedVaultPositionsResult;
+  } as ExtendedMappedVaultPositionsResult;
 }
