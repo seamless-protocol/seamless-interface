@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { DisplayText, FlexCol, Typography } from "@shared";
 import { useFormattedVaultInfo } from "../../landing-page/tabs/morpho-vaults/hooks/useFetchAllVaults";
+import { MorphoAprTooltip } from "../../../components/tooltip/MorphoAprTooltip";
 
 export const VaultHeading: React.FC<{
   vault?: Address;
@@ -18,6 +19,12 @@ export const VaultHeading: React.FC<{
             message: restVaultInfo.error?.message,
           }}
         />
+
+        {vaultInfo && (
+          <div className="h-auto mt-[2px]">
+            <MorphoAprTooltip netApyData={vaultInfo?.netApyData} />
+          </div>
+        )}
       </div>
       {vaultInfo?.description && <Typography type="regular5">{vaultInfo?.description}</Typography>}
     </FlexCol>

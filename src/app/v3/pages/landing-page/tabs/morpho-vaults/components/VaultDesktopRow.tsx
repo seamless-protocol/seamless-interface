@@ -15,10 +15,8 @@ import {
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
 import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
-import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
 
-import chartIcon from "@assets/common/chart.svg";
-import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 
 interface VaultProps {
   name: string;
@@ -46,21 +44,6 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   hideBorder,
   selected,
 }) => {
-  const rewardsOnly = netApyData?.rewards
-    ? [...netApyData.rewards.map((reward) => ({
-      symbol: reward.asset?.symbol || "",
-      logo: reward.asset?.logoURI || "",
-      apr: reward.totalAprPercent || "0",
-    })),]
-    : [];
-  const rewardsWithRest = [
-    {
-      symbol: "Rate",
-      apr: netApyData?.rest,
-      logo: chartIcon,
-    },
-    ...rewardsOnly,]
-
   return (
     <TableRow
       className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
@@ -83,13 +66,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
-
-        <IncentivesButton rewardTokens={rewardsOnly} totalApr={netApyData?.netApy}>
-          <IncentivesDetailCard totalApr={
-            netApyData?.netApy
-          } rewardTokens={rewardsWithRest} />
-        </IncentivesButton>
-
+        <MorphoAprTooltip netApyData={netApyData} />
       </TableCell>
       <TableCell className="col-span-1">
         <FlexRow className="gap-1">

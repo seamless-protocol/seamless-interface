@@ -1,23 +1,25 @@
 import {
   Typography,
   DisplayMoney,
-  DisplayPercentage,
   ImageGroup,
   DisplayTokenAmount,
   FlexCol,
   FlexRow,
   Icon,
   ViewBigInt,
+  DisplayPercentage,
 } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
+import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 
 interface VaultProps {
   name: string;
   asset: MorphoAsset;
   totalAssetsUsd: string;
   totalAssets: ViewBigInt;
-  netApy: string;
+  netApyData?: NetApyData;
   curator?: Curator;
   feePercentage: string;
   collateralLogos: (string | undefined)[];
@@ -29,7 +31,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
   asset,
   totalAssetsUsd,
   totalAssets,
-  netApy,
+  netApyData,
   curator,
   feePercentage,
   collateralLogos,
@@ -55,9 +57,9 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
             <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
           </FlexCol>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <Typography type="regular1">Net APY:</Typography>
-          <DisplayPercentage viewValue={netApy} typography="bold3" />
+          <MorphoAprTooltip netApyData={netApyData} />
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Curator:</Typography>
@@ -68,7 +70,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Performance Fee:</Typography>
-          <Typography type="bold3">{feePercentage}</Typography>
+          <DisplayPercentage viewValue={feePercentage} typography="bold3" />
         </div>
         <div className="flex justify-between items-center">
           <Typography type="regular1">Collateral:</Typography>
