@@ -50,6 +50,5 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     timelock,
     rewards: vault.state?.rewards ? vault.state.rewards : undefined,
     netApyData: getNetApyData(state)
-    rewards: vault.state?.rewards ? vault.state.rewards : undefined,
   };
 }
