@@ -1,7 +1,41 @@
 import { Address, erc20Abi } from "viem";
-import { useAccount, useReadContract } from "wagmi";
-import { useToken } from "../meta-data-queries/useToken";
-import { mergeQueryStates } from "../../formatters/mergeQueryStates";
+import { useAccount } from "wagmi";
+import { fetchToken } from "../meta-data-queries/useToken";
+import { readContract } from "wagmi/actions";
+import { getConfig } from "../../../app/utils/queryContractUtils";
+import { useQuery } from "@tanstack/react-query";
+import { queryConfig } from "../../../app/statev3/settings/queryConfig";
+
+export const fetchAllowance = async (asset: Address, spender: Address, userAddress: Address) => {
+  const config = getConfig();
+
+  const [tokenData, allowance] = await Promise.all([
+    fetchToken(asset),
+    readContract(config, {
+      address: asset,
+      abi: erc20Abi,
+      functionName: "allowance",
+      args: [userAddress, spender],
+    }),
+  ]);
+
+  if (!tokenData || allowance == null) {
+    throw new Error("Failed to fetch token data or allowance");
+  }
+
+  return {
+    bigIntValue: allowance,
+    decimals: tokenData.decimals,
+    symbol: tokenData.symbol,
+  };
+};
+
+export const getFetchAllowanceQueryKey = (asset?: Address, spender?: Address, userAddress?: Address) => [
+  "hookFetchAllowance",
+  asset,
+  spender,
+  userAddress,
+];
 
 /**
  * Custom hook for fetching asset allowance.
@@ -12,29 +46,16 @@ import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; spender?: Address }) => {
   const account = useAccount();
 
-  const { data: tokenData, ...restToken } = useToken(asset);
-
-  const { data: allowance, ...rest } = useReadContract({
-    address: asset,
-    abi: erc20Abi,
-    functionName: "allowance",
-    args: [account.address as Address, spender!],
-    query: {
-      enabled: !!asset && !!spender && !!account.address,
-    },
+  const { data, ...rest } = useQuery({
+    queryKey: getFetchAllowanceQueryKey(asset, spender, account.address),
+    queryFn: () => fetchAllowance(asset!, spender!, account.address!),
+    enabled: !!asset && !!spender && !!account.address,
+    ...queryConfig.semiSensitiveDataQueryConfig,
   });
 
-  const retData =
-    tokenData && allowance
-      ? {
-          bigIntValue: allowance,
-          decimals: tokenData.decimals,
-          symbol: tokenData.symbol,
-        }
-      : undefined;
-
   return {
-    ...mergeQueryStates([restToken, rest]),
-    data: retData,
+    ...rest,
+    queryKey: getFetchAllowanceQueryKey(asset, spender, account.address),
+    data,
   };
 };
