@@ -1,7 +1,6 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 import { useToken } from "../meta-data-queries/useToken";
-import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 
 /**
  * Custom hook for fetching asset allowance.
@@ -12,7 +11,7 @@ import { mergeQueryStates } from "../../formatters/mergeQueryStates";
 export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; spender?: Address }) => {
   const account = useAccount();
 
-  const { data: tokenData, ...restToken } = useToken(asset);
+  const { data: tokenData } = useToken(asset);
 
   const { data: allowance, ...rest } = useReadContract({
     address: asset,
@@ -34,7 +33,7 @@ export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; sp
       : undefined;
 
   return {
-    ...mergeQueryStates([restToken, rest]),
+    ...rest,
     data: retData,
   };
 };
