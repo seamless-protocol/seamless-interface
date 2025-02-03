@@ -8,6 +8,7 @@ import { useToken } from "../meta-data-queries/useToken";
  * @param {Address} asset - The address of the ERC20 token contract.
  * @param {Address} spender - The address of the spender to check allowance for.
  */
+// todo convert this to new approach, add fetch function
 export const useFetchAssetAllowance = ({ asset, spender }: { asset?: Address; spender?: Address }) => {
   const account = useAccount();
 
