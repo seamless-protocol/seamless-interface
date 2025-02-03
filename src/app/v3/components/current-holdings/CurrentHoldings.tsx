@@ -10,6 +10,13 @@ export const CurrentHoldings: React.FC<{
 
   const { data: balance, ...balanceData } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
+    decimalsOptions: {
+      singleDigitNumberDecimals: 9,
+      doubleDigitNumberDecimals: 5,
+    },
+    options: {
+      disableCompact: true,
+    },
   });
 
   return (
