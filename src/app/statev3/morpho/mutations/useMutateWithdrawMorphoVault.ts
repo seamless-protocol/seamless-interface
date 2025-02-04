@@ -1,10 +1,4 @@
-import {
-  getParsedError,
-  SeamlessWriteAsyncParams,
-  useNotificationContext,
-  useSeamlessSendTransaction,
-  useSmartWalletCheck,
-} from "@shared";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
 import {
@@ -35,7 +29,6 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   const { address } = account;
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
-  const { isSmartWallet } = useSmartWalletCheck();
 
   /* ------------- */
   /*   Vault data  */
@@ -86,24 +79,19 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 
-      const txs = await setupBundle(
-        account,
-        simulationState,
-        [
-          {
-            type: "MetaMorpho_Withdraw",
-            sender: address as Address,
-            address: vaultAddress,
-            args: {
-              shares: args.amount,
-              owner: address as Address,
-              receiver: address as Address,
-              slippage: DEFAULT_SLIPPAGE_TOLERANCE,
-            },
+      const txs = await setupBundle(account, simulationState, [
+        {
+          type: "MetaMorpho_Withdraw",
+          sender: address as Address,
+          address: vaultAddress,
+          args: {
+            shares: args.amount,
+            owner: address as Address,
+            receiver: address as Address,
+            slippage: DEFAULT_SLIPPAGE_TOLERANCE,
           },
-        ],
-        isSmartWallet
-      );
+        },
+      ]);
 
       for (const tx of txs) {
         await sendTransactionAsync(
