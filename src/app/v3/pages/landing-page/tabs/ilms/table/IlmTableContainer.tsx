@@ -22,9 +22,6 @@ export const IlmTableContainer: React.FC<{
           <Typography type="bold1">Type</Typography>
         </TableCell>
         <TableCell className="col-span-1">
-          <Typography type="bold1">Available Supply Cap</Typography>
-        </TableCell>
-        <TableCell className="col-span-1">
           <Typography type="bold1">30d Historical Return</Typography>
         </TableCell>
         <TableCell className="col-span-1">
@@ -32,6 +29,9 @@ export const IlmTableContainer: React.FC<{
         </TableCell>
         <TableCell className="col-span-1">
           <Typography type="bold1">TVL</Typography>
+        </TableCell>
+        <TableCell className="col-span-1">
+          <Typography type="bold1">Available Supply Cap</Typography>
         </TableCell>
       </TableRow>
 
