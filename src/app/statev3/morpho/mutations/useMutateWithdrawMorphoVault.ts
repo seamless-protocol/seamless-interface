@@ -84,8 +84,6 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 
-      console.log("holding: ", simulationState.getHolding(address, vaultAddress));
-
       const txs = await setupBundle(account, simulationState, [
         {
           type: "MetaMorpho_Withdraw",
