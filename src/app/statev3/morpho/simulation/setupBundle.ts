@@ -8,7 +8,8 @@ import { base } from "viem/chains";
 export const setupBundle = async (
   account: { address: Address | undefined },
   startData: SimulationState,
-  inputOperations: InputBundlerOperation[]
+  inputOperations: InputBundlerOperation[],
+  isSmartWallet?: boolean
 ) => {
   if (!account?.address) throw new Error("Account address is not found. Please try connecting your wallet.");
 
@@ -23,7 +24,7 @@ export const setupBundle = async (
 
   const bundle = encodeBundle(operations, startData, true);
 
-  if (walletClient) {
+  if (walletClient && !isSmartWallet) {
     await Promise.all(
       bundle.requirements.signatures.map((requirement) =>
         requirement.sign(walletClient, { address: account.address } as any)
