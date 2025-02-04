@@ -1,14 +1,7 @@
-import {
-  FlexCol,
-  AuthGuardv2,
-  Buttonv2,
-  useSmartWalletCheck,
-  getApproveState,
-  useERC20Approve,
-  Typography,
-} from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useIsSmartWallet, getApproveState, useERC20Approve, Typography } from "@shared";
 import React from "react";
 import { parseUnits } from "viem";
+import { useAccount } from "wagmi";
 import { ChainId, addresses } from "@morpho-org/blue-sdk";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 
@@ -18,7 +11,8 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled, amount }) => {
-  const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useSmartWalletCheck();
+  const { address } = useAccount();
+  const { isSmartWallet, isLoading: isSmartWalletLoading, isError: isSmartWalletError } = useIsSmartWallet(address);
 
   const { bundler } = addresses[ChainId.BaseMainnet];
 
@@ -36,12 +30,11 @@ export const FormButtons: React.FC<{
     );
   }
 
-  if (isSmartWalletLoading) return null;
-  if (smartWalletError) {
+  if (isSmartWalletError) {
     return (
       <div>
         <Typography type="medium3" className="text-red-600">
-          {smartWalletError?.message}
+          {isSmartWalletError?.message}
         </Typography>
       </div>
     );
@@ -50,17 +43,19 @@ export const FormButtons: React.FC<{
   return (
     <FlexCol className="gap-2 w-full">
       {isSmartWallet && (
-        <Buttonv2
-          data-cy="approvalButton"
-          className="text-bold3"
-          disabled={isApproved}
-          loading={!isApproved && (isApproving || isLoading)}
-          onClick={async () => {
-            await approveAsync();
-          }}
-        >
-          {getApproveState(isApproved, justApproved)}
-        </Buttonv2>
+        <AuthGuardv2 message="">
+          <Buttonv2
+            data-cy="approvalButton"
+            className="text-bold3"
+            disabled={isApproved}
+            loading={!isApproved && (isApproving || isLoading)}
+            onClick={async () => {
+              await approveAsync();
+            }}
+          >
+            {getApproveState(isApproved, justApproved)}
+          </Buttonv2>
+        </AuthGuardv2>
       )}
 
       <AuthGuardv2 message="">
@@ -69,7 +64,7 @@ export const FormButtons: React.FC<{
           className="text-bold3"
           type="submit"
           disabled={(!isApproved && isSmartWallet) || isDisabled}
-          loading={isLoading}
+          loading={isLoading || isSmartWalletLoading}
         >
           Withdraw
         </Buttonv2>
