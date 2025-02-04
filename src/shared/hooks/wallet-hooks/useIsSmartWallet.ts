@@ -3,9 +3,10 @@ import { Config, useAccount, useConfig } from "wagmi";
 import { isAddress } from "viem";
 import { getPublicClient } from "wagmi/actions";
 
-async function isSmartContractWallet(address: string, config: Config) {
+async function isSmartContractWallet(config: Config, address?: string) {
   try {
     const client = getPublicClient(config);
+    if (!address) return false;
     if (!isAddress(address)) return false;
     if (!client) throw new Error("No client found");
     const code = await client.getCode({ address });
@@ -22,10 +23,9 @@ export function useSmartWalletCheck() {
   const config = useConfig();
 
   const { data: isSmartWallet, ...rest } = useQuery({
-    queryKey: ["smartWallet", address, isConnected, chainId],
+    queryKey: ["hookSmartWallet", address, isConnected, chainId],
     queryFn: async () => {
-      if (!address) return false;
-      return isSmartContractWallet(address, config);
+      return isSmartContractWallet(config, address);
     },
     enabled: !!address && isConnected,
   });

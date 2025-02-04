@@ -1,4 +1,12 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useSmartWalletCheck, getApproveState, useERC20Approve } from "@shared";
+import {
+  FlexCol,
+  AuthGuardv2,
+  Buttonv2,
+  useSmartWalletCheck,
+  getApproveState,
+  useERC20Approve,
+  Typography,
+} from "@shared";
 import React from "react";
 import { parseUnits } from "viem";
 import { ChainId, addresses } from "@morpho-org/blue-sdk";
@@ -10,14 +18,14 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled, amount }) => {
-  const { isSmartWallet } = useSmartWalletCheck();
+  const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useSmartWalletCheck();
 
   const { bundler } = addresses[ChainId.BaseMainnet];
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     vaultData.vaultAddress,
     bundler,
-    parseUnits(String(amount || 0), vaultData.asset.decimals)
+    parseUnits(String(amount || 0), vaultData.vaultTokenData.decimals)
   );
 
   if (!amount) {
@@ -25,6 +33,17 @@ export const FormButtons: React.FC<{
       <Buttonv2 className="text-bold3" disabled>
         Enter amount
       </Buttonv2>
+    );
+  }
+
+  if (isSmartWalletLoading) return null;
+  if (smartWalletError) {
+    return (
+      <div>
+        <Typography type="medium3" className="text-red-600">
+          {smartWalletError?.message}
+        </Typography>
+      </div>
     );
   }
 
