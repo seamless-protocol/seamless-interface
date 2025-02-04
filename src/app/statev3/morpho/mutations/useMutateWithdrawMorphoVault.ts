@@ -7,6 +7,7 @@ import {
   getChainAddresses as getMorphoChainAddresses,
 } from "@morpho-org/blue-sdk";
 import { QueryKey } from "@tanstack/react-query";
+import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
@@ -39,7 +40,10 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /*   Query cache keys   */
   /* -------------------- */
   const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultData.vaultByAddress.address);
-
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
+    asset: fullVaultData?.vaultData.vaultByAddress?.address,
+    spender: bundler,
+  });
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
@@ -47,6 +51,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
+      assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchUserVaultPositionsQueryKey(address),
@@ -78,6 +83,8 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
         vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
+
+      console.log("holding: ", simulationState.getHolding(address, vaultAddress));
 
       const txs = await setupBundle(account, simulationState, [
         {

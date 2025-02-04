@@ -1,25 +1,31 @@
 import { FlexCol, AuthGuardv2, Buttonv2, useIsSmartWallet, getApproveState, useERC20Approve, Typography } from "@shared";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { ChainId, addresses } from "@morpho-org/blue-sdk";
+import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
-  amount: number;
   isLoading?: boolean;
   isDisabled?: boolean;
-}> = ({ vaultData, isLoading, isDisabled, amount }) => {
-  const { address } = useAccount();
-  const { isSmartWallet, isLoading: isSmartWalletLoading, isError: isSmartWalletError } = useIsSmartWallet(address);
+}> = ({ vaultData, isLoading, isDisabled }) => {
+  const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
-  const { bundler } = addresses[ChainId.BaseMainnet];
+  const {
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext();
+  const amount = watch("amount");
+
+  const { address } = useAccount();
+  const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useIsSmartWallet(address);
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     vaultData.vaultAddress,
     bundler,
-    parseUnits(String(amount || 0), vaultData.vaultTokenData.decimals)
+    parseUnits(amount, vaultData.vaultTokenData.decimals)
   );
 
   if (!amount) {
@@ -30,11 +36,11 @@ export const FormButtons: React.FC<{
     );
   }
 
-  if (isSmartWalletError) {
+  if (smartWalletError) {
     return (
       <div>
         <Typography type="medium3" className="text-red-600">
-          {isSmartWalletError?.message}
+          {smartWalletError?.message}
         </Typography>
       </div>
     );
@@ -63,7 +69,7 @@ export const FormButtons: React.FC<{
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={(!isApproved && isSmartWallet) || isDisabled}
+          disabled={(!isApproved && isSmartWallet) || isDisabled || isSubmitting}
           loading={isLoading || isSmartWalletLoading}
         >
           Withdraw

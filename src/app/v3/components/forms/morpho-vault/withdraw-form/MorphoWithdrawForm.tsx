@@ -50,8 +50,7 @@ const MoprhoVaultFormLocal: React.FC<{
       receiveAmount: "",
     },
   });
-  const { handleSubmit, reset, watch } = methods;
-  const amount = watch("amount", "");
+  const { handleSubmit, reset } = methods;
 
   const { showNotification } = useNotificationContext();
 
@@ -103,7 +102,6 @@ const MoprhoVaultFormLocal: React.FC<{
 
         <FormButtons
           vaultData={vaultData}
-          amount={Number(amount)}
           isDisabled={isWithdrawPending}
           isLoading={isWithdrawPending}
         />
