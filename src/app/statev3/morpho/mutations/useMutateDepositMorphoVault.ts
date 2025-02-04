@@ -42,7 +42,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(
     fullVaultData?.vaultData.vaultByAddress?.asset.address
   );
-  const { queryKeys: assetAllowanceQK } = useFetchAssetAllowance({
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
     asset: fullVaultData?.vaultData.vaultByAddress?.asset.address,
     spender: bundler,
   });
@@ -54,10 +54,10 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
-      ...((assetAllowanceQK ?? []) as QueryKey[]),
+      assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
-      getHookFetchUserVaultPositionsQueryKey(address)
+      getHookFetchUserVaultPositionsQueryKey(address),
     ],
     hideDefaultErrorOnNotification: true,
   });
