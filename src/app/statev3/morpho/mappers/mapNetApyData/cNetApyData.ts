@@ -1,36 +1,6 @@
-import { FullVaultInfoQuery } from "../../../../generated-graphql";
-import { formatFetchNumberToViewNumber } from "../../../../shared";
-import { ViewRewardToken } from "../../../v3/components/tooltip/IncentivesDetailCard";
-import { NetApyData } from "../types/UserReward";
-import chartIcon from "@assets/common/chart.svg";
+import { FullVaultInfoQuery } from "../../../../../generated-graphql";
 
-export function getViewFormattedNetApyData(
-  netApyData?: NetApyData
-): { rewardsOnly: ViewRewardToken[]; rewardsWithRest: ViewRewardToken[] } {
-  if (!netApyData) {
-    return { rewardsOnly: [], rewardsWithRest: [] };
-  }
-
-  const rewardsOnly: ViewRewardToken[] =
-    netApyData.rewards?.map((reward) => ({
-      symbol: reward.asset?.symbol || "Unknown",
-      logo: reward.asset?.logoURI ?? "",
-      apr: reward.totalAprPercent,
-    })) || [];
-
-  const rewardsWithRest: ViewRewardToken[] = [
-    {
-      symbol: "Rate",
-      apr: netApyData?.rest,
-      logo: chartIcon,
-    },
-    ...rewardsOnly,
-  ];
-
-  return { rewardsOnly, rewardsWithRest };
-}
-
-export function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]): NetApyData | undefined {
+export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]) {
   if (!vaultState) return undefined;
 
   const rewardsMap = new Map<
@@ -94,20 +64,11 @@ export function getNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["
   if (restValue < 0) throw new Error("getNetApyData: restValue is negative");
 
   return {
-    netApy: formatFetchNumberToViewNumber({
-      value: netApy * 100,
-      symbol: "%",
-    }),
-    rest: formatFetchNumberToViewNumber({
-      value: restValue * 100,
-      symbol: "%",
-    }),
+    netApy: netApy * 100,
+    rest: restValue * 100,
     rewards: Array.from(rewardsMap.values()).map((reward) => ({
       asset: reward.asset,
-      totalAprPercent: formatFetchNumberToViewNumber({
-        value: reward.totalApr * 100,
-        symbol: "%",
-      }),
+      totalApr: reward.totalApr * 100,
     })),
   };
 }
