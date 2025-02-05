@@ -19,11 +19,15 @@ export const MorphoWithdrawForm = () => {
   if (!vaultData || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    if (error) console.error('MorphoWithdrawForm error while fetching full vault info', error);
+    if (error) console.error("MorphoWithdrawForm error while fetching full vault info", error);
 
-    return <div className="min-h-[300px]" >
-      <Typography type="medium3" className="text-red-600">Error while fetching full vault info: {error?.message}</Typography>
-    </div>
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full vault info: {error?.message}
+        </Typography>
+      </div>
+    );
   }
 
   return <MoprhoVaultFormLocal vaultData={vaultData} />;
@@ -46,8 +50,7 @@ const MoprhoVaultFormLocal: React.FC<{
       receiveAmount: "",
     },
   });
-  const { handleSubmit, reset, watch } = methods;
-  const amount = watch("amount", "");
+  const { handleSubmit, reset } = methods;
 
   const { showNotification } = useNotificationContext();
 
@@ -97,7 +100,11 @@ const MoprhoVaultFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons amount={Number(amount)} isDisabled={isWithdrawPending} isLoading={isWithdrawPending} />
+        <FormButtons
+          vaultData={vaultData}
+          isDisabled={isWithdrawPending}
+          isLoading={isWithdrawPending}
+        />
       </FlexCol>
     </MyFormProvider>
   );
