@@ -6,18 +6,14 @@ import { cNetApyData } from "./cNetApyData";
 
 import chartIcon from "@assets/common/chart.svg";
 
-export function getViewFormattedNetApyData(netApyData?: NetApyData): {
+export function getViewFormattedNetApyData(netApyData: NetApyData): {
   rewardsOnly: ViewRewardToken[];
   rewardsWithRest: ViewRewardToken[];
 } {
-  if (!netApyData) {
-    return { rewardsOnly: [], rewardsWithRest: [] };
-  }
-
   const rewardsOnly: ViewRewardToken[] =
     netApyData.rewards?.map((reward) => ({
       symbol: reward.asset?.symbol || "Unknown",
-      logo: reward.asset?.logoURI ?? "",
+      logo: reward.asset?.logoURI || undefined,
       apr: reward.totalAprPercent,
     })) || [];
 

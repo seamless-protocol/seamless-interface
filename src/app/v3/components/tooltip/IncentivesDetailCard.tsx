@@ -2,7 +2,7 @@ import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "@sh
 
 export interface ViewRewardToken {
   symbol: string;
-  logo: string;
+  logo?: string;
   apr: ViewNumber;
 }
 

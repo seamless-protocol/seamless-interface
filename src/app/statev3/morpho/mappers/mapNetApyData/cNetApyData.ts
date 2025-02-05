@@ -12,7 +12,7 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
   >();
 
   const { totalAssets, netApy } = vaultState;
-  if (totalAssets == null) throw new Error("totalAssetsUsd is undefined");
+  if (totalAssets == null) throw new Error("totalAssets is undefined");
   if (netApy == null) throw new Error("netApy is undefined");
 
   let totalRewards = 0;
@@ -21,7 +21,12 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
   if (vaultState.rewards) {
     for (const reward of vaultState.rewards) {
       const key = reward.asset.address;
-      const apr = reward.supplyApr || 0;
+      const apr = reward.supplyApr;
+      if (apr == null) {
+        console.error("reward.supplyApr is null", reward);
+        throw new Error("reward.supplyApr is null");
+      }
+
       rewardsMap.set(key, {
         asset: reward.asset,
         totalApr: apr,
@@ -35,7 +40,11 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
   if (vaultState.allocation) {
     for (const allocation of vaultState.allocation) {
       const { market } = allocation;
-      const supplyAssets = allocation.supplyAssets || 0;
+      const { supplyAssets } = allocation;
+      if (supplyAssets == null) {
+        console.error("supplyAssets is null", allocation);
+        throw new Error("supplyAssets is null");
+      }
 
       if (supplyAssets <= 0 || !market.state?.rewards) continue;
 
@@ -61,7 +70,7 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
 
   // Calculate rest and net APY
   const restValue = netApy - totalRewards;
-  if (restValue < 0) throw new Error("getNetApyData: restValue is negative");
+  if (restValue < -0.000001) throw new Error("getNetApyData: restValue is negative");
 
   return {
     netApy: netApy * 100,

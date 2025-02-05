@@ -7,6 +7,7 @@ import { NetApyData } from "../../../statev3/morpho/types/UserReward";
 export const MorphoAprTooltip: React.FC<{
   netApyData?: NetApyData;
 }> = ({ netApyData }) => {
+  if (!netApyData) return null;
   const { rewardsOnly, rewardsWithRest } = getViewFormattedNetApyData(netApyData);
   return (
     <IncentivesButton rewardTokens={rewardsOnly} totalApr={netApyData?.netApy}>
