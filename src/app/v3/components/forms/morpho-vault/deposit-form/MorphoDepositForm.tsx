@@ -89,7 +89,7 @@ const MoprhoDepositFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons vaultData={vaultData} isLoading={isPending} />
+        <FormButtons vaultData={vaultData} isLoading={isPending} isDisabled={isPending} />
       </FlexCol>
     </MyFormProvider>
   );

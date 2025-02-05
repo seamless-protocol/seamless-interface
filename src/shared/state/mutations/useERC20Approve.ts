@@ -86,6 +86,7 @@ export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address
       );
     } catch (e: any) {
       console.error("Error approving token:", e);
+      throw e;
     }
   };
 
