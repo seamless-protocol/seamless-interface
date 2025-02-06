@@ -1,4 +1,12 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useIsSmartWallet, getApproveState, useERC20Approve, Typography } from "@shared";
+import {
+  FlexCol,
+  AuthGuardv2,
+  Buttonv2,
+  useIsSmartWallet,
+  getApproveState,
+  useERC20Approve,
+  Typography,
+} from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
@@ -17,7 +25,7 @@ export const FormButtons: React.FC<{
     watch,
     formState: { isSubmitting },
   } = useFormContext();
-  const amount = watch("amount");
+  const amount = watch("amount", "0");
 
   const { address } = useAccount();
   const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useIsSmartWallet(address);
