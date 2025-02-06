@@ -53,6 +53,12 @@ export const ILMDesktopTableRow: React.FC<{
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
+          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
+        </TableCell>
+        <TableCell className="col-span-1">
+          <StrategyIncentivesButton strategy={strategy} />
+        </TableCell>
+        <TableCell className="col-span-1">
           <SignIndicatingElement
             noBackground
             dislayable={{
@@ -62,12 +68,6 @@ export const ILMDesktopTableRow: React.FC<{
           >
             <DisplayNumber typography="bold3" {...apy} {...apyRest} />
           </SignIndicatingElement>
-        </TableCell>
-        <TableCell className="col-span-1">
-          <StrategyIncentivesButton strategy={strategy} />
-        </TableCell>
-        <TableCell className="col-span-1">
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney

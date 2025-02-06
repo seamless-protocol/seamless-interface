@@ -62,6 +62,14 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         </FlexRow>
       </TableCell>
       <TableCell className="col-span-1">
+        <DisplayTokenAmount {...totalAssets} typography="bold3" />
+
+        <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
+      </TableCell>
+      <TableCell className="col-span-1">
+        <MorphoAprTooltip netApyData={netApyData} />
+      </TableCell>
+      <TableCell className="col-span-1">
         <FlexRow className="gap-1">
           <Icon width={12} src={curator?.icon || ""} alt="Curator Logo" />
           <Typography type="bold3">{curator?.name}</Typography>
@@ -69,14 +77,6 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
       </TableCell>
       <TableCell className="col-span-1">
         <DisplayPercentage viewValue={feePercentage} typography="bold3" />
-      </TableCell>
-      <TableCell className="col-span-1">
-        <MorphoAprTooltip netApyData={netApyData} />
-      </TableCell>
-      <TableCell className="col-span-1">
-        <DisplayTokenAmount {...totalAssets} typography="bold3" />
-
-        <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
         <ImageGroup images={collateralLogos} imageStyle="w-5 h-5 rounded-full" spacing="-space-x-3" />
