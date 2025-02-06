@@ -16,7 +16,7 @@ export const FormButtons: React.FC<{
     watch,
     formState: { isSubmitting },
   } = useFormContext();
-  const amount = watch("amount");
+  const amount = watch("amount", "0");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     vaultData.asset.address,
