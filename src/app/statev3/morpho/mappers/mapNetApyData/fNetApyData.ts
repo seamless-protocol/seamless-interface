@@ -5,6 +5,7 @@ import { NetApyData } from "../../types/UserReward";
 import { cNetApyData } from "./cNetApyData";
 
 import chartIcon from "@assets/common/chart.svg";
+import placeholderIcon from "@assets/logos/placeholder.svg";
 
 export function getViewFormattedNetApyData(netApyData: NetApyData): {
   rewardsOnly: ViewRewardToken[];
@@ -13,7 +14,7 @@ export function getViewFormattedNetApyData(netApyData: NetApyData): {
   const rewardsOnly: ViewRewardToken[] =
     netApyData.rewards?.map((reward) => ({
       symbol: reward.asset?.symbol || "Unknown",
-      logo: reward.asset?.logoURI || undefined,
+      logo: reward.asset?.logoURI || placeholderIcon,
       apr: reward.totalAprPercent,
     })) || [];
 
