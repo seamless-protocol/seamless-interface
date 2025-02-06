@@ -108,31 +108,6 @@ test("cNetApyData skips invalid allocations", () => {
   expect(result?.rewards).toHaveLength(0);
 });
 
-test("cNetApyData throws for negative rest value", () => {
-  const vaultState = {
-    totalAssets: 1000,
-    netApy: 0.05, // 5%
-    // Vault-level reward uses dummyAsset
-    rewards: [{ asset: dummyAsset, supplyApr: 0.04 }], // 4%
-    allocation: [
-      {
-        supplyAssets: 500,
-        market: {
-          state: {
-            // Allocation uses dummyAsset2
-            rewards: [{ asset: dummyAsset2, supplyApr: 0.04 }], // 4%
-          },
-        },
-      },
-    ],
-  };
-
-  // Weighted allocation reward: 0.04 * (500 / 1000) = 0.02
-  // totalRewards = 0.04 (vault-level) + 0.02 (allocation) = 0.06 (6%)
-  // netApy is 0.05 => restValue = 0.05 - 0.06 = -0.01 => negative => throw
-  expect(() => cNetApyData(vaultState as any)).toThrow("getNetApyData: restValue is negative");
-});
-
 test("cNetApyData aggregates multiple allocations correctly (different assets)", () => {
   const vaultState = {
     totalAssets: 1000,

@@ -70,7 +70,6 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
 
   // Calculate rest and net APY
   const restValue = netApy - totalRewards;
-  if (restValue < -0.000001) throw new Error("getNetApyData: restValue is negative");
 
   return {
     netApy: netApy * 100,
