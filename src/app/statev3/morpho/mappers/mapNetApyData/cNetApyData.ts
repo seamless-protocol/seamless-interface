@@ -69,11 +69,11 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
   }
 
   // Calculate rest and net APY
-  const restValue = netApy - totalRewards;
+  const nativeAPYValue = netApy - totalRewards;
 
   return {
     netApy: netApy * 100,
-    rest: restValue * 100,
+    nativeAPY: nativeAPYValue * 100,
     rewards: Array.from(rewardsMap.values()).map((reward) => ({
       asset: reward.asset,
       totalApr: reward.totalApr * 100,

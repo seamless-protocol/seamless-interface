@@ -128,7 +128,7 @@ export interface VaultStateReward {
 
 export type NetApyData = {
   netApy: ViewNumber;
-  rest: ViewNumber;
+  nativeAPY: ViewNumber;
   // todo share asset type
   rewards: Array<{
     asset: {

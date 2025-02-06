@@ -9,7 +9,7 @@ import placeholderIcon from "@assets/logos/placeholder.svg";
 
 export function getViewFormattedNetApyData(netApyData: NetApyData): {
   rewardsOnly: ViewRewardToken[];
-  rewardsWithRest: ViewRewardToken[];
+  rewardsWithNativeApy: ViewRewardToken[];
 } {
   const rewardsOnly: ViewRewardToken[] =
     netApyData.rewards?.map((reward) => ({
@@ -18,16 +18,16 @@ export function getViewFormattedNetApyData(netApyData: NetApyData): {
       apr: reward.totalAprPercent,
     })) || [];
 
-  const rewardsWithRest: ViewRewardToken[] = [
+  const rewardsWithNativeApy: ViewRewardToken[] = [
     {
       symbol: "Rate",
-      apr: netApyData?.rest,
+      apr: netApyData?.nativeAPY,
       logo: chartIcon,
     },
     ...rewardsOnly,
   ];
 
-  return { rewardsOnly, rewardsWithRest };
+  return { rewardsOnly, rewardsWithNativeApy };
 }
 
 export function fNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]): NetApyData | undefined {
@@ -39,8 +39,8 @@ export function fNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
       value: calculated.netApy,
       symbol: "%",
     }),
-    rest: formatFetchNumberToViewNumber({
-      value: calculated.rest,
+    nativeAPY: formatFetchNumberToViewNumber({
+      value: calculated.nativeAPY,
       symbol: "%",
     }),
     rewards: calculated.rewards.map((reward) => ({

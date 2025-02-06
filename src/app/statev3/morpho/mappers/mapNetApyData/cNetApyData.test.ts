@@ -27,7 +27,7 @@ test("cNetApyData calculates net APY correctly with no rewards", () => {
 
   const result = cNetApyData(vaultState as any);
   expect(result?.netApy).toBe(10); // 0.1 * 100
-  expect(result?.rest).toBe(10); // 0.1 * 100 (no rewards)
+  expect(result?.nativeAPY).toBe(10); // 0.1 * 100 (no rewards)
   expect(result?.rewards).toEqual([]);
 });
 
@@ -42,7 +42,7 @@ test("cNetApyData calculates vault-level reward correctly", () => {
 
   const result = cNetApyData(vaultState as any);
   expect(result?.netApy).toBe(10);
-  expect(result?.rest).toBe(8); // 0.1 - 0.02 = 0.08 -> 8%
+  expect(result?.nativeAPY).toBe(8); // 0.1 - 0.02 = 0.08 -> 8%
   expect(result?.rewards).toEqual([
     { asset: dummyAsset, totalApr: 2 }, // 0.02 -> 2%
   ]);
@@ -76,7 +76,7 @@ test("cNetApyData sums rewards from multiple sources (different assets)", () => 
   const result = cNetApyData(vaultState as any);
 
   expect(result?.netApy).toBeCloseTo(10, 5); // 10%
-  expect(result?.rest).toBeCloseTo(6, 5); // 6%
+  expect(result?.nativeAPY).toBeCloseTo(6, 5); // 6%
   expect(result?.rewards).toHaveLength(2);
 
   // Because they are separate assets, we'll have two distinct reward entries.
@@ -104,7 +104,7 @@ test("cNetApyData skips invalid allocations", () => {
 
   // Because supplyAssets=0, that allocation is skipped entirely, so no extra rewards.
   const result = cNetApyData(vaultState as any);
-  expect(result?.rest).toBe(10); // 0.1 * 100 = 10
+  expect(result?.nativeAPY).toBe(10); // 0.1 * 100 = 10
   expect(result?.rewards).toHaveLength(0);
 });
 
@@ -161,7 +161,7 @@ test("cNetApyData aggregates multiple allocations correctly (different assets)",
   const result = cNetApyData(vaultState as any);
 
   expect(result?.netApy).toBeCloseTo(10, 5); // 10%
-  expect(result?.rest).toBeCloseTo(4.6, 5); // 4.6%
+  expect(result?.nativeAPY).toBeCloseTo(4.6, 5); // 4.6%
   expect(result?.rewards).toHaveLength(2);
 
   expect(result?.rewards).toEqual(

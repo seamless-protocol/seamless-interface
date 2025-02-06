@@ -8,10 +8,10 @@ export const MorphoAprTooltip: React.FC<{
   netApyData?: NetApyData;
 }> = ({ netApyData }) => {
   if (!netApyData) return null;
-  const { rewardsOnly, rewardsWithRest } = getViewFormattedNetApyData(netApyData);
+  const { rewardsOnly, rewardsWithNativeApy } = getViewFormattedNetApyData(netApyData);
   return (
     <IncentivesButton rewardTokens={rewardsOnly} totalApr={netApyData?.netApy}>
-      <IncentivesDetailCard totalApr={netApyData?.netApy} rewardTokens={rewardsWithRest} />
+      <IncentivesDetailCard totalApr={netApyData?.netApy} rewardTokens={rewardsWithNativeApy} />
     </IncentivesButton>
   );
 };
