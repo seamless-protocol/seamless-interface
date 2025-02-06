@@ -39,14 +39,14 @@ export const ILMMobileTableRow: React.FC<{
           </FlexCol>
         </FlexRow>
       </FlexRow>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <div className="flex justify-between items-center">
           <Typography type="regular1">TVL:</Typography>
           <FlexCol className="items-end">
             <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
           </FlexCol>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mr-[-6px]">
           <Typography type="regular1">Rewards APR:</Typography>
           <StrategyIncentivesButton strategy={strategy} />
         </div>
