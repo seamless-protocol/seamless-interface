@@ -50,7 +50,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
       </FlexRow>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <Typography type="regular1">Total Supply:</Typography>
+          <Typography type="regular1">TVL:</Typography>
           <FlexCol className="items-end">
             <DisplayTokenAmount {...totalAssets} typography="bold3" />
 
@@ -58,7 +58,7 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
           </FlexCol>
         </div>
         <div className="flex justify-between items-center">
-          <Typography type="regular1">Net APY:</Typography>
+          <Typography type="regular1">APY:</Typography>
           <MorphoAprTooltip netApyData={netApyData} />
         </div>
         <div className="flex justify-between">
