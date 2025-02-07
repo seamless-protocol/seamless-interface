@@ -18,11 +18,11 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   totalApr,
   rewardTokens,
   children,
-  isLoading,
-  isFetched,
+  isLoading = false,
+  isFetched = true,
   isError,
 }) => {
-  if ((isLoading != null && isLoading) || (isFetched != null && !isFetched)) {
+  if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
   }
 
