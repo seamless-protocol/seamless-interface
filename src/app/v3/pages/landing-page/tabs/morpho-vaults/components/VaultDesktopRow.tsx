@@ -3,7 +3,6 @@ import {
   TableCell,
   Typography,
   DisplayMoney,
-  DisplayPercentage,
   ImageGroup,
   DisplayTokenAmount,
   DisplayText,
@@ -26,7 +25,6 @@ interface VaultProps {
   totalAssetsUsd: string;
   netApyData?: NetApyData;
   curator?: Curator;
-  feePercentage: string;
   collateralLogos: (string | undefined)[];
   hideBorder?: boolean;
   selected?: boolean;
@@ -39,14 +37,13 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   totalAssets,
   netApyData,
   curator,
-  feePercentage,
   collateralLogos,
   hideBorder,
   selected,
 }) => {
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-7 cursor-pointer items-center border-solid min-h-[148px] ${
+      className={`hidden md:grid grid-cols-6 cursor-pointer items-center border-solid min-h-[148px] ${
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
     >
@@ -74,9 +71,6 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
           <Icon width={12} src={curator?.icon || ""} alt="Curator Logo" />
           <Typography type="bold3">{curator?.name}</Typography>
         </FlexRow>
-      </TableCell>
-      <TableCell className="col-span-1">
-        <DisplayPercentage viewValue={feePercentage} typography="bold3" />
       </TableCell>
       <TableCell className="col-span-1">
         <ImageGroup images={collateralLogos} imageStyle="w-5 h-5 rounded-full" spacing="-space-x-3" />
