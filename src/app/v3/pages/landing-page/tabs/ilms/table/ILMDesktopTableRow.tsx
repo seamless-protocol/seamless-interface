@@ -53,14 +53,11 @@ export const ILMDesktopTableRow: React.FC<{
           </FlexRow>
         </TableCell>
         <TableCell className="col-span-1">
-          <DisplayMoney
-            typography="bold3"
-            className={`${!availableStrategyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
-            {...availableStrategyCap.dollarAmount}
-            {...availableStrategyCapRest}
-          />
+          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
         </TableCell>
-
+        <TableCell className="col-span-1">
+          <StrategyIncentivesButton strategy={strategy} />
+        </TableCell>
         <TableCell className="col-span-1">
           <SignIndicatingElement
             noBackground
@@ -73,10 +70,12 @@ export const ILMDesktopTableRow: React.FC<{
           </SignIndicatingElement>
         </TableCell>
         <TableCell className="col-span-1">
-          <StrategyIncentivesButton strategy={strategy} />
-        </TableCell>
-        <TableCell className="col-span-1">
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
+          <DisplayMoney
+            typography="bold3"
+            className={`${!availableStrategyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
+            {...availableStrategyCap.dollarAmount}
+            {...availableStrategyCapRest}
+          />
         </TableCell>
 
         <ChevronRightIcon width={20} className="absolute right-6" />
