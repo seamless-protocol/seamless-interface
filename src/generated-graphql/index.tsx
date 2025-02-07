@@ -2877,7 +2877,7 @@ export type FullVaultInfoQueryVariables = Exact<{
 }>;
 
 
-export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, state?: { __typename?: 'MarketState', rewards?: Array<{ __typename?: 'MarketStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
 
 export type NetApyHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -2896,13 +2896,6 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 
 
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
-
-export type UserVaultPositionsQueryVariables = Exact<{
-  where?: InputMaybe<VaultPositionFilters>;
-}>;
-
-
-export type UserVaultPositionsQuery = { __typename?: 'Query', vaultPositions: { __typename?: 'PaginatedMetaMorphoPositions', items?: Array<{ __typename?: 'VaultPosition', shares: any, assetsUsd?: number | null, assets: any, vault: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', owner: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null } }> | null } };
 
 
 export const FullVaultInfoDocument = gql`
@@ -2940,6 +2933,19 @@ export const FullVaultInfoDocument = gql`
       }
       allocation {
         market {
+          state {
+            rewards {
+              amountPerSuppliedToken
+              supplyApr
+              asset {
+                name
+                decimals
+                logoURI
+                symbol
+                address
+              }
+            }
+          }
           id
           uniqueKey
           loanAsset {
@@ -3122,72 +3128,3 @@ export type TotalAssetsHistoricalQueryHookResult = ReturnType<typeof useTotalAss
 export type TotalAssetsHistoricalLazyQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalLazyQuery>;
 export type TotalAssetsHistoricalSuspenseQueryHookResult = ReturnType<typeof useTotalAssetsHistoricalSuspenseQuery>;
 export type TotalAssetsHistoricalQueryResult = Apollo.QueryResult<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>;
-export const UserVaultPositionsDocument = gql`
-    query UserVaultPositions($where: VaultPositionFilters) {
-  vaultPositions(where: $where) {
-    items {
-      vault {
-        address
-        name
-        asset {
-          name
-          decimals
-          logoURI
-          symbol
-          address
-        }
-        state {
-          owner
-          rewards {
-            amountPerSuppliedToken
-            supplyApr
-            asset {
-              name
-              decimals
-              logoURI
-              symbol
-              address
-            }
-          }
-        }
-      }
-      shares
-      assetsUsd
-      assets
-    }
-  }
-}
-    `;
-
-/**
- * __useUserVaultPositionsQuery__
- *
- * To run a query within a React component, call `useUserVaultPositionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserVaultPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserVaultPositionsQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useUserVaultPositionsQuery(baseOptions?: Apollo.QueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
-      }
-export function useUserVaultPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
-        }
-export function useUserVaultPositionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>(UserVaultPositionsDocument, options);
-        }
-export type UserVaultPositionsQueryHookResult = ReturnType<typeof useUserVaultPositionsQuery>;
-export type UserVaultPositionsLazyQueryHookResult = ReturnType<typeof useUserVaultPositionsLazyQuery>;
-export type UserVaultPositionsSuspenseQueryHookResult = ReturnType<typeof useUserVaultPositionsSuspenseQuery>;
-export type UserVaultPositionsQueryResult = Apollo.QueryResult<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>;

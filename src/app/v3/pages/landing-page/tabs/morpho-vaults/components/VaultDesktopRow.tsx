@@ -14,6 +14,9 @@ import {
 } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
+import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+
+import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 
 interface VaultProps {
   name: string;
@@ -21,7 +24,7 @@ interface VaultProps {
   asset: MorphoAsset;
   totalAssets: ViewBigInt;
   totalAssetsUsd: string;
-  netApy: string;
+  netApyData?: NetApyData;
   curator?: Curator;
   feePercentage: string;
   collateralLogos: (string | undefined)[];
@@ -34,7 +37,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
   asset,
   totalAssetsUsd,
   totalAssets,
-  netApy,
+  netApyData,
   curator,
   feePercentage,
   collateralLogos,
@@ -64,7 +67,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
-        <DisplayPercentage viewValue={netApy} typography="bold3" />
+        <MorphoAprTooltip netApyData={netApyData} />
       </TableCell>
       <TableCell className="col-span-1">
         <FlexRow className="gap-1">

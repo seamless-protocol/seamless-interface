@@ -2,13 +2,13 @@ import { formatFetchBigIntToViewBigInt, formatToDisplayable, Token } from "@shar
 import { FullVaultInfoQuery } from "@generated-graphql";
 import { vaultConfig } from "../../settings/config";
 import { MappedVaultData } from "../types/MappedFullVaultData";
+import { fNetApyData } from "./mapNetApyData/fNetApyData";
 
 function convertSecondsToHours(seconds: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   return minutes === 0 ? `${hours}h` : `${hours}h${minutes}m`;
 }
-
 
 export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultTokenData: Token): MappedVaultData {
   const config = vaultConfig[vault.address];
@@ -48,5 +48,6 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
     collateralLogos: (collateralLogos || []) as string[],
     timelock,
     rewards: vault.state?.rewards ? vault.state.rewards : undefined,
+    netApyData: fNetApyData(state),
   };
 }

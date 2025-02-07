@@ -7,10 +7,10 @@ export const VaultsTableHeader: React.FC = () => {
         <Typography type="bold1">Name</Typography>
       </TableCell>
       <TableCell className="col-span-1">
-        <Typography type="bold1">Total Supply</Typography>
+        <Typography type="bold1">TVL</Typography>
       </TableCell>
       <TableCell className="col-span-1">
-        <Typography type="bold1">Net APY</Typography>
+        <Typography type="bold1">APY</Typography>
       </TableCell>
       <TableCell className="col-span-1">
         <Typography type="bold1">Curator</Typography>

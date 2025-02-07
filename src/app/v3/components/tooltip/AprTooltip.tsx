@@ -18,8 +18,8 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   totalApr,
   rewardTokens,
   children,
-  isLoading,
-  isFetched,
+  isLoading = false,
+  isFetched = true,
   isError,
 }) => {
   if (isLoading || !isFetched) {
@@ -31,23 +31,25 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   }
 
   return (
-    <Tooltip tooltip={children} hidden={isError}>
-      <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
-        <FlexRow className="object-cover ">
-          {rewardTokens?.map((rewardToken, index) => {
-            return (
-              <Icon
-                key={index}
-                className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
-                src={rewardToken.logo}
-                alt="reward-token-logo"
-              />
-            );
-          })}
+    <div className="flex">
+      <Tooltip tooltip={children} hidden={isError}>
+        <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
+          <FlexRow className="object-cover ">
+            {rewardTokens?.map((rewardToken, index) => {
+              return (
+                <Icon
+                  key={index}
+                  className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
+                  src={rewardToken.logo}
+                  alt="reward-token-logo"
+                />
+              );
+            })}
+          </FlexRow>
+          <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
         </FlexRow>
-        <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
-      </FlexRow>
-    </Tooltip>
+      </Tooltip>
+    </div>
   );
 };
 
