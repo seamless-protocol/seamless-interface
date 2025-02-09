@@ -8,7 +8,7 @@ dotenv.config({ path: "./.env.development" });
 export default defineConfig({
   env: {
     url: process.env.VITE_DEV_SERVER_URL,
-    private_key: "0xe30165a9c8c2a7f249f1cf04ba5f2ed8afacb762cc813a66b86c898cc806d58a", // 0x818DB96e1b5c64bBE6307c95473E313c743FF7d0
+    private_key: "0xe30165a9c8c2a7f249f1cf04ba5f2ed8afacb762cc813a66b86c898cc806d58a",
     tenderly_access_key: process.env.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY,
     tenderly_profile: process.env.VITE_CYPRESS_TEST_TENDERLY_PROFILE,
     tenderly_project: process.env.VITE_CYPRESS_TEST_TENDERLY_PROJECT,
