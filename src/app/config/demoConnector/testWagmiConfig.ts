@@ -1,18 +1,30 @@
-import { fallback, http, FallbackTransport, HttpTransport } from "viem";
-import { base } from "viem/chains";
+import { http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { base as viem_base } from "viem/chains";
 import { createConfig } from "wagmi";
-import { createTestConnector } from "./testConnector";
+import { mock } from "@wagmi/connectors";
 
 export const initTestWagmiConfig = (rpcUrl: string, privateKey: string) => {
-  const testConnector = createTestConnector(rpcUrl, privateKey);
+  const accounts = [privateKeyToAccount(privateKey as `0x${string}`).address] as const;
 
-  const fallbackTransport: FallbackTransport<[HttpTransport]> = fallback([http(rpcUrl)]);
+  const rpcUrls = {
+    rpcUrls: {
+      default: {
+        http: [rpcUrl],
+      },
+    },
+  }
+
+  const base = {
+    ...viem_base,
+    ...rpcUrls,
+  } as const;
 
   return createConfig({
-    connectors: [testConnector],
+    connectors: [mock({ accounts, features: { defaultConnected: true } })],
     chains: [base],
     transports: {
-      [base.id]: fallbackTransport,
+      [base.id]: http(),
     },
   });
 };
