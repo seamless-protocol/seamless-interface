@@ -29,7 +29,7 @@ const TestWagmiProvider: React.FC<{
   }>(PRIVATE_KEY);
 
   return (
-    <WagmiProvider config={initTestWagmiConfig(TENDERLY_RPC_URL, KEY.KEY)}>
+    <WagmiProvider config={initTestWagmiConfig(TENDERLY_RPC_URL, KEY.KEY) as any}>
       <TestWagmiAutoConnector>{children}</TestWagmiAutoConnector>
     </WagmiProvider>
   );
