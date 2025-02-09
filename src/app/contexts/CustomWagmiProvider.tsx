@@ -48,7 +48,7 @@ const TestWagmiAutoConnector: React.FC<{
   const { connect } = useConnect();
 
   useEffect(() => {
-    connect({ connector: createTestConnector(TESTNET_URL.forkUrl, KEY.KEY) });
+    connect({ connector: createTestConnector(TESTNET_URL.forkUrl, KEY.KEY) as any });
   }, [connect]);
 
   return <>{children}</>;
