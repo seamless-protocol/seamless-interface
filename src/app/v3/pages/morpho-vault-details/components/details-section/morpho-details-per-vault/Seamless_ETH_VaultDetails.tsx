@@ -9,7 +9,7 @@ import { LocalCollapseTitle } from "../../../../../components/details-section/De
 import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { DisplayTextLocal } from "../common/DisplayTextLocal";
 
-export const Seamless_cbBTC_VaultDetails: React.FC<{
+export const Seamless_ETH_VaultDetails: React.FC<{
   vault?: Address;
 }> = ({ vault }) => {
   const { data, ...rest } = useFetchFormattedFullVaultInfo(vault);
@@ -24,7 +24,7 @@ export const Seamless_cbBTC_VaultDetails: React.FC<{
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                The Seamless cbBTC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
+                The Seamless ETH Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
                 streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s
                 curation approach on the Seamless Governance Forum in{" "}
                 <Link
@@ -60,8 +60,8 @@ export const Seamless_cbBTC_VaultDetails: React.FC<{
             <div>
               <FlexRow className="gap-1">
                 <Typography type="regular3">
-                  There is a <DisplayTextLocal text={feePercentage} {...rest} />
-                  performance fee on interest collected from borrowers.
+                  There is a <DisplayTextLocal text={feePercentage} {...rest} /> performance fee on interest collected
+                  from borrowers.
                 </Typography>
               </FlexRow>
             </div>

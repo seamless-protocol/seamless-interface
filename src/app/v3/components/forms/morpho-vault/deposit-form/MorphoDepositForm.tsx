@@ -7,6 +7,8 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
+import { ALLOW_WRAP_FIELD } from "./useIsWrapping";
+import { vaultConfig } from "../../../../../statev3/settings/config";
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
@@ -19,11 +21,15 @@ export const MorphoDepositForm = () => {
   if (!vaultData || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    if (error) console.error('MorphoDepositForm error while fetching full vault info', error);
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
 
-    return <div className="min-h-[300px]" >
-      <Typography type="medium3" className="text-red-600">Error while fetching full vault info: {error?.message}</Typography>
-    </div>
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full vault info: {error?.message}
+        </Typography>
+      </div>
+    );
   }
 
   return <MoprhoDepositFormLocal vaultData={vaultData} />;
@@ -32,6 +38,7 @@ export const MorphoDepositForm = () => {
 interface FormData {
   amount: string;
   receiveAmount: string;
+  allowWrap: boolean;
 }
 
 const MoprhoDepositFormLocal: React.FC<{
@@ -44,6 +51,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
+      [ALLOW_WRAP_FIELD]: true,
     },
   });
   const { handleSubmit, reset } = methods;
@@ -56,6 +64,7 @@ const MoprhoDepositFormLocal: React.FC<{
     await depositAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
+        isWrapping: data.allowWrap && vaultConfig[vaultData.vaultAddress]?.isEthWrappable,
       },
       {
         onSuccess: (txHash) => {

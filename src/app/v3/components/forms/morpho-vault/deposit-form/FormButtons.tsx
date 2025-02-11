@@ -4,12 +4,14 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
+import { useIsWrapping } from "./useIsWrapping";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
+  const isWrapping = useIsWrapping();
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   const {
@@ -34,28 +36,30 @@ export const FormButtons: React.FC<{
 
   return (
     <FlexCol className="gap-2 w-full">
-      <AuthGuardv2 message="">
+      <AuthGuardv2>
+        {!isWrapping && (
+          <Buttonv2
+            data-cy="approvalButton"
+            className="text-bold3"
+            disabled={isApproved || isSubmitting}
+            loading={!isApproved && (isApproving || isLoading)}
+            onClick={async () => {
+              await approveAsync();
+            }}
+          >
+            {getApproveState(isApproved, justApproved)}
+          </Buttonv2>
+        )}
         <Buttonv2
-          data-cy="approvalButton"
+          data-cy="actionButton"
           className="text-bold3"
-          disabled={isApproved || isSubmitting}
-          loading={!isApproved && (isApproving || isLoading)}
-          onClick={async () => {
-            await approveAsync();
-          }}
+          type="submit"
+          disabled={(!isWrapping && !isApproved) || isSubmitting || isDisabled}
+          loading={isSubmitting || isLoading}
         >
-          {getApproveState(isApproved, justApproved)}
+          Submit
         </Buttonv2>
       </AuthGuardv2>
-      <Buttonv2
-        data-cy="actionButton"
-        className="text-bold3"
-        type="submit"
-        disabled={!isApproved || isSubmitting || isDisabled}
-        loading={isSubmitting || isLoading}
-      >
-        Submit
-      </Buttonv2>
     </FlexCol>
   );
 };

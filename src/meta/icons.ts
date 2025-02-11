@@ -1,9 +1,10 @@
-import seamLogo from "@assets/logos/logo-seamless.svg";
-import esSeamLogo from "@assets/tokens/esSeam.svg";
-import usdcLogo from "@assets/tokens/usdc.svg";
-import ogPointsLogo from "@assets/tokens/og-points.svg";
-import brettLogo from "@assets/tokens/brett.svg";
-import wethLogo from "@assets/tokens/weth.svg";
+import seamIcon from "@assets/logos/logo-seamless.svg";
+import esSeamIcon from "@assets/tokens/esSeam.svg";
+import usdcIcon from "@assets/tokens/usdc.svg";
+import ogPointsIcon from "@assets/tokens/og-points.svg";
+import brettIcon from "@assets/tokens/brett.svg";
+import wethIcon from "@assets/tokens/weth.svg";
+import ethIcon from "@assets/tokens/eth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
 import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 import cbBTCIcon from "@assets/tokens/cbBTC.svg";
@@ -26,18 +27,19 @@ import {
   cbBTC_ADDRESS,
   seamlessUSDCMorphoVault,
   seamlesscbBTCMorphoVault,
+  seamlessETHMorphoVault,
 } from "./constants";
 
 /* --------- */
 /*   Icons   */
 /* --------- */
 export const addressIconMap: Map<string, string> = new Map([
-  [SEAM_ADDRESS, seamLogo],
-  [ESSEAM_ADDRESS, esSeamLogo],
-  [OG_POINTS_ADDRESS, ogPointsLogo],
-  [USDC_ADDRESS, usdcLogo],
-  [BRETT_ADDRESS, brettLogo],
-  [WETH_ADDRESS, wethLogo],
+  [SEAM_ADDRESS, seamIcon],
+  [ESSEAM_ADDRESS, esSeamIcon],
+  [OG_POINTS_ADDRESS, ogPointsIcon],
+  [USDC_ADDRESS, usdcIcon],
+  [BRETT_ADDRESS, brettIcon],
+  [WETH_ADDRESS, wethIcon],
   [wstETHBooster_3x, wstETHIlmIcon],
   [ethLong_1_5x, ilmIcon],
   [ethLong_3x, ilmIcon],
@@ -46,6 +48,7 @@ export const addressIconMap: Map<string, string> = new Map([
   [cbBTCLong_1_5x, ilmcbBTCIcon],
   [cbBTCLong_3x, ilmcbBTCIcon],
   [cbBTC_ADDRESS, cbBTCIcon],
-  [seamlessUSDCMorphoVault, usdcLogo],
+  [seamlessUSDCMorphoVault, usdcIcon],
   [seamlesscbBTCMorphoVault, cbBTCIcon],
+  [seamlessETHMorphoVault, ethIcon],
 ]);

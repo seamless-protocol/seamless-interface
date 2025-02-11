@@ -78,9 +78,7 @@ export const cbBTCLong_3x: Address = "0xdeCF8c9D927275e8b25721d3EF16d14AC8eb8766
 // MORPHO VAULTS
 export const seamlessUSDCMorphoVault: Address = "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738";
 export const seamlesscbBTCMorphoVault: Address = "0x5a47C803488FE2BB0A0EAaf346b420e4dF22F3C7";
-
-// todo remove this, after reinvalidation brench merges
-export const whiteListedMorphoVaults = [seamlessUSDCMorphoVault, seamlesscbBTCMorphoVault];
+export const seamlessETHMorphoVault: Address = "0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1"; // todo: change with real address: 0x27D8c7273fd3fcC6956a0B370cE5Fd4A7fc65c18
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;
