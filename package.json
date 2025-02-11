@@ -73,7 +73,7 @@
     "cypress-vite": "^1.5.0",
     "daisyui": "^4.6.0",
     "dotenv-cli": "7.4.2",
-    "esbuild": "^0.16.17",
+    "esbuild": "^0.25.0",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
