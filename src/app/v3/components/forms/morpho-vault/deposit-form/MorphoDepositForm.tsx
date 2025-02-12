@@ -51,7 +51,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
-      [ALLOW_WRAP_FIELD]: vaultConfig[vaultData.vaultAddress]?.isEthWrappable,
+      [ALLOW_WRAP_FIELD]: vaultConfig[vaultData.vaultAddress]?.isEthWrappable || false,
     },
   });
   const { handleSubmit, reset } = methods;
