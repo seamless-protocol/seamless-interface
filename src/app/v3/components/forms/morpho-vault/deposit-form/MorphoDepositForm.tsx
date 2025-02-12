@@ -51,7 +51,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
-      [ALLOW_WRAP_FIELD]: true,
+      [ALLOW_WRAP_FIELD]: vaultConfig[vaultData.vaultAddress]?.isEthWrappable,
     },
   });
   const { handleSubmit, reset } = methods;
@@ -64,7 +64,7 @@ const MoprhoDepositFormLocal: React.FC<{
     await depositAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
-        isWrapping: data.allowWrap && vaultConfig[vaultData.vaultAddress]?.isEthWrappable,
+        isWrapping: data.allowWrap,
       },
       {
         onSuccess: (txHash) => {
