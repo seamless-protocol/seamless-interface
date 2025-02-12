@@ -60,8 +60,8 @@ export const Seamless_ETH_VaultDetails: React.FC<{
             <div>
               <FlexRow className="gap-1">
                 <Typography type="regular3">
-                  There is a <DisplayTextLocal text={feePercentage} {...rest} /> performance fee on interest collected
-                  from borrowers.
+                  There is a <DisplayTextLocal text={`${feePercentage}%`} {...rest} /> performance fee on interest
+                  collected from borrowers.
                 </Typography>
               </FlexRow>
             </div>
