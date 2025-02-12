@@ -100,7 +100,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         address: assetAddress,
         args: {
           amount: args.amount,
-          owner: address as Address, // or owner bundler?
+          owner: address as Address,
           slippage: DEFAULT_SLIPPAGE_TOLERANCE,
         },
       };
