@@ -1,10 +1,4 @@
-import {
-  FlexCol,
-  Typography,
-  ViewBigInt,
-  useNotificationContext,
-  ModalHandles,
-} from "@shared";
+import { FlexCol, Typography, ViewBigInt, useNotificationContext, ModalHandles } from "@shared";
 import React, { useRef } from "react";
 import { useMutateClaimAllRewards } from "../../../../../../../state/loop-strategy/mutations/useMutateClaimAllRewards";
 import { ClaimModalComponent } from "../../components/common/ClaimModalComponent";
@@ -55,7 +49,7 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards, d
       totalRewards={totalRewards}
       disabled={disabled}
       onSubmit={onSubmitAsync}
-      isPending={isPending}
+      isLoading={isPending}
     />
   );
 };
