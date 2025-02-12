@@ -173,7 +173,7 @@ export const TotalAssetsGraphComponent = () => {
     };
 
     processData();
-  }, [timeseriesOptions, showPriceInUsd]);
+  }, [timeseriesOptions, showPriceInUsd, address]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">

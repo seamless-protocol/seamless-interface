@@ -1,4 +1,4 @@
-import { ViewBigInt, ModalHandles, Token } from "@shared";
+import { ViewBigInt, ModalHandles, Token, FlexCol, Typography, useNotificationContext } from "@shared";
 import React, { useRef } from "react";
 import { ClaimModalComponent } from "../../../components/common/ClaimModalComponent";
 import { useMutateClaimAllMorphoRewards } from "../../../../../../../../statev3/morpho/user-distributions/useMutateClaimAllMorphoRewards";
@@ -17,11 +17,26 @@ interface ClaimModalProps {
 
 export const ClaimModal: React.FC<ClaimModalProps> = ({ totalUsdValue, rewards, disabled }) => {
   const modalRef = useRef<ModalHandles | null>(null);
+  const { showNotification } = useNotificationContext();
 
-  const { claimAllAsync, isPending } = useMutateClaimAllMorphoRewards();
+  const { claimAllAsync, isClaiming } = useMutateClaimAllMorphoRewards();
 
   const onSubmitAsync = async () => {
-    await claimAllAsync();
+    await claimAllAsync({
+      onSuccess: (txHash) => {
+        showNotification({
+          txHash,
+          content: (
+            <FlexCol className="w-full items-center text-center justify-center">
+              <Typography type="regular3">Rewards Claimed Successfully!</Typography>
+              <Typography type="bold">
+                Your rewards may remain visible for a few minutes while the reward data is being updated.
+              </Typography>
+            </FlexCol>
+          ),
+        });
+      },
+    });
   };
 
   return (
@@ -35,9 +50,9 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalUsdValue, rewards, 
         logo: reward.token.logo,
       }))}
       totalRewards={totalUsdValue}
-      disabled={disabled}
+      disabled={disabled || isClaiming}
       onSubmit={onSubmitAsync}
-      isPending={isPending}
+      isLoading={isClaiming}
     />
   );
 };
