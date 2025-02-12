@@ -19,8 +19,17 @@ import { NewVaultsBanner } from "./components/banner/NewVaultsBanner";
 import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
+import { Fuul } from "@fuul/sdk";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
+Fuul.getRewardDetails({
+  type: "incentive",
+  projectId: "PROJECT_ID",
+  conversion_external_id: "CONVERSION_EXTERNAL_ID",
+});
+
+Fuul.generateTrackingLink({} as any, "");
 
 export function App() {
   return (

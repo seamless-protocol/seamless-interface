@@ -25,6 +25,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
+    "@fuul/sdk": "^4.11.6",
     "@heroicons/react": "^2.1.1",
     "@lifi/widget": "3.12.1",
     "@morpho-org/blue-api-sdk": "^2.2.0",
