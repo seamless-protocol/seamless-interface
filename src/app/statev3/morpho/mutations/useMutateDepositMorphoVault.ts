@@ -17,6 +17,7 @@ import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/
 import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { InputBundlerOperation } from "@morpho-org/bundler-sdk-viem";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -81,70 +82,55 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       if (!args.amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
-      const wrappedTokenAddress = fullVaultData?.vaultData.vaultByAddress.asset.address;
-      const simulationTokens = args.isWrapping ? [NATIVE_ADDRESS, wrappedTokenAddress] : [wrappedTokenAddress];
+      const assetAddress = fullVaultData?.vaultData.vaultByAddress.asset.address;
+      const tokens = args.isWrapping ? [NATIVE_ADDRESS, assetAddress, vaultAddress] : [assetAddress, vaultAddress];
 
       const simulationState = await fetchSimulationState({
         marketIds:
           fullVaultData?.vaultData.vaultByAddress?.state?.allocation?.map((alloc) => alloc.market.uniqueKey) ?? [],
         users: [address, bundler, vaultAddress],
-        tokens: simulationTokens,
+        tokens,
         vaults: [vaultAddress],
       });
       if (!simulationState) throw new Error("Simulation failed. Please try again later.");
 
-      const txs = await setupBundle(
-        account,
-        simulationState,
-        args.isWrapping
-          ? [
-              {
-                type: "Erc20_Wrap",
-                sender: address as Address,
-                address: wrappedTokenAddress,
-                args: {
-                  amount: args.amount,
-                  owner: address as Address,
-                  slippage: DEFAULT_SLIPPAGE_TOLERANCE,
-                },
-              },
-              {
-                type: "MetaMorpho_Deposit",
-                sender: address as Address,
-                address: vaultAddress,
-                args: {
-                  assets: args.amount,
-                  owner: address as Address,
-                  slippage: DEFAULT_SLIPPAGE_TOLERANCE,
-                },
-              },
-            ]
-          : [
-              {
-                type: "MetaMorpho_Deposit",
-                sender: address as Address,
-                address: vaultAddress,
-                args: {
-                  assets: args.amount,
-                  owner: address as Address,
-                  slippage: DEFAULT_SLIPPAGE_TOLERANCE,
-                },
-              },
-            ]
-      );
+      const wrapOperation: InputBundlerOperation = {
+        type: "Erc20_Wrap",
+        sender: address as Address,
+        address: assetAddress,
+        args: {
+          amount: args.amount,
+          owner: address as Address, // or owner bundler?
+          slippage: DEFAULT_SLIPPAGE_TOLERANCE,
+        },
+      };
+      const depositOperation: InputBundlerOperation = {
+        type: "MetaMorpho_Deposit",
+        sender: address as Address,
+        address: vaultAddress,
+        args: {
+          assets: args.amount,
+          owner: address as Address,
+          slippage: DEFAULT_SLIPPAGE_TOLERANCE,
+        },
+      };
+      const operations: InputBundlerOperation[] = args.isWrapping
+        ? [wrapOperation, depositOperation]
+        : [depositOperation];
+
+      const txs = await setupBundle(account, simulationState, operations);
 
       for (const tx of txs) {
-        const txRequest: { to: Address; data: any; value?: bigint } = {
-          to: bundler,
-          data: tx.data as any,
-        };
-
-        // Only add ETH value for the wrap transaction
-        if (args.isWrapping) {
-          txRequest.value = args.amount;
-        }
-
-        await sendTransactionAsync(txRequest, { ...settings });
+        await sendTransactionAsync(
+          {
+            to: bundler,
+            data: tx.data as any,
+            // todo: is this okay? if array of transactons are returned from setupBundle,
+            // then we might not want to pass value in all of them.. can we add tx type check?
+            value: args.isWrapping ? args.amount : undefined,
+          },
+          { ...settings }
+        );
       }
     } catch (error) {
       console.error("Failed to deposit to a vault", error);
