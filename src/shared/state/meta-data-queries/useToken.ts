@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
 import { addressIconMap } from "../../../meta";
 import emptyToken from "@assets/tokens/empty-token.svg";
-import ethToken from "@assets/tokens/eth.svg";
+import ethTokenIcon from "@assets/tokens/eth.svg";
 
 export interface Token {
   symbol: string;
@@ -17,10 +17,17 @@ export interface Token {
   logo?: string;
 }
 
+export const EthTokenData: Token = {
+  symbol: "ETH",
+  decimals: 18,
+  name: "Ethereum",
+  logo: ethTokenIcon,
+};
+
 export async function fetchDecimals(token: Address): Promise<number> {
   const queryClient = getQueryClient();
 
-  if (token === zeroAddress) return 18;
+  if (token === zeroAddress) return EthTokenData.decimals;
 
   const decimals = await queryClient.fetchQuery({
     ...readContractQueryOptions(getConfig(), {
@@ -37,7 +44,7 @@ export async function fetchDecimals(token: Address): Promise<number> {
 export async function fetchSymbol(token: Address): Promise<string> {
   const queryClient = getQueryClient();
 
-  if (token === zeroAddress) return "ETH";
+  if (token === zeroAddress) return EthTokenData.symbol;
 
   const symbol = await queryClient.fetchQuery({
     ...readContractQueryOptions(getConfig(), {
@@ -54,7 +61,7 @@ export async function fetchSymbol(token: Address): Promise<string> {
 export async function fetchName(token: Address): Promise<string> {
   const queryClient = getQueryClient();
 
-  if (token === zeroAddress) return "Ethereum";
+  if (token === zeroAddress) return EthTokenData.name;
 
   const name = await queryClient.fetchQuery({
     ...readContractQueryOptions(getConfig(), {
@@ -81,7 +88,7 @@ export async function fetchName(token: Address): Promise<string> {
  */
 export async function fetchTokenLogoWithFallbacks(token: Address): Promise<string | undefined> {
   try {
-    if (token === zeroAddress) return ethToken;
+    if (token === zeroAddress) return EthTokenData.logo;
 
     const logoFromConfig = addressIconMap.get(token);
     if (logoFromConfig) return logoFromConfig;

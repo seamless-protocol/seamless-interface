@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, forwardRef } from "react";
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
-import { Typography } from "../../text/Typography/Typography"; // optional error display
+import { Typography } from "../../text/Typography/Typography";
 import { CustomCheckbox } from "../inputs/CustomCheckbox";
 
 export type RHFCheckboxFieldProps = Omit<
@@ -22,7 +22,6 @@ export const RHFCheckboxField = forwardRef<HTMLInputElement, RHFCheckboxFieldPro
         name={name}
         control={control}
         rules={rules}
-        // For a checkbox, we use the "checked" attribute. We ensure a boolean value.
         render={({ field, fieldState: { error } }) => (
           <>
             <CustomCheckbox {...field} checked={!!field.value} {...other} ref={ref} variant={variant} />
