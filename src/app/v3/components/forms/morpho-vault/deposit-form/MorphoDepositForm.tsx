@@ -51,7 +51,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
-      [DEPOSIT_NATIVE_ETH]: isWETH(vaultData.asset.address) || false,
+      [DEPOSIT_NATIVE_ETH]: isWETH(vaultData.asset.address),
     },
   });
   const { handleSubmit, reset } = methods;
