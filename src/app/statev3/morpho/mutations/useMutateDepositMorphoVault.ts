@@ -102,7 +102,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         address: assetAddress,
         args: {
           amount: args.amount,
-          owner: bundler,
+          owner: address as Address,
           slippage: DEFAULT_SLIPPAGE_TOLERANCE,
         },
       };
@@ -112,7 +112,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         address: vaultAddress,
         args: {
           assets: args.amount,
-          owner: bundler,
+          owner: address as Address,
           slippage: DEFAULT_SLIPPAGE_TOLERANCE,
         },
       };
@@ -123,16 +123,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       const txs = await setupBundle(account, simulationState, operations);
 
       for (const tx of txs) {
-        await sendTransactionAsync(
-          {
-            to: bundler,
-            data: tx.data as any,
-            // todo: is this okay? if array of transactons are returned from setupBundle,
-            // then we might not want to pass value in all of them.. can we add tx type check?
-            value: args.depositNativeETH ? args.amount : undefined,
-          },
-          { ...settings }
-        );
+        await sendTransactionAsync({ ...tx }, { ...settings });
       }
     } catch (error) {
       console.error("Failed to deposit to a vault", error);
