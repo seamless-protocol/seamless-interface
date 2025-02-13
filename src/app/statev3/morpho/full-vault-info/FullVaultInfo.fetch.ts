@@ -1,5 +1,5 @@
 import { FullVaultInfoDocument, FullVaultInfoQuery, FullVaultInfoQueryVariables } from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
+import { getMorphoApolloClient } from "../../../config/apollo-clients";
 import { Address } from "viem";
 import { fetchToken } from "@shared";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
@@ -7,7 +7,7 @@ import { queryConfig } from "../../settings/queryConfig";
 
 async function fetchFullVaultInfoFromMorphoApi(address: string, chainId: number) {
   const queryClient = getQueryClient();
-  const apolloClient = getApolloClient();
+  const apolloClient = getMorphoApolloClient();
 
   const result = await queryClient.fetchQuery({
     queryKey: ["fetchFullVaultInfoFromMorphoApi", address, chainId],
@@ -16,7 +16,7 @@ async function fetchFullVaultInfoFromMorphoApi(address: string, chainId: number)
         query: FullVaultInfoDocument,
         variables: { address, chainId },
         fetchPolicy: "no-cache",
-      })
+      });
       if (result.errors) {
         throw new Error(`Failed to fetch MorphoApi data: ${result.errors.map((e) => e.message).join("; ")}`);
       } else if (result.error) {

@@ -16,25 +16,16 @@ import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
 import { NewVaultsBanner } from "./components/banner/NewVaultsBanner";
-import { getApolloClient } from "../config/apollo-client";
+import { getMorphoApolloClient } from "../config/apollo-clients";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
-import { Fuul } from "@fuul/sdk";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
-
-Fuul.getRewardDetails({
-  type: "incentive",
-  projectId: "PROJECT_ID",
-  conversion_external_id: "CONVERSION_EXTERNAL_ID",
-});
-
-Fuul.generateTrackingLink({} as any, "");
 
 export function App() {
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
-      <ApolloProvider client={getApolloClient()}>
+      <ApolloProvider client={getMorphoApolloClient()}>
         <HashRouter>
           <QueryParamProvider adapter={ReactRouter6Adapter}>
             <NavigationBar />
