@@ -15,7 +15,7 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { zeroAddress } from "viem";
-import { useIsETHWrapping } from "./useIsWrapping";
+import { useDepositingNativeETH } from "./useIsWrapping";
 import { WrappingCheckbox } from "./WrappingCheckbox";
 import { isWETH } from "../../../../utils/utils";
 
@@ -67,7 +67,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy: vault } = useFormSettingsContext();
 
-  const isWrapping = useIsETHWrapping();
+  const isWrapping = useDepositingNativeETH();
   const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(vault);
   const underlyingAssetAddress = isWrapping ? zeroAddress : asset?.address;
 

@@ -1,6 +1,7 @@
-import { Address } from "viem";
+import { Address, isAddressEqual } from "viem";
 import { WETH_ADDRESS } from "@meta";
 
 export const isWETH = (address?: Address) => {
-  return address === WETH_ADDRESS;
+  if (!address) return false;
+  return isAddressEqual(address, WETH_ADDRESS);
 };

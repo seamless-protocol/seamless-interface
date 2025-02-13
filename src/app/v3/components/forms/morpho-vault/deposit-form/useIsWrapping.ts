@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 export const DEPOSIT_NATIVE_ETH = "depositNativeETH";
 
-export const useIsETHWrapping = () => {
+export const useDepositingNativeETH = () => {
   // *** asset *** //
   const { strategy: vault } = useFormSettingsContext();
   const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
