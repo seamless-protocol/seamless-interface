@@ -101,7 +101,6 @@ export interface VaultConfig {
   description: string;
   curator?: Curator;
   type: TagType;
-  isEthWrappable?: boolean;
 }
 
 export const vaultConfig: { [key: Address]: VaultConfig } = {
@@ -132,7 +131,6 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
     description:
       "The Seamless ETH Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
-    isEthWrappable: true,
     curator: {
       address: seamlessETHMorphoVault,
       name: "Gauntlet",

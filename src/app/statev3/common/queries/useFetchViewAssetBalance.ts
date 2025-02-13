@@ -6,16 +6,16 @@ import { ViewAssetBalance } from "../types/ViewAssetBalance";
 import { readContractQueryOptions } from "wagmi/query";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { getConfig } from "../../../utils/queryContractUtils";
-import { getPublicClient } from "wagmi/actions";
+import { getBalance } from "wagmi/actions";
 import { useQuery } from "@tanstack/react-query";
 
 async function _fetchBalance(address: Address, account: Address) {
   if (address === zeroAddress) {
     const config = getConfig();
-    const publicClient = getPublicClient(config);
-    if (!publicClient) throw new Error("Public client not found");
-    const result = await publicClient.getBalance({ address: account });
-    return result;
+    const result = await getBalance(config, {
+      address: account,
+    });
+    return result.value;
   }
   const queryClient = getQueryClient();
 

@@ -7,8 +7,8 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
-import { ALLOW_WRAP_FIELD } from "./useIsWrapping";
-import { vaultConfig } from "../../../../../statev3/settings/config";
+import { DEPOSIT_NATIVE_ETH } from "./useIsWrapping";
+import { isWETH } from "../../../../utils/utils";
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
@@ -38,7 +38,7 @@ export const MorphoDepositForm = () => {
 interface FormData {
   amount: string;
   receiveAmount: string;
-  allowWrap: boolean;
+  depositNativeETH: boolean;
 }
 
 const MoprhoDepositFormLocal: React.FC<{
@@ -51,7 +51,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
-      [ALLOW_WRAP_FIELD]: vaultConfig[vaultData.vaultAddress]?.isEthWrappable || false,
+      [DEPOSIT_NATIVE_ETH]: isWETH(vaultData.asset.address) || false,
     },
   });
   const { handleSubmit, reset } = methods;
@@ -64,7 +64,7 @@ const MoprhoDepositFormLocal: React.FC<{
     await depositAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
-        isWrapping: data.allowWrap,
+        depositNativeETH: data.depositNativeETH,
       },
       {
         onSuccess: (txHash) => {

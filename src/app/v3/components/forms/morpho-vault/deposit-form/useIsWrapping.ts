@@ -1,19 +1,21 @@
-import { vaultConfig } from "../../../../../statev3/settings/config";
+import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { isWETH } from "../../../../utils/utils";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFormContext } from "react-hook-form";
 
-export const ALLOW_WRAP_FIELD = "allowWrap";
+export const DEPOSIT_NATIVE_ETH = "depositNativeETH";
 
-export const useIsWrapping = () => {
+export const useIsETHWrapping = () => {
   // *** asset *** //
   const { strategy: vault } = useFormSettingsContext();
+  const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
 
   // *** form functions *** //
   const { watch } = useFormContext();
-  const allowWrap = watch(ALLOW_WRAP_FIELD);
+  const depositNativeETH = watch(DEPOSIT_NATIVE_ETH);
 
   // *** logic *** //
-  if (vault && vaultConfig[vault]?.isEthWrappable && allowWrap) {
+  if (isWETH(vaultData?.asset.address) && depositNativeETH) {
     return true;
   }
 

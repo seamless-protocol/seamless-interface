@@ -14,10 +14,10 @@ import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/Asse
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { vaultConfig } from "../../../../../statev3/settings/config";
 import { zeroAddress } from "viem";
-import { useIsWrapping } from "./useIsWrapping";
+import { useIsETHWrapping } from "./useIsWrapping";
 import { WrappingCheckbox } from "./WrappingCheckbox";
+import { isWETH } from "../../../../utils/utils";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -67,7 +67,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy: vault } = useFormSettingsContext();
 
-  const isWrapping = useIsWrapping();
+  const isWrapping = useIsETHWrapping();
   const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(vault);
   const underlyingAssetAddress = isWrapping ? zeroAddress : asset?.address;
 
@@ -126,7 +126,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
         tokenData={{ ...tokenData }}
       />
 
-      {vault && vaultConfig[vault]?.isEthWrappable && <WrappingCheckbox />}
+      {isWETH(asset?.address) && <WrappingCheckbox />}
     </FlexCol>
   );
 }

@@ -71,7 +71,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     // ui arguments
     args: {
       amount: bigint | undefined;
-      isWrapping?: boolean;
+      depositNativeETH?: boolean;
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
@@ -83,7 +83,9 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
       const assetAddress = fullVaultData?.vaultData.vaultByAddress.asset.address;
-      const tokens = args.isWrapping ? [NATIVE_ADDRESS, assetAddress, vaultAddress] : [assetAddress, vaultAddress];
+      const tokens = args.depositNativeETH
+        ? [NATIVE_ADDRESS, assetAddress, vaultAddress]
+        : [assetAddress, vaultAddress];
 
       const simulationState = await fetchSimulationState({
         marketIds:
@@ -100,7 +102,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         address: assetAddress,
         args: {
           amount: args.amount,
-          owner: address as Address,
+          owner: bundler,
           slippage: DEFAULT_SLIPPAGE_TOLERANCE,
         },
       };
@@ -110,11 +112,11 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
         address: vaultAddress,
         args: {
           assets: args.amount,
-          owner: address as Address,
+          owner: bundler,
           slippage: DEFAULT_SLIPPAGE_TOLERANCE,
         },
       };
-      const operations: InputBundlerOperation[] = args.isWrapping
+      const operations: InputBundlerOperation[] = args.depositNativeETH
         ? [wrapOperation, depositOperation]
         : [depositOperation];
 
@@ -127,7 +129,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
             data: tx.data as any,
             // todo: is this okay? if array of transactons are returned from setupBundle,
             // then we might not want to pass value in all of them.. can we add tx type check?
-            value: args.isWrapping ? args.amount : undefined,
+            value: args.depositNativeETH ? args.amount : undefined,
           },
           { ...settings }
         );

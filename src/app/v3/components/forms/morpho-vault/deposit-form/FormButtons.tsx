@@ -4,14 +4,14 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
-import { useIsWrapping } from "./useIsWrapping";
+import { useIsETHWrapping } from "./useIsWrapping";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
-  const isWrapping = useIsWrapping();
+  const isWrapping = useIsETHWrapping();
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   const {
