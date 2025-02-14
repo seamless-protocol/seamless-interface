@@ -7,7 +7,7 @@ import { cMaxUserDeposit } from "./cMaxUserDeposit.math";
 export const fetchMaxUserDeposit = async (address: Address, underlyingAddress: Address, userAddress: Address) => {
   const [token, maxDeposit, assetBalance] = await Promise.all([
     fetchToken(underlyingAddress),
-    fetchMaxDeposit(address),
+    fetchMaxDeposit(address, underlyingAddress),
     fetchAssetBalance(underlyingAddress, userAddress),
   ]);
 
