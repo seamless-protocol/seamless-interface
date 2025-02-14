@@ -16,10 +16,10 @@ export const cMaxUserDeposit = (maxDeposit?: FetchBigInt, assetBalance?: FetchBi
   const maxDepositValue = maxDeposit?.bigIntValue as bigint;
   const assetBalanceValue = assetBalance?.bigIntValue as bigint;
 
-  // adjust decimals of both values to 18
-  const adjustDecimalsNumber = 18;
-  const normalizedMaxDeposit = adjustDecimals(maxDepositValue, maxDeposit.decimals, adjustDecimalsNumber);
-  const normalizedAssetBalance = adjustDecimals(assetBalanceValue, assetBalance.decimals, adjustDecimalsNumber);
+  // adjust decimals of both values to higher one, for comparison
+  const higherDecimalNumber = maxDeposit.decimals > assetBalance.decimals ? maxDeposit.decimals : assetBalance.decimals;
+  const normalizedMaxDeposit = adjustDecimals(maxDepositValue, maxDeposit.decimals, higherDecimalNumber);
+  const normalizedAssetBalance = adjustDecimals(assetBalanceValue, assetBalance.decimals, higherDecimalNumber);
 
-  return normalizedMaxDeposit > normalizedAssetBalance ? normalizedAssetBalance : normalizedMaxDeposit;
+  return normalizedMaxDeposit > normalizedAssetBalance ? assetBalanceValue : maxDepositValue;
 };
