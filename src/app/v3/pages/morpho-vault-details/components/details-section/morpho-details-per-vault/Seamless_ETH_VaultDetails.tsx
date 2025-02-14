@@ -24,7 +24,7 @@ export const Seamless_ETH_VaultDetails: React.FC<{
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                The Seamless ETH Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
+                The Seamless WETH Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
                 streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s
                 curation approach on the Seamless Governance Forum in{" "}
                 <Link

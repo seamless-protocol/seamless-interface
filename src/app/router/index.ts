@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { seamlesscbBTCMorphoVault, seamlessUSDCMorphoVault } from "@meta";
+import { seamlesscbBTCMorphoVault, seamlessETHMorphoVault, seamlessUSDCMorphoVault } from "@meta";
 
 const baseUrl = "";
 
@@ -61,6 +61,7 @@ export const RouterConfig = {
 const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } = {
   [seamlessUSDCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-usdc-vaults/770",
   [seamlesscbBTCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-the-seamless-cbbtc-vault/819/",
+  [seamlessETHMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-weth-vault/864",
 };
 
 export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {
