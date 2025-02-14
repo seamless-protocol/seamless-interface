@@ -18,6 +18,7 @@ import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { InputBundlerOperation } from "@morpho-org/bundler-sdk-viem";
+import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -37,15 +38,14 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /*   Vault data  */
   /* ------------- */
   const { data: fullVaultData } = useFetchRawFullVaultInfo(vaultAddress);
+  const underlyingAsset = fullVaultData?.vaultData.vaultByAddress.address;
 
   /* -------------------- */
   /*   Query cache keys   */
   /* -------------------- */
-  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(
-    fullVaultData?.vaultData.vaultByAddress?.asset.address
-  );
+  const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(underlyingAsset);
   const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
-    asset: fullVaultData?.vaultData.vaultByAddress?.asset.address,
+    asset: underlyingAsset,
     spender: bundler,
   });
 
@@ -57,9 +57,10 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
       assetAllowanceQK,
-      getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
-      getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
+      getFormattedAssetBalanceUsdValueQueryKey(address, underlyingAsset),
+      getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, underlyingAsset),
       getHookFetchUserVaultPositionsQueryKey(address),
+      getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
     hideDefaultErrorOnNotification: true,
   });

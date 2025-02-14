@@ -39,11 +39,11 @@ declare global {
       /**
        * Sets up the anvil test environment by initializing the blockchain state
        */
-      setupAnvilTestEnvironment(testBalanceData: IBalanceConfig): void;
+      setupAnvilTestEnvironment(testBalanceData?: IBalanceConfig): void;
       /**
        * Sets up the tenderly test environment by initializing the blockchain state
        */
-      setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig): void;
+      setupTenderlyTestEnvironment(balanceConfig?: IBalanceConfig): void;
 
       /**
        * Performs a deposit action
@@ -52,6 +52,7 @@ declare global {
        * @param hasApproval boolean Whether approval is required
        * @param isMaxAmount boolean optional Whether to deposit the max amount
        * @param shouldErrorBeThrown boolean optional Whether to check if error is present in UI
+       * @param depositNativeETH boolean optional Whether to deposit native ETH instea of WETH
        * @example cy.deposit({ address: '0x...', amount: 100, hasApproval: true })
        */
       deposit(params: {
@@ -61,6 +62,7 @@ declare global {
         isMaxAmount?: boolean;
         shouldErrorBeThrown?: boolean;
         tab?: string;
+        depositNativeETH?: boolean;
       }): void;
 
       /**
@@ -112,7 +114,15 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
 });
 Cypress.Commands.add(
   "deposit",
-  ({ address, amount, hasApproval = true, isMaxAmount = false, shouldErrorBeThrown = false, tab }) => {
+  ({
+    address,
+    amount,
+    hasApproval = true,
+    isMaxAmount = false,
+    shouldErrorBeThrown = false,
+    tab,
+    depositNativeETH,
+  }) => {
     cy.log(`Starting deposit for address: ${address}`);
 
     if (tab) {
@@ -120,6 +130,21 @@ Cypress.Commands.add(
     }
     // *** Navigate *** //
     cy.get(`[data-cy='table-row-${address}']`, { timeout: TimeOuts.otherTimeout }).click();
+
+    // *** Handle depositNativeETH switch/button if provided *** //
+    if (depositNativeETH != null) {
+      if (depositNativeETH === false) {
+        // If depositNativeETH is false, click the switch/button.
+        cy.get("[data-cy='depositNativeETH']").click();
+      } else {
+        // If depositNativeETH is true, assert that the button exists (but don't click it).
+        cy.get("[data-cy='depositNativeETH']").should("exist");
+      }
+    } else {
+      // If depositNativeETH is undefined, assert that the button does not exist.
+      cy.get("[data-cy='depositNativeETH']").should("not.exist");
+    }
+
     // *** Set amount *** //
     cy.setAmount(amount, isMaxAmount);
     // *** Submit form *** //
@@ -209,7 +234,7 @@ Cypress.Commands.add("validateAmountInputs", (checkValues?: boolean) => {
 /* ------------- */
 /*   Setup env   */
 /* ------------- */
-Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig) => {
+Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig?: IBalanceConfig) => {
   const forkUrl = anvilForkUrl;
 
   localStorage.setItem(LOCALSTORAGE_IS_TEST_MODE_KEY, "true");
@@ -226,15 +251,17 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
     });
 
     // Set up balances and other test states
-    await anvilSetErc20Balance({
-      address: balanceConfig.account,
-      tokenAddress: balanceConfig.tokenAddress,
-      value: balanceConfig.balance,
-    });
+    if (balanceConfig) {
+      await anvilSetErc20Balance({
+        address: balanceConfig.account,
+        tokenAddress: balanceConfig.tokenAddress,
+        value: balanceConfig.balance,
+      });
+    }
   });
 });
 
-Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig) => {
+Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig?: IBalanceConfig) => {
   cy.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
@@ -248,7 +275,9 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceCon
 
     await tenderlyFundAccount(forkUrl);
 
-    await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
+    if (balanceConfig) {
+      await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
+    }
   });
 });
 

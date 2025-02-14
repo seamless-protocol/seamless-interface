@@ -15,9 +15,10 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { zeroAddress } from "viem";
-import { useDepositingNativeETH } from "./useIsWrapping";
+import { useDepositingNativeETH } from "./useDepositingNativeETH";
 import { WrappingCheckbox } from "./WrappingCheckbox";
 import { isWETH } from "../../../../utils/utils";
+import { useFetchViewMaxUserDeposit } from "../../../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -67,9 +68,9 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy: vault } = useFormSettingsContext();
 
-  const isWrapping = useDepositingNativeETH();
+  const depositNativeETH = useDepositingNativeETH();
   const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(vault);
-  const underlyingAssetAddress = isWrapping ? zeroAddress : asset?.address;
+  const underlyingAssetAddress = depositNativeETH ? zeroAddress : asset?.address;
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -79,8 +80,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const tokenData = useToken(underlyingAssetAddress);
 
   // *** max *** //
-  // todo implement hook for vault
-  // const maxUserDepositData = useFetchViewMaxUserDeposit(vault);
+  const maxUserDepositData = useFetchViewMaxUserDeposit(vault, depositNativeETH ? zeroAddress : underlyingAssetAddress);
 
   // *** price *** //
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(asset?.address);
@@ -118,10 +118,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
           },
         }}
         protocolMaxValue={{
-          ...otherViewBalance,
-          data: {
-            ...viewBalance.balance,
-          },
+          ...maxUserDepositData,
         }}
         tokenData={{ ...tokenData }}
       />

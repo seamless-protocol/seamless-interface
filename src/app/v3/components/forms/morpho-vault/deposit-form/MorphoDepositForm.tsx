@@ -7,7 +7,7 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
-import { DEPOSIT_NATIVE_ETH } from "./useIsWrapping";
+import { DEPOSIT_NATIVE_ETH } from "./useDepositingNativeETH";
 import { isWETH } from "../../../../utils/utils";
 
 export const MorphoDepositForm = () => {
