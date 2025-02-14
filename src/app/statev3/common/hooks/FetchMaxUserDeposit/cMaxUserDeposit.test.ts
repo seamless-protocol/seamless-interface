@@ -21,78 +21,76 @@ test("returns undefined when both maxDeposit and assetBalance are null", () => {
 test("returns assetBalance when maxDeposit is undefined", () => {
   const assetBalance = createFetchBigInt(100n, tokenDecimals);
   const result = cMaxUserDeposit(undefined, assetBalance);
-  expect(result).toEqual(assetBalance);
+  expect(result).toEqual(assetBalance.bigIntValue);
 });
 
 test("returns assetBalance when maxDeposit is null", () => {
   const assetBalance = createFetchBigInt(100n, tokenDecimals);
   const result = cMaxUserDeposit(null as any, assetBalance);
-  expect(result).toEqual(assetBalance);
+  expect(result).toEqual(assetBalance.bigIntValue);
 });
 
 test("returns maxDeposit when assetBalance is undefined", () => {
   const maxDeposit = createFetchBigInt(150n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, undefined);
-  expect(result).toEqual(maxDeposit);
+  expect(result).toEqual(maxDeposit.bigIntValue);
 });
 
 test("returns maxDeposit when assetBalance is null", () => {
   const maxDeposit = createFetchBigInt(150n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, null as any);
-  expect(result).toEqual(maxDeposit);
+  expect(result).toEqual(maxDeposit.bigIntValue);
 });
 
 test("returns assetBalance when normalized maxDeposit > normalized assetBalance (same decimals)", () => {
   const maxDeposit = createFetchBigInt(200n, tokenDecimals);
   const assetBalance = createFetchBigInt(100n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(assetBalance);
+  expect(result).toEqual(assetBalance.bigIntValue);
 });
 
 test("returns maxDeposit when normalized maxDeposit < normalized assetBalance (same decimals)", () => {
   const maxDeposit = createFetchBigInt(100n, tokenDecimals);
   const assetBalance = createFetchBigInt(200n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(maxDeposit);
+  expect(result).toEqual(maxDeposit.bigIntValue);
 });
 
 test("returns correct value when both values are equal (same decimals)", () => {
   const value = createFetchBigInt(100n, tokenDecimals);
   const result = cMaxUserDeposit(value, value);
-  expect(result).toEqual(value);
+  expect(result).toEqual(value.bigIntValue);
 });
 
-test("compares values correctly when decimals differ (case 1)", () => {
+test("throws error when decimals differ (case 1)", () => {
   const maxDeposit = createFetchBigInt(100n, 6);
   const assetBalance = createFetchBigInt(100n, 18);
-  const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(assetBalance);
+  expect(() => cMaxUserDeposit(maxDeposit, assetBalance)).toThrowError("cMaxUserDeposit: Decimals do not match");
 });
 
-test("compares values correctly when decimals differ (case 2)", () => {
+test("throws error when decimals differ (case 2)", () => {
   const maxDeposit = createFetchBigInt(100n, 18);
   const assetBalance = createFetchBigInt(100n, 6);
-  const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(maxDeposit);
+  expect(() => cMaxUserDeposit(maxDeposit, assetBalance)).toThrowError("cMaxUserDeposit: Decimals do not match");
 });
 
 test("compares values correctly when decimals are same (case 1)", () => {
-  const maxDeposit = createFetchBigInt(300n, 18);
-  const assetBalance = createFetchBigInt(200n, 18);
+  const maxDeposit = createFetchBigInt(300n, tokenDecimals);
+  const assetBalance = createFetchBigInt(200n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(assetBalance);
+  expect(result).toEqual(assetBalance.bigIntValue);
 });
 
 test("compares values correctly when decimals are same (case 2)", () => {
-  const maxDeposit = createFetchBigInt(100n, 18);
-  const assetBalance = createFetchBigInt(200n, 18);
+  const maxDeposit = createFetchBigInt(100n, tokenDecimals);
+  const assetBalance = createFetchBigInt(200n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(maxDeposit);
+  expect(result).toEqual(maxDeposit.bigIntValue);
 });
 
 test("compares values when both are 0", () => {
-  const maxDeposit = createFetchBigInt(0n, 18);
-  const assetBalance = createFetchBigInt(0n, 18);
+  const maxDeposit = createFetchBigInt(0n, tokenDecimals);
+  const assetBalance = createFetchBigInt(0n, tokenDecimals);
   const result = cMaxUserDeposit(maxDeposit, assetBalance);
-  expect(result).toEqual(maxDeposit);
+  expect(result).toEqual(maxDeposit.bigIntValue);
 });

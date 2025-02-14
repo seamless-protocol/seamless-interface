@@ -16,9 +16,9 @@ export const fetchMaxUserDeposit = async (address: Address, underlyingAddress: A
   return {
     maxUserDeposit: max
       ? {
-          bigIntValue: max?.bigIntValue,
-          decimals: max?.decimals,
-          symbol: max?.symbol,
+          bigIntValue: max,
+          decimals: token?.decimals,
+          symbol: token?.symbol,
         }
       : undefined,
     token,
