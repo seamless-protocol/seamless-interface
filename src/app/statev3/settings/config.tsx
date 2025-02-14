@@ -14,6 +14,7 @@ import {
   cbBTC_ADDRESS,
   seamlessUSDCMorphoVault,
   seamlesscbBTCMorphoVault,
+  seamlessETHMorphoVault,
 } from "@meta";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
@@ -105,7 +106,8 @@ export interface VaultConfig {
 export const vaultConfig: { [key: Address]: VaultConfig } = {
   [seamlessUSDCMorphoVault]: {
     name: "Seamless USDC Vault",
-    description: "The Seamless USDC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
+    description:
+      "The Seamless USDC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
     curator: {
       address: seamlessUSDCMorphoVault,
@@ -115,12 +117,26 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
   },
   [seamlesscbBTCMorphoVault]: {
     name: "Seamless cbBTC Vault",
-    description: "The Seamless cbBTC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
+    description:
+      "The Seamless cbBTC Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
     curator: {
-      address: seamlessUSDCMorphoVault,
+      address: seamlesscbBTCMorphoVault,
+      name: "Gauntlet",
+      icon: logoGauntlet,
+    },
+  },
+  [seamlessETHMorphoVault]: {
+    name: "Seamless ETH Vault",
+    description:
+      "The Seamless ETH Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
+    type: "Vault",
+    curator: {
+      address: seamlessETHMorphoVault,
       name: "Gauntlet",
       icon: logoGauntlet,
     },
   },
 };
+
+export const configuredVaultAddresses = Object.keys(vaultConfig) as Address[];

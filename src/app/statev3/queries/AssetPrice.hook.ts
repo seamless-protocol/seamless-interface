@@ -8,7 +8,7 @@ import {
   fetchToken,
 } from "@shared";
 import { Address, parseUnits, erc4626Abi, isAddressEqual } from "viem";
-import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE, whiteListedMorphoVaults } from "@meta";
+import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
 import { assetsConfig } from "../settings/landingMarketConfig";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
@@ -18,7 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 import { checkIfContractExists } from "../../utils/wagmiUtils";
-import { strategyConfig } from "../settings/config";
+import { strategyConfig, configuredVaultAddresses } from "../settings/config";
 import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
@@ -44,7 +44,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
   const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;
 
-  if (whiteListedMorphoVaults.find((whitelistedVaultAddress) => isAddressEqual(whitelistedVaultAddress, asset))) {
+  if (configuredVaultAddresses.find((vaultAddress) => isAddressEqual(vaultAddress, asset))) {
     const { decimals: vaultDecimals } = await fetchToken(asset);
 
     const [vaultSharePrice, vaultAsset] = await Promise.all([
