@@ -11,14 +11,16 @@ export const fetchMaxUserDeposit = async (address: Address, underlyingAddress: A
     fetchAssetBalance(underlyingAddress, userAddress),
   ]);
 
-  const maxUserDeposit: FetchBigInt = {
-    bigIntValue: cMaxUserDeposit(maxDeposit, assetBalance),
-    decimals: token.decimals,
-    symbol: token.symbol,
-  };
+  const max = cMaxUserDeposit(maxDeposit, assetBalance) as FetchBigInt;
 
   return {
-    maxUserDeposit,
+    maxUserDeposit: max
+      ? {
+          bigIntValue: max?.bigIntValue,
+          decimals: max?.decimals,
+          symbol: max?.symbol,
+        }
+      : undefined,
     token,
     maxDeposit,
     assetBalance,
