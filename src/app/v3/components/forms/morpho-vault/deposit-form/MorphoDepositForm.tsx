@@ -8,7 +8,6 @@ import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/fu
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
 import { DEPOSIT_NATIVE_ETH } from "./useDepositingNativeETH";
-import { isWETH } from "../../../../utils/utils";
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
@@ -51,7 +50,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
-      [DEPOSIT_NATIVE_ETH]: isWETH(vaultData.asset.address),
+      [DEPOSIT_NATIVE_ETH]: false,
     },
   });
   const { handleSubmit, reset } = methods;

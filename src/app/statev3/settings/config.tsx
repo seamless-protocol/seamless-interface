@@ -127,9 +127,9 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
     },
   },
   [seamlessETHMorphoVault]: {
-    name: "Seamless ETH Vault",
+    name: "Seamless WETH Vault",
     description:
-      "The Seamless ETH Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
+      "The Seamless WETH Vault curated by Gauntlet is intended to optimize risk-adjusted yield across high-demand collateral markets on Base.",
     type: "Vault",
     curator: {
       address: seamlessETHMorphoVault,
