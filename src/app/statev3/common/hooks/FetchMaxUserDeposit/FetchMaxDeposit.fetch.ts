@@ -6,7 +6,7 @@ import { queryConfig } from "../../../settings/queryConfig";
 import { fetchToken } from "@shared";
 
 // todo consider creting erc4626 folder for this kind of functions
-export const fetchMaxDeposit = async (address: Address) => {
+export const fetchMaxDeposit = async (address: Address, underlyingAddress: Address) => {
   const queryClient = getQueryClient();
 
   const [maxDeposit, token] = await Promise.all([
@@ -19,7 +19,7 @@ export const fetchMaxDeposit = async (address: Address) => {
       }),
       ...queryConfig.metadataQueryConfig,
     }),
-    fetchToken(address),
+    fetchToken(underlyingAddress),
   ]);
 
   return {
