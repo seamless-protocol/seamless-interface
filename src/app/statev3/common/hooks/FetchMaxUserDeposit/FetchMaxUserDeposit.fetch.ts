@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { FetchBigInt, fetchToken } from "@shared";
+import { fetchToken } from "@shared";
 import { fetchAssetBalance } from "../../queries/useFetchViewAssetBalance";
 import { fetchMaxDeposit } from "./FetchMaxDeposit.fetch";
 import { cMaxUserDeposit } from "./cMaxUserDeposit.math";
@@ -11,7 +11,7 @@ export const fetchMaxUserDeposit = async (address: Address, underlyingAddress: A
     fetchAssetBalance(underlyingAddress, userAddress),
   ]);
 
-  const max = cMaxUserDeposit(maxDeposit, assetBalance) as FetchBigInt;
+  const max = cMaxUserDeposit(maxDeposit, assetBalance);
 
   return {
     maxUserDeposit: max
