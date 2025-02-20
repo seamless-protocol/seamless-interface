@@ -84,6 +84,7 @@ export interface SummedUserReward {
   combinedAmount: RewardAmountBigInt;
 
   combinedClaimableNowUsd?: FetchBigInt;
+  combinedClaimableNextUsd?: FetchBigInt;
 
   formatted: {
     total?: ViewBigInt;
