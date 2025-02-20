@@ -20,7 +20,7 @@ export function getViewFormattedNetApyData(netApyData: NetApyData): {
 
   const rewardsWithNativeApy: ViewRewardToken[] = [
     {
-      symbol: "Rate",
+      symbol: "native APY",
       apr: netApyData?.nativeAPY,
       logo: chartIcon,
     },
