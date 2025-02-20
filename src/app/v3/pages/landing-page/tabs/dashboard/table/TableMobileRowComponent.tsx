@@ -27,7 +27,7 @@ export const TableMobileRowComponent: React.FC<{
       <FlexCol className="gap-5">
         <FlexRow className="justify-between w-full">
           <FlexCol className="items-start">
-            <Typography type="regular1">Unclaimed Rewards</Typography>
+            <Typography type="regular1">Claimable Rewards</Typography>
             {rewards}
           </FlexCol>
           <FlexCol className="items-end">

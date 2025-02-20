@@ -20,7 +20,7 @@ export const MorphoUnclaimedRewardsBox = () => {
       <FlexCol>
         <FlexRow className="gap-[88px]">
           <FlexCol className="gap-2">
-            <Typography type="regular5">Unclaimed vault rewards</Typography>
+            <Typography type="regular5">Claimable vault rewards</Typography>
 
             <FlexRow className="gap-2 items-center">
               <DisplayMoney {...rewardData.combinedClaimableNowViewValue} {...rest} typography="bold6" />
@@ -55,7 +55,7 @@ export const MorphoUnclaimedRewardsBox = () => {
 
       <FlexRow className="gap-1 items-center">
         <FlexRow className="gap-1">
-          <Typography type="bold1">Claimable in the future:</Typography>
+          <Typography type="bold1">Accruing:</Typography>
           <DisplayMoney {...rewardData.combinedClaimableNextViewValue} {...rest} typography="bold1" />
         </FlexRow>
 

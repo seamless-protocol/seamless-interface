@@ -12,7 +12,7 @@ export const UnclaimedRewardsBox = () => {
       <FlexCol>
         <FlexRow className="gap-[88px]">
           <FlexCol className="gap-2">
-            <Typography type="regular5">Unclaimed rewards</Typography>
+            <Typography type="regular5">Claimable rewards</Typography>
             <DisplayMoney {...data.totalRewards} {...rest} typography="bold6" />
           </FlexCol>
 

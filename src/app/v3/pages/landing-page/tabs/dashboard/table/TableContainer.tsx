@@ -30,7 +30,7 @@ export const TableContainer = () => {
             <Typography type="bold1">Unrealized Gain/Loss</Typography>
           </TableCell>
           <TableCell className="col-span-2">
-            <Typography type="bold1">Unclaimed Rewards</Typography>
+            <Typography type="bold1">Claimable Rewards</Typography>
           </TableCell>
           <TableCell className="col-span-4" />
         </TableRow>
