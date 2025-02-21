@@ -1,6 +1,7 @@
 import { test, expect } from "vitest";
-import { ONE_ETHER } from "@meta";
-import { calculateApy } from "./useFetchViewStrategyApy";
+import { calculateApy } from "./cStrategyApy.math";
+
+export const ONE_ETHER = BigInt(10 ** 18);
 
 const formatter = Intl.NumberFormat("en", {
   notation: "compact",
