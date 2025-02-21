@@ -30,8 +30,9 @@ export default defineConfig({
       on("file:preprocessor", vitePreprocessor());
     },
     specPattern: "src/app/__tests__/**/*.cy.ts",
-    defaultCommandTimeout: TimeOuts.transactionTimeout,
+    defaultCommandTimeout: TimeOuts.otherTimeout,
     requestTimeout: TimeOuts.transactionTimeout,
     responseTimeout: TimeOuts.transactionTimeout,
+    screenshotOnRunFailure: false,
   },
 });

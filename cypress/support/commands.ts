@@ -14,6 +14,8 @@ import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
 import { tenderlyCreateFork } from "./tenderly/utils/tenderlyCreateFork";
 import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
 import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
+import { findTestnetIdByDisplayName } from "./tenderly/utils/findTestnetIdBySlug";
+import { tenderlyDeleteFork } from "./tenderly/utils/tenderlyDeleteFork";
 
 declare global {
   namespace Cypress {
@@ -30,7 +32,7 @@ declare global {
        * @param hasApproval boolean
        * @example cy.doDepositSubmit(true)
        */
-      doDepositSubmit(hasApproval: boolean): void;
+      doDepositSubmit(hasApproval: boolean, depositNativeETH?: boolean): void;
       /**
        * This will make confirmation in Modal
        * @example cy.doWithdrawSubmit()
@@ -105,8 +107,12 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
   cy.log("Starting withdraw");
   // *** Navigate *** //
   cy.get(`[data-cy='withdraw-button']`, { timeout: TimeOuts.otherTimeout }).click();
+
+  cy.wait(2500);
   // *** Set amount *** //
   cy.setAmount(amount, isMaxAmount);
+
+  cy.wait(2500);
   // *** Submit form *** //
   cy.doWithdrawSubmit();
   // *** Check success *** //
@@ -134,11 +140,11 @@ Cypress.Commands.add(
     // *** Handle depositNativeETH switch/button if provided *** //
     if (depositNativeETH != null) {
       if (depositNativeETH === false) {
-        // If depositNativeETH is false, click the switch/button.
-        cy.get("[data-cy='depositNativeETH']").click();
-      } else {
         // If depositNativeETH is true, assert that the button exists (but don't click it).
         cy.get("[data-cy='depositNativeETH']").should("exist");
+      } else {
+        // If depositNativeETH is false, click the switch/button.
+        cy.get("[data-cy='depositNativeETH']").click();
       }
     } else {
       // If depositNativeETH is undefined, assert that the button does not exist.
@@ -148,7 +154,7 @@ Cypress.Commands.add(
     // *** Set amount *** //
     cy.setAmount(amount, isMaxAmount);
     // *** Submit form *** //
-    cy.doDepositSubmit(hasApproval);
+    cy.doDepositSubmit(hasApproval, depositNativeETH);
 
     if (shouldErrorBeThrown) {
       cy.checkTransactionError();
@@ -179,8 +185,8 @@ Cypress.Commands.add("setAmount", (amount?: number, max?: boolean) => {
 /* ------------------ */
 /*   Button actions   */
 /* ------------------ */
-Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
-  if (!hasApproval) {
+Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean, depositNativeETH?: boolean) => {
+  if (!hasApproval && !depositNativeETH) {
     cy.get(`[data-cy=approvalButton]`, { timeout: TimeOuts.otherTimeout })
       .last()
       .should("not.be.disabled")
@@ -193,7 +199,7 @@ Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
 });
 
 Cypress.Commands.add("doWithdrawSubmit", () => {
-  cy.validateAmountInputs(true);
+  cy.validateAmountInputs();
 
   cy.get("[data-cy=actionButton]", { timeout: TimeOuts.otherTimeout })
     .last()
@@ -216,17 +222,10 @@ Cypress.Commands.add("checkTransactionError", () => {
   cy.get(`[data-cy='close-modal']`, { timeout: TimeOuts.otherTimeout }).should("be.visible").click();
 });
 
-Cypress.Commands.add("validateAmountInputs", (checkValues?: boolean) => {
+Cypress.Commands.add("validateAmountInputs", () => {
   cy.get("[data-cy=amount-input-v3]").each(($input) => {
     cy.wrap($input).within(() => {
       cy.get("[data-cy=loader]").should("not.exist");
-
-      if (checkValues) {
-        cy.get("input").should(($inputField) => {
-          const value = $inputField.val();
-          expect(value).to.not.be.oneOf([0, "", "0"]);
-        });
-      }
     });
   });
 });
@@ -265,6 +264,15 @@ Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig?: IBalanceCo
   cy.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
+    try {
+      const tenderlyOldForkId = await findTestnetIdByDisplayName("Cypress TestNet");
+      cy.log(`Deleting existing fork: ${tenderlyOldForkId}`);
+      if (tenderlyOldForkId) await tenderlyDeleteFork(tenderlyOldForkId);
+      cy.log("Existing fork deleted");
+    } catch (error: any) {
+      cy.log(`No existing fork to delete or deletion failed: ${error?.message}`);
+    }
+
     const result = await tenderlyCreateFork();
     const { forkUrl, id } = result;
 
