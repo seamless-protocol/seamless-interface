@@ -44,10 +44,14 @@ jobs:
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
           echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
+          echo VITE_CYPRESS_TEST_ENV=${{ vars.VITE_CYPRESS_TEST_ENV }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.production
           cat .env.production
 
       - run: npm ci
-      - run: npm run build --if-present
+      - run: npm run build:prod --if-present
 
       - name: Rename dist folder
         run: |
