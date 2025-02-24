@@ -28,7 +28,7 @@ export const useFetchLoopStrategies = (addresses?: Address[]) => {
     queries: (addresses || []).map((address) => ({
       queryKey: getFetchLoopStrategyQKey(address),
       queryFn: () => fetchLoopStrategy(address),
-      enabled: Boolean(address),
+      enabled: !!address,
       ...queryConfig.semiSensitiveDataQueryConfig,
     })),
   });
