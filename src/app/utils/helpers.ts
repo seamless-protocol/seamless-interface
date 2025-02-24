@@ -1,3 +1,4 @@
+// todo move utils from shared to utils folder
 import { formatUnits } from "viem";
 
 export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
