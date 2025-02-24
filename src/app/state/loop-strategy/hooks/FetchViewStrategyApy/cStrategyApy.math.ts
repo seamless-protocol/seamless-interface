@@ -1,11 +1,4 @@
-import { formatUnits } from "viem";
-
-export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number) {
-  return Number(formatUnits((value || 0) as bigint, decimals));
-}
-
-export const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
-export const COMPOUNDING_PERIODS_APY = 1;
+import { COMPOUNDING_PERIODS_APY, formatUnitsToNumber, SECONDS_PER_YEAR } from "../../../../utils/helpers";
 
 export const calculateApy = (endValue: bigint, startValue: bigint, timeWindow: bigint): number => {
   if (startValue === 0n || endValue === 0n || timeWindow === 0n) {
