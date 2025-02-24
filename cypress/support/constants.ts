@@ -11,6 +11,8 @@ export const LOCALSTORAGE_IS_TEST_MODE_KEY = "LOCALSTORAGE_IS_TEST_MODE_KEY";
 export const PRIVATE_KEY = "PRIVATE_KEY";
 
 export const TimeOuts = {
-  transactionTimeout: 120000,
-  otherTimeout: 20000,
+  // both values should be much less, but since tenderly
+  // is working very very bad and unpredictable for now we will set such a big numbers
+  transactionTimeout: 240000,
+  otherTimeout: 120000,
 };

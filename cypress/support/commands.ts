@@ -262,29 +262,52 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig?: IBalanceConfi
 
 Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig?: IBalanceConfig) => {
   cy.log("Setting up Tenderly test environment");
+  // eslint-disable-next-line no-console
+  console.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
     try {
       const tenderlyOldForkId = await findTestnetIdByDisplayName("Cypress TestNet");
       cy.log(`Deleting existing fork: ${tenderlyOldForkId}`);
+      // eslint-disable-next-line no-console
+      console.log(`Deleting existing fork: ${tenderlyOldForkId}`);
       if (tenderlyOldForkId) await tenderlyDeleteFork(tenderlyOldForkId);
       cy.log("Existing fork deleted");
+      // eslint-disable-next-line no-console
+      console.log("Existing fork deleted");
     } catch (error: any) {
       cy.log(`No existing fork to delete or deletion failed: ${error?.message}`);
+      // eslint-disable-next-line no-console
+      console.log(`No existing fork to delete or deletion failed: ${error?.message}`);
     }
 
     const result = await tenderlyCreateFork();
+    cy.log("Fork created");
+    // eslint-disable-next-line no-console
+    console.log("Fork created");
     const { forkUrl, id } = result;
 
     localStorage.setItem(LOCALSTORAGE_TESTNET_ID_KEY, JSON.stringify({ id }));
     localStorage.setItem(LOCALSTORAGE_IS_TEST_MODE_KEY, "true");
     localStorage.setItem(LOCALSTORAGE_TESTNET_URL_KEY, JSON.stringify({ forkUrl }));
     localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
+    cy.log("Local storage set");
+    // eslint-disable-next-line no-console
+    console.log("Local storage set");
 
     await tenderlyFundAccount(forkUrl);
+    cy.log("Funding account done");
+    // eslint-disable-next-line no-console
+    console.log("Funding account done");
 
     if (balanceConfig) {
+      cy.log(`Funding account with ${balanceConfig.tokenAddress}...`);
+      // eslint-disable-next-line no-console
+      console.log(`Funding account with ${balanceConfig.tokenAddress} ...`);
       await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
+      cy.log(`Funding account with ${balanceConfig.tokenAddress} done`);
+      // eslint-disable-next-line no-console
+      console.log(`Funding account with ${balanceConfig.tokenAddress} done`);
     }
   });
 });

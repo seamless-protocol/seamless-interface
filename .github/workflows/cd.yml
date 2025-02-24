@@ -2,6 +2,11 @@ name: Production IPFS Deployment
 
 on:
   workflow_dispatch:
+    inputs:
+      skipTests:
+        description: "Skip tests and run standard build instead of build:prod"
+        required: false
+        default: "false"
 
 jobs:
   deploy:
@@ -51,7 +56,15 @@ jobs:
           cat .env.production
 
       - run: npm ci
-      - run: npm run build:prod --if-present
+      - name: Build Project
+        run: |
+          if [ "${{ github.event.inputs.skipTests }}" = "true" ]; then
+            echo "Skipping tests: Running standard build..."
+            npm run build
+          else
+            echo "Running build:prod (with tests)..."
+            npm run build:prod
+          fi
 
       - name: Rename dist folder
         run: |
