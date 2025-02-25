@@ -4,6 +4,7 @@ export interface ViewRewardToken {
   symbol: string;
   logo?: string;
   apr: ViewNumber;
+  isNotAPR?: boolean;
 }
 
 interface IncentivesDetailCardProps {
@@ -29,7 +30,10 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
                 <Typography type="secondary12">{rewardToken.symbol}</Typography>
               </FlexRow>
               <FlexRow>
-                <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol} APR`} />
+                <DisplayPercentage
+                  viewValue={rewardToken.apr.viewValue}
+                  symbol={`${rewardToken.apr.symbol} ${rewardToken.isNotAPR ? "" : "APR"}`}
+                />
               </FlexRow>
             </FlexRow>
           );
