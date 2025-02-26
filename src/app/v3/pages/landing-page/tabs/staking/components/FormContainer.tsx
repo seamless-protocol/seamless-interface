@@ -8,7 +8,7 @@ import { MorphoWithdrawForm } from "../../../../../components/forms/morpho-vault
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
-  const address = "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284";
+  const address = "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284"; // TODO: put this somewhere better
   const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
 
@@ -22,7 +22,7 @@ export const FormContainer: React.FC = () => {
           }}
           isActive={isDepositing}
         >
-          Deposit
+          Stake
         </LocalButtonSwitcher>
 
         <LocalButtonSwitcher
@@ -32,7 +32,7 @@ export const FormContainer: React.FC = () => {
           }}
           isActive={!isDepositing}
         >
-          Withdraw
+          Unstake
         </LocalButtonSwitcher>
       </FlexRow>
       <div>
