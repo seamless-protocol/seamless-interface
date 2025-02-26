@@ -12,7 +12,7 @@ export function getViewFormattedApyAndPoints(
   vaultAddress?: Address
 ): {
   rewardsOnly: ViewRewardToken[];
-  rewardsWithNativeApy: ViewRewardToken[];
+  rewardsWithNativeApyAndPoints: ViewRewardToken[];
 } {
   const config = vaultAddress ? vaultConfig[vaultAddress] : undefined;
 
@@ -48,5 +48,5 @@ export function getViewFormattedApyAndPoints(
       ]
     : rewardsWithNativeApyAndPoints;
 
-  return { rewardsOnly, rewardsWithNativeApy: finalRewardsWithNativeApyAndPoints };
+  return { rewardsOnly, rewardsWithNativeApyAndPoints: finalRewardsWithNativeApyAndPoints };
 }

@@ -13,7 +13,10 @@ export const MorphoAprTooltip: React.FC<{
 }> = ({ netApyData, vaultAddress }) => {
   if (!netApyData) return null;
   const config = vaultAddress ? vaultConfig[vaultAddress] : undefined;
-  const { rewardsOnly, rewardsWithNativeApy } = getViewFormattedApyAndPoints(netApyData, vaultAddress);
+  const { rewardsOnly, rewardsWithNativeApyAndPoints: rewardsWithNativeApy } = getViewFormattedApyAndPoints(
+    netApyData,
+    vaultAddress
+  );
 
   return (
     <IncentivesButton
