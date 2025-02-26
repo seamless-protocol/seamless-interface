@@ -1,4 +1,4 @@
-import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "@shared";
+import { DisplayPercentage, DisplayValue, FlexCol, FlexRow, Typography, ViewNumber } from "@shared";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -30,7 +30,8 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
                 <Typography type="secondary12">{rewardToken.symbol}</Typography>
               </FlexRow>
               <FlexRow>
-                <DisplayPercentage
+                <DisplayValue
+                  symbolPosition="after"
                   viewValue={rewardToken.apr.viewValue}
                   symbol={`${rewardToken.apr.symbol} ${rewardToken.isNotAPR ? "" : "APR"}`}
                 />
