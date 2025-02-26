@@ -6,6 +6,7 @@ import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equit
 import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
 import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
+import { StrategyIncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 
 export const ILMMobileTableRow: React.FC<{
   strategy: Address;
@@ -21,7 +22,9 @@ export const ILMMobileTableRow: React.FC<{
   const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
 
   return (
-    <div className={`flex md:hidden flex-col shadow rounded-lg p-4 m-2 ${selected ? "bg-neutral-100" : "bg-white"}`}>
+    <div
+      className={`flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow  ${selected ? "bg-neutral-100" : "bg-white"}`}
+    >
       <FlexCol className="items-end mb-[-10px]">
         <FlexRow>
           <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
@@ -36,26 +39,31 @@ export const ILMMobileTableRow: React.FC<{
           </FlexCol>
         </FlexRow>
       </FlexRow>
-
-      <FlexRow className="justify-between">
-        <FlexCol className="gap-2">
-          <DisplayMoney {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} typography="bold3" />
-        </FlexCol>
-
-        <FlexCol className="items-end text-end gap-2">
-          <FlexRow className="items-center gap-1">
-            <Typography type="regular1">30d historical return: </Typography>
-            <FlexRow className="items-center gap-1">
-              <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-              <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
-            </FlexRow>
-          </FlexRow>
-          <FlexRow className="items-center gap-1">
-            <Typography type="regular1">TVL: </Typography>
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center">
+          <Typography type="regular1">TVL:</Typography>
+          <FlexCol className="items-end">
             <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
+          </FlexCol>
+        </div>
+        <div className="flex justify-between items-center mr-[-6px]">
+          <Typography type="regular1">Rewards APR:</Typography>
+          <StrategyIncentivesButton strategy={strategy} />
+        </div>
+        <div className="flex justify-between items-center">
+          <Typography type="regular1">30d historical return:</Typography>
+          <FlexRow className="items-center gap-1">
+            <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
+            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
           </FlexRow>
-        </FlexCol>
-      </FlexRow>
+        </div>
+        <div className="flex justify-between items-center">
+          <Typography type="regular1">Available cap:</Typography>
+          <FlexCol className="items-end">
+            <DisplayMoney typography="bold3" {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} />
+          </FlexCol>
+        </div>
+      </div>
     </div>
   );
 };

@@ -7,7 +7,6 @@ import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useAccount } from "wagmi";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
@@ -18,10 +17,6 @@ export const VaultTableMobileRowContainer: React.FC<{
   const { address } = useAccount();
 
   const { data: vault, ...vaultDataRest } = vaultData;
-
-  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: vault.mappedVaultDetails.vaultAddress,
-  });
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
@@ -59,14 +54,17 @@ export const VaultTableMobileRowContainer: React.FC<{
         </SignIndicatingElement>
       }
       holdingTokenAmount={
-        <DisplayTokenAmount viewValue={balanceUsdPair?.tokenAmount.viewValue} {...balanceUsdPairRest} />
-      }
+        <DisplayTokenAmount
+          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
+          {...vaultData}
+        />}
       holdingDollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={balanceUsdPair?.dollarAmount.viewValue}
-          {...balanceUsdPairRest}
+          viewValue={vaultData?.data.vaultPosition?.sharesUsd.viewValue}
           className="text-primary-600"
+          isApproximate
+          {...vaultData}
         />
       }
       buttons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}

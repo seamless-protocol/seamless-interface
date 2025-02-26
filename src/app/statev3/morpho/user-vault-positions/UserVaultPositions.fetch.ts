@@ -1,124 +1,79 @@
-import {
-  UserVaultPositionsDocument,
-  UserVaultPositionsQuery,
-  UserVaultPositionsQueryVariables,
-} from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
-import { fetchToken, formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
 import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
 import { mapVaultData } from "../mappers/mapVaultData";
 import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
-import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 
-export async function fetchUserVaultPositions(
-  userAddress: string,
-  whiteListedVaultAddresses?: string[],
-  chainId = base.id
-): Promise<UserVaultPositionsQuery> {
-  const queryClient = getQueryClient();
+import { readContract } from "wagmi/actions";
+import { Address, erc20Abi } from "viem";
+import { vaultConfig } from "../../settings/config";
+import { getConfig } from "../../../utils/queryContractUtils";
+import { fetchAssetBalanceUsdValue } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 
-  // Let React Query handle caching/staleness
-  const data = await queryClient.fetchQuery<UserVaultPositionsQuery>({
-    queryKey: ["fetchUserVaultPositions", userAddress, whiteListedVaultAddresses, chainId],
-    queryFn: async () => {
-      const client = getApolloClient();
-      const result = await client.query<UserVaultPositionsQuery, UserVaultPositionsQueryVariables>({
-        query: UserVaultPositionsDocument,
-        variables: {
-          where: {
-            userAddress_in: [userAddress],
-            vaultAddress_in: whiteListedVaultAddresses,
-            chainId_in: [chainId],
-          },
-        },
-        fetchPolicy: "no-cache",
-      });
-
-      if (result.errors?.length) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-            `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-        );
-      } else if (result.error) {
-        throw new Error(
-          `GraphQL Query Failed: UserVaultPositionsQuery\n` +
-            `Variables: ${JSON.stringify({ userAddress, chainId })}\n` +
-            `Error: ${result.error.message}`
-        );
-      }
-      return result.data;
-    },
-  });
-
-  return data;
+interface VaultPositionAddress {
+  vault: Address;
 }
 
-export async function fetchExtendedMappedVaultPositions(
-  userAddress: string,
-  whiteListedVaultAddresses?: string[],
-  chainId = base.id
-): Promise<ExtendedMappedVaultPositionsResult | undefined> {
-  const rawVaultPositions = await fetchUserVaultPositions(userAddress, whiteListedVaultAddresses, chainId);
-  if (!rawVaultPositions.vaultPositions.items) return undefined;
+/**
+ * Fetches all vaults in which a user has a non-zero balance.
+ */
+export const fetchUserVaultPositions = async (user: string | undefined) => {
+  const config = getConfig();
+  if (!config || !user) return [];
+
+  // Check the user's balance in each vault
+  const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
+    const balance = await readContract(config, {
+      address: vaultAddress as Address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [user as Address],
+    });
+
+    return {
+      balance,
+      vault: vaultAddress as Address,
+    };
+  });
+
+  const vaultResults = await Promise.all(promises);
+  return vaultResults
+    .filter((item) => item.balance && item.balance > 0n)
+    .map((item) => ({
+      vault: item.vault,
+    })) as VaultPositionAddress[];
+};
+
+export async function fetchExtendedMappedVaultPositions(userAddress: string, chainId = base.id) {
+  const rawVaultPositions = await fetchUserVaultPositions(userAddress);
+  if (!rawVaultPositions) return undefined;
 
   const extendedVaultPositions = await Promise.all(
-    rawVaultPositions.vaultPositions.items?.map(async (vaultPosition) => {
-      const vaultDetails = await fetchFullVaultInfo(vaultPosition.vault.address, chainId);
+    rawVaultPositions.map(async (vaultPosition) => {
+      const [vaultDetails, shareBalance] = await Promise.all([
+        fetchFullVaultInfo(vaultPosition.vault, chainId),
+        fetchAssetBalanceUsdValue({
+          asset: vaultPosition.vault,
+          userAddress: userAddress as Address,
+        }),
+      ]);
+
       const mappedVaultDetails = mapVaultData(vaultDetails.vaultData.vaultByAddress, vaultDetails.vaultTokenData);
 
-      const rewards = await Promise.all(
-        (vaultPosition.vault.state?.rewards || []).map(async (reward) => {
-          if (!reward.asset.logoURI) {
-            const tokenData = await fetchToken(reward.asset.address);
-            return {
-              ...reward,
-              asset: {
-                ...reward.asset,
-                logoURI: tokenData.logo,
-              },
-            };
-          }
-          return reward;
-        })
-      );
-
-      const extendedPosition = {
-        ...vaultPosition,
-        vault: {
-          ...vaultPosition.vault,
-          state: {
-            ...vaultPosition.vault.state,
-            owner: vaultPosition.vault.state?.owner,
-            rewards,
-          },
-        },
-      };
+      const sharesUsd = formatFetchBigIntToViewBigInt({
+        ...shareBalance?.dollarAmount,
+        bigIntValue: shareBalance?.dollarAmount.bigIntValue,
+      });
 
       const shares = formatFetchBigIntToViewBigInt({
-        bigIntValue: vaultPosition.shares,
-        decimals: mappedVaultDetails.asset.decimals,
-        symbol: mappedVaultDetails.asset.symbol,
-      });
-
-      const assetsUsd = formatFetchNumberToViewNumber({
-        value: vaultPosition.assetsUsd || undefined,
-        symbol: "$",
-      });
-
-      const assets = formatFetchBigIntToViewBigInt({
-        bigIntValue: vaultPosition.assets,
-        decimals: mappedVaultDetails.asset.decimals,
-        symbol: mappedVaultDetails.asset.symbol,
+        ...shareBalance?.tokenAmount,
+        bigIntValue: shareBalance?.tokenAmount.bigIntValue,
       });
 
       return {
         vaultPosition: {
-          baseData: extendedPosition,
+          sharesUsd,
           shares,
-          assetsUsd,
-          assets,
         },
         mappedVaultDetails,
       };
@@ -126,7 +81,7 @@ export async function fetchExtendedMappedVaultPositions(
   );
 
   const totalUsdValue = extendedVaultPositions.reduce(
-    (acc, position) => acc + (position.vaultPosition.assetsUsd.value || 0),
+    (acc, position) => acc + Number(position?.vaultPosition?.sharesUsd?.value || 0),
     0
   );
 
@@ -139,5 +94,5 @@ export async function fetchExtendedMappedVaultPositions(
     vaultPositions: extendedVaultPositions,
     totalUsdValueViewValue,
     totalUsdValue,
-  };
+  } as ExtendedMappedVaultPositionsResult;
 }

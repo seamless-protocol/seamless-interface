@@ -2,7 +2,7 @@ import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "@sh
 
 export interface ViewRewardToken {
   symbol: string;
-  logo: string;
+  logo?: string;
   apr: ViewNumber;
 }
 
@@ -37,7 +37,7 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
       </FlexCol>
 
       <FlexRow className="items-center justify-between w-full mt-2">
-        <Typography type="secondary16">Net APR</Typography>
+        <Typography type="secondary16">Total</Typography>
         <FlexRow>
           <DisplayPercentage viewValue={totalApr?.viewValue} symbol="%  APR" />
         </FlexRow>

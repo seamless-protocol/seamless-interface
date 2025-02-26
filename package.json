@@ -13,7 +13,7 @@
     "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
-    "prebuild": "NODE_ENV=production npm run switch-tailwind-config && npm run lint && npm run compile",
+    "prebuild": "cross-env NODE_ENV=production npm run switch-tailwind-config && npm run lint && npm run compile",
     "build": "vite build",
     "build:prod": "npx cypress run && npm run build",
     "anvil": "node run-anvil.mjs",
@@ -55,7 +55,7 @@
     "tailwind-scrollbar": "^3.1.0",
     "use-query-params": "^2.2.1",
     "viem": "^2.21.45",
-    "wagmi": "^2.12.32"
+    "wagmi": "^2.14.11"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.2.0",

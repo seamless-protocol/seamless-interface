@@ -10,7 +10,6 @@ export type SeamlessSendAsyncParams = {
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
-  invalidateDelay?: number;
 };
 
 /**

@@ -9,7 +9,6 @@ import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue.hook";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
@@ -22,10 +21,6 @@ export const VaultTableDesktopRowContainer: React.FC<{
   const { address } = useAccount();
 
   const { data: vault, ...vaultDataRest } = vaultData;
-
-  const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
-    asset: vault.mappedVaultDetails.vaultAddress,
-  });
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
@@ -51,17 +46,17 @@ export const VaultTableDesktopRowContainer: React.FC<{
       tokenAmount={
         <DisplayTokenAmount
           typography="bold3"
-          viewValue={balanceUsdPair?.tokenAmount.viewValue}
-          {...balanceUsdPairRest}
+          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
+          {...vaultData}
         />
       }
       dollarAmount={
         <DisplayMoney
           typography="medium1"
-          viewValue={balanceUsdPair?.dollarAmount.viewValue}
+          viewValue={vaultData?.data.vaultPosition?.sharesUsd.viewValue}
           className="text-primary-600"
           isApproximate
-          {...balanceUsdPairRest}
+          {...vaultData}
         />
       }
       profitPercentage={
@@ -97,9 +92,7 @@ export const VaultTableDesktopRowContainer: React.FC<{
       }
       imageInfoGroup={
         <RewardsImageGroup
-          icons={
-            (vault.vaultPosition.baseData.vault.state?.rewards?.map((reward) => reward.asset.logoURI) as string[]) || []
-          }
+          icons={[...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || [])]}
         />
       }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}

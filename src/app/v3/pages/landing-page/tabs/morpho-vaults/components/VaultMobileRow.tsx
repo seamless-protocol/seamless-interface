@@ -1,25 +1,16 @@
-import {
-  Typography,
-  DisplayMoney,
-  DisplayPercentage,
-  ImageGroup,
-  DisplayTokenAmount,
-  FlexCol,
-  FlexRow,
-  Icon,
-  ViewBigInt,
-} from "@shared";
+import { Typography, DisplayMoney, ImageGroup, DisplayTokenAmount, FlexCol, FlexRow, Icon, ViewBigInt } from "@shared";
 import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
 import { Curator } from "../../../../../../statev3/morpho/types/Curator";
+import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 
 interface VaultProps {
   name: string;
   asset: MorphoAsset;
   totalAssetsUsd: string;
   totalAssets: ViewBigInt;
-  netApy: string;
+  netApyData?: NetApyData;
   curator?: Curator;
-  feePercentage: string;
   collateralLogos: (string | undefined)[];
   selected?: boolean;
 }
@@ -29,9 +20,8 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
   asset,
   totalAssetsUsd,
   totalAssets,
-  netApy,
+  netApyData,
   curator,
-  feePercentage,
   collateralLogos,
   selected,
 }) => {
@@ -46,18 +36,18 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
           <Typography type="regular1">{asset?.symbol}</Typography>
         </FlexCol>
       </FlexRow>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <div className="flex justify-between">
-          <Typography type="regular1">Total Supply:</Typography>
+          <Typography type="regular1">TVL:</Typography>
           <FlexCol className="items-end">
             <DisplayTokenAmount {...totalAssets} typography="bold3" />
 
             <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
           </FlexCol>
         </div>
-        <div className="flex justify-between">
-          <Typography type="regular1">Net APY:</Typography>
-          <DisplayPercentage viewValue={netApy} typography="bold3" />
+        <div className="flex justify-between items-center mr-[-6px]">
+          <Typography type="regular1">APY:</Typography>
+          <MorphoAprTooltip netApyData={netApyData} />
         </div>
         <div className="flex justify-between">
           <Typography type="regular1">Curator:</Typography>
@@ -65,10 +55,6 @@ export const VaultMobileRow: React.FC<VaultProps> = ({
             <Icon width={8} src={curator?.icon || ""} alt="Curator Logo" />
             <Typography type="bold3">{curator?.name}</Typography>
           </FlexRow>
-        </div>
-        <div className="flex justify-between">
-          <Typography type="regular1">Performance Fee:</Typography>
-          <Typography type="bold3">{feePercentage}</Typography>
         </div>
         <div className="flex justify-between items-center">
           <Typography type="regular1">Collateral:</Typography>

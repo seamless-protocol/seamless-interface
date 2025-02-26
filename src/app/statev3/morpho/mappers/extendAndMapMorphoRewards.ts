@@ -139,6 +139,7 @@ export async function extendAndMapMorphoRewards(
       token,
       combinedAmount: combinedAmountBigInt,
       combinedClaimableNowUsd: fUsdValueStructured(claimableNowUsdBigInt),
+      combinedClaimableNextUsd: fUsdValueStructured(claimableNextUsdBigInt),
       formatted,
     };
   });

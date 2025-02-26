@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  FlexCol,
-  FlexRow,
-  Modal,
-  Typography,
-  Buttonv2,
-  DisplayMoney,
-  ViewBigInt,
-  ModalHandles,
-} from "@shared";
+import { FlexCol, FlexRow, Modal, Typography, Buttonv2, DisplayMoney, ViewBigInt, ModalHandles } from "@shared";
 import TokenRow from "./TokenRow";
 
 export interface ModalReward {
@@ -22,7 +13,7 @@ export interface ClaimModalUIProps {
   totalRewards?: ViewBigInt;
   disabled?: boolean;
   onSubmit: () => Promise<void> | void;
-  isPending?: boolean;
+  isLoading?: boolean;
   modalRef: React.RefObject<ModalHandles>;
   headerText: string;
   buttonText: string;
@@ -37,7 +28,7 @@ export const ClaimModalComponent: React.FC<ClaimModalUIProps> = ({
   totalRewards,
   disabled,
   onSubmit,
-  isPending,
+  isLoading,
   modalRef,
   headerText,
   buttonText,
@@ -50,8 +41,7 @@ export const ClaimModalComponent: React.FC<ClaimModalUIProps> = ({
         size="small"
         buttonProps={{
           children: buttonText,
-          className: `text-bold3 rounded-button text-neutral-0 py-3 px-4 ${disabled ? "bg-primary-300" : "bg-metalic"
-            }`,
+          className: `text-bold3 rounded-button text-neutral-0 py-3 px-4 ${disabled ? "bg-primary-300" : "bg-metalic"}`,
           disabled,
         }}
       >
@@ -72,16 +62,12 @@ export const ClaimModalComponent: React.FC<ClaimModalUIProps> = ({
 
                 <FlexRow className="justify-between items-center mt-4">
                   <Typography type="bold1">Total worth</Typography>
-                  <DisplayMoney
-                    typography="bold2"
-                    {...totalRewards}
-                    symbolPosition="before"
-                  />
+                  <DisplayMoney typography="bold2" {...totalRewards} symbolPosition="before" />
                 </FlexRow>
               </FlexCol>
             </FlexCol>
 
-            <Buttonv2 className="text-bold2" onClick={onSubmit} loading={isPending}>
+            <Buttonv2 className="text-bold2" onClick={onSubmit} loading={isLoading}>
               Claim all rewards
             </Buttonv2>
           </FlexCol>

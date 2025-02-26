@@ -20,8 +20,34 @@ query FullVaultInfo($address: String!, $chainId: Int!) {
       timelock
       curator
 
+      rewards {
+        amountPerSuppliedToken
+        supplyApr
+        asset {
+          name
+          decimals
+          logoURI
+          symbol
+          address
+        }
+      }
+
       allocation {
         market {
+          state {
+            rewards {
+              amountPerSuppliedToken
+              supplyApr
+              asset {
+                name
+                decimals
+                logoURI
+                symbol
+                address
+              }
+            }
+          }
+          
           id
           uniqueKey
           loanAsset {

@@ -29,7 +29,7 @@ const TestWagmiProvider: React.FC<{
   }>(PRIVATE_KEY);
 
   return (
-    <WagmiProvider config={initTestWagmiConfig(TENDERLY_RPC_URL, KEY.KEY)}>
+    <WagmiProvider config={initTestWagmiConfig(TENDERLY_RPC_URL, KEY.KEY) as any}>
       <TestWagmiAutoConnector>{children}</TestWagmiAutoConnector>
     </WagmiProvider>
   );
@@ -48,7 +48,7 @@ const TestWagmiAutoConnector: React.FC<{
   const { connect } = useConnect();
 
   useEffect(() => {
-    connect({ connector: createTestConnector(TESTNET_URL.forkUrl, KEY.KEY) });
+    connect({ connector: createTestConnector(TESTNET_URL.forkUrl, KEY.KEY) as any });
   }, [connect]);
 
   return <>{children}</>;

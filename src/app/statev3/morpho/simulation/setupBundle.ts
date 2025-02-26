@@ -23,13 +23,11 @@ export const setupBundle = async (
 
   const bundle = encodeBundle(operations, startData, true);
 
-  if (walletClient) {
-    await Promise.all(
-      bundle.requirements.signatures.map((requirement) =>
-        requirement.sign(walletClient, { address: account.address } as any)
-      )
-    );
-  }
+  await Promise.all(
+    bundle.requirements.signatures.map((requirement) =>
+      requirement.sign(walletClient, { address: account.address } as any)
+    )
+  );
 
   const txs = bundle.requirements.txs.map(({ tx }) => tx).concat([bundle.tx()]);
 

@@ -1,8 +1,16 @@
 import { Token, ViewBigInt } from "@shared";
 import { MorphoAsset } from "./MorphoAsset";
 import { Curator } from "./Curator";
+import { NetApyData, VaultStateReward } from "./UserReward";
+
+
+
 
 export interface MappedVaultData {
+  /**
+   * The net APY data, if available.
+   */
+  netApyData?: NetApyData;
   /**
    * The token data associated with the vault.
    */
@@ -68,4 +76,6 @@ export interface MappedVaultData {
    * The timelock duration in seconds.
    */
   timelock?: string;
+
+  rewards?: VaultStateReward[];
 }

@@ -1,15 +1,20 @@
 import React from "react";
-import { FlexCol, Typography } from "@shared";
+import { FlexCol, FlexRow, Typography } from "@shared";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
 import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
+import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { DisplayTextLocal } from "../common/DisplayTextLocal";
 
-export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
+export const Seamless_USDC_VaultDetails: React.FC<{
   vault?: Address;
 }> = ({ vault }) => {
+  const { data, ...rest } = useFetchFormattedFullVaultInfo(vault);
+  const { feePercentage } = data || {};
+
   return (
     <FlexCol className="w-full gap-8">
       <Typography type="bold5">Vault details</Typography>
@@ -53,9 +58,12 @@ export const Seamless_Flagship_USDC_VaultDetails: React.FC<{
           <LocalCollapseTitle>Are there fees for using this vault?</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
-              <Typography type="regular3">
-                There is a 15% performance fee on interest collected from borrowers.
-              </Typography>
+              <FlexRow className="gap-1">
+                <Typography type="regular3">
+                  There is a <DisplayTextLocal text={`${feePercentage}%`} {...rest} />
+                  performance fee on interest collected from borrowers.
+                </Typography>
+              </FlexRow>
             </div>
           </div>
         </LocalCollapseArrow>

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { seamlessUSDCMorphoVault } from "../../meta";
+import { seamlesscbBTCMorphoVault, seamlessETHMorphoVault, seamlessUSDCMorphoVault } from "@meta";
 
 const baseUrl = "";
 
@@ -43,7 +43,7 @@ export const RouterConfig = {
     ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
     ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
-    morphoVaultsTab: `${baseUrl}/#/?tab=Vaults`,
+    morphoVaultsTab: `${baseUrl}/?tab=Vaults`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
@@ -60,6 +60,8 @@ export const RouterConfig = {
 
 const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } = {
   [seamlessUSDCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-usdc-vaults/770",
+  [seamlesscbBTCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-the-seamless-cbbtc-vault/819/",
+  [seamlessETHMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-weth-vault/864",
 };
 
 export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {

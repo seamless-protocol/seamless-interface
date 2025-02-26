@@ -7,15 +7,28 @@ import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
+import { DEPOSIT_NATIVE_ETH } from "./useDepositingNativeETH";
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
-  const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
+  const { data: vaultData, isLoading, error } = useFetchFormattedFullVaultInfo(vault);
 
-  if (!vaultData) {
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!vaultData || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    return <div className="min-h-[1000px]" />;
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full vault info: {error?.message}
+        </Typography>
+      </div>
+    );
   }
 
   return <MoprhoDepositFormLocal vaultData={vaultData} />;
@@ -24,6 +37,7 @@ export const MorphoDepositForm = () => {
 interface FormData {
   amount: string;
   receiveAmount: string;
+  depositNativeETH: boolean;
 }
 
 const MoprhoDepositFormLocal: React.FC<{
@@ -36,6 +50,7 @@ const MoprhoDepositFormLocal: React.FC<{
     defaultValues: {
       amount: "",
       receiveAmount: "",
+      [DEPOSIT_NATIVE_ETH]: false,
     },
   });
   const { handleSubmit, reset } = methods;
@@ -48,6 +63,7 @@ const MoprhoDepositFormLocal: React.FC<{
     await depositAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
+        depositNativeETH: data.depositNativeETH,
       },
       {
         onSuccess: (txHash) => {
@@ -81,7 +97,7 @@ const MoprhoDepositFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons vaultData={vaultData} isLoading={isPending} />
+        <FormButtons vaultData={vaultData} isLoading={isPending} isDisabled={isPending} />
       </FlexCol>
     </MyFormProvider>
   );

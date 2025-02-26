@@ -7,12 +7,16 @@ import {
   getChainAddresses as getMorphoChainAddresses,
 } from "@morpho-org/blue-sdk";
 import { QueryKey } from "@tanstack/react-query";
+import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
-import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue.hook";
 import { useState } from "react";
+import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
+import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 
 export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -37,7 +41,10 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /*   Query cache keys   */
   /* -------------------- */
   const { queryKeys: accountAssetBalanceQK } = useFetchAssetBalance(fullVaultData?.vaultData.vaultByAddress.address);
-
+  const { queryKey: assetAllowanceQK } = useFetchAssetAllowance({
+    asset: fullVaultData?.vaultData.vaultByAddress?.address,
+    spender: bundler,
+  });
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
@@ -45,7 +52,11 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
     // array of query keys to invalidate, when mutation happens!
     queriesToInvalidate: [
       ...((accountAssetBalanceQK ?? []) as QueryKey[]),
+      assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
+      getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
+      getHookFetchUserVaultPositionsQueryKey(address),
+      getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
     hideDefaultErrorOnNotification: true,
   });
