@@ -1,11 +1,11 @@
 import React from "react";
-import { getViewFormattedNetApyData } from "../../../statev3/morpho/mappers/mapNetApyData/fNetApyData";
 import { IncentivesButton } from "./AprTooltip";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { NetApyData } from "../../../statev3/morpho/types/UserReward";
 import { Address } from "viem";
 import { vaultConfig } from "../../../statev3/settings/config";
 import { FlexCol, FlexRow, Icon, DisplayText } from "@shared";
+import { getViewFormattedApyAndPoints } from "../../../statev3/morpho/mappers/getViewFormattedApyAndPoints";
 
 export const MorphoAprTooltip: React.FC<{
   netApyData?: NetApyData;
@@ -13,7 +13,7 @@ export const MorphoAprTooltip: React.FC<{
 }> = ({ netApyData, vaultAddress }) => {
   if (!netApyData) return null;
   const config = vaultAddress ? vaultConfig[vaultAddress] : undefined;
-  const { rewardsOnly, rewardsWithNativeApy } = getViewFormattedNetApyData(netApyData, vaultAddress);
+  const { rewardsOnly, rewardsWithNativeApy } = getViewFormattedApyAndPoints(netApyData, vaultAddress);
 
   return (
     <IncentivesButton
