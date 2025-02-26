@@ -1,31 +1,22 @@
-name: Production IPFS Deployment
+name: PR Build
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main # or your target branch
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-22.04
-    environment: production-ipfs
-
-    strategy:
-      matrix:
-        node-version: [20.15.0]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id "${{ secrets.FILEBASE_ACCESS_KEY }}"
-          aws configure set aws_secret_access_key "${{ secrets.FILEBASE_SECRET_KEY }}"
-          aws configure set default.region us-east-1
-
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 20.15.0
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          node-version: 20.15.0
+          cache: npm
 
       - name: Create env file
         run: |
@@ -44,27 +35,13 @@ jobs:
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
           echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
+          echo VITE_CYPRESS_TEST_ENV=${{ vars.VITE_CYPRESS_TEST_ENV }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.production
+          echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.production
           cat .env.production
 
       - run: npm ci
-      - name: Build Project
-        run: npm run build
 
-      - name: Rename dist folder
-        run: |
-          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
-          mv dist "${TIMESTAMP}_${GITHUB_SHA}"
-          echo "APP_BUILD_NAME=${TIMESTAMP}_${GITHUB_SHA}" >> "$GITHUB_ENV"
-
-      - name: Create IPFS .car
-        run: |
-          npm i -g ipfs-car@1.2.0
-          ipfs-car pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
-          ipfs-car ls ${APP_BUILD_NAME}.car
-
-      - name: Upload to IPFS
-        env:
-          FILEBASE_ACCESS_KEY: "${{ secrets.FILEBASE_ACCESS_KEY }}"
-          FILEBASE_SECRET_KEY: "${{ secrets.FILEBASE_SECRET_KEY }}"
-        run: |
-          aws --endpoint https://s3.filebase.com/ s3 cp ${APP_BUILD_NAME}.car s3://seamless-interface/prod/${APP_BUILD_NAME} --debug --metadata 'import=car'
+      - name: Run build:prod
+        run: npm run build:prod
