@@ -47,8 +47,7 @@ jobs:
           cat .env.production
 
       - run: npm ci
-      - name: Build Project
-        run: npm run build
+      - run: npm run build --if-present
 
       - name: Rename dist folder
         run: |
