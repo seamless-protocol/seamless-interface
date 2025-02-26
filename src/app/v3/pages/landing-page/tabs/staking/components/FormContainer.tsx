@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { StakingDepositForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
-import { MorphoWithdrawForm } from "../../../../../components/forms/morpho-vault/withdraw-form/MorphoWithdrawForm";
+import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
@@ -42,7 +42,7 @@ export const FormContainer: React.FC = () => {
           </FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={vault}>
-            <MorphoWithdrawForm />
+            <UnstakeForm />
           </FormSettingsProvider>
         )}
       </div>

@@ -17,6 +17,7 @@ export const StakingDepositForm = () => {
   //   console.warn("Vault not found!!!");
   //   return <div className="min-h-[1000px]" />;
   // }
+  // TODO: Move this to be fetched instead
   const TokenInfo: TokenData = {
     address: tokenAddress,
     decimals: 18,
