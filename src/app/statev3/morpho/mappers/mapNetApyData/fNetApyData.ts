@@ -5,10 +5,9 @@ import { NetApyData } from "../../types/UserReward";
 import { cNetApyData } from "./cNetApyData";
 
 import chartIcon from "@assets/common/chart.svg";
-import resolvIcon from "@assets/logos/resolv.svg";
 import placeholderIcon from "@assets/logos/placeholder.svg";
 import { Address } from "viem";
-import { seamlessUSDCMorphoVault } from "../../../../../meta";
+import { vaultConfig } from "../../../settings/config";
 
 export function getViewFormattedNetApyData(
   netApyData: NetApyData,
@@ -17,6 +16,8 @@ export function getViewFormattedNetApyData(
   rewardsOnly: ViewRewardToken[];
   rewardsWithNativeApy: ViewRewardToken[];
 } {
+  const config = vaultAddress ? vaultConfig[vaultAddress] : undefined;
+
   const rewardsOnly: ViewRewardToken[] =
     netApyData.rewards?.map((reward) => ({
       symbol: reward.asset?.symbol || "Unknown",
@@ -24,32 +25,31 @@ export function getViewFormattedNetApyData(
       apr: reward.totalAprPercent,
     })) || [];
 
-  const finalRewardsOnly =
-    vaultAddress === seamlessUSDCMorphoVault
-      ? [
-          ...rewardsOnly,
-          {
-            symbol: "Resolv",
-            apr: {
-              viewValue: "5x",
-              symbol: "Points",
-            } as ViewNumber,
-            logo: resolvIcon,
-            isNotAPR: true,
-          } as ViewRewardToken,
-        ]
-      : rewardsOnly;
-
   const rewardsWithNativeApy: ViewRewardToken[] = [
     {
       symbol: "Native APY",
       apr: netApyData?.nativeAPY,
       logo: chartIcon,
     },
-    ...finalRewardsOnly,
+    ...rewardsOnly,
   ];
 
-  return { rewardsOnly: finalRewardsOnly, rewardsWithNativeApy };
+  const finalRewardsWithNativeApy = config?.pointsProgram
+    ? [
+        ...rewardsWithNativeApy,
+        {
+          symbol: config.pointsProgram.symbol,
+          apr: {
+            viewValue: config.pointsProgram.viewValue,
+            symbol: "",
+          } as ViewNumber,
+          logo: config.pointsProgram.icon,
+          isNotAPR: true,
+        } as ViewRewardToken,
+      ]
+    : rewardsWithNativeApy;
+
+  return { rewardsOnly, rewardsWithNativeApy: finalRewardsWithNativeApy };
 }
 
 export function fNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]): NetApyData | undefined {

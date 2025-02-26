@@ -1,4 +1,4 @@
-import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken } from "@shared";
+import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken, FlexCol } from "@shared";
 import { IncentivesDetailCard, ViewRewardToken } from "./IncentivesDetailCard";
 import { Address } from "viem";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
@@ -12,6 +12,7 @@ interface IncentivesButtonProps {
   isLoading?: boolean;
   isFetched?: boolean;
   isError?: boolean;
+  additionalElement?: React.ReactNode;
 }
 
 export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
@@ -21,6 +22,7 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   isLoading = false,
   isFetched = true,
   isError,
+  additionalElement,
 }) => {
   if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
@@ -33,21 +35,24 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   return (
     <div className="flex">
       <Tooltip tooltip={children} hidden={isError}>
-        <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
-          <FlexRow className="object-cover ">
-            {rewardTokens?.map((rewardToken, index) => {
-              return (
-                <Icon
-                  key={index}
-                  className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
-                  src={rewardToken.logo}
-                  alt="reward-token-logo"
-                />
-              );
-            })}
+        <FlexCol className="items-center gap-1">
+          <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
+            <FlexRow className="object-cover ">
+              {rewardTokens?.map((rewardToken, index) => {
+                return (
+                  <Icon
+                    key={index}
+                    className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
+                    src={rewardToken.logo}
+                    alt="reward-token-logo"
+                  />
+                );
+              })}
+            </FlexRow>
+            <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
           </FlexRow>
-          <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
-        </FlexRow>
+          {additionalElement}
+        </FlexCol>
       </Tooltip>
     </div>
   );
