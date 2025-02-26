@@ -26,7 +26,7 @@ export const MorphoAprTooltip: React.FC<{
           {vaultPointsProgram && (
             <FlexCol className="items-center gap-1">
               <FlexRow className=" bg-blue-200 items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
-                <Icon src={vaultPointsProgram.icon} alt="strategy-icon" width={16} />
+                <Icon src={vaultPointsProgram.icon} alt="points-icon" width={16} />
                 <DisplayText typography="medium2" viewValue={vaultPointsProgram.viewValue} />
               </FlexRow>
             </FlexCol>
