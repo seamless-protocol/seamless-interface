@@ -94,6 +94,12 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
   },
 };
 
+export interface PointsProgram {
+  icon: string;
+  viewValue: string;
+  symbol?: string;
+}
+
 /* -------------- */
 /*   Vault config */
 /* -------------- */
@@ -103,11 +109,7 @@ export interface VaultConfig {
   curator?: Curator;
   type: TagType;
 
-  pointsProgram?: {
-    icon: string;
-    viewValue: string;
-    symbol?: string;
-  };
+  pointsProgram?: PointsProgram;
 }
 
 export const vaultConfig: { [key: Address]: VaultConfig } = {

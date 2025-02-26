@@ -5,7 +5,7 @@ import { NetApyData } from "../types/UserReward";
 import chartIcon from "@assets/common/chart.svg";
 import placeholderIcon from "@assets/logos/placeholder.svg";
 import { Address } from "viem";
-import { vaultConfig } from "../../settings/config";
+import { PointsProgram, vaultConfig } from "../../settings/config";
 
 export function getViewFormattedApyAndPoints(
   netApyData: NetApyData,
@@ -13,6 +13,7 @@ export function getViewFormattedApyAndPoints(
 ): {
   rewardsOnly: ViewRewardToken[];
   rewardsWithNativeApyAndPoints: ViewRewardToken[];
+  vaultPointsProgram?: PointsProgram;
 } {
   const config = vaultAddress ? vaultConfig[vaultAddress] : undefined;
 
@@ -21,7 +22,6 @@ export function getViewFormattedApyAndPoints(
       symbol: reward.asset?.symbol || "Unknown",
       logo: reward.asset?.logoURI || placeholderIcon,
       apr: reward.totalAprPercent,
-      type: "APY",
     })) || [];
 
   const rewardsWithNativeApyAndPoints: ViewRewardToken[] = [
@@ -29,7 +29,6 @@ export function getViewFormattedApyAndPoints(
       symbol: "Native APY",
       apr: netApyData?.nativeAPY,
       logo: chartIcon,
-      type: "APY",
     },
     ...rewardsOnly,
   ];
@@ -39,14 +38,17 @@ export function getViewFormattedApyAndPoints(
         ...rewardsWithNativeApyAndPoints,
         {
           symbol: config.pointsProgram.symbol,
-          apr: {
+          points: {
             viewValue: config.pointsProgram.viewValue,
           } as ViewNumber,
           logo: config.pointsProgram.icon,
-          type: "Points",
         } as ViewRewardToken,
       ]
     : rewardsWithNativeApyAndPoints;
 
-  return { rewardsOnly, rewardsWithNativeApyAndPoints: finalRewardsWithNativeApyAndPoints };
+  return {
+    rewardsOnly,
+    rewardsWithNativeApyAndPoints: finalRewardsWithNativeApyAndPoints,
+    vaultPointsProgram: config?.pointsProgram,
+  };
 }
