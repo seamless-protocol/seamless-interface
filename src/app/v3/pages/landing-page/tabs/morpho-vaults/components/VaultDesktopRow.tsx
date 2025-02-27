@@ -16,10 +16,11 @@ import { Curator } from "../../../../../../statev3/morpho/types/Curator";
 import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
 
 import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
+import { Address } from "viem";
 
 interface VaultProps {
   name: string;
-  vaultAddress: string;
+  vaultAddress: Address;
   asset: MorphoAsset;
   totalAssets: ViewBigInt;
   totalAssetsUsd: string;
@@ -31,6 +32,7 @@ interface VaultProps {
 }
 
 export const VaultDesktopRow: React.FC<VaultProps> = ({
+  vaultAddress,
   name,
   asset,
   totalAssetsUsd,
@@ -64,7 +66,7 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
         <DisplayMoney typography="medium1" viewValue={totalAssetsUsd} className="text-primary-600" />
       </TableCell>
       <TableCell className="col-span-1">
-        <MorphoAprTooltip netApyData={netApyData} />
+        <MorphoAprTooltip netApyData={netApyData} vaultAddress={vaultAddress} />
       </TableCell>
       <TableCell className="col-span-1">
         <FlexRow className="gap-1">
