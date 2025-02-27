@@ -22,26 +22,26 @@ jobs:
       - name: Create env file
         run: |
           set -x
-          echo VITE_COIN_GECKO_API_URL=${{ vars.VITE_COIN_GECKO_API_URL }} > .env.production
-          echo VITE_TRM_LABS_API_URL=${{ vars.VITE_TRM_LABS_API_URL }} >> .env.production
-          echo VITE_BASE_WALLET_PROJECT_ID=${{ vars.VITE_BASE_WALLET_PROJECT_ID }} >> .env.production
-          echo VITE_LIFI_INTEGRATOR=${{ vars.VITE_LIFI_INTEGRATOR }} >> .env.production
-          echo VITE_BASE_RPC_FREE_1=${{ vars.VITE_BASE_RPC_FREE_1 }} >> .env.production
-          echo VITE_BASE_MAIN_RPC_URL=${{ vars.VITE_BASE_MAIN_RPC_URL }} >> .env.production
-          echo VITE_BASE_RPC_PAID_WS_2=${{ vars.VITE_BASE_RPC_PAID_WS_2 }} >> .env.production
-          echo VITE_SENTRY_AUTH_TOKEN=${{ vars.VITE_SENTRY_AUTH_TOKEN }} >> .env.production
-          echo VITE_STYLE_VERSION=${{ vars.VITE_STYLE_VERSION }} >> .env.production
-          echo VITE_USE_TENDERLY_SIMULATION=${{ vars.VITE_USE_TENDERLY_SIMULATION }} >> .env.production
-          echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
-          echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
-          echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
-          echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
-          echo VITE_CYPRESS_TEST_ENV=${{ vars.VITE_CYPRESS_TEST_ENV }} >> .env.production
-          echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.production
-          echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.production
-          echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.production
-          ls -al .env.production
-          cat .env.production
+          echo VITE_COIN_GECKO_API_URL=${{ vars.VITE_COIN_GECKO_API_URL }} > .env.development
+          echo VITE_TRM_LABS_API_URL=${{ vars.VITE_TRM_LABS_API_URL }} >> .env.development
+          echo VITE_BASE_WALLET_PROJECT_ID=${{ vars.VITE_BASE_WALLET_PROJECT_ID }} >> .env.development
+          echo VITE_LIFI_INTEGRATOR=${{ vars.VITE_LIFI_INTEGRATOR }} >> .env.development
+          echo VITE_BASE_RPC_FREE_1=${{ vars.VITE_BASE_RPC_FREE_1 }} >> .env.development
+          echo VITE_BASE_MAIN_RPC_URL=${{ vars.VITE_BASE_MAIN_RPC_URL }} >> .env.development
+          echo VITE_BASE_RPC_PAID_WS_2=${{ vars.VITE_BASE_RPC_PAID_WS_2 }} >> .env.development
+          echo VITE_SENTRY_AUTH_TOKEN=${{ vars.VITE_SENTRY_AUTH_TOKEN }} >> .env.development
+          echo VITE_STYLE_VERSION=${{ vars.VITE_STYLE_VERSION }} >> .env.development
+          echo VITE_USE_TENDERLY_SIMULATION=${{ vars.VITE_USE_TENDERLY_SIMULATION }} >> .env.development
+          echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.development
+          echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.development
+          echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.development
+          echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.development
+          echo VITE_CYPRESS_TEST_ENV=${{ vars.VITE_CYPRESS_TEST_ENV }} >> .env.development
+          echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.development
+          echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.development
+          echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.development
+          ls -al .env.development
+          cat .env.development
 
       - run: npm ci
 
