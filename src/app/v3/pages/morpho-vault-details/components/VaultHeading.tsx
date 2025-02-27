@@ -22,13 +22,20 @@ export const VaultHeading: React.FC<{
 
         {vaultInfo && (
           <div className="h-auto mt-[2px]">
-            <MorphoAprTooltip netApyData={vaultInfo?.netApyData} />
+            <MorphoAprTooltip netApyData={vaultInfo?.netApyData} vaultAddress={vault} />
           </div>
         )}
       </div>
-      {vaultInfo?.description && <DisplayText {...vaultInfoRest} error={{
-        message: vaultInfoRest.error?.message
-      }} typography="regular5" text={vaultInfo?.description} />}
+      {vaultInfo?.description && (
+        <DisplayText
+          {...vaultInfoRest}
+          error={{
+            message: vaultInfoRest.error?.message,
+          }}
+          typography="regular5"
+          text={vaultInfo?.description}
+        />
+      )}
     </FlexCol>
   );
 };
