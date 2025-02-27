@@ -14,5 +14,5 @@ export const TimeOuts = {
   // both values should be much less, but since tenderly
   // is working very very bad and unpredictable for now we will set such a big numbers
   transactionTimeout: 240000,
-  otherTimeout: 120000,
+  otherTimeout: 240000,
 };
