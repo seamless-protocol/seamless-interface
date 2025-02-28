@@ -5,32 +5,20 @@ import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
+import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault"; 
+import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
 
 
 export const StakingDepositForm = () => {
-  const { strategy: tokenAddress } = useFormSettingsContext();
-  // const { data: vaultData } = useFetchFormattedFullVaultInfo(vault);
-
+  
+  
   // if (!vaultData) {
   //   // eslint-disable-next-line no-console
   //   console.warn("Vault not found!!!");
   //   return <div className="min-h-[1000px]" />;
   // }
   // TODO: Move this to be fetched instead
-  const TokenInfo: TokenData = {
-    address: tokenAddress,
-    decimals: 18,
-    symbol: "stkSEAM",
-    name: "Staked SEAM",
-    logoURI: "",
-    asset: {
-      name: "SEAM",
-      symbol: "SEAM",
-      address: tokenAddress,
-      decimals: 18
-    } // set to SEAM address
-  }
+  const TokenInfo: TokenData = useFetchTokenData()
 
   return <StakeDepositFormLocal tokenData={TokenInfo} />;
 };
@@ -56,7 +44,7 @@ const StakeDepositFormLocal: React.FC<{
 
   const { showNotification } = useNotificationContext();
 
-  const { depositAsync, isPending } = useMutateDepositMorphoVault(tokenData.address); //TODO: Use Loop-strategy mutation instead
+  const { depositAsync, isPending } = useMutateDepositMorphoVault(tokenData.address); //TODO: May need custom
 
   const onSubmitAsync = async (data: FormData) => {
     await depositAsync(
@@ -84,7 +72,7 @@ const StakeDepositFormLocal: React.FC<{
       }
     );
   };
-
+  
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
@@ -95,7 +83,7 @@ const StakeDepositFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons tokenData={tokenData} isLoading={isPending} />
+        <FormButtons isLoading={isPending} />
       </FlexCol>
     </MyFormProvider>
   );

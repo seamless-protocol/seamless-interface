@@ -8,6 +8,8 @@ import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/Asse
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
+import { StakedSeam } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
@@ -55,14 +57,15 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  */
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
+  // TODO: get tokenData through hook
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(strategy);
-  const underlyingAssetAddress = asset?.address;
+  const data: StakedSeam = useFetchTokenData();
+  const underlyingAssetAddress = data.asset?.address;
 
   // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress);
+  const tokenData = useToken(underlyingAssetAddress); // TODO: this is wasteful because we do it in hook but it fixes type error for now
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -70,9 +73,11 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** max *** //
   // todo implement hook for vault
+  // TODO: just use user balance as the max
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
+  // TODO: This brings asset
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(underlyingAssetAddress);
 
   // *** balance *** //
@@ -81,8 +86,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
+    const valueBigInt = fParseUnits(value || "", data?.asset?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.asset?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
