@@ -8,6 +8,7 @@ import { getEquityContractQueryOptions } from "../Equity/Equity.fetch";
 export const getFetchLoopStrategyQKey = (address?: Address) => [
   getTotalSupplyContractQueryOptions(address).queryKey,
   getEquityContractQueryOptions(address).queryKey,
+  // ... other dependencies
 ];
 
 export const useFetchLoopStrategy = (address?: Address) => {
