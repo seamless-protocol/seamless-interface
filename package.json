@@ -15,7 +15,6 @@
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "cross-env NODE_ENV=production npm run switch-tailwind-config && npm run lint && npm run compile",
     "build": "vite build",
-    "build:prod": "concurrently --kill-others-on-fail \"npm run dev\" \"wait-on http://localhost:5174 && npm run test && npm run build\"",
     "anvil": "node run-anvil.mjs",
     "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others",
     "codegen": "graphql-codegen"
