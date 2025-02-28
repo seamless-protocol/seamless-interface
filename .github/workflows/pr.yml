@@ -1,52 +1,19 @@
-name: Run Tests
+name: Cypress Tests using Cypress Docker Image
 
-on:
-  pull_request:
-    branches:
-      - main
+on: push
 
 jobs:
-  run-tests:
-    runs-on: ubuntu-latest
-    environment: tests-pr
-
+  cypress-run:
+    runs-on: ubuntu-24.04
+    container:
+      image: cypress/browsers:22.12.0
+      options: --user 1001
     steps:
-      - name: Create env file
-        run: |
-          set -x
-          echo VITE_COIN_GECKO_API_URL=${{ vars.VITE_COIN_GECKO_API_URL }} > .env.development
-          echo VITE_TRM_LABS_API_URL=${{ vars.VITE_TRM_LABS_API_URL }} >> .env.development
-          echo VITE_BASE_WALLET_PROJECT_ID=${{ vars.VITE_BASE_WALLET_PROJECT_ID }} >> .env.development
-          echo VITE_LIFI_INTEGRATOR=${{ vars.VITE_LIFI_INTEGRATOR }} >> .env.development
-          echo VITE_BASE_RPC_FREE_1=${{ vars.VITE_BASE_RPC_FREE_1 }} >> .env.development
-          echo VITE_BASE_MAIN_RPC_URL=${{ vars.VITE_BASE_MAIN_RPC_URL }} >> .env.development
-          echo VITE_BASE_RPC_PAID_WS_2=${{ vars.VITE_BASE_RPC_PAID_WS_2 }} >> .env.development
-          echo VITE_SENTRY_AUTH_TOKEN=${{ vars.VITE_SENTRY_AUTH_TOKEN }} >> .env.development
-          echo VITE_STYLE_VERSION=${{ vars.VITE_STYLE_VERSION }} >> .env.development
-          echo VITE_USE_TENDERLY_SIMULATION=${{ vars.VITE_USE_TENDERLY_SIMULATION }} >> .env.development
-          echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.development
-          echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.development
-          echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.development
-          echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.development
-          echo VITE_CYPRESS_TEST_ENV=${{ vars.VITE_CYPRESS_TEST_ENV }} >> .env.development
-          echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.development
-          echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.development
-          echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.development
-          ls -al .env.development
-          cat .env.development
-
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
           start: npm start
-
-      # - name: Run Cypress tests
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     start: npm run dev
-      #     wait-on: "http://localhost:5174"
-      #     browser: chrome
+          browser: chrome
