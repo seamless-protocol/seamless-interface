@@ -1,5 +1,6 @@
-import { TimeOuts } from "../../../cypress/support/constants";
-
 describe("Home should exist", () => {
-  cy.get(`[data-cy='home']`, { timeout: TimeOuts.otherTimeout }).click();
+  it("clicks the home element", () => {
+    cy.visit("/");
+    cy.get(`[data-cy='home']`, { timeout: 10000 }).click();
+  });
 });
