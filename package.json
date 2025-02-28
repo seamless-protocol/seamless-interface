@@ -18,7 +18,8 @@
     "build:local": "concurrently --kill-others-on-fail \"npm run dev\" \"wait-on http://localhost:5174 && npm run test && npx cypress run --browser chrome && npm run build\"",
     "anvil": "node run-anvil.mjs",
     "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "start": "cross-env NODE_ENV=development && vite preview --port 5174"
   },
   "dependencies": {
     "@apollo/client": "^3.12.3",

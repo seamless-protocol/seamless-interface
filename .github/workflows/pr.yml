@@ -7,19 +7,10 @@ on:
 
 jobs:
   run-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     environment: tests-pr
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 20.15.0
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.15.0
-          cache: npm
-
       - name: Create env file
         run: |
           set -x
@@ -44,12 +35,18 @@ jobs:
           ls -al .env.development
           cat .env.development
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Run Cypress tests
+      - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run dev
-          wait-on: "http://localhost:5174"
-          browser: chrome
+          build: npm run build
+          start: npm start
+
+      # - name: Run Cypress tests
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     start: npm run dev
+      #     wait-on: "http://localhost:5174"
+      #     browser: chrome
