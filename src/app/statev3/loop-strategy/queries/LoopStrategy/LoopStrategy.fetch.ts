@@ -8,6 +8,8 @@ import { fetchToken } from "@shared";
 import { fetchTotalSupply } from "../../../common/queries/TotalSupply/TotalSupply.fetch";
 
 export const fetchLoopStrategy = async (address: Address): Promise<LoopStrategy> => {
+  console.log("fetchLoopStrategy fetching...");
+
   const [assetsCap, equity, equityUsd, tokenData, remainingCap, totalSupply] = await Promise.all([
     fetchAssetsCap(address),
     fetchEquity(address),

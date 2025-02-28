@@ -2,10 +2,15 @@ import { Address } from "viem";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { fetchLoopStrategy } from "./LoopStrategy.fetch";
 import { queryConfig } from "../../../settings/queryConfig";
+import { getTotalSupplyContractQueryOptions } from "../../../common/queries/TotalSupply/TotalSupply.fetch";
+import { getEquityContractQueryOptions } from "../Equity/Equity.fetch";
 
-export const getFetchLoopStrategyQKey = (address?: Address) => ["loopStrategy", address];
+export const getFetchLoopStrategyQKey = (address?: Address) => [
+  getTotalSupplyContractQueryOptions(address).queryKey,
+  getEquityContractQueryOptions(address).queryKey,
+];
 
-export const useFetchLoopStrategy = async (address?: Address) => {
+export const useFetchLoopStrategy = (address?: Address) => {
   return useQuery({
     queryKey: getFetchLoopStrategyQKey(address),
     queryFn: () => fetchLoopStrategy(address!),
