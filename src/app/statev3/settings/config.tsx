@@ -125,7 +125,7 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
     },
     pointsProgram: {
       icon: resolvIcon,
-      viewValue: "5x points",
+      viewValue: "Up to 5x points",
       symbol: "Resolv",
     },
   },
