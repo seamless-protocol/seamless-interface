@@ -1,11 +1,12 @@
 import { ethLong_1_5x } from "../../meta";
-import { getEquityContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/Equity.fetch";
 import { useFetchLoopStrategy } from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
 import { getEquityUsdContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/EquityUsd.fetch";
 import { invalidateGenericQueries } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
 import { getTotalSupplyContractQueryOptions } from "../statev3/common/queries/TotalSupply/TotalSupply.fetch";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function Testpage() {
+  const queryClient = useQueryClient();
   const { data } = useFetchLoopStrategy(ethLong_1_5x);
 
   const testInvalidation = () => {
@@ -14,16 +15,21 @@ export function Testpage() {
       qq: getEquityUsdContractQueryOptions(address).queryKey,
     });
     console.log("invalidating equity");
-    // queryClient.invalidateQueries({
-    //   queryKey: [{ equityUSD: getEquityUsdContractQueryOptions(address).queryKey }],
-    // });
+
     // queryClient.invalidateQueries({
     //   queryKey: getEquityUsdContractQueryOptions(address).queryKey,
     // });
-    invalidateGenericQueries({
-      equityUSD: getEquityUsdContractQueryOptions(address),
-      equity: getEquityContractQueryOptions(address),
-    });
+    // queryClient.invalidateQueries({
+    //   queryKey: getEquityContractQueryOptions(address).queryKey,
+    // });
+    // queryClient.invalidateQueries({
+    //   queryKey: [{ equityUSD: getEquityUsdContractQueryOptions(address).queryKey }],
+    // });
+
+    // invalidateGenericQueries({
+    //   equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
+    //   equity: getEquityContractQueryOptions(address).queryKey,
+    // });
   };
 
   const testEquityInvalidation = () => {

@@ -4,15 +4,15 @@ type QueryOptions = { queryKey: any };
 
 export function invalidateGenericQueries(queries: { [key: string]: QueryOptions }) {
   const queryClient = getQueryClient();
-
-  Object.entries(queries).forEach(([wrapperKey, queryOptions]) => {
-    // Invalidate using a wrapped key
+  Object.entries(queries).forEach(([_, queryKey]) => {
     queryClient.invalidateQueries({
-      queryKey: [{ [wrapperKey]: queryOptions.queryKey }],
+      queryKey,
     });
+  });
 
+  Object.entries(queries).forEach(([wrapperKey, queryKey]) => {
     queryClient.invalidateQueries({
-      queryKey: queryOptions.queryKey,
+      queryKey: [{ [wrapperKey]: queryKey }],
     });
   });
 }
