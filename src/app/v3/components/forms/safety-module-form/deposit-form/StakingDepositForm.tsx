@@ -5,7 +5,7 @@ import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault"; 
+import { useDepositSafetyModule } from "../../../../../statev3/safetyModule/mutations/useDepositSafetyModule"; 
 import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
 
 
@@ -44,10 +44,10 @@ const StakeDepositFormLocal: React.FC<{
 
   const { showNotification } = useNotificationContext();
 
-  const { depositAsync, isPending } = useMutateDepositMorphoVault(tokenData.address); //TODO: May need custom
+  const { stakeAsync, isPending } = useDepositSafetyModule(); //TODO: May need custom
 
   const onSubmitAsync = async (data: FormData) => {
-    await depositAsync(
+    await stakeAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
       },
@@ -58,7 +58,7 @@ const StakeDepositFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Supplied {data.amount} {underlyingAssetSymbol}
+                  You Staked {data.amount} {tokenData.asset.symbol}
                 </Typography>
                 {tokenData && <WatchAssetComponentv2 {...tokenData} address={tokenData?.address} />}
               </FlexCol>

@@ -73,7 +73,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** max *** //
   // todo implement hook for vault
-  // TODO: just use user balance as the max
+  // TODO: Should work the same as fetch balance
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //

@@ -3,15 +3,11 @@ import {
   AuthGuardv2,
   Buttonv2,
   useIsSmartWallet,
-  getApproveState,
-  useERC20Approve,
   Typography,
 } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 export const FormButtons: React.FC<{
@@ -19,7 +15,7 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
-  const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
+  // const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   const {
     watch,
@@ -30,11 +26,11 @@ export const FormButtons: React.FC<{
   const { address } = useAccount();
   const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useIsSmartWallet(address);
 
-  const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    vaultData.address,
-    bundler,
-    parseUnits(amount, vaultData.asset.decimals)
-  );
+  // const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
+  //   vaultData.address,
+  //   bundler,
+  //   parseUnits(amount, vaultData.asset.decimals)
+  // );
 
   if (!amount) {
     return (
@@ -56,33 +52,17 @@ export const FormButtons: React.FC<{
 
   return (
     <FlexCol className="gap-2 w-full">
-      {isSmartWallet && (
-        <AuthGuardv2 message="">
-          <Buttonv2
-            data-cy="approvalButton"
-            className="text-bold3"
-            disabled={isApproved}
-            loading={!isApproved && (isApproving || isLoading)}
-            onClick={async () => {
-              await approveAsync();
-            }}
-          >
-            {getApproveState(isApproved, justApproved)}
-          </Buttonv2>
-        </AuthGuardv2>
-      )}
-
-      <AuthGuardv2 message="">
-        <Buttonv2
-          data-cy="actionButton"
-          className="text-bold3"
-          type="submit"
-          disabled={(!isApproved && isSmartWallet) || isDisabled || isSubmitting}
-          loading={isLoading || isSmartWalletLoading}
-        >
-          Withdraw
-        </Buttonv2>
-      </AuthGuardv2>
-    </FlexCol>
+  <AuthGuardv2 message="">
+    <Buttonv2
+      data-cy="actionButton"
+      className="text-bold3"
+      type="submit"
+      disabled={isDisabled || isSubmitting}
+      loading={isLoading || isSmartWalletLoading}
+    >
+      Withdraw
+    </Buttonv2>
+  </AuthGuardv2>
+</FlexCol>
   );
 };

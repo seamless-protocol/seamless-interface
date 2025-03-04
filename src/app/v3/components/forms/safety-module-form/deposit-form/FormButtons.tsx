@@ -11,7 +11,6 @@ export const FormButtons: React.FC<{
   isDisabled?: boolean;
 }> = ({  isLoading, isDisabled }) => {
   const tokenData: StakedSeam = useFetchTokenData();
-  const { bundler } = addresses[ChainId.BaseMainnet];
 
   const {
     watch,
@@ -21,7 +20,7 @@ export const FormButtons: React.FC<{
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     tokenData.asset.address,
-    bundler,
+    tokenData.address,
     parseUnits(amount || "0", tokenData.asset.decimals ?? 18)
   );
 
