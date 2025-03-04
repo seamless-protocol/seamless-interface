@@ -14,7 +14,7 @@ React front end application for interacting with [Seamless Protocol](https://sea
 
 [![Website](https://img.shields.io/website-up-down-green-red/https/seamlessprotocol.com.svg)](https://seamlessprotocol.com)
 [![Docs](https://img.shields.io/badge/docs-up-green)](https://docs.seamlessprotocol.com/)
-[![Discord](https://img.shields.io/discord/1067165013397213286?label=discord)](https://discord.com/invite/Uye9jCVgUp)
+[![Discord](https://img.shields.io/discord/1067165013397213286?label=discord)](https://discord.com/invite/seamlessprotocol)
 [![Twitter seamlessfi](https://img.shields.io/twitter/follow/seamlessfi?style=social)](https://twitter.com/seamlessfi)
 
 <!-- Badge row 3 - detailed status -->

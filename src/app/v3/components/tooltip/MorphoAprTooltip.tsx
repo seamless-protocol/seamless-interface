@@ -1,16 +1,39 @@
 import React from "react";
-import { getViewFormattedNetApyData } from "../../../statev3/morpho/mappers/mapNetApyData/fNetApyData";
 import { IncentivesButton } from "./AprTooltip";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
 import { NetApyData } from "../../../statev3/morpho/types/UserReward";
+import { Address } from "viem";
+import { FlexCol, FlexRow, Icon, DisplayText } from "@shared";
+import { getViewFormattedApyAndPoints } from "../../../statev3/morpho/mappers/getViewFormattedApyAndPoints";
 
 export const MorphoAprTooltip: React.FC<{
   netApyData?: NetApyData;
-}> = ({ netApyData }) => {
+  vaultAddress?: Address;
+}> = ({ netApyData, vaultAddress }) => {
   if (!netApyData) return null;
-  const { rewardsOnly, rewardsWithNativeApy } = getViewFormattedNetApyData(netApyData);
+  const {
+    rewardsOnly,
+    rewardsWithNativeApyAndPoints: rewardsWithNativeApy,
+    vaultPointsProgram,
+  } = getViewFormattedApyAndPoints(netApyData, vaultAddress);
+
   return (
-    <IncentivesButton rewardTokens={rewardsOnly} totalApr={netApyData?.netApy}>
+    <IncentivesButton
+      rewardTokens={rewardsOnly}
+      totalApr={netApyData?.netApy}
+      additionalElement={
+        <div>
+          {vaultPointsProgram && (
+            <FlexCol className="items-center gap-1">
+              <FlexRow className=" bg-blue-200 items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
+                <Icon src={vaultPointsProgram.icon} alt="points-icon" width={16} />
+                <DisplayText typography="medium2" viewValue={vaultPointsProgram.viewValue} />
+              </FlexRow>
+            </FlexCol>
+          )}
+        </div>
+      }
+    >
       <IncentivesDetailCard totalApr={netApyData?.netApy} rewardTokens={rewardsWithNativeApy} />
     </IncentivesButton>
   );

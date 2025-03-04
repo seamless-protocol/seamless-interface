@@ -25,6 +25,7 @@ import USDC_ETH_1_5x_ShortImage from "@assets/diagrams/USDC_ETH_1_5x_Short.png";
 import wstETH_ETH_3x_StakingImage from "@assets/diagrams/wstETH_ETH_3x_Staking.png";
 import cbBTC_1_5x_LongImage from "@assets/diagrams/cbBTC_1_5x_Long.png";
 import cbBTC_3x_LongImage from "@assets/diagrams/cbBTC_3x_Long.png";
+import resolvIcon from "@assets/logos/resolv.svg";
 import logoGauntlet from "@assets/logos/logo-gauntlet.svg";
 import { LendMarketConfig } from "./configTypes";
 import { assetsConfig } from "./landingMarketConfig";
@@ -93,6 +94,12 @@ export const strategyConfig: { [key: Address]: StrategyConfig } = {
   },
 };
 
+export interface PointsProgram {
+  icon: string;
+  viewValue: string;
+  symbol?: string;
+}
+
 /* -------------- */
 /*   Vault config */
 /* -------------- */
@@ -101,6 +108,8 @@ export interface VaultConfig {
   description: string;
   curator?: Curator;
   type: TagType;
+
+  pointsProgram?: PointsProgram;
 }
 
 export const vaultConfig: { [key: Address]: VaultConfig } = {
@@ -113,6 +122,11 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
       address: seamlessUSDCMorphoVault,
       name: "Gauntlet",
       icon: logoGauntlet,
+    },
+    pointsProgram: {
+      icon: resolvIcon,
+      viewValue: "Up to 5x points",
+      symbol: "Resolv",
     },
   },
   [seamlesscbBTCMorphoVault]: {
