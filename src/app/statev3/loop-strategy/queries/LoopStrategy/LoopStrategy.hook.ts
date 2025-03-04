@@ -4,11 +4,16 @@ import { fetchLoopStrategy } from "./LoopStrategy.fetch";
 import { queryConfig } from "../../../settings/queryConfig";
 import { getTotalSupplyContractQueryOptions } from "../../../common/queries/TotalSupply/TotalSupply.fetch";
 import { getEquityContractQueryOptions } from "../Equity/Equity.fetch";
+import { getEquityUsdContractQueryOptions } from "../Equity/EquityUsd.fetch";
 
 export const getFetchLoopStrategyQKey = (address?: Address) => [
-  getTotalSupplyContractQueryOptions(address).queryKey,
-  getEquityContractQueryOptions(address).queryKey,
-  // ... other dependencies
+  {
+    scope: "loopStrategy",
+    address,
+    totalSupply: getTotalSupplyContractQueryOptions(address).queryKey,
+    equity: getEquityContractQueryOptions(address).queryKey,
+    equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
+  },
 ];
 
 export const useFetchLoopStrategy = (address?: Address) => {

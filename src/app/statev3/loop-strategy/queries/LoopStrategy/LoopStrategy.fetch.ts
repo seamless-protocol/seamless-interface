@@ -12,6 +12,7 @@ export const fetchLoopStrategy = async (address: Address): Promise<LoopStrategy>
 
   const [assetsCap, equity, equityUsd, tokenData, remainingCap, totalSupply] = await Promise.all([
     fetchAssetsCap(address),
+    // mutate equity, EquityUsd
     fetchEquity(address),
     fetchEquityUsd(address),
     fetchToken(address),

@@ -1,26 +1,36 @@
 import { ethLong_1_5x } from "../../meta";
-import { getTotalSupplyContractQueryOptions } from "../statev3/common/queries/TotalSupply/TotalSupply.fetch";
 import { getEquityContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/Equity.fetch";
-import { invalidateDependentQueries } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
 import { useFetchLoopStrategy } from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
+import { getEquityUsdContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/EquityUsd.fetch";
+import { invalidateGenericQueries } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
+import { getTotalSupplyContractQueryOptions } from "../statev3/common/queries/TotalSupply/TotalSupply.fetch";
 
 export function Testpage() {
   const { data } = useFetchLoopStrategy(ethLong_1_5x);
 
   const testInvalidation = () => {
     const address = ethLong_1_5x;
-    // getTotalSupplyContractQueryOptions(address).queryKey,
-    // getEquityContractQueryOptions(address).queryKey,
+    console.log({
+      qq: getEquityUsdContractQueryOptions(address).queryKey,
+    });
     console.log("invalidating equity");
-    invalidateDependentQueries([getEquityContractQueryOptions(address).queryKey]);
+    // queryClient.invalidateQueries({
+    //   queryKey: [{ equityUSD: getEquityUsdContractQueryOptions(address).queryKey }],
+    // });
+    // queryClient.invalidateQueries({
+    //   queryKey: getEquityUsdContractQueryOptions(address).queryKey,
+    // });
+    invalidateGenericQueries({
+      equityUSD: getEquityUsdContractQueryOptions(address),
+      equity: getEquityContractQueryOptions(address),
+    });
   };
 
   const testEquityInvalidation = () => {
     const address = ethLong_1_5x;
-    // getTotalSupplyContractQueryOptions(address).queryKey,
-    // getEquityContractQueryOptions(address).queryKey,
-    console.log("invalidating total supply");
-    invalidateDependentQueries([getTotalSupplyContractQueryOptions(address).queryKey]);
+    invalidateGenericQueries({
+      totalSupply: getTotalSupplyContractQueryOptions(address),
+    });
   };
   return (
     <div className="flex flex-col gap-4">
