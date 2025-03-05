@@ -26,8 +26,10 @@ export const useFetchLoopStrategy = (address?: Address) => {
 };
 
 export const getFetchLoopStrategyQKeyArray = (address?: Address) => [
-  "loopStrategy",
-  address,
+  {
+    functionName: "FetchLoopStrategy",
+    address,
+  },
   getTotalSupplyContractQueryOptions(address).queryKey[1],
   getEquityContractQueryOptions(address).queryKey[1],
   getEquityUsdContractQueryOptions(address).queryKey[1],

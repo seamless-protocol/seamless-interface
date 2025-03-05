@@ -1,5 +1,6 @@
 import { ethLong_1_5x } from "../../meta";
 import {
+  baseQKLoopStrategy,
   useFetchLoopStrategy,
   useFetchLoopStrategyArray,
 } from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
@@ -65,10 +66,16 @@ export function Testpage() {
     ]);
   };
 
+  const handleInvalidateLoopStr = () => {
+    const address = ethLong_1_5x;
+    invalidateGenericQueriesArray([{ functionName: "FetchLoopStrategy", address }]);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <button onClick={testInvalidation}>invalidate equity</button>
       <button onClick={handleInvalidateGenericQueriesArray}>invalidate equity array</button>
+      <button onClick={handleInvalidateLoopStr}>handleInvalidateLoopStr</button>
       <button onClick={() => mutate()}>{isPending ? "mutating" : "mutate equity"}</button>
       <div>
         <p>{String(data?.totalSupply) || "/"}</p>

@@ -1,3 +1,4 @@
+import { isMatch } from "lodash";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 
 type QueryOptions = { queryKey: any };
@@ -22,8 +23,10 @@ export function invalidateGenericQueriesArray(queries: any[]) {
   queries.forEach((matcherKey) => {
     queryClient.invalidateQueries({
       predicate: (cachedQuery) => {
+        console.log({ cachedQueryqq: cachedQuery.queryKey });
+        console.log({ matcherKey });
         return cachedQuery.queryKey.some((element: any) => {
-          return JSON.stringify(element) === JSON.stringify(matcherKey);
+          return isMatch(element, matcherKey);
         });
       },
     });
