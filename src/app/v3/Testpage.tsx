@@ -1,10 +1,16 @@
 import { ethLong_1_5x } from "../../meta";
-import { useFetchLoopStrategy } from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
+import {
+  useFetchLoopStrategy,
+  useFetchLoopStrategyArray,
+} from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
 import { getEquityUsdContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/EquityUsd.fetch";
-import { invalidateGenericQueries } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
-import { getTotalSupplyContractQueryOptions } from "../statev3/common/queries/TotalSupply/TotalSupply.fetch";
+import {
+  invalidateGenericQueries,
+  invalidateGenericQueriesArray,
+} from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getEquityContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/Equity.fetch";
+import { data } from "cypress/types/jquery";
 
 function resolveAfter(ms: number) {
   return new Promise((resolve) => {
@@ -14,7 +20,8 @@ function resolveAfter(ms: number) {
 
 export function Testpage() {
   const queryClient = useQueryClient();
-  const { data } = useFetchLoopStrategy(ethLong_1_5x);
+  // const { data } = useFetchLoopStrategy(ethLong_1_5x);
+  const { data } = useFetchLoopStrategyArray(ethLong_1_5x);
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => resolveAfter(100),
@@ -49,17 +56,19 @@ export function Testpage() {
     });
   };
 
-  const testEquityInvalidation = () => {
+  const handleInvalidateGenericQueriesArray = () => {
     const address = ethLong_1_5x;
-    invalidateGenericQueries({
-      totalSupply: getTotalSupplyContractQueryOptions(address),
-    });
+
+    invalidateGenericQueriesArray([
+      getEquityUsdContractQueryOptions(address).queryKey[1],
+      getEquityContractQueryOptions(address).queryKey[1],
+    ]);
   };
 
   return (
     <div className="flex flex-col gap-4">
       <button onClick={testInvalidation}>invalidate equity</button>
-      <button onClick={testEquityInvalidation}>invalidate total supply</button>
+      <button onClick={handleInvalidateGenericQueriesArray}>invalidate equity array</button>
       <button onClick={() => mutate()}>{isPending ? "mutating" : "mutate equity"}</button>
       <div>
         <p>{String(data?.totalSupply) || "/"}</p>

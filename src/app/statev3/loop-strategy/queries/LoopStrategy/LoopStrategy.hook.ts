@@ -25,6 +25,23 @@ export const useFetchLoopStrategy = (address?: Address) => {
   });
 };
 
+export const getFetchLoopStrategyQKeyArray = (address?: Address) => [
+  "loopStrategy",
+  address,
+  getTotalSupplyContractQueryOptions(address).queryKey[1],
+  getEquityContractQueryOptions(address).queryKey[1],
+  getEquityUsdContractQueryOptions(address).queryKey[1],
+];
+
+export const useFetchLoopStrategyArray = (address?: Address) => {
+  return useQuery({
+    queryKey: getFetchLoopStrategyQKeyArray(address),
+    queryFn: () => fetchLoopStrategy(address!),
+    enabled: !!address,
+    ...queryConfig.semiSensitiveDataQueryConfig,
+  });
+};
+
 /**
  * Custom hook to fetch Loop Strategies for multiple addresses using `useQueries`.
  *

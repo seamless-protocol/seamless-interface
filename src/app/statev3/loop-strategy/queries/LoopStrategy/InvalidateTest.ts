@@ -16,3 +16,16 @@ export function invalidateGenericQueries(queries: { [key: string]: QueryOptions 
     });
   });
 }
+
+export function invalidateGenericQueriesArray(queries: any[]) {
+  const queryClient = getQueryClient();
+  queries.forEach((matcherKey) => {
+    queryClient.invalidateQueries({
+      predicate: (cachedQuery) => {
+        return cachedQuery.queryKey.some((element: any) => {
+          return JSON.stringify(element) === JSON.stringify(matcherKey);
+        });
+      },
+    });
+  });
+}
