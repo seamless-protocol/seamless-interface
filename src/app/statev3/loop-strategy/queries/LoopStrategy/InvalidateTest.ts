@@ -5,12 +5,14 @@ type QueryOptions = { queryKey: any };
 
 export function invalidateGenericQueries(queries: { [key: string]: QueryOptions }) {
   const queryClient = getQueryClient();
+  // this could still have race condition issues, we would need to await here,
   Object.entries(queries).forEach(([_, queryKey]) => {
     queryClient.invalidateQueries({
       queryKey,
     });
   });
 
+  // then await here
   Object.entries(queries).forEach(([wrapperKey, queryKey]) => {
     queryClient.invalidateQueries({
       queryKey: [{ [wrapperKey]: queryKey }],
