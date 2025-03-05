@@ -17,8 +17,22 @@ export async function fetchEquity(address?: Address): Promise<bigint> {
   const queryClient = getQueryClient();
   console.log({ qq: getEquityContractQueryOptions(address).queryKey });
 
+  // const equity = await queryClient.fetchQuery({
+  //   ...getEquityContractQueryOptions(address),
+  //   ...queryConfig.semiSensitiveDataQueryConfig,
+  // });
   const equity = await queryClient.fetchQuery({
-    ...getEquityContractQueryOptions(address),
+    queryKey: [
+      "readContract",
+      {
+        address,
+        functionName: "equity",
+      },
+    ],
+    queryFn: async () => {
+      // return random number
+      return BigInt(Math.floor(Math.random() * 1000));
+    },
     ...queryConfig.semiSensitiveDataQueryConfig,
   });
 

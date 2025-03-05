@@ -11,7 +11,6 @@ import {
 } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getEquityContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/Equity.fetch";
-import { data } from "cypress/types/jquery";
 
 function resolveAfter(ms: number) {
   return new Promise((resolve) => {
@@ -21,8 +20,8 @@ function resolveAfter(ms: number) {
 
 export function Testpage() {
   const queryClient = useQueryClient();
-  // const { data } = useFetchLoopStrategy(ethLong_1_5x);
-  const { data } = useFetchLoopStrategyArray(ethLong_1_5x);
+  const { data } = useFetchLoopStrategy(ethLong_1_5x);
+  const { data: _data } = useFetchLoopStrategyArray(ethLong_1_5x);
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => resolveAfter(100),
@@ -80,6 +79,10 @@ export function Testpage() {
       <div>
         <p>{String(data?.totalSupply) || "/"}</p>
         <p>{String(data?.equity) || "/"}</p>
+      </div>
+      <div>
+        <p>{String(_data?.totalSupply) || "/"}</p>
+        <p>{String(_data?.equity) || "/"}</p>
       </div>
     </div>
   );
