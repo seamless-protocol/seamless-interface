@@ -17,6 +17,7 @@ import * as Sentry from "@sentry/react";
 import { FallbackPage, LifiWidgetProvider, LiFiWidgetWrapper } from "@shared";
 import { myRainbowkitThemeConfigV2 } from "./app/v3/config/rainbow-modal.config";
 import { Testpage } from "./app/v3/Testpage";
+import { App } from "./app/v3/App";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <RainbowKitProvider theme={myRainbowkitThemeConfigV2}>
             <LifiWidgetProvider>
               <Testpage />
+              <App />
               <LiFiWidgetWrapper />
             </LifiWidgetProvider>
           </RainbowKitProvider>

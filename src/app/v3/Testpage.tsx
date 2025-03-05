@@ -3,11 +3,28 @@ import { useFetchLoopStrategy } from "../statev3/loop-strategy/queries/LoopStrat
 import { getEquityUsdContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/EquityUsd.fetch";
 import { invalidateGenericQueries } from "../statev3/loop-strategy/queries/LoopStrategy/InvalidateTest";
 import { getTotalSupplyContractQueryOptions } from "../statev3/common/queries/TotalSupply/TotalSupply.fetch";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getEquityContractQueryOptions } from "../statev3/loop-strategy/queries/Equity/Equity.fetch";
+
+function resolveAfter(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ success: true }), ms);
+  });
+}
 
 export function Testpage() {
   const queryClient = useQueryClient();
   const { data } = useFetchLoopStrategy(ethLong_1_5x);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => resolveAfter(100),
+    // meta: {
+    //   invalidates: {
+    //     equityUSD: getEquityUsdContractQueryOptions(ethLong_1_5x).queryKey,
+    //     equity: getEquityContractQueryOptions(ethLong_1_5x).queryKey,
+    //   },
+    // },
+  });
 
   const testInvalidation = () => {
     const address = ethLong_1_5x;
@@ -26,10 +43,10 @@ export function Testpage() {
     //   queryKey: [{ equityUSD: getEquityUsdContractQueryOptions(address).queryKey }],
     // });
 
-    // invalidateGenericQueries({
-    //   equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
-    //   equity: getEquityContractQueryOptions(address).queryKey,
-    // });
+    invalidateGenericQueries({
+      equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
+      equity: getEquityContractQueryOptions(address).queryKey,
+    });
   };
 
   const testEquityInvalidation = () => {
@@ -38,10 +55,12 @@ export function Testpage() {
       totalSupply: getTotalSupplyContractQueryOptions(address),
     });
   };
+
   return (
     <div className="flex flex-col gap-4">
       <button onClick={testInvalidation}>invalidate equity</button>
       <button onClick={testEquityInvalidation}>invalidate total supply</button>
+      <button onClick={() => mutate()}>{isPending ? "mutating" : "mutate equity"}</button>
       <div>
         <p>{String(data?.totalSupply) || "/"}</p>
         <p>{String(data?.equity) || "/"}</p>
