@@ -5,7 +5,7 @@ import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useWithdrawSafetyModule";
+import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 export const UnstakeForm = () => {
