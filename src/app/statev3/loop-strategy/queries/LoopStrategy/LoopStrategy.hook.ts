@@ -17,13 +17,6 @@ export const getFetchLoopStrategyQKey = (address?: Address) => [
   },
 ];
 
-// fetchTotalSupply() 1
-// someFunction(totalSupply) 2  TotalSupplyQK
-// someThirdLayer 3 [SomeFunctionQK TotalSupplyQK]
-
-// frame1 invalidate all
-// frame2 react to invalidation
-
 export const useFetchLoopStrategy = (address?: Address) => {
   return useQuery({
     queryKey: getFetchLoopStrategyQKey(address),
