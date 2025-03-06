@@ -1,6 +1,5 @@
 import { ethLong_1_5x } from "../../meta";
 import {
-  baseQKLoopStrategy,
   useFetchLoopStrategy,
   useFetchLoopStrategyArray,
 } from "../statev3/loop-strategy/queries/LoopStrategy/LoopStrategy.hook";
@@ -33,7 +32,7 @@ export function Testpage() {
     // },
   });
 
-  const testInvalidation = () => {
+  const testInvalidation = async () => {
     const address = ethLong_1_5x;
     console.log({
       qq: getEquityUsdContractQueryOptions(address).queryKey,
@@ -50,24 +49,26 @@ export function Testpage() {
     //   queryKey: [{ equityUSD: getEquityUsdContractQueryOptions(address).queryKey }],
     // });
 
-    invalidateGenericQueries({
+    await invalidateGenericQueries({
       equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
       equity: getEquityContractQueryOptions(address).queryKey,
     });
+    // 1. getEquityUsdContractQueryOptions(address).queryKey,
+    // 2. equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
   };
 
-  const handleInvalidateGenericQueriesArray = () => {
+  const handleInvalidateGenericQueriesArray = async () => {
     const address = ethLong_1_5x;
 
-    invalidateGenericQueriesArray([
+    await invalidateGenericQueriesArray([
       getEquityUsdContractQueryOptions(address).queryKey[1],
       getEquityContractQueryOptions(address).queryKey[1],
     ]);
   };
 
-  const handleInvalidateLoopStr = () => {
+  const handleInvalidateLoopStr = async () => {
     const address = ethLong_1_5x;
-    invalidateGenericQueriesArray([{ functionName: "FetchLoopStrategy", address }]);
+    await invalidateGenericQueriesArray([{ functionName: "FetchLoopStrategy", address }]);
   };
 
   return (
@@ -79,10 +80,12 @@ export function Testpage() {
       <div>
         <p>{String(data?.totalSupply) || "/"}</p>
         <p>{String(data?.equity) || "/"}</p>
+        <p>{String(data?.eqDep) || "/"}</p>
       </div>
       <div>
         <p>{String(_data?.totalSupply) || "/"}</p>
         <p>{String(_data?.equity) || "/"}</p>
+        <p>{String(_data?.eqDep) || "/"}</p>
       </div>
     </div>
   );

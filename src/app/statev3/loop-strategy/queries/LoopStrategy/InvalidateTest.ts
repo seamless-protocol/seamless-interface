@@ -3,34 +3,39 @@ import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 
 type QueryOptions = { queryKey: any };
 
-export function invalidateGenericQueries(queries: { [key: string]: QueryOptions }) {
+export async function invalidateGenericQueries(queries: { [key: string]: QueryOptions }) {
   const queryClient = getQueryClient();
-  // this could still have race condition issues, we would need to await here,
+  const promises: any[] = [];
+
+  // Invalidate child queries
   Object.entries(queries).forEach(([_, queryKey]) => {
-    queryClient.invalidateQueries({
-      queryKey,
-    });
+    promises.push(queryClient.invalidateQueries({ queryKey }));
   });
 
-  // then await here
+  // Invalidate parent queries
   Object.entries(queries).forEach(([wrapperKey, queryKey]) => {
-    queryClient.invalidateQueries({
-      queryKey: [{ [wrapperKey]: queryKey }],
-    });
+    promises.push(
+      queryClient.invalidateQueries({
+        queryKey: [{ [wrapperKey]: queryKey }],
+      })
+    );
   });
+
+  // Wait for all invalidations to finish
+  await Promise.all(promises);
 }
 
-export function invalidateGenericQueriesArray(queries: any[]) {
+export async function invalidateGenericQueriesArray(queries: any[]) {
   const queryClient = getQueryClient();
-  queries.forEach((matcherKey) => {
+  const promises = queries.map((matcherKey) =>
     queryClient.invalidateQueries({
       predicate: (cachedQuery) => {
         console.log({ cachedQueryqq: cachedQuery.queryKey });
         console.log({ matcherKey });
-        return cachedQuery.queryKey.some((element: any) => {
-          return isMatch(element, matcherKey);
-        });
+        // first invalidate parent and then child
+        return cachedQuery.queryKey.some((element: any) => isMatch(element, matcherKey));
       },
-    });
-  });
+    })
+  );
+  await Promise.all(promises);
 }

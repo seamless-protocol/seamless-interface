@@ -9,6 +9,7 @@ export interface LoopStrategy extends ERC4626Data {
   remainingPercentage?: bigint;
 
   equity?: bigint;
+  eqDep?: bigint;
 
   equityUsd?: bigint;
 }

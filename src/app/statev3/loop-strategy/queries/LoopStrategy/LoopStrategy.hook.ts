@@ -12,9 +12,17 @@ export const getFetchLoopStrategyQKey = (address?: Address) => [
     address,
     totalSupply: getTotalSupplyContractQueryOptions(address).queryKey,
     equity: getEquityContractQueryOptions(address).queryKey,
+    // hashOfQueryKey: getEquityUsdContractQueryOptions(address).queryKey
     equityUSD: getEquityUsdContractQueryOptions(address).queryKey,
   },
 ];
+
+// fetchTotalSupply() 1
+// someFunction(totalSupply) 2  TotalSupplyQK
+// someThirdLayer 3 [SomeFunctionQK TotalSupplyQK]
+
+// frame1 invalidate all
+// frame2 react to invalidation
 
 export const useFetchLoopStrategy = (address?: Address) => {
   return useQuery({
