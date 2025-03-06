@@ -49,4 +49,4 @@ export const queryConfig = {
   analyticsDataQueryConfig,
   walletDataQueryConfig,
   platformDataQueryConfig,
-}
+};
