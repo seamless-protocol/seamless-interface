@@ -8,7 +8,7 @@ import { useAccount } from "wagmi";
 import { FormContainer } from "./FormContainer";
 
 export const StakingPage = () => {
-  
+  //TODO: Cleanup unused
   const { isConnected } = useAccount();
   const address = "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284";
   const vault = address as Address | undefined;

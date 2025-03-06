@@ -35,10 +35,10 @@ export async function fetchUnstakeWindow(asset: Address): Promise<FetchBigInt | 
   };
 }
 
-export const useFetchCooldown = (asset?: Address): FetchData<FetchBigInt | undefined> => {
+export const useFetchUnstakeWindow = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   
   const { data: result, ...restResult } = useQuery({
-    queryKey: ["fetchCooldown", asset],
+    queryKey: ["fetchUnstakeWindow", asset],
     queryFn: () => fetchUnstakeWindow(asset!),
     enabled: !!asset 
   });

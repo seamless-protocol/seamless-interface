@@ -9,29 +9,36 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useAccount } from "wagmi";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { walletBalanceDecimalsOptions } from "@meta";
+import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 
 export const FormButtons: React.FC<{
-  
+  vaultData: TokenData;
   isLoading?: boolean;
   isDisabled?: boolean;
-  isUnstakeWindow?: boolean
-}> = ({ isLoading, isDisabled, isUnstakeWindow }) => {
+}> = ({ vaultData, isLoading, isDisabled }) => {
   // const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   const {
-    watch,
     formState: { isSubmitting },
   } = useFormContext();
-  const amount = watch("amount", "0");
+  
 
   const { address } = useAccount();
   const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useIsSmartWallet(address);
 
+  const { data: viewBalance } = useFetchViewAssetBalance(vaultData.address, walletBalanceDecimalsOptions);
 
-  if (!amount) {
+  // const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
+  //   vaultData.address,
+  //   bundler,
+  //   parseUnits(amount, vaultData.asset.decimals)
+  // );
+
+  if (viewBalance.balance?.value?.toString() === "0") {
     return (
       <Buttonv2 className="text-bold3" disabled>
-        {!isUnstakeWindow ? "Wait For Cooldown" : "Enter amount"}
+        Acquire stkSEAM
       </Buttonv2>
     );
   }
@@ -56,7 +63,7 @@ export const FormButtons: React.FC<{
       disabled={isDisabled || isSubmitting}
       loading={isLoading || isSmartWalletLoading}
     >
-      Withdraw
+      Start Cooldown
     </Buttonv2>
   </AuthGuardv2>
 </FlexCol>

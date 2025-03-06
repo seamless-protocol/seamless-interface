@@ -1,22 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 // import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { StakingDepositForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
-// import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown"
+import { CooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/CooldownForm";
+import { useWatchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
+import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
+import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
+
+const getDeadlines = (startTime:bigint, cooldown:bigint, unstakeWindow:bigint) => {
+  const canUnstakeAt = startTime + cooldown;
+  const unstakeEndsAt = canUnstakeAt + unstakeWindow;
+  return { canUnstakeAt, unstakeEndsAt }
+}
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
   const address = "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284"; // TODO: put this somewhere better
   const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
-  // const {data: cooldown} = useFetchStakerCooldown(address);
+  const [hasCooldown, setHasCooldown] = useState(false);
+  const [remaining, setRemaining] = useState(0);
+  const [isUnstakeWindow, setIsUnstakeWindow] = useState(false);
+  const {data: userCooldown} = useWatchStakerCooldown(address);
+  const {data: cooldown} = useFetchCooldown(address);
+  const {data: unstakeWindow} = useFetchUnstakeWindow(address);
 
-  // console.log(cooldown?.bigIntValue?.toString());
+  const userCooldownValue = userCooldown?.bigIntValue ?? 0n;
+  const cooldownValue = cooldown?.bigIntValue ?? 0n;
+  const unstakeWindowValue = unstakeWindow?.bigIntValue ?? 0n;
   
+  
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now:number = parseInt((Date.now() / 1000).toString(), 10);
+      const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
+      if (now > unstakeEndsAt || userCooldownValue === 0n) {
+        setHasCooldown(false);
+        clearInterval(interval);
+      } 
 
+      if (now < canUnstakeAt) {
+        const timeLeft = parseInt(canUnstakeAt.toString(), 10) - now;
+        setRemaining(timeLeft);
+        setIsUnstakeWindow(false);
+      } else {
+        const timeLeft = parseInt(unstakeEndsAt.toString(), 10) - now;
+        setRemaining(timeLeft);
+        setIsUnstakeWindow(true);
+      }
+      setHasCooldown(true);
+    }, 1000)
+    return () => clearInterval(interval);
+  }, [userCooldownValue])
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
       <FlexRow className="items-center gap-1">
@@ -47,7 +86,12 @@ export const FormContainer: React.FC = () => {
           </FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={vault}>
-            <UnstakeForm />
+            {!hasCooldown ?
+              <CooldownForm />
+            :
+              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} />
+            }
+            
           </FormSettingsProvider>
         )}
       </div>

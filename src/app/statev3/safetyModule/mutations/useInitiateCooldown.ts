@@ -22,5 +22,5 @@ export const useInitiateCooldown = () => {
     );
   };
 
-  return { ...rest, isWithdrawPending: rest.isPending, startCooldownAsync };
+  return { ...rest, isResultPending: rest.isPending, startCooldownAsync };
 };

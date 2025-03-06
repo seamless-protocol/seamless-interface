@@ -46,4 +46,20 @@ export const useFetchStakerCooldown = (asset?: Address): FetchData<FetchBigInt |
   };
 };
 
+export const useWatchStakerCooldown = (asset?: Address): FetchData<FetchBigInt | undefined> => {
+  const account = useAccount();
+
+  const { data: cooldown, ...restCooldown } = useQuery({
+    queryKey: ["fetchCooldown", asset, account?.address],
+    queryFn: () => fetchStakerCooldown(asset!, account?.address!),
+    enabled: !!asset && !!account?.address,
+    refetchInterval: 10_000, // every 10 seconds
+  });
+
+  return {
+    ...restCooldown,
+    data: cooldown,
+  };
+};
+
 
