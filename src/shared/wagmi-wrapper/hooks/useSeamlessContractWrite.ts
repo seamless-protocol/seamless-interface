@@ -1,5 +1,4 @@
 import { useWriteContract } from "wagmi";
-import { useState } from "react";
 import { SeamlessWriteAsyncParams, useHandleTransactionMutation } from "./useHandleTransactionMutation";
 
 /**
@@ -20,19 +19,14 @@ import { SeamlessWriteAsyncParams, useHandleTransactionMutation } from "./useHan
  */
 
 export function useSeamlessContractWrite(settings?: SeamlessWriteAsyncParams) {
-  const [isPending, setIsPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
-
-  const handleTransactionMutation = useHandleTransactionMutation({
-    setIsPending,
-    setErrorMessage,
+  const { isPending, errorMessage, onMutate, onSettled } = useHandleTransactionMutation({
     settings,
   });
 
   const { writeContractAsync, ...rest } = useWriteContract({
     mutation: {
-      onMutate: () => setIsPending(true),
-      onSettled: handleTransactionMutation,
+      onMutate,
+      onSettled,
     },
   });
 

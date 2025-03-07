@@ -24,7 +24,6 @@ import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
-import { useEffect } from "react";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
@@ -69,54 +68,39 @@ const StrategyFormLocal: React.FC<{
     isLoading: isUnderlyingAssetDecimalsLoading,
   } = useToken(strategyData?.underlying);
 
-  const { depositAsync } = useMutateDepositStrategy(strategyData);
+  const { depositAsync, isDepositPending } = useMutateDepositStrategy(strategyData);
 
   const { data: assetPrice } = useFetchFormattedAssetPrice(strategyData?.underlying);
 
   const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
   const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);
 
-  useEffect(() => {
-    if (previewDepositData.isError) {
-      showNotification({
-        status: "error",
-        content: (
-          <Typography type="body1">
-            {(previewDepositData.error as any)?.message} <br /> please try later! 😓
-          </Typography>
-        ),
-      });
-    }
-  }, [previewDepositData.isError]);
-
   const onSubmitAsync = async (data: FormData) => {
-    if (previewDepositData.isFetched && previewDepositData.isSuccess && !previewDepositData.isLoading) {
-      await depositAsync(
-        {
-          amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
-          sharesToReceive: previewDepositData.data.sharesToReceive?.bigIntValue || 0n,
+    await depositAsync(
+      {
+        amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
+        previewDepositData,
+      },
+      {
+        onSuccess: (txHash) => {
+          showNotification({
+            txHash,
+            content: (
+              <FlexCol className="w-full items-center text-center justify-center">
+                <Typography>
+                  You Supplied {data.amount} {underlyingAssetSymbol}
+                </Typography>
+                {strategyData && <WatchAssetComponentv2 {...strategyData} address={strategyData?.address} />}
+              </FlexCol>
+            ),
+          });
         },
-        {
-          onSuccess: (txHash) => {
-            showNotification({
-              txHash,
-              content: (
-                <FlexCol className="w-full items-center text-center justify-center">
-                  <Typography>
-                    You Supplied {data.amount} {underlyingAssetSymbol}
-                  </Typography>
-                  {strategyData && <WatchAssetComponentv2 {...strategyData} address={strategyData?.address} />}
-                </FlexCol>
-              ),
-            });
-          },
-          onSettled: () => {
-            onTransaction?.();
-            reset();
-          },
-        }
-      );
-    }
+        onSettled: () => {
+          onTransaction?.();
+          reset();
+        },
+      }
+    );
   };
 
   return (
@@ -154,7 +138,7 @@ const StrategyFormLocal: React.FC<{
 
         <FormButtons
           isDisabled={!previewDepositData.isSuccess}
-          isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading}
+          isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading || isDepositPending}
           strategy={strategyData}
         />
       </FlexCol>

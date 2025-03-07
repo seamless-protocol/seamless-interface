@@ -1,6 +1,5 @@
 import { Hash } from "viem";
 import { useSendTransaction } from "wagmi";
-import { useState } from "react";
 import { QueryKey } from "@tanstack/query-core";
 import { useHandleTransactionMutation } from "./useHandleTransactionMutation";
 
@@ -8,7 +7,6 @@ export type SeamlessSendAsyncParams = {
   onSuccess?: (txHash: Hash) => void;
   onError?: (e: any) => void;
   onSettled?: () => void;
-  hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
 };
 
@@ -30,19 +28,14 @@ export type SeamlessSendAsyncParams = {
  */
 
 export function useSeamlessSendTransaction(settings?: SeamlessSendAsyncParams) {
-  const [isPending, setIsPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
-
-  const handleTransactionMutation = useHandleTransactionMutation({
-    setIsPending,
-    setErrorMessage,
+  const { isPending, errorMessage, onMutate, onSettled } = useHandleTransactionMutation({
     settings,
   });
 
   const { sendTransactionAsync, ...rest } = useSendTransaction({
     mutation: {
-      onMutate: () => setIsPending(true),
-      onSettled: handleTransactionMutation,
+      onMutate,
+      onSettled,
     },
   });
 

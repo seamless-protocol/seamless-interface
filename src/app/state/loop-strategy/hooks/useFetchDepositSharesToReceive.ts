@@ -17,7 +17,7 @@ import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset"
 import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
 import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 
-interface SharesToReceiveData {
+export interface SharesToReceiveData {
   sharesToReceive?: FetchBigInt;
   sharesToReceiveInUsd?: FetchBigInt;
 }

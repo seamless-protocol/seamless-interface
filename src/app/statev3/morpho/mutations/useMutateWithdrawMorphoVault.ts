@@ -58,7 +58,6 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       getHookFetchUserVaultPositionsQueryKey(address),
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
-    hideDefaultErrorOnNotification: true,
   });
 
   /* -------------------- */
