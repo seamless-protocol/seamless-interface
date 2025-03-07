@@ -5,10 +5,7 @@ import { BundlerAction } from "@morpho-org/bundler-sdk-viem/lib/BundlerAction";
 import { Address, encodeFunctionData } from "viem";
 import { getFetchRawMorphoUserRewardsQueryKey } from "../user-rewards/MorphoUserRewards.fetch";
 import { baseBundlerAbi } from "../../../../../abis/urdBundler";
-import {
-  ChainId,
-  getChainAddresses as getMorphoChainAddresses,
-} from "@morpho-org/blue-sdk";
+import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 
 export const useMutateClaimAllMorphoRewards = () => {
   const { address } = useAccount();
@@ -19,7 +16,6 @@ export const useMutateClaimAllMorphoRewards = () => {
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
     queriesToInvalidate: [getFetchRawMorphoUserRewardsQueryKey(address)],
-    hideDefaultErrorOnNotification: true,
   });
 
   // mutation wrapper
@@ -37,7 +33,7 @@ export const useMutateClaimAllMorphoRewards = () => {
           item.proof as Address[],
           false
         )
-      )
+      );
       if (!actions || actions.length === 0) throw new Error("No rewards to claim");
 
       const data = encodeFunctionData({
@@ -53,7 +49,6 @@ export const useMutateClaimAllMorphoRewards = () => {
         },
         { ...settings }
       );
-
     } catch (error) {
       console.error("Failed to claim all rewards", error);
       showNotification({ status: "error", content: `Failed to claim all rewards: ${getParsedError(error)}` });
