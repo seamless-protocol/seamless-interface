@@ -5,7 +5,7 @@ import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
+import { ExtendedVaultPosition } from "../../../../../../../data/morpho/queries/full-morpho-info/types/ExtendedFullMorphoInfoData";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useAccount } from "wagmi";
 import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
@@ -54,10 +54,8 @@ export const VaultTableMobileRowContainer: React.FC<{
         </SignIndicatingElement>
       }
       holdingTokenAmount={
-        <DisplayTokenAmount
-          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
-          {...vaultData}
-        />}
+        <DisplayTokenAmount viewValue={vaultData?.data.vaultPosition?.shares.viewValue} {...vaultData} />
+      }
       holdingDollarAmount={
         <DisplayMoney
           typography="medium1"

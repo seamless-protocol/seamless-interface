@@ -40,6 +40,20 @@ export const platformDataQueryConfig = {
   gcTime: ONE_HOUR_IN_MS,
 };
 
+export const morphoDataQueryConfig = {
+  staleTime: ONE_MINUTE_IN_MS,
+  gcTime: ONE_MINUTE_IN_MS,
+  retry: 3,
+  retryDelay: 100,
+};
+
+export const morphoHistoricalDataQueryConfig = {
+  staleTime: ONE_HOUR_IN_MS,
+  gcTime: ONE_HOUR_IN_MS,
+  retry: 3,
+  retryDelay: 100,
+};
+
 export const queryConfig = {
   disableCacheQueryConfig,
   metadataQueryConfig,
@@ -49,4 +63,6 @@ export const queryConfig = {
   analyticsDataQueryConfig,
   walletDataQueryConfig,
   platformDataQueryConfig,
-}
+  morphoDataQueryConfig,
+  morphoHistoricalDataQueryConfig,
+};

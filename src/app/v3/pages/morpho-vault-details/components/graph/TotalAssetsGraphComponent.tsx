@@ -8,11 +8,11 @@ import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton"
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
 import { TimeseriesOptions } from "../../../../../../generated-graphql";
 import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
-import { fetchTotalAssetsHistorical } from "../../../../../statev3/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
+import { fetchTotalAssetsHistorical } from "../../../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.fetch";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { GraphButton } from "../../../../components/graph/GraphButton";
-import { ExtendedTotalAssetsHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedTotalAssetsHistoricalQuery";
+import { ExtendedTotalAssetsHistoricalData } from "../../../../../data/morpho/queries/total-supply-historical/ExtendedTotalAssetsHistoricalData.type";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
@@ -44,7 +44,7 @@ export const TotalAssetsGraphComponent = () => {
 
   useEffect(() => {
     const processData = async () => {
-      let result: ExtendedTotalAssetsHistoricalQuery | undefined;
+      let result: ExtendedTotalAssetsHistoricalData | undefined;
 
       if (address) {
         try {

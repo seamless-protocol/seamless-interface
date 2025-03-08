@@ -5,7 +5,7 @@ import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
+import { ExtendedVaultPosition } from "../../../../../../../data/morpho/queries/full-morpho-info/types/ExtendedFullMorphoInfoData";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
@@ -92,7 +92,9 @@ export const VaultTableDesktopRowContainer: React.FC<{
       }
       imageInfoGroup={
         <RewardsImageGroup
-          icons={[...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || [])]}
+          icons={[
+            ...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || []),
+          ]}
         />
       }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}

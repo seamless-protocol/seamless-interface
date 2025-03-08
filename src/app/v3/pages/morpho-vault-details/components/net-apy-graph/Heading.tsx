@@ -1,6 +1,6 @@
 import { DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
 import { Address } from "viem";
-import { useFetchNativeApyHistorical } from "../../hooks/NativeApyHistorical.hook";
+import { useFetchNativeApyHistorical } from "../../../../../data/morpho/queries/net-apy-historical/NativeApyHistorical.hook";
 
 export const Heading: React.FC<{ vault?: Address }> = ({ vault }) => {
   const { data, ...rest } = useFetchNativeApyHistorical(vault);

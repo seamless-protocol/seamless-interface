@@ -3,7 +3,7 @@ import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
 import { TimeseriesOptions } from "../../../../../generated-graphql";
 import { mapTotalAssetsData } from "../../../../statev3/morpho/mappers/mapTotalAssetsData";
-import { fetchTotalAssetsHistorical } from "../../../../statev3/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
+import { fetchTotalAssetsHistorical } from "../../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.fetch";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchFullVaultInfo } from "../../../../statev3/morpho/full-vault-info/FullVaultInfo.fetch";
 import { configuredVaultAddresses } from "../../../../statev3/settings/config";
