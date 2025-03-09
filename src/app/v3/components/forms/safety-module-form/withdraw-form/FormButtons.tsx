@@ -8,7 +8,6 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useAccount } from "wagmi";
-import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 export const FormButtons: React.FC<{
   
@@ -26,7 +25,6 @@ export const FormButtons: React.FC<{
 
   const { address } = useAccount();
   const { isSmartWallet, isLoading: isSmartWalletLoading, error: smartWalletError } = useIsSmartWallet(address);
-
 
   if (!amount) {
     return (

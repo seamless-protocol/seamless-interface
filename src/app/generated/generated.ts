@@ -6142,8 +6142,12 @@ export const rewardsControllerConfig = {
   abi: rewardsControllerAbi,
 } as const
 
+// TODO: Update for mainnet
 export const stakedSeamAddress =
   '0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284' as const
+
+export const safetyModuleRewardController = 
+  '0x618543923b65968e60a45e24bd400f2eac9c9820' as const
 
 export const stakedTokenConfig = {
   address: stakedSeamAddress,

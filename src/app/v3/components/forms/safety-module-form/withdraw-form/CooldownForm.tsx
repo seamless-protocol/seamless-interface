@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtonsCooldown";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
-import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
 
@@ -23,7 +22,6 @@ const MoprhoVaultFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();
-  const { symbol: tokenSymbol } = tokenData;
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -37,6 +35,7 @@ const MoprhoVaultFormLocal: React.FC<{
 
   const { startCooldownAsync, isResultPending } = useInitiateCooldown();
 
+  
   const onSubmitAsync = async (data: FormData) => {
     await startCooldownAsync(
       {

@@ -17,7 +17,6 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {
-  // const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
 
   const {
     formState: { isSubmitting },
@@ -29,13 +28,7 @@ export const FormButtons: React.FC<{
 
   const { data: viewBalance } = useFetchViewAssetBalance(vaultData.address, walletBalanceDecimalsOptions);
 
-  // const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-  //   vaultData.address,
-  //   bundler,
-  //   parseUnits(amount, vaultData.asset.decimals)
-  // );
-
-  if (viewBalance.balance?.value?.toString() === "0") {
+  if (viewBalance.balance?.bigIntValue?.toString() === "0") {
     return (
       <Buttonv2 className="text-bold3" disabled>
         Acquire stkSEAM

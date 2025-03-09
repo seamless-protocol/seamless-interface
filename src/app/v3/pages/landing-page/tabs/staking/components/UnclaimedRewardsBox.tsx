@@ -1,11 +1,9 @@
 import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
-import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/safetyModule/hooks/useFetchViewAllRewards";
 import { ClaimModal } from "./claim-button/ClaimModal";
 
 export const UnclaimedRewardsBox = () => {
-  // TODO: create hook to fetch total claimable rewards
   const { data, ...rest } = useFetchViewAllUserRewards();
-
   const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
 
   return (

@@ -1,6 +1,6 @@
 import { FlexCol, Typography, ViewBigInt, useNotificationContext, ModalHandles } from "@shared";
 import React, { useRef } from "react";
-import { useMutateClaimAllRewards } from "../../../../../../../state/loop-strategy/mutations/useMutateClaimAllRewards";
+import { useMutateClaimAllRewards } from "../../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
 import { ClaimModalComponent } from "./ClaimModalComponent";
 
 interface Reward {

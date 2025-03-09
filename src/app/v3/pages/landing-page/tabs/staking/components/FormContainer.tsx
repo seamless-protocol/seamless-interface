@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
+import { stakedSeamAddress } from "@generated";
 // import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
@@ -18,7 +19,7 @@ const getDeadlines = (startTime:bigint, cooldown:bigint, unstakeWindow:bigint) =
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
-  const address = "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284"; // TODO: put this somewhere better
+  const address = stakedSeamAddress;
   const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
@@ -33,14 +34,16 @@ export const FormContainer: React.FC = () => {
   const unstakeWindowValue = unstakeWindow?.bigIntValue ?? 0n;
   
   
-  
+  // console.log(userCooldownValue)
   useEffect(() => {
     const interval = setInterval(() => {
       const now:number = parseInt((Date.now() / 1000).toString(), 10);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
       if (now > unstakeEndsAt || userCooldownValue === 0n) {
         setHasCooldown(false);
+        setRemaining(0);
         clearInterval(interval);
+        return;
       } 
 
       if (now < canUnstakeAt) {
