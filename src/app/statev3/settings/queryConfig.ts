@@ -66,3 +66,10 @@ export const queryConfig = {
   morphoDataQueryConfig,
   morphoHistoricalDataQueryConfig,
 };
+
+export enum QueryTypes {
+  // eslint-disable-next-line no-unused-vars
+  HOOK = "hook",
+  // eslint-disable-next-line no-unused-vars
+  CHILD_CHAIN_QUERY = "readContract",
+}

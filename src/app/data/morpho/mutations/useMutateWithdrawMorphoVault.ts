@@ -8,15 +8,15 @@ import {
 } from "@morpho-org/blue-sdk";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
-import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
-import { setupBundle } from "../simulation/setupBundle";
-import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
-import { fetchSimulationState } from "../simulation/fetchSimulationState";
+import { Scopes, QueryTypes } from "@meta";
 import { useState } from "react";
-import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
-import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
-import { getHookFetchUserVaultPositionsQueryKey } from "../queries/user-vault-positions/UserVaultPositions.hook";
-import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
+import { getFetchViewMaxUserDepositQueryKey } from "../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
+import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { getFormattedAssetBalanceUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { useFetchRawFullVaultInfo } from "../queries/full-morpho-info/FullVaultInfo.hook";
+import { fetchSimulationState } from "./simulation/fetchSimulationState";
+import { setupBundle } from "./simulation/setupBundle";
 
 export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -55,8 +55,9 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
-      getHookFetchUserVaultPositionsQueryKey(address),
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
+      [{ scope: Scopes.morpho, queryType: QueryTypes.HOOK }], // <- this, or in this case:
+      // MorphoQueryKeys.userVaultPositionsHook(address),
     ],
   });
 

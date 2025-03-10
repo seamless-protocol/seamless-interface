@@ -3,7 +3,6 @@ import { base } from "viem/chains";
 import { fetchMorphoExtendedMappedUserRewards } from "./MorphoUserRewards.fetch";
 import { Address } from "viem";
 import { FetchData, ViewBigInt } from "@shared";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { ExtendedUserReward } from "./UserReward.type";
 import { MorphoQueryKeys } from "../../query-keys";
 
@@ -19,9 +18,8 @@ export function useMorphoExtendedUserRewards(
   chainId = base.id
 ): FetchData<MorphoUserRewardsData | undefined> {
   return useQuery({
-    queryKey: MorphoQueryKeys.extendedUserRewards(userAddress, chainId),
+    queryKey: MorphoQueryKeys.extendedUserRewardsHook(userAddress, chainId),
     queryFn: () => fetchMorphoExtendedMappedUserRewards(userAddress!, chainId),
-    ...queryConfig.disableCacheQueryConfig,
     enabled: !!userAddress,
   });
 }

@@ -4,8 +4,7 @@ import { FlexRow, Icon, Modal, ModalHandles, Typography } from "@shared";
 import polygonIcon from "@assets/common/polygon-black-down.svg";
 import { useRef, useEffect } from "react";
 import { VaultsTableContainer } from "../../../landing-page/tabs/morpho-vaults/components/VaultsTableContainer";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
 
 export const VaultPickerButton: React.FC<{
   vault?: Address;
@@ -24,7 +23,7 @@ export const VaultPickerButton: React.FC<{
       <div>
         <Typography type="medium1">Error fetching vault info</Typography>
       </div>
-    )
+    );
   }
 
   if (isLoading) {
@@ -32,7 +31,7 @@ export const VaultPickerButton: React.FC<{
       <div>
         <Typography type="medium1">Loading vault info...</Typography>
       </div>
-    )
+    );
   }
 
   return (

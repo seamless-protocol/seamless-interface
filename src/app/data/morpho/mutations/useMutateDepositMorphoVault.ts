@@ -18,7 +18,7 @@ import { setupBundle } from "./simulation/setupBundle";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getFetchViewMaxUserDepositQueryKey } from "../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
-import { MorphoQueryKeys } from "../query-keys";
+import { QueryTypes, Scopes } from "@meta";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -60,7 +60,8 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       getFormattedAssetBalanceUsdValueQueryKey(address, underlyingAsset),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, underlyingAsset),
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
-      MorphoQueryKeys.userVaultPositionsHook(address),
+      [{ scope: Scopes.morpho, queryType: QueryTypes.HOOK }], // <- this, or in this case:
+      // MorphoQueryKeys.userVaultPositionsHook(address),
     ],
   });
 

@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { fetchUserStrategyProfit } from "../user-strategy-profit/UserStrategyProfit.fetch";
 import { cUserProfitAndPortfolio, cUserProfitAndPortfolioOutput } from "./UserProfitAndPortfolio.math";
 import { fetchStrategies } from "../../queries/Strategies.hook";
-import { fetchUserVaultPositions } from "../../morpho/user-vault-positions/UserVaultPositions.fetch";
+import { fetchUserVaultPositions } from "../../../data/morpho/queries/user-vault-positions/UserVaultPositions.fetch";
 
 export async function fetchUserProfitAndPortfolio({
   account,

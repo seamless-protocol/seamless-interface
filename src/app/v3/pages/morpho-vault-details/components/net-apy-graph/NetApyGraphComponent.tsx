@@ -11,7 +11,7 @@ import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { formatDate } from "../../utils/formatDateForGraph";
 import { fetchNetApyHistorical } from "../../../../../data/morpho/queries/net-apy-historical/NetApyHistorical.fetch";
-import { ExtendedNetAPYHistoricalQuery } from "../../../../../data/morpho/queries/net-apy-historical/ExtendedNetAPYHistoricalData.type";
+import { ExtendedNetAPYHistoricalData } from "../../../../../data/morpho/queries/net-apy-historical/ExtendedNetAPYHistoricalData.type";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 
@@ -28,7 +28,7 @@ export const NetApyGraphComponent: React.FC<{
 
   useEffect(() => {
     const processData = async () => {
-      let result: ExtendedNetAPYHistoricalQuery | undefined;
+      let result: ExtendedNetAPYHistoricalData | undefined;
 
       if (vault) {
         try {

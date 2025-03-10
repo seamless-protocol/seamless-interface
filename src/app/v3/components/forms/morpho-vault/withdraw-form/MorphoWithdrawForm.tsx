@@ -3,10 +3,10 @@ import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useMutateWithdrawMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateWithdrawMorphoVault";
+import { useMutateWithdrawMorphoVault } from "../../../../../data/morpho/mutations/useMutateWithdrawMorphoVault";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { FullMorphoInfoData } from "../../../../../data/morpho/queries/full-morpho-info/types/FullMorphoInfoData";
 
 export const MorphoWithdrawForm = () => {
   const { strategy: vault } = useFormSettingsContext();
@@ -39,7 +39,7 @@ interface FormData {
 }
 
 const MoprhoVaultFormLocal: React.FC<{
-  vaultData: MappedVaultData;
+  vaultData: FullMorphoInfoData;
 }> = ({ vaultData }) => {
   const { onTransaction } = useFormSettingsContext();
   const { decimals: lpTokenDecimals, symbol: lpTokenSymbol } = vaultData.vaultTokenData;
@@ -100,11 +100,7 @@ const MoprhoVaultFormLocal: React.FC<{
           </FlexCol>
         </FlexCol>
 
-        <FormButtons
-          vaultData={vaultData}
-          isDisabled={isWithdrawPending}
-          isLoading={isWithdrawPending}
-        />
+        <FormButtons vaultData={vaultData} isDisabled={isWithdrawPending} isLoading={isWithdrawPending} />
       </FlexCol>
     </MyFormProvider>
   );

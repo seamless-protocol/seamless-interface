@@ -11,12 +11,11 @@ import {
   Icon,
   ViewBigInt,
 } from "@shared";
-import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
-import { Curator } from "../../../../../../statev3/morpho/types/Curator";
-import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
 
 import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 import { Address } from "viem";
+import { MorphoAsset, Curator } from "../../../../../../data/morpho/common/types";
+import { NetApyData } from "../../../../../../data/morpho/queries/user-rewards/UserReward.type";
 
 interface VaultProps {
   name: string;

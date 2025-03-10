@@ -13,12 +13,12 @@ import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { zeroAddress } from "viem";
 import { useDepositingNativeETH } from "./useDepositingNativeETH";
 import { WrappingCheckbox } from "./WrappingCheckbox";
 import { isWETH } from "../../../../utils/utils";
 import { useFetchViewMaxUserDeposit } from "../../../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

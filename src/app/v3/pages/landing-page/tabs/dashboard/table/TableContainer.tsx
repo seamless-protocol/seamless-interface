@@ -3,11 +3,11 @@ import { useFetchUserDepositStrategies } from "../../../../../../state/loop-stra
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { NoPositionsTableGuard } from "./NoStrategiesTableGuard";
-import { useFetchUserVaultPositions } from "../../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
 import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRowContainer";
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
 import { StrategyTableMobileRowContainer } from "./ilms/StrategyTableMobileRowContainer";
 import { VaultTableMobileRowContainer } from "./morpho-vaults/VaultTableMobileRowContainer";
+import { useFetchUserVaultPositions } from "../../../../../../data/morpho/queries/user-vault-positions/UserVaultPositions.hook";
 
 export const TableContainer = () => {
   const { data: strategies, ...rest } = useFetchUserDepositStrategies();

@@ -4,10 +4,10 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
-import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
 import { DEPOSIT_NATIVE_ETH } from "./useDepositingNativeETH";
+import { useMutateDepositMorphoVault } from "../../../../../data/morpho/mutations/useMutateDepositMorphoVault";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { FullMorphoInfoData } from "../../../../../data/morpho/queries/full-morpho-info/types/FullMorphoInfoData";
 
 export const MorphoDepositForm = () => {
   const { strategy: vault } = useFormSettingsContext();
@@ -41,7 +41,7 @@ interface FormData {
 }
 
 const MoprhoDepositFormLocal: React.FC<{
-  vaultData: MappedVaultData;
+  vaultData: FullMorphoInfoData;
 }> = ({ vaultData }) => {
   const { onTransaction } = useFormSettingsContext();
   const { decimals: underlyingAssetDecimals, symbol: underlyingAssetSymbol } = vaultData.asset;

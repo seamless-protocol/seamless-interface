@@ -9,10 +9,10 @@ import { ExtendedVaultPosition } from "../../../../../../../data/morpho/queries/
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
+import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/queries/user-rewards/MorphoUserRewards.hook";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;

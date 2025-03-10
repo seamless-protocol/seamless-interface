@@ -6,8 +6,8 @@ import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
 import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
-import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
 import { DisplayTextLocal } from "../common/DisplayTextLocal";
+import { useFetchFormattedFullVaultInfo } from "../../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
 
 export const Seamless_ETH_VaultDetails: React.FC<{
   vault?: Address;

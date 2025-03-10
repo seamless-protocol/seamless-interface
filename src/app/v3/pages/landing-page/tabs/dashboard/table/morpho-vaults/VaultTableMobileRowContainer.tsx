@@ -8,8 +8,8 @@ import { SignIndicatingElement } from "../../../../../../components/other/SignIn
 import { ExtendedVaultPosition } from "../../../../../../../data/morpho/queries/full-morpho-info/types/ExtendedFullMorphoInfoData";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useAccount } from "wagmi";
-import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
+import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/queries/user-rewards/MorphoUserRewards.hook";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;

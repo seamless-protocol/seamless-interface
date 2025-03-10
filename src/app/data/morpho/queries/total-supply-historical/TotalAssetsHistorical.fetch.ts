@@ -12,6 +12,7 @@ import { checkMorphoResponse } from "../../common/checkMorphoResponse";
 import { MorphoQueryKeys } from "../../query-keys";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { mapTotalAssetsHistorical } from "./TotalAssetsHistorical.mapper";
 
 export const fetchTotalAssetsHistoricalQueryOptions = (
   address: string,
@@ -52,4 +53,9 @@ export async function fetchTotalAssetsHistorical(
     ...result.data,
     vaultTokenData,
   };
+}
+
+export async function fetchTotalAssetsHistoricalMapped(address: string, chainId: number, options?: TimeseriesOptions) {
+  const result = await fetchTotalAssetsHistorical(address, chainId, options);
+  return mapTotalAssetsHistorical(result);
 }

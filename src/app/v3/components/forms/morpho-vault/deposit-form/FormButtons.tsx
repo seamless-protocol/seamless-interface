@@ -2,12 +2,12 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { useDepositingNativeETH } from "./useDepositingNativeETH";
+import { FullMorphoInfoData } from "../../../../../data/morpho/queries/full-morpho-info/types/FullMorphoInfoData";
 
 export const FormButtons: React.FC<{
-  vaultData: MappedVaultData;
+  vaultData: FullMorphoInfoData;
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ vaultData, isLoading, isDisabled }) => {

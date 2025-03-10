@@ -47,5 +47,7 @@ export async function fetchFullVaultInfo(address: string, chainId: number) {
 
 export async function fetchFullVaultInfoMapped(address: string, chainId: number) {
   const { vaultData, vaultTokenData } = await fetchFullVaultInfo(address, chainId);
-  return mapFullVaultInfo(vaultData.vaultByAddress, vaultTokenData);
+  const mapped = mapFullVaultInfo(vaultData.vaultByAddress, vaultTokenData);
+
+  return mapped;
 }

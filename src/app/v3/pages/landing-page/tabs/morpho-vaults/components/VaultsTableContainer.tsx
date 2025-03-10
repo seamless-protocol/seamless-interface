@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { VaultDesktopRow } from "./VaultDesktopRow";
 import { VaultMobileRow } from "./VaultMobileRow";
 import { VaultsTableHeader } from "./VaultsTableHeader";
-import { useFormattedVaultsInfo } from "../hooks/useFetchAllVaults";
 import { RouterConfig } from "@router";
 import { configuredVaultAddresses } from "../../../../../../statev3/settings/config";
+import { useFetchFormattedFullVaultInfos } from "../../../../../../data/morpho/queries/full-morpho-info-list/FetchAllVaults.hook";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -20,7 +20,7 @@ const columnsCount = 6;
 export const VaultsTableContainer: React.FC<{
   selectedVault?: Address;
 }> = ({ selectedVault }) => {
-  const { data: vaults, isLoading, error } = useFormattedVaultsInfo(configuredVaultAddresses);
+  const { data: vaults, isLoading, error } = useFetchFormattedFullVaultInfos(configuredVaultAddresses);
 
   return (
     <div className="md:bg-neutral-0 bg-none shadow-card rounded-2xl w-full min-h-[150px] flex flex-col">

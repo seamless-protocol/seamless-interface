@@ -1,7 +1,7 @@
 import { FullVaultInfoQuery } from "../../../../../../generated-graphql";
 import { formatFetchNumberToViewNumber } from "@shared";
-import { NetApyData } from "../../types/UserReward";
 import { cNetApyData } from "./cNetApyData";
+import { NetApyData } from "../../user-rewards/UserReward.type";
 
 export function fNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["state"]): NetApyData | undefined {
   const calculated = cNetApyData(vaultState);
