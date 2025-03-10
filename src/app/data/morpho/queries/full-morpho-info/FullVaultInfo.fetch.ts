@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { fetchToken } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
-import { checkMorphoResponse } from "../../common/checkMorphoResponse";
+import { checkMorphoApiResponse } from "../../common/checkMorphoApiResponse";
 import { mapFullVaultInfo } from "./FullVaultInfo.mapper";
 import { MorphoQueryKeys } from "../../query-keys";
 
@@ -19,7 +19,7 @@ export const fetchFullVaultInfoFromMorphoApiQueryOptions = (address: string, cha
       fetchPolicy: "no-cache",
     });
 
-    checkMorphoResponse(result);
+    checkMorphoApiResponse(result);
 
     return result;
   },

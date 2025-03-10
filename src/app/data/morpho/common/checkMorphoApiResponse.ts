@@ -1,4 +1,4 @@
-export const checkMorphoResponse = (result: any) => {
+export const checkMorphoApiResponse = (result: any) => {
   if (result.errors) {
     throw new Error(`Failed to fetch MorphoApi data: ${result.errors.map((e: any) => e.message).join("; ")}`);
   } else if (result.error) {

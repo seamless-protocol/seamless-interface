@@ -8,7 +8,7 @@ import { getApolloClient } from "../../../../config/apollo-client";
 import { fetchToken } from "@shared";
 import { Address } from "viem";
 import { ExtendedNetAPYHistoricalData } from "./ExtendedNetAPYHistoricalData.type";
-import { checkMorphoResponse } from "../../common/checkMorphoResponse";
+import { checkMorphoApiResponse } from "../../common/checkMorphoApiResponse";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { mapNativeApyHistoricalData } from "./NativeApyHistoricalData.mapper";
@@ -25,7 +25,7 @@ export const fetchNetApyHistoricalQueryOptions = (address: string, chainId: numb
       fetchPolicy: "no-cache",
     });
 
-    checkMorphoResponse(result);
+    checkMorphoApiResponse(result);
     return result;
   },
 });
@@ -45,7 +45,7 @@ export async function fetchNetApyHistorical(
     fetchToken(address as Address),
   ]);
 
-  checkMorphoResponse(result);
+  checkMorphoApiResponse(result);
 
   return {
     ...result.data,
