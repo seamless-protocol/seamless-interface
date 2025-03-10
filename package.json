@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "start": "vite",
     "test:watch": "vitest watch",
     "preview": "vite preview",
     "switch-tailwind-config": "node switch-config.js",
