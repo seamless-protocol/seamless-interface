@@ -8,7 +8,7 @@ import { getApolloClient } from "../../../../config/apollo-client";
 import { fetchToken } from "@shared";
 import { Address } from "viem";
 import { ExtendedNetAPYHistoricalData } from "./ExtendedNetAPYHistoricalData.type";
-import { checkMorphoApiResponse } from "../../common/checkMorphoApiResponse";
+import { checkMorphoApiResponse } from "../../utils/checkMorphoApiResponse";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { mapNativeApyHistoricalData } from "./NativeApyHistoricalData.mapper";

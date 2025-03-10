@@ -8,7 +8,7 @@ import { getApolloClient } from "../../../../config/apollo-client";
 import { ExtendedTotalAssetsHistoricalData } from "./ExtendedTotalAssetsHistoricalData.type";
 import { fetchToken } from "../../../../../shared";
 import { Address } from "viem";
-import { checkMorphoApiResponse } from "../../common/checkMorphoApiResponse";
+import { checkMorphoApiResponse } from "../../utils/checkMorphoApiResponse";
 import { MorphoQueryKeys } from "../../query-keys";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";

@@ -113,4 +113,11 @@ export const MorphoQueryKeys = {
       options,
     },
   ],
+  totalAssetsForWhitelistedHook: () => [
+    {
+      scope: Scopes.morpho,
+      queryType: QueryTypes.HOOK,
+      functionName: "totalAssetsForWhitelistedHook",
+    },
+  ],
 };

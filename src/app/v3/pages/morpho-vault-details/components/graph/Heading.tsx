@@ -1,6 +1,6 @@
 import { DisplayMoney, DisplayTokenAmount, FlexCol, Typography } from "@shared";
 import { Address } from "viem";
-import { useFetchTotalAssets } from "../../hooks/TotalAssetsHistorical.hook";
+import { useFetchTotalAssets } from "../../../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.hook";
 
 export const Heading: React.FC<{ showPriceInUsd?: boolean; address: Address }> = ({ showPriceInUsd, address }) => {
   const { data, ...rest } = useFetchTotalAssets(address);

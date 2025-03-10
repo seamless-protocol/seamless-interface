@@ -1,8 +1,8 @@
 import { parseUnits } from "viem";
 import { formatFetchBigIntToViewBigInt, formatUsdValue, mergeQueryStates } from "@shared";
 import { useFetchViewLendingPoolInfo } from "../../../v3/hooks/useFetchViewLendingPoolInfo";
-import { useFetchTotalAssetsForWhitelistedVaults } from "../../../v3/pages/morpho-vault-details/hooks/TotalAssetsHistorical.hook";
 import { USD_VALUE_DECIMALS } from "@meta";
+import { useFetchTotalAssetsForWhitelistedVaults } from "../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.hook";
 
 export const useFetchPlatformTVL = () => {
   const {

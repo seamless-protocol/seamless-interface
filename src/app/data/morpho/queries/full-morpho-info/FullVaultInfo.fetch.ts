@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { fetchToken } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
-import { checkMorphoApiResponse } from "../../common/checkMorphoApiResponse";
+import { checkMorphoApiResponse } from "../../utils/checkMorphoApiResponse";
 import { mapFullVaultInfo } from "./FullVaultInfo.mapper";
 import { MorphoQueryKeys } from "../../query-keys";
 
