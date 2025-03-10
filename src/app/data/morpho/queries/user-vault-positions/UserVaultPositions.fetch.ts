@@ -25,7 +25,7 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
   const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
     if (user === undefined) return undefined;
     if (vaultAddress === undefined) return undefined;
-    const balance = await fetchAssetBalance(user as Address, vaultAddress as Address);
+    const balance = await fetchAssetBalance(vaultAddress as Address, user as Address);
 
     return {
       balance,
