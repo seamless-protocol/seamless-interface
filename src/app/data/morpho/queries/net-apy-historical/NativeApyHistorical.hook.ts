@@ -12,7 +12,7 @@ export const useFetchNativeApyHistorical = (
   options?: TimeseriesOptions
 ) => {
   return useQuery({
-    queryKey: MorphoQueryKeys.netApyHistorical(address, chainId, options),
+    queryKey: MorphoQueryKeys.netApyHistoricalHook(address, chainId, options),
     queryFn: () => fetchNetApyHistoricalMapped(address as string, chainId, options),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,

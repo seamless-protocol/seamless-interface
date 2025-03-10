@@ -93,4 +93,24 @@ export const MorphoQueryKeys = {
       chainId,
     },
   ],
+  netApyHistoricalHook: (address?: string, chainId?: number, options?: TimeseriesOptions) => [
+    {
+      scope: Scopes.morpho,
+      queryType: QueryTypes.HOOK,
+      functionName: "netApyHistoricalHook",
+      address,
+      chainId,
+      options,
+    },
+  ],
+  totalAssetsHistoricalHook: (address?: string, chainId?: number, options?: TimeseriesOptions) => [
+    {
+      scope: Scopes.morpho,
+      queryType: QueryTypes.HOOK,
+      functionName: "totalAssetsHistoricalHook",
+      address,
+      chainId,
+      options,
+    },
+  ],
 };
