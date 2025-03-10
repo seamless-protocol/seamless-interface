@@ -7,7 +7,7 @@ import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
 import { DisplayTextLocal } from "../common/DisplayTextLocal";
-import { useFetchFormattedFullVaultInfo } from "../../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "@data";
 
 export const Seamless_ETH_VaultDetails: React.FC<{
   vault?: Address;

@@ -29,7 +29,7 @@ import resolvIcon from "@assets/logos/resolv.svg";
 import logoGauntlet from "@assets/logos/logo-gauntlet.svg";
 import { LendMarketConfig } from "./configTypes";
 import { assetsConfig } from "./landingMarketConfig";
-import { Curator } from "../../data/morpho/common/types";
+import type { Curator } from "@data";
 
 export interface StrategyConfig {
   name: string;

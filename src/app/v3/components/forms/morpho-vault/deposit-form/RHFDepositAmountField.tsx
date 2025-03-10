@@ -18,7 +18,7 @@ import { useDepositingNativeETH } from "./useDepositingNativeETH";
 import { WrappingCheckbox } from "./WrappingCheckbox";
 import { isWETH } from "../../../../utils/utils";
 import { useFetchViewMaxUserDeposit } from "../../../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
-import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "@data";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

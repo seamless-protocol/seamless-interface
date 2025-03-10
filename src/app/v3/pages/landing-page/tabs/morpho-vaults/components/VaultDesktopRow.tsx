@@ -14,8 +14,7 @@ import {
 
 import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 import { Address } from "viem";
-import { MorphoAsset, Curator } from "../../../../../../data/morpho/common/types";
-import { NetApyData } from "../../../../../../data/morpho/queries/user-rewards/UserReward.type";
+import { MorphoAsset, NetApyData, Curator } from "@data";
 
 interface VaultProps {
   name: string;

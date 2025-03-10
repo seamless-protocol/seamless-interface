@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { DisplayText, FlexCol } from "@shared";
 import { MorphoAprTooltip } from "../../../components/tooltip/MorphoAprTooltip";
-import { useFetchFormattedFullVaultInfo } from "../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "@data";
 
 export const VaultHeading: React.FC<{
   vault?: Address;

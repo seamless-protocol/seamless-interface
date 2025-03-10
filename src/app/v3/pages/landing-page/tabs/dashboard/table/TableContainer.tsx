@@ -7,7 +7,7 @@ import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRow
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
 import { StrategyTableMobileRowContainer } from "./ilms/StrategyTableMobileRowContainer";
 import { VaultTableMobileRowContainer } from "./morpho-vaults/VaultTableMobileRowContainer";
-import { useFetchUserVaultPositions } from "../../../../../../data/morpho/queries/user-vault-positions/UserVaultPositions.hook";
+import { useFetchUserVaultPositions } from "@data";
 
 export const TableContainer = () => {
   const { data: strategies, ...rest } = useFetchUserDepositStrategies();

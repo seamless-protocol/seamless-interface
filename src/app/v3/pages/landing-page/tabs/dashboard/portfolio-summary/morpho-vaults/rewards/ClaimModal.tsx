@@ -1,7 +1,7 @@
 import { ViewBigInt, ModalHandles, Token, FlexCol, Typography, useNotificationContext } from "@shared";
 import React, { useRef } from "react";
 import { ClaimModalComponent } from "../../../components/common/ClaimModalComponent";
-import { useMutateClaimAllMorphoRewards } from "../../../../../../../../data/morpho/mutations/useMutateClaimAllMorphoRewards";
+import { useMutateClaimAllMorphoRewards } from "@data";
 
 interface Reward {
   claimableNow?: ViewBigInt;

@@ -2,7 +2,7 @@ import { parseUnits } from "viem";
 import { formatFetchBigIntToViewBigInt, formatUsdValue, mergeQueryStates } from "@shared";
 import { useFetchViewLendingPoolInfo } from "../../../v3/hooks/useFetchViewLendingPoolInfo";
 import { USD_VALUE_DECIMALS } from "@meta";
-import { useFetchTotalAssetsForWhitelistedVaults } from "../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.hook";
+import { useFetchTotalAssetsForWhitelistedVaults } from "@data";
 
 export const useFetchPlatformTVL = () => {
   const {

@@ -11,7 +11,7 @@ import {
 } from "@shared";
 import border from "@assets/common/border.svg";
 import { Address } from "viem";
-import { useFetchFormattedFullVaultInfo } from "../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "@data";
 
 const skeletonLoaderSettings = {
   width: "120px",

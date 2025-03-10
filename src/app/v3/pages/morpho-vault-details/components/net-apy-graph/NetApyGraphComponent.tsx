@@ -10,8 +10,7 @@ import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/St
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { formatDate } from "../../utils/formatDateForGraph";
-import { fetchNetApyHistorical } from "../../../../../data/morpho/queries/net-apy-historical/NetApyHistorical.fetch";
-import { ExtendedNetAPYHistoricalData } from "../../../../../data/morpho/queries/net-apy-historical/ExtendedNetAPYHistoricalData.type";
+import { ExtendedNetAPYHistoricalData, fetchNetApyHistorical } from "@data";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 

@@ -2,7 +2,6 @@ import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
 import { TimeseriesOptions } from "../../../../../generated-graphql";
 import { fetchTotalAssetsHistoricalMapped } from "./TotalAssetsHistorical.fetch";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { configuredVaultAddresses } from "../../../../statev3/settings/config";
 import { fetchFullVaultInfo } from "../full-morpho-info/FullVaultInfo.fetch";
 import { Address } from "viem";
@@ -12,7 +11,6 @@ export const useFetchTotalAssets = (address?: Address, chainId: number = base.id
   const { data, ...rest } = useQuery({
     queryKey: MorphoQueryKeys.totalAssetsHistoricalHook(address, chainId, options),
     queryFn: () => fetchTotalAssetsHistoricalMapped(address as string, chainId, options),
-    ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,
   });
 
@@ -33,6 +31,5 @@ export const useFetchTotalAssetsForWhitelistedVaults = () => {
 
       return totalAssetsUsd;
     },
-    ...queryConfig.disableCacheQueryConfig,
   });
 };

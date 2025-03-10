@@ -6,13 +6,12 @@ import { useParams } from "react-router-dom";
 import { Address, formatUnits } from "viem";
 import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
-import { TimeseriesOptions } from "../../../../../../generated-graphql";
+import { TimeseriesOptions } from "@generated-graphql";
 import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
-import { fetchTotalAssetsHistorical } from "../../../../../data/morpho/queries/total-supply-historical/TotalAssetsHistorical.fetch";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { GraphButton } from "../../../../components/graph/GraphButton";
-import { ExtendedTotalAssetsHistoricalData } from "../../../../../data/morpho/queries/total-supply-historical/ExtendedTotalAssetsHistoricalData.type";
+import { ExtendedTotalAssetsHistoricalData, fetchTotalAssetsHistorical } from "@data";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 

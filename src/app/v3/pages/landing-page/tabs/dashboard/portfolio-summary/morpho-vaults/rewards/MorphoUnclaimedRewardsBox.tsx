@@ -3,10 +3,7 @@ import { DisplayMoney, FlexCol, FlexRow, ImageGroup, StandardTooltip, Typography
 import { ClaimModal } from "./ClaimModal";
 import { useAccount } from "wagmi";
 import { RewardsWarningTooltip } from "../../../components/common/RewardsWarningTooltip";
-import {
-  useMorphoExtendedUserRewards,
-  MorphoUserRewardsData,
-} from "../../../../../../../../data/morpho/queries/user-rewards/MorphoUserRewards.hook";
+import { useMorphoExtendedUserRewards, MorphoUserRewardsData } from "@data";
 
 export const MorphoUnclaimedRewardsBox = () => {
   const { address } = useAccount();

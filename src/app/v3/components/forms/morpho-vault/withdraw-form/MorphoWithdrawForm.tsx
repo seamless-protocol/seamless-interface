@@ -4,9 +4,7 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useMutateWithdrawMorphoVault } from "../../../../../data/morpho/mutations/useMutateWithdrawMorphoVault";
-import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/queries/full-morpho-info/FullVaultInfo.hook";
-import { FullMorphoInfoData } from "../../../../../data/morpho/queries/full-morpho-info/types/FullMorphoInfoData";
+import { useFetchFormattedFullVaultInfo, FullMorphoInfoData, useMutateWithdrawMorphoVault } from "@data";
 
 export const MorphoWithdrawForm = () => {
   const { strategy: vault } = useFormSettingsContext();

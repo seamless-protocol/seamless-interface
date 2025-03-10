@@ -5,14 +5,13 @@ import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { ExtendedVaultPosition } from "../../../../../../../data/morpho/queries/full-morpho-info/types/ExtendedFullMorphoInfoData";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
-import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/queries/user-rewards/MorphoUserRewards.hook";
+import { ExtendedVaultPosition, useMorphoExtendedUserRewards } from "@data";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;

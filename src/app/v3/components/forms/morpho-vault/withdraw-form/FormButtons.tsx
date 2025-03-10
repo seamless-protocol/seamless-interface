@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
-import { FullMorphoInfoData } from "../../../../../data/morpho/queries/full-morpho-info/types/FullMorphoInfoData";
+import { FullMorphoInfoData } from "@data";
 
 export const FormButtons: React.FC<{
   vaultData: FullMorphoInfoData;
