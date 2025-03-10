@@ -33,7 +33,7 @@ jobs:
         with:
           # install: false # Cypress gha will take care of install instead of bahmutov/installs
           start: npm run start
-          wait-on: "http://localhost:5174"
+          wait-on: "http://localhost:5173"
           browser: chrome
           config-file: cypress.config.ts
         env:
