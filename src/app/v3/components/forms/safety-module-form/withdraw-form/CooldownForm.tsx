@@ -7,7 +7,7 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
-export const CooldownForm = () => {
+export const StakingWithdrawForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {
@@ -28,7 +28,7 @@ export const CooldownForm = () => {
     );
   }
 
-  return <MoprhoVaultFormLocal tokenData={tokenInfo} />;
+  return <StakingWithdrawFormLocal tokenData={tokenInfo} />;
 };
 
 interface FormData {
@@ -36,7 +36,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const MoprhoVaultFormLocal: React.FC<{
+const StakingWithdrawFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();

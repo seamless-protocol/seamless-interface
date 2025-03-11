@@ -5,7 +5,7 @@ import { Address } from "viem";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { StakingDepositForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
-import { CooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/CooldownForm";
+import { StakingWithdrawForm } from "../../../../../components/forms/safety-module-form/withdraw-form/CooldownForm";
 import { useWatchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
 import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
 import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
@@ -88,7 +88,11 @@ export const FormContainer: React.FC = () => {
           </FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={vault}>
-            {!hasCooldown ? <CooldownForm /> : <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} />}
+            {!hasCooldown ? (
+              <StakingWithdrawForm />
+            ) : (
+              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} />
+            )}
           </FormSettingsProvider>
         )}
       </div>
