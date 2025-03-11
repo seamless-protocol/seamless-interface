@@ -62,7 +62,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const underlyingAssetAddress = data?.asset?.address;
 
   // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress);
+  const tokenData = useToken(underlyingAssetAddress); // TODO: this is wasteful because we do it in hook but it fixes type error for now
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -70,9 +70,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** max *** //
   // TODO: Should work the same as fetch balance
-  console.log({ strategy });
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
-  console.log({ maxUserDepositData });
 
   // *** price *** //
   // TODO: This brings asset
