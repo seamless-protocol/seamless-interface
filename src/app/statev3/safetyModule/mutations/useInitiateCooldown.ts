@@ -1,25 +1,40 @@
-import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenConfig } from "@generated";
 
 export const useInitiateCooldown = () => {
-  // hook call
-  const { writeContractAsync, ...rest } = useSeamlessContractWrite({});
-  
-  // mutation wrapper
-  const startCooldownAsync = async (
-    
-    settings?: SeamlessWriteAsyncParams
-  ) => {
-    
+  /* ------------- */
+  /*   Meta data   */
+  /* ------------- */
+  const { showNotification } = useNotificationContext();
 
-    await writeContractAsync(
-      {
-        ...stakedTokenConfig,
-        functionName: "cooldown",
-        args: [],
-      },
-      { ...settings }
-    );
+  /* ----------------- */
+  /*   Mutation config */
+  /* ----------------- */
+  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    hideDefaultErrorOnNotification: true,
+    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
+  });
+
+  /* -------------------- */
+  /*   Mutation wrapper   */
+  /* -------------------- */
+  const startCooldownAsync = async (settings?: SeamlessWriteAsyncParams) => {
+    try {
+      await writeContractAsync(
+        {
+          ...stakedTokenConfig,
+          functionName: "cooldown",
+          args: [],
+        },
+        { ...settings }
+      );
+    } catch (error) {
+      console.error("Failed to initiate cooldown", error);
+      showNotification({
+        status: "error",
+        content: `Failed to unstake: ${getParsedError(error)}`,
+      });
+    }
   };
 
   return { ...rest, isResultPending: rest.isPending, startCooldownAsync };

@@ -1,32 +1,51 @@
-import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenConfig } from "@generated";
 import { useAccount } from "wagmi";
 
 export const useWithdrawSafetyModule = () => {
-  
+  /* ------------- */
+  /*   Meta data   */
+  /* ------------- */
+  const { address } = useAccount();
+  const { showNotification } = useNotificationContext();
 
-  // hook call
-  const { writeContractAsync, ...rest } = useSeamlessContractWrite({});
-  const account = useAccount();
-    const { address } = account;
+  /* ----------------- */
+  /*   Mutation config */
+  /* ----------------- */
+  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    hideDefaultErrorOnNotification: true,
+    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
+  });
 
-  // mutation wrapper
+  /* -------------------- */
+  /*   Mutation wrapper   */
+  /* -------------------- */
   const unstakeAsync = async (
     args: {
       amount: bigint | undefined;
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
-    
+    try {
+      const { amount } = args;
+      if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
+      if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-    await writeContractAsync(
-      {
-        ...stakedTokenConfig,
-        functionName: "redeem",
-        args: [args.amount, address, address],
-      },
-      { ...settings }
-    );
+      await writeContractAsync(
+        {
+          ...stakedTokenConfig,
+          functionName: "redeem",
+          args: [amount, address, address],
+        },
+        { ...settings }
+      );
+    } catch (error) {
+      console.error("Failed to unstake", error);
+      showNotification({
+        status: "error",
+        content: `Failed to unstake: ${getParsedError(error)}`,
+      });
+    }
   };
 
   return { ...rest, isWithdrawPending: rest.isPending, unstakeAsync };
