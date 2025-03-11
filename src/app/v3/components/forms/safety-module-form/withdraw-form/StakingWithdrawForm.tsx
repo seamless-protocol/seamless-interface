@@ -16,8 +16,8 @@ export const StakingWithdrawForm = () => {
 
   if (!tokenInfo || error) {
     // eslint-disable-next-line no-console
-    console.warn("Vault not found!!!");
-    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+    console.warn("Staking data not found!!!");
+    if (error) console.error("StakingWithdrawForm error while fetching full vault info", error);
 
     return (
       <div className="min-h-[300px]">
