@@ -5,8 +5,6 @@ import {
   createUseWatchContractEvent,
 } from 'wagmi/codegen'
 
-import {StakedTokenAbi} from "../../../abis/StakedToken";
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AaveOracle
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3491,1419 +3489,6 @@ export const loopStrategyAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// MorphoBundlerV2
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const morphoBundlerV2Abi = [
-  {
-    type: 'constructor',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'morpho', internalType: 'address', type: 'address' },
-      { name: 'initialTimelock', internalType: 'uint256', type: 'uint256' },
-      { name: '_asset', internalType: 'address', type: 'address' },
-      { name: '_name', internalType: 'string', type: 'string' },
-      { name: '_symbol', internalType: 'string', type: 'string' },
-    ],
-    stateMutability: 'nonpayable',
-  },
-  { type: 'error', inputs: [], name: 'AboveMaxTimelock' },
-  {
-    type: 'error',
-    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
-    name: 'AddressEmptyCode',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'AddressInsufficientBalance',
-  },
-  { type: 'error', inputs: [], name: 'AllCapsReached' },
-  { type: 'error', inputs: [], name: 'AlreadyPending' },
-  { type: 'error', inputs: [], name: 'AlreadySet' },
-  { type: 'error', inputs: [], name: 'BelowMinTimelock' },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'DuplicateMarket',
-  },
-  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
-  {
-    type: 'error',
-    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
-    name: 'ECDSAInvalidSignatureLength',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'ECDSAInvalidSignatureS',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20InsufficientAllowance',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
-      { name: 'balance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20InsufficientBalance',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidApprover',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidReceiver',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSpender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
-    name: 'ERC2612ExpiredSignature',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'signer', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'ERC2612InvalidSigner',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxDeposit',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxMint',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxRedeem',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxWithdraw',
-  },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'InconsistentAsset',
-  },
-  { type: 'error', inputs: [], name: 'InconsistentReallocation' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'InvalidAccountNonce',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'InvalidMarketRemovalNonZeroCap',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'InvalidMarketRemovalNonZeroSupply',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'InvalidMarketRemovalTimelockNotElapsed',
-  },
-  { type: 'error', inputs: [], name: 'InvalidShortString' },
-  { type: 'error', inputs: [], name: 'MarketNotCreated' },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'MarketNotEnabled',
-  },
-  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
-  { type: 'error', inputs: [], name: 'MaxFeeExceeded' },
-  { type: 'error', inputs: [], name: 'MaxQueueLengthExceeded' },
-  { type: 'error', inputs: [], name: 'NoPendingValue' },
-  { type: 'error', inputs: [], name: 'NonZeroCap' },
-  { type: 'error', inputs: [], name: 'NotAllocatorRole' },
-  { type: 'error', inputs: [], name: 'NotCuratorNorGuardianRole' },
-  { type: 'error', inputs: [], name: 'NotCuratorRole' },
-  { type: 'error', inputs: [], name: 'NotEnoughLiquidity' },
-  { type: 'error', inputs: [], name: 'NotGuardianRole' },
-  {
-    type: 'error',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'OwnableInvalidOwner',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'OwnableUnauthorizedAccount',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'PendingCap',
-  },
-  { type: 'error', inputs: [], name: 'PendingRemoval' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'bits', internalType: 'uint8', type: 'uint8' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'SafeCastOverflowedUintDowncast',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'str', internalType: 'string', type: 'string' }],
-    name: 'StringTooLong',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'SupplyCapExceeded',
-  },
-  { type: 'error', inputs: [], name: 'TimelockNotElapsed' },
-  {
-    type: 'error',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'UnauthorizedMarket',
-  },
-  { type: 'error', inputs: [], name: 'ZeroAddress' },
-  { type: 'error', inputs: [], name: 'ZeroFeeRecipient' },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newTotalAssets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'feeShares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'AccrueInterest',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'spender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Approval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'assets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'shares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Deposit',
-  },
-  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'previousOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'OwnershipTransferStarted',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'previousOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'OwnershipTransferred',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-      {
-        name: 'suppliedAssets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'suppliedShares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'ReallocateSupply',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-      {
-        name: 'withdrawnAssets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'withdrawnShares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'ReallocateWithdraw',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-    ],
-    name: 'RevokePendingCap',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'RevokePendingGuardian',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-    ],
-    name: 'RevokePendingMarketRemoval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'RevokePendingTimelock',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-      { name: 'cap', internalType: 'uint256', type: 'uint256', indexed: false },
-    ],
-    name: 'SetCap',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newCurator',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'SetCurator',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newFee',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SetFee',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newFeeRecipient',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'SetFeeRecipient',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'guardian',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'SetGuardian',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'allocator',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'isAllocator',
-        internalType: 'bool',
-        type: 'bool',
-        indexed: false,
-      },
-    ],
-    name: 'SetIsAllocator',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newSkimRecipient',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'SetSkimRecipient',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newSupplyQueue',
-        internalType: 'Id[]',
-        type: 'bytes32[]',
-        indexed: false,
-      },
-    ],
-    name: 'SetSupplyQueue',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newTimelock',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SetTimelock',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newWithdrawQueue',
-        internalType: 'Id[]',
-        type: 'bytes32[]',
-        indexed: false,
-      },
-    ],
-    name: 'SetWithdrawQueue',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'token',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'amount',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Skim',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-      { name: 'cap', internalType: 'uint256', type: 'uint256', indexed: false },
-    ],
-    name: 'SubmitCap',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newGuardian',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'SubmitGuardian',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'caller',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'id', internalType: 'Id', type: 'bytes32', indexed: true },
-    ],
-    name: 'SubmitMarketRemoval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'newTimelock',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SubmitTimelock',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Transfer',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'updatedTotalAssets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'UpdateLastTotalAssets',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'receiver',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'assets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'shares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Withdraw',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'DECIMALS_OFFSET',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'DOMAIN_SEPARATOR',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'MORPHO',
-    outputs: [{ name: '', internalType: 'contract IMorpho', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'marketParams',
-        internalType: 'struct MarketParams',
-        type: 'tuple',
-        components: [
-          { name: 'loanToken', internalType: 'address', type: 'address' },
-          { name: 'collateralToken', internalType: 'address', type: 'address' },
-          { name: 'oracle', internalType: 'address', type: 'address' },
-          { name: 'irm', internalType: 'address', type: 'address' },
-          { name: 'lltv', internalType: 'uint256', type: 'uint256' },
-        ],
-      },
-    ],
-    name: 'acceptCap',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'acceptGuardian',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'acceptOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'acceptTimelock',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
-    ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'asset',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'Id', type: 'bytes32' }],
-    name: 'config',
-    outputs: [
-      { name: 'cap', internalType: 'uint184', type: 'uint184' },
-      { name: 'enabled', internalType: 'bool', type: 'bool' },
-      { name: 'removableAt', internalType: 'uint64', type: 'uint64' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToShares',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'curator',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'decimals',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-    ],
-    name: 'deposit',
-    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'eip712Domain',
-    outputs: [
-      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
-      { name: 'name', internalType: 'string', type: 'string' },
-      { name: 'version', internalType: 'string', type: 'string' },
-      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
-      { name: 'verifyingContract', internalType: 'address', type: 'address' },
-      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'fee',
-    outputs: [{ name: '', internalType: 'uint96', type: 'uint96' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'feeRecipient',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'guardian',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'isAllocator',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'lastTotalAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'maxRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'maxWithdraw',
-    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-    ],
-    name: 'mint',
-    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'data', internalType: 'bytes[]', type: 'bytes[]' }],
-    name: 'multicall',
-    outputs: [{ name: 'results', internalType: 'bytes[]', type: 'bytes[]' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'nonces',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'Id', type: 'bytes32' }],
-    name: 'pendingCap',
-    outputs: [
-      { name: 'value', internalType: 'uint192', type: 'uint192' },
-      { name: 'validAt', internalType: 'uint64', type: 'uint64' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'pendingGuardian',
-    outputs: [
-      { name: 'value', internalType: 'address', type: 'address' },
-      { name: 'validAt', internalType: 'uint64', type: 'uint64' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'pendingOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'pendingTimelock',
-    outputs: [
-      { name: 'value', internalType: 'uint192', type: 'uint192' },
-      { name: 'validAt', internalType: 'uint64', type: 'uint64' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
-      { name: 'v', internalType: 'uint8', type: 'uint8' },
-      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
-      { name: 's', internalType: 'bytes32', type: 'bytes32' },
-    ],
-    name: 'permit',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewWithdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'allocations',
-        internalType: 'struct MarketAllocation[]',
-        type: 'tuple[]',
-        components: [
-          {
-            name: 'marketParams',
-            internalType: 'struct MarketParams',
-            type: 'tuple',
-            components: [
-              { name: 'loanToken', internalType: 'address', type: 'address' },
-              {
-                name: 'collateralToken',
-                internalType: 'address',
-                type: 'address',
-              },
-              { name: 'oracle', internalType: 'address', type: 'address' },
-              { name: 'irm', internalType: 'address', type: 'address' },
-              { name: 'lltv', internalType: 'uint256', type: 'uint256' },
-            ],
-          },
-          { name: 'assets', internalType: 'uint256', type: 'uint256' },
-        ],
-      },
-    ],
-    name: 'reallocate',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'redeem',
-    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'revokePendingCap',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'revokePendingGuardian',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'id', internalType: 'Id', type: 'bytes32' }],
-    name: 'revokePendingMarketRemoval',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'revokePendingTimelock',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newCurator', internalType: 'address', type: 'address' }],
-    name: 'setCurator',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newFee', internalType: 'uint256', type: 'uint256' }],
-    name: 'setFee',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newFeeRecipient', internalType: 'address', type: 'address' },
-    ],
-    name: 'setFeeRecipient',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newAllocator', internalType: 'address', type: 'address' },
-      { name: 'newIsAllocator', internalType: 'bool', type: 'bool' },
-    ],
-    name: 'setIsAllocator',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newSkimRecipient', internalType: 'address', type: 'address' },
-    ],
-    name: 'setSkimRecipient',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newSupplyQueue', internalType: 'Id[]', type: 'bytes32[]' },
-    ],
-    name: 'setSupplyQueue',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'skim',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'skimRecipient',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'marketParams',
-        internalType: 'struct MarketParams',
-        type: 'tuple',
-        components: [
-          { name: 'loanToken', internalType: 'address', type: 'address' },
-          { name: 'collateralToken', internalType: 'address', type: 'address' },
-          { name: 'oracle', internalType: 'address', type: 'address' },
-          { name: 'irm', internalType: 'address', type: 'address' },
-          { name: 'lltv', internalType: 'uint256', type: 'uint256' },
-        ],
-      },
-      { name: 'newSupplyCap', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'submitCap',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newGuardian', internalType: 'address', type: 'address' }],
-    name: 'submitGuardian',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'marketParams',
-        internalType: 'struct MarketParams',
-        type: 'tuple',
-        components: [
-          { name: 'loanToken', internalType: 'address', type: 'address' },
-          { name: 'collateralToken', internalType: 'address', type: 'address' },
-          { name: 'oracle', internalType: 'address', type: 'address' },
-          { name: 'irm', internalType: 'address', type: 'address' },
-          { name: 'lltv', internalType: 'uint256', type: 'uint256' },
-        ],
-      },
-    ],
-    name: 'submitMarketRemoval',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newTimelock', internalType: 'uint256', type: 'uint256' }],
-    name: 'submitTimelock',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'supplyQueue',
-    outputs: [{ name: '', internalType: 'Id', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'supplyQueueLength',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'timelock',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalAssets',
-    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'indexes', internalType: 'uint256[]', type: 'uint256[]' }],
-    name: 'updateWithdrawQueue',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'withdraw',
-    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'withdrawQueue',
-    outputs: [{ name: '', internalType: 'Id', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'withdrawQueueLength',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-] as const
-
-export const morphoBundlerV2Address =
-  '0x23055618898e202386e6c13955a58D3C68200BFB' as const
-
-export const morphoBundlerV2Config = {
-  address: morphoBundlerV2Address,
-  abi: morphoBundlerV2Abi,
-} as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PoolDataProvider
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -6142,16 +4727,1105 @@ export const rewardsControllerConfig = {
   abi: rewardsControllerAbi,
 } as const
 
-// TODO: Update for mainnet
-export const stakedSeamAddress =
-  '0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284' as const
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// StakedToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const safetyModuleRewardController = 
-  '0x618543923b65968e60a45e24bd400f2eac9c9820' as const
+export const stakedTokenAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'CLOCK_MODE',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'asset',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'pos', internalType: 'uint32', type: 'uint32' },
+    ],
+    name: 'checkpoints',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct Checkpoints.Checkpoint208',
+        type: 'tuple',
+        components: [
+          { name: '_key', internalType: 'uint48', type: 'uint48' },
+          { name: '_value', internalType: 'uint208', type: 'uint208' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'clock',
+    outputs: [{ name: '', internalType: 'uint48', type: 'uint48' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToShares',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'cooldown',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: 'decimal', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'delegatee', internalType: 'address', type: 'address' }],
+    name: 'delegate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'delegatee', internalType: 'address', type: 'address' },
+      { name: 'nonce', internalType: 'uint256', type: 'uint256' },
+      { name: 'expiry', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'delegateBySig',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'delegates',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'eip712Domain',
+    outputs: [
+      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'version', internalType: 'string', type: 'string' },
+      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
+      { name: 'verifyingContract', internalType: 'address', type: 'address' },
+      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amt', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'emergencyWithdrawal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCooldown',
+    outputs: [
+      { name: 'cooldownTime', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'fromCooldownTimestamp',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'amountToReceive', internalType: 'uint256', type: 'uint256' },
+      { name: 'toAddress', internalType: 'address', type: 'address' },
+      { name: 'toBalance', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getNextCooldownTimestamp',
+    outputs: [
+      { name: 'cooldownTimestamp', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'timepoint', internalType: 'uint256', type: 'uint256' }],
+    name: 'getPastTotalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'timepoint', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getPastVotes',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getRewardsController',
+    outputs: [
+      {
+        name: 'rewardController',
+        internalType: 'contract IRewardsController',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getScaledUserBalanceAndSupply',
+    outputs: [
+      { name: 'scaledBalance', internalType: 'uint256', type: 'uint256' },
+      { name: 'scaledSupply', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'getStakerCooldown',
+    outputs: [
+      { name: 'cooldownStartedAt', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getUnstakeWindow',
+    outputs: [
+      { name: 'unstakeWindow', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'getVotes',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_asset', internalType: 'address', type: 'address' },
+      { name: '_initialAdmin', internalType: 'address', type: 'address' },
+      { name: '_erc20name', internalType: 'string', type: 'string' },
+      { name: '_erc20symbol', internalType: 'string', type: 'string' },
+      { name: '_cooldown', internalType: 'uint256', type: 'uint256' },
+      { name: '_unstakeWindow', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'mint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: 'nonce', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'numCheckpoints',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'pause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'permit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'scaledTotalSupply',
+    outputs: [
+      { name: 'scaledSupply', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newController', internalType: 'address', type: 'address' },
+    ],
+    name: 'setController',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_cooldown', internalType: 'uint256', type: 'uint256' },
+      { name: '_unstake', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setTimers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unpause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'user',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Cooldown',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'delegator',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'fromDelegate',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'toDelegate',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'DelegateChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'delegate',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'previousVotes',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newVotes',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'DelegateVotesChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Deposit',
+  },
+  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      { name: 'amt', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'EmergencyWithdraw',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'version',
+        internalType: 'uint64',
+        type: 'uint64',
+        indexed: false,
+      },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'RewardsController',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'RewardsControllerSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'previousAdminRole',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+      {
+        name: 'newAdminRole',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+    ],
+    name: 'RoleAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'RoleGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'RoleRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'cooldown',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'unstake',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'TimersSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'Upgraded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Withdraw',
+  },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'AccessControlUnauthorizedAccount',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance',
+  },
+  { type: 'error', inputs: [], name: 'CheckpointUnorderedInsertion' },
+  { type: 'error', inputs: [], name: 'CooldownNotInitiated' },
+  { type: 'error', inputs: [], name: 'CooldownStillActive' },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'implementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'ERC1967InvalidImplementation',
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'increasedSupply', internalType: 'uint256', type: 'uint256' },
+      { name: 'cap', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20ExceededSafeSupply',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientAllowance',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC20InsufficientBalance',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'ERC2612InvalidSigner',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxDeposit',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxMint',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxRedeem',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'max', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'ERC4626ExceededMaxWithdraw',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'timepoint', internalType: 'uint256', type: 'uint256' },
+      { name: 'clock', internalType: 'uint48', type: 'uint48' },
+    ],
+    name: 'ERC5805FutureLookup',
+  },
+  { type: 'error', inputs: [], name: 'ERC6372InconsistentClock' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InsufficientStake' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'InvalidAccountNonce',
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'NotInEmergency' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'bits', internalType: 'uint8', type: 'uint8' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'SafeCastOverflowedUintDowncast',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  { type: 'error', inputs: [], name: 'SendFailed' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID',
+  },
+  { type: 'error', inputs: [], name: 'UnstakeWindowExpired' },
+  {
+    type: 'error',
+    inputs: [{ name: 'expiry', internalType: 'uint256', type: 'uint256' }],
+    name: 'VotesExpiredSignature',
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+] as const
+
+export const stakedTokenAddress =
+  '0x0Fb8B28d18889b121cDd1ef82A88e1aC1540f284' as const
 
 export const stakedTokenConfig = {
-  address: stakedSeamAddress,
-  abi: StakedTokenAbi,
+  address: stakedTokenAddress,
+  abi: stakedTokenAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8371,1392 +8045,6 @@ export const useWatchLoopStrategyWithdrawEvent =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__
- */
-export const useReadMorphoBundlerV2 = /*#__PURE__*/ createUseReadContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"DECIMALS_OFFSET"`
- */
-export const useReadMorphoBundlerV2DecimalsOffset =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'DECIMALS_OFFSET',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
- */
-export const useReadMorphoBundlerV2DomainSeparator =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'DOMAIN_SEPARATOR',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"MORPHO"`
- */
-export const useReadMorphoBundlerV2Morpho = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'MORPHO',
-  },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"allowance"`
- */
-export const useReadMorphoBundlerV2Allowance =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'allowance',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"asset"`
- */
-export const useReadMorphoBundlerV2Asset = /*#__PURE__*/ createUseReadContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-  functionName: 'asset',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"balanceOf"`
- */
-export const useReadMorphoBundlerV2BalanceOf =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'balanceOf',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"config"`
- */
-export const useReadMorphoBundlerV2Config = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'config',
-  },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"convertToAssets"`
- */
-export const useReadMorphoBundlerV2ConvertToAssets =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'convertToAssets',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"convertToShares"`
- */
-export const useReadMorphoBundlerV2ConvertToShares =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'convertToShares',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"curator"`
- */
-export const useReadMorphoBundlerV2Curator =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'curator',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"decimals"`
- */
-export const useReadMorphoBundlerV2Decimals =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'decimals',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"eip712Domain"`
- */
-export const useReadMorphoBundlerV2Eip712Domain =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'eip712Domain',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"fee"`
- */
-export const useReadMorphoBundlerV2Fee = /*#__PURE__*/ createUseReadContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-  functionName: 'fee',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"feeRecipient"`
- */
-export const useReadMorphoBundlerV2FeeRecipient =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'feeRecipient',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"guardian"`
- */
-export const useReadMorphoBundlerV2Guardian =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'guardian',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"isAllocator"`
- */
-export const useReadMorphoBundlerV2IsAllocator =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'isAllocator',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"lastTotalAssets"`
- */
-export const useReadMorphoBundlerV2LastTotalAssets =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'lastTotalAssets',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"maxDeposit"`
- */
-export const useReadMorphoBundlerV2MaxDeposit =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'maxDeposit',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"maxMint"`
- */
-export const useReadMorphoBundlerV2MaxMint =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'maxMint',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"maxRedeem"`
- */
-export const useReadMorphoBundlerV2MaxRedeem =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'maxRedeem',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"maxWithdraw"`
- */
-export const useReadMorphoBundlerV2MaxWithdraw =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'maxWithdraw',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"name"`
- */
-export const useReadMorphoBundlerV2Name = /*#__PURE__*/ createUseReadContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-  functionName: 'name',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"nonces"`
- */
-export const useReadMorphoBundlerV2Nonces = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'nonces',
-  },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"owner"`
- */
-export const useReadMorphoBundlerV2Owner = /*#__PURE__*/ createUseReadContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-  functionName: 'owner',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"pendingCap"`
- */
-export const useReadMorphoBundlerV2PendingCap =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'pendingCap',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"pendingGuardian"`
- */
-export const useReadMorphoBundlerV2PendingGuardian =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'pendingGuardian',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"pendingOwner"`
- */
-export const useReadMorphoBundlerV2PendingOwner =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'pendingOwner',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"pendingTimelock"`
- */
-export const useReadMorphoBundlerV2PendingTimelock =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'pendingTimelock',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"previewDeposit"`
- */
-export const useReadMorphoBundlerV2PreviewDeposit =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'previewDeposit',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"previewMint"`
- */
-export const useReadMorphoBundlerV2PreviewMint =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'previewMint',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"previewRedeem"`
- */
-export const useReadMorphoBundlerV2PreviewRedeem =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'previewRedeem',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"previewWithdraw"`
- */
-export const useReadMorphoBundlerV2PreviewWithdraw =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'previewWithdraw',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"skimRecipient"`
- */
-export const useReadMorphoBundlerV2SkimRecipient =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'skimRecipient',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"supplyQueue"`
- */
-export const useReadMorphoBundlerV2SupplyQueue =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'supplyQueue',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"supplyQueueLength"`
- */
-export const useReadMorphoBundlerV2SupplyQueueLength =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'supplyQueueLength',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"symbol"`
- */
-export const useReadMorphoBundlerV2Symbol = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'symbol',
-  },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"timelock"`
- */
-export const useReadMorphoBundlerV2Timelock =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'timelock',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"totalAssets"`
- */
-export const useReadMorphoBundlerV2TotalAssets =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'totalAssets',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"totalSupply"`
- */
-export const useReadMorphoBundlerV2TotalSupply =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'totalSupply',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"withdrawQueue"`
- */
-export const useReadMorphoBundlerV2WithdrawQueue =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'withdrawQueue',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"withdrawQueueLength"`
- */
-export const useReadMorphoBundlerV2WithdrawQueueLength =
-  /*#__PURE__*/ createUseReadContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'withdrawQueueLength',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__
- */
-export const useWriteMorphoBundlerV2 = /*#__PURE__*/ createUseWriteContract({
-  abi: morphoBundlerV2Abi,
-  address: morphoBundlerV2Address,
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptCap"`
- */
-export const useWriteMorphoBundlerV2AcceptCap =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptCap',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptGuardian"`
- */
-export const useWriteMorphoBundlerV2AcceptGuardian =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptGuardian',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptOwnership"`
- */
-export const useWriteMorphoBundlerV2AcceptOwnership =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptOwnership',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptTimelock"`
- */
-export const useWriteMorphoBundlerV2AcceptTimelock =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptTimelock',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"approve"`
- */
-export const useWriteMorphoBundlerV2Approve =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'approve',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"deposit"`
- */
-export const useWriteMorphoBundlerV2Deposit =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'deposit',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"mint"`
- */
-export const useWriteMorphoBundlerV2Mint = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'mint',
-  },
-)
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"multicall"`
- */
-export const useWriteMorphoBundlerV2Multicall =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'multicall',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"permit"`
- */
-export const useWriteMorphoBundlerV2Permit =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'permit',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"reallocate"`
- */
-export const useWriteMorphoBundlerV2Reallocate =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'reallocate',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"redeem"`
- */
-export const useWriteMorphoBundlerV2Redeem =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'redeem',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const useWriteMorphoBundlerV2RenounceOwnership =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'renounceOwnership',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingCap"`
- */
-export const useWriteMorphoBundlerV2RevokePendingCap =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingCap',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingGuardian"`
- */
-export const useWriteMorphoBundlerV2RevokePendingGuardian =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingGuardian',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingMarketRemoval"`
- */
-export const useWriteMorphoBundlerV2RevokePendingMarketRemoval =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingTimelock"`
- */
-export const useWriteMorphoBundlerV2RevokePendingTimelock =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingTimelock',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setCurator"`
- */
-export const useWriteMorphoBundlerV2SetCurator =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setCurator',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setFee"`
- */
-export const useWriteMorphoBundlerV2SetFee =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setFee',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setFeeRecipient"`
- */
-export const useWriteMorphoBundlerV2SetFeeRecipient =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setFeeRecipient',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setIsAllocator"`
- */
-export const useWriteMorphoBundlerV2SetIsAllocator =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setIsAllocator',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setSkimRecipient"`
- */
-export const useWriteMorphoBundlerV2SetSkimRecipient =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setSkimRecipient',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setSupplyQueue"`
- */
-export const useWriteMorphoBundlerV2SetSupplyQueue =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setSupplyQueue',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"skim"`
- */
-export const useWriteMorphoBundlerV2Skim = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'skim',
-  },
-)
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitCap"`
- */
-export const useWriteMorphoBundlerV2SubmitCap =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitCap',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitGuardian"`
- */
-export const useWriteMorphoBundlerV2SubmitGuardian =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitGuardian',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitMarketRemoval"`
- */
-export const useWriteMorphoBundlerV2SubmitMarketRemoval =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitTimelock"`
- */
-export const useWriteMorphoBundlerV2SubmitTimelock =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitTimelock',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transfer"`
- */
-export const useWriteMorphoBundlerV2Transfer =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transfer',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transferFrom"`
- */
-export const useWriteMorphoBundlerV2TransferFrom =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transferFrom',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transferOwnership"`
- */
-export const useWriteMorphoBundlerV2TransferOwnership =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transferOwnership',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"updateWithdrawQueue"`
- */
-export const useWriteMorphoBundlerV2UpdateWithdrawQueue =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'updateWithdrawQueue',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"withdraw"`
- */
-export const useWriteMorphoBundlerV2Withdraw =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'withdraw',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__
- */
-export const useSimulateMorphoBundlerV2 =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptCap"`
- */
-export const useSimulateMorphoBundlerV2AcceptCap =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptCap',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptGuardian"`
- */
-export const useSimulateMorphoBundlerV2AcceptGuardian =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptGuardian',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptOwnership"`
- */
-export const useSimulateMorphoBundlerV2AcceptOwnership =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptOwnership',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"acceptTimelock"`
- */
-export const useSimulateMorphoBundlerV2AcceptTimelock =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'acceptTimelock',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"approve"`
- */
-export const useSimulateMorphoBundlerV2Approve =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'approve',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"deposit"`
- */
-export const useSimulateMorphoBundlerV2Deposit =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'deposit',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"mint"`
- */
-export const useSimulateMorphoBundlerV2Mint =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'mint',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"multicall"`
- */
-export const useSimulateMorphoBundlerV2Multicall =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'multicall',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"permit"`
- */
-export const useSimulateMorphoBundlerV2Permit =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'permit',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"reallocate"`
- */
-export const useSimulateMorphoBundlerV2Reallocate =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'reallocate',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"redeem"`
- */
-export const useSimulateMorphoBundlerV2Redeem =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'redeem',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const useSimulateMorphoBundlerV2RenounceOwnership =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'renounceOwnership',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingCap"`
- */
-export const useSimulateMorphoBundlerV2RevokePendingCap =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingCap',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingGuardian"`
- */
-export const useSimulateMorphoBundlerV2RevokePendingGuardian =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingGuardian',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingMarketRemoval"`
- */
-export const useSimulateMorphoBundlerV2RevokePendingMarketRemoval =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"revokePendingTimelock"`
- */
-export const useSimulateMorphoBundlerV2RevokePendingTimelock =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'revokePendingTimelock',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setCurator"`
- */
-export const useSimulateMorphoBundlerV2SetCurator =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setCurator',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setFee"`
- */
-export const useSimulateMorphoBundlerV2SetFee =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setFee',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setFeeRecipient"`
- */
-export const useSimulateMorphoBundlerV2SetFeeRecipient =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setFeeRecipient',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setIsAllocator"`
- */
-export const useSimulateMorphoBundlerV2SetIsAllocator =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setIsAllocator',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setSkimRecipient"`
- */
-export const useSimulateMorphoBundlerV2SetSkimRecipient =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setSkimRecipient',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"setSupplyQueue"`
- */
-export const useSimulateMorphoBundlerV2SetSupplyQueue =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'setSupplyQueue',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"skim"`
- */
-export const useSimulateMorphoBundlerV2Skim =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'skim',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitCap"`
- */
-export const useSimulateMorphoBundlerV2SubmitCap =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitCap',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitGuardian"`
- */
-export const useSimulateMorphoBundlerV2SubmitGuardian =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitGuardian',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitMarketRemoval"`
- */
-export const useSimulateMorphoBundlerV2SubmitMarketRemoval =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"submitTimelock"`
- */
-export const useSimulateMorphoBundlerV2SubmitTimelock =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'submitTimelock',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transfer"`
- */
-export const useSimulateMorphoBundlerV2Transfer =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transfer',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transferFrom"`
- */
-export const useSimulateMorphoBundlerV2TransferFrom =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transferFrom',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"transferOwnership"`
- */
-export const useSimulateMorphoBundlerV2TransferOwnership =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'transferOwnership',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"updateWithdrawQueue"`
- */
-export const useSimulateMorphoBundlerV2UpdateWithdrawQueue =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'updateWithdrawQueue',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `functionName` set to `"withdraw"`
- */
-export const useSimulateMorphoBundlerV2Withdraw =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    functionName: 'withdraw',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__
- */
-export const useWatchMorphoBundlerV2Event =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"AccrueInterest"`
- */
-export const useWatchMorphoBundlerV2AccrueInterestEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'AccrueInterest',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"Approval"`
- */
-export const useWatchMorphoBundlerV2ApprovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'Approval',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"Deposit"`
- */
-export const useWatchMorphoBundlerV2DepositEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'Deposit',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"EIP712DomainChanged"`
- */
-export const useWatchMorphoBundlerV2Eip712DomainChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'EIP712DomainChanged',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"OwnershipTransferStarted"`
- */
-export const useWatchMorphoBundlerV2OwnershipTransferStartedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'OwnershipTransferStarted',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"OwnershipTransferred"`
- */
-export const useWatchMorphoBundlerV2OwnershipTransferredEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'OwnershipTransferred',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"ReallocateSupply"`
- */
-export const useWatchMorphoBundlerV2ReallocateSupplyEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'ReallocateSupply',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"ReallocateWithdraw"`
- */
-export const useWatchMorphoBundlerV2ReallocateWithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'ReallocateWithdraw',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"RevokePendingCap"`
- */
-export const useWatchMorphoBundlerV2RevokePendingCapEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'RevokePendingCap',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"RevokePendingGuardian"`
- */
-export const useWatchMorphoBundlerV2RevokePendingGuardianEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'RevokePendingGuardian',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"RevokePendingMarketRemoval"`
- */
-export const useWatchMorphoBundlerV2RevokePendingMarketRemovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'RevokePendingMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"RevokePendingTimelock"`
- */
-export const useWatchMorphoBundlerV2RevokePendingTimelockEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'RevokePendingTimelock',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetCap"`
- */
-export const useWatchMorphoBundlerV2SetCapEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetCap',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetCurator"`
- */
-export const useWatchMorphoBundlerV2SetCuratorEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetCurator',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetFee"`
- */
-export const useWatchMorphoBundlerV2SetFeeEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetFee',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetFeeRecipient"`
- */
-export const useWatchMorphoBundlerV2SetFeeRecipientEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetFeeRecipient',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetGuardian"`
- */
-export const useWatchMorphoBundlerV2SetGuardianEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetGuardian',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetIsAllocator"`
- */
-export const useWatchMorphoBundlerV2SetIsAllocatorEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetIsAllocator',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetSkimRecipient"`
- */
-export const useWatchMorphoBundlerV2SetSkimRecipientEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetSkimRecipient',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetSupplyQueue"`
- */
-export const useWatchMorphoBundlerV2SetSupplyQueueEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetSupplyQueue',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetTimelock"`
- */
-export const useWatchMorphoBundlerV2SetTimelockEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetTimelock',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SetWithdrawQueue"`
- */
-export const useWatchMorphoBundlerV2SetWithdrawQueueEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SetWithdrawQueue',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"Skim"`
- */
-export const useWatchMorphoBundlerV2SkimEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'Skim',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SubmitCap"`
- */
-export const useWatchMorphoBundlerV2SubmitCapEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SubmitCap',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SubmitGuardian"`
- */
-export const useWatchMorphoBundlerV2SubmitGuardianEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SubmitGuardian',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SubmitMarketRemoval"`
- */
-export const useWatchMorphoBundlerV2SubmitMarketRemovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SubmitMarketRemoval',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"SubmitTimelock"`
- */
-export const useWatchMorphoBundlerV2SubmitTimelockEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'SubmitTimelock',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"Transfer"`
- */
-export const useWatchMorphoBundlerV2TransferEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'Transfer',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"UpdateLastTotalAssets"`
- */
-export const useWatchMorphoBundlerV2UpdateLastTotalAssetsEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'UpdateLastTotalAssets',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link morphoBundlerV2Abi}__ and `eventName` set to `"Withdraw"`
- */
-export const useWatchMorphoBundlerV2WithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: morphoBundlerV2Abi,
-    address: morphoBundlerV2Address,
-    eventName: 'Withdraw',
-  })
-
-/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link poolDataProviderAbi}__
  */
 export const useReadPoolDataProvider = /*#__PURE__*/ createUseReadContract({
@@ -10644,4 +8932,1050 @@ export const useWatchRewardsControllerTransferStrategyInstalledEvent =
     abi: rewardsControllerAbi,
     address: rewardsControllerAddress,
     eventName: 'TransferStrategyInstalled',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__
+ */
+export const useReadStakedToken = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"CLOCK_MODE"`
+ */
+export const useReadStakedTokenClockMode = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'CLOCK_MODE',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
+ */
+export const useReadStakedTokenDefaultAdminRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ */
+export const useReadStakedTokenDomainSeparator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'DOMAIN_SEPARATOR',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
+ */
+export const useReadStakedTokenUpgradeInterfaceVersion =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadStakedTokenAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"asset"`
+ */
+export const useReadStakedTokenAsset = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'asset',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadStakedTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"checkpoints"`
+ */
+export const useReadStakedTokenCheckpoints =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'checkpoints',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"clock"`
+ */
+export const useReadStakedTokenClock = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'clock',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const useReadStakedTokenConvertToAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'convertToAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"convertToShares"`
+ */
+export const useReadStakedTokenConvertToShares =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'convertToShares',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadStakedTokenDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegates"`
+ */
+export const useReadStakedTokenDelegates = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'delegates',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"eip712Domain"`
+ */
+export const useReadStakedTokenEip712Domain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'eip712Domain',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getCooldown"`
+ */
+export const useReadStakedTokenGetCooldown =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getCooldown',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getNextCooldownTimestamp"`
+ */
+export const useReadStakedTokenGetNextCooldownTimestamp =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getNextCooldownTimestamp',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getPastTotalSupply"`
+ */
+export const useReadStakedTokenGetPastTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getPastTotalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getPastVotes"`
+ */
+export const useReadStakedTokenGetPastVotes =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getPastVotes',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getRewardsController"`
+ */
+export const useReadStakedTokenGetRewardsController =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getRewardsController',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getRoleAdmin"`
+ */
+export const useReadStakedTokenGetRoleAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getRoleAdmin',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getScaledUserBalanceAndSupply"`
+ */
+export const useReadStakedTokenGetScaledUserBalanceAndSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getScaledUserBalanceAndSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getStakerCooldown"`
+ */
+export const useReadStakedTokenGetStakerCooldown =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getStakerCooldown',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getUnstakeWindow"`
+ */
+export const useReadStakedTokenGetUnstakeWindow =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'getUnstakeWindow',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getVotes"`
+ */
+export const useReadStakedTokenGetVotes = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'getVotes',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"hasRole"`
+ */
+export const useReadStakedTokenHasRole = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'hasRole',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const useReadStakedTokenMaxDeposit = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'maxDeposit',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxMint"`
+ */
+export const useReadStakedTokenMaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const useReadStakedTokenMaxRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'maxRedeem',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const useReadStakedTokenMaxWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'maxWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadStakedTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"nonces"`
+ */
+export const useReadStakedTokenNonces = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'nonces',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"numCheckpoints"`
+ */
+export const useReadStakedTokenNumCheckpoints =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'numCheckpoints',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadStakedTokenPaused = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const useReadStakedTokenPreviewDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'previewDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewMint"`
+ */
+export const useReadStakedTokenPreviewMint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'previewMint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const useReadStakedTokenPreviewRedeem =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'previewRedeem',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const useReadStakedTokenPreviewWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'previewWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const useReadStakedTokenProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'proxiableUUID',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"scaledTotalSupply"`
+ */
+export const useReadStakedTokenScaledTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'scaledTotalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"supportsInterface"`
+ */
+export const useReadStakedTokenSupportsInterface =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'supportsInterface',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadStakedTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"totalAssets"`
+ */
+export const useReadStakedTokenTotalAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'totalAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadStakedTokenTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'totalSupply',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__
+ */
+export const useWriteStakedToken = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteStakedTokenApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"cooldown"`
+ */
+export const useWriteStakedTokenCooldown = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'cooldown',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegate"`
+ */
+export const useWriteStakedTokenDelegate = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'delegate',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegateBySig"`
+ */
+export const useWriteStakedTokenDelegateBySig =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'delegateBySig',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteStakedTokenDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"emergencyWithdrawal"`
+ */
+export const useWriteStakedTokenEmergencyWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'emergencyWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useWriteStakedTokenGrantRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteStakedTokenInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteStakedTokenMint = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"pause"`
+ */
+export const useWriteStakedTokenPause = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"permit"`
+ */
+export const useWriteStakedTokenPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'permit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteStakedTokenRedeem = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useWriteStakedTokenRenounceRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useWriteStakedTokenRevokeRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setController"`
+ */
+export const useWriteStakedTokenSetController =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'setController',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setTimers"`
+ */
+export const useWriteStakedTokenSetTimers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'setTimers',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteStakedTokenTransfer = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'transfer',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteStakedTokenTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useWriteStakedTokenUnpause = /*#__PURE__*/ createUseWriteContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+  functionName: 'unpause',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useWriteStakedTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteStakedTokenWithdraw = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'withdraw',
+  },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__
+ */
+export const useSimulateStakedToken = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakedTokenAbi,
+  address: stakedTokenAddress,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateStakedTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"cooldown"`
+ */
+export const useSimulateStakedTokenCooldown =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'cooldown',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegate"`
+ */
+export const useSimulateStakedTokenDelegate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'delegate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegateBySig"`
+ */
+export const useSimulateStakedTokenDelegateBySig =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'delegateBySig',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateStakedTokenDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"emergencyWithdrawal"`
+ */
+export const useSimulateStakedTokenEmergencyWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'emergencyWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useSimulateStakedTokenGrantRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateStakedTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateStakedTokenMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"pause"`
+ */
+export const useSimulateStakedTokenPause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'pause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"permit"`
+ */
+export const useSimulateStakedTokenPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'permit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateStakedTokenRedeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useSimulateStakedTokenRenounceRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useSimulateStakedTokenRevokeRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setController"`
+ */
+export const useSimulateStakedTokenSetController =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'setController',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setTimers"`
+ */
+export const useSimulateStakedTokenSetTimers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'setTimers',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateStakedTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateStakedTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useSimulateStakedTokenUnpause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'unpause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useSimulateStakedTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateStakedTokenWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__
+ */
+export const useWatchStakedTokenEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchStakedTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Cooldown"`
+ */
+export const useWatchStakedTokenCooldownEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Cooldown',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"DelegateChanged"`
+ */
+export const useWatchStakedTokenDelegateChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'DelegateChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"DelegateVotesChanged"`
+ */
+export const useWatchStakedTokenDelegateVotesChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'DelegateVotesChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Deposit"`
+ */
+export const useWatchStakedTokenDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Deposit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"EIP712DomainChanged"`
+ */
+export const useWatchStakedTokenEip712DomainChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'EIP712DomainChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"EmergencyWithdraw"`
+ */
+export const useWatchStakedTokenEmergencyWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'EmergencyWithdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchStakedTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchStakedTokenPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RewardsControllerSet"`
+ */
+export const useWatchStakedTokenRewardsControllerSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'RewardsControllerSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleAdminChanged"`
+ */
+export const useWatchStakedTokenRoleAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'RoleAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleGranted"`
+ */
+export const useWatchStakedTokenRoleGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'RoleGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleRevoked"`
+ */
+export const useWatchStakedTokenRoleRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'RoleRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"TimersSet"`
+ */
+export const useWatchStakedTokenTimersSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'TimersSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchStakedTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchStakedTokenUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchStakedTokenUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Withdraw"`
+ */
+export const useWatchStakedTokenWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: stakedTokenAbi,
+    address: stakedTokenAddress,
+    eventName: 'Withdraw',
   })

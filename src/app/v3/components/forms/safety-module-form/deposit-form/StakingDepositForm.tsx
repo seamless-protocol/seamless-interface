@@ -5,22 +5,31 @@ import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { useDepositSafetyModule } from "../../../../../statev3/safetyModule/mutations/useDepositSafetyModule"; 
-import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
-
+import { useDepositSafetyModule } from "../../../../../statev3/safetyModule/mutations/useDepositSafetyModule";
+import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 export const StakingDepositForm = () => {
-  
-  
-  // if (!vaultData) {
-  //   // eslint-disable-next-line no-console
-  //   console.warn("Vault not found!!!");
-  //   return <div className="min-h-[1000px]" />;
-  // }
-  // TODO: Move this to be fetched instead
-  const TokenInfo: TokenData = useFetchTokenData()
+  const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
-  return <StakeDepositFormLocal tokenData={TokenInfo} />;
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!tokenInfo || error) {
+    // eslint-disable-next-line no-console
+    console.warn("Vault not found!!!");
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full staked seam token data: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
+
+  return <StakeDepositFormLocal tokenData={tokenInfo} />;
 };
 
 interface FormData {
@@ -32,7 +41,7 @@ const StakeDepositFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();
-  const { decimals: underlyingAssetDecimals, symbol: underlyingAssetSymbol } = tokenData;
+  const { decimals: underlyingAssetDecimals } = tokenData;
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -44,7 +53,7 @@ const StakeDepositFormLocal: React.FC<{
 
   const { showNotification } = useNotificationContext();
 
-  const { stakeAsync, isPending } = useDepositSafetyModule(); //TODO: May need custom
+  const { stakeAsync, isPending } = useDepositSafetyModule(); // TODO: May need custom
 
   const onSubmitAsync = async (data: FormData) => {
     await stakeAsync(
@@ -72,7 +81,7 @@ const StakeDepositFormLocal: React.FC<{
       }
     );
   };
-  
+
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">

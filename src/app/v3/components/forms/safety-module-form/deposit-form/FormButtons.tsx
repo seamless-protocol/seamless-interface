@@ -2,15 +2,13 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { StakedSeam } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { ChainId, addresses } from "@morpho-org/blue-sdk";
-import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
+import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
-}> = ({  isLoading, isDisabled }) => {
-  const tokenData: StakedSeam = useFetchTokenData();
+}> = ({ isLoading, isDisabled }) => {
+  const { data: tokenData } = useFetchStakedSeamTokenData();
 
   const {
     watch,
@@ -19,9 +17,9 @@ export const FormButtons: React.FC<{
   const amount = watch("amount");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    tokenData.asset.address,
-    tokenData.address,
-    parseUnits(amount || "0", tokenData.asset.decimals ?? 18)
+    tokenData?.asset.address,
+    tokenData?.address,
+    parseUnits(amount || "0", tokenData?.asset.decimals ?? 18)
   );
 
   if (!amount) {

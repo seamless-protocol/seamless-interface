@@ -2,7 +2,7 @@ import { Address, erc20Abi } from "viem";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { Config, useAccount, useConfig } from "wagmi";
 import { readContractQueryOptions } from "wagmi/query";
-import { rewardsControllerAbi, safetyModuleRewardController, stakedSeamAddress } from "../../../generated";
+import { rewardsControllerAbi } from "@generated";
 import { useQuery } from "@tanstack/react-query";
 import {
   Displayable,
@@ -12,7 +12,7 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-import { assetLogos } from "../../../../meta";
+import { assetLogos, safetyModuleRewardController, stakedSeamAddress } from "@meta";
 import { ViewAllUserRewards } from "../../../state/lending-borrowing/types/ViewAllUserRewards";
 import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 

@@ -4,7 +4,7 @@ import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
+import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
 import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useWithdrawSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
@@ -26,12 +26,30 @@ const secondsToDhms = (totalSeconds: number) => {
   }
 
   return { days, hours, minutes, seconds };
-}
+};
 
-export const UnstakeForm = ({remaining, isUnstakeWindow}: {remaining:number, isUnstakeWindow:boolean}) => {
-  const TokenInfo: TokenData = useFetchTokenData()
+export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number; isUnstakeWindow: boolean }) => {
+  const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
-  return <MoprhoVaultFormLocal tokenData={TokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!tokenInfo || error) {
+    // eslint-disable-next-line no-console
+    console.warn("Vault not found!!!");
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full staked seam token data: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
+
+  return <MoprhoVaultFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
 };
 
 interface FormData {
@@ -98,29 +116,25 @@ const MoprhoVaultFormLocal: React.FC<{
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
-          
-            {!isUnstakeWindow ? 
-              <FlexCol className="gap-3">
-                <Typography type="medium3">Unstake Ready in:</Typography>
-                <Typography type="medium2" className="text-red-400">{days} : {hours} : {minutes} : {seconds}</Typography>
-                
-              </FlexCol>
-            :
-              <FlexCol className="gap-3">
-                <Typography type="medium3">Unstake Available For:</Typography>
-                <Typography type="medium2" className="text-green-400">{days} : {hours} : {minutes} : {seconds}</Typography>
-                <RHFWithdrawVaultAmountField vault={tokenData.address} name="amount" />
-              </FlexCol>
-            }
-            
-          
+          {!isUnstakeWindow ? (
+            <FlexCol className="gap-3">
+              <Typography type="medium3">Unstake Ready in:</Typography>
+              <Typography type="medium2" className="text-red-400">
+                {days} : {hours} : {minutes} : {seconds}
+              </Typography>
+            </FlexCol>
+          ) : (
+            <FlexCol className="gap-3">
+              <Typography type="medium3">Unstake Available For:</Typography>
+              <Typography type="medium2" className="text-green-400">
+                {days} : {hours} : {minutes} : {seconds}
+              </Typography>
+              <RHFWithdrawVaultAmountField vault={tokenData.address} name="amount" />
+            </FlexCol>
+          )}
         </FlexCol>
 
-        <FormButtons
-          isDisabled={isWithdrawPending}
-          isLoading={isWithdrawPending}
-          isUnstakeWindow={isUnstakeWindow}
-        />
+        <FormButtons isDisabled={isWithdrawPending} isLoading={isWithdrawPending} isUnstakeWindow={isUnstakeWindow} />
       </FlexCol>
     </MyFormProvider>
   );

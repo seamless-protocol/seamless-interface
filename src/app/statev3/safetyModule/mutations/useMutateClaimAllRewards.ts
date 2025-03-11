@@ -1,7 +1,8 @@
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
-import { safetyModuleRewardController, rewardsControllerAbi, stakedSeamAddress } from "@generated";
 import { useFetchViewAllUserRewards } from "../hooks/useFetchViewAllRewards";
+import { stakedSeamAddress, safetyModuleRewardController } from "@meta";
+import { rewardsControllerAbi } from "../../../generated";
 
 export const useMutateClaimAllRewards = () => {
   const rewardsAccruingAssets: Address[] = [stakedSeamAddress];
@@ -16,7 +17,6 @@ export const useMutateClaimAllRewards = () => {
 
   // mutation wrapper
   const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
-
     await writeContractAsync(
       {
         address: safetyModuleRewardController,

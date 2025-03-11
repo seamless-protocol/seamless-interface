@@ -7,10 +7,7 @@ import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { useFetchTokenData} from "../../../../../statev3/safetyModule/hooks/useFetchTokenData";
-import { StakedSeam } from "../../../../../statev3/safetyModule/types/StakedSeam";
-
+import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -61,20 +58,21 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const data: StakedSeam = useFetchTokenData();
-  const underlyingAssetAddress = data.asset?.address;
+  const { data } = useFetchStakedSeamTokenData();
+  const underlyingAssetAddress = data?.asset?.address;
 
   // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress); // TODO: this is wasteful because we do it in hook but it fixes type error for now
+  const tokenData = useToken(underlyingAssetAddress);
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name);
 
   // *** max *** //
-  // todo implement hook for vault
   // TODO: Should work the same as fetch balance
+  console.log({ strategy });
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
+  console.log({ maxUserDepositData });
 
   // *** price *** //
   // TODO: This brings asset

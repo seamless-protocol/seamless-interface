@@ -8,6 +8,7 @@ import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
 import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
 import { RewardsControllerAbi } from "./abis/RewardsController";
+import { StakedTokenAbi } from "./abis/StakedToken";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -50,6 +51,11 @@ export default defineConfig({
       name: "RewardsController",
       address: "0x91Ac2FfF8CBeF5859eAA6DdA661feBd533cD3780",
       abi: RewardsControllerAbi,
+    },
+    {
+      name: "StakedToken",
+      address: "0x0fb8b28d18889b121cdd1ef82a88e1ac1540f284",
+      abi: StakedTokenAbi,
     },
   ],
   plugins: [react()],

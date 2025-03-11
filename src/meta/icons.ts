@@ -27,6 +27,7 @@ import {
   seamlessUSDCMorphoVault,
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
+  stakedSeamAddress,
 } from "./constants";
 
 /* --------- */
@@ -50,4 +51,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlessUSDCMorphoVault, usdcIcon],
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
+  [stakedSeamAddress, seamIcon], // TODO: stakedSeamIcon
 ]);

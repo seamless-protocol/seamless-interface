@@ -1177,4 +1177,4 @@ export const StakedTokenAbi = [
     inputs: [{ name: "expiry", type: "uint256", internalType: "uint256" }],
   },
   { type: "error", name: "ZeroAddress", inputs: [] },
-];
+] as const;

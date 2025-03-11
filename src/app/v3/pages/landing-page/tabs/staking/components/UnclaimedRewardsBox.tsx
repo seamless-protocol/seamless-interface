@@ -7,7 +7,7 @@ export const UnclaimedRewardsBox = () => {
   const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
 
   return (
-    <FlexCol className="bg-neutral-0 rounded-xl border border-b-100 h-full p-8 justify-between">
+    <FlexCol className="bg-neutral-0 shadow-card rounded-2xl h-full p-8 justify-between">
       <FlexCol>
         <FlexRow className="gap-[88px]">
           <FlexCol className="gap-2">
