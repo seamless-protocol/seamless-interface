@@ -15,7 +15,6 @@ import { fetchSimulationState } from "../simulation/fetchSimulationState";
 import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
-import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
 import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 
 export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
@@ -55,7 +54,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
-      getHookFetchUserVaultPositionsQueryKey(address),
+      // getHookFetchUserVaultPositionsQueryKey(address), todo
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
     hideDefaultErrorOnNotification: true,

@@ -4,10 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchFullVaultInfo } from "./FullVaultInfo.fetch";
 import { queryConfig } from "../../settings/queryConfig";
 import { mapVaultData } from "../mappers/mapVaultData";
+import { MorphoQueryKeys } from "../query-keys";
 
 export const useFetchFormattedFullVaultInfo = (address?: Address, chainId = base.id) => {
   const { data, ...rest } = useQuery({
-    queryKey: ["fullVaultInfo", address, chainId],
+    queryKey: MorphoQueryKeys.fullVaultInfoHook(address, chainId),
     queryFn: () => fetchFullVaultInfo(address!, chainId),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,
@@ -21,7 +22,7 @@ export const useFetchFormattedFullVaultInfo = (address?: Address, chainId = base
 
 export const useFetchRawFullVaultInfo = (address?: Address, chainId = base.id) => {
   const { data, ...rest } = useQuery({
-    queryKey: ["fullVaultInfo", address, chainId],
+    queryKey: MorphoQueryKeys.fullVaultInfoRawHook(address, chainId),
     queryFn: () => fetchFullVaultInfo(address!, chainId),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,

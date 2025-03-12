@@ -13,7 +13,6 @@ import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBala
 import { setupBundle } from "../simulation/setupBundle";
 import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook";
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
-import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
 import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
@@ -59,7 +58,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       assetAllowanceQK,
       getFormattedAssetBalanceUsdValueQueryKey(address, underlyingAsset),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, underlyingAsset),
-      getHookFetchUserVaultPositionsQueryKey(address),
+      // getHookFetchUserVaultPositionsQueryKey(address), todo
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
     hideDefaultErrorOnNotification: true,
