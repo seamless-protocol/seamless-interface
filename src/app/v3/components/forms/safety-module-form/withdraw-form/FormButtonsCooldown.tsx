@@ -21,9 +21,11 @@ export const FormButtons: React.FC<{
   } = useFetchViewAssetBalance(vaultData.address, walletBalanceDecimalsOptions);
 
   if (isLoadingBalance) {
-    <Buttonv2 className="text-bold3" loading>
-      Start Cooldown
-    </Buttonv2>;
+    return (
+      <Buttonv2 className="text-bold3" loading>
+        Start Cooldown
+      </Buttonv2>
+    );
   }
 
   if (error) {
