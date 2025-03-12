@@ -1,4 +1,4 @@
-import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, Typography } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
@@ -8,7 +8,7 @@ export const FormButtons: React.FC<{
   isLoading?: boolean;
   isDisabled?: boolean;
 }> = ({ isLoading, isDisabled }) => {
-  const { data: tokenData } = useFetchStakedSeamTokenData();
+  const { data: tokenData, isLoading: isSeamTokenDataLoading, error } = useFetchStakedSeamTokenData();
 
   const {
     watch,
@@ -21,6 +21,24 @@ export const FormButtons: React.FC<{
     tokenData?.address,
     parseUnits(amount || "0", tokenData?.asset.decimals ?? 18)
   );
+
+  if (isSeamTokenDataLoading) {
+    return null;
+  }
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.warn("steak seam data not found!!!");
+    if (error) console.error("steak seam error while fetching", error);
+
+    return (
+      <div>
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching steak seam token data: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
 
   if (!amount) {
     return (
