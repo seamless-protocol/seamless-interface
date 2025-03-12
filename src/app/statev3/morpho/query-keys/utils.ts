@@ -1,3 +1,5 @@
+import { SeamlessQueryKey } from "@meta";
+
 export const MorphoFunctions = {
   netApyHistorical: "netApyHistorical",
   fullVaultInfo: "fullVaultInfo",
@@ -15,12 +17,13 @@ export const MorphoFunctions = {
   rawMorphoUserRewardsHook: "rawMorphoUserRewardsHook",
 };
 
-// eslint-disable-next-line no-unused-vars
-export function getFullQueryKey<T extends { functionName: string }>(queryKey: T[]): { [K in T["functionName"]]: T[] } {
+export function getFullQueryKey(queryKey: SeamlessQueryKey[]): {
+  // eslint-disable-next-line no-unused-vars
+  [K in SeamlessQueryKey["functionName"]]: SeamlessQueryKey[];
+} {
   const key = queryKey[0]?.functionName;
   if (!key) {
     throw new Error("The provided query key array does not have a functionName property.");
   }
-  // eslint-disable-next-line no-unused-vars
-  return { [key]: queryKey } as { [K in T["functionName"]]: T[] };
+  return { [key]: queryKey };
 }

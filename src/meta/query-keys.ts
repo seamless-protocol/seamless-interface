@@ -10,3 +10,9 @@ export enum QueryTypes {
   // eslint-disable-next-line no-unused-vars
   CHILD_API_QUERY = "CHILD_API_QUERY",
 }
+
+export interface SeamlessQueryKey {
+  functionName: string;
+  queryType: QueryTypes;
+  scope: string;
+}

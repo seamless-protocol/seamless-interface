@@ -2,11 +2,11 @@ import { TimeseriesOptions } from "@morpho-org/blue-api-sdk";
 import { Address } from "viem";
 import { base } from "viem/chains";
 import { QueryTypes, Scopes } from "@meta";
-import { getFullQueryKey, MorphoFunctions } from "./morpho-function-names";
+import { getFullQueryKey, MorphoFunctions } from "./utils";
 import { fetchAssetBalanceQOptions } from "../../queries/AssetBalance.hook";
 import { vaultConfig } from "../../settings/config";
 
-const scope = [{ scope: Scopes.morpho }] as const;
+const scope = { scope: Scopes.morpho } as const;
 
 export const MorphoQueryKeys = {
   /* ---------------- */
@@ -14,19 +14,19 @@ export const MorphoQueryKeys = {
   /* ---------------- */
   graphQlQueries: [
     {
-      ...scope[0],
+      ...scope,
       queryType: QueryTypes.GRAPH_QL_QUERY,
     },
   ] as const,
   childApiQueries: [
     {
-      ...scope[0],
+      ...scope,
       queryType: QueryTypes.CHILD_API_QUERY,
     },
   ],
   hookQueries: [
     {
-      ...scope[0],
+      ...scope,
       queryType: QueryTypes.HOOK,
     },
   ],
