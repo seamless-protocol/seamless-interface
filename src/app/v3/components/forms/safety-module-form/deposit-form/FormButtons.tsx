@@ -23,7 +23,11 @@ export const FormButtons: React.FC<{
   );
 
   if (isSeamTokenDataLoading) {
-    return null;
+    return (
+      <Buttonv2 className="text-bold3" loading>
+        Enter amount
+      </Buttonv2>
+    );
   }
 
   if (error) {
