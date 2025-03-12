@@ -1,6 +1,7 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { stakedTokenConfig } from "@generated";
+import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
+import { stakedSeamAddress } from "@meta";
 
 export const useWithdrawSafetyModule = () => {
   /* ------------- */
@@ -33,7 +34,8 @@ export const useWithdrawSafetyModule = () => {
 
       await writeContractAsync(
         {
-          ...stakedTokenConfig,
+          address: stakedSeamAddress,
+          abi: stakedTokenAbi,
           functionName: "redeem",
           args: [amount, address, address],
         },

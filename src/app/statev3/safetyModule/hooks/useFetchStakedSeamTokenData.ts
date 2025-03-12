@@ -28,7 +28,7 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
 
 export const useFetchStakedSeamTokenData = () => {
   const token: Address = stakedSeamAddress;
-  const asset: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85";
+  const asset: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85"; // seam
 
   return useQuery({
     queryKey: ["useFetchStakedSeamTokenData", token, asset],
