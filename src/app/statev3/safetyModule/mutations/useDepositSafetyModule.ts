@@ -17,7 +17,7 @@ export const useDepositSafetyModule = () => {
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
     queriesToInvalidate: [
-      fetchBalanceQueryOptions(SEAM_ADDRESS, address).queryKey,
+      address && fetchBalanceQueryOptions(SEAM_ADDRESS, address).queryKey,
       fetchBalanceHookQK(SEAM_ADDRESS, address),
     ],
   });

@@ -9,9 +9,7 @@ import { getConfig } from "../../../utils/queryContractUtils";
 import { getBalance } from "wagmi/actions";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchBalanceQueryOptions = (address?: Address, account?: Address) => {
-  if (!account) throw new Error("Account address is not found. Please re-connect your wallet.");
-
+export const fetchBalanceQueryOptions = (address: Address, account: Address) => {
   if (address === zeroAddress) {
     return {
       queryKey: [

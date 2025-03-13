@@ -17,7 +17,7 @@ export const useWithdrawSafetyModule = () => {
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
     queriesToInvalidate: [
-      fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address).queryKey,
+      address && fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address).queryKey,
       fetchBalanceHookQK(STAKED_SEAM_ADDRESS, address),
     ],
   });

@@ -3,6 +3,7 @@ import { FlexCol, PageContainer } from "@shared";
 import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
 
 import { FormContainer } from "./FormContainer";
+import { NotConnectedWalletGuard } from "./NotConnectedWalletGuard";
 
 export const StakingPage = () => {
   return (
@@ -10,7 +11,9 @@ export const StakingPage = () => {
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <div className="grid grid-rows-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
           <div className="flex-grow">
-            <UnclaimedRewardsBox />
+            <NotConnectedWalletGuard message="Connect your wallet to view your rewards.">
+              <UnclaimedRewardsBox />
+            </NotConnectedWalletGuard>
           </div>
           <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
             <FormContainer />
