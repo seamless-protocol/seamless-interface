@@ -6,7 +6,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { queryConfig } from "../../../app/statev3/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
-import { addressIconMap, stakedSeamAddress } from "../../../meta";
+import { addressIconMap, STAKED_SEAM_ADDRESS } from "../../../meta";
 import emptyToken from "@assets/tokens/empty-token.svg";
 import ethTokenIcon from "@assets/tokens/eth.svg";
 import { IS_DEV_MODE } from "../../../globals";
@@ -126,10 +126,10 @@ export async function fetchTokenLogoWithFallbacks(token: Address): Promise<strin
  */
 export async function fetchToken(token: Address): Promise<Token> {
   // TODO: remove this
-  if (token === stakedSeamAddress && IS_DEV_MODE) {
+  if (token === STAKED_SEAM_ADDRESS && IS_DEV_MODE) {
     return {
       decimals: 18,
-      symbol: "Staked Seam",
+      symbol: "stSEAM",
       name: "Staked Seam",
       logo: emptyToken,
     };

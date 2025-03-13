@@ -9,35 +9,6 @@ import { getConfig } from "../../../utils/queryContractUtils";
 import { getBalance } from "wagmi/actions";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchBalanceQueryOptions = (address?: Address, account?: Address) => {
-  if (!account) throw new Error("Account address is not found. Please re-connect your wallet.");
-
-  if (address === zeroAddress) {
-    return {
-      queryKey: [
-        "readContract",
-        {
-          address,
-          functionName: "balanceOf",
-          args: [account],
-        },
-      ],
-      queryFn: async () => {
-        const result = await getBalance(getConfig(), { address: account });
-        return result.value;
-      },
-    };
-  }
-  return {
-    ...readContractQueryOptions(getConfig(), {
-      address,
-      abi: erc20Abi,
-      functionName: "balanceOf",
-      args: [account],
-    }),
-  };
-};
-
 async function _fetchBalance(address: Address, account: Address) {
   if (address === zeroAddress) {
     const config = getConfig();
@@ -49,7 +20,12 @@ async function _fetchBalance(address: Address, account: Address) {
   const queryClient = getQueryClient();
 
   const result = await queryClient.fetchQuery({
-    ...fetchBalanceQueryOptions(address, account),
+    ...readContractQueryOptions(getConfig(), {
+      address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [account],
+    }),
   });
 
   return result;
@@ -65,13 +41,11 @@ export async function fetchAssetBalance(asset: Address, account: Address): Promi
   };
 }
 
-export const fetchBalanceHookQK = (asset?: Address, account?: Address) => ["fetchAssetBalance", asset, account];
-
 export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   const account = useAccount();
 
   const { data: balance, ...restBalance } = useQuery({
-    queryKey: fetchBalanceHookQK(asset, account?.address),
+    queryKey: ["fetchAssetBalance", asset, account?.address],
     queryFn: () => fetchAssetBalance(asset!, account?.address!),
     enabled: !!asset && !!account?.address,
   });

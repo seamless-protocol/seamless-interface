@@ -2,7 +2,7 @@ import { type TokenData } from "../types/TokenData";
 import { type StakedSeam } from "../types/StakedSeam";
 import { Address } from "viem";
 import { fetchToken } from "@shared";
-import { stakedSeamAddress } from "@meta";
+import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 
 export const fetchStakedSeamTokenData = async (token: Address, asset: Address) => {
@@ -27,8 +27,8 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
 };
 
 export const useFetchStakedSeamTokenData = () => {
-  const token: Address = stakedSeamAddress;
-  const asset: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85"; // seam
+  const token: Address = STAKED_SEAM_ADDRESS;
+  const asset: Address = SEAM_ADDRESS;
 
   return useQuery({
     queryKey: ["useFetchStakedSeamTokenData", token, asset],

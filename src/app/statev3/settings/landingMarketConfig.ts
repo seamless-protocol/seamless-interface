@@ -33,6 +33,7 @@ import {
   variableDebtSeamWETH_ADDRESS,
   variableDebtSeamwstETH_ADDRESS,
   cbBTC_ADDRESS,
+  STAKED_SEAM_ADDRESS,
 } from "@meta";
 import WstEthLogo from "@assets/tokens/wsteth.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
@@ -159,6 +160,13 @@ export const assetsConfig: { [key: Address]: LendMarketConfig } = {
   },
   [ESSEAM_ADDRESS]: {
     address: ESSEAM_ADDRESS,
+    useCoinGeckoPrice: true,
+    coingGeckoConfig: {
+      replaceAddress: SEAM_ADDRESS,
+    },
+  },
+  [STAKED_SEAM_ADDRESS]: {
+    address: STAKED_SEAM_ADDRESS,
     useCoinGeckoPrice: true,
     coingGeckoConfig: {
       replaceAddress: SEAM_ADDRESS,

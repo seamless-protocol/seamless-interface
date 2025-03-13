@@ -1,6 +1,6 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenAbi } from "@generated";
-import { stakedSeamAddress } from "@meta";
+import { STAKED_SEAM_ADDRESS } from "@meta";
 
 export const useInitiateCooldown = () => {
   /* ------------- */
@@ -23,7 +23,7 @@ export const useInitiateCooldown = () => {
     try {
       await writeContractAsync(
         {
-          address: stakedSeamAddress,
+          address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
           functionName: "cooldown",
           args: [],

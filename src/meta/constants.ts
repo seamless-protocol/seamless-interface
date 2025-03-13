@@ -40,6 +40,7 @@ export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E
 export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
 export const OG_POINTS_ADDRESS: Address = "0x5607718c64334eb5174CB2226af891a6ED82c7C6";
 export const cbBTC_ADDRESS: Address = "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf";
+export const STAKED_SEAM_ADDRESS: Address = "0x21033E28Be63A4F0EA7B1c7339733F511FB8d65B";
 
 export const OG_POINTS_MOCK_PRICE: bigint = 0n;
 
@@ -81,7 +82,6 @@ export const seamlesscbBTCMorphoVault: Address = "0x5a47C803488FE2BB0A0EAaf346b4
 export const seamlessETHMorphoVault: Address = "0x27D8c7273fd3fcC6956a0B370cE5Fd4A7fc65c18";
 
 // STAKING MODULE
-export const stakedSeamAddress: Address = "0x21033E28Be63A4F0EA7B1c7339733F511FB8d65B";
 export const safetyModuleRewardController: Address = "0xCc5e63970d0EF1deed87b5940bcAbBE5a1BB504f";
 
 // FE strategies

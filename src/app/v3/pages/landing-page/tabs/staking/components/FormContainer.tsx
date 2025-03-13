@@ -9,7 +9,9 @@ import { StakingWithdrawForm } from "../../../../../components/forms/safety-modu
 import { useWatchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
 import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
 import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
-import { stakedSeamAddress } from "@meta";
+import { STAKED_SEAM_ADDRESS } from "@meta";
+import { useBlockTime } from "../../../../../../statev3/common/hooks/useBlockTime";
+import { IS_DEV_MODE } from "../../../../../../../globals";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -19,7 +21,7 @@ const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
-  const address = stakedSeamAddress;
+  const address = STAKED_SEAM_ADDRESS;
   const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
@@ -28,6 +30,7 @@ export const FormContainer: React.FC = () => {
   const { data: userCooldown } = useWatchStakerCooldown(address);
   const { data: cooldown } = useFetchCooldown(address);
   const { data: unstakeWindow } = useFetchUnstakeWindow(address);
+  const { data: blockData } = useBlockTime();
 
   const userCooldownValue = userCooldown?.bigIntValue ?? 0n;
   const cooldownValue = cooldown?.bigIntValue ?? 0n;
@@ -36,7 +39,9 @@ export const FormContainer: React.FC = () => {
   // console.log(userCooldownValue)
   useEffect(() => {
     const interval = setInterval(() => {
-      const now: number = parseInt((Date.now() / 1000).toString(), 10);
+      const now: number = IS_DEV_MODE
+        ? Number(blockData?.block.timestamp || 0)
+        : parseInt((Date.now() / 1000).toString(), 10);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
       if (now > unstakeEndsAt || userCooldownValue === 0n) {
         setHasCooldown(false);
@@ -58,6 +63,7 @@ export const FormContainer: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [userCooldownValue]);
+
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
       <FlexRow className="items-center gap-1">

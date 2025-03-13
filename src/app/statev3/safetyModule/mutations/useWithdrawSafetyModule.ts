@@ -1,7 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
-import { stakedSeamAddress } from "@meta";
+import { STAKED_SEAM_ADDRESS } from "@meta";
+import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useWithdrawSafetyModule = () => {
   /* ------------- */
@@ -15,7 +16,10 @@ export const useWithdrawSafetyModule = () => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
-    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
+    queriesToInvalidate: [
+      fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address).queryKey,
+      fetchBalanceHookQK(STAKED_SEAM_ADDRESS, address),
+    ],
   });
 
   /* -------------------- */
@@ -34,7 +38,7 @@ export const useWithdrawSafetyModule = () => {
 
       await writeContractAsync(
         {
-          address: stakedSeamAddress,
+          address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
           functionName: "redeem",
           args: [amount, address, address],

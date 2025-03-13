@@ -129,7 +129,7 @@ const MoprhoVaultFormLocal: React.FC<{
               <Typography type="medium2" className="text-green-400">
                 {days} : {hours} : {minutes} : {seconds}
               </Typography>
-              <RHFWithdrawVaultAmountField vault={tokenData.address} name="amount" />
+              <RHFWithdrawVaultAmountField address={tokenData.address} name="amount" />
             </FlexCol>
           )}
         </FlexCol>
