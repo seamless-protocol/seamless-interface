@@ -27,12 +27,12 @@ export interface AllRewards {
   }[];
 }
 
-export const fetchGetAllUserRewardsQueryOptions = (user?: Address, rewardsAccruingAssets?: Address[]) => ({
+export const fetchGetAllUserRewardsQueryOptions = (user: Address, rewardsAccruingAssets: Address[]) => ({
   ...readContractQueryOptions(getConfig(), {
     address: safetyModuleRewardController,
     abi: rewardsControllerAbi,
     functionName: "getAllUserRewards",
-    args: [rewardsAccruingAssets!, user!],
+    args: [rewardsAccruingAssets, user],
   }),
 });
 

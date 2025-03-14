@@ -18,7 +18,7 @@ export const useMutateClaimAllRewards = () => {
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     queriesToInvalidate: [
       fetchGetAllUserRewardsHookQK(address),
-      fetchGetAllUserRewardsQueryOptions(address, rewardsAccruingAssets).queryKey,
+      address && fetchGetAllUserRewardsQueryOptions(address, rewardsAccruingAssets).queryKey,
     ],
   });
 
