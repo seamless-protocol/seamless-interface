@@ -1,6 +1,6 @@
-import { type StakedSeam } from "../types/StakedSeam";
+import { StakedAsset, type StakedSeam } from "../types/StakedSeam";
 import { Address } from "viem";
-import { fetchToken, Token } from "@shared";
+import { fetchToken } from "@shared";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,8 +8,9 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
   try {
     const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([fetchToken(asset), fetchToken(token)]);
 
-    const assetData: Token = {
+    const assetData: StakedAsset = {
       ...underlyingAssetTokenData,
+      address: asset,
     };
     const tokenData: StakedSeam = {
       ...underlyingTokenData,
