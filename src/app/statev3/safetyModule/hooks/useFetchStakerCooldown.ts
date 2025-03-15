@@ -8,7 +8,6 @@ import { getConfig } from "../../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 
 async function _fetchStakerCooldown(address: Address, account: Address) {
-  
   const queryClient = getQueryClient();
 
   const result: bigint = await queryClient.fetchQuery({
@@ -53,7 +52,6 @@ export const useWatchStakerCooldown = (asset?: Address): FetchData<FetchBigInt |
     queryKey: ["fetchCooldown", asset, account?.address],
     queryFn: () => fetchStakerCooldown(asset!, account?.address!),
     enabled: !!asset && !!account?.address,
-    refetchInterval: 10_000, // every 10 seconds
   });
 
   return {
@@ -61,5 +59,3 @@ export const useWatchStakerCooldown = (asset?: Address): FetchData<FetchBigInt |
     data: cooldown,
   };
 };
-
-

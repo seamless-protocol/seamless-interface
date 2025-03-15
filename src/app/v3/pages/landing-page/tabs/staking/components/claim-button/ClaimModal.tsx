@@ -1,7 +1,7 @@
 import { FlexCol, Typography, ViewBigInt, useNotificationContext, ModalHandles } from "@shared";
 import React, { useRef } from "react";
 import { useMutateClaimAllRewards } from "../../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
-import { ClaimModalComponent } from "./ClaimModalComponent";
+import { ClaimModalComponent } from "../../../../../common/components/ClaimModalComponent";
 
 interface Reward {
   tokenAmount: ViewBigInt;
