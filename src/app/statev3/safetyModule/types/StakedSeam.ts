@@ -1,11 +1,7 @@
 import { Address } from "viem";
-import { TokenData} from "./TokenData";
+import { Token } from "@shared";
 
-export interface StakedSeam {
-  name?: string;
-  decimals?: number;
-  logo?: string;
-  symbol?: string;
+export interface StakedSeam extends Token {
   address: Address | undefined;
-  asset: TokenData;
+  asset: Token;
 }

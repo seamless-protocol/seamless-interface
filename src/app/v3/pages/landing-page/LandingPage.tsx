@@ -19,9 +19,11 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
               Vaults
             </TabButton>
-            <TabButton<Tabs> data-cy="tab-staking" tab="Staking">
-              Staking
-            </TabButton>
+            {import.meta.env.VITE_STAKING_FEATURE && (
+              <TabButton<Tabs> data-cy="tab-staking" tab="Staking">
+                Staking
+              </TabButton>
+            )}
             <TabButton<Tabs> data-cy="tab-dashboard" tab="Dashboard">
               Dashboard
             </TabButton>
@@ -37,11 +39,13 @@ export const LandingPage = () => {
               <MorphoVaultsTab />
             </div>
           </TabContent>
-          <TabContent<Tabs> tab="Staking">
-            <div className="mt-8">
-              <StakingTab />
-            </div>
-          </TabContent>
+          {import.meta.env.VITE_STAKING_FEATURE && (
+            <TabContent<Tabs> tab="Staking">
+              <div className="mt-8">
+                <StakingTab />
+              </div>
+            </TabContent>
+          )}
           <TabContent<Tabs> tab="Dashboard">
             <div className="mt-8">
               <Dashboard />

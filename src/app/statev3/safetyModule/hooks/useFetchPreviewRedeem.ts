@@ -34,7 +34,7 @@ export const useFetchPreviewRedeem = (asset?: Address, amount?: bigint): FetchDa
   const { data: result, ...restResult } = useQuery({
     queryKey: ["fetchPreviewRedeem", asset, amount],
     queryFn: () => fetchPreviewRedeem(asset!, amount!),
-    enabled: Boolean(asset) && Boolean(asset),
+    enabled: Boolean(asset) && Boolean(amount),
   });
 
   return {
