@@ -7,7 +7,7 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
-export const StakingWithdrawForm = () => {
+export const InitiateCooldownForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {

@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-// import { useState, useEffect } from "react";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
