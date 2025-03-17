@@ -1,18 +1,8 @@
-import {
-  Displayable,
-  FlexRow,
-  FlexCol,
-  TableCell,
-  TableRow,
-  Icon,
-  DisplayTokenAmount,
-  DisplayMoney,
-  DisplayText,
-} from "@shared";
-import { RewardTokenInfo } from "../../../../../../../state/lending-borrowing/types/ViewAllUserRewards";
+import { Displayable, FlexRow, FlexCol, TableCell, TableRow, Icon, DisplayText, DisplayPercentage } from "@shared";
+import { RewardToken } from "../../../../../../../../shared/utils/aaveIncentivesHelpers";
 
 export const RewardRowDesktop: React.FC<{
-  rewardToken: Displayable<RewardTokenInfo>;
+  rewardToken: Displayable<RewardToken>;
   hideBorder?: boolean;
 }> = ({ rewardToken, hideBorder }) => {
   return (
@@ -28,7 +18,7 @@ export const RewardRowDesktop: React.FC<{
             <DisplayText
               typography="bold3"
               className="gap-[2px] max-w-full"
-              viewValue={rewardToken.data.tokenAmount.symbol}
+              viewValue={rewardToken.data.symbol}
               {...rewardToken}
             />
           </FlexCol>
@@ -36,10 +26,10 @@ export const RewardRowDesktop: React.FC<{
       </TableCell>
 
       <TableCell className="col-span-3">
-        <DisplayMoney typography="bold3" viewValue={rewardToken?.data.dollarAmount.viewValue} {...rewardToken} />
+        <DisplayPercentage typography="bold3" viewValue={rewardToken?.data.apr.viewValue} {...rewardToken} />
       </TableCell>
       <TableCell className="col-span-3">
-        <DisplayTokenAmount typography="bold3" viewValue={rewardToken?.data.tokenAmount.viewValue} {...rewardToken} />
+        {/* <DisplayTokenAmount typography="bold3" viewValue={rewardToken?.} {...rewardToken} /> */}
       </TableCell>
     </TableRow>
   );

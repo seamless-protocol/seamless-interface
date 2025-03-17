@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-// import { useState, useEffect } from "react";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useWithdrawSafetyModule";
+import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 const secondsToDhms = (totalSeconds: number) => {
@@ -43,7 +42,7 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
     return (
       <div className="min-h-[300px]">
         <Typography type="medium3" className="text-red-600">
-          Error while fetching full staked seam token data: {error?.message}
+          Error while fetching full staked SEAM token data: {error?.message}
         </Typography>
       </div>
     );
@@ -74,7 +73,7 @@ const MoprhoVaultFormLocal: React.FC<{
   const { handleSubmit, reset } = methods;
 
   const { showNotification } = useNotificationContext();
-  const { unstakeAsync, isWithdrawPending } = useWithdrawSafetyModule();
+  const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
   const { days, hours, minutes, seconds } = secondsToDhms(remaining);
 

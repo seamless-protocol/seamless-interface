@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { STAKED_SEAM_ADDRESS } from "@meta";
 import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
 
-export const useWithdrawSafetyModule = () => {
+export const useUnstakeSafetyModule = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */

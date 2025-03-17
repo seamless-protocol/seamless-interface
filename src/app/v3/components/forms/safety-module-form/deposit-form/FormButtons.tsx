@@ -19,7 +19,7 @@ export const FormButtons: React.FC<{
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     tokenData?.asset.address,
     tokenData?.address,
-    parseUnits(amount || "0", tokenData?.asset.decimals ?? 18)
+    tokenData?.asset.decimals ? parseUnits(amount || "0", tokenData?.asset.decimals) : undefined
   );
 
   if (isSeamTokenDataLoading) {
@@ -32,13 +32,13 @@ export const FormButtons: React.FC<{
 
   if (error) {
     // eslint-disable-next-line no-console
-    console.warn("steak seam data not found!!!");
-    if (error) console.error("steak seam error while fetching", error);
+    console.warn("staked SEAM data not found!!!");
+    if (error) console.error("staked SEAM error while fetching", error);
 
     return (
       <div>
         <Typography type="medium3" className="text-red-600">
-          Error while fetching steak seam token data: {error?.message}
+          Error while fetching staked seam token data: {error?.message}
         </Typography>
       </div>
     );
@@ -73,7 +73,6 @@ export const FormButtons: React.FC<{
         type="submit"
         disabled={!isApproved || isSubmitting || isDisabled}
         loading={isSubmitting || isLoading}
-        // add deposit func.
       >
         Submit
       </Buttonv2>

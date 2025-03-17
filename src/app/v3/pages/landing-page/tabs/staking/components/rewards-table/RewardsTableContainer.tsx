@@ -1,10 +1,14 @@
 import { TableRow, TableCell, Typography } from "@shared";
-import { useFetchViewAllUserRewards } from "../../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
+import { STAKED_SEAM_ADDRESS } from "@meta";
 import { EmptyTableGuard, NoRewardsDefaultTableBody } from "../../../../../common/components/EmptyTableGuard";
 import { RewardRowDesktop } from "./RewardRow";
+import { useFetchStrategyIncentives } from "../../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives.all";
+import { useFetchViewAllUserRewards } from "../../../../../../../statev3/common/hooks/useFetchViewAllRewards";
+import { rewardsAccruingAssets } from "../../../../../../../statev3/settings/config";
 
 export const RewardsTableContainer = () => {
-  const { data, ...rest } = useFetchViewAllUserRewards();
+  // const { data, ...rest } = useFetchStrategyIncentives(STAKED_SEAM_ADDRESS);
+  const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
 
   return (
     <div>
@@ -24,11 +28,11 @@ export const RewardsTableContainer = () => {
         <EmptyTableGuard
           numberOfStrategiesDisplayable={{
             ...rest,
-            data: data.rewards?.length || 0,
+            data: data.rewardTokens?.length || 0,
           }}
           noPositionsBody={<NoRewardsDefaultTableBody />}
         >
-          {data?.rewards?.map((reward, index) => (
+          {data?.rewardTokens?.map((reward, index) => (
             <div key={`reward-${index}`}>
               <RewardRowDesktop
                 rewardToken={{

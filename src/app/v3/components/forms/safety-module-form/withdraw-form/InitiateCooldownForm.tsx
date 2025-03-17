@@ -7,7 +7,7 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
-export const StakingWithdrawForm = () => {
+export const InitiateCooldownForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {
@@ -22,7 +22,7 @@ export const StakingWithdrawForm = () => {
     return (
       <div className="min-h-[300px]">
         <Typography type="medium3" className="text-red-600">
-          Error while fetching full staked seam token data: {error?.message}
+          Error while fetching full staked SEAM token data: {error?.message}
         </Typography>
       </div>
     );

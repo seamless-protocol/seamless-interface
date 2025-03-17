@@ -4,9 +4,12 @@ import { fetchToken } from "@shared";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchStakedSeamTokenData = async (token: Address, asset: Address) => {
+export const fetchStakedSeamTokenData = async (stakedAsset: Address, asset: Address) => {
   try {
-    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([fetchToken(asset), fetchToken(token)]);
+    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([
+      fetchToken(asset),
+      fetchToken(stakedAsset),
+    ]);
 
     const assetData: StakedAsset = {
       ...underlyingAssetTokenData,
@@ -14,7 +17,7 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
     };
     const tokenData: StakedSeam = {
       ...underlyingTokenData,
-      address: token,
+      address: stakedAsset,
       asset: assetData,
     };
 
@@ -26,12 +29,12 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
 };
 
 export const useFetchStakedSeamTokenData = () => {
-  const token: Address = STAKED_SEAM_ADDRESS;
+  const stakedAsset: Address = STAKED_SEAM_ADDRESS;
   const asset: Address = SEAM_ADDRESS;
 
   return useQuery({
-    queryKey: ["useFetchStakedSeamTokenData", token, asset],
-    queryFn: () => fetchStakedSeamTokenData(token, asset),
-    enabled: Boolean(token) && Boolean(asset),
+    queryKey: ["useFetchStakedSeamTokenData", stakedAsset, asset],
+    queryFn: () => fetchStakedSeamTokenData(stakedAsset, asset),
+    enabled: Boolean(stakedAsset) && Boolean(asset),
   });
 };
