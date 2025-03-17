@@ -4,6 +4,7 @@ import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
 
 import { FormContainer } from "./FormContainer";
 import { NotConnectedWalletGuard } from "./NotConnectedWalletGuard";
+import { RewardsTableContainer } from "./rewards-table/RewardsTableContainer";
 
 export const StakingPage = () => {
   return (
@@ -12,7 +13,10 @@ export const StakingPage = () => {
         <div className="grid grid-rows-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
           <div className="flex-grow">
             <NotConnectedWalletGuard message="Connect your wallet to view your rewards.">
-              <UnclaimedRewardsBox />
+              <FlexCol className="gap-4">
+                <UnclaimedRewardsBox />
+                <RewardsTableContainer />
+              </FlexCol>
             </NotConnectedWalletGuard>
           </div>
           <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
