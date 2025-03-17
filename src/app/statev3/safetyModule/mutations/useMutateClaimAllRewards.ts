@@ -1,5 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { fetchGetAllUserRewardsHookQK, fetchGetAllUserRewardsQueryOptions } from "../hooks/useFetchViewAllRewards";
+import {
+  fetchGetAllUserRewardsHookQK,
+  fetchGetAllUserRewardsQueryOptions,
+} from "../../common/hooks/useFetchViewAllRewards";
 import { safetyModuleRewardController } from "@meta";
 import { rewardsControllerAbi } from "../../../generated";
 import { useAccount } from "wagmi";

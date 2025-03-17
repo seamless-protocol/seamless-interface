@@ -1,5 +1,5 @@
 import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/safetyModule/hooks/useFetchViewAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
 import { ClaimModal } from "./claim-button/ClaimModal";
 import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
 

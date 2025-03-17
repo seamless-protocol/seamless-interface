@@ -12,7 +12,7 @@ import {
   fetchToken,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared";
-import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { cValueInUsd } from "../math/cValueInUsd";
 import { safetyModuleRewardController } from "@meta";
 import { ViewAllUserRewards } from "../../../state/lending-borrowing/types/ViewAllUserRewards";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
@@ -36,7 +36,7 @@ export const fetchGetAllUserRewardsQueryOptions = (user: Address, rewardsAccruin
   }),
 });
 
-async function fetchAllUserRewards(user: Address, rewardsAccruingAssets: Address[]): Promise<AllRewards> {
+export async function fetchAllUserRewards(user: Address, rewardsAccruingAssets: Address[]): Promise<AllRewards> {
   const queryClient = getQueryClient();
 
   const [rewardTokenList, unclaimedBalances] = await queryClient.fetchQuery({
