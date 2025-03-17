@@ -26,7 +26,15 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
 };
 
 export const useFetchStakedSeamTokenData = () => {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const token: Address = stakedSeamAddress;
+=======
+  const token: Address = STAKED_SEAM_ADDRESS;
+>>>>>>> Stashed changes
+=======
+  const token: Address = STAKED_SEAM_ADDRESS;
+>>>>>>> Stashed changes
   const asset: Address = SEAM_ADDRESS;
 
   return useQuery({
