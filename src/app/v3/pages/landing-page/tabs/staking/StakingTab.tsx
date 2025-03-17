@@ -1,6 +1,6 @@
 import { FlexCol } from "@shared";
 import { StakingPage } from "./components/StakingPage";
-import { NotConnectedWalletGuard } from "./components/NotConnectedWalletGuard";
+import { NotConnectedWalletGuard } from "../../../common/components/NotConnectedWalletGuard";
 
 export const StakingTab = () => {
   return (
