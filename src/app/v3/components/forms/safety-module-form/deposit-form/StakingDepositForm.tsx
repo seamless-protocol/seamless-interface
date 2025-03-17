@@ -5,7 +5,7 @@ import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { useDepositSafetyModule } from "../../../../../statev3/safetyModule/mutations/useDepositSafetyModule";
+import { useStakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useStakeSafetyModule";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 export const StakingDepositForm = () => {
@@ -53,7 +53,7 @@ const StakeDepositFormLocal: React.FC<{
 
   const { showNotification } = useNotificationContext();
 
-  const { stakeAsync, isPending } = useDepositSafetyModule(); // TODO: May need custom
+  const { stakeAsync, isPending } = useStakeSafetyModule();
 
   const onSubmitAsync = async (data: FormData) => {
     await stakeAsync(

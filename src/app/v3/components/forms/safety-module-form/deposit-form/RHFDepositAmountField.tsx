@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, Token, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
@@ -54,26 +54,20 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  */
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
-  // TODO: get tokenData through hook
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const { data } = useFetchStakedSeamTokenData();
+  const { data, ...rest } = useFetchStakedSeamTokenData();
   const underlyingAssetAddress = data?.asset?.address;
-
-  // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress); // TODO: this is wasteful because we do it in hook but it fixes type error for now
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name);
 
   // *** max *** //
-  // TODO: Should work the same as fetch balance
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
-  // TODO: This brings asset
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(underlyingAssetAddress);
 
   // *** balance *** //
@@ -110,7 +104,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
-      tokenData={{ ...tokenData }}
+      tokenData={{ ...rest, data: data?.asset as Token }}
     />
   );
 }

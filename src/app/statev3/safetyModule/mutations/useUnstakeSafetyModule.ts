@@ -1,9 +1,9 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
-import { stakedSeamAddress } from "@meta";
+import { STAKED_SEAM_ADDRESS } from "@meta";
 
-export const useDepositSafetyModule = () => {
+export const useUnstakeSafetyModule = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -21,7 +21,7 @@ export const useDepositSafetyModule = () => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const stakeAsync = async (
+  const unstakeAsync = async (
     args: {
       amount: bigint | undefined;
     },
@@ -34,21 +34,21 @@ export const useDepositSafetyModule = () => {
 
       await writeContractAsync(
         {
-          address: stakedSeamAddress,
+          address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
-          functionName: "deposit",
-          args: [amount, address],
+          functionName: "redeem",
+          args: [amount, address, address],
         },
         { ...settings }
       );
     } catch (error) {
-      console.error("Failed to stake", error);
+      console.error("Failed to unstake", error);
       showNotification({
         status: "error",
-        content: `Failed to stake: ${getParsedError(error)}`,
+        content: `Failed to unstake: ${getParsedError(error)}`,
       });
     }
   };
 
-  return { ...rest, isDepositPending: rest.isPending, stakeAsync };
+  return { ...rest, isWithdrawPending: rest.isPending, unstakeAsync };
 };

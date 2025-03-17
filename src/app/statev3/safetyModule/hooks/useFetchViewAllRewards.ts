@@ -12,7 +12,7 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-import { assetLogos, safetyModuleRewardController, stakedSeamAddress } from "@meta";
+import { assetLogos, safetyModuleRewardController, STAKED_SEAM_ADDRESS } from "@meta";
 import { ViewAllUserRewards } from "../../../state/lending-borrowing/types/ViewAllUserRewards";
 import { fetchAssetPriceInBlock } from "../../common/queries/useFetchViewAssetPrice";
 
@@ -26,7 +26,7 @@ export interface AllRewards {
 }
 
 async function fetchAllUserRewards(user: Address, config: Config): Promise<AllRewards> {
-  const rewardsAccruingAssets: Address[] = [stakedSeamAddress];
+  const rewardsAccruingAssets: Address[] = [STAKED_SEAM_ADDRESS];
   const queryClient = getQueryClient();
 
   const [rewardTokenList, unclaimedBalances] = await queryClient.fetchQuery(

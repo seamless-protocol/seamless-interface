@@ -9,7 +9,7 @@ import { StakingWithdrawForm } from "../../../../../components/forms/safety-modu
 import { useWatchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
 import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
 import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
-import { stakedSeamAddress } from "@meta";
+import { STAKED_SEAM_ADDRESS } from "@meta";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -19,7 +19,7 @@ const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint
 
 export const FormContainer: React.FC = () => {
   // const { address } = useParams();
-  const address = stakedSeamAddress;
+  const address = STAKED_SEAM_ADDRESS;
   const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);

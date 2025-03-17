@@ -1,12 +1,15 @@
 import { type StakedAsset, type StakedSeam } from "../types/StakedSeam";
 import { Address } from "viem";
 import { fetchToken } from "@shared";
-import { SEAM_ADDRESS, stakedSeamAddress } from "@meta";
+import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchStakedSeamTokenData = async (token: Address, asset: Address) => {
+export const fetchStakedSeamTokenData = async (stakedToken: Address, asset: Address) => {
   try {
-    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([fetchToken(asset), fetchToken(token)]);
+    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([
+      fetchToken(asset),
+      fetchToken(stakedToken),
+    ]);
 
     const assetData: StakedAsset = {
       ...underlyingAssetTokenData,
@@ -14,7 +17,7 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
     };
     const tokenData: StakedSeam = {
       ...underlyingTokenData,
-      address: token,
+      address: stakedToken,
       asset: assetData,
     };
 
@@ -26,15 +29,7 @@ export const fetchStakedSeamTokenData = async (token: Address, asset: Address) =
 };
 
 export const useFetchStakedSeamTokenData = () => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const token: Address = stakedSeamAddress;
-=======
   const token: Address = STAKED_SEAM_ADDRESS;
->>>>>>> Stashed changes
-=======
-  const token: Address = STAKED_SEAM_ADDRESS;
->>>>>>> Stashed changes
   const asset: Address = SEAM_ADDRESS;
 
   return useQuery({

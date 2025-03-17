@@ -1,7 +1,7 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
 import { useFetchViewAllUserRewards } from "../hooks/useFetchViewAllRewards";
-import { stakedSeamAddress, safetyModuleRewardController } from "@meta";
+import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { rewardsControllerAbi } from "../../../generated";
 
 export const useMutateClaimAllRewards = () => {
@@ -10,7 +10,7 @@ export const useMutateClaimAllRewards = () => {
   /* ------------- */
   const { showNotification } = useNotificationContext();
 
-  const rewardsAccruingAssets: Address[] = [stakedSeamAddress];
+  const rewardsAccruingAssets: Address[] = [STAKED_SEAM_ADDRESS];
 
   /* ------------ */
   /*   Query keys */

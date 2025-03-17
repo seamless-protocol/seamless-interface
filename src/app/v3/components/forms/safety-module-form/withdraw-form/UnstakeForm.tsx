@@ -6,7 +6,7 @@ import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useWithdrawSafetyModule";
+import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
 const secondsToDhms = (totalSeconds: number) => {
@@ -74,7 +74,7 @@ const MoprhoVaultFormLocal: React.FC<{
   const { handleSubmit, reset } = methods;
 
   const { showNotification } = useNotificationContext();
-  const { unstakeAsync, isWithdrawPending } = useWithdrawSafetyModule();
+  const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
   const { days, hours, minutes, seconds } = secondsToDhms(remaining);
 
