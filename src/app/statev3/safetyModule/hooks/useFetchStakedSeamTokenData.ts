@@ -6,17 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 
 export const fetchStakedSeamTokenData = async (stakedToken: Address, asset: Address) => {
   try {
-    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([
-      fetchToken(asset),
-      fetchToken(stakedToken),
-    ]);
+    const [assetTokenData, stakedTokenData] = await Promise.all([fetchToken(asset), fetchToken(stakedToken)]);
 
     const assetData: StakedAsset = {
-      ...underlyingAssetTokenData,
+      ...assetTokenData,
       address: asset,
     };
     const tokenData: StakedSeam = {
-      ...underlyingTokenData,
+      ...stakedTokenData,
       address: stakedToken,
       asset: assetData,
     };
