@@ -28,7 +28,7 @@ export const InitiateCooldownForm = () => {
     );
   }
 
-  return <StakingWithdrawFormLocal tokenData={tokenInfo} />;
+  return <InitiateCooldownFormLocal tokenData={tokenInfo} />;
 };
 
 interface FormData {
@@ -36,7 +36,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const StakingWithdrawFormLocal: React.FC<{
+const InitiateCooldownFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();

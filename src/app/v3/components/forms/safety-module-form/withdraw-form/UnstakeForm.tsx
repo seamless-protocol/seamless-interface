@@ -4,7 +4,7 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
-import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
+import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
 import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 import { intervalToDuration } from "date-fns";
@@ -134,7 +134,7 @@ const UnstakeFormLocal: React.FC<{
               <Typography type="medium2" className="text-green-400">
                 {days} : {hours} : {minutes} : {seconds}
               </Typography>
-              <RHFWithdrawVaultAmountField vault={tokenData.address} name="amount" />
+              <RHFUnstakeAmountField vault={tokenData.address} name="amount" />
             </FlexCol>
           )}
         </FlexCol>

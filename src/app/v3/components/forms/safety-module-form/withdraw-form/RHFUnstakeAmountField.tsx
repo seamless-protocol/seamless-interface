@@ -41,7 +41,7 @@ type IProps<T> = Omit<
  * @param {IProps<T>} props - The props for configuring the `RHFWithdrawVaultAmountField` component, tailored to vault-specific asset management.
  * @returns {React.ReactElement} Renders an asset input component linked to specific vaults, enhanced with automatic data fetching and conversion functionalities.
  */
-export function RHFWithdrawVaultAmountField<T>({ vault, focusOnAssetChange = true, ...other }: IProps<T>) {
+export function RHFUnstakeAmountField<T>({ vault, focusOnAssetChange = true, ...other }: IProps<T>) {
   // *** metadata *** //
   const tokenData = useToken(vault);
 

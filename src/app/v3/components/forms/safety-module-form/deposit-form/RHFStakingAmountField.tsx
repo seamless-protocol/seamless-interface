@@ -53,7 +53,7 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  * @returns {React.ReactElement} Rendered component with functionalities for asset data fetching, USD conversion, and form integration.
  */
 
-export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
+export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
