@@ -15,6 +15,7 @@ import {
   seamlessUSDCMorphoVault,
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
+  STAKED_SEAM_ADDRESS,
 } from "@meta";
 import { TagType } from "../common/types/StateTypes";
 import { Address } from "viem";
@@ -154,3 +155,5 @@ export const vaultConfig: { [key: Address]: VaultConfig } = {
 };
 
 export const configuredVaultAddresses = Object.keys(vaultConfig) as Address[];
+
+export const rewardsAccruingAssets: Address[] = [STAKED_SEAM_ADDRESS];
