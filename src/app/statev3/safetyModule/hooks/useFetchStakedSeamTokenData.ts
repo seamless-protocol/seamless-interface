@@ -23,7 +23,7 @@ export const fetchStakedSeamTokenData = async (stakedToken: Address, asset: Addr
 
     return tokenData;
   } catch (error) {
-    console.error("Error fetching staked seam token data:", error);
+    console.error("Error fetching staked SEAM token data:", error);
     throw error;
   }
 };
