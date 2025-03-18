@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FlexCol, FlexRow, Typography } from "@shared";
+import { FlexCol, FlexRow, mergeQueryStates, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
@@ -17,15 +17,27 @@ const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint
   return { canUnstakeAt, unstakeEndsAt };
 };
 
+const useFetchFormContainerData = () => {
+  const { data: userCooldown, ...userCooldownRest } = useFetchStakerCooldown(STAKED_SEAM_ADDRESS);
+  const { data: cooldown, ...cooldownRest } = useFetchCooldown(STAKED_SEAM_ADDRESS);
+  const { data: unstakeWindow, ...unstakeWindowRest } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
+  const { data: block, ...blockRest } = useBlock();
+
+  return {
+    ...mergeQueryStates([userCooldownRest, cooldownRest, unstakeWindowRest, blockRest]),
+    userCooldown,
+    cooldown,
+    unstakeWindow,
+    block,
+  };
+};
+
 export const FormContainer: React.FC = () => {
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [isUnstakeWindow, setIsUnstakeWindow] = useState(false);
-  const { data: userCooldown } = useFetchStakerCooldown(STAKED_SEAM_ADDRESS);
-  const { data: cooldown } = useFetchCooldown(STAKED_SEAM_ADDRESS);
-  const { data: unstakeWindow } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
-  const { data: block } = useBlock();
+  const { block, cooldown, unstakeWindow, userCooldown, error, isLoading } = useFetchFormContainerData();
 
   const userCooldownValue = userCooldown?.bigIntValue ?? 0n;
   const cooldownValue = cooldown?.bigIntValue ?? 0n;
@@ -57,6 +69,23 @@ export const FormContainer: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [userCooldownValue, cooldownValue, unstakeWindowValue, block]);
+
+  if (isLoading) {
+    return <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl" />;
+  }
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    if (error) console.error("useFetchFormContainerData: error while fetchin data", error);
+
+    return (
+      <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching data needed for Form Container Component: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
