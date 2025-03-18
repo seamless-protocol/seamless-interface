@@ -9,6 +9,8 @@ import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/h
 import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
 import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
 import { STAKED_SEAM_ADDRESS } from "@meta";
+import { useBlock } from "wagmi";
+import { IS_DEV_MODE } from "../../../../../../../globals";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -25,6 +27,7 @@ export const FormContainer: React.FC = () => {
   const { data: userCooldown } = useFetchStakerCooldown(STAKED_SEAM_ADDRESS);
   const { data: cooldown } = useFetchCooldown(STAKED_SEAM_ADDRESS);
   const { data: unstakeWindow } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
+  const { data: block } = useBlock();
 
   const userCooldownValue = userCooldown?.bigIntValue ?? 0n;
   const cooldownValue = cooldown?.bigIntValue ?? 0n;
@@ -32,7 +35,7 @@ export const FormContainer: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const now: number = Math.floor(Date.now() / 1000);
+      const now: number = IS_DEV_MODE ? Number(block?.timestamp || 0) : Math.floor(Date.now() / 1000);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
       const canUnstakeAtNum = Number(canUnstakeAt);
       const unstakeEndsAtNum = Number(unstakeEndsAt);
