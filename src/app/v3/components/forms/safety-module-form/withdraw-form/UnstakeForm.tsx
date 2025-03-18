@@ -42,8 +42,8 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
 
   if (!tokenInfo || error) {
     // eslint-disable-next-line no-console
-    console.warn("Vault not found!!!");
-    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+    console.warn("Stake SEAM data not found!!!");
+    if (error) console.error("UnstakeForm error while fetching full vault info", error);
 
     return (
       <div className="min-h-[300px]">
@@ -54,7 +54,7 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
     );
   }
 
-  return <MoprhoVaultFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
+  return <UnstakeFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
 };
 
 interface FormData {
@@ -62,7 +62,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const MoprhoVaultFormLocal: React.FC<{
+const UnstakeFormLocal: React.FC<{
   tokenData: TokenData;
   remaining: number;
   isUnstakeWindow: boolean;
