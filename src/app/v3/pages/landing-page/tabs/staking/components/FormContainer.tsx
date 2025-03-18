@@ -10,6 +10,7 @@ import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/ho
 import { STAKED_SEAM_ADDRESS } from "@meta";
 import { useBlock } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../../../globals";
+import { FIVE_MINUTE_IN_MS } from "../../../../../../statev3/settings/queryConfig";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -23,7 +24,7 @@ const useFetchFormContainerData = () => {
   const { data: unstakeWindow, ...unstakeWindowRest } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
   const { data: block, ...blockRest } = useBlock({
     query: {
-      staleTime: 300_000,
+      staleTime: FIVE_MINUTE_IN_MS,
     },
   });
 
