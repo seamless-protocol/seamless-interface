@@ -58,7 +58,7 @@ export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
   const { strategy } = useFormSettingsContext();
 
   const { data, ...rest } = useFetchStakedSeamTokenData();
-  const underlyingAssetAddress = data?.asset?.address;
+  const underlyingAssetAddress = data?.underlying?.address;
 
   // *** form functions *** //
   const { watch } = useFormContext();
@@ -76,8 +76,8 @@ export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", data?.asset?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.asset?.decimals);
+    const valueBigInt = fParseUnits(value || "", data?.underlying?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.underlying?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -104,7 +104,7 @@ export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
-      tokenData={{ ...rest, data: data?.asset as Token }}
+      tokenData={{ ...rest, data: data?.underlying as Token }}
     />
   );
 }

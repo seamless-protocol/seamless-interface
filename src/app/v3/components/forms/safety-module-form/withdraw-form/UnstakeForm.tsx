@@ -96,9 +96,9 @@ const UnstakeFormLocal: React.FC<{
                 {tokenData && (
                   <WatchAssetComponentv2
                     {...tokenData}
-                    address={tokenData?.asset.address}
-                    icon={tokenData?.asset.logo || undefined}
-                    decimals={tokenData?.asset.decimals || undefined}
+                    address={tokenData?.underlying.address}
+                    icon={tokenData?.underlying.logo || undefined}
+                    decimals={tokenData?.underlying.decimals || undefined}
                   />
                 )}
               </FlexCol>

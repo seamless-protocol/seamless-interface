@@ -17,9 +17,9 @@ export const FormButtons: React.FC<{
   const amount = watch("amount");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    tokenData?.asset.address,
+    tokenData?.underlying.address,
     tokenData?.address,
-    tokenData?.asset.decimals ? parseUnits(amount, tokenData?.asset.decimals) : undefined
+    tokenData?.underlying.decimals ? parseUnits(amount, tokenData?.underlying.decimals) : undefined
   );
 
   if (error) {

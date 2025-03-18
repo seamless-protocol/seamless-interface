@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { Token } from "@shared";
 
-export interface StakedAsset extends Token {
+export interface UnderlyingAsset extends Token {
   address?: Address;
 }
 
 export interface StakedSeam extends Token {
   address: Address | undefined;
-  asset: StakedAsset;
+  underlying: UnderlyingAsset;
 }

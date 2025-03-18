@@ -67,7 +67,7 @@ const StakeDepositFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Staked {data.amount} {tokenData.asset.symbol}
+                  You Staked {data.amount} {tokenData.underlying.symbol}
                 </Typography>
                 {tokenData && <WatchAssetComponentv2 {...tokenData} address={tokenData?.address} />}
               </FlexCol>
