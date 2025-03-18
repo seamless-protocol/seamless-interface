@@ -23,7 +23,7 @@ export const secondsToDhms = (totalSeconds: number): Dhms | undefined => {
   });
 
   const { days, hours, minutes, seconds } = duration;
-  if (!duration || days == null || hours == null || minutes == null || seconds == null) return undefined;
+  if (duration == null || days == null || hours == null || minutes == null || seconds == null) return undefined;
 
   return {
     days: days.toString(),
