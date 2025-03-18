@@ -68,7 +68,7 @@ export const FormContainer: React.FC = () => {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [userCooldownValue, cooldownValue, unstakeWindowValue, block]);
+  }, [userCooldownValue, cooldownValue, unstakeWindowValue]);
 
   if (isLoading) {
     return <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl" />;

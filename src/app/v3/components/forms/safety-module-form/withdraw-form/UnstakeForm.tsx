@@ -38,7 +38,7 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
 
   if (!tokenInfo || error) {
     // eslint-disable-next-line no-console
-    console.warn("Stake SEAM data not found!!!");
+    console.warn("Staked SEAM data not found!!!");
     if (error) console.error("UnstakeForm error while fetching full vault info", error);
 
     return (

@@ -24,13 +24,13 @@ export const FormButtons: React.FC<{
 
   if (error) {
     // eslint-disable-next-line no-console
-    console.warn("stake SEAM data not found!!!");
-    if (error) console.error("stake SEAM error while fetching", error);
+    console.warn("Staked SEAM data not found!!!");
+    if (error) console.error("Staked SEAM error while fetching", error);
 
     return (
       <div>
         <Typography type="medium3" className="text-red-600">
-          Error while fetching stake SEAM token data: {error?.message}
+          Error while fetching Staked SEAM token data: {error?.message}
         </Typography>
       </div>
     );
