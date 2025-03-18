@@ -7,24 +7,30 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
 import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { intervalToDuration } from "date-fns";
 
-const secondsToDhms = (totalSeconds: number) => {
-  const days: number | string = Math.floor(totalSeconds / 86400);
-  let hours: number | string = Math.floor(totalSeconds / 3600) % 24;
-  let minutes: number | string = Math.floor(totalSeconds / 60) % 60;
-  let seconds: number | string = totalSeconds % 60;
+export interface Dhms {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+}
 
-  if (hours.toString().length === 1) {
-    hours = `0${hours}`;
-  }
-  if (minutes.toString().length === 1) {
-    minutes = `0${minutes}`;
-  }
-  if (seconds.toString().length === 1) {
-    seconds = `0${seconds}`;
-  }
+export const secondsToDhms = (totalSeconds: number): Dhms | undefined => {
+  const duration = intervalToDuration({
+    start: new Date(0),
+    end: new Date(totalSeconds * 1000),
+  });
 
-  return { days, hours, minutes, seconds };
+  const { days, hours, minutes, seconds } = duration;
+  if (!duration || days == null || hours == null || minutes == null || seconds == null) return undefined;
+
+  return {
+    days: days.toString(),
+    hours: hours < 10 ? `0${hours}` : hours.toString(),
+    minutes: minutes < 10 ? `0${minutes}` : minutes.toString(),
+    seconds: seconds < 10 ? `0${seconds}` : seconds.toString(),
+  };
 };
 
 export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number; isUnstakeWindow: boolean }) => {
@@ -75,7 +81,7 @@ const MoprhoVaultFormLocal: React.FC<{
   const { showNotification } = useNotificationContext();
   const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
-  const { days, hours, minutes, seconds } = secondsToDhms(remaining);
+  const { days, hours, minutes, seconds } = secondsToDhms(remaining) || {};
 
   const onSubmitAsync = async (data: FormData) => {
     await unstakeAsync(

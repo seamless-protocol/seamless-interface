@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
-import { Address } from "viem";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { StakingDepositForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
@@ -19,7 +18,6 @@ const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint
 };
 
 export const FormContainer: React.FC = () => {
-  const vault = STAKED_SEAM_ADDRESS as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
   const [remaining, setRemaining] = useState(0);
@@ -58,7 +56,7 @@ export const FormContainer: React.FC = () => {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [userCooldownValue]);
+  }, [userCooldownValue, cooldownValue, unstakeWindowValue, block]);
 
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
@@ -85,11 +83,11 @@ export const FormContainer: React.FC = () => {
       </FlexRow>
       <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={vault}>
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
             <StakingDepositForm />
           </FormSettingsProvider>
         ) : (
-          <FormSettingsProvider defaultStrategy={vault}>
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
             {!hasCooldown ? (
               <InitiateCooldownForm />
             ) : (
