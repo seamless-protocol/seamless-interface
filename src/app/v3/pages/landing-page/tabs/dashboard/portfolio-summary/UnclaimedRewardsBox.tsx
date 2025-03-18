@@ -1,6 +1,6 @@
 import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
 import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
-import { ClaimModal } from "./claim-button/ClaimModal";
+import { ClaimModal } from "../../../../common/components/ClaimModal";
 
 export const UnclaimedRewardsBox = () => {
   const { data, ...rest } = useFetchViewAllUserRewards();

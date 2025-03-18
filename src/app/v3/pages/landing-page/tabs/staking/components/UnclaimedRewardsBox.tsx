@@ -1,7 +1,7 @@
 import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
-import { ClaimModal } from "./claim-button/ClaimModal";
 import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
 import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
+import { ClaimModal } from "../../../../common/components/ClaimModal";
 
 export const UnclaimedRewardsBox = () => {
   const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
