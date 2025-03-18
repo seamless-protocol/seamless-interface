@@ -7,7 +7,7 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
 import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { intervalToDuration } from "date-fns";
+import { intervalToDuration, formatDuration } from "date-fns";
 
 export interface Dhms {
   days: string;
@@ -16,21 +16,17 @@ export interface Dhms {
   seconds: string;
 }
 
-export const secondsToDhms = (totalSeconds: number): Dhms | undefined => {
+export const secondsToDhms = (totalSeconds: number): string => {
   const duration = intervalToDuration({
     start: new Date(0),
     end: new Date(totalSeconds * 1000),
   });
 
-  const { days, hours, minutes, seconds } = duration;
-  if (duration == null || days == null || hours == null || minutes == null || seconds == null) return undefined;
-
-  return {
-    days: days.toString(),
-    hours: hours < 10 ? `0${hours}` : hours.toString(),
-    minutes: minutes < 10 ? `0${minutes}` : minutes.toString(),
-    seconds: seconds < 10 ? `0${seconds}` : seconds.toString(),
-  };
+  return formatDuration(duration, {
+    format: ["days", "hours", "minutes", "seconds"],
+    zero: true,
+    delimiter: " : ",
+  });
 };
 
 export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number; isUnstakeWindow: boolean }) => {
@@ -81,7 +77,7 @@ const UnstakeFormLocal: React.FC<{
   const { showNotification } = useNotificationContext();
   const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
-  const { days, hours, minutes, seconds } = secondsToDhms(remaining) || {};
+  const formatedDhms = secondsToDhms(remaining);
 
   const onSubmitAsync = async (data: FormData) => {
     await unstakeAsync(
@@ -125,14 +121,14 @@ const UnstakeFormLocal: React.FC<{
             <FlexCol className="gap-3">
               <Typography type="medium3">Unstake Ready in:</Typography>
               <Typography type="medium2" className="text-red-400">
-                {days} : {hours} : {minutes} : {seconds}
+                {formatedDhms}
               </Typography>
             </FlexCol>
           ) : (
             <FlexCol className="gap-3">
               <Typography type="medium3">Unstake Available For:</Typography>
               <Typography type="medium2" className="text-green-400">
-                {days} : {hours} : {minutes} : {seconds}
+                {formatedDhms}
               </Typography>
               <RHFUnstakeAmountField vault={tokenData.address} name="amount" />
             </FlexCol>
