@@ -21,7 +21,11 @@ const useFetchFormContainerData = () => {
   const { data: userCooldown, ...userCooldownRest } = useFetchStakerCooldown(STAKED_SEAM_ADDRESS);
   const { data: cooldown, ...cooldownRest } = useFetchCooldown(STAKED_SEAM_ADDRESS);
   const { data: unstakeWindow, ...unstakeWindowRest } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
-  const { data: block, ...blockRest } = useBlock();
+  const { data: block, ...blockRest } = useBlock({
+    query: {
+      staleTime: 300_000,
+    },
+  });
 
   return {
     ...mergeQueryStates([userCooldownRest, cooldownRest, unstakeWindowRest, blockRest]),
