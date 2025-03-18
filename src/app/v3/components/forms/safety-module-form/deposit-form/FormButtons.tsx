@@ -22,14 +22,6 @@ export const FormButtons: React.FC<{
     tokenData?.asset.decimals ? parseUnits(amount, tokenData?.asset.decimals) : undefined
   );
 
-  if (isSeamTokenDataLoading) {
-    return (
-      <Buttonv2 className="text-bold3" loading>
-        Enter amount
-      </Buttonv2>
-    );
-  }
-
   if (error) {
     // eslint-disable-next-line no-console
     console.warn("stake SEAM data not found!!!");
@@ -59,7 +51,7 @@ export const FormButtons: React.FC<{
           data-cy="approvalButton"
           className="text-bold3"
           disabled={isApproved || isSubmitting}
-          loading={!isApproved && (isApproving || isLoading)}
+          loading={(!isApproved && (isApproving || isLoading)) || isSeamTokenDataLoading}
           onClick={async () => {
             await approveAsync();
           }}
@@ -71,7 +63,7 @@ export const FormButtons: React.FC<{
         data-cy="actionButton"
         className="text-bold3"
         type="submit"
-        disabled={!isApproved || isSubmitting || isDisabled}
+        disabled={!isApproved || isSubmitting || isDisabled || isSeamTokenDataLoading}
         loading={isSubmitting || isLoading}
       >
         Submit
