@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
-import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
+import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
 import { InitiateCooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/InitiateCooldownForm";
 import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";

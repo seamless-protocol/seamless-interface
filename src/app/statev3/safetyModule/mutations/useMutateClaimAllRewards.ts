@@ -1,8 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
-import { useFetchViewAllUserRewards } from "../hooks/useFetchViewAllRewards";
 import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { rewardsControllerAbi } from "../../../generated";
+import { useFetchViewAllUserRewards } from "../../common/hooks/useFetchViewAllRewards";
 
 export const useMutateClaimAllRewards = () => {
   /* ------------- */
@@ -15,7 +15,7 @@ export const useMutateClaimAllRewards = () => {
   /* ------------ */
   /*   Query keys */
   /* ------------ */
-  const { queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards();
+  const { queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards(rewardsAccruingAssets);
 
   /* ----------------- */
   /*   Mutation config */
