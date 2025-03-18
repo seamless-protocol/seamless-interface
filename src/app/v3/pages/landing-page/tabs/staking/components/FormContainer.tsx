@@ -75,7 +75,6 @@ export const FormContainer: React.FC = () => {
   }
 
   if (error) {
-    // eslint-disable-next-line no-console
     if (error) console.error("useFetchFormContainerData: error while fetchin data", error);
 
     return (
