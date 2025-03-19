@@ -4,9 +4,15 @@ import { FormContainer } from "./FormContainer";
 import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
 import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
 import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
+import { STAKED_SEAM_ADDRESS } from "../../../../../../../meta";
+import { useFetchSupplyIncentives } from "../../../../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 
 export const StakingPage = () => {
   const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
+  const { data: test, error } = useFetchSupplyIncentives(STAKED_SEAM_ADDRESS);
+
+  console.log({ test });
+  console.log({ error });
 
   return (
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
