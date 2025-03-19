@@ -1,14 +1,20 @@
-import { DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
-import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
-import { ClaimModal } from "./claim-button/ClaimModal";
+import { Displayable, DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
+import { ClaimModal } from "./ClaimModal";
+import { ViewAllUserRewards } from "../../../../state/lending-borrowing/types/ViewAllUserRewards";
 
-export const UnclaimedRewardsBox = () => {
-  const { data, ...rest } = useFetchViewAllUserRewards();
+export interface Props extends Displayable<ViewAllUserRewards> {
+  noRewardsMessage?: string;
+}
 
+export const UnclaimedRewardsBox: React.FC<Props> = ({
+  data,
+  noRewardsMessage = "Deposit into ILM strategies to receive rewards",
+  ...rest
+}) => {
   const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
 
   return (
-    <FlexCol className="bg-neutral-0 rounded-xl border border-b-100 h-full p-8 justify-between">
+    <FlexCol className="bg-neutral-0 shadow-card rounded-2xl h-full p-8 justify-between">
       <FlexCol>
         <FlexRow className="gap-[88px]">
           <FlexCol className="gap-2">
@@ -20,7 +26,7 @@ export const UnclaimedRewardsBox = () => {
         </FlexRow>
         {disabled ? (
           <Typography className="text-primary-600" type="medium1">
-            Deposit into ILM strategies to receive rewards
+            {noRewardsMessage}
           </Typography>
         ) : (
           <ImageGroup imageStyle="w-6" spacing="-space-x-3" images={data.rewards?.map((reward) => reward.logo) || []} />

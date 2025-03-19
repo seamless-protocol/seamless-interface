@@ -1,6 +1,6 @@
 import { ViewBigInt, ModalHandles, Token, FlexCol, Typography, useNotificationContext } from "@shared";
 import React, { useRef } from "react";
-import { ClaimModalComponent } from "../../../components/common/ClaimModalComponent";
+import { ClaimModalComponent } from "../../../../../../common/components/ClaimModalComponent";
 import { useMutateClaimAllMorphoRewards } from "../../../../../../../../statev3/morpho/user-distributions/useMutateClaimAllMorphoRewards";
 
 interface Reward {
