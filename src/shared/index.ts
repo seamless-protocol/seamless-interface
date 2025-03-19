@@ -188,3 +188,4 @@ export * from "./state";
 export * from "./utils/helpers";
 export * from "./utils/errorParser";
 export * from "./formatters/getFetchBigIntFormatted";
+export * from "./utils/aaveIncentivesHelpers";

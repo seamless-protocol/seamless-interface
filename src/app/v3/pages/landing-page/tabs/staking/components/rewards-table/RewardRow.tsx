@@ -1,5 +1,14 @@
-import { Displayable, FlexRow, FlexCol, TableCell, TableRow, Icon, DisplayText, DisplayPercentage } from "@shared";
-import { RewardToken } from "../../../../../../../../shared/utils/aaveIncentivesHelpers";
+import {
+  Displayable,
+  FlexRow,
+  FlexCol,
+  TableCell,
+  TableRow,
+  Icon,
+  DisplayText,
+  DisplayPercentage,
+  RewardToken,
+} from "@shared";
 
 export const RewardRowDesktop: React.FC<{
   rewardToken: Displayable<RewardToken>;
