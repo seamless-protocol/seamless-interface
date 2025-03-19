@@ -91,7 +91,7 @@ const UnstakeFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Withdrew {data.amount} {tokenSymbol}
+                  You Unstaked {data.amount} {tokenSymbol}
                 </Typography>
                 {tokenData && (
                   <WatchAssetComponentv2
