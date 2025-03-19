@@ -1,15 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-import { formatIncentiveAprToViewNumber } from "../../../../shared";
 import { IncentiveApr, parseIncentives } from "../../../../shared/utils/aaveIncentivesHelpers";
-import { fetchEquityData } from "../../../state/loop-strategy/queries/useFetchViewEquity.all";
-import { rewardsAccruingAssets } from "../../settings/config";
-import { queryConfig } from "../../settings/queryConfig";
+import { formatIncentiveAprToViewNumber } from "../../../../shared";
+import { useQuery } from "@tanstack/react-query";
 import { fetchAssetRewardsDataByAsset } from "../../../state/lending-borrowing/hooks/useFetchAssetRewardsData.all";
+import { fetchEquityData } from "../../../state/loop-strategy/queries/useFetchViewEquity.all";
+import { queryConfig } from "../../settings/queryConfig";
 
-export const fetchStrategyIncentives = async (): Promise<IncentiveApr | undefined> => {
-  const assets = rewardsAccruingAssets;
-
+export const fetchStrategyIncentives = async (asset?: Address): Promise<IncentiveApr | undefined> => {
+  if (!asset) {
+    console.error("fetchStrategyIncentives: Asset address is required");
+    throw new Error("Asset address is required");
+  }
   const [incentives, equity] = await Promise.all([fetchAssetRewardsDataByAsset(asset), fetchEquityData(asset)]);
 
   let strategyIncentives;
