@@ -7,7 +7,7 @@ export const useFetchAssetRewardsData = () => {
   const { address } = useAccount();
 
   return useQuery({
-    queryKey: ["hookFetchAssetRewardsData", STAKED_SEAM_ADDRESS],
+    queryKey: ["hookFetchAssetRewardsData", STAKED_SEAM_ADDRESS, address],
     queryFn: () => fetchStakingAssetRewardsData(address!),
     enabled: Boolean(address),
   });
