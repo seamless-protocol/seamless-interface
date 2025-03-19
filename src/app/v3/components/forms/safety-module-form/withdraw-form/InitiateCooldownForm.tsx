@@ -28,7 +28,7 @@ export const InitiateCooldownForm = () => {
     );
   }
 
-  return <StakingWithdrawFormLocal tokenData={tokenInfo} />;
+  return <InitiateCooldownFormLocal tokenData={tokenInfo} />;
 };
 
 interface FormData {
@@ -36,7 +36,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const StakingWithdrawFormLocal: React.FC<{
+const InitiateCooldownFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();
@@ -64,9 +64,9 @@ const StakingWithdrawFormLocal: React.FC<{
               {tokenData && (
                 <WatchAssetComponentv2
                   {...tokenData}
-                  address={tokenData?.asset.address}
-                  icon={tokenData?.asset.logo || undefined}
-                  decimals={tokenData?.asset.decimals || undefined}
+                  address={tokenData?.underlying.address}
+                  icon={tokenData?.underlying.logo || undefined}
+                  decimals={tokenData?.underlying.decimals || undefined}
                 />
               )}
             </FlexCol>

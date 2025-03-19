@@ -1,26 +1,26 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
+import { safetyModuleRewardController } from "@meta";
+import { rewardsControllerAbi } from "@generated";
 import {
   fetchGetAllUserRewardsHookQK,
   fetchGetAllUserRewardsQueryOptions,
 } from "../../common/hooks/useFetchViewAllRewards";
-import { safetyModuleRewardController } from "@meta";
-import { rewardsControllerAbi } from "../../../generated";
-import { useAccount } from "wagmi";
 import { rewardsAccruingAssets } from "../../settings/config";
+import { useAccount } from "wagmi";
 
 export const useMutateClaimAllRewards = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
-  const { address } = useAccount();
   const { showNotification } = useNotificationContext();
+  const { address } = useAccount();
 
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     queriesToInvalidate: [
-      fetchGetAllUserRewardsHookQK(address),
+      fetchGetAllUserRewardsHookQK(rewardsAccruingAssets, address),
       address && fetchGetAllUserRewardsQueryOptions(address, rewardsAccruingAssets).queryKey,
     ],
   });

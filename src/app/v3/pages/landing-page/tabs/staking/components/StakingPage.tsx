@@ -1,23 +1,19 @@
 import { FlexCol, PageContainer } from "@shared";
 
-import { UnclaimedRewardsBox } from "./UnclaimedRewardsBox";
-
 import { FormContainer } from "./FormContainer";
-import { NotConnectedWalletGuard } from "./NotConnectedWalletGuard";
-import { RewardsTableContainer } from "./rewards-table/RewardsTableContainer";
+import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
+import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
 
 export const StakingPage = () => {
+  const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
+
   return (
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <div className="grid grid-rows-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
           <div className="flex-grow">
-            <NotConnectedWalletGuard message="Connect your wallet to view your rewards.">
-              <FlexCol className="gap-4">
-                <UnclaimedRewardsBox />
-                <RewardsTableContainer />
-              </FlexCol>
-            </NotConnectedWalletGuard>
+            <UnclaimedRewardsBox {...rest} data={data} />
           </div>
           <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
             <FormContainer />

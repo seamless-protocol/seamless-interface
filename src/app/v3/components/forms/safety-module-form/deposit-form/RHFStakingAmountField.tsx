@@ -53,19 +53,18 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  * @returns {React.ReactElement} Rendered component with functionalities for asset data fetching, USD conversion, and form integration.
  */
 
-export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
+export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const { data, ...restTokenData } = useFetchStakedSeamTokenData();
-  const underlyingAssetAddress = data?.asset?.address;
+  const { data, ...rest } = useFetchStakedSeamTokenData();
+  const underlyingAssetAddress = data?.underlying?.address;
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name);
 
   // *** max *** //
-  // TODO: Should work the same as fetch balance
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
@@ -77,8 +76,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", data?.asset?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.asset?.decimals);
+    const valueBigInt = fParseUnits(value || "", data?.underlying?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.underlying?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -105,7 +104,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
-      tokenData={{ ...restTokenData, data: data?.asset as Token }}
+      tokenData={{ ...rest, data: data?.underlying as Token }}
     />
   );
 }

@@ -2,7 +2,7 @@ import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSe
 import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
-import { fetchBalanceHookQK, fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
+import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useStakeSafetyModule = () => {
   /* ------------- */

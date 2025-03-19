@@ -81,13 +81,17 @@ export async function fetchAllUserRewards(user: Address, rewardsAccruingAssets: 
   };
 }
 
-export const fetchGetAllUserRewardsHookQK = (user?: Address) => ["fetchAllUserRewards", user];
+export const fetchGetAllUserRewardsHookQK = (rewardsAccruingAssets: Address[], user?: Address) => [
+  "fetchAllUserRewards",
+  rewardsAccruingAssets,
+  user,
+];
 
 export const useFetchAllRewards = (rewardsAccruingAssets: Address[]) => {
   const { address } = useAccount();
 
   return useQuery({
-    queryKey: fetchGetAllUserRewardsHookQK(address),
+    queryKey: fetchGetAllUserRewardsHookQK(rewardsAccruingAssets, address),
     queryFn: () => fetchAllUserRewards(address!, rewardsAccruingAssets),
     enabled: !!address,
   });

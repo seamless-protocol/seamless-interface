@@ -3,16 +3,16 @@ import { useFormContext } from "react-hook-form";
 import { Address } from "viem";
 import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
-import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 
 type IProps<T> = Omit<
   IRHFAmountInputProps,
   "assetPrice" | "walletBalance" | "assetAddress" | "assetButton" | "name"
 > & {
   name: keyof T;
-  address: Address | undefined;
+  vault: Address | undefined;
 };
 
 /**
@@ -41,19 +41,19 @@ type IProps<T> = Omit<
  * @param {IProps<T>} props - The props for configuring the `RHFWithdrawVaultAmountField` component, tailored to vault-specific asset management.
  * @returns {React.ReactElement} Renders an asset input component linked to specific vaults, enhanced with automatic data fetching and conversion functionalities.
  */
-export function RHFWithdrawVaultAmountField<T>({ address, focusOnAssetChange = true, ...other }: IProps<T>) {
+export function RHFUnstakeAmountField<T>({ vault, focusOnAssetChange = true, ...other }: IProps<T>) {
   // *** metadata *** //
-  const tokenData = useToken(address); // staked seam
+  const tokenData = useToken(vault);
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name as string);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(address);
+  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(vault);
 
   // *** balance *** //
-  const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(address, walletBalanceDecimalsOptions);
+  const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(vault, walletBalanceDecimalsOptions);
   const dollarValueData = useMemo(() => {
     const valueBigInt = fParseUnits(value || "", tokenData?.data?.decimals);
     const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, tokenData?.data?.decimals);
@@ -70,7 +70,7 @@ export function RHFWithdrawVaultAmountField<T>({ address, focusOnAssetChange = t
     <RHFAmountInputV3
       {...other}
       name={other.name as string}
-      assetAddress={address}
+      assetAddress={vault}
       dollarValue={{
         ...otherPrice,
         data: dollarValueData,

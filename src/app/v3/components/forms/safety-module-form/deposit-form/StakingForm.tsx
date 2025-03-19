@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
-import { RHFDepositAmountField } from "./RHFDepositAmountField";
+import { RHFStakingAmountField } from "./RHFStakingAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 import { useStakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useStakeSafetyModule";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
-export const StakingDepositForm = () => {
+export const StakingForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {
@@ -67,7 +67,7 @@ const StakeDepositFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Staked {data.amount} {tokenData.asset.symbol}
+                  You Staked {data.amount} {tokenData.underlying.symbol}
                 </Typography>
                 {tokenData && <WatchAssetComponentv2 {...tokenData} address={tokenData?.address} />}
               </FlexCol>
@@ -88,7 +88,7 @@ const StakeDepositFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
             <Typography type="medium3">Stake</Typography>
-            <RHFDepositAmountField name="amount" />
+            <RHFStakingAmountField name="amount" />
           </FlexCol>
         </FlexCol>
 
