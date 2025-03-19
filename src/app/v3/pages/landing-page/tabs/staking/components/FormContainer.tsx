@@ -25,6 +25,7 @@ const useFetchFormContainerData = () => {
   const { data: block, ...blockRest } = useBlock({
     query: {
       staleTime: FIVE_MINUTE_IN_MS,
+      enabled: IS_DEV_MODE,
     },
   });
 
