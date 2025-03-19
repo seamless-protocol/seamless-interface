@@ -2,9 +2,8 @@ import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSe
 import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
 import { STAKED_SEAM_ADDRESS } from "@meta";
-import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
 
-export const useWithdrawSafetyModule = () => {
+export const useStakeSafetyModule = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -16,16 +15,13 @@ export const useWithdrawSafetyModule = () => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
-    queriesToInvalidate: [
-      address && fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address).queryKey,
-      fetchBalanceHookQK(STAKED_SEAM_ADDRESS, address),
-    ],
+    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
   });
 
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const unstakeAsync = async (
+  const stakeAsync = async (
     args: {
       amount: bigint | undefined;
     },
@@ -40,19 +36,19 @@ export const useWithdrawSafetyModule = () => {
         {
           address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
-          functionName: "redeem",
-          args: [amount, address, address],
+          functionName: "deposit",
+          args: [amount, address],
         },
         { ...settings }
       );
     } catch (error) {
-      console.error("Failed to unstake", error);
+      console.error("Failed to stake", error);
       showNotification({
         status: "error",
-        content: `Failed to unstake: ${getParsedError(error)}`,
+        content: `Failed to stake: ${getParsedError(error)}`,
       });
     }
   };
 
-  return { ...rest, isWithdrawPending: rest.isPending, unstakeAsync };
+  return { ...rest, isDepositPending: rest.isPending, stakeAsync };
 };

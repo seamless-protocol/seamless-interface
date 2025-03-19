@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
-import { FlexCol, FlexRow, Typography } from "@shared";
-// import { useParams } from "react-router-dom";
-import { Address } from "viem";
+import { FlexCol, FlexRow, mergeQueryStates, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
-import { StakingDepositForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingDepositForm";
+import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
-import { StakingWithdrawForm } from "../../../../../components/forms/safety-module-form/withdraw-form/StakingWithdrawForm";
-import { useWatchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
+import { InitiateCooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/InitiateCooldownForm";
+import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
 import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
 import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
 import { STAKED_SEAM_ADDRESS } from "@meta";
-import { useBlockTime } from "../../../../../../statev3/common/hooks/useBlockTime";
+import { useBlock } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../../../globals";
+import { FIVE_MINUTE_IN_MS } from "../../../../../../statev3/settings/queryConfig";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -19,50 +18,78 @@ const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint
   return { canUnstakeAt, unstakeEndsAt };
 };
 
+const useFetchFormContainerData = () => {
+  const { data: userCooldown, ...userCooldownRest } = useFetchStakerCooldown(STAKED_SEAM_ADDRESS);
+  const { data: cooldown, ...cooldownRest } = useFetchCooldown(STAKED_SEAM_ADDRESS);
+  const { data: unstakeWindow, ...unstakeWindowRest } = useFetchUnstakeWindow(STAKED_SEAM_ADDRESS);
+  const { data: block, ...blockRest } = useBlock({
+    query: {
+      staleTime: FIVE_MINUTE_IN_MS,
+    },
+  });
+
+  return {
+    ...mergeQueryStates([userCooldownRest, cooldownRest, unstakeWindowRest, blockRest]),
+    userCooldown,
+    cooldown,
+    unstakeWindow,
+    block,
+  };
+};
+
 export const FormContainer: React.FC = () => {
-  // const { address } = useParams();
-  const address = STAKED_SEAM_ADDRESS;
-  const vault = address as Address | undefined;
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [isUnstakeWindow, setIsUnstakeWindow] = useState(false);
-  const { data: userCooldown } = useWatchStakerCooldown(address);
-  const { data: cooldown } = useFetchCooldown(address);
-  const { data: unstakeWindow } = useFetchUnstakeWindow(address);
-  const { data: blockData } = useBlockTime();
+  const { block, cooldown, unstakeWindow, userCooldown, error, isLoading } = useFetchFormContainerData();
 
   const userCooldownValue = userCooldown?.bigIntValue ?? 0n;
   const cooldownValue = cooldown?.bigIntValue ?? 0n;
   const unstakeWindowValue = unstakeWindow?.bigIntValue ?? 0n;
 
-  // console.log(userCooldownValue)
   useEffect(() => {
     const interval = setInterval(() => {
-      const now: number = IS_DEV_MODE
-        ? Number(blockData?.block.timestamp || 0)
-        : parseInt((Date.now() / 1000).toString(), 10);
+      const now: number = IS_DEV_MODE ? Number(block?.timestamp || 0) : Math.floor(Date.now() / 1000);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
-      if (now > unstakeEndsAt || userCooldownValue === 0n) {
+      const canUnstakeAtNum = Number(canUnstakeAt);
+      const unstakeEndsAtNum = Number(unstakeEndsAt);
+
+      if (now > unstakeEndsAtNum || userCooldownValue === 0n) {
         setHasCooldown(false);
         setRemaining(0);
         clearInterval(interval);
-        return;
-      }
-
-      if (now < canUnstakeAt) {
-        const timeLeft = parseInt(canUnstakeAt.toString(), 10) - now;
-        setRemaining(timeLeft);
-        setIsUnstakeWindow(false);
       } else {
-        const timeLeft = parseInt(unstakeEndsAt.toString(), 10) - now;
-        setRemaining(timeLeft);
-        setIsUnstakeWindow(true);
+        if (now < canUnstakeAtNum) {
+          const timeLeft = canUnstakeAtNum - now;
+          setRemaining(timeLeft);
+          setIsUnstakeWindow(false);
+        } else {
+          const timeLeft = unstakeEndsAtNum - now;
+          setRemaining(timeLeft);
+          setIsUnstakeWindow(true);
+        }
+        setHasCooldown(true);
       }
-      setHasCooldown(true);
     }, 1000);
     return () => clearInterval(interval);
-  }, [userCooldownValue]);
+  }, [userCooldownValue, cooldownValue, unstakeWindowValue]);
+
+  if (isLoading) {
+    return <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl" />;
+  }
+
+  if (error) {
+    if (error) console.error("useFetchFormContainerData: error while fetchin data", error);
+
+    return (
+      <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching data needed for Form Container Component: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
@@ -89,13 +116,13 @@ export const FormContainer: React.FC = () => {
       </FlexRow>
       <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={vault}>
-            <StakingDepositForm />
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
+            <StakingForm />
           </FormSettingsProvider>
         ) : (
-          <FormSettingsProvider defaultStrategy={vault}>
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
             {!hasCooldown ? (
-              <StakingWithdrawForm />
+              <InitiateCooldownForm />
             ) : (
               <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} />
             )}

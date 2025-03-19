@@ -1,4 +1,4 @@
-import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3, Token, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
@@ -53,27 +53,21 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  * @returns {React.ReactElement} Rendered component with functionalities for asset data fetching, USD conversion, and form integration.
  */
 
-export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
-  // TODO: get tokenData through hook
+export function RHFStakingAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
   const { strategy } = useFormSettingsContext();
 
-  const { data } = useFetchStakedSeamTokenData();
-  const underlyingAssetAddress = data?.asset?.address;
-
-  // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress); // TODO: this is wasteful because we do it in hook but it fixes type error for now
+  const { data, ...rest } = useFetchStakedSeamTokenData();
+  const underlyingAssetAddress = data?.underlying?.address;
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name);
 
   // *** max *** //
-  // TODO: Should work the same as fetch balance
   const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
 
   // *** price *** //
-  // TODO: This brings asset
   const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(underlyingAssetAddress);
 
   // *** balance *** //
@@ -82,8 +76,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
     walletBalanceDecimalsOptions
   );
   const dollarValueData = useMemo(() => {
-    const valueBigInt = fParseUnits(value || "", data?.asset?.decimals);
-    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.asset?.decimals);
+    const valueBigInt = fParseUnits(value || "", data?.underlying?.decimals);
+    const dollarBigIntValue = cValueInUsd(valueBigInt, price?.bigIntValue, data?.underlying?.decimals);
 
     return formatFetchBigIntToViewBigInt({
       bigIntValue: dollarBigIntValue,
@@ -110,7 +104,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       protocolMaxValue={{
         ...maxUserDepositData,
       }}
-      tokenData={{ ...tokenData }}
+      tokenData={{ ...rest, data: data?.underlying as Token }}
     />
   );
 }

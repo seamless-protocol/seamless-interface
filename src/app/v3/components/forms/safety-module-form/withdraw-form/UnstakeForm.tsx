@@ -1,31 +1,32 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-// import { useState, useEffect } from "react";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
-import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useWithdrawSafetyModule } from "../../../../../statev3/safetyModule/mutations/useWithdrawSafetyModule";
+import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
+import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { intervalToDuration, formatDuration } from "date-fns";
 
-const secondsToDhms = (totalSeconds: number) => {
-  const days: number | string = Math.floor(totalSeconds / 86400);
-  let hours: number | string = Math.floor(totalSeconds / 3600) % 24;
-  let minutes: number | string = Math.floor(totalSeconds / 60) % 60;
-  let seconds: number | string = totalSeconds % 60;
+export interface Dhms {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+}
 
-  if (hours.toString().length === 1) {
-    hours = `0${hours}`;
-  }
-  if (minutes.toString().length === 1) {
-    minutes = `0${minutes}`;
-  }
-  if (seconds.toString().length === 1) {
-    seconds = `0${seconds}`;
-  }
+export const secondsToDhms = (totalSeconds: number): string => {
+  const duration = intervalToDuration({
+    start: new Date(0),
+    end: new Date(totalSeconds * 1000),
+  });
 
-  return { days, hours, minutes, seconds };
+  return formatDuration(duration, {
+    format: ["days", "hours", "minutes", "seconds"],
+    zero: true,
+    delimiter: " : ",
+  });
 };
 
 export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number; isUnstakeWindow: boolean }) => {
@@ -37,8 +38,8 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
 
   if (!tokenInfo || error) {
     // eslint-disable-next-line no-console
-    console.warn("Vault not found!!!");
-    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+    console.warn("Staked SEAM data not found!!!");
+    if (error) console.error("UnstakeForm error while fetching full vault info", error);
 
     return (
       <div className="min-h-[300px]">
@@ -49,7 +50,7 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
     );
   }
 
-  return <MoprhoVaultFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
+  return <UnstakeFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
 };
 
 interface FormData {
@@ -57,7 +58,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const MoprhoVaultFormLocal: React.FC<{
+const UnstakeFormLocal: React.FC<{
   tokenData: TokenData;
   remaining: number;
   isUnstakeWindow: boolean;
@@ -74,9 +75,9 @@ const MoprhoVaultFormLocal: React.FC<{
   const { handleSubmit, reset } = methods;
 
   const { showNotification } = useNotificationContext();
-  const { unstakeAsync, isWithdrawPending } = useWithdrawSafetyModule();
+  const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
-  const { days, hours, minutes, seconds } = secondsToDhms(remaining);
+  const formatedDhms = secondsToDhms(remaining);
 
   const onSubmitAsync = async (data: FormData) => {
     await unstakeAsync(
@@ -95,9 +96,9 @@ const MoprhoVaultFormLocal: React.FC<{
                 {tokenData && (
                   <WatchAssetComponentv2
                     {...tokenData}
-                    address={tokenData?.asset.address}
-                    icon={tokenData?.asset.logo || undefined}
-                    decimals={tokenData?.asset.decimals || undefined}
+                    address={tokenData?.underlying.address}
+                    icon={tokenData?.underlying.logo || undefined}
+                    decimals={tokenData?.underlying.decimals || undefined}
                   />
                 )}
               </FlexCol>
@@ -120,16 +121,16 @@ const MoprhoVaultFormLocal: React.FC<{
             <FlexCol className="gap-3">
               <Typography type="medium3">Unstake Ready in:</Typography>
               <Typography type="medium2" className="text-red-400">
-                {days} : {hours} : {minutes} : {seconds}
+                {formatedDhms}
               </Typography>
             </FlexCol>
           ) : (
             <FlexCol className="gap-3">
               <Typography type="medium3">Unstake Available For:</Typography>
               <Typography type="medium2" className="text-green-400">
-                {days} : {hours} : {minutes} : {seconds}
+                {formatedDhms}
               </Typography>
-              <RHFWithdrawVaultAmountField address={tokenData.address} name="amount" />
+              <RHFUnstakeAmountField vault={tokenData.address} name="amount" />
             </FlexCol>
           )}
         </FlexCol>

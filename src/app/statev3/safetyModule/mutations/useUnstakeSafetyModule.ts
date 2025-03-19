@@ -1,10 +1,9 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
-import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
-import { fetchBalanceHookQK, fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
+import { STAKED_SEAM_ADDRESS } from "@meta";
 
-export const useDepositSafetyModule = () => {
+export const useUnstakeSafetyModule = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -16,16 +15,13 @@ export const useDepositSafetyModule = () => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
-    queriesToInvalidate: [
-      address && fetchBalanceQueryOptions(SEAM_ADDRESS, address).queryKey,
-      fetchBalanceHookQK(SEAM_ADDRESS, address),
-    ],
+    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
   });
 
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const stakeAsync = async (
+  const unstakeAsync = async (
     args: {
       amount: bigint | undefined;
     },
@@ -40,19 +36,19 @@ export const useDepositSafetyModule = () => {
         {
           address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
-          functionName: "deposit",
-          args: [amount, address],
+          functionName: "redeem",
+          args: [amount, address, address],
         },
         { ...settings }
       );
     } catch (error) {
-      console.error("Failed to stake", error);
+      console.error("Failed to unstake", error);
       showNotification({
         status: "error",
-        content: `Failed to stake: ${getParsedError(error)}`,
+        content: `Failed to unstake: ${getParsedError(error)}`,
       });
     }
   };
 
-  return { ...rest, isDepositPending: rest.isPending, stakeAsync };
+  return { ...rest, isWithdrawPending: rest.isPending, unstakeAsync };
 };

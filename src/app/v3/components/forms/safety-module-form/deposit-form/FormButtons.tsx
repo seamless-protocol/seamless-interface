@@ -17,28 +17,20 @@ export const FormButtons: React.FC<{
   const amount = watch("amount");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    tokenData?.asset.address,
+    tokenData?.underlying.address,
     tokenData?.address,
-    parseUnits(amount || "0", tokenData?.asset.decimals ?? 18)
+    tokenData?.underlying.decimals ? parseUnits(amount, tokenData?.underlying.decimals) : undefined
   );
-
-  if (isSeamTokenDataLoading) {
-    return (
-      <Buttonv2 className="text-bold3" loading>
-        Enter amount
-      </Buttonv2>
-    );
-  }
 
   if (error) {
     // eslint-disable-next-line no-console
-    console.warn("steak seam data not found!!!");
-    if (error) console.error("steak seam error while fetching", error);
+    console.warn("Staked SEAM data not found!!!");
+    if (error) console.error("Staked SEAM error while fetching", error);
 
     return (
       <div>
         <Typography type="medium3" className="text-red-600">
-          Error while fetching steak seam token data: {error?.message}
+          Error while fetching Staked SEAM token data: {error?.message}
         </Typography>
       </div>
     );
@@ -59,7 +51,7 @@ export const FormButtons: React.FC<{
           data-cy="approvalButton"
           className="text-bold3"
           disabled={isApproved || isSubmitting}
-          loading={!isApproved && (isApproving || isLoading)}
+          loading={(!isApproved && (isApproving || isLoading)) || isSeamTokenDataLoading}
           onClick={async () => {
             await approveAsync();
           }}
@@ -71,9 +63,8 @@ export const FormButtons: React.FC<{
         data-cy="actionButton"
         className="text-bold3"
         type="submit"
-        disabled={!isApproved || isSubmitting || isDisabled}
+        disabled={!isApproved || isSubmitting || isDisabled || isSeamTokenDataLoading}
         loading={isSubmitting || isLoading}
-        // add deposit func.
       >
         Submit
       </Buttonv2>

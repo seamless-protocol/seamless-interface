@@ -7,7 +7,7 @@ import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule
 import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 
-export const StakingWithdrawForm = () => {
+export const InitiateCooldownForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {
@@ -22,13 +22,13 @@ export const StakingWithdrawForm = () => {
     return (
       <div className="min-h-[300px]">
         <Typography type="medium3" className="text-red-600">
-          Error while fetching full staked seam token data: {error?.message}
+          Error while fetching full staked SEAM token data: {error?.message}
         </Typography>
       </div>
     );
   }
 
-  return <StakingWithdrawFormLocal tokenData={tokenInfo} />;
+  return <InitiateCooldownFormLocal tokenData={tokenInfo} />;
 };
 
 interface FormData {
@@ -36,7 +36,7 @@ interface FormData {
   receiveAmount: string;
 }
 
-const StakingWithdrawFormLocal: React.FC<{
+const InitiateCooldownFormLocal: React.FC<{
   tokenData: TokenData;
 }> = ({ tokenData }) => {
   const { onTransaction } = useFormSettingsContext();
@@ -64,9 +64,9 @@ const StakingWithdrawFormLocal: React.FC<{
               {tokenData && (
                 <WatchAssetComponentv2
                   {...tokenData}
-                  address={tokenData?.asset.address}
-                  icon={tokenData?.asset.logo || undefined}
-                  decimals={tokenData?.asset.decimals || undefined}
+                  address={tokenData?.underlying.address}
+                  icon={tokenData?.underlying.logo || undefined}
+                  decimals={tokenData?.underlying.decimals || undefined}
                 />
               )}
             </FlexCol>

@@ -1,28 +1,27 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import {
-  fetchGetAllUserRewardsHookQK,
-  fetchGetAllUserRewardsQueryOptions,
-} from "../../common/hooks/useFetchViewAllRewards";
-import { safetyModuleRewardController } from "@meta";
+import { Address } from "viem";
+import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { rewardsControllerAbi } from "../../../generated";
-import { useAccount } from "wagmi";
-import { rewardsAccruingAssets } from "../../settings/config";
+import { useFetchViewAllUserRewards } from "../../common/hooks/useFetchViewAllRewards";
 
 export const useMutateClaimAllRewards = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
-  const { address } = useAccount();
   const { showNotification } = useNotificationContext();
+
+  const rewardsAccruingAssets: Address[] = [STAKED_SEAM_ADDRESS];
+
+  /* ------------ */
+  /*   Query keys */
+  /* ------------ */
+  const { queryKey: allUsersRewardsQK } = useFetchViewAllUserRewards(rewardsAccruingAssets);
 
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [
-      fetchGetAllUserRewardsHookQK(address),
-      address && fetchGetAllUserRewardsQueryOptions(address, rewardsAccruingAssets).queryKey,
-    ],
+    queriesToInvalidate: [allUsersRewardsQK],
   });
 
   /* -------------------- */

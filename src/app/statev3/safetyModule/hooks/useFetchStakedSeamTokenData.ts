@@ -1,37 +1,36 @@
-import { StakedAsset, type StakedSeam } from "../types/StakedSeam";
+import { type UnderlyingAsset, type StakedSeam } from "../types/StakedSeam";
 import { Address } from "viem";
 import { fetchToken } from "@shared";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchStakedSeamTokenData = async (token: Address, asset: Address) => {
+export const fetchStakedSeamTokenData = async (stakedTokenAddress: Address, underlyingAssetAddress: Address) => {
   try {
-    const [underlyingAssetTokenData, underlyingTokenData] = await Promise.all([fetchToken(asset), fetchToken(token)]);
+    const [underlyingAssetData, stakedAssetData] = await Promise.all([
+      fetchToken(underlyingAssetAddress),
+      fetchToken(stakedTokenAddress),
+    ]);
 
-    const assetData: StakedAsset = {
-      ...underlyingAssetTokenData,
-      address: asset,
+    const underlyingAsset: UnderlyingAsset = {
+      ...underlyingAssetData,
+      address: underlyingAssetAddress,
     };
-    const tokenData: StakedSeam = {
-      ...underlyingTokenData,
-      address: token,
-      asset: assetData,
+    const stakedSeamData: StakedSeam = {
+      ...stakedAssetData,
+      address: stakedTokenAddress,
+      underlying: underlyingAsset,
     };
 
-    return tokenData;
+    return stakedSeamData;
   } catch (error) {
-    console.error("Error fetching staked seam token data:", error);
+    console.error("Error fetching staked SEAM token data:", error);
     throw error;
   }
 };
 
 export const useFetchStakedSeamTokenData = () => {
-  const token: Address = STAKED_SEAM_ADDRESS;
-  const asset: Address = SEAM_ADDRESS;
-
   return useQuery({
-    queryKey: ["useFetchStakedSeamTokenData", token, asset],
-    queryFn: () => fetchStakedSeamTokenData(token, asset),
-    enabled: Boolean(token) && Boolean(asset),
+    queryKey: ["useFetchStakedSeamTokenData", STAKED_SEAM_ADDRESS, SEAM_ADDRESS],
+    queryFn: () => fetchStakedSeamTokenData(STAKED_SEAM_ADDRESS, SEAM_ADDRESS),
   });
 };
