@@ -3,6 +3,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { StakedTokenAbi } from "../../../../../abis/StakedToken";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { Address } from "viem";
+import { queryConfig } from "../../settings/queryConfig";
 
 export const TotalAssetsQOptions = (address?: Address) => {
   return readContractQueryOptions(getConfig(), {
@@ -17,5 +18,6 @@ export const fetchTotalAssets = async (address?: Address) => {
 
   return queryClient.fetchQuery({
     ...TotalAssetsQOptions(address),
+    ...queryConfig.semiSensitiveDataQueryConfig,
   });
 };
