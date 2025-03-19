@@ -23,6 +23,7 @@ export interface AllRewards {
     tokenAmount: FetchBigInt | undefined;
     dollarAmount: FetchBigInt | undefined;
     logo: string;
+    address: Address;
   }[];
 }
 
@@ -75,16 +76,18 @@ async function fetchAllUserRewards(user: Address, config: Config): Promise<AllRe
     dollarAmount: FetchBigInt | undefined;
     logo: string;
     unclaimedBalanceUsd: bigint;
+    address: Address;
   }[];
 
   const totalRewardsUsd = rewardData.reduce((sum, reward) => sum + (reward.unclaimedBalanceUsd || 0n), 0n);
 
   return {
     totalRewardsUsd: fUsdValueStructured(totalRewardsUsd),
-    rewards: rewardData.map(({ tokenAmount, dollarAmount, logo }) => ({
+    rewards: rewardData.map(({ tokenAmount, dollarAmount, logo, address }) => ({
       tokenAmount,
       dollarAmount,
       logo,
+      address,
     })),
   };
 }
@@ -111,6 +114,7 @@ export const useFetchViewAllUserRewards = (): Displayable<ViewAllUserRewards> =>
         tokenAmount: formatFetchBigIntToViewBigInt(reward.tokenAmount),
         dollarAmount: formatFetchBigIntToViewBigInt(reward.dollarAmount),
         logo: reward.logo,
+        address: reward.address,
       })),
     },
   };

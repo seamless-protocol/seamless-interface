@@ -1,34 +1,33 @@
 import { TableRow, TableCell, Typography } from "@shared";
-import { STAKED_SEAM_ADDRESS } from "@meta";
 import { EmptyTableGuard, NoRewardsDefaultTableBody } from "../../../../../common/components/EmptyTableGuard";
 import { RewardRowDesktop } from "./RewardRow";
-import { useFetchStrategyIncentives } from "../../../../../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives.all";
-import { useFetchViewAllUserRewards } from "../../../../../../../statev3/common/hooks/useFetchViewAllRewards";
-import { rewardsAccruingAssets } from "../../../../../../../statev3/settings/config";
+import { useFetchAssetRewardsData } from "../../../../../../../statev3/safetyModule/hooks/FetchAssetRewardsData/FetchAssetRewardsData.hook";
 
 export const RewardsTableContainer = () => {
-  // const { data, ...rest } = useFetchStrategyIncentives(STAKED_SEAM_ADDRESS);
-  const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
+  const { data, ...rest } = useFetchAssetRewardsData();
 
   return (
     <div>
       <div className="bg-neutral-0 shadow-card rounded-2xl">
-        <TableRow className="grid grid-cols-11 py-2 max-h-9 bg-neutral-0 border-solid border-b border-b-navy-100 mt-0 justify-center rounded-t-2xl">
-          <TableCell className="col-span-5 justify-center" alignItems="items-start">
+        <TableRow className="grid grid-cols-12 py-2 max-h-9 bg-neutral-0 border-solid border-b border-b-navy-100 mt-0 justify-center rounded-t-2xl">
+          <TableCell className="col-span-2 justify-center" alignItems="items-start">
             <Typography type="bold1">Rewards</Typography>
           </TableCell>
-          <TableCell className="col-span-3">
-            <Typography type="bold1">Dollar Value</Typography>
+          <TableCell className="col-span-5">
+            <Typography type="bold1">Name</Typography>
           </TableCell>
           <TableCell className="col-span-3">
-            <Typography type="bold1">Token Amount</Typography>
+            <Typography type="bold1">Symbol</Typography>
+          </TableCell>
+          <TableCell className="col-span-2">
+            <Typography type="bold1">APY</Typography>
           </TableCell>
         </TableRow>
 
         <EmptyTableGuard
           numberOfStrategiesDisplayable={{
             ...rest,
-            data: data.rewardTokens?.length || 0,
+            data: data?.rewardTokens?.length || 0,
           }}
           noPositionsBody={<NoRewardsDefaultTableBody />}
         >

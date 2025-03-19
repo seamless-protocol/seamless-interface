@@ -1,9 +1,11 @@
 import { Address } from "viem";
 import { formatFetchNumberToViewNumber, formatUnitsToNumber, normalizeDecimals } from "./helpers";
-import { SECONDS_PER_YEAR, assetLogos } from "@meta";
+import { SECONDS_PER_YEAR } from "@meta";
 import { ViewNumber } from "../types/Displayable";
 
 export interface RewardTokenInformation {
+  rewardTokenLogo?: string;
+  rewardTokenName?: string;
   rewardTokenSymbol: string;
   rewardTokenAddress?: Address;
   rewardOracleAddress?: Address;
@@ -31,8 +33,9 @@ export interface Incentives {
 }
 
 export interface RewardToken {
+  name?: string;
   symbol: string;
-  logo: string;
+  logo?: string;
   apr: ViewNumber;
 }
 
@@ -41,7 +44,7 @@ export interface IncentiveApr {
   rewardTokens: RewardToken[];
 }
 
-function parseRewardsTokenInformation(
+export function parseRewardsTokenInformation(
   rewardsTokenInformation: (RewardTokenInformation | undefined)[],
   totalUsd: bigint
 ): IncentiveApr {
@@ -76,11 +79,12 @@ function parseRewardsTokenInformation(
 
     rewardTokens.push({
       symbol: rewardToken.rewardTokenSymbol,
-      logo: assetLogos.get(rewardToken.rewardTokenSymbol) || "",
+      logo: rewardToken.rewardTokenLogo,
       apr: formatFetchNumberToViewNumber({
         value: rewardTokenAprFormatted * 100,
         symbol: "%",
       }),
+      name: rewardToken.rewardTokenName,
     });
 
     totalApr += rewardTokenAprFormatted * 100;
