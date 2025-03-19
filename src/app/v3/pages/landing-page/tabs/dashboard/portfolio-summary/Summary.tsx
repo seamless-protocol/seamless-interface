@@ -33,7 +33,7 @@ export const PortfolioSummary = () => {
               <MorphoUnclaimedRewardsBox />
             </div>
             <div className="flex-grow">
-              <UnclaimedRewardsBox {...restRewards} data={rewardsData} />
+              <UnclaimedRewardsBox {...restRewards} data={rewardsData} className="border" />
             </div>
           </div>
         </div>

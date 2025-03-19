@@ -12,7 +12,7 @@ export const LandingPage = () => {
       <TabProvider<Tabs> defaultTab="ILMs">
         {/* todo: responsive */}
         <FlexCol className="gap-1 w-full md:max-w-page-content">
-          <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin overflow-x-auto whitespace-nowrap">
+          <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin overflow-x-auto md:overflow-x-hidden overflow-y-hidden whitespace-nowrap">
             <TabButton<Tabs> data-cy="tab-ilms" tab="ILMs">
               ILMs
             </TabButton>

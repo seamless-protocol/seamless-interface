@@ -4,19 +4,21 @@ import { ViewAllUserRewards } from "../../../../state/lending-borrowing/types/Vi
 
 export interface Props extends Displayable<ViewAllUserRewards> {
   noRewardsMessage?: string;
+  className?: string;
 }
 
 export const UnclaimedRewardsBox: React.FC<Props> = ({
   data,
   noRewardsMessage = "Deposit into ILM strategies to receive rewards",
+  className,
   ...rest
 }) => {
   const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
 
   return (
-    <FlexCol className="bg-neutral-0 shadow-card rounded-2xl h-full p-8 justify-between">
+    <FlexCol className={`bg-neutral-0 shadow-card rounded-2xl h-full p-8 justify-between ${className || ""}`}>
       <FlexCol>
-        <FlexRow className="gap-[88px]">
+        <FlexRow className="gap-[88px] justify-between">
           <FlexCol className="gap-2">
             <Typography type="regular5">Claimable rewards</Typography>
             <DisplayMoney {...data.totalRewards} {...rest} typography="bold6" />
