@@ -25,14 +25,8 @@ export const NoPositionsDefaultTableBody: React.FC = () => {
 export const NoRewardsDefaultTableBody: React.FC = () => {
   return (
     <FlexCol className="gap-2 justify-center items-center">
-      <Typography type="bold5">You have no rewards.</Typography>
-      <Typography type="medium3">
-        Go back to{" "}
-        <Link className="underline" to={RouterConfig.Routes.landingPage}>
-          ILM tab
-        </Link>{" "}
-        or to create a new position and earn rewards!
-      </Typography>
+      <Typography type="bold5">There are no rewards configured at the moment.</Typography>
+      <Typography type="medium3">Please come back later</Typography>
     </FlexCol>
   );
 };
