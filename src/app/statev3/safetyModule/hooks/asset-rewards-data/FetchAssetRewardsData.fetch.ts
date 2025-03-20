@@ -6,7 +6,7 @@ import { parseRewardsTokenInformation } from "../../../../../shared/utils/aaveIn
 import { fetchTotalAssets } from "../TotalAssets.fetch";
 import { fetchAssetPriceInBlock } from "../../../queries/AssetPrice.hook";
 import { cValueInUsd } from "../../../common/math/cValueInUsd";
-import { fetchGetRewardsList } from "../../../common/hooks/useFetchGetRewardsList.all";
+import { fetchGetRewardsList } from "../useFetchGetRewardsList.all";
 
 export const fetchStakingAssetRewardsData = async () => {
   const [rewardTokens, totalAssets, stakedSeamPrice, stakedSeamToken] = await Promise.all([
