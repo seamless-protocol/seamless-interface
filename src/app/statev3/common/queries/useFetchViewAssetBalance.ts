@@ -66,12 +66,12 @@ export async function fetchAssetBalance(asset: Address, account: Address): Promi
 export const fetchBalanceHookQK = (asset?: Address, account?: Address) => ["fetchAssetBalance", asset, account];
 
 export const useFetchAssetBalance = (asset?: Address): FetchData<FetchBigInt | undefined> => {
-  const account = useAccount();
+  const { address } = useAccount();
 
   const { data: balance, ...restBalance } = useQuery({
-    queryKey: fetchBalanceHookQK(asset, account?.address),
-    queryFn: () => fetchAssetBalance(asset!, account?.address!),
-    enabled: !!asset && !!account?.address,
+    queryKey: fetchBalanceHookQK(asset, address),
+    queryFn: () => fetchAssetBalance(asset!, address!),
+    enabled: Boolean(asset) && Boolean(address),
   });
 
   return {

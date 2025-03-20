@@ -30,11 +30,12 @@ export async function fetchStakerCooldown(asset: Address, account: Address): Pro
   };
 }
 
+export const fetchStakerCooldownQK = (asset?: Address, user?: Address) => ["fetchCooldown", asset, user];
 export const useFetchStakerCooldown = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   const account = useAccount();
 
   const { data: cooldown, ...restCooldown } = useQuery({
-    queryKey: ["fetchCooldown", asset, account?.address],
+    queryKey: fetchStakerCooldownQK(asset, account?.address),
     queryFn: () => fetchStakerCooldown(asset!, account?.address!),
     enabled: !!asset && !!account?.address,
   });

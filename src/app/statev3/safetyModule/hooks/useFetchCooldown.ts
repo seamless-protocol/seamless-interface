@@ -7,7 +7,6 @@ import { getConfig } from "../../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
 
 async function _fetchCooldown(address: Address) {
-  
   const queryClient = getQueryClient();
 
   const result: bigint = await queryClient.fetchQuery({
@@ -30,13 +29,13 @@ export async function fetchCooldown(asset: Address): Promise<FetchBigInt | undef
   };
 }
 
-export const useFetchCooldown = (asset?: Address): FetchData<FetchBigInt | undefined> => {
-  
+export const fetchCooldownQK = (asset?: Address) => ["fetchCooldown", asset];
 
+export const useFetchCooldown = (asset?: Address): FetchData<FetchBigInt | undefined> => {
   const { data: cooldown, ...restCooldown } = useQuery({
-    queryKey: ["fetchCooldown", asset],
+    queryKey: fetchCooldownQK(asset),
     queryFn: () => fetchCooldown(asset!),
-    enabled: !!asset 
+    enabled: !!asset,
   });
 
   return {
@@ -44,5 +43,3 @@ export const useFetchCooldown = (asset?: Address): FetchData<FetchBigInt | undef
     data: cooldown,
   };
 };
-
-
