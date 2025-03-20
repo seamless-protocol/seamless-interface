@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { fetchAllUserRewards } from "../../../common/hooks/useFetchViewAllRewards";
+import { fetchAllUserRewards } from "../../../common/hooks/useFetchViewAllUserRewards";
 import { rewardsAccruingAssets } from "../../../settings/config";
 import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { fetchToken } from "@shared";

@@ -1,7 +1,7 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { EmptyTableGuard, NoRewardsDefaultTableBody } from "../../../../../common/components/EmptyTableGuard";
 import { RewardRowDesktop } from "./RewardRow";
-import { useFetchAssetRewardsData } from "../../../../../../../statev3/safetyModule/hooks/FetchAssetRewardsData/FetchAssetRewardsData.hook";
+import { useFetchAssetRewardsData } from "../../../../../../../statev3/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
 
 export const RewardsTableContainer = () => {
   const { data, ...rest } = useFetchAssetRewardsData();
@@ -20,7 +20,7 @@ export const RewardsTableContainer = () => {
             <Typography type="bold1">Symbol</Typography>
           </TableCell>
           <TableCell className="col-span-2">
-            <Typography type="bold1">APY</Typography>
+            <Typography type="bold1">APR</Typography>
           </TableCell>
         </TableRow>
 

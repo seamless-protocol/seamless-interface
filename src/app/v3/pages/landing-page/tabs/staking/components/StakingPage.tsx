@@ -2,7 +2,7 @@ import { FlexCol, PageContainer } from "@shared";
 
 import { FormContainer } from "./FormContainer";
 import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
 import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
 import { RewardsTableContainer } from "./rewards-table/RewardsTableContainer";
 

@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
-import { rewardsControllerAbi, rewardsControllerAddress as landingRewardControllerAddress } from "../../../generated";
+import { rewardsControllerAbi, rewardsControllerAddress as legacyRewardControllerAddress } from "../../../generated";
 import { RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens.all";
@@ -19,7 +19,7 @@ interface FetchAssetRewardsData {
 export async function fetchAssetRewardsData({
   depositAsset,
   rewardTokens,
-  rewardsControllerAddress = landingRewardControllerAddress,
+  rewardsControllerAddress = legacyRewardControllerAddress,
 }: FetchAssetRewardsData): Promise<RewardTokenInformation[]> {
   const queryClient = getQueryClient();
   const config = getConfig();

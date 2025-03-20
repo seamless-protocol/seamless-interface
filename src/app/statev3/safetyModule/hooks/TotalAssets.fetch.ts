@@ -5,7 +5,7 @@ import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { Address } from "viem";
 import { queryConfig } from "../../settings/queryConfig";
 
-export const TotalAssetsQOptions = (address?: Address) => {
+export const totalAssetsQueryOptions = (address?: Address) => {
   return readContractQueryOptions(getConfig(), {
     abi: StakedTokenAbi,
     address,
@@ -17,7 +17,7 @@ export const fetchTotalAssets = async (address?: Address) => {
   const queryClient = getQueryClient();
 
   return queryClient.fetchQuery({
-    ...TotalAssetsQOptions(address),
+    ...totalAssetsQueryOptions(address),
     ...queryConfig.semiSensitiveDataQueryConfig,
   });
 };

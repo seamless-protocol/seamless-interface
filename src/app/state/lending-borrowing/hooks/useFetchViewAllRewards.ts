@@ -68,6 +68,7 @@ async function fetchAllUserRewards(user: Address, config: Config): Promise<AllRe
       dollarAmount: fUsdValueStructured(unclaimedBalanceUsd),
       logo: assetLogos.get(rewardTokenSymbol) || "",
       unclaimedBalanceUsd,
+      address: rewardToken,
     };
   });
 
