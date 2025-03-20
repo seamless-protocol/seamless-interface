@@ -1,6 +1,4 @@
 import { Address } from "viem";
-import { fetchAllUserRewards } from "../../../common/hooks/useFetchViewAllUserRewards";
-import { rewardsAccruingAssets } from "../../../settings/config";
 import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { fetchToken } from "@shared";
 import { fetchAssetRewardsData } from "../../../../state/lending-borrowing/hooks/useFetchAssetRewardsData.all";
@@ -8,19 +6,19 @@ import { parseRewardsTokenInformation } from "../../../../../shared/utils/aaveIn
 import { fetchTotalAssets } from "../TotalAssets.fetch";
 import { fetchAssetPriceInBlock } from "../../../queries/AssetPrice.hook";
 import { cValueInUsd } from "../../../common/math/cValueInUsd";
+import { fetchGetRewardsList } from "../../../common/hooks/useFetchGetRewardsList.all";
 
-export const fetchStakingAssetRewardsData = async (user: Address) => {
-  const [userRewards, totalAssets, stakedSeamPrice, stakedSeamToken] = await Promise.all([
-    fetchAllUserRewards(user, rewardsAccruingAssets),
+export const fetchStakingAssetRewardsData = async () => {
+  const [rewardTokens, totalAssets, stakedSeamPrice, stakedSeamToken] = await Promise.all([
+    fetchGetRewardsList(),
     fetchTotalAssets(STAKED_SEAM_ADDRESS),
     fetchAssetPriceInBlock(STAKED_SEAM_ADDRESS),
     fetchToken(STAKED_SEAM_ADDRESS),
   ]);
 
-  const rewardAddresses = userRewards?.rewards.map((x) => x.address);
   const rewardsData = await fetchAssetRewardsData({
     depositAsset: STAKED_SEAM_ADDRESS,
-    rewardTokens: rewardAddresses,
+    rewardTokens: rewardTokens as Address[],
     rewardsControllerAddress: safetyModuleRewardController,
   });
 
