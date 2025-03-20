@@ -1,19 +1,23 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { stakedTokenAbi } from "@generated";
 import { STAKED_SEAM_ADDRESS } from "@meta";
+import { fetchStakerCooldownQK } from "../hooks/useFetchStakerCooldown";
+import { useAccount } from "wagmi";
+import { fetchCooldownQK } from "../hooks/useFetchCooldown";
 
 export const useInitiateCooldown = () => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
   const { showNotification } = useNotificationContext();
+  const { address } = useAccount();
 
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
-    queriesToInvalidate: [undefined], // todo: add propery query invalidation, instead of invalidating all
+    queriesToInvalidate: [fetchStakerCooldownQK(STAKED_SEAM_ADDRESS, address), fetchCooldownQK(address)],
   });
 
   /* -------------------- */
