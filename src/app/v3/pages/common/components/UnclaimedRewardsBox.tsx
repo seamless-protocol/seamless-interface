@@ -1,16 +1,20 @@
-import { Displayable, DisplayMoney, FlexCol, FlexRow, ImageGroup, Typography } from "@shared";
+import { Displayable, DisplayMoney, FlexCol, FlexRow, ImageGroup, SeamlessWriteAsyncParams, Typography } from "@shared";
 import { ClaimModal } from "./ClaimModal";
 import { ViewAllUserRewards } from "../../../../state/lending-borrowing/types/ViewAllUserRewards";
 
-export interface Props extends Displayable<ViewAllUserRewards> {
+export interface UnclaimedRewardsBoxProps extends Displayable<ViewAllUserRewards> {
   noRewardsMessage?: string;
   className?: string;
+  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<void>;
+  isPending?: boolean;
 }
 
-export const UnclaimedRewardsBox: React.FC<Props> = ({
+export const UnclaimedRewardsBox: React.FC<UnclaimedRewardsBoxProps> = ({
   data,
   noRewardsMessage = "Deposit into ILM strategies to receive rewards",
   className,
+  claimAllAsync,
+  isPending,
   ...rest
 }) => {
   const disabled = Number(data.totalRewards.value || 0) < 0.01 || !rest.isFetched;
@@ -24,7 +28,7 @@ export const UnclaimedRewardsBox: React.FC<Props> = ({
             <DisplayMoney {...data.totalRewards} {...rest} typography="bold6" />
           </FlexCol>
 
-          <ClaimModal disabled={disabled} {...data} />
+          <ClaimModal disabled={disabled} {...data} claimAllAsync={claimAllAsync} isPending={isPending} />
         </FlexRow>
         {disabled ? (
           <Typography className="text-primary-600" type="medium1">
