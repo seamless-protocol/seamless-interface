@@ -1,14 +1,14 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { safetyModuleRewardController } from "@meta";
 import { rewardsControllerAbi } from "@generated";
-import {
-  fetchGetAllUserRewardsHookQK,
-  fetchGetAllUserRewardsQueryOptions,
-  useFetchViewAllUserRewards,
-} from "../../common/hooks/useFetchViewAllRewards";
 import { rewardsAccruingAssets } from "../../settings/config";
 import { useAccount } from "wagmi";
 import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
+import {
+  useFetchViewAllUserRewards,
+  fetchGetAllUserRewardsHookQK,
+  fetchGetAllUserRewardsQueryOptions,
+} from "../../common/hooks/useFetchViewAllUserRewards";
 
 export const useMutateClaimAllRewards = () => {
   /* ------------- */
