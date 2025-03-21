@@ -25,7 +25,7 @@ export const fetchStakingAssetRewardsData = async () => {
   const totalAssetsUSD = cValueInUsd(totalAssets, stakedSeamPrice.bigIntValue, stakedSeamToken.decimals);
   if (totalAssetsUSD == null) throw Error("Couldn't calculate totalAssetsUSD for staked SEAM");
 
-  const incentivesData = parseRewardsTokenInformation(rewardsData, totalAssetsUSD);
+  const incentivesData = parseRewardsTokenInformation(rewardsData, totalAssetsUSD, false);
 
   return incentivesData;
 };

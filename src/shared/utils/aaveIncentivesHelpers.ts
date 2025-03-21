@@ -46,7 +46,8 @@ export interface IncentiveApr {
 
 export function parseRewardsTokenInformation(
   rewardsTokenInformation: (RewardTokenInformation | undefined)[],
-  totalUsd: bigint
+  totalUsd: bigint,
+  hideExpiredIncentives = true
 ): IncentiveApr {
   let totalApr = 0;
   const rewardTokens: RewardToken[] = [];
@@ -65,7 +66,7 @@ export function parseRewardsTokenInformation(
     }
 
     // Ignore emissions programs that are now over
-    if (rewardToken.emissionEndTimestamp < now) {
+    if (rewardToken.emissionEndTimestamp < now && hideExpiredIncentives) {
       continue;
     }
 
