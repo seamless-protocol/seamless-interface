@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ViewBigInt } from "@shared";
+import { ViewBigInt } from "../../../../shared";
 
 export interface RewardTokenInfo {
   tokenAmount: ViewBigInt;
