@@ -2,8 +2,8 @@ import { DisplayMoney, FlexCol, Typography } from "@shared";
 import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { Profit } from "./Profit";
 import { MorphoUnclaimedRewardsBox } from "./morpho-vaults/rewards/MorphoUnclaimedRewardsBox";
-import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
 import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
+import { UnclaimedRewardsBoxWrapper } from "./UnclaimedRewardsBoxWrapper";
 
 export const PortfolioSummary = () => {
   const { data: rewardsData, ...restRewards } = useFetchViewAllUserRewards();
@@ -33,7 +33,7 @@ export const PortfolioSummary = () => {
               <MorphoUnclaimedRewardsBox />
             </div>
             <div className="flex-grow">
-              <UnclaimedRewardsBox {...restRewards} data={rewardsData} />
+              <UnclaimedRewardsBoxWrapper {...restRewards} data={rewardsData} className="border" />
             </div>
           </div>
         </div>
