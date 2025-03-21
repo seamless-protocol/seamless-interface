@@ -1,7 +1,7 @@
 import { FlexCol, PageContainer } from "@shared";
 
 import { FormContainer } from "./FormContainer";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
 import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
 import { UnclaimedRewardsBoxWrapper } from "./UnclaimedRewardsBoxWrapper";
 
