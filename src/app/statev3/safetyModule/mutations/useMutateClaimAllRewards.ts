@@ -4,6 +4,7 @@ import { rewardsControllerAbi } from "@generated";
 import {
   fetchGetAllUserRewardsHookQK,
   fetchGetAllUserRewardsQueryOptions,
+  useFetchViewAllUserRewards,
 } from "../../common/hooks/useFetchViewAllRewards";
 import { rewardsAccruingAssets } from "../../settings/config";
 import { useAccount } from "wagmi";
@@ -16,6 +17,11 @@ export const useMutateClaimAllRewards = () => {
   const { showNotification } = useNotificationContext();
   const { address } = useAccount();
 
+  /* ------------- */
+  /*   Query keys  */
+  /* ------------- */
+  const { data: allUsersRewards } = useFetchViewAllUserRewards(rewardsAccruingAssets);
+
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
@@ -23,7 +29,7 @@ export const useMutateClaimAllRewards = () => {
     queriesToInvalidate: [
       fetchGetAllUserRewardsHookQK(rewardsAccruingAssets, address),
       fetchGetAllUserRewardsQueryOptions(address!, rewardsAccruingAssets).queryKey,
-      rewardsAccruingAssets.map((asset) => fetchBalanceQueryOptions(address!, asset).queryKey),
+      allUsersRewards?.rewards?.map((reward) => fetchBalanceQueryOptions(address!, reward.address).queryKey),
     ],
   });
 
