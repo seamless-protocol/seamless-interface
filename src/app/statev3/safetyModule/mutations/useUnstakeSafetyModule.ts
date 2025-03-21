@@ -17,9 +17,9 @@ export const useUnstakeSafetyModule = () => {
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     hideDefaultErrorOnNotification: true,
     queriesToInvalidate: [
-      address && fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address).queryKey,
+      fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, address!).queryKey,
       fetchBalanceHookQK(STAKED_SEAM_ADDRESS, address),
-      address && fetchBalanceQueryOptions(SEAM_ADDRESS, address).queryKey,
+      fetchBalanceQueryOptions(SEAM_ADDRESS, address!).queryKey,
       fetchBalanceHookQK(SEAM_ADDRESS, address),
     ],
   });
