@@ -15,7 +15,7 @@ import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
-import { NewVaultsBanner } from "./components/banner/NewVaultsBanner";
+import { SurveyBanner } from "./components/banner/SurveyBanner";
 import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
@@ -30,7 +30,7 @@ export function App() {
           <QueryParamProvider adapter={ReactRouter6Adapter}>
             <NavigationBar />
             <div className="flex flex-col gap-4">
-              <NewVaultsBanner />
+              <SurveyBanner />
               <Audited />
             </div>
 
