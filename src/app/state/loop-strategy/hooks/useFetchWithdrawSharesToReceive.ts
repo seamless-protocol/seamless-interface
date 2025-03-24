@@ -32,7 +32,7 @@ const cAssetsToReceiveUsd = (
   return (assetsToReceiveValue * underlyingAssetPriceValue) / 10n ** BigInt(underlyingAssetDecimals);
 };
 
-interface PreviewWithdraw {
+export interface PreviewWithdraw {
   assetsToReceive?: FetchBigInt;
   assetsToReceiveInUsd?: FetchBigInt;
 }
