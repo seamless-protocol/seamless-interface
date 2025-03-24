@@ -3,7 +3,7 @@ import { createApproveTx, createDepositTx, createWithdrawTx } from "./bundlesHel
 import { depositEventAbi } from "../../../abis/DepositEvent";
 import { withdrawEventAbi } from "../../../abis/WithdrawEvent";
 import { FetchData, buildSuccessfulFetch } from "../types/Fetch";
-import { TENDERLY_RPC_URL } from "../../globals";
+import { IS_DEV_MODE, IS_TEST_MODE, TENDERLY_RPC_URL } from "../../globals";
 
 export interface PreviewDeposit {
   sharesToReceive: bigint;
@@ -48,7 +48,7 @@ export async function simulateDepositTenderly(
   if (parseEther(amount) === 0n) {
     console.error("simulateDepositTenderly: Invalid amount in");
     throw new Error("Invalid amount");
-  };
+  }
 
   const { result } = await simulateBundleTenderly([
     createApproveTx(account, underlyingAsset, strategy, amount, decimals),
@@ -154,7 +154,7 @@ export async function simulateDepositAlchemy(
   if (parseEther(amount) === 0n) {
     console.error("simulateDepositAlchemy: Invalid amount in");
     throw new Error("Invalid amount");
-  };
+  }
 
   const { result } = await simulateBundleAlchemy([
     createApproveTx(account, underlyingAsset, strategy, amount, decimals),
@@ -233,7 +233,8 @@ export async function simulateDeposit(
   amount: string,
   decimals: number
 ): Promise<PreviewDeposit> {
-  const isSimulatingWithTenderly = import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
+  const isSimulatingWithTenderly =
+    (IS_TEST_MODE && IS_DEV_MODE) || import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
 
   return isSimulatingWithTenderly
     ? simulateDepositTenderly(account, strategy, underlyingAsset, amount, decimals)
@@ -246,7 +247,8 @@ export async function simulateWithdraw(
   amount: string,
   decimals: number
 ): Promise<FetchData<PreviewWithdraw>> {
-  const isSimulatingWithTenderly = import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
+  const isSimulatingWithTenderly =
+    (IS_TEST_MODE && IS_DEV_MODE) || import.meta.env.VITE_USE_TENDERLY_SIMULATION === "true";
 
   return isSimulatingWithTenderly
     ? simulateWithdrawTenderly(account, strategy, amount, decimals)

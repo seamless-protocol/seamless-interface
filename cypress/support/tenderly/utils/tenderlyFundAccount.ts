@@ -19,9 +19,14 @@ export const tenderlyFundAccount = async (forkUrl: string, account = targetAccou
   });
 
   if (!response.ok) {
+    console.error(`Error funding account with native token: ${response.statusText}`);
     throw new Error(`Error funding account with native token: ${response.statusText}`);
   }
 
-  const data = await response.json();
-  return data;
+  const setData = await response.json();
+
+  // eslint-disable-next-line no-console
+  console.log(`Account ${account} funded with ${amount} wei`);
+
+  return setData;
 };

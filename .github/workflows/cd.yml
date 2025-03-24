@@ -39,7 +39,6 @@ jobs:
           echo VITE_SENTRY_AUTH_TOKEN=${{ vars.VITE_SENTRY_AUTH_TOKEN }} >> .env.production
           echo VITE_STYLE_VERSION=${{ vars.VITE_STYLE_VERSION }} >> .env.production
           echo VITE_USE_TENDERLY_SIMULATION=${{ vars.VITE_USE_TENDERLY_SIMULATION }} >> .env.production
-          echo VITE_TESTMODE=${{ vars.VITE_TESTMODE }} >> .env.production
           echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
