@@ -59,8 +59,6 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
         throw new Error(previewDepositData?.error || "Failed to preview deposit. (Simulation failed).");
       if (!address) throw new Error("Account address is not found. Please try again later.");
 
-      if (previewDepositData?.data.sharesToReceive == null)
-        throw new Error("Failed to preview deposit. (Simulation failed)");
       if (sharesToReceive == null) throw new Error("Failed to get shares to receive.");
       if (amount == null) throw new Error("Amount is not defined.");
 

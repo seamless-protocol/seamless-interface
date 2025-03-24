@@ -15,7 +15,6 @@ export const useStakeSafetyModule = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    hideDefaultErrorOnNotification: true,
     queriesToInvalidate: [
       fetchBalanceQueryOptions(SEAM_ADDRESS, address!).queryKey,
       fetchBalanceHookQK(SEAM_ADDRESS, address),
