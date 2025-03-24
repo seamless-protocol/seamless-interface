@@ -1,8 +1,8 @@
 import { TimeseriesOptions } from "@morpho-org/blue-api-sdk";
 import { Address } from "viem";
 import { base } from "viem/chains";
-import { QueryTypes, Scopes } from "@meta";
-import { getFullQueryKey, MorphoFunctions } from "./utils";
+import { getHashedQueryKey, QueryTypes, Scopes } from "@meta";
+import { MorphoFunctions } from "./utils";
 import { fetchAssetBalanceQOptions } from "../../queries/AssetBalance.hook";
 import { vaultConfig } from "../../settings/config";
 
@@ -99,8 +99,10 @@ export const MorphoQueryKeys = {
   /* ---------------- */
   userVaultPositionsHook: (userAddress: Address, chainId = base.id) => {
     const vaultQueryObjects = Object.entries(vaultConfig).map(([vaultAddress]) => {
-      const balanceKey = fetchAssetBalanceQOptions(userAddress, vaultAddress as Address).queryKey[1];
-      return getFullQueryKey([balanceKey]);
+      const balanceKey = fetchAssetBalanceQOptions(userAddress, vaultAddress as Address).queryKey;
+      return getHashedQueryKey({
+        queryKey: balanceKey,
+      });
     });
 
     return [
@@ -109,7 +111,7 @@ export const MorphoQueryKeys = {
         userAddress,
         chainId,
         functionName: MorphoFunctions.userVaultPositionsHook,
-        ...vaultQueryObjects,
+        ...Object.assign({}, ...vaultQueryObjects), // ...
       },
     ];
   },
@@ -119,7 +121,9 @@ export const MorphoQueryKeys = {
       userAddress,
       chainId,
       functionName: MorphoFunctions.extendedUserRewardsHook,
-      ...getFullQueryKey(MorphoQueryKeys.morphoUserDistributions(userAddress!, chainId)),
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.morphoUserDistributions(userAddress!, chainId),
+      }),
     },
   ],
   fullVaultInfoHook: (address?: string, chainId?: number) => [
@@ -128,7 +132,9 @@ export const MorphoQueryKeys = {
       functionName: MorphoFunctions.fullVaultInfoHook,
       address,
       chainId,
-      ...getFullQueryKey(MorphoQueryKeys.fullVaultInfo(address, chainId)),
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.fullVaultInfo(address, chainId),
+      }),
     },
   ],
   fullVaultInfoRawHook: (address?: string, chainId?: number) => [
@@ -137,7 +143,9 @@ export const MorphoQueryKeys = {
       functionName: MorphoFunctions.fullVaultInfoHook,
       address,
       chainId,
-      ...getFullQueryKey(MorphoQueryKeys.fullVaultInfoRaw(address, chainId)),
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.fullVaultInfoRaw(address, chainId),
+      }),
     },
   ],
   netApyHistoricalHook: (address?: string, chainId?: number, options?: TimeseriesOptions) => [
@@ -147,7 +155,9 @@ export const MorphoQueryKeys = {
       address,
       chainId,
       options,
-      ...getFullQueryKey(MorphoQueryKeys.netApyHistorical(address, chainId, options)),
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.netApyHistorical(address, chainId),
+      }),
     },
   ],
   totalAssetsHistoricalHook: (address?: string, chainId?: number, options?: TimeseriesOptions) => [
@@ -157,7 +167,9 @@ export const MorphoQueryKeys = {
       address,
       chainId,
       options,
-      ...getFullQueryKey(MorphoQueryKeys.totalAssetsHistorical(address, chainId, options)),
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.totalAssetsHistorical(address, chainId, options),
+      }),
     },
   ],
   totalAssetsForWhitelistedHook: () => [
@@ -171,8 +183,10 @@ export const MorphoQueryKeys = {
       ...MorphoQueryKeys.hookQueries[0],
       userAddress,
       chainId,
-      functionName: MorphoFunctions.rawMorphoUserRewardsHook,
-      ...getFullQueryKey(MorphoQueryKeys.rawMorphoUserRewards(userAddress!, chainId)),
+      functionName: MorphoFunctions.rawMorphoUserRewards,
+      ...getHashedQueryKey({
+        queryKey: MorphoQueryKeys.rawMorphoUserRewards(userAddress!, chainId),
+      }),
     },
   ],
 };

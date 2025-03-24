@@ -1,3 +1,6 @@
+import { QueryKey } from "@tanstack/react-query";
+import SHA256 from "crypto-js/sha256";
+
 export const Scopes = {
   morpho: "morpho",
 };
@@ -12,7 +15,12 @@ export enum QueryTypes {
 }
 
 export interface SeamlessQueryKey {
-  functionName: string;
-  queryType: QueryTypes;
-  scope: string;
+  [hash: string]: QueryKey;
+}
+
+export function getHashedQueryKey(data: { queryKey: QueryKey }): SeamlessQueryKey {
+  const { queryKey } = data;
+  const keyStr = JSON.stringify(queryKey);
+  const hash = SHA256(keyStr).toString();
+  return { [hash]: queryKey };
 }

@@ -3,6 +3,7 @@ import { useSendTransaction } from "wagmi";
 import { useState } from "react";
 import { QueryKey } from "@tanstack/query-core";
 import { useHandleTransactionMutation } from "./useHandleTransactionMutation";
+import { SeamlessQueryKey } from "../../../meta";
 
 export type SeamlessSendAsyncParams = {
   onSuccess?: (txHash: Hash) => void;
@@ -10,7 +11,7 @@ export type SeamlessSendAsyncParams = {
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
-  queriesToInvalidatev2?: (QueryKey | undefined)[];
+  queriesToInvalidatev2?: (SeamlessQueryKey | QueryKey | undefined)[];
 };
 
 /**

@@ -5,7 +5,7 @@ import { cValueInUsd } from "../../math/utils";
 import { fetchAssetBalance } from "../AssetBalance.hook";
 import { fetchAssetPriceInBlock } from "../AssetPrice.hook";
 
-const FORMATTED_ASSET_BALANCE_USD_VALUE_QUERY_KEY = ["FORMATTED_ASSET_BALANCE_USD_VALUE_QUERY_KEY"];
+const FORMATTED_ASSET_BALANCE_USD_VALUE_QUERY_KEY = "FORMATTED_ASSET_BALANCE_USD_VALUE_QUERY_KEY";
 export const getFormattedAssetBalanceUsdValueQueryKey = (userAddress?: Address, asset?: Address) => [
   FORMATTED_ASSET_BALANCE_USD_VALUE_QUERY_KEY,
   userAddress,

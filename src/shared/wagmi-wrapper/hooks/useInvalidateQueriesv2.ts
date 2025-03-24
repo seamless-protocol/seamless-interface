@@ -1,4 +1,5 @@
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
+import { getHashedQueryKey } from "@meta";
 
 /**
  * `useInvalidateQueries` Hook
@@ -22,19 +23,36 @@ import { QueryKey, useQueryClient } from "@tanstack/react-query";
  *
  * @returns An object containing the `invalidateMany` function, which can be used to invalidate multiple queries based on their identifiers.
  */
+
 export function useInvalidateQueriesv2() {
   const queryClient = useQueryClient();
 
-  const invalidateMany = async (seamlessQueriesToInvalidate: (QueryKey | undefined)[]) => {
-    const promises = seamlessQueriesToInvalidate.map((queryKey) =>
-      queryClient.invalidateQueries({ queryKey, type: "all" })
-    );
+  const invalidateMany = async (queries: (QueryKey | undefined)[]) => {
+    const promises: any[] = [];
+
+    // Invalidate child queries
+    Object.entries(queries).forEach(([_, queryKey]) => {
+      promises.push(queryClient.invalidateQueries({ queryKey }));
+    });
     await Promise.all(promises);
-    // reset query cache
-    const resetPromises = seamlessQueriesToInvalidate.map((queryKey) =>
-      queryClient.resetQueries({ queryKey, type: "all" })
-    );
-    await Promise.all(resetPromises);
+
+    const parentPromises: any[] = [];
+    // Invalidate parent queries
+    Object.entries(queries).forEach(([_, queryKey]) => {
+      const parentQueryKey = queryKey
+        ? getHashedQueryKey({
+            queryKey,
+          })
+        : undefined;
+
+      parentPromises.push(
+        queryClient.invalidateQueries({
+          queryKey: [parentQueryKey],
+        })
+      );
+    });
+
+    await Promise.all(parentPromises);
   };
 
   return { invalidateMany };

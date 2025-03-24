@@ -8,12 +8,12 @@ interface FetchAssetBalanceInput {
   asset: Address;
 }
 
-export const fetchAssetBalanceQOptions = (account: Address, asset: Address) => ({
+export const fetchAssetBalanceQOptions = (account?: Address, asset?: Address) => ({
   ...readContractQueryOptions(getConfig(), {
     address: asset,
     abi: erc20Abi,
     functionName: "balanceOf",
-    args: [account],
+    args: [account!],
   }),
 });
 
