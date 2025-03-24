@@ -1,7 +1,13 @@
-import { FlexCol, Typography, ViewBigInt, useNotificationContext, ModalHandles } from "@shared";
+import {
+  FlexCol,
+  Typography,
+  ViewBigInt,
+  useNotificationContext,
+  ModalHandles,
+  SeamlessWriteAsyncParams,
+} from "@shared";
 import React, { useRef } from "react";
-import { useMutateClaimAllRewards } from "../../../../../../../state/loop-strategy/mutations/useMutateClaimAllRewards";
-import { ClaimModalComponent } from "../../components/common/ClaimModalComponent";
+import { ClaimModalComponent } from "./ClaimModalComponent";
 
 interface Reward {
   tokenAmount: ViewBigInt;
@@ -13,11 +19,18 @@ interface ClaimModalProps {
   rewards: Reward[] | undefined;
   totalRewards: ViewBigInt | undefined;
   disabled?: boolean;
+  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<void>;
+  isPending?: boolean;
 }
 
-export const ClaimModal: React.FC<ClaimModalProps> = ({ totalRewards, rewards, disabled }) => {
+export const ClaimModal: React.FC<ClaimModalProps> = ({
+  totalRewards,
+  rewards,
+  disabled,
+  claimAllAsync,
+  isPending,
+}) => {
   const modalRef = useRef<ModalHandles | null>(null);
-  const { claimAllAsync, isPending } = useMutateClaimAllRewards();
 
   const { showNotification } = useNotificationContext();
 
