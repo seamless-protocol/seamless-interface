@@ -6,7 +6,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export const NotConnectedWalletGuard: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+  message?: string;
+}> = ({ children, message = "Connect your wallet to view your dashboard." }) => {
   const { isConnected } = useAccount();
 
   if (isConnected) {
@@ -18,7 +19,7 @@ export const NotConnectedWalletGuard: React.FC<{
       <Image src={notConnectedImage} alt="not-connected" width={160} height={160} />
       <FlexCol className="gap-2 justify-center items-center">
         <Typography type="bold5">No wallet connected</Typography>
-        <Typography type="medium3">Connect your wallet to view your dashboard.</Typography>
+        <Typography type="medium3">{message}</Typography>
       </FlexCol>
 
       <FlexCol>

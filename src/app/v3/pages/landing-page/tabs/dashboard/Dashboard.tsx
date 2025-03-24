@@ -1,7 +1,7 @@
 import { FlexCol } from "@shared";
 import { PortfolioSummary } from "./portfolio-summary/Summary";
 import { TableContainer } from "./table/TableContainer";
-import { NotConnectedWalletGuard } from "./components/common/NotConnectedWalletGuard";
+import { NotConnectedWalletGuard } from "../../../common/components/NotConnectedWalletGuard";
 
 export const Dashboard = () => {
   return (

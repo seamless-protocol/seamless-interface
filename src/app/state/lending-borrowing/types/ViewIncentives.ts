@@ -2,7 +2,7 @@ import { ViewNumber } from "../../../../shared";
 
 interface RewardToken {
   symbol: string;
-  logo: string;
+  logo?: string;
   apr: ViewNumber;
 }
 
