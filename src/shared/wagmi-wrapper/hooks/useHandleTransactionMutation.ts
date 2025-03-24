@@ -6,7 +6,6 @@ import { useConfig } from "wagmi";
 import { QueryKey } from "@tanstack/query-core";
 import { Address } from "viem";
 import { useInvalidateQueriesv2 } from "./useInvalidateQueriesv2";
-import { SeamlessQueryKey } from "../../../meta";
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
@@ -15,7 +14,7 @@ export type SeamlessWriteAsyncParams = {
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
-  queriesToInvalidatev2?: (SeamlessQueryKey | QueryKey | undefined)[];
+  queriesToInvalidatev2?: (QueryKey | undefined)[];
 };
 
 /**

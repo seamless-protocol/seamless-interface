@@ -7,7 +7,7 @@ import { baseBundlerAbi } from "../../../../../abis/urdBundler";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { MorphoQueryKeys } from "../query-keys";
 import { useMorphoExtendedUserRewards } from "../user-rewards/MorphoUserRewards.hook";
-import { fetchAssetBalanceQOptions } from "../../queries/AssetBalance.hook";
+import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateClaimAllMorphoRewards = () => {
   const { address } = useAccount();
@@ -22,7 +22,7 @@ export const useMutateClaimAllMorphoRewards = () => {
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
     queriesToInvalidatev2: [
       MorphoQueryKeys.rawMorphoUserRewards(address!, ChainId.BaseMainnet),
-      userRewards?.rewards?.map((reward) => fetchAssetBalanceQOptions(address, reward.token?.address)) || [],
+      userRewards?.rewards?.map((reward) => fetchBalanceQueryOptions(address!, reward.token.address)) || [],
     ],
     hideDefaultErrorOnNotification: true,
   });
