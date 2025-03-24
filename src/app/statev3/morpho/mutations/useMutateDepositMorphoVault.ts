@@ -57,7 +57,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       getFormattedAssetBalanceUsdValueQueryKey(address, underlyingAsset),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, underlyingAsset),
       getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
-      fetchAssetBalanceQOptions(address, vaultAddress as Address).queryKey, // <- magic happens here
+      fetchAssetBalanceQOptions(address, vaultAddress as Address).queryKey,
     ],
     hideDefaultErrorOnNotification: true,
   });

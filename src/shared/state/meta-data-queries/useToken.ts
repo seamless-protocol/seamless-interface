@@ -15,6 +15,7 @@ export interface Token {
   decimals: number;
   name: string;
   logo?: string;
+  address?: Address;
 }
 
 export const EthTokenData: Token = {
@@ -139,6 +140,7 @@ export async function fetchToken(token: Address): Promise<Token> {
     decimals,
     name,
     logo,
+    address: token,
   };
 }
 

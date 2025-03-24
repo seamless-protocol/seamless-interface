@@ -5,6 +5,9 @@ import { BundlerAction } from "@morpho-org/bundler-sdk-viem/lib/BundlerAction";
 import { Address, encodeFunctionData } from "viem";
 import { baseBundlerAbi } from "../../../../../abis/urdBundler";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
+import { MorphoQueryKeys } from "../query-keys";
+import { useMorphoExtendedUserRewards } from "../user-rewards/MorphoUserRewards.hook";
+import { fetchAssetBalanceQOptions } from "../../queries/AssetBalance.hook";
 
 export const useMutateClaimAllMorphoRewards = () => {
   const { address } = useAccount();
@@ -12,9 +15,15 @@ export const useMutateClaimAllMorphoRewards = () => {
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
   const { showNotification } = useNotificationContext();
 
+  // query keys
+  const { data: userRewards } = useMorphoExtendedUserRewards(address);
+
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
-    // queriesToInvalidate: [getFetchRawMorphoUserRewardsQueryKey(address)], todo
+    queriesToInvalidatev2: [
+      MorphoQueryKeys.rawMorphoUserRewards(address!, ChainId.BaseMainnet),
+      userRewards?.rewards?.map((reward) => fetchAssetBalanceQOptions(address, reward.token?.address)) || [],
+    ],
     hideDefaultErrorOnNotification: true,
   });
 
