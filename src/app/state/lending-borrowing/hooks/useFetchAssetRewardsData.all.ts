@@ -1,22 +1,25 @@
-import { Address, erc20Abi } from "viem";
+import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
-import { rewardsControllerAbi, rewardsControllerAddress } from "../../../generated";
+import { rewardsControllerAbi, rewardsControllerAddress as legacyRewardControllerAddress } from "../../../generated";
 import { RewardTokenInformation } from "../../../../shared/utils/aaveIncentivesHelpers";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens.all";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
 import { getConfig } from "../../../utils/queryContractUtils";
 import { queryConfig } from "../../../statev3/settings/queryConfig";
+import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
+import { fetchToken } from "../../../../shared";
 
 interface FetchAssetRewardsData {
   depositAsset: Address;
   rewardTokens: Address[];
+  rewardsControllerAddress?: Address;
 }
 
 export async function fetchAssetRewardsData({
   depositAsset,
   rewardTokens,
+  rewardsControllerAddress = legacyRewardControllerAddress,
 }: FetchAssetRewardsData): Promise<RewardTokenInformation[]> {
   const queryClient = getQueryClient();
   const config = getConfig();
@@ -38,30 +41,20 @@ export async function fetchAssetRewardsData({
         return null;
       }
 
-      const rewardTokenSymbol = await queryClient.fetchQuery({
-        ...readContractQueryOptions(config, {
-          address: rewardToken,
-          abi: erc20Abi,
-          functionName: "symbol",
-        }),
-        staleTime: Infinity,
-      });
+      const {
+        symbol: rewardTokenSymbol,
+        decimals: rewardTokenDecimals,
+        name: rewardTokenName,
+        logo: rewardTokenLogo,
+      } = await fetchToken(rewardToken);
 
-      const rewardTokenDecimals = await queryClient.fetchQuery({
-        ...readContractQueryOptions(config, {
-          address: rewardToken,
-          abi: erc20Abi,
-          functionName: "decimals",
-        }),
-        staleTime: Infinity,
-      });
-
-      const rewardTokenPrice = await fetchAssetPriceInBlock(config, rewardToken);
-
+      const rewardTokenPrice = await fetchAssetPriceInBlock(rewardToken);
       return {
+        rewardTokenName,
         rewardTokenSymbol,
         rewardTokenDecimals,
-        rewardPriceFeed: rewardTokenPrice!,
+        rewardTokenLogo,
+        rewardPriceFeed: rewardTokenPrice.bigIntValue,
         priceFeedDecimals: 8,
         emissionPerSecond,
         emissionEndTimestamp,
