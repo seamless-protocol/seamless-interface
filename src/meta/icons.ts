@@ -52,5 +52,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlessUSDCMorphoVault, usdcIcon],
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
-  [STAKED_SEAM_ADDRESS, stakedSEAMIcon], // TODO: stakedSeamIcon
+  [STAKED_SEAM_ADDRESS, stakedSEAMIcon],
 ]);
