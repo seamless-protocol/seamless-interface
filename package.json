@@ -14,7 +14,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --no-cache",
     "prebuild": "cross-env NODE_ENV=production npm run switch-tailwind-config && npm run lint && npm run compile",
-    "build": "vite build",
+    "build": "cross-env NODE_OPTIONS=--max_old_space_size=8096 vite build",
     "build:prod": "npx cypress run && npm run build",
     "anvil": "node run-anvil.mjs",
     "cypress-open": "concurrently \"npm run anvil\" \"npx cypress open\" --kill-others",
