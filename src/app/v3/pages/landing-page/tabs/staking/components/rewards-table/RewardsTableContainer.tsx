@@ -38,6 +38,7 @@ export const RewardsTableContainer = () => {
                   data: reward,
                   ...rest,
                 }}
+                hideBorder={index === data.rewardTokens.length - 1}
               />
             </div>
           ))}

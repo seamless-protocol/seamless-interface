@@ -50,7 +50,7 @@ export const FormContainer: React.FC = () => {
   const unstakeWindowValue = unstakeWindow?.bigIntValue ?? 0n;
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateCooldown = () => {
       const now: number = IS_DEV_MODE ? Number(block?.timestamp || 0) : Math.floor(Date.now() / 1000);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
       const canUnstakeAtNum = Number(canUnstakeAt);
@@ -59,7 +59,6 @@ export const FormContainer: React.FC = () => {
       if (now > unstakeEndsAtNum || userCooldownValue === 0n) {
         setHasCooldown(false);
         setRemaining(0);
-        clearInterval(interval);
       } else {
         if (now < canUnstakeAtNum) {
           const timeLeft = canUnstakeAtNum - now;
@@ -72,9 +71,12 @@ export const FormContainer: React.FC = () => {
         }
         setHasCooldown(true);
       }
-    }, 1000);
+    };
+    updateCooldown();
+
+    const interval = setInterval(updateCooldown, 1000);
     return () => clearInterval(interval);
-  }, [userCooldownValue, cooldownValue, unstakeWindowValue]);
+  }, [userCooldownValue, cooldownValue, unstakeWindowValue, block]);
 
   if (isLoading) {
     return <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl" />;
