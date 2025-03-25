@@ -1,0 +1,16 @@
+export const MorphoFunctions = {
+  netApyHistorical: "netApyHistorical",
+  fullVaultInfo: "fullVaultInfo",
+  fullVaultInfos: "fullVaultInfos",
+  fullVaultInfoRaw: "fullVaultInfoRaw",
+  totalAssetsHistorical: "totalAssetsHistorical",
+  netApyHistoricalHook: "netApyHistoricalHook",
+  userVaultPositionsHook: "userVaultPositionsHook",
+  totalAssetsHistoricalHook: "totalAssetsHistoricalHook",
+  fullVaultInfoHook: "fullVaultInfoHook",
+  totalAssetsForWhitelistedHook: "totalAssetsForWhitelistedHook",
+  morphoUserDistributions: "morphoUserDistributions",
+  rawMorphoUserRewards: "rawMorphoUserRewards",
+  extendedUserRewardsHook: "extendedUserRewardsHook",
+  rawMorphoUserRewardsHook: "rawMorphoUserRewardsHook",
+};

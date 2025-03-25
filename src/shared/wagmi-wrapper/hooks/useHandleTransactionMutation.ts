@@ -5,6 +5,7 @@ import { useInvalidateQueries } from "./useInvalidateQueries";
 import { useConfig } from "wagmi";
 import { QueryKey } from "@tanstack/query-core";
 import { Address } from "viem";
+import { useInvalidateQueriesv2 } from "./useInvalidateQueriesv2";
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
@@ -13,6 +14,7 @@ export type SeamlessWriteAsyncParams = {
   onSettled?: () => void;
   hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
+  queriesToInvalidatev2?: (QueryKey | undefined)[];
 };
 
 /**
@@ -30,6 +32,7 @@ export function useHandleTransactionMutation({
   settings?: SeamlessWriteAsyncParams;
 }) {
   const { invalidateMany } = useInvalidateQueries();
+  const { invalidateMany: invalidateManyv2 } = useInvalidateQueriesv2();
   const { showNotification } = useNotificationContext();
   const wagmiConfig = useConfig();
 
@@ -47,6 +50,7 @@ export function useHandleTransactionMutation({
 
       // 3. invalidate queries
       if (settings?.queriesToInvalidate) await invalidateMany(settings?.queriesToInvalidate);
+      if (settings?.queriesToInvalidatev2) await invalidateManyv2(settings?.queriesToInvalidatev2);
 
       // 4. call onSuccess callback
       settings?.onSuccess?.(txHash!);

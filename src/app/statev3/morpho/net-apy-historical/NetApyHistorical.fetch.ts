@@ -4,40 +4,47 @@ import {
   NetApyHistoricalQueryVariables,
   TimeseriesOptions,
 } from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
 import { fetchToken } from "@shared";
 import { Address } from "viem";
+import { getApolloClient } from "../../../config/apollo-client";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { queryConfig } from "../../settings/queryConfig";
+import { MorphoQueryKeys } from "../query-keys";
+import { checkMorphoApiResponse } from "../utils";
 import { ExtendedNetAPYHistoricalQuery } from "../types/ExtendedNetAPYHistoricalQuery";
+
+export const fetchNetApyHistoricalQueryOptions = (address: string, chainId: number, options?: TimeseriesOptions) => ({
+  queryKey: MorphoQueryKeys.netApyHistorical(address, chainId, options),
+  queryFn: async () => {
+    const apolloClient = getApolloClient();
+
+    const result = await apolloClient.query<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>({
+      query: NetApyHistoricalDocument,
+      variables: { address, chainId, options },
+      fetchPolicy: "no-cache",
+    });
+
+    checkMorphoApiResponse(result);
+    return result;
+  },
+});
 
 export async function fetchNetApyHistorical(
   address: string,
   chainId: number,
   options?: TimeseriesOptions
 ): Promise<ExtendedNetAPYHistoricalQuery> {
-  const client = getApolloClient();
+  const queryClient = getQueryClient();
 
   const [result, vaultTokenData] = await Promise.all([
-    client.query<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>({
-      query: NetApyHistoricalDocument,
-      variables: { address, chainId, options },
-      fetchPolicy: "cache-first",
+    queryClient.fetchQuery({
+      ...fetchNetApyHistoricalQueryOptions(address, chainId, options),
+      ...queryConfig.morphoHistoricalDataQueryConfig,
     }),
     fetchToken(address as Address),
   ]);
 
-  if (result.errors) {
-    throw new Error(
-      `GraphQL Query Failed: NetApyHistoricalQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId, options })}\n` +
-        `Errors: ${result.errors.map((e) => e.message).join("; ")}`
-    );
-  } else if (result.error) {
-    throw new Error(
-      `GraphQL Query Failed: NetApyHistoricalQuery\n` +
-        `Variables: ${JSON.stringify({ address, chainId, options })}\n` +
-        `Error: ${result.error.message}`
-    );
-  }
+  checkMorphoApiResponse(result);
 
   return {
     ...result.data,
