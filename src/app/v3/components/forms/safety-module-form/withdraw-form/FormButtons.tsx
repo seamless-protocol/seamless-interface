@@ -16,7 +16,7 @@ export const FormButtons: React.FC<{
   if (!Number(amount)) {
     return (
       <Buttonv2 className="text-bold3" disabled>
-        {!isUnstakeWindow ? "Wait For Cooldown" : "Enter amount"}
+        {!isUnstakeWindow ? "Waiting for Cooldown" : "Enter amount"}
       </Buttonv2>
     );
   }
@@ -31,7 +31,7 @@ export const FormButtons: React.FC<{
           disabled={isDisabled || isSubmitting}
           loading={isLoading}
         >
-          Withdraw
+          Unstake
         </Buttonv2>
       </AuthGuardv2>
     </FlexCol>

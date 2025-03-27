@@ -1,10 +1,11 @@
 import React from "react";
-import { UnclaimedRewardsBox, UnclaimedRewardsBoxProps } from "../../../../common/components/UnclaimedRewardsBox";
 import { useMutateClaimAllRewards } from "../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
+import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
+import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
+import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
 
-interface Props extends Omit<UnclaimedRewardsBoxProps, "claimAllAsync" | "isPending"> {}
-
-export const UnclaimedRewardsBoxWrapper: React.FC<Props> = (props) => {
+export const UnclaimedRewardsBoxWrapper: React.FC = () => {
+  const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
   const { claimAllAsync, isPending } = useMutateClaimAllRewards();
-  return <UnclaimedRewardsBox {...props} claimAllAsync={claimAllAsync} isPending={isPending} />;
+  return <UnclaimedRewardsBox data={data} {...rest} claimAllAsync={claimAllAsync} isPending={isPending} />;
 };

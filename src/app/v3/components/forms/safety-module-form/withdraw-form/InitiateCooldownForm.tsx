@@ -85,8 +85,7 @@ const InitiateCooldownFormLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
-            <Typography type="medium3">Initiate Cooldown</Typography>
-            <Typography type="medium1">You must wait 7 days to unstake your SEAM</Typography>
+            <Typography type="medium1">Initiate the 7 day cooldown to unstake your SEAM</Typography>
           </FlexCol>
         </FlexCol>
 

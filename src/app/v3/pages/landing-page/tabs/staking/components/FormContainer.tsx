@@ -42,6 +42,7 @@ export const FormContainer: React.FC = () => {
   const [isDepositing, setIsDepositing] = useState(true);
   const [hasCooldown, setHasCooldown] = useState(false);
   const [remaining, setRemaining] = useState(0);
+  const [deadline, setDeadline] = useState<number | null>(null);
   const [isUnstakeWindow, setIsUnstakeWindow] = useState(false);
   const { block, cooldown, unstakeWindow, userCooldown, error, isLoading } = useFetchFormContainerData();
 
@@ -51,7 +52,7 @@ export const FormContainer: React.FC = () => {
 
   useEffect(() => {
     const updateCooldown = () => {
-      const now: number = IS_DEV_MODE ? Number(block?.timestamp || 0) : Math.floor(Date.now() / 1000);
+      const now: number = IS_DEV_MODE ? Number(block?.timestamp) : Math.floor(Date.now() / 1000);
       const { canUnstakeAt, unstakeEndsAt } = getDeadlines(userCooldownValue, cooldownValue, unstakeWindowValue);
       const canUnstakeAtNum = Number(canUnstakeAt);
       const unstakeEndsAtNum = Number(unstakeEndsAt);
@@ -59,15 +60,18 @@ export const FormContainer: React.FC = () => {
       if (now > unstakeEndsAtNum || userCooldownValue === 0n) {
         setHasCooldown(false);
         setRemaining(0);
+        setDeadline(null);
       } else {
         if (now < canUnstakeAtNum) {
           const timeLeft = canUnstakeAtNum - now;
           setRemaining(timeLeft);
           setIsUnstakeWindow(false);
+          setDeadline(canUnstakeAtNum);
         } else {
           const timeLeft = unstakeEndsAtNum - now;
           setRemaining(timeLeft);
           setIsUnstakeWindow(true);
+          setDeadline(unstakeEndsAtNum);
         }
         setHasCooldown(true);
       }
@@ -83,8 +87,7 @@ export const FormContainer: React.FC = () => {
   }
 
   if (error) {
-    if (error) console.error("useFetchFormContainerData: error while fetchin data", error);
-
+    console.error("useFetchFormContainerData: error while fetching data", error);
     return (
       <div className="min-h-[300px] bg-neutral-0 shadow-card rounded-2xl">
         <Typography type="medium3" className="text-red-600">
@@ -97,23 +100,11 @@ export const FormContainer: React.FC = () => {
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
       <FlexRow className="items-center gap-1">
-        <LocalButtonSwitcher
-          data-cy="deposit-button"
-          onClick={() => {
-            setIsDepositing(true);
-          }}
-          isActive={isDepositing}
-        >
+        <LocalButtonSwitcher data-cy="deposit-button" onClick={() => setIsDepositing(true)} isActive={isDepositing}>
           Stake
         </LocalButtonSwitcher>
 
-        <LocalButtonSwitcher
-          data-cy="withdraw-button"
-          onClick={() => {
-            setIsDepositing(false);
-          }}
-          isActive={!isDepositing}
-        >
+        <LocalButtonSwitcher data-cy="withdraw-button" onClick={() => setIsDepositing(false)} isActive={!isDepositing}>
           Unstake
         </LocalButtonSwitcher>
       </FlexRow>
@@ -127,7 +118,7 @@ export const FormContainer: React.FC = () => {
             {!hasCooldown ? (
               <InitiateCooldownForm />
             ) : (
-              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} />
+              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} deadline={deadline} />
             )}
           </FormSettingsProvider>
         )}
