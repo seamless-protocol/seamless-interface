@@ -15,13 +15,17 @@ export const useFetchTotalAssets = (address?: Address) => {
   });
 };
 
-export const HookFetchTotalAssetsUSDValueQK = (addresss?: Address) => ["hookFetchTotalAssetsUSDValue", addresss];
+export const HookFetchTotalAssetsUSDValueQK = (assetAddress?: Address, underlyingAssetAddress?: Address) => [
+  "hookFetchTotalAssetsUSDValue",
+  assetAddress,
+  underlyingAssetAddress,
+];
 
-export const useFormattedTotalAssetsUSDValue = (address?: Address) => {
+export const useFormattedTotalAssetsUSDValue = (assetAddress?: Address, underlyingAssetAddress?: Address) => {
   return useQuery({
-    queryKey: HookFetchTotalAssetsUSDValueQK(address),
-    queryFn: () => fetchFormattedTotalAssetsUSDValue(address!),
+    queryKey: HookFetchTotalAssetsUSDValueQK(assetAddress, underlyingAssetAddress),
+    queryFn: () => fetchFormattedTotalAssetsUSDValue(assetAddress!, underlyingAssetAddress!),
     ...queryConfig.disableCacheQueryConfig,
-    enabled: !!address,
+    enabled: Boolean(assetAddress) && Boolean(underlyingAssetAddress),
   });
 };

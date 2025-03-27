@@ -1,6 +1,6 @@
 import { DisplayMoney, DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
 import border from "@assets/common/border.svg";
-import { STAKED_SEAM_ADDRESS } from "@meta";
+import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { useFetchViewAssetsRewardsData } from "../../../../../../statev3/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
 import { useFormattedTotalAssetsUSDValue } from "../../../../../../statev3/safetyModule/hooks/total-assets/TotalAssets.hook";
 
@@ -11,7 +11,7 @@ const skeletonLoaderSettings = {
 
 export const StakingStats: React.FC = () => {
   const { data: userRewards, ...restUserRwards } = useFetchViewAssetsRewardsData();
-  const { data: totalSupply, ...restTotalSupply } = useFormattedTotalAssetsUSDValue(STAKED_SEAM_ADDRESS);
+  const { data: totalSupply, ...restTotalSupply } = useFormattedTotalAssetsUSDValue(STAKED_SEAM_ADDRESS, SEAM_ADDRESS);
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">

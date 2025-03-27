@@ -1,21 +1,21 @@
 import { Address } from "viem";
-import { fetchTotalAssets } from "./TotalAssets.fetch";
 import { fetchToken, formatFetchBigIntToViewBigInt, fUsdValueStructured } from "@shared";
+import { cValueInUsd } from "../../../math/utils";
 import { fetchAssetPriceInBlock } from "../../../queries/AssetPrice.hook";
-import { cValueInUsd } from "../../../common/math/cValueInUsd";
+import { fetchTotalAssets } from "./TotalAssets.fetch";
 
-export const fetchFormattedTotalAssetsUSDValue = async (address: Address) => {
-  const [totalAssets, tokenData, price] = await Promise.all([
-    fetchTotalAssets(address),
-    fetchToken(address),
-    fetchAssetPriceInBlock(address),
+export const fetchFormattedTotalAssetsUSDValue = async (assetAddress: Address, underlyingAssetAddress: Address) => {
+  const [totalAssets, underlyingTokenData, underlyingPrice] = await Promise.all([
+    fetchTotalAssets(assetAddress),
+    fetchToken(underlyingAssetAddress),
+    fetchAssetPriceInBlock(underlyingAssetAddress),
   ]);
 
-  const totalAssetsUSD = cValueInUsd(totalAssets, price.bigIntValue, tokenData.decimals);
+  const totalAssetsUSD = cValueInUsd(totalAssets, underlyingPrice.bigIntValue, underlyingTokenData.decimals);
 
   return {
     totalAssets: formatFetchBigIntToViewBigInt({
-      ...tokenData,
+      ...underlyingTokenData,
       bigIntValue: totalAssets,
     }),
     totalAssetsUSD: formatFetchBigIntToViewBigInt({
