@@ -1,8 +1,8 @@
-import { DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
+import { DisplayMoney, DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
 import border from "@assets/common/border.svg";
 import { STAKED_SEAM_ADDRESS } from "@meta";
-import { useFetchViewAssetTotalSupply } from "../../../../../../statev3/common/queries/useFetchViewAssetTotalSupply";
 import { useFetchViewAssetsRewardsData } from "../../../../../../statev3/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
+import { useFormattedTotalAssetsUSDValue } from "../../../../../../statev3/safetyModule/hooks/total-assets/TotalAssets.hook";
 
 const skeletonLoaderSettings = {
   width: "120px",
@@ -11,22 +11,29 @@ const skeletonLoaderSettings = {
 
 export const StakingStats: React.FC = () => {
   const { data: userRewards, ...restUserRwards } = useFetchViewAssetsRewardsData();
-  const { data: totalSupply, ...restTotalSupply } = useFetchViewAssetTotalSupply(STAKED_SEAM_ADDRESS);
+  const { data: totalSupply, ...restTotalSupply } = useFormattedTotalAssetsUSDValue(STAKED_SEAM_ADDRESS);
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
       <FlexRow className="md:w-1/3 justify-between">
         <FlexCol className="justify-between ">
           <Typography type="medium2" className="text-primary-600">
-            Total Supply
+            Total Staked
           </Typography>
-          <FlexCol>
+          <FlexCol className="min-h-14">
             <DisplayTokenAmount
-              {...totalSupply}
+              {...totalSupply?.totalAssets}
               {...restTotalSupply}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
+            />
+
+            <DisplayMoney
+              {...totalSupply?.totalAssetsUSD}
+              {...restTotalSupply}
+              typography="bold2"
+              className="text-primary-1000"
             />
           </FlexCol>
         </FlexCol>
@@ -37,7 +44,7 @@ export const StakingStats: React.FC = () => {
           <Typography type="medium2" className="text-primary-600">
             Total APR
           </Typography>
-          <FlexCol>
+          <FlexCol className="min-h-14">
             <DisplayPercentage
               {...userRewards?.totalApr}
               {...restUserRwards}
@@ -54,7 +61,7 @@ export const StakingStats: React.FC = () => {
           <Typography type="medium2" className="text-primary-600">
             Unstaking cooldown
           </Typography>
-          <FlexCol>
+          <FlexCol className="min-h-14">
             <DisplayTokenAmount
               viewValue="7 days"
               typography="bold5"

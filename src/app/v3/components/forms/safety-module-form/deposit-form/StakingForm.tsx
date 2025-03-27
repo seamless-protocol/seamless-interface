@@ -85,7 +85,9 @@ const StakeDepositFormLocal: React.FC<{
   return (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
-        <Typography type="medium1">You must wait 7 days to unstake your SEAM</Typography>
+        <Typography type="medium1">
+          Please note that SEAM can only be unstaked after you initiate and wait a 7 day cooldown.
+        </Typography>
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
             <Typography type="medium3">Stake</Typography>
