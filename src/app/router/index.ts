@@ -19,6 +19,7 @@ export const ilmMediumUrl =
   "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/WAJ8RIoL";
+export const legacyPlatformDeprecationNoticeUrl = "TODO";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
 export const disourseUrl =
   "https://seamlessprotocol.discourse.group/t/gp-what-drives-seamless-core-beliefs-vision-future/584";
