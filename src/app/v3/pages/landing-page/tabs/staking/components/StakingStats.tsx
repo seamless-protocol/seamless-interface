@@ -10,8 +10,11 @@ const skeletonLoaderSettings = {
 };
 
 export const StakingStats: React.FC = () => {
-  const { data: userRewards, ...restUserRwards } = useFetchViewAssetsRewardsData();
-  const { data: totalSupply, ...restTotalSupply } = useFormattedTotalAssetsUSDValue(STAKED_SEAM_ADDRESS, SEAM_ADDRESS);
+  const { data: userRewards, ...restUserRewards } = useFetchViewAssetsRewardsData();
+  const { data: totalAssetsData, ...restTotalAssets } = useFormattedTotalAssetsUSDValue(
+    STAKED_SEAM_ADDRESS,
+    SEAM_ADDRESS
+  );
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
@@ -22,16 +25,16 @@ export const StakingStats: React.FC = () => {
           </Typography>
           <FlexCol className="min-h-14">
             <DisplayTokenAmount
-              {...totalSupply?.totalAssets}
-              {...restTotalSupply}
+              {...totalAssetsData?.totalAssets}
+              {...restTotalAssets}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
             />
 
             <DisplayMoney
-              {...totalSupply?.totalAssetsUSD}
-              {...restTotalSupply}
+              {...totalAssetsData?.totalAssetsUSD}
+              {...restTotalAssets}
               typography="bold2"
               className="text-primary-1000"
             />
@@ -47,7 +50,7 @@ export const StakingStats: React.FC = () => {
           <FlexCol className="min-h-14">
             <DisplayPercentage
               {...userRewards?.totalApr}
-              {...restUserRwards}
+              {...restUserRewards}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
