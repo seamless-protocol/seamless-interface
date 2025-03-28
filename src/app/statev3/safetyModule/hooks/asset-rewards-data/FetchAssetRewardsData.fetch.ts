@@ -3,7 +3,7 @@ import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { fetchToken } from "@shared";
 import { fetchAssetRewardsData } from "../../../../state/lending-borrowing/hooks/useFetchAssetRewardsData.all";
 import { parseRewardsTokenInformation } from "../../../../../shared/utils/aaveIncentivesHelpers";
-import { fetchTotalAssets } from "../TotalAssets.fetch";
+import { fetchTotalAssets } from "../total-assets/TotalAssets.fetch";
 import { fetchAssetPriceInBlock } from "../../../queries/AssetPrice.hook";
 import { cValueInUsd } from "../../../common/math/cValueInUsd";
 import { fetchGetRewardsList } from "../useFetchGetRewardsList.all";
