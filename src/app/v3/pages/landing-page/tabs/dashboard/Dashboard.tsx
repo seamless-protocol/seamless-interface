@@ -12,7 +12,7 @@ export const Dashboard = () => {
     <FlexCol className="gap-8">
       <NotConnectedWalletGuard>
         <PortfolioSummary />
-        {strategies?.length > 0 ? <LegacyPlatformDeprecationBanner /> : null}
+        {strategies && strategies.length > 0 ? <LegacyPlatformDeprecationBanner /> : null}
         <TableContainer />
       </NotConnectedWalletGuard>
     </FlexCol>
