@@ -12,7 +12,7 @@ export const LegacyPlatformDeprecationBanner = () => {
               ILMs will have leverage disabled on April 11th, 2025. More details{" "}
               <Link className="text-bold3 underline" target="_blank" rel="noreferrer" to={legacyPlatformDeprecationNoticeUrl}>
                 HERE
-              </Link>{" "}
+              </Link>
             </p>
           </FlexRow>
         </div>
