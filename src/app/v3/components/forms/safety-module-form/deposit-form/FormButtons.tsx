@@ -66,7 +66,7 @@ export const FormButtons: React.FC<{
         disabled={!isApproved || isSubmitting || isDisabled || isSeamTokenDataLoading}
         loading={isSubmitting || isLoading}
       >
-        Submit
+        Stake
       </Buttonv2>
     </FlexCol>
   );

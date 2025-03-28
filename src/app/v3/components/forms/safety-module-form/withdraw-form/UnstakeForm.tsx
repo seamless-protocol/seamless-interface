@@ -1,14 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-import {
-  useNotificationContext,
-  FlexCol,
-  Typography,
-  WatchAssetComponentv2,
-  MyFormProvider,
-  StandardTooltip,
-  FlexRow,
-} from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
@@ -16,6 +8,7 @@ import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
 import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 import { intervalToDuration, formatDuration, format } from "date-fns";
+import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 
 export interface Dhms {
   days: string;
@@ -151,10 +144,7 @@ const UnstakeFormLocal: React.FC<UnstakeFormLocalProps> = ({ tokenData, remainin
                   Your unstake cooldown ends on at: <br />
                   <strong>{formattedDeadline}</strong>
                 </Typography>
-                <StandardTooltip openOnClick={false}>
-                  After unstake cooldown ends - your unstaking period begins, <br /> and you will have 24 hours to
-                  unstake, before it locks again.
-                </StandardTooltip>{" "}
+                <StakeInfoTooltip />
               </FlexRow>
               <Typography type="medium2">
                 Unstake Ready in: <br />
@@ -167,10 +157,11 @@ const UnstakeFormLocal: React.FC<UnstakeFormLocalProps> = ({ tokenData, remainin
               <Typography type="medium2" className="text-green-400">
                 {formatedDhms}
               </Typography>
-              <RHFUnstakeAmountField vault={tokenData.address} name="amount" />
             </FlexCol>
           )}
         </FlexCol>
+
+        <RHFUnstakeAmountField vault={tokenData.address} name="amount" disabled={!isUnstakeWindow} />
 
         <FormButtons isDisabled={isWithdrawPending} isLoading={isWithdrawPending} isUnstakeWindow={isUnstakeWindow} />
       </FlexCol>
