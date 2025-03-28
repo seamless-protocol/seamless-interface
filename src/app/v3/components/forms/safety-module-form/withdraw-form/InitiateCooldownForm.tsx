@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtonsCooldown";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
+import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 
 export const InitiateCooldownForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
@@ -85,9 +87,14 @@ const InitiateCooldownFormLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
-            <Typography type="medium1">Initiate the 7 day cooldown to unstake your SEAM</Typography>
+            <FlexRow className="items-center gap-1">
+              <Typography type="medium1">Initiate the 7 day cooldown to unstake your SEAM.</Typography>
+              <StakeInfoTooltip />
+            </FlexRow>
           </FlexCol>
         </FlexCol>
+
+        <RHFUnstakeAmountField vault={tokenData.address} name="amount" disabled />
 
         <FormButtons vaultData={tokenData} isDisabled={isResultPending} isLoading={isResultPending} />
       </FlexCol>
