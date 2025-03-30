@@ -13,7 +13,7 @@ export const GovInfoCardDataPoint: React.FC<Props> = ({ label, tooltip, ...rest 
         <Typography type="medium3">{label || rest.symbol}</Typography>
         {tooltip && <StandardTooltip openOnClick={false}>{tooltip}</StandardTooltip>}
       </FlexRow>
-      <DisplayValue typography="bold4" {...rest} symbol={undefined} />
+      <DisplayValue typography="bold4" {...rest} symbol={undefined} loaderSkeleton />
     </FlexCol>
   );
 };
