@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi";
-import { Divider, FlexCol, FlexRow, Typography } from "@shared";
+import { Divider, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 
 export const GovInfoCard = () => {
@@ -8,7 +8,7 @@ export const GovInfoCard = () => {
     <div>
       <div className="p-10 flex flex-col bg-neutral-0 rounded-xl gap-5 border border-b-100 h-full justify-between">
         <FlexCol>
-          <Typography type="medium3">Your address: {address}</Typography>
+          <Typography type="medium3">Your address: {formatAddressToDisplayable(address)}</Typography>
         </FlexCol>
         <Divider />
         <FlexRow className="justify-between">

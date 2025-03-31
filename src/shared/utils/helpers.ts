@@ -1,4 +1,4 @@
-import { formatUnits } from "viem";
+import { Address, formatUnits } from "viem";
 import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchNumber } from "../types/Fetch";
@@ -233,4 +233,9 @@ export function normalizeDecimals(value: bigint, valueDecimals: bigint, toDecima
     return value * 10n ** (toDecimals - valueDecimals);
   }
   return value / 10n ** (valueDecimals - toDecimals);
+}
+
+export function formatAddressToDisplayable(address?: Address): string {
+  if (!address) return "";
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }

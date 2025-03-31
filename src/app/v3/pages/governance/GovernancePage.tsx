@@ -8,7 +8,7 @@ import { DelegatedPowerCard } from "./components/DelegatedPowerCard";
 
 export const GovernancePage = () => {
   return (
-    <PageContainer className="flex justify-center py-6 pb-12">
+    <PageContainer className="flex justify-center py-6 pb-12 md:px-0 px-2">
       <FlexCol className="gap-16 w-full md:max-w-page-content">
         <FlexCol className="gap-8">
           <FlexRow className="gap-1 items-center">
@@ -36,11 +36,11 @@ export const GovernancePage = () => {
             <ExternalLink url={govFaqUrl}>FAQ</ExternalLink>
           </FlexRow>
         </FlexCol>
-        <div className="grid grid-cols-9 gap-4">
+        <div className="grid grid-cols-5 md:grid-cols-9 gap-4">
           <div className="col-span-5">
             <GovInfoCard />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-5 md:col-span-4">
             <DelegatedPowerCard />
           </div>
         </div>
