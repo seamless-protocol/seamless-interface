@@ -83,7 +83,9 @@ export const DelegateModal: React.FC<{
             txHash: undefined,
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
-                <Typography type="regular3">Voting power delegated successfully!</Typography>
+                <Typography type="regular3">
+                  Voting power {isRevoking ? "revoked" : "delegated"} successfully!
+                </Typography>
               </FlexCol>
             ),
           });

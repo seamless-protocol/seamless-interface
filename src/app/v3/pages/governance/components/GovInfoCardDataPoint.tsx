@@ -1,20 +1,13 @@
 import React from "react";
-import { DisplayMoney, DisplayValue, DisplayValueProps, FlexCol, FlexRow, StandardTooltip, Typography } from "@shared";
+import { DisplayValue, DisplayValueProps, FlexCol, FlexRow, StandardTooltip, Typography } from "@shared";
 
 interface Props extends DisplayValueProps {
   viewValue?: string;
-  dollarViewValue?: string;
   label?: string;
   tooltip?: React.ReactNode;
 }
 
-export const GovInfoCardDataPoint: React.FC<Props> = ({
-  viewValue: tokenViewValue,
-  dollarViewValue,
-  label,
-  tooltip,
-  ...rest
-}) => {
+export const GovInfoCardDataPoint: React.FC<Props> = ({ viewValue: tokenViewValue, label, tooltip, ...rest }) => {
   return (
     <FlexCol>
       <FlexRow className="itemms-center gap-1">
@@ -22,7 +15,6 @@ export const GovInfoCardDataPoint: React.FC<Props> = ({
         {tooltip && <StandardTooltip openOnClick={false}>{tooltip}</StandardTooltip>}
       </FlexRow>
       <DisplayValue typography="bold4" {...rest} symbol={undefined} viewValue={tokenViewValue} loaderSkeleton />
-      <DisplayMoney typography="bold1" {...rest} viewValue={dollarViewValue} />
     </FlexCol>
   );
 };

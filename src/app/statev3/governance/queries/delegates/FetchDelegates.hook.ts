@@ -16,7 +16,6 @@ export const useFetchDelegates = () => {
     staleTime: ONE_HOUR_IN_MS,
     enabled: Boolean(address),
   });
-  console.log({ data });
 
   const esSeamDelegated = !isNullableAddressEqual(data?.esSEAMVotingDelegatee, zeroAddress);
   const seamDelegated = !isNullableAddressEqual(data?.seamVotingDelegatee, zeroAddress);

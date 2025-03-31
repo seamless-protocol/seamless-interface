@@ -51,42 +51,29 @@ export async function getPowers(user: Address): Promise<Powers> {
     }),
   ]);
 
-  // Determine the address from which to read votes for each token.
-  const seamVotesAddress =
-    (seamDelegatee as string).toLowerCase() === user.toLowerCase() ? user : (seamDelegatee as string);
-  const esSEAMVotesAddress =
-    (esSEAMDelegatee as string).toLowerCase() === user.toLowerCase() ? user : (esSEAMDelegatee as string);
-  const stkseamVotesAddress =
-    (stkseamDelegatee as string).toLowerCase() === user.toLowerCase() ? user : (stkseamDelegatee as string);
-
   // Fetch votes concurrently using the determined addresses.
   const [seamVotes, esSEAMVotes, stkseamVotes] = await Promise.all([
     readContract(config, {
       address: SEAM_ADDRESS,
       abi: StakedTokenAbi,
       functionName: "getVotes",
-      args: [seamVotesAddress as Address],
+      args: [seamDelegatee as Address],
     }),
     readContract(config, {
       address: ESSEAM_ADDRESS,
       abi: StakedTokenAbi,
       functionName: "getVotes",
-      args: [esSEAMVotesAddress as Address],
+      args: [esSEAMDelegatee as Address],
     }),
     readContract(config, {
       address: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS,
       abi: StakedTokenAbi,
       functionName: "getVotes",
-      args: [stkseamVotesAddress as Address],
+      args: [stkseamDelegatee as Address],
     }),
   ]);
 
-  // Ensure votes are treated as bigint.
-  const seamVotesBig = seamVotes as bigint;
-  const esSEAMVotesBig = esSEAMVotes as bigint;
-  const stkseamVotesBig = stkseamVotes as bigint;
-
-  const totalVotes = seamVotesBig + esSEAMVotesBig + stkseamVotesBig;
+  const totalVotes = seamVotes + esSEAMVotes + stkseamVotes;
 
   const tokenData = await fetchToken(SEAM_ADDRESS);
 
@@ -97,15 +84,15 @@ export async function getPowers(user: Address): Promise<Powers> {
     }),
     seamTokenPower: formatFetchBigIntToViewBigInt({
       ...tokenData,
-      bigIntValue: seamVotesBig,
+      bigIntValue: seamVotes,
     }),
     esSEAMTokenPower: formatFetchBigIntToViewBigInt({
       ...tokenData,
-      bigIntValue: esSEAMVotesBig,
+      bigIntValue: esSEAMVotes,
     }),
     stkseamTokenPower: formatFetchBigIntToViewBigInt({
       ...tokenData,
-      bigIntValue: stkseamVotesBig,
+      bigIntValue: stkseamVotes,
     }),
     seamVotingDelegatee: seamDelegatee,
     esSEAMVotingDelegatee: esSEAMDelegatee,

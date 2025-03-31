@@ -28,30 +28,14 @@ export const GovInfoCard = () => {
               </>
             }
             viewValue={sum?.tokenAmount.viewValue}
-            dollarViewValue={sum?.dollarAmount.viewValue}
             {...rest}
           />
 
-          <GovInfoCardDataPoint
-            label="SEAM"
-            dollarViewValue={seamBalance?.dollarAmount.viewValue}
-            viewValue={seamBalance?.tokenAmount.viewValue}
-            {...rest}
-          />
+          <GovInfoCardDataPoint label="SEAM" viewValue={seamBalance?.tokenAmount.viewValue} {...rest} />
 
-          <GovInfoCardDataPoint
-            label="esSEAM"
-            dollarViewValue={esSeamBalance?.dollarAmount.viewValue}
-            viewValue={esSeamBalance?.tokenAmount.viewValue}
-            {...rest}
-          />
+          <GovInfoCardDataPoint label="esSEAM" viewValue={esSeamBalance?.tokenAmount.viewValue} {...rest} />
 
-          <GovInfoCardDataPoint
-            label="stkSEAM"
-            dollarViewValue={stkSeamBalance?.dollarAmount.viewValue}
-            viewValue={stkSeamBalance?.tokenAmount.viewValue}
-            {...rest}
-          />
+          <GovInfoCardDataPoint label="stkSEAM" viewValue={stkSeamBalance?.tokenAmount.viewValue} {...rest} />
         </FlexRow>
         <Divider />
         <FlexCol className="gap-4">
