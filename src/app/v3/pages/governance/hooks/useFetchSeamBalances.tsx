@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAssetBalanceUsdValue } from "../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
+import { IS_DEV_MODE } from "../../../../../globals";
 
 /**
  * Sums up an array of balance objects, each with token and dollar amounts.
@@ -23,16 +24,12 @@ export const cSEAMAssetBalancesUsdValues = (
 /**
  * Fetches balances for the three specific seam tokens.
  * Returns an array where:
- *  - Element 0 is the aggregated sum of token and dollar amounts.
- *  - Element 1 is the balance for SEAM_ADDRESS.
- *  - Element 2 is the balance for ESSEAM_ADDRESS.
- *  - Element 3 is the balance for STAKED_SEAM_ADDRESS.
  */
 export const fetchSEAMAssetBalancesUsdValues = async (userAddress: Address) => {
   const [seamBalance, esSeamBalance, stkSeamBalance] = await Promise.all([
     fetchAssetBalanceUsdValue({ asset: SEAM_ADDRESS, userAddress }),
     fetchAssetBalanceUsdValue({ asset: ESSEAM_ADDRESS, userAddress }),
-    fetchAssetBalanceUsdValue({ asset: STAKED_SEAM_ADDRESS, userAddress }),
+    fetchAssetBalanceUsdValue({ asset: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS, userAddress }),
   ]);
 
   if (!seamBalance || !esSeamBalance || !stkSeamBalance) {

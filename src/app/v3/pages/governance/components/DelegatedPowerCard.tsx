@@ -1,8 +1,9 @@
-import { FlexCol, Typography } from "@shared";
-import { DelegateModal } from "./DelegateModal";
+import { DisplayTokenAmount, ExternalLink, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
+import { delegateUrl, RouterConfig } from "@router";
+import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { Link } from "react-router-dom";
-import { delegateUrl } from "@router";
-import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
+import { DelegateModal } from "./DelegateModal";
+import { zeroAddress } from "viem";
 
 export const DelegatedPowerCard = () => {
   return (
@@ -29,28 +30,79 @@ export const DelegatedPowerCard = () => {
           <Typography type="medium3">
             <LocalSEAMBalanceText />
           </Typography>
-          <DelegateModal />
+          <LocalModalSwitcher />
         </FlexCol>
       </div>
     </div>
   );
 };
 
-const LocalSEAMBalanceText = () => {
-  const { data: { sum } = {}, ...rest } = useFetchMultipleAssetBalanceUsdValues();
+const LocalModalSwitcher = () => {
+  const { data: { hasAnyVotingPower } = {}, ...rest } = useFetchDelegates();
 
   if (rest.isLoading) return <>Loading...</>;
   if (rest.error) return <>Error: {rest.error.message}</>;
-  if ((sum?.tokenAmount?.bigIntValue || 0n) < 1n)
+
+  if (hasAnyVotingPower)
+    return (
+      <FlexCol className="gap-4">
+        <DelegateModal isRevoking={false} />
+        <DelegateModal isRevoking />
+      </FlexCol>
+    );
+
+  return <DelegateModal isRevoking={false} />;
+};
+
+const LocalSEAMBalanceText = () => {
+  const {
+    data: {
+      hasAnyVotingPower,
+      esSEAMTokenPower,
+      esSEAMVotingDelegatee,
+      seamTokenPower,
+      seamVotingDelegatee,
+      stkseamTokenPower,
+      stkseamVotingDelegatee,
+    } = {},
+    ...rest
+  } = useFetchDelegates();
+
+  if (rest.isLoading) return <>Loading...</>;
+  if (rest.error) return <>Error: {rest.error.message}</>;
+  if (!hasAnyVotingPower)
     return (
       <>
-        You have <strong>NO</strong> SEAM/esSEAM/stkSEAM to delegate.
+        You have <strong>NOT</strong> delegated any SEAM/esSEAM/stkSEAM yet.
       </>
     );
 
   return (
-    <>
-      You have <strong>{sum?.tokenAmount.viewValue}</strong> SEAM/esSEAM/stkSEAM to delegate.
-    </>
+    <FlexCol className="gap-2">
+      {esSEAMVotingDelegatee !== zeroAddress && (
+        <FlexRow className="justify-between">
+          <ExternalLink url={RouterConfig.Builder.baseScanAddress(esSEAMVotingDelegatee || "")}>
+            <Typography type="bold3">{formatAddressToDisplayable(esSEAMVotingDelegatee)}</Typography>
+          </ExternalLink>
+          <DisplayTokenAmount {...esSEAMTokenPower} />
+        </FlexRow>
+      )}
+      {seamVotingDelegatee !== zeroAddress && (
+        <FlexRow className="justify-between">
+          <ExternalLink url={RouterConfig.Builder.baseScanAddress(seamVotingDelegatee || "")}>
+            <Typography type="bold3">{formatAddressToDisplayable(seamVotingDelegatee)}</Typography>
+          </ExternalLink>
+          <DisplayTokenAmount {...seamTokenPower} />
+        </FlexRow>
+      )}
+      {stkseamVotingDelegatee !== zeroAddress && (
+        <FlexRow className="justify-between">
+          <ExternalLink url={RouterConfig.Builder.baseScanAddress(stkseamVotingDelegatee || "")}>
+            <Typography type="bold3">{formatAddressToDisplayable(stkseamVotingDelegatee)}</Typography>
+          </ExternalLink>
+          <DisplayTokenAmount {...stkseamTokenPower} />
+        </FlexRow>
+      )}
+    </FlexCol>
   );
 };
