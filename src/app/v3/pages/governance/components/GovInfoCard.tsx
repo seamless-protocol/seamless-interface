@@ -2,6 +2,8 @@ import { useAccount } from "wagmi";
 import { Divider, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
+import { Link } from "react-router-dom";
+import { legacyGovUrl } from "../../../../router";
 
 export const GovInfoCard = () => {
   const { address } = useAccount();
@@ -51,6 +53,17 @@ export const GovInfoCard = () => {
             {...rest}
           />
         </FlexRow>
+        <Divider />
+        <FlexCol className="gap-4">
+          <Typography type="medium3">
+            Use this page for delegation, this is the only place to delegate stkSEAM tokens, but use{" "}
+            <Link to={legacyGovUrl} target="_blank" className="underline">
+              legacy page
+            </Link>{" "}
+            for voting.
+          </Typography>
+          <Typography type="bold1"> Voting will soon be available here as well.</Typography>
+        </FlexCol>
       </div>
     </div>
   );

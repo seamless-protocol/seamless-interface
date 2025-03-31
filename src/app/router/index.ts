@@ -18,7 +18,8 @@ export const ilmMediumUrl =
   "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/WAJ8RIoL";
-export const legacyPlatformDeprecationNoticeUrl = "https://discord.com/channels/1037820309400731769/1037836076875788419/1355232743541182566";
+export const legacyPlatformDeprecationNoticeUrl =
+  "https://discord.com/channels/1037820309400731769/1037836076875788419/1355232743541182566";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
 
 export const discourseBaseUrl = "https://seamlessprotocol.discourse.group";
@@ -29,6 +30,8 @@ export const tallyUrl = "https://www.tally.xyz/gov/seamless-protocol";
 export const snapShotUrl = "https://snapshot.box/#/s:seamlessprotocol.eth";
 export const govFaqUrl = "https://docs.seamlessprotocol.com/governance/governance-overview";
 export const delegateUrl = "https://seamlessprotocol.discourse.group/t/seamless-community-representatives/42";
+
+export const legacyGovUrl = "https://legacy.seamlessprotocol.com/governance";
 
 const baseScan = "https://basescan.org";
 
