@@ -16,15 +16,24 @@ import { useForm } from "react-hook-form";
 import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../../meta";
 import { useMutateDelegate } from "../../../../statev3/governance/mutations/useMutateDelegate";
-import { Address, zeroAddress } from "viem";
+import { Address } from "viem";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 
 const useDelegateModalData = () => {
   const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } =
     useFetchMultipleAssetBalanceUsdValues();
 
-  const { data: { esSEAMVotingDelegatee, seamVotingDelegatee, stkseamVotingDelegatee } = {}, ...delegRest } =
-    useFetchDelegates();
+  const {
+    data: {
+      esSEAMVotingDelegatee,
+      seamVotingDelegatee,
+      stkseamVotingDelegatee,
+      seamDelegated,
+      stkseamDelegated,
+      esSeamDelegated,
+    } = {},
+    ...delegRest
+  } = useFetchDelegates();
 
   return {
     ...mergeQueryStates([rest, delegRest]),
@@ -35,6 +44,9 @@ const useDelegateModalData = () => {
       esSEAMVotingDelegatee,
       seamVotingDelegatee,
       stkseamVotingDelegatee,
+      seamDelegated,
+      stkseamDelegated,
+      esSeamDelegated,
     },
   };
 };
@@ -45,14 +57,7 @@ export const DelegateModal: React.FC<{
   const { showNotification } = useNotificationContext();
 
   const {
-    data: {
-      seamBalance,
-      esSeamBalance,
-      stkSeamBalance,
-      esSEAMVotingDelegatee,
-      seamVotingDelegatee,
-      stkseamVotingDelegatee,
-    } = {},
+    data: { seamBalance, esSeamBalance, stkSeamBalance, seamDelegated, stkseamDelegated, esSeamDelegated } = {},
     ...rest
   } = useDelegateModalData();
 
@@ -127,7 +132,7 @@ export const DelegateModal: React.FC<{
                 </FlexRow>
 
                 {/* todo proper rhf approach with radio buttons (group) */}
-                {(!isRevoking || (isRevoking && seamVotingDelegatee !== zeroAddress)) && (
+                {(!isRevoking || (isRevoking && seamDelegated)) && (
                   <FlexRow className="justify-between w-full">
                     <FlexRow className="gap-2 items-center">
                       <input
@@ -141,7 +146,7 @@ export const DelegateModal: React.FC<{
                     <Typography type="bold3">{seamBalance?.tokenAmount.viewValue}</Typography>
                   </FlexRow>
                 )}
-                {(!isRevoking || (isRevoking && esSEAMVotingDelegatee !== zeroAddress)) && (
+                {(!isRevoking || (isRevoking && esSeamDelegated)) && (
                   <FlexRow className="justify-between w-full">
                     <FlexRow className="gap-2 items-center">
                       <input
@@ -156,7 +161,7 @@ export const DelegateModal: React.FC<{
                   </FlexRow>
                 )}
 
-                {(!isRevoking || (isRevoking && stkseamVotingDelegatee !== zeroAddress)) && (
+                {(!isRevoking || (isRevoking && stkseamDelegated)) && (
                   <FlexRow className="justify-between w-full">
                     <FlexRow className="gap-2 items-center">
                       <input

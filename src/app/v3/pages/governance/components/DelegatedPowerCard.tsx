@@ -3,7 +3,6 @@ import { delegateUrl, RouterConfig } from "@router";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { Link } from "react-router-dom";
 import { DelegateModal } from "./DelegateModal";
-import { zeroAddress } from "viem";
 
 export const DelegatedPowerCard = () => {
   return (
@@ -38,12 +37,12 @@ export const DelegatedPowerCard = () => {
 };
 
 const LocalModalSwitcher = () => {
-  const { data: { hasAnyVotingPower } = {}, ...rest } = useFetchDelegates();
+  const { data: { hasDelegatedAny } = {}, ...rest } = useFetchDelegates();
 
   if (rest.isLoading) return <>Loading...</>;
   if (rest.error) return <>Error: {rest.error.message}</>;
 
-  if (hasAnyVotingPower)
+  if (hasDelegatedAny)
     return (
       <FlexCol className="gap-4">
         <DelegateModal isRevoking={false} />
@@ -57,13 +56,16 @@ const LocalModalSwitcher = () => {
 const LocalSEAMBalanceText = () => {
   const {
     data: {
-      hasAnyVotingPower,
+      hasDelegatedAny: hasAnyVotingPower,
       esSEAMTokenPower,
       esSEAMVotingDelegatee,
       seamTokenPower,
       seamVotingDelegatee,
       stkseamTokenPower,
       stkseamVotingDelegatee,
+      esSeamDelegated,
+      seamDelegated,
+      stkseamDelegated,
     } = {},
     ...rest
   } = useFetchDelegates();
@@ -79,7 +81,7 @@ const LocalSEAMBalanceText = () => {
 
   return (
     <FlexCol className="gap-2">
-      {esSEAMVotingDelegatee !== zeroAddress && (
+      {esSeamDelegated && (
         <FlexRow className="justify-between">
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(esSEAMVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(esSEAMVotingDelegatee)}</Typography>
@@ -87,7 +89,7 @@ const LocalSEAMBalanceText = () => {
           <DisplayTokenAmount {...esSEAMTokenPower} />
         </FlexRow>
       )}
-      {seamVotingDelegatee !== zeroAddress && (
+      {seamDelegated && (
         <FlexRow className="justify-between">
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(seamVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(seamVotingDelegatee)}</Typography>
@@ -95,7 +97,7 @@ const LocalSEAMBalanceText = () => {
           <DisplayTokenAmount {...seamTokenPower} />
         </FlexRow>
       )}
-      {stkseamVotingDelegatee !== zeroAddress && (
+      {stkseamDelegated && (
         <FlexRow className="justify-between">
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(stkseamVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(stkseamVotingDelegatee)}</Typography>
