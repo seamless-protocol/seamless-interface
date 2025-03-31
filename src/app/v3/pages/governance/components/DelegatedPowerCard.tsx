@@ -2,6 +2,7 @@ import { FlexCol, Typography } from "@shared";
 import { DelegateModal } from "./DelegateModal";
 import { Link } from "react-router-dom";
 import { delegateUrl } from "@router";
+import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
 
 export const DelegatedPowerCard = () => {
   return (
@@ -25,10 +26,31 @@ export const DelegatedPowerCard = () => {
               .
             </Typography>
           </FlexCol>
-          <Typography type="medium3">You have no SEAM/esSEAM/stkSEAM to delegate.</Typography>
+          <Typography type="medium3">
+            <LocalSEAMBalanceText />
+          </Typography>
           <DelegateModal />
         </FlexCol>
       </div>
     </div>
+  );
+};
+
+const LocalSEAMBalanceText = () => {
+  const { data: { sum } = {}, ...rest } = useFetchMultipleAssetBalanceUsdValues();
+
+  if (rest.isLoading) return <>Loading...</>;
+  if (rest.error) return <>Error: {rest.error.message}</>;
+  if ((sum?.tokenAmount?.bigIntValue || 0n) < 1n)
+    return (
+      <>
+        You have <strong>NO</strong> SEAM/esSEAM/stkSEAM to delegate.
+      </>
+    );
+
+  return (
+    <>
+      You have <strong>{sum?.tokenAmount.viewValue}</strong> SEAM/esSEAM/stkSEAM to delegate.
+    </>
   );
 };

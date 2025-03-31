@@ -1,7 +1,7 @@
 import { Address, formatUnits } from "viem";
 import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
-import { FetchBigInt, FetchNumber } from "../types/Fetch";
+import { FetchBigInt, FetchBigIntStrict, FetchNumber } from "../types/Fetch";
 
 export const UNDEFINED_VIEW_VALUE = "/";
 export const UNDEFINED_VIEW_SYMBOL = "/";
@@ -103,7 +103,7 @@ export function formatToDisplayableOrPlaceholder(
  * @returns
  */
 export function formatFetchBigIntToViewBigInt(
-  data?: FetchBigInt,
+  data?: FetchBigInt | FetchBigIntStrict,
   decimalsOptions?: Partial<DecimalsOptions>,
   options?: FormattingOptions
 ): ViewBigInt {

@@ -1,9 +1,13 @@
 import { useAccount } from "wagmi";
 import { Divider, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
+import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
 
 export const GovInfoCard = () => {
   const { address } = useAccount();
+  const { data: { seamBalance, esSeamBalance, stkSeamBalance, sum } = {}, ...rest } =
+    useFetchMultipleAssetBalanceUsdValues();
+
   return (
     <div>
       <div className="p-10 flex flex-col bg-neutral-0 rounded-xl gap-5 border border-b-100 h-full justify-between">
@@ -21,14 +25,31 @@ export const GovInfoCard = () => {
                 active proposals.
               </>
             }
-            viewValue="0.00"
+            viewValue={sum?.tokenAmount.viewValue}
+            dollarViewValue={sum?.dollarAmount.viewValue}
+            {...rest}
           />
 
-          <GovInfoCardDataPoint label="SEAM" viewValue="0.00" />
+          <GovInfoCardDataPoint
+            label="SEAM"
+            dollarViewValue={seamBalance?.dollarAmount.viewValue}
+            viewValue={seamBalance?.tokenAmount.viewValue}
+            {...rest}
+          />
 
-          <GovInfoCardDataPoint label="esSEAM" viewValue="0.00" />
+          <GovInfoCardDataPoint
+            label="esSEAM"
+            dollarViewValue={esSeamBalance?.dollarAmount.viewValue}
+            viewValue={esSeamBalance?.tokenAmount.viewValue}
+            {...rest}
+          />
 
-          <GovInfoCardDataPoint label="stkSEAM" viewValue="0.00" />
+          <GovInfoCardDataPoint
+            label="stkSEAM"
+            dollarViewValue={stkSeamBalance?.dollarAmount.viewValue}
+            viewValue={stkSeamBalance?.tokenAmount.viewValue}
+            {...rest}
+          />
         </FlexRow>
       </div>
     </div>

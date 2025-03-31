@@ -11,8 +11,12 @@ import {
   FlexRow,
 } from "@shared";
 import { useForm } from "react-hook-form";
+import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
 
 export const DelegateModal = () => {
+  const { data: { sum, seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } =
+    useFetchMultipleAssetBalanceUsdValues();
+
   const modalRef = useRef<ModalHandles | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   // eslint-disable-next-line no-console
@@ -27,6 +31,14 @@ export const DelegateModal = () => {
     // eslint-disable-next-line no-console
     console.log("Delegate");
   };
+
+  if (rest.isLoading) return <Buttonv2 loading>Delagate</Buttonv2>;
+  if (rest.error)
+    return (
+      <Typography type="bold3" className="text-error-main">
+        Error: {rest.error.message}
+      </Typography>
+    );
 
   return (
     <div>
@@ -60,14 +72,14 @@ export const DelegateModal = () => {
                     <input type="radio" name="radio-1" className="radio" onChange={() => setSelectedOption("SEAM")} />
                     <Typography type="bold2">SEAM</Typography>
                   </FlexRow>
-                  <Typography type="bold3">0.00</Typography>
+                  <Typography type="bold3">{seamBalance?.tokenAmount.viewValue}</Typography>
                 </FlexRow>
                 <FlexRow className="justify-between w-full">
                   <FlexRow className="gap-2 items-center">
                     <input type="radio" name="radio-1" className="radio" onChange={() => setSelectedOption("esSEAM")} />
                     <Typography type="bold2">esSEAM</Typography>
                   </FlexRow>
-                  <Typography type="bold3">2.00</Typography>
+                  <Typography type="bold3">{esSeamBalance?.tokenAmount.viewValue}</Typography>
                 </FlexRow>
                 <FlexRow className="justify-between w-full">
                   <FlexRow className="gap-2 items-center">
@@ -79,7 +91,7 @@ export const DelegateModal = () => {
                     />
                     <Typography type="bold2">stkSEAM</Typography>
                   </FlexRow>
-                  <Typography type="bold3">1.00</Typography>
+                  <Typography type="bold3">{stkSeamBalance?.tokenAmount.viewValue}</Typography>
                 </FlexRow>
 
                 <FlexRow className="justify-between w-full">
@@ -87,7 +99,7 @@ export const DelegateModal = () => {
                     <input type="radio" name="radio-1" className="radio" onChange={() => setSelectedOption("all")} />
                     <Typography type="bold2">All</Typography>
                   </FlexRow>
-                  <Typography type="bold3">3.00</Typography>
+                  <Typography type="bold3">{sum?.tokenAmount.viewValue}</Typography>
                 </FlexRow>
 
                 <FlexCol className="gap-2">
