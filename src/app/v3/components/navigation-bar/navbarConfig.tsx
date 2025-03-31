@@ -1,4 +1,5 @@
-import { RouterConfig } from "../../../router";
+import { IS_DEV_MODE } from "../../../../globals";
+import { RouterConfig } from "@router";
 
 export const navbarConfig = [
   {
@@ -15,7 +16,7 @@ export const navbarConfig = [
   },
   {
     name: "Governance",
-    href: RouterConfig.Routes.governance,
+    href: IS_DEV_MODE ? RouterConfig.Routes.governance : "https://legacy.seamlessprotocol.com/governance", // todo: remove this
     current: false,
   },
 ];
