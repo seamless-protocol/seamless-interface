@@ -1,6 +1,5 @@
 import { ExternalLink, FlexCol, FlexRow, Icon, PageContainer, Typography } from "@shared";
 
-import baseIcon from "@assets/logos/base.svg";
 import seamlessIcon from "@assets/logos/logo-seamless.svg";
 import { disourseUrl, govFaqUrl, snapShotUrl, tallyUrl } from "@router";
 import { GovInfoCard } from "./components/GovInfoCard";
@@ -11,11 +10,6 @@ export const GovernancePage = () => {
     <PageContainer className="flex justify-center py-6 pb-12 md:px-0 px-2">
       <FlexCol className="gap-16 w-full md:max-w-page-content">
         <FlexCol className="gap-8">
-          <FlexRow className="gap-1 items-center">
-            <Typography type="medium1">Available on</Typography>
-            <Icon src={baseIcon} alt="base-logo" width={18} height={18} />
-            <Typography type="medium1">Base</Typography>
-          </FlexRow>
           <FlexRow className="gap-2">
             <Icon src={seamlessIcon} alt="community-governance" width={48} height={48} />
             <Typography type="medium7">Community Governance</Typography>
