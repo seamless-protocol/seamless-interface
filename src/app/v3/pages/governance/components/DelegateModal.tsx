@@ -25,7 +25,7 @@ export const DelegateModal = () => {
 
   const onSubmitAsync = async () => {
     // eslint-disable-next-line no-console
-    console.log("Claim all rewards");
+    console.log("Delegate");
   };
 
   return (
@@ -34,7 +34,7 @@ export const DelegateModal = () => {
         ref={modalRef}
         header="Set up delegation"
         size="normal"
-        button={<Buttonv2 className="text-bold3 w-full">Claim all rewards</Buttonv2>}
+        button={<Buttonv2 className="text-bold3 w-full">Delegate</Buttonv2>}
       >
         <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
           <FlexCol className="gap-8">
