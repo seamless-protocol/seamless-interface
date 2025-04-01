@@ -14,11 +14,10 @@ export const StakingDetails: React.FC = () => {
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                By staking SEAM, you are contributing to the security of Seamless&apos;s protocol and accruing
-                &quot;real yield&quot; rewards from protocol fees (100% of protocol fees are directed to stakers).
-                Currently, the assets included in protocol fee capture are smcbBTC, smETH and smUSDC, this list may
-                change overtime. Additionally, stakers accrue any SEAM or esSEAM rewards DAO governance votes to emit to
-                stakers.
+                By staking SEAM, you are contributing to the security of Seamless Protocol and accruing rewards from
+                protocol fees (100% of protocol fees are directed to stakers). Currently, the assets included in
+                protocol fee capture are smcbBTC, smETH and smUSDC, this list may change overtime. Additionally, stakers
+                accrue any SEAM or esSEAM rewards DAO governance votes to emit to stakers.
               </Typography>
             </div>
           </div>
@@ -52,7 +51,7 @@ export const StakingDetails: React.FC = () => {
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                Rewards from Seamless Protocol Fees will be claimable block by block. You can routinely check and claim
+                Rewards from Seamless Protocol fees will be claimable block by block. You can routinely check and claim
                 your staking rewards directly in the Seamless App.
               </Typography>
             </div>
