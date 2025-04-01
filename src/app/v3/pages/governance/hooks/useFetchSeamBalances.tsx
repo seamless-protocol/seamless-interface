@@ -1,23 +1,20 @@
 import { SEAM_ADDRESS, ESSEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { FetchBigIntStrict, formatFetchBigIntToViewBigInt } from "@shared";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAssetBalanceUsdValue } from "../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../globals";
+import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
 
 /**
  * Sums up an array of balance objects, each with token and dollar amounts.
  */
-export const cSEAMAssetBalancesUsdValues = (
-  ...inputs: { tokenAmount: FetchBigIntStrict; dollarAmount: FetchBigIntStrict }[]
-) => {
-  return inputs.reduce(
+export const cSEAMAssetBalances = (balance: FetchBigIntStrict[]) => {
+  return balance.reduce(
     (acc, curr) => ({
-      tokenAmount: acc.tokenAmount + curr.tokenAmount.bigIntValue,
-      dollarAmount: acc.dollarAmount + curr.dollarAmount.bigIntValue,
+      tokenAmount: acc.tokenAmount + curr.bigIntValue,
     }),
-    { tokenAmount: BigInt(0), dollarAmount: BigInt(0) }
+    { tokenAmount: BigInt(0) }
   );
 };
 
@@ -25,46 +22,39 @@ export const cSEAMAssetBalancesUsdValues = (
  * Fetches balances for the three specific seam tokens.
  * Returns an array where:
  */
-export const fetchSEAMAssetBalancesUsdValues = async (userAddress: Address) => {
+export const fetchSEAMAssetBalances = async (account: Address) => {
   const [seamBalance, esSeamBalance, stkSeamBalance] = await Promise.all([
-    fetchAssetBalanceUsdValue({ asset: SEAM_ADDRESS, userAddress }),
-    fetchAssetBalanceUsdValue({ asset: ESSEAM_ADDRESS, userAddress }),
-    fetchAssetBalanceUsdValue({ asset: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS, userAddress }),
+    fetchAssetBalance({ asset: SEAM_ADDRESS, account }),
+    fetchAssetBalance({ asset: ESSEAM_ADDRESS, account }),
+    fetchAssetBalance({ asset: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS, account }),
   ]);
 
   if (!seamBalance || !esSeamBalance || !stkSeamBalance) {
     throw new Error("fetchMultipleAssetBalanceUsdValues: One or more asset balances are undefined");
   }
 
-  const sum = cSEAMAssetBalancesUsdValues(seamBalance, esSeamBalance, stkSeamBalance);
+  const sum = cSEAMAssetBalances([seamBalance, esSeamBalance, stkSeamBalance]);
 
   return {
     seamBalance: {
-      tokenAmount: formatFetchBigIntToViewBigInt(seamBalance.tokenAmount),
-      dollarAmount: formatFetchBigIntToViewBigInt(seamBalance.dollarAmount),
+      tokenAmount: formatFetchBigIntToViewBigInt(seamBalance),
     },
     esSeamBalance: {
-      tokenAmount: formatFetchBigIntToViewBigInt(esSeamBalance.tokenAmount),
-      dollarAmount: formatFetchBigIntToViewBigInt(esSeamBalance.dollarAmount),
+      tokenAmount: formatFetchBigIntToViewBigInt(esSeamBalance),
     },
     stkSeamBalance: {
-      tokenAmount: formatFetchBigIntToViewBigInt(stkSeamBalance.tokenAmount),
-      dollarAmount: formatFetchBigIntToViewBigInt(stkSeamBalance.dollarAmount),
+      tokenAmount: formatFetchBigIntToViewBigInt(stkSeamBalance),
     },
     sum: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        ...seamBalance.tokenAmount,
+        ...seamBalance,
         bigIntValue: sum.tokenAmount,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...seamBalance.dollarAmount,
-        bigIntValue: sum.dollarAmount,
       }),
     },
   };
 };
 
-export const hookFetchMultipleAssetBalanceUsdValuesQK = () => [
+export const hookFetchMultipleAssetBalancesQK = () => [
   "fetchMultipleAssetBalanceUsdValues",
   SEAM_ADDRESS,
   STAKED_SEAM_ADDRESS,
@@ -78,12 +68,12 @@ export const hookFetchMultipleAssetBalanceUsdValuesQK = () => [
  *   const { data: [total, seamBalance, esSeamBalance, stkSeamBalance], ...queryState } =
  *      useFetchMultipleAssetBalanceUsdValues();
  */
-export const useFetchMultipleAssetBalanceUsdValues = () => {
+export const useFetchSEAMAssetBalances = () => {
   const { address } = useAccount();
 
   return useQuery({
-    queryKey: hookFetchMultipleAssetBalanceUsdValuesQK(),
-    queryFn: () => fetchSEAMAssetBalancesUsdValues(address!),
+    queryKey: hookFetchMultipleAssetBalancesQK(),
+    queryFn: () => fetchSEAMAssetBalances(address!),
     enabled: Boolean(address),
   });
 };

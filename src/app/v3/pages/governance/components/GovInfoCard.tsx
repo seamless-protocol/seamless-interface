@@ -1,14 +1,13 @@
 import { useAccount } from "wagmi";
 import { Divider, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
-import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
+import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { Link } from "react-router-dom";
-import { legacyGovUrl } from "../../../../router";
+import { legacyGovUrl } from "@router";
 
 export const GovInfoCard = () => {
   const { address } = useAccount();
-  const { data: { seamBalance, esSeamBalance, stkSeamBalance, sum } = {}, ...rest } =
-    useFetchMultipleAssetBalanceUsdValues();
+  const { data: { seamBalance, esSeamBalance, stkSeamBalance, sum } = {}, ...rest } = useFetchSEAMAssetBalances();
 
   return (
     <div>

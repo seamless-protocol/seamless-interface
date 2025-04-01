@@ -13,15 +13,14 @@ import {
   mergeQueryStates,
 } from "@shared";
 import { useForm } from "react-hook-form";
-import { useFetchMultipleAssetBalanceUsdValues } from "../hooks/useFetchSeamBalances";
+import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../../meta";
 import { useMutateDelegate } from "../../../../statev3/governance/mutations/useMutateDelegate";
 import { Address } from "viem";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 
 const useDelegateModalData = () => {
-  const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } =
-    useFetchMultipleAssetBalanceUsdValues();
+  const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();
 
   const {
     data: {
