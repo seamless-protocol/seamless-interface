@@ -56,7 +56,7 @@ const LocalModalSwitcher = () => {
 const LocalSEAMBalanceText = () => {
   const {
     data: {
-      hasDelegatedAny: hasAnyVotingPower,
+      hasDelegatedAny,
       esSEAMTokenPower,
       esSEAMVotingDelegatee,
       seamTokenPower,
@@ -72,7 +72,7 @@ const LocalSEAMBalanceText = () => {
 
   if (rest.isLoading) return <>Loading...</>;
   if (rest.error) return <>Error: {rest.error.message}</>;
-  if (!hasAnyVotingPower)
+  if (!hasDelegatedAny)
     return (
       <>
         You have <strong>NOT</strong> delegated any SEAM/esSEAM/stkSEAM yet.
