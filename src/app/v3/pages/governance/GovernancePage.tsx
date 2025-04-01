@@ -4,6 +4,7 @@ import seamlessIcon from "@assets/logos/logo-seamless.svg";
 import { disourseUrl, govFaqUrl, snapShotUrl, tallyUrl } from "@router";
 import { GovInfoCard } from "./components/GovInfoCard";
 import { DelegatedPowerCard } from "./components/DelegatedPowerCard";
+import { NotConnectedWalletGuard } from "../common/components/NotConnectedWalletGuard";
 
 export const GovernancePage = () => {
   return (
@@ -30,14 +31,16 @@ export const GovernancePage = () => {
             <ExternalLink url={govFaqUrl}>FAQ</ExternalLink>
           </FlexRow>
         </FlexCol>
-        <div className="grid grid-cols-5 md:grid-cols-9 gap-4">
-          <div className="col-span-5">
-            <GovInfoCard />
+        <NotConnectedWalletGuard message="Connect your wallet to view your voting power.">
+          <div className="grid grid-cols-5 md:grid-cols-9 gap-4">
+            <div className="col-span-5">
+              <GovInfoCard />
+            </div>
+            <div className="col-span-5 md:col-span-4">
+              <DelegatedPowerCard />
+            </div>
           </div>
-          <div className="col-span-5 md:col-span-4">
-            <DelegatedPowerCard />
-          </div>
-        </div>
+        </NotConnectedWalletGuard>
       </FlexCol>
     </PageContainer>
   );
