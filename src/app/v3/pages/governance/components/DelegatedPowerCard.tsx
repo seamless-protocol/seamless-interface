@@ -1,4 +1,12 @@
-import { DisplayTokenAmount, ExternalLink, FlexCol, FlexRow, formatAddressToDisplayable, Typography } from "@shared";
+import {
+  Buttonv2,
+  DisplayTokenAmount,
+  ExternalLink,
+  FlexCol,
+  FlexRow,
+  formatAddressToDisplayable,
+  Typography,
+} from "@shared";
 import { delegateUrl, RouterConfig } from "@router";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { Link } from "react-router-dom";
@@ -39,7 +47,7 @@ export const DelegatedPowerCard = () => {
 const LocalModalSwitcher = () => {
   const { data: { hasDelegatedAny } = {}, ...rest } = useFetchDelegates();
 
-  if (rest.isLoading) return <>Loading...</>;
+  if (rest.isLoading) return <Buttonv2 loading>Delegate</Buttonv2>;
   if (rest.error) return <>Error: {rest.error.message}</>;
 
   if (hasDelegatedAny)

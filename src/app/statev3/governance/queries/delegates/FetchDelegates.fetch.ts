@@ -1,11 +1,11 @@
 import { Address, isAddressEqual } from "viem";
 import { StakedTokenAbi } from "../../../../../../abis/StakedToken";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
-import { readContract } from "wagmi/actions";
 import { getConfig } from "../../../../utils/queryContractUtils";
 import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
+import { readContractQueryOptions } from "wagmi/query";
 
 export interface Powers {
   votingPower: ViewBigInt;
@@ -18,21 +18,28 @@ export interface Powers {
   stkseamVotingDelegatee: Address;
 }
 
-const getPowersSeamDelegeeQK = (user?: Address) => ["delegatee", SEAM_ADDRESS, user];
-const getPowersesSeamDelegeeQK = (user?: Address) => ["delegatee", ESSEAM_ADDRESS, user];
-const getPowersstkSeamDelegeeQK = (user?: Address) => ["delegatee", STAKED_SEAM_ADDRESS, user];
+export const delegateeReadContractQueryOptions = (user?: Address, token?: Address) => ({
+  ...readContractQueryOptions(getConfig(), {
+    address: token,
+    abi: StakedTokenAbi,
+    functionName: "delegates",
+    args: [user as Address],
+  }),
+});
 
-const getPowersSeamGetVotesQK = (user?: Address) => ["getVotes", SEAM_ADDRESS, user];
-const getPowersesSeamGetVotesQK = (user?: Address) => ["getVotes", ESSEAM_ADDRESS, user];
-const getPowersstkSeamGetVotesQK = (user?: Address) => ["getVotes", STAKED_SEAM_ADDRESS, user];
+export const getVotesReadContractQueryOptions = (delegatee?: Address, token?: Address) => ({
+  ...readContractQueryOptions(getConfig(), {
+    address: token,
+    abi: StakedTokenAbi,
+    functionName: "getVotes",
+    args: [delegatee as Address],
+  }),
+});
 
-export const getAllPowersQK = (user?: Address) => [
-  getPowersSeamDelegeeQK(user),
-  getPowersesSeamDelegeeQK(user),
-  getPowersstkSeamDelegeeQK(user),
-  getPowersSeamGetVotesQK(user),
-  getPowersesSeamGetVotesQK(user),
-  getPowersstkSeamGetVotesQK(user),
+export const getAllDelegateeQK = (user?: Address) => [
+  delegateeReadContractQueryOptions(user, SEAM_ADDRESS).queryKey,
+  delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS).queryKey,
+  delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS).queryKey,
 ];
 
 /**
@@ -47,44 +54,19 @@ export const getAllPowersQK = (user?: Address) => [
  */
 export async function getPowers(user: Address): Promise<Powers> {
   const queryClient = getQueryClient();
-  const config = getConfig();
 
   // Fetch delegate addresses concurrently.
   const [seamDelegatee, esSEAMDelegatee, stkseamDelegatee] = await Promise.all([
     queryClient.fetchQuery({
-      queryKey: getPowersSeamDelegeeQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: SEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "delegates",
-          args: [user],
-        });
-      },
+      ...delegateeReadContractQueryOptions(user, SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      queryKey: getPowersesSeamDelegeeQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: ESSEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "delegates",
-          args: [user],
-        });
-      },
+      ...delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      queryKey: getPowersstkSeamDelegeeQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: STAKED_SEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "delegates",
-          args: [user],
-        });
-      },
+      ...delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
   ]);
@@ -92,39 +74,15 @@ export async function getPowers(user: Address): Promise<Powers> {
   // Fetch votes concurrently using the determined addresses.
   const [seamVotes, esSEAMVotes, stkseamVotes] = await Promise.all([
     queryClient.fetchQuery({
-      queryKey: getPowersSeamGetVotesQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: SEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "getVotes",
-          args: [seamDelegatee as Address],
-        });
-      },
+      ...getVotesReadContractQueryOptions(seamDelegatee, SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      queryKey: getPowersesSeamGetVotesQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: ESSEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "getVotes",
-          args: [esSEAMDelegatee as Address],
-        });
-      },
+      ...getVotesReadContractQueryOptions(esSEAMDelegatee, ESSEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      queryKey: getPowersstkSeamGetVotesQK(user),
-      queryFn: () => {
-        return readContract(config, {
-          address: STAKED_SEAM_ADDRESS,
-          abi: StakedTokenAbi,
-          functionName: "getVotes",
-          args: [stkseamDelegatee as Address],
-        });
-      },
+      ...getVotesReadContractQueryOptions(stkseamDelegatee, STAKED_SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
   ]);

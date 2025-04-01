@@ -13,11 +13,11 @@ import {
   mergeQueryStates,
 } from "@shared";
 import { useForm } from "react-hook-form";
-import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../../meta";
 import { useMutateDelegate } from "../../../../statev3/governance/mutations/useMutateDelegate";
 import { Address } from "viem";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
+import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 
 const useDelegateModalData = () => {
   const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();
@@ -123,10 +123,10 @@ export const DelegateModal: React.FC<{
                   <StandardTooltip openOnClick={false}>
                     <div className="max-w-[400px]">
                       <Typography type="regular2">
-                        Choose how much voting/proposition power to give to someone else by delegating some of your SEAM
-                        or esSEAM balance. Your tokens will remain in your account, but your delegate will be able to
-                        vote or propose on your behalf. If your SEAM or esSEAM balance changes, your delegate`s
-                        voting/proposition power will be automatically adjusted.
+                        Choose how much voting/proposition power to give to someone else by delegating some of your
+                        SEAM, esSEAM or stkSEAM balance. Your tokens will remain in your account, but your delegate will
+                        be able to vote or propose on your behalf. If your SEAM or esSEAM balance changes, your
+                        delegate`s voting/proposition power will be automatically adjusted.
                       </Typography>
                     </div>
                   </StandardTooltip>

@@ -1,9 +1,10 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address, zeroAddress } from "viem";
 import { StakedTokenAbi } from "../../../../../abis/StakedToken";
-import { getAllPowersQK } from "../queries/delegates/FetchDelegates.fetch";
+import { getAllDelegateeQK, getVotesReadContractQueryOptions } from "../queries/delegates/FetchDelegates.fetch";
 import { useAccount } from "wagmi";
-import { hookFetchGetPowersQK } from "../queries/delegates/FetchDelegates.hook";
+import { hookFetchGetPowersQK, useFetchDelegates } from "../queries/delegates/FetchDelegates.hook";
+import { SEAM_ADDRESS, ESSEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../meta";
 
 export const useMutateDelegate = (isRevoking?: boolean) => {
   /* ------------- */
@@ -12,11 +13,22 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
   const { address: user } = useAccount();
   const { showNotification } = useNotificationContext();
 
+  /* ------------- */
+  /*   Query keys  */
+  /* ------------- */
+  const { data: { esSEAMVotingDelegatee, seamVotingDelegatee, stkseamVotingDelegatee } = {} } = useFetchDelegates();
+
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    queriesToInvalidate: [...getAllPowersQK(user), hookFetchGetPowersQK(user)],
+    queriesToInvalidate: [
+      getVotesReadContractQueryOptions(seamVotingDelegatee, SEAM_ADDRESS).queryKey,
+      getVotesReadContractQueryOptions(esSEAMVotingDelegatee, ESSEAM_ADDRESS).queryKey,
+      getVotesReadContractQueryOptions(stkseamVotingDelegatee, STAKED_SEAM_ADDRESS).queryKey,
+      ...getAllDelegateeQK(user),
+      hookFetchGetPowersQK(user),
+    ],
     hideDefaultErrorOnNotification: true,
   });
 
