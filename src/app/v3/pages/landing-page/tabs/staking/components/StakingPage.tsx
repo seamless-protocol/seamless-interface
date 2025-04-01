@@ -6,6 +6,7 @@ import { RewardsTableContainer } from "./rewards-table/RewardsTableContainer";
 import { CurrentHoldings } from "../../../../../components/current-holdings/CurrentHoldings";
 import { STAKED_SEAM_ADDRESS } from "@meta";
 import { StakingStats } from "./StakingStats";
+import { StakingDetails } from "./StakingDetails";
 
 export const StakingPage = () => {
   return (
@@ -17,6 +18,7 @@ export const StakingPage = () => {
             <UnclaimedRewardsBoxWrapper />
             <StakingStats />
             <RewardsTableContainer />
+            <StakingDetails />
           </div>
           <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
             <FormContainer />
