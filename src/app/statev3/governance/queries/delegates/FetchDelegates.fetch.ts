@@ -4,7 +4,7 @@ import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { readContract } from "wagmi/actions";
 import { getConfig } from "../../../../utils/queryContractUtils";
 import { IS_DEV_MODE } from "../../../../../globals";
-import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
+import { formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 
 export interface Powers {
   votingPower: ViewBigInt;
@@ -75,23 +75,17 @@ export async function getPowers(user: Address): Promise<Powers> {
 
   const totalVotes = seamVotes + esSEAMVotes + stkseamVotes;
 
-  const tokenData = await fetchToken(SEAM_ADDRESS);
-
   const result: Powers = {
     votingPower: formatFetchBigIntToViewBigInt({
-      ...tokenData,
       bigIntValue: totalVotes,
     }),
     seamTokenPower: formatFetchBigIntToViewBigInt({
-      ...tokenData,
       bigIntValue: seamVotes,
     }),
     esSEAMTokenPower: formatFetchBigIntToViewBigInt({
-      ...tokenData,
       bigIntValue: esSEAMVotes,
     }),
     stkseamTokenPower: formatFetchBigIntToViewBigInt({
-      ...tokenData,
       bigIntValue: stkseamVotes,
     }),
     seamVotingDelegatee: seamDelegatee,
