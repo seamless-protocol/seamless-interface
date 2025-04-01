@@ -90,6 +90,7 @@ export * from "./components/form/rhf/RHFAmountInput";
 export * from "./components/form/rhf/RHFAmountInputV3";
 export * from "./components/form/rhf/RHFInputSliderField";
 export * from "./components/form/rhf/RHFCheckboxField";
+export * from "./components/form/rhf/RHFInput";
 
 // ***** //
 // Images //
