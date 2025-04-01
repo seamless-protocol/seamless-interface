@@ -19,7 +19,7 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
               Vaults
             </TabButton>
-            {import.meta.env.VITE_STAKING_FEATURE && (
+            {import.meta.env.VITE_STAKING_FEATURE === "true" && (
               <TabButton<Tabs> data-cy="tab-staking" tab="Staking">
                 Staking
               </TabButton>
@@ -39,7 +39,7 @@ export const LandingPage = () => {
               <MorphoVaultsTab />
             </div>
           </TabContent>
-          {import.meta.env.VITE_STAKING_FEATURE && (
+          {import.meta.env.VITE_STAKING_FEATURE === "true" && (
             <TabContent<Tabs> tab="Staking">
               <div className="mt-8">
                 <StakingTab />
