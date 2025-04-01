@@ -35,7 +35,7 @@ export const DelegatedPowerCard = () => {
             </Typography>
           </FlexCol>
           <Typography type="medium3">
-            <LocalSEAMBalanceText />
+            <LocalVotesPowerText />
           </Typography>
           <LocalModalSwitcher />
         </FlexCol>
@@ -61,7 +61,7 @@ const LocalModalSwitcher = () => {
   return <DelegateModal isRevoking={false} />;
 };
 
-const LocalSEAMBalanceText = () => {
+const LocalVotesPowerText = () => {
   const {
     data: {
       hasDelegatedAny,
