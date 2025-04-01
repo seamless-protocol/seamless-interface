@@ -3,7 +3,6 @@ import { FetchBigIntStrict, formatFetchBigIntToViewBigInt } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
-import { IS_DEV_MODE } from "../../../../../globals";
 import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
 
 /**
@@ -26,7 +25,7 @@ export const fetchSEAMAssetBalances = async (account: Address) => {
   const [seamBalance, esSeamBalance, stkSeamBalance] = await Promise.all([
     fetchAssetBalance({ asset: SEAM_ADDRESS, account }),
     fetchAssetBalance({ asset: ESSEAM_ADDRESS, account }),
-    fetchAssetBalance({ asset: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS, account }),
+    fetchAssetBalance({ asset: STAKED_SEAM_ADDRESS, account }),
   ]);
 
   if (!seamBalance || !esSeamBalance || !stkSeamBalance) {

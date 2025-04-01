@@ -4,10 +4,12 @@ import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { Link } from "react-router-dom";
 import { legacyGovUrl } from "@router";
+import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 
 export const GovInfoCard = () => {
   const { address } = useAccount();
-  const { data: { seamBalance, esSeamBalance, stkSeamBalance, sum } = {}, ...rest } = useFetchSEAMAssetBalances();
+  const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();
+  const { data: { userVotingPower } = {}, ...delegRest } = useFetchDelegates();
 
   return (
     <div>
@@ -26,8 +28,8 @@ export const GovInfoCard = () => {
                 active proposals.
               </>
             }
-            viewValue={sum?.tokenAmount.viewValue}
-            {...rest}
+            viewValue={userVotingPower?.viewValue}
+            {...delegRest}
           />
 
           <GovInfoCardDataPoint label="SEAM" viewValue={seamBalance?.tokenAmount.viewValue} {...rest} />

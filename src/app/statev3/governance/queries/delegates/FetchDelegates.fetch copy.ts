@@ -1,15 +1,15 @@
-import { Address, isAddressEqual } from "viem";
+import { Address } from "viem";
 import { StakedTokenAbi } from "../../../../../../abis/StakedToken";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { readContract } from "wagmi/actions";
 import { getConfig } from "../../../../utils/queryContractUtils";
-import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
+import { IS_DEV_MODE } from "../../../../../globals";
+import { formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 
 export interface Powers {
   votingPower: ViewBigInt;
-  userVotingPower: ViewBigInt;
   seamTokenPower: ViewBigInt;
   esSEAMTokenPower: ViewBigInt;
   stkseamTokenPower: ViewBigInt;
@@ -79,7 +79,7 @@ export async function getPowers(user: Address): Promise<Powers> {
       queryKey: getPowersstkSeamDelegeeQK(user),
       queryFn: () => {
         return readContract(config, {
-          address: STAKED_SEAM_ADDRESS,
+          address: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS,
           abi: StakedTokenAbi,
           functionName: "delegates",
           args: [user],
@@ -119,7 +119,7 @@ export async function getPowers(user: Address): Promise<Powers> {
       queryKey: getPowersstkSeamGetVotesQK(user),
       queryFn: () => {
         return readContract(config, {
-          address: STAKED_SEAM_ADDRESS,
+          address: IS_DEV_MODE ? SEAM_ADDRESS : STAKED_SEAM_ADDRESS,
           abi: StakedTokenAbi,
           functionName: "getVotes",
           args: [stkseamDelegatee as Address],
@@ -130,36 +130,18 @@ export async function getPowers(user: Address): Promise<Powers> {
   ]);
 
   const totalVotes = seamVotes + esSEAMVotes + stkseamVotes;
-  const userVotingPower =
-    (isAddressEqual(user, seamDelegatee) ? seamVotes : 0n) +
-    (isAddressEqual(user, esSEAMDelegatee) ? esSEAMVotes : 0n) +
-    (isAddressEqual(user, stkseamDelegatee) ? stkseamVotes : 0n);
-
-  const [seamTokenData, esSEAMTokenData, stkseamTokenData] = await Promise.all([
-    fetchToken(SEAM_ADDRESS),
-    fetchToken(ESSEAM_ADDRESS),
-    fetchToken(STAKED_SEAM_ADDRESS),
-  ]);
 
   const result: Powers = {
     votingPower: formatFetchBigIntToViewBigInt({
-      decimals: seamTokenData.decimals,
       bigIntValue: totalVotes,
     }),
-    userVotingPower: formatFetchBigIntToViewBigInt({
-      decimals: seamTokenData.decimals,
-      bigIntValue: userVotingPower,
-    }),
     seamTokenPower: formatFetchBigIntToViewBigInt({
-      ...seamTokenData,
       bigIntValue: seamVotes,
     }),
     esSEAMTokenPower: formatFetchBigIntToViewBigInt({
-      ...esSEAMTokenData,
       bigIntValue: esSEAMVotes,
     }),
     stkseamTokenPower: formatFetchBigIntToViewBigInt({
-      ...stkseamTokenData,
       bigIntValue: stkseamVotes,
     }),
     seamVotingDelegatee: seamDelegatee,

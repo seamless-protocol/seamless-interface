@@ -1,24 +1,22 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address, zeroAddress } from "viem";
 import { StakedTokenAbi } from "../../../../../abis/StakedToken";
+import { getAllPowersQK } from "../queries/delegates/FetchDelegates.fetch";
+import { useAccount } from "wagmi";
+import { hookFetchGetPowersQK } from "../queries/delegates/FetchDelegates.hook";
 
 export const useMutateDelegate = (isRevoking?: boolean) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
+  const { address: user } = useAccount();
   const { showNotification } = useNotificationContext();
-
-  /* -------------------- */
-  /*   Query cache keys   */
-  /* -------------------- */
-  // todo ?
 
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    // array of query keys to invalidate, when mutation happens!
-    queriesToInvalidate: [undefined], // todo: proper invalidation
+    queriesToInvalidate: [...getAllPowersQK(user), hookFetchGetPowersQK(user)],
     hideDefaultErrorOnNotification: true,
   });
 
