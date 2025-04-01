@@ -7,5 +7,13 @@ import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewa
 export const UnclaimedRewardsBoxWrapper: React.FC = () => {
   const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
   const { claimAllAsync, isPending } = useMutateClaimAllRewards();
-  return <UnclaimedRewardsBox data={data} {...rest} claimAllAsync={claimAllAsync} isPending={isPending} />;
+  return (
+    <UnclaimedRewardsBox
+      noRewardsMessage="Stake SEAM to receive rewards."
+      data={data}
+      {...rest}
+      claimAllAsync={claimAllAsync}
+      isPending={isPending}
+    />
+  );
 };
