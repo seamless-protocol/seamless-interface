@@ -29,17 +29,11 @@ export const StakingDetails: React.FC = () => {
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                100% of protocol fees are directed to stakers, and any additional SEAM or esSEAM rewards DAO governance
-                votes to emit to stakers. The amount of daily protocol fees and rewards you earn will be proportional to
-                the amount you stake, relative to how much total SEAM is staked. Ex. if you are staking 10,000 SEAM and
-                3,000,000 total SEAM is being staked on any given day, you would earn roughly .333% of the total
-                protocol revenue generated that day.
-                <br />
-                <br />
-                Note: By claiming protocol fees, you will receive Seamless USDC/cbBTC/WETH Vault LP Tokens on Morpho
-                (which continue to yield). Upon claiming, these positions will be added to your wallet and will show up
-                as balances on the Seamless Vaults Tab. From there, you can choose to either keep these positions
-                deposited (yielding) or withdraw fully.
+                Rewards/fees are distributed in-kind (in the asset the fee was accrued). For example, Seamless Protocol
+                fees earned from vaults on Morpho are denominated in the vault LP token itself (which continue to earn
+                yield). Upon claiming, these LP tokens will be added to your wallet and will show up as balances on the
+                Seamless Dashboard Tab. From there, you can choose to either keep these positions deposited (yielding)
+                or withdraw fully.
               </Typography>
             </div>
           </div>
