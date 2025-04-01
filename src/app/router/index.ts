@@ -32,6 +32,7 @@ export const govFaqUrl = "https://docs.seamlessprotocol.com/governance/governanc
 export const delegateUrl = "https://seamlessprotocol.discourse.group/t/seamless-community-representatives/42";
 
 export const legacyGovUrl = "https://legacy.seamlessprotocol.com/governance";
+export const gitbookStakingUrl = "https://docs.seamlessprotocol.com/overview/seam-staking";
 
 const baseScan = "https://basescan.org";
 

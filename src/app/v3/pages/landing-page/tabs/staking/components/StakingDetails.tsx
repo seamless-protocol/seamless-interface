@@ -2,6 +2,7 @@ import React from "react";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
+import { gitbookStakingUrl } from "../../../../../../router";
 
 export const StakingDetails: React.FC = () => {
   return (
@@ -140,7 +141,7 @@ export const StakingDetails: React.FC = () => {
           <div className="collapse-content">
             <div>
               <FlexRow className="items-center gap-2">
-                <ExternalLink url="gitBookUrl">GitBook</ExternalLink>
+                <ExternalLink url={gitbookStakingUrl}>GitBook</ExternalLink>
               </FlexRow>
             </div>
           </div>
