@@ -1,5 +1,4 @@
 import { FlexCol, PageContainer } from "@shared";
-
 import { FormContainer } from "./FormContainer";
 import { UnclaimedRewardsBoxWrapper } from "./UnclaimedRewardsBoxWrapper";
 import { RewardsTableContainer } from "./rewards-table/RewardsTableContainer";
@@ -15,7 +14,7 @@ export const StakingPage = () => {
   return (
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
-        <div className="grid grid-rows-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
+        <div className="flex flex-col md:grid grid-rows-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
           <div className="flex flex-col gap-9">
             {isConnected && (
               <>
@@ -27,7 +26,7 @@ export const StakingPage = () => {
             <RewardsTableContainer />
             <StakingDetails />
           </div>
-          <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
+          <div className="order-first md:order-2 md:sticky top-6 md:min-w-[460px]">
             <FormContainer />
           </div>
         </div>
