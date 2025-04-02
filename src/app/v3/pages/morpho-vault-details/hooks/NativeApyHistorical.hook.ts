@@ -5,6 +5,7 @@ import { TimeseriesOptions } from "../../../../../generated-graphql";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchNetApyHistorical } from "../../../../statev3/morpho/net-apy-historical/NetApyHistorical.fetch";
 import { mapNativeApyData } from "../../../../statev3/morpho/mappers/mapNativeApyData";
+import { MorphoQueryKeys } from "../../../../statev3/morpho/query-keys";
 
 export const useFetchNativeApyHistorical = (
   address?: Address,
@@ -12,7 +13,7 @@ export const useFetchNativeApyHistorical = (
   options?: TimeseriesOptions
 ) => {
   const { data, ...rest } = useQuery({
-    queryKey: ["hookFetchNativeApy", address, chainId, options],
+    queryKey: MorphoQueryKeys.netApyHistoricalHook(address, chainId, options),
     queryFn: () => fetchNetApyHistorical(address as string, chainId, options),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,

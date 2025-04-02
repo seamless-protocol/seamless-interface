@@ -1,14 +1,14 @@
 import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber } from "@shared";
-import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
-import { mapVaultData } from "../mappers/mapVaultData";
-import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
 import { base } from "viem/chains";
 
-import { readContract } from "wagmi/actions";
-import { Address, erc20Abi } from "viem";
-import { vaultConfig } from "../../settings/config";
+import { Address } from "viem";
 import { getConfig } from "../../../utils/queryContractUtils";
+import { fetchAssetBalance } from "../../queries/AssetBalance.hook";
 import { fetchAssetBalanceUsdValue } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { vaultConfig } from "../../settings/config";
+import { fetchFullVaultInfo } from "../full-vault-info/FullVaultInfo.fetch";
+import { ExtendedMappedVaultPositionsResult } from "../types/ExtendedVaultPosition";
+import { mapVaultData } from "../mappers/mapVaultData";
 
 interface VaultPositionAddress {
   vault: Address;
@@ -23,11 +23,11 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
 
   // Check the user's balance in each vault
   const promises = Object.entries(vaultConfig).map(async ([vaultAddress]) => {
-    const balance = await readContract(config, {
-      address: vaultAddress as Address,
-      abi: erc20Abi,
-      functionName: "balanceOf",
-      args: [user as Address],
+    if (user === undefined) return undefined;
+    if (vaultAddress === undefined) return undefined;
+    const balance = await fetchAssetBalance({
+      account: user as Address,
+      asset: vaultAddress as Address,
     });
 
     return {
@@ -38,9 +38,9 @@ export const fetchUserVaultPositions = async (user: string | undefined) => {
 
   const vaultResults = await Promise.all(promises);
   return vaultResults
-    .filter((item) => item.balance && item.balance > 0n)
+    .filter((item) => item?.balance && item.balance.bigIntValue && item.balance.bigIntValue > 0n)
     .map((item) => ({
-      vault: item.vault,
+      vault: item?.vault,
     })) as VaultPositionAddress[];
 };
 
