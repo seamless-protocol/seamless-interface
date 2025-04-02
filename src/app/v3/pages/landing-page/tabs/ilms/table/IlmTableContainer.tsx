@@ -14,7 +14,7 @@ export const IlmTableContainer: React.FC<{
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
-      <TableRow className="hidden md:grid grid-cols-7 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl border-solid border-b border-b-divider">
+      <TableRow className="hidden md:grid grid-cols-6 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl border-solid border-b border-b-divider">
         <TableCell className="col-span-2 justify-center" alignItems="items-start">
           <Typography type="bold1">ILM Strategies</Typography>
         </TableCell>
@@ -23,9 +23,6 @@ export const IlmTableContainer: React.FC<{
         </TableCell>
         <TableCell className="col-span-1">
           <Typography type="bold1">TVL</Typography>
-        </TableCell>
-        <TableCell className="col-span-1">
-          <Typography type="bold1">Rewards APR</Typography>
         </TableCell>
         <TableCell className="col-span-1">
           <Typography type="bold1">30d Historical Return</Typography>

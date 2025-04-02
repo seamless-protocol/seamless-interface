@@ -29,7 +29,7 @@ export const ILMDesktopTableRow: React.FC<{
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
     >
-      <TableRow className="md:grid grid-cols-7 relative">
+      <TableRow className="md:grid grid-cols-6 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
             <Icon width={64} src={strategyData?.logo} alt="logo" />
@@ -56,9 +56,6 @@ export const ILMDesktopTableRow: React.FC<{
           <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
         </TableCell>
         <TableCell className="col-span-1">
-          <StrategyIncentivesButton strategy={strategy} />
-        </TableCell>
-        <TableCell className="col-span-1">
           <SignIndicatingElement
             noBackground
             dislayable={{
@@ -68,6 +65,7 @@ export const ILMDesktopTableRow: React.FC<{
           >
             <DisplayNumber typography="bold3" {...apy} {...apyRest} />
           </SignIndicatingElement>
+          <StrategyIncentivesButton strategy={strategy} />
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney

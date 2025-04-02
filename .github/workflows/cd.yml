@@ -43,6 +43,7 @@ jobs:
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_DUNE_CACHE_API=${{ vars.VITE_DUNE_CACHE_API }} >> .env.production
           echo VITE_DUNE_QUERY_KEY=${{ vars.VITE_DUNE_QUERY_KEY }} >> .env.production
+          echo VITE_STAKING_FEATURE=${{ vars.VITE_STAKING_FEATURE }} >> .env.production
           cat .env.production
 
       - run: npm ci
