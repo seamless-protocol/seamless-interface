@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
 import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { intervalToDuration, formatDuration } from "date-fns";
+import { intervalToDuration, formatDuration, format } from "date-fns";
+import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 
 export interface Dhms {
   days: string;
@@ -29,7 +30,15 @@ export const secondsToDhms = (totalSeconds: number): string => {
   });
 };
 
-export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number; isUnstakeWindow: boolean }) => {
+export const UnstakeForm = ({
+  remaining,
+  isUnstakeWindow,
+  deadline,
+}: {
+  remaining: number;
+  isUnstakeWindow: boolean;
+  deadline: number | null;
+}) => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
 
   if (isLoading) {
@@ -50,7 +59,14 @@ export const UnstakeForm = ({ remaining, isUnstakeWindow }: { remaining: number;
     );
   }
 
-  return <UnstakeFormLocal tokenData={tokenInfo} remaining={remaining} isUnstakeWindow={isUnstakeWindow} />;
+  return (
+    <UnstakeFormLocal
+      tokenData={tokenInfo}
+      remaining={remaining}
+      isUnstakeWindow={isUnstakeWindow}
+      deadline={deadline}
+    />
+  );
 };
 
 interface FormData {
@@ -58,11 +74,14 @@ interface FormData {
   receiveAmount: string;
 }
 
-const UnstakeFormLocal: React.FC<{
+interface UnstakeFormLocalProps {
   tokenData: TokenData;
   remaining: number;
   isUnstakeWindow: boolean;
-}> = ({ tokenData, remaining, isUnstakeWindow }) => {
+  deadline: number | null;
+}
+
+const UnstakeFormLocal: React.FC<UnstakeFormLocalProps> = ({ tokenData, remaining, isUnstakeWindow, deadline }) => {
   const { onTransaction } = useFormSettingsContext();
   const { decimals: tokenDecimals, symbol: tokenSymbol } = tokenData;
 
@@ -78,6 +97,7 @@ const UnstakeFormLocal: React.FC<{
   const { unstakeAsync, isWithdrawPending } = useUnstakeSafetyModule();
 
   const formatedDhms = secondsToDhms(remaining);
+  const formattedDeadline = deadline ? format(new Date(deadline * 1000), "PPpp") : "";
 
   const onSubmitAsync = async (data: FormData) => {
     await unstakeAsync(
@@ -119,21 +139,29 @@ const UnstakeFormLocal: React.FC<{
         <FlexCol className="gap-6">
           {!isUnstakeWindow ? (
             <FlexCol className="gap-3">
-              <Typography type="medium3">Unstake Ready in:</Typography>
-              <Typography type="medium2" className="text-red-400">
+              <FlexRow className="gap-1">
+                <Typography type="medium2">
+                  Your unstake cooldown ends on at: <br />
+                  <strong>{formattedDeadline}</strong>
+                </Typography>
+                <StakeInfoTooltip />
+              </FlexRow>
+              <Typography type="medium2">
+                Unstake Ready in: <br />
                 {formatedDhms}
               </Typography>
             </FlexCol>
           ) : (
             <FlexCol className="gap-3">
-              <Typography type="medium3">Unstake Available For:</Typography>
+              <Typography type="medium3">You have until {formattedDeadline} to unstake:</Typography>
               <Typography type="medium2" className="text-green-400">
                 {formatedDhms}
               </Typography>
-              <RHFUnstakeAmountField vault={tokenData.address} name="amount" />
             </FlexCol>
           )}
         </FlexCol>
+
+        <RHFUnstakeAmountField vault={tokenData.address} name="amount" disabled={!isUnstakeWindow} />
 
         <FormButtons isDisabled={isWithdrawPending} isLoading={isWithdrawPending} isUnstakeWindow={isUnstakeWindow} />
       </FlexCol>

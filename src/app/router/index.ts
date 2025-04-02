@@ -7,7 +7,6 @@ export const gauntletOptimizedTwitterUrl = "https://twitter.com/SeamlessFi/statu
 const lendingAndBorrowingUrl = "https://legacy.seamlessprotocol.com";
 const supplyEthLegacy = `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=0x4200000000000000000000000000000000000006&marketName=proto_base_v3`;
 const stakingFarmsUrl = "https://farms.seamlessprotocol.com";
-const governanceUrl = "https://legacy.seamlessprotocol.com/governance";
 const claimAirdropUrl = "https://claim.seamlessprotocol.com/";
 const faqUrl = "https://docs.seamlessprotocol.com/overview/faq";
 const developersUrl = "https://github.com/seamless-protocol";
@@ -19,9 +18,21 @@ export const ilmMediumUrl =
   "https://seamlessprotocol.com/blog-posts/ilms-simplifying-and-enhancing-your-defi-strategies?utm_source=SeamlessAppRedirectILMBlog";
 const vaultsFyiUrl = "https://www.vaults.fyi/vaults/base";
 export const seamlessSurveyUrl = "https://form.typeform.com/to/WAJ8RIoL";
+export const legacyPlatformDeprecationNoticeUrl =
+  "https://discord.com/channels/1037820309400731769/1037836076875788419/1355232743541182566";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
-export const disourseUrl =
-  "https://seamlessprotocol.discourse.group/t/gp-what-drives-seamless-core-beliefs-vision-future/584";
+
+export const discourseBaseUrl = "https://seamlessprotocol.discourse.group";
+
+export const disourseUrl = `${discourseBaseUrl}/t/gp-what-drives-seamless-core-beliefs-vision-future/584`;
+
+export const tallyUrl = "https://www.tally.xyz/gov/seamless-protocol";
+export const snapShotUrl = "https://snapshot.box/#/s:seamlessprotocol.eth";
+export const govFaqUrl = "https://docs.seamlessprotocol.com/governance/governance-overview";
+export const delegateUrl = "https://seamlessprotocol.discourse.group/t/seamless-community-representatives/42";
+
+export const legacyGovUrl = "https://legacy.seamlessprotocol.com/governance";
+export const gitbookStakingUrl = "https://docs.seamlessprotocol.com/overview/seam-staking";
 
 const baseScan = "https://basescan.org";
 
@@ -31,7 +42,8 @@ export const RouterConfig = {
     landingPage: `${baseUrl}/`,
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
     stakingFarms: `${stakingFarmsUrl}/`,
-    governance: `${governanceUrl}/`,
+    stakingTab: `/?tab=Staking`,
+    governance: `/governance`,
     chaosRiskDashboard: chaosRiskDashboardUrl,
     gauntletRiskDashboard: gauntletRiskDashboardUrl,
     claimAirdrop: `${claimAirdropUrl}`,
@@ -59,9 +71,9 @@ export const RouterConfig = {
 };
 
 const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } = {
-  [seamlessUSDCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-usdc-vaults/770",
-  [seamlesscbBTCMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-the-seamless-cbbtc-vault/819/",
-  [seamlessETHMorphoVault]: "https://seamlessprotocol.discourse.group/t/introducing-seamless-weth-vault/864",
+  [seamlessUSDCMorphoVault]: `${discourseBaseUrl}/t/introducing-seamless-usdc-vaults/770`,
+  [seamlesscbBTCMorphoVault]: `${discourseBaseUrl}/t/introducing-the-seamless-cbbtc-vault/819/`,
+  [seamlessETHMorphoVault]: `${discourseBaseUrl}/t/introducing-seamless-weth-vault/864`,
 };
 
 export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {

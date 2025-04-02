@@ -1,9 +1,9 @@
-import { getConfig } from "../../../utils/queryContractUtils";
+import { getConfig } from "../../../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
-import { StakedTokenAbi } from "../../../../../abis/StakedToken";
-import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { StakedTokenAbi } from "../../../../../../abis/StakedToken";
+import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { Address } from "viem";
-import { queryConfig } from "../../settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 
 export const totalAssetsQueryOptions = (address?: Address) => {
   return readContractQueryOptions(getConfig(), {

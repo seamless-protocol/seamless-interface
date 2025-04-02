@@ -5,6 +5,7 @@ import ogPointsIcon from "@assets/tokens/og-points.svg";
 import brettIcon from "@assets/tokens/brett.svg";
 import wethIcon from "@assets/tokens/weth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
+import stakedSEAMIcon from "@assets/tokens/stakedSEAM.svg";
 import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
@@ -51,5 +52,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlessUSDCMorphoVault, usdcIcon],
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
-  [STAKED_SEAM_ADDRESS, seamIcon], // TODO: stakedSeamIcon
+  [STAKED_SEAM_ADDRESS, stakedSEAMIcon],
 ]);

@@ -15,10 +15,11 @@ import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
-import { SurveyBanner } from "./components/banner/SurveyBanner";
+import { StakingBanner } from "./components/banner/StakingBanner";
 import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
+import { GovernancePage } from "./pages/governance/GovernancePage";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -30,7 +31,7 @@ export function App() {
           <QueryParamProvider adapter={ReactRouter6Adapter}>
             <NavigationBar />
             <div className="flex flex-col gap-4">
-              <SurveyBanner />
+              {import.meta.env.VITE_STAKING_FEATURE === "true" && <StakingBanner />}
               <Audited />
             </div>
 
@@ -40,6 +41,7 @@ export function App() {
                   <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                   <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                   <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                  <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
                   <Route path="*" element={<PageNotFound />} />
                 </SentryRoutes>
               </NotificationProvider>
