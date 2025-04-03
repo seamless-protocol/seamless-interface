@@ -6,7 +6,7 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
+import { FallbackPage, FlexCol, NetworkListener, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
@@ -37,13 +37,15 @@ export function App() {
 
             <FlexCol className="min-h-screen">
               <NotificationProvider>
-                <SentryRoutes>
-                  <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
-                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
-                  <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
-                  <Route path="*" element={<PageNotFound />} />
-                </SentryRoutes>
+                <NetworkListener>
+                  <SentryRoutes>
+                    <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                    <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                    <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                    <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
+                    <Route path="*" element={<PageNotFound />} />
+                  </SentryRoutes>
+                </NetworkListener>
               </NotificationProvider>
               <Footer />
             </FlexCol>
