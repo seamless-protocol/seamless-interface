@@ -34,7 +34,7 @@ export const NetworkListener: React.FC<NetworkListenerProps> = ({ children, mess
     if (isConnected && chainId === base.id) {
       closeNotification();
     }
-  }, [isConnected, chainId, showNotification]);
+  }, [isConnected, chainId, showNotification, closeNotification]);
 
   return <>{children}</>;
 };
