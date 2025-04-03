@@ -50,7 +50,6 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
     const { isConnected } = useAccount();
 
     const max = protocolMaxValue?.data?.value;
-    const hideTooltip = tokenData?.data?.symbol?.length ? tokenData?.data.symbol.length < 10 : false;
 
     const handleMaxClick = () => {
       if (!tokenData?.data?.decimals) {
@@ -106,9 +105,9 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
                   isLoading={tokenData?.isLoading}
                   alt="input-field-asset"
                 />
-                <Tooltip tooltip={tokenData?.data?.symbol} hidden={hideTooltip} size="small">
+                <Tooltip tooltip={tokenData?.data?.symbol} size="small">
                   <DisplayText
-                    className="max-w-40 text-start"
+                    className="max-w-28 md:max-w-40 text-start"
                     typography="medium4"
                     truncate
                     text={tokenData?.data?.symbol}
@@ -125,9 +124,9 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
             )}
             {isConnected && assetAddress && (
               <div className="inline-flex gap-2 items-end text-end">
-                <Tooltip tooltip={walletBalance?.data?.symbol} hidden={hideTooltip} size="small">
+                <Tooltip tooltip={walletBalance?.data?.symbol} size="small">
                   <DisplayTokenAmount
-                    className="max-w-44"
+                    className="max-w-32 md:max-w-44"
                     truncate
                     {...walletBalance}
                     {...walletBalance?.data}

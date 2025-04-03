@@ -5,6 +5,7 @@ import { getAllDelegateeQK, getVotesReadContractQueryOptions } from "../queries/
 import { useAccount } from "wagmi";
 import { hookFetchGetPowersQK, useFetchDelegates } from "../queries/delegates/FetchDelegates.hook";
 import { SEAM_ADDRESS, ESSEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../meta";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateDelegate = (isRevoking?: boolean) => {
   /* ------------- */
@@ -54,6 +55,7 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
 
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: token,
           abi: StakedTokenAbi,
           functionName: "delegate",

@@ -50,12 +50,14 @@ const connectors = connectorsForWallets(
   }
 );
 
+export const targetChain = base;
+
 // todo: move config outside of app, because of useToken in shared for example.
 export const config = createConfig({
   connectors,
-  chains: [base],
+  chains: [targetChain],
   transports: {
-    [base.id]: fallback(
+    [targetChain.id]: fallback(
       rpcConfig.map(({ url, isWebSocket }) => (isWebSocket ? webSocket(url) : http(url))),
       { rank: true }
     ),
@@ -63,9 +65,9 @@ export const config = createConfig({
 });
 
 export const extensiveOperationsConfig = createConfig({
-  chains: [base],
+  chains: [targetChain],
   transports: {
-    [base.id]: http(VITE_EXTENSIVE_OPERATIONS_RPC_URL),
+    [targetChain.id]: http(VITE_EXTENSIVE_OPERATIONS_RPC_URL),
   },
 });
 
