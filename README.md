@@ -79,7 +79,6 @@ This repository uses the following secrets for the deployment workflow. These se
 - **VITE_SENTRY_AUTH_TOKEN**=
 - **VITE_STYLE_VERSION**=
 - **VITE_USE_TENDERLY_SIMULATION**=
-- **VITE_TESTMODE**=
 - **VITE_ALCHEMY_SIMULATION_RPC_URL**=
 - **VITE_EXTENSIVE_OPERATIONS_RPC_URL**=
 - **VITE_DUNE_CACHE_API**=
