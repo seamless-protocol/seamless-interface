@@ -84,24 +84,26 @@ const StakeDepositFormLocal: React.FC<{
   };
 
   return (
-    <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <FlexCol className="gap-8">
-        <FlexRow>
-          <Typography type="medium1">
-            Please note that SEAM can only be unstaked after you initiate and wait a 7 day cooldown.
-          </Typography>
+    <div className=" max-w-full">
+      <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
+        <FlexCol className="gap-8">
+          <FlexRow>
+            <Typography type="medium1">
+              Please note that SEAM can only be unstaked after you initiate and wait a 7 day cooldown.
+            </Typography>
 
-          <StakeInfoTooltip />
-        </FlexRow>
-        <FlexCol className="gap-6">
-          <FlexCol className="gap-3">
-            <Typography type="medium3">Stake</Typography>
-            <RHFStakingAmountField name="amount" />
+            <StakeInfoTooltip />
+          </FlexRow>
+          <FlexCol className="gap-6">
+            <FlexCol className="gap-3">
+              <Typography type="medium3">Stake</Typography>
+              <RHFStakingAmountField name="amount" />
+            </FlexCol>
           </FlexCol>
-        </FlexCol>
 
-        <FormButtons isLoading={isPending} />
-      </FlexCol>
-    </MyFormProvider>
+          <FormButtons isLoading={isPending} />
+        </FlexCol>
+      </MyFormProvider>
+    </div>
   );
 };
