@@ -16,7 +16,6 @@ import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
 import { StakingBanner } from "./components/banner/StakingBanner";
-import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
