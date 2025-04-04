@@ -6,7 +6,7 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 //* * PAGES **/
 
 //* * LAYOUT **/
-import { FallbackPage, FlexCol, NotificationProvider, PageNotFound } from "@shared";
+import { FallbackPage, FlexCol, NetworkListener, NotificationProvider, PageNotFound } from "@shared";
 //* * SENTRY **/
 import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
@@ -15,10 +15,12 @@ import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
-import { NewVaultsBanner } from "./components/banner/NewVaultsBanner";
-import { getMorphoApolloClient } from "../config/apollo-clients";
+import { StakingBanner } from "./components/banner/StakingBanner";
+import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
+import { GovernancePage } from "./pages/governance/GovernancePage";
+import { getMorphoApolloClient } from "../config/apollo-clients";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -30,18 +32,21 @@ export function App() {
           <QueryParamProvider adapter={ReactRouter6Adapter}>
             <NavigationBar />
             <div className="flex flex-col gap-4">
-              <NewVaultsBanner />
+              {import.meta.env.VITE_STAKING_FEATURE === "true" && <StakingBanner />}
               <Audited />
             </div>
 
             <FlexCol className="min-h-screen">
               <NotificationProvider>
-                <SentryRoutes>
-                  <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
-                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
-                  <Route path="*" element={<PageNotFound />} />
-                </SentryRoutes>
+                <NetworkListener>
+                  <SentryRoutes>
+                    <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                    <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                    <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                    <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
+                    <Route path="*" element={<PageNotFound />} />
+                  </SentryRoutes>
+                </NetworkListener>
               </NotificationProvider>
               <Footer />
             </FlexCol>

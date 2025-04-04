@@ -28,7 +28,7 @@ export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalO
           <Typography type="bold5">{status ? ENUM_MESSAGES[status] : "Invalid status."}</Typography>
         </FlexCol>
 
-        <div>{content}</div>
+        <div className="max-w-[420px] p-2">{content}</div>
 
         <FlexCol className="w-full gap-2 mt-4">
           {status === "success" && txHash && (

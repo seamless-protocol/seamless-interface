@@ -2,7 +2,7 @@ import { TableRow, TableCell, Typography } from "@shared";
 import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
-import { NoPositionsTableGuard } from "./NoStrategiesTableGuard";
+import { EmptyTableGuard } from "../../../../common/components/EmptyTableGuard";
 import { useFetchUserVaultPositions } from "../../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
 import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRowContainer";
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
@@ -30,12 +30,12 @@ export const TableContainer = () => {
             <Typography type="bold1">Unrealized Gain/Loss</Typography>
           </TableCell>
           <TableCell className="col-span-2">
-            <Typography type="bold1">Unclaimed Rewards</Typography>
+            <Typography type="bold1">Claimable Rewards</Typography>
           </TableCell>
           <TableCell className="col-span-4" />
         </TableRow>
 
-        <NoPositionsTableGuard
+        <EmptyTableGuard
           numberOfStrategiesDisplayable={{
             ...rest,
             ...vaultsRest,
@@ -66,7 +66,7 @@ export const TableContainer = () => {
               </Link>
             </div>
           ))}
-        </NoPositionsTableGuard>
+        </EmptyTableGuard>
       </div>
     </div>
   );

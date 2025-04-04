@@ -4,6 +4,7 @@ import { useFetchViewAllUserRewards } from "../../lending-borrowing/hooks/useFet
 import { BRETT_ADDRESS } from "../../../../meta";
 import { ViewAllUserRewards } from "../../lending-borrowing/types/ViewAllUserRewards";
 import { useFetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
+import { targetChain } from "../../../config/rainbow.config";
 
 // TODO: Remove this dirty function once esSEAM is upgraded and works properly
 function isBrettOnlyRewardToken(allUsersRewards: ViewAllUserRewards): boolean {
@@ -29,6 +30,7 @@ export const useMutateClaimAllRewards = () => {
 
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           ...rewardsControllerConfig,
           functionName: "claimRewardsToSelf",
           args: [allRewardsAccruingAssets!, brettRewardAmount!, BRETT_ADDRESS],
@@ -39,6 +41,7 @@ export const useMutateClaimAllRewards = () => {
 
     await writeContractAsync(
       {
+        chainId: targetChain.id,
         ...rewardsControllerConfig,
         functionName: "claimAllRewardsToSelf",
         args: [allRewardsAccruingAssets!],

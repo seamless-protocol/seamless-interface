@@ -42,11 +42,20 @@ export async function fetchMorphoExtendedMappedUserRewards(userAddress: Address,
     (acc, reward) => acc + (reward?.combinedClaimableNowUsd?.bigIntValue || 0n),
     0n
   );
+  const totalUsdInTheFuture = extendedRewards?.reduce(
+    (acc, reward) => acc + (reward?.combinedClaimableNextUsd?.bigIntValue || 0n),
+    0n
+  );
 
   return {
     rewards: extendedRewards,
     combinedClaimableNowViewValue: formatFetchBigIntToViewBigInt({
       bigIntValue: totalUsdValue,
+      decimals: pricePrecision,
+      symbol: "$",
+    }),
+    combinedClaimableNextViewValue: formatFetchBigIntToViewBigInt({
+      bigIntValue: totalUsdInTheFuture,
       decimals: pricePrecision,
       symbol: "$",
     }),

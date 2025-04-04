@@ -1,5 +1,6 @@
 import { Typography } from "@shared";
 
+// todo rename this, remove local
 export const LocalCollapseTitle: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {

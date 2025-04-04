@@ -46,15 +46,12 @@ export const ILMMobileTableRow: React.FC<{
             <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
           </FlexCol>
         </div>
-        <div className="flex justify-between items-center mr-[-6px]">
-          <Typography type="regular1">Rewards APR:</Typography>
-          <StrategyIncentivesButton strategy={strategy} />
-        </div>
         <div className="flex justify-between items-center">
           <Typography type="regular1">30d historical return:</Typography>
           <FlexRow className="items-center gap-1">
             <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
             <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
+            <StrategyIncentivesButton strategy={strategy} />
           </FlexRow>
         </div>
         <div className="flex justify-between items-center">

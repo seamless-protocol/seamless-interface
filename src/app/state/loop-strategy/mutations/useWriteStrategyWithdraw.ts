@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "@generated";
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { targetChain } from "../../../config/rainbow.config";
 
 // todo: replace id with address?
 export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
@@ -8,7 +9,10 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
 
   const withdrawAsync = async (
     args: {
-      shares: bigint | undefined, from: Address, receiver: Address, minToReceive: bigint
+      shares: bigint | undefined;
+      from: Address;
+      receiver: Address;
+      minToReceive: bigint;
     },
     settings?: SeamlessWriteAsyncParams
   ) => {
@@ -20,15 +24,11 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
 
     await writeContractAsync(
       {
+        chainId: targetChain.id,
         address: subStrategy,
         abi: loopStrategyAbi,
         functionName: "redeem",
-        args: [
-          args.shares!,
-          args.from,
-          args.receiver,
-          args.minToReceive
-        ],
+        args: [args.shares!, args.from, args.receiver, args.minToReceive],
       },
       { ...settings }
     );
@@ -36,6 +36,6 @@ export const useWriteStrategyWithdraw = (subStrategy?: Address) => {
 
   return {
     withdrawAsync,
-    ...rest
+    ...rest,
   };
 };
