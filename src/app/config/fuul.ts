@@ -1,31 +1,53 @@
 import { Fuul } from "@fuul/sdk";
 
-Fuul.init({ apiKey: import.meta.env.VITE_BASE_RPC_FREE_1 });
-
 // Fuul.getRewardDetails({
 //   type: "incentive",
 //   projectId: "PROJECT_ID",
 //   conversion_external_id: "CONVERSION_EXTERNAL_ID",
 // });
 
+const apiKey = import.meta.env.VITE_FULL_API_KEY;
+const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
+
+const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
+
 export const TestFuul = async () => {
-  const a1 = await Fuul.getPayoutsLeaderboard({ currency_address: "0x12345" });
-  console.log(a1);
+  Fuul.init({ apiKey });
 
-  const a2 = await await Fuul.getPointsLeaderboard({
-    user_address: "0x12345",
-    from: new Date("2021-01-01"),
-    to: new Date("2022-01-01"),
-    // user_type: '', // all, affiliate or end_user
-    conversions: "1,2,3",
-  });
+  const getConversions = await Fuul.getConversions({});
 
-  console.log({ a2 });
+  try {
+    const getPointsLeaderboard = await Fuul.getPointsLeaderboard({});
 
-  const a3 = await Fuul.getUserPointsByConversion({
-    user_address: "0x12345",
-    from: new Date("2021-01-01"),
-    to: new Date("2026-01-01"),
-  });
-  console.log(a3);
+    console.log({ getPointsLeaderboard });
+  } catch (error) {
+    console.error(error);
+  }
+  try {
+    const getPayoutsLeaderboard = await Fuul.getPayoutsLeaderboard({});
+
+    console.log({ getPayoutsLeaderboard });
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
+    const getUserPointsByConversion = await Fuul.getUserPointsByConversion({
+      user_address,
+      from: new Date("2025-01-01"),
+      to: new Date(),
+    });
+    console.log({ getUserPointsByConversion });
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
+    const getUserAffiliates = await Fuul.getUserAffiliates({
+      user_address,
+    });
+    console.log({ getUserAffiliates });
+  } catch (error) {
+    console.error(error);
+  }
 };

@@ -20,10 +20,15 @@ import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { getMorphoApolloClient } from "../config/apollo-clients";
+import { TestFuul } from "../config/fuul";
+import { useEffect } from "react";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
+  useEffect(() => {
+    TestFuul();
+  }, []);
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <ApolloProvider client={getMorphoApolloClient()}>
