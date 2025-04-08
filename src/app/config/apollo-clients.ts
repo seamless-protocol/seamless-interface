@@ -9,7 +9,7 @@ const morphoApolloClient = new ApolloClient({
 export const getMorphoApolloClient = () => morphoApolloClient;
 
 const fuulApolloClient = new ApolloClient({
-  uri: "https://api.fuul.io/graphql",
+  uri: "https://subgraph.satsuma-prod.com/64a0e71a7397/fuul-team--611570/base/api",
   cache: new InMemoryCache(),
 });
 

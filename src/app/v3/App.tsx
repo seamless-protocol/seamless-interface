@@ -20,7 +20,7 @@ import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { getMorphoApolloClient } from "../config/apollo-clients";
-import { TestFuul } from "../config/fuul";
+import { TestFuul, TestFuulComponent } from "../config/fuul";
 import { useEffect } from "react";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
@@ -39,6 +39,8 @@ export function App() {
               {import.meta.env.VITE_STAKING_FEATURE === "true" && <StakingBanner />}
               <Audited />
             </div>
+
+            <TestFuulComponent />
 
             <FlexCol className="min-h-screen">
               <NotificationProvider>

@@ -1,4 +1,6 @@
 import { Fuul } from "@fuul/sdk";
+import { usePointsLeaderboard } from "../statev3/fuul/queries/fetch-points-leaderboard/FetchPointsLeaderboard.hook";
+import { useUserBalances } from "../statev3/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
 
 // Fuul.getRewardDetails({
 //   type: "incentive",
@@ -7,13 +9,13 @@ import { Fuul } from "@fuul/sdk";
 // });
 
 const apiKey = import.meta.env.VITE_FULL_API_KEY;
+Fuul.init({ apiKey });
+
 const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
 
 const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
 
 export const TestFuul = async () => {
-  Fuul.init({ apiKey });
-
   const getConversions = await Fuul.getConversions({});
 
   try {
@@ -43,6 +45,13 @@ export const TestFuul = async () => {
   }
 
   try {
+    const getVolumeLeaderboard = await Fuul.getVolumeLeaderboard({});
+    console.log({ getVolumeLeaderboard });
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
     const getUserAffiliates = await Fuul.getUserAffiliates({
       user_address,
     });
@@ -50,4 +59,14 @@ export const TestFuul = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const TestFuulComponent = () => {
+  const { data } = useUserBalances({ owner: user_address });
+  const { data: d1 } = usePointsLeaderboard({});
+
+  console.log({ data });
+  console.log({ d1 });
+
+  return <div>test fuul</div>;
 };
