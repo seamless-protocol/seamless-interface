@@ -17,10 +17,9 @@ export async function fetchExtendedUserBalances(
   const extendedUserBalances = await Promise.all(
     result.data.userBalances.map(async (userBalance) => {
       const currencyToken = await fetchToken(userBalance.currency);
-      const availableToClaimBigInt = BigInt(userBalance.availableToClaim);
       const availableToClaimFormatted = formatFetchBigIntToViewBigInt({
         ...currencyToken,
-        bigIntValue: availableToClaimBigInt,
+        bigIntValue: userBalance.availableToClaim,
       });
 
       return {
