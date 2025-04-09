@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserBalances } from "./FetchUserBalances.fetch";
 import { GetUserBalancesQueryVariables } from "../../../../../generated-graphql/subgraph-index";
-import { queryConfig } from "../../../settings/queryConfig";
 import { FuulQueryKeys } from "../../query-keys/FuulQueryKeys";
+import { fetchExtendedUserBalances } from "./FetchUserBalances.mapper";
 
-export const useUserBalances = (variables: GetUserBalancesQueryVariables) => {
+export const useFetchUserBalances = (variables: GetUserBalancesQueryVariables) => {
   return useQuery({
     queryKey: FuulQueryKeys.userBalancesHook(variables),
-    queryFn: () => fetchUserBalances(variables),
-    ...queryConfig.semiSensitiveDataQueryConfig,
-    enabled: Boolean(variables.owner),
+    queryFn: () => fetchExtendedUserBalances(variables),
+    enabled: Boolean(variables.where?.owner),
   });
 };

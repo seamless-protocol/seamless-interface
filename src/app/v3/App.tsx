@@ -20,15 +20,11 @@ import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { getMorphoApolloClient } from "../config/apollo-clients";
-import { TestFuul, TestFuulComponent } from "../config/fuul";
-import { useEffect } from "react";
+import { FuulPage } from "./pages/fuul/FuulPage";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 export function App() {
-  useEffect(() => {
-    TestFuul();
-  }, []);
   return (
     <Sentry.ErrorBoundary fallback={FallbackPage} showDialog>
       <ApolloProvider client={getMorphoApolloClient()}>
@@ -40,8 +36,6 @@ export function App() {
               <Audited />
             </div>
 
-            <TestFuulComponent />
-
             <FlexCol className="min-h-screen">
               <NotificationProvider>
                 <NetworkListener>
@@ -50,6 +44,7 @@ export function App() {
                     <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                     <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
                     <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
+                    {import.meta.env.VITE_STAKING_FEATURE === "true" && <Route path="/fuul" element={<FuulPage />} />}
                     <Route path="*" element={<PageNotFound />} />
                   </SentryRoutes>
                 </NetworkListener>

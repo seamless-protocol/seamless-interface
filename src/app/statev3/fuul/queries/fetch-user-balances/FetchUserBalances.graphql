@@ -1,13 +1,10 @@
-query GetUserBalances($owner: String!, $currency: Bytes, $projectAddress: Bytes) {
-  userBalances(
-    where: {
-      owner_contains_nocase: $owner
-      currency_contains: $currency
-      project_: { deployedAddress: $projectAddress }
+query GetUserBalances($where: UserBalance_filter) {
+  userBalances(where: $where) {
+    owner {
+      address
     }
-  ) {
-    availableToClaim
     claimed
+    availableToClaim
     currency
     project {
       id

@@ -1,6 +1,7 @@
 import { GetPointsLeaderboardParams, GetPayoutsLeaderboardParams } from "@fuul/sdk/dist/types/api";
 import { getHashedQueryKey, QueryTypes, Scopes } from "../../../../meta/query-keys";
 import { GetUserBalancesQueryVariables } from "../../../../generated-graphql/subgraph-index";
+import { Address } from "viem";
 
 export const FuulQueryKeys = {
   /* ---------------------- */
@@ -47,6 +48,14 @@ export const FuulQueryKeys = {
     },
   ],
 
+  volumeLeaderboard: (params: GetPayoutsLeaderboardParams) => [
+    {
+      ...FuulQueryKeys.childApiQueries[0],
+      functionName: "getVolumeLeaderboard",
+      ...params,
+    },
+  ],
+
   /* ------------------- */
   /*   GRAPHQL QUERIES   */
   /* ------------------- */
@@ -72,6 +81,19 @@ export const FuulQueryKeys = {
     },
   ],
 
+  pointsUserPositionHook: (user_address: Address) => [
+    {
+      ...FuulQueryKeys.hookQueries[0],
+      functionName: "getPointsUserPositionHook",
+      user: user_address,
+      ...getHashedQueryKey({
+        queryKey: FuulQueryKeys.pointsLeaderboard({
+          user_address,
+        }),
+      }),
+    },
+  ],
+
   payoutsLeaderboardHook: (params: GetPayoutsLeaderboardParams) => [
     {
       ...FuulQueryKeys.hookQueries[0],
@@ -83,6 +105,17 @@ export const FuulQueryKeys = {
     },
   ],
 
+  volumeLeaderboardHook: (params: GetPayoutsLeaderboardParams) => [
+    {
+      ...FuulQueryKeys.hookQueries[0],
+      functionName: "getVolumeLeaderboardHook",
+      ...params,
+      ...getHashedQueryKey({
+        queryKey: FuulQueryKeys.volumeLeaderboard(params),
+      }),
+    },
+  ],
+
   userBalancesHook: (props: GetUserBalancesQueryVariables) => [
     {
       ...FuulQueryKeys.hookQueries[0],
@@ -90,6 +123,16 @@ export const FuulQueryKeys = {
       ...props,
       ...getHashedQueryKey({
         queryKey: FuulQueryKeys.userBalances(props),
+      }),
+    },
+  ],
+
+  totalNumberOfUsersHook: () => [
+    {
+      ...FuulQueryKeys.hookQueries[0],
+      functionName: "getTotalNumberOfUsersHook",
+      ...getHashedQueryKey({
+        queryKey: FuulQueryKeys.volumeLeaderboard({}),
       }),
     },
   ],

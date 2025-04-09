@@ -1890,22 +1890,21 @@ export enum _SubgraphErrorPolicy_ {
 }
 
 export type GetUserBalancesQueryVariables = Exact<{
-  owner: Scalars['String']['input'];
-  currency?: InputMaybe<Scalars['Bytes']['input']>;
-  projectAddress?: InputMaybe<Scalars['Bytes']['input']>;
+  where?: InputMaybe<UserBalance_Filter>;
 }>;
 
 
-export type GetUserBalancesQuery = { __typename?: 'Query', userBalances: Array<{ __typename?: 'UserBalance', availableToClaim: any, claimed: any, currency: any, project: { __typename?: 'Project', id: string, deployedAddress: any } }> };
+export type GetUserBalancesQuery = { __typename?: 'Query', userBalances: Array<{ __typename?: 'UserBalance', claimed: any, availableToClaim: any, currency: any, owner: { __typename?: 'User', address: any }, project: { __typename?: 'Project', id: string, deployedAddress: any } }> };
 
 
 export const GetUserBalancesDocument = gql`
-    query GetUserBalances($owner: String!, $currency: Bytes, $projectAddress: Bytes) {
-  userBalances(
-    where: {owner_contains_nocase: $owner, currency_contains: $currency, project_: {deployedAddress: $projectAddress}}
-  ) {
-    availableToClaim
+    query GetUserBalances($where: UserBalance_filter) {
+  userBalances(where: $where) {
+    owner {
+      address
+    }
     claimed
+    availableToClaim
     currency
     project {
       id
