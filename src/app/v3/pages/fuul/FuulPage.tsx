@@ -1,4 +1,4 @@
-import { PageContainer, FlexCol } from "../../../../shared";
+import { PageContainer, FlexCol } from "@shared";
 import { TestFuulComponent } from "./fuul";
 
 export const FuulPage = () => {

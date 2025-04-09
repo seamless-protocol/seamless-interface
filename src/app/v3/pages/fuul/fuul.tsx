@@ -1,4 +1,3 @@
-import { Fuul } from "@fuul/sdk";
 import {
   useFetchPointsLeaderboard,
   useFetchPointsUserPosition,
@@ -6,72 +5,20 @@ import {
 import { useFetchUserBalances } from "../../../statev3/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
 import { useFetchTotalNumberOfUsers } from "../../../statev3/fuul/queries/fetch-volume-leaderboard/VolumeLeaderboard.hook";
 
-// Fuul.getRewardDetails({
-//   type: "incentive",
-//   projectId: "PROJECT_ID",
-//   conversion_external_id: "CONVERSION_EXTERNAL_ID",
-// });
-
-const apiKey = import.meta.env.VITE_FULL_API_KEY;
-Fuul.init({ apiKey });
-
 const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
 const sbgraph_user_address = "0x0019de95fa9953074432f7e66a8c5e8f043c8218";
 
 // const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
 
-export const TestFuul = async () => {
-  try {
-    const getPointsLeaderboard = await Fuul.getPointsLeaderboard({});
-
-    console.log({ getPointsLeaderboard });
-  } catch (error) {
-    console.error(error);
-  }
-  try {
-    const getPayoutsLeaderboard = await Fuul.getPayoutsLeaderboard({});
-
-    console.log({ getPayoutsLeaderboard });
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const getUserPointsByConversion = await Fuul.getUserPointsByConversion({
-      user_address,
-      from: new Date("2025-01-01"),
-      to: new Date(),
-    });
-    console.log({ getUserPointsByConversion });
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const getVolumeLeaderboard = await Fuul.getVolumeLeaderboard({});
-    console.log({ getVolumeLeaderboard });
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const getUserAffiliates = await Fuul.getUserAffiliates({
-      user_address,
-    });
-    console.log({ getUserAffiliates });
-  } catch (error) {
-    console.error(error);
-  }
-};
 export const TestFuulComponent = () => {
   const { data: userBalances } = useFetchUserBalances({
     where: { owner: sbgraph_user_address },
   });
 
-  // 🟢 Get full leaderboard (all users)
+  // Get full leaderboard (all users)
   const { data: leaderboardData } = useFetchPointsLeaderboard({});
 
-  // 🟢 Get user's total points
+  // Get user's total points
   const { data: userPointsData } = useFetchPointsUserPosition(user_address);
 
   // Get Total users
