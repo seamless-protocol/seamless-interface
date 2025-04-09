@@ -7,6 +7,5 @@ export const useFetchUserBalances = (variables: GetUserBalancesQueryVariables) =
   return useQuery({
     queryKey: FuulQueryKeys.userBalancesHook(variables),
     queryFn: () => fetchExtendedUserBalances(variables),
-    enabled: Boolean(variables.where?.owner),
   });
 };

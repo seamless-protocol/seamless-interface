@@ -18,7 +18,7 @@ Fuul.init({ apiKey });
 const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
 const sbgraph_user_address = "0x0019de95fa9953074432f7e66a8c5e8f043c8218";
 
-const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
+// const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
 
 export const TestFuul = async () => {
   try {
