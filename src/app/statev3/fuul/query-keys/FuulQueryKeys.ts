@@ -59,11 +59,11 @@ export const FuulQueryKeys = {
   /* ------------------- */
   /*   GRAPHQL QUERIES   */
   /* ------------------- */
-  userBalances: (props: GetUserBalancesQueryVariables) => [
+  userBalances: (params: GetUserBalancesQueryVariables) => [
     {
       ...FuulQueryKeys.graphQlQueries[0],
       functionName: "GetUserBalances",
-      ...props,
+      ...params,
     },
   ],
 
@@ -116,13 +116,13 @@ export const FuulQueryKeys = {
     },
   ],
 
-  userBalancesHook: (props: GetUserBalancesQueryVariables) => [
+  userBalancesHook: (params: GetUserBalancesQueryVariables) => [
     {
       ...FuulQueryKeys.hookQueries[0],
       functionName: "GetUserBalancesHook",
-      ...props,
+      ...params,
       ...getHashedQueryKey({
-        queryKey: FuulQueryKeys.userBalances(props),
+        queryKey: FuulQueryKeys.userBalances(params),
       }),
     },
   ],
