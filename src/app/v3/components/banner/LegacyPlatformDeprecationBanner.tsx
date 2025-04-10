@@ -9,8 +9,13 @@ export const LegacyPlatformDeprecationBanner = () => {
         <div className="flex flex-col justify-center text-center w-full md:flex-row py-4 px-8 bg-warning-200 rounded-[100px] text-black">
           <FlexRow className="md:gap-1 gap-4 items-center justify-center w-full">
             <p className="text-bold3">
-              ILMs will have leverage disabled on April 11th, 2025. More details{" "}
-              <Link className="text-bold3 underline" target="_blank" rel="noreferrer" to={legacyPlatformDeprecationNoticeUrl}>
+              ILMs are officially deprecated, please withdraw. More details{" "}
+              <Link
+                className="text-bold3 underline"
+                target="_blank"
+                rel="noreferrer"
+                to={legacyPlatformDeprecationNoticeUrl}
+              >
                 HERE
               </Link>
             </p>
