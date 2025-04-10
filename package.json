@@ -56,7 +56,7 @@
     "use-query-params": "^2.2.1",
     "viem": "^2.21.45",
     "wagmi": "^2.14.11",
-    "wagmi-extended": "^1.0.7"
+    "wagmi-extended": "^1.1.0"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.2.0",
