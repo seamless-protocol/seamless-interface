@@ -55,7 +55,8 @@
     "tailwind-scrollbar": "^3.1.0",
     "use-query-params": "^2.2.1",
     "viem": "^2.21.45",
-    "wagmi": "^2.14.11"
+    "wagmi": "^2.14.11",
+    "wagmi-extended": "^1.0.7"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.2.0",
