@@ -43,6 +43,7 @@ export const RouterConfig = {
     lendingAndBorrowing: `${lendingAndBorrowingUrl}/`,
     stakingFarms: `${stakingFarmsUrl}/`,
     stakingTab: `/?tab=Staking`,
+    dashboardTab: `/?tab=Dashboard`,
     governance: `/governance`,
     chaosRiskDashboard: chaosRiskDashboardUrl,
     gauntletRiskDashboard: gauntletRiskDashboardUrl,
