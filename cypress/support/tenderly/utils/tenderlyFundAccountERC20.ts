@@ -19,7 +19,6 @@ export const tenderlyFundAccountERC20 = async (
       jsonrpc: "2.0",
       method: "tenderly_setErc20Balance",
       params: [tokenAddress, account, toHex(amount)],
-      id: "1234",
     }),
   });
 

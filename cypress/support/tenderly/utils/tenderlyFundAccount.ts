@@ -14,7 +14,6 @@ export const tenderlyFundAccount = async (forkUrl: string, account = targetAccou
       jsonrpc: "2.0",
       method: "tenderly_setBalance",
       params: [[account], toHex(amount)],
-      id: "1234",
     }),
   });
 

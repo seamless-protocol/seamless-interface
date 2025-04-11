@@ -11,7 +11,6 @@ export const tenderlyEvmRevert = async (forkUrl: string, snapshotId: string) => 
       jsonrpc: "2.0",
       method: "evm_revert",
       params: [snapshotId],
-      id: "1234",
     }),
   });
 
