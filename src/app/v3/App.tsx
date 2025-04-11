@@ -41,7 +41,7 @@ export function App() {
                   <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                   <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
                   <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
-                  {import.meta.env.VITE_FUUL_FEATURE === "true" && <Route path="/fuul" element={<FuulPage />} />}
+                  {import.meta.env.VITE_FUUL_ENABLE === "true" && <Route path="/fuul" element={<FuulPage />} />}
                   <Route path="*" element={<PageNotFound />} />
                 </SentryRoutes>
               </NetworkListener>
