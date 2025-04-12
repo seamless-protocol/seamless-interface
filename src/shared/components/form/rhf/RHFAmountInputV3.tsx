@@ -40,7 +40,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
       protocolMaxValue,
       assetButton,
       tokenData,
-      focusOnAssetChange = true,
+      focusOnAssetChange = false,
       hideMaxButton,
       ...other
     },
