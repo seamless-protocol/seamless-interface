@@ -1,5 +1,5 @@
 //* * ROUTER **/
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 
@@ -37,6 +37,7 @@ export function App() {
             <NotificationProvider>
               <NetworkListener>
                 <SentryRoutes>
+                  <Link to="/fuul">fuul</Link>
                   <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                   <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                   <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
