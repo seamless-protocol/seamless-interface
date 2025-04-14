@@ -34,9 +34,11 @@ export function App() {
           </div>
 
           <FlexCol className="min-h-screen">
-            <Link to="/fuul" className="text-bold3 underline text-center">
-              Fuul
-            </Link>
+            {import.meta.env.VITE_FUUL_ENABLE === "true" && (
+              <Link to="/fuul" className="text-bold3 underline text-center">
+                Fuul
+              </Link>
+            )}
             <NotificationProvider>
               <NetworkListener>
                 <SentryRoutes>
