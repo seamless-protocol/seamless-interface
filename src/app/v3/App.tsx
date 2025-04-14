@@ -35,7 +35,7 @@ export function App() {
 
           <FlexCol className="min-h-screen">
             <Link to="fuul" className="text-bold3 underline text-center">
-              fuul
+              Fuul
             </Link>
             <NotificationProvider>
               <NetworkListener>
