@@ -34,10 +34,12 @@ export function App() {
           </div>
 
           <FlexCol className="min-h-screen">
+            <Link to="fuul" className="text-bold3 underline text-center">
+              fuul
+            </Link>
             <NotificationProvider>
               <NetworkListener>
                 <SentryRoutes>
-                  <Link to="/fuul">fuul</Link>
                   <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                   <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
                   <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
