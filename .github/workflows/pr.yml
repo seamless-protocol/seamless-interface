@@ -40,7 +40,6 @@ jobs:
           echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.development
           echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.development
           echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.development
-          ls -al .env.development
           cat .env.development
 
       - run: npm ci
