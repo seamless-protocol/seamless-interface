@@ -4,6 +4,7 @@ import { STAKED_SEAM_ADDRESS } from "@meta";
 import { fetchStakerCooldownQK } from "../hooks/useFetchStakerCooldown";
 import { useAccount } from "wagmi";
 import { fetchCooldownQK } from "../hooks/useFetchCooldown";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useInitiateCooldown = () => {
   /* ------------- */
@@ -26,6 +27,7 @@ export const useInitiateCooldown = () => {
     try {
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
           functionName: "cooldown",

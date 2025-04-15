@@ -3,6 +3,7 @@ import { stakedTokenAbi } from "@generated";
 import { useAccount } from "wagmi";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useUnstakeSafetyModule = () => {
   /* ------------- */
@@ -39,6 +40,7 @@ export const useUnstakeSafetyModule = () => {
 
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: STAKED_SEAM_ADDRESS,
           abi: stakedTokenAbi,
           functionName: "redeem",

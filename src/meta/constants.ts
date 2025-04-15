@@ -35,7 +35,8 @@ export const rwstETH_ADDRESS: Address = "0xc9ae3B5673341859D3aC55941D27C8Be4698C
 export const rWETH_ADDRESS: Address = "0x3e8707557d4ad25d6042f590bcf8a06071da2c5f";
 export const DEGEN_ADDRESS: Address = "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed";
 export const SEAM_ADDRESS: Address = "0x1C7a460413dD4e964f96D8dFC56E7223cE88CD85";
-export const STAKED_SEAM_ADDRESS: Address = "0x21033E28Be63A4F0EA7B1c7339733F511FB8d65B";
+export const STAKED_SEAM_ADDRESS: Address = "0x73f0849756f6A79C1d536b7abAB1E6955f7172A4";
+
 export const AERO_ADDRESS: Address = "0x940181a94A35A4569E4529A3CDfB74e38FD98631";
 export const BRETT_ADDRESS: Address = "0x532f27101965dd16442E59d40670FaF5eBB142E4";
 export const ESSEAM_ADDRESS: Address = "0x998e44232BEF4F8B033e5A5175BDC97F2B10d5e5";
@@ -82,7 +83,7 @@ export const seamlesscbBTCMorphoVault: Address = "0x5a47C803488FE2BB0A0EAaf346b4
 export const seamlessETHMorphoVault: Address = "0x27D8c7273fd3fcC6956a0B370cE5Fd4A7fc65c18";
 
 // STAKING MODULE
-export const safetyModuleRewardController: Address = "0xCc5e63970d0EF1deed87b5940bcAbBE5a1BB504f";
+export const safetyModuleRewardController: Address = "0x2C6dC2CE7747E726A590082ADB3d7d08F52ADB93";
 
 // FE strategies
 export const wstETHBooster_ADDRESS_STRATEGY_ID = `${WSTETH_ADDRESS}-${WETH_ADDRESS}`;

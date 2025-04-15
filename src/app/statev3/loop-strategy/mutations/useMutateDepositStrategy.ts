@@ -11,6 +11,7 @@ import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetc
 import { FullStrategyData } from "../../metadata/FullStrategyData.all";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 import { SharesToReceiveData } from "../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 
 export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
@@ -67,6 +68,7 @@ export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
       /* ------------ */
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: strategy?.address,
           abi: loopStrategyAbi,
           functionName: "deposit",

@@ -8,6 +8,7 @@ import {
   useSeamlessContractWrite,
 } from "@shared";
 import { PreviewWithdraw } from "../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useWriteStrategyWithdraw = (strategy?: Address) => {
   /* ------------- */
@@ -43,6 +44,7 @@ export const useWriteStrategyWithdraw = (strategy?: Address) => {
 
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: strategy,
           abi: loopStrategyAbi,
           functionName: "redeem",

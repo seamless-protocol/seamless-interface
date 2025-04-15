@@ -109,7 +109,7 @@ export const TotalAssetsGraphComponent = () => {
                 easing: "easeout",
               },
             },
-            colors: ["#FF5733"],
+            colors: ["#4F68F7"],
             dataLabels: {
               enabled: false,
             },

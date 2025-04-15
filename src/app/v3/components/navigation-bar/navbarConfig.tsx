@@ -1,4 +1,4 @@
-import { RouterConfig } from "../../../router";
+import { legacyGovUrl, RouterConfig } from "@router";
 
 export const navbarConfig = [
   {
@@ -15,7 +15,7 @@ export const navbarConfig = [
   },
   {
     name: "Governance",
-    href: RouterConfig.Routes.governance,
+    href: import.meta.env.VITE_STAKING_FEATURE === "true" ? RouterConfig.Routes.governance : legacyGovUrl, // todo: remove this
     current: false,
   },
 ];

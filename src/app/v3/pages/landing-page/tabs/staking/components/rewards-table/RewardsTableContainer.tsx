@@ -13,13 +13,13 @@ export const RewardsTableContainer = () => {
           <TableCell className="col-span-2 justify-center" alignItems="items-start">
             <Typography type="bold1">Rewards</Typography>
           </TableCell>
-          <TableCell className="col-span-5">
+          <TableCell className="col-span-4 md:col-span-5">
             <Typography type="bold1">Name</Typography>
           </TableCell>
           <TableCell className="col-span-3">
             <Typography type="bold1">Symbol</Typography>
           </TableCell>
-          <TableCell className="col-span-2">
+          <TableCell className="col-span-3 md:col-span-2">
             <Typography type="bold1">APR</Typography>
           </TableCell>
         </TableRow>
@@ -38,6 +38,7 @@ export const RewardsTableContainer = () => {
                   data: reward,
                   ...rest,
                 }}
+                hideBorder={index === data.rewardTokens.length - 1}
               />
             </div>
           ))}

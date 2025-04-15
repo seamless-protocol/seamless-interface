@@ -9,6 +9,7 @@ import {
   fetchGetAllUserRewardsHookQK,
   fetchGetAllUserRewardsQueryOptions,
 } from "../../common/hooks/useFetchViewAllUserRewards";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateClaimAllRewards = () => {
   /* ------------- */
@@ -40,6 +41,7 @@ export const useMutateClaimAllRewards = () => {
     try {
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: safetyModuleRewardController,
           abi: rewardsControllerAbi,
           functionName: "claimAllRewardsToSelf",

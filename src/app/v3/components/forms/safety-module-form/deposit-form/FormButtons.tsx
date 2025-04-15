@@ -14,7 +14,7 @@ export const FormButtons: React.FC<{
     watch,
     formState: { isSubmitting },
   } = useFormContext();
-  const amount = watch("amount");
+  const amount = watch("amount", "0");
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     tokenData?.underlying.address,
@@ -66,7 +66,7 @@ export const FormButtons: React.FC<{
         disabled={!isApproved || isSubmitting || isDisabled || isSeamTokenDataLoading}
         loading={isSubmitting || isLoading}
       >
-        Submit
+        Stake
       </Buttonv2>
     </FlexCol>
   );

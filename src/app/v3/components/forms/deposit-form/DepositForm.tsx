@@ -24,6 +24,7 @@ import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";
 
 export const DepositForm = () => {
   const { strategy } = useFormSettingsContext();
@@ -108,6 +109,7 @@ const StrategyFormLocal: React.FC<{
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
+            <LegacyPlatformDeprecationBanner />
             <Typography type="medium3">Deposit</Typography>
             <RHFDepositAmountField name="amount" />
           </FlexCol>

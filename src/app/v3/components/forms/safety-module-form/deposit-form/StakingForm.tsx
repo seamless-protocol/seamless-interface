@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtons";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { RHFStakingAmountField } from "./RHFStakingAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
 import { useStakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useStakeSafetyModule";
 import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 
 export const StakingForm = () => {
   const { data: tokenInfo, isLoading, error } = useFetchStakedSeamTokenData();
@@ -83,17 +84,26 @@ const StakeDepositFormLocal: React.FC<{
   };
 
   return (
-    <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
-      <FlexCol className="gap-8">
-        <FlexCol className="gap-6">
-          <FlexCol className="gap-3">
-            <Typography type="medium3">Stake</Typography>
-            <RHFStakingAmountField name="amount" />
-          </FlexCol>
-        </FlexCol>
+    <div className=" max-w-full">
+      <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
+        <FlexCol className="gap-8">
+          <FlexRow>
+            <Typography type="medium1">
+              Please note that SEAM can only be unstaked after you initiate and wait a 7 day cooldown.
+            </Typography>
 
-        <FormButtons isLoading={isPending} />
-      </FlexCol>
-    </MyFormProvider>
+            <StakeInfoTooltip />
+          </FlexRow>
+          <FlexCol className="gap-6">
+            <FlexCol className="gap-3">
+              <Typography type="medium3">Stake</Typography>
+              <RHFStakingAmountField name="amount" />
+            </FlexCol>
+          </FlexCol>
+
+          <FormButtons isLoading={isPending} />
+        </FlexCol>
+      </MyFormProvider>
+    </div>
   );
 };
