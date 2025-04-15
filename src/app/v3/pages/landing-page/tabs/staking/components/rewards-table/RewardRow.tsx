@@ -27,7 +27,7 @@ export const RewardRowDesktop: React.FC<{
         </FlexRow>
       </TableCell>
 
-      <TableCell className="col-span-5">
+      <TableCell className="col-span-4 md:col-span-5">
         <DisplayText
           typography="bold3"
           className="gap-[2px] max-w-full"
@@ -43,7 +43,7 @@ export const RewardRowDesktop: React.FC<{
           {...rewardToken}
         />
       </TableCell>
-      <TableCell className="col-span-2">
+      <TableCell className="col-span-3 md:col-span-2  ">
         <DisplayPercentage typography="bold3" viewValue={rewardToken?.data.apr.viewValue} {...rewardToken} />
       </TableCell>
     </TableRow>

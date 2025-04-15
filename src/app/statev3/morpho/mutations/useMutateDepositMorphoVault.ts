@@ -17,6 +17,7 @@ import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../que
 import { InputBundlerOperation } from "@morpho-org/bundler-sdk-viem";
 import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 import { fetchAssetBalanceQOptions } from "../../queries/AssetBalance.hook";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -121,7 +122,7 @@ export const useMutateDepositMorphoVault = (vaultAddress?: Address) => {
       const txs = await setupBundle(account, simulationState, operations);
 
       for (const tx of txs) {
-        await sendTransactionAsync({ ...tx }, { ...settings });
+        await sendTransactionAsync({ ...tx, chainId: targetChain.id }, { ...settings });
       }
     } catch (error) {
       console.error("Failed to deposit to a vault", error);

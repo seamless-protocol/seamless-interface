@@ -3,6 +3,7 @@ import { lendingPoolConfig } from "@generated";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateWithdrawLending = (asset?: Address) => {
   // meta data
@@ -45,6 +46,7 @@ export const useMutateWithdrawLending = (asset?: Address) => {
 
     await writeContractAsync(
       {
+        chainId: targetChain.id,
         ...lendingPoolConfig,
         functionName: "withdraw",
         args: [asset, parseUnits(args.amount, decimals), address],

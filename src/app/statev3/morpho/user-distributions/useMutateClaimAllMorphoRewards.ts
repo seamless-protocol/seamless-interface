@@ -8,6 +8,7 @@ import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-o
 import { MorphoQueryKeys } from "../query-keys";
 import { useMorphoExtendedUserRewards } from "../user-rewards/MorphoUserRewards.hook";
 import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateClaimAllMorphoRewards = () => {
   const { address } = useAccount();
@@ -55,6 +56,7 @@ export const useMutateClaimAllMorphoRewards = () => {
         {
           to: bundler,
           data,
+          chainId: targetChain.id,
         },
         { ...settings }
       );

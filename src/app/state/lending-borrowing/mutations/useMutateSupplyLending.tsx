@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
 import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateSupplyLending = (asset?: Address) => {
   // meta data
@@ -33,6 +34,7 @@ export const useMutateSupplyLending = (asset?: Address) => {
   ) => {
     await writeContractAsync(
       {
+        chainId: targetChain.id,
         ...lendingPoolConfig,
         functionName: "supply",
         // Referral supply is currently inactive, you can pass 0 as referralCode.
