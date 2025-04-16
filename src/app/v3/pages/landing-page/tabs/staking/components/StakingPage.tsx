@@ -26,7 +26,7 @@ export const StakingPage = () => {
             <RewardsTableContainer />
             <StakingDetails />
           </div>
-          <div className="order-first md:order-2 md:sticky top-6 md:min-w-[460px]">
+          <div className="order-first md:order-2 md:sticky top-6 md:min-w-[460px] max-w-full">
             <FormContainer />
           </div>
         </div>

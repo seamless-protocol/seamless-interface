@@ -39,7 +39,7 @@ export const CurrentHoldings: React.FC<{
               {...balance?.tokenAmount}
               {...balanceData}
               typography="bold4"
-              className="text-navy-1000"
+              className="text-navy-1000 truncate"
             />
           </FlexRow>
           <DisplayMoney
