@@ -7,10 +7,11 @@ import { fetchTotalAssetsHistorical } from "../../../../statev3/morpho/total-sup
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchFullVaultInfo } from "../../../../statev3/morpho/full-vault-info/FullVaultInfo.fetch";
 import { configuredVaultAddresses } from "../../../../statev3/settings/config";
+import { MorphoQueryKeys } from "../../../../statev3/morpho/query-keys";
 
 export const useFetchTotalAssets = (address?: Address, chainId: number = base.id, options?: TimeseriesOptions) => {
   const { data, ...rest } = useQuery({
-    queryKey: ["hookFetchTotalAssets", address, chainId, options],
+    queryKey: MorphoQueryKeys.totalAssetsHistoricalHook(address, chainId, options),
     queryFn: () => fetchTotalAssetsHistorical(address as string, chainId, options),
     ...queryConfig.disableCacheQueryConfig,
     enabled: !!address,
@@ -23,7 +24,7 @@ export const useFetchTotalAssets = (address?: Address, chainId: number = base.id
 };
 export const useFetchTotalAssetsForWhitelistedVaults = () => {
   return useQuery({
-    queryKey: ["hookFetchTotalAssetsForWhitelistedVaults"],
+    queryKey: MorphoQueryKeys.totalAssetsForWhitelistedHook(),
     queryFn: async () => {
       const results = await Promise.all(configuredVaultAddresses.map((vault) => fetchFullVaultInfo(vault, base.id)));
 

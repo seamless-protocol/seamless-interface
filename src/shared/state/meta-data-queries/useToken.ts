@@ -15,6 +15,7 @@ export interface Token {
   decimals: number;
   name: string;
   logo?: string;
+  address: Address;
 }
 
 export const EthTokenData: Token = {
@@ -22,6 +23,7 @@ export const EthTokenData: Token = {
   decimals: 18,
   name: "Ethereum",
   logo: ethTokenIcon,
+  address: zeroAddress,
 };
 
 export async function fetchDecimals(token: Address): Promise<number> {
@@ -139,6 +141,7 @@ export async function fetchToken(token: Address): Promise<Token> {
     decimals,
     name,
     logo,
+    address: token,
   };
 }
 

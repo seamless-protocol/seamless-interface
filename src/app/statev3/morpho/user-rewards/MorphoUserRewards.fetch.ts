@@ -1,20 +1,25 @@
 // Fetch function
 import axios from "axios";
-import { FetchUserRewardsResponse } from "../types/UserReward";
 import { base } from "viem/chains";
 import { Address } from "viem";
-import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { extendAndMapMorphoRewards, pricePrecision } from "../mappers/extendAndMapMorphoRewards";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared";
+import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
+import { queryConfig } from "../../settings/queryConfig";
+import { extendAndMapMorphoRewards, pricePrecision } from "../mappers/extendAndMapMorphoRewards";
+import { MorphoQueryKeys } from "../query-keys";
+import { FetchUserRewardsResponse } from "../types/UserReward";
 
 const BASE_URL = "https://rewards.morpho.org/v1";
 
-export const MORPHO_USER_REWARDS_QUERY_KEY = "fetchMorphoUserRewards";
-export const getFetchRawMorphoUserRewardsQueryKey = (userAddress?: Address, chainId = base.id) => [
-  MORPHO_USER_REWARDS_QUERY_KEY,
-  userAddress,
-  chainId,
-];
+export const fetchFullhRawMorphoUserRewardsQueryOptions = (userAddress: string, chainId: number) => ({
+  queryKey: MorphoQueryKeys.rawMorphoUserRewards(userAddress, chainId),
+  queryFn: async () => {
+    const url = `${BASE_URL}/users/${userAddress}/rewards?chain_id=${chainId}`;
+    const response = await axios.get<FetchUserRewardsResponse>(url);
+
+    return response.data;
+  },
+});
 
 export async function fetchRawMorphoUserRewards(
   userAddress: Address,
@@ -23,13 +28,8 @@ export async function fetchRawMorphoUserRewards(
   const client = getQueryClient();
 
   const response = await client.fetchQuery({
-    queryKey: [getFetchRawMorphoUserRewardsQueryKey(userAddress, chainId)],
-    queryFn: async () => {
-      const url = `${BASE_URL}/users/${userAddress}/rewards?chain_id=${chainId}`;
-      const response = await axios.get<FetchUserRewardsResponse>(url);
-
-      return response.data;
-    },
+    ...fetchFullhRawMorphoUserRewardsQueryOptions(userAddress, chainId),
+    ...queryConfig.morphoDataQueryConfig,
   });
 
   return response;

@@ -1,31 +1,35 @@
 import { FullVaultInfoDocument, FullVaultInfoQuery, FullVaultInfoQueryVariables } from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
 import { Address } from "viem";
 import { fetchToken } from "@shared";
+import { getApolloClient } from "../../../config/apollo-client";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../settings/queryConfig";
+import { MorphoQueryKeys } from "../query-keys";
+import { checkMorphoApiResponse } from "../utils";
 
-async function fetchFullVaultInfoFromMorphoApi(address: string, chainId: number) {
+export const fetchFullVaultInfoFromMorphoApiQueryOptions = (address: string, chainId: number) => ({
+  queryKey: MorphoQueryKeys.fullVaultInfo(address, chainId),
+  queryFn: async () => {
+    const apolloClient = getApolloClient();
+
+    const result = await apolloClient.query<FullVaultInfoQuery, FullVaultInfoQueryVariables>({
+      query: FullVaultInfoDocument,
+      variables: { address, chainId },
+      fetchPolicy: "no-cache",
+    });
+
+    checkMorphoApiResponse(result);
+
+    return result;
+  },
+});
+
+async function _fetchFullVaultInfoFromMorphoApi(address: string, chainId: number) {
   const queryClient = getQueryClient();
-  const apolloClient = getApolloClient();
 
   const result = await queryClient.fetchQuery({
-    queryKey: ["fetchFullVaultInfoFromMorphoApi", address, chainId],
-    queryFn: async () => {
-      const result = await apolloClient.query<FullVaultInfoQuery, FullVaultInfoQueryVariables>({
-        query: FullVaultInfoDocument,
-        variables: { address, chainId },
-        fetchPolicy: "no-cache",
-      })
-      if (result.errors) {
-        throw new Error(`Failed to fetch MorphoApi data: ${result.errors.map((e) => e.message).join("; ")}`);
-      } else if (result.error) {
-        throw new Error(`Failed to fetch MorphoApi data: ${result.error.message}`);
-      }
-
-      return result;
-    },
-    ...queryConfig.semiSensitiveDataQueryConfig,
+    ...fetchFullVaultInfoFromMorphoApiQueryOptions(address, chainId),
+    ...queryConfig.morphoDataQueryConfig,
   });
 
   return result;
@@ -33,7 +37,7 @@ async function fetchFullVaultInfoFromMorphoApi(address: string, chainId: number)
 
 export async function fetchFullVaultInfo(address: string, chainId: number) {
   const [result, vaultTokenData] = await Promise.all([
-    fetchFullVaultInfoFromMorphoApi(address, chainId),
+    _fetchFullVaultInfoFromMorphoApi(address, chainId),
     fetchToken(address as Address),
   ]);
 
