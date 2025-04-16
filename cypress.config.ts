@@ -2,6 +2,8 @@ import { defineConfig } from "cypress";
 import viteConfig from "./vite.config";
 import vitePreprocessor from "cypress-vite";
 import dotenv from "dotenv";
+import { TimeOuts } from "./cypress/support/constants";
+import { IS_DEV_MODE } from "./src/shared/utils/consts";
 
 dotenv.config({ path: "./.env.development" });
 
@@ -29,8 +31,9 @@ export default defineConfig({
       on("file:preprocessor", vitePreprocessor());
     },
     specPattern: "src/app/__tests__/**/*.cy.ts",
-    defaultCommandTimeout: 10000,
-    requestTimeout: 10000,
-    responseTimeout: 10000,
+    defaultCommandTimeout: TimeOuts.otherTimeout,
+    requestTimeout: TimeOuts.transactionTimeout,
+    responseTimeout: TimeOuts.transactionTimeout,
+    screenshotOnRunFailure: IS_DEV_MODE,
   },
 });

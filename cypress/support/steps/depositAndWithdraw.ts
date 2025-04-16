@@ -7,7 +7,7 @@ export const depositAndWithdraw = ({
   isMaxAmount = false,
   tab,
   skipWithdraw = false,
-  depositNativeETH = false,
+  depositNativeETH,
 }: {
   address: Address;
   amount: number;
