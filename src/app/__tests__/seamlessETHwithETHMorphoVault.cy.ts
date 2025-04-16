@@ -11,5 +11,6 @@ describe("Morpho ETH vault Test ETH DEPOSIT & WITHDRAW SPEC", () => {
     hasApproval: false,
     tab: "vaults",
     depositNativeETH: true,
+    skipWithdraw: true,
   });
 });

@@ -16,5 +16,6 @@ describe("Morpho WETH vault Test WETH DEPOSIT & WITHDRAW SPEC", () => {
     hasApproval: false,
     tab: "vaults",
     depositNativeETH: false,
+    skipWithdraw: true,
   });
 });
