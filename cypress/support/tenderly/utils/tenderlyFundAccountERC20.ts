@@ -8,6 +8,7 @@ export const tenderlyFundAccountERC20 = async (
 ) => {
   const API_KEY = Cypress.env("tenderly_access_key");
 
+  // Set the ERC-20 balance using the tenderly_setErc20Balance endpoint
   const response = await fetch(forkUrl, {
     method: "POST",
     headers: {
@@ -26,5 +27,8 @@ export const tenderlyFundAccountERC20 = async (
   }
 
   const data = await response.json();
+  // eslint-disable-next-line no-console
+  console.log(`Balance set for account ${account} with ERC-20 token ${tokenAddress} to ${amount}`);
+
   return data;
 };
