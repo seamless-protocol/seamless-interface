@@ -1,17 +1,15 @@
 import { waitForTransactionReceipt } from "wagmi/actions";
 import { getParsedError } from "../../utils/errorParser";
-import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
 import { useInvalidateQueries } from "./useInvalidateQueries";
 import { useConfig } from "wagmi";
 import { QueryKey } from "@tanstack/query-core";
 import { Address } from "viem";
+import { useState } from "react";
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
-
   onError?: (e: any) => void;
   onSettled?: () => void;
-  hideDefaultErrorOnNotification?: boolean;
   queriesToInvalidate?: (QueryKey | undefined)[];
 };
 
@@ -20,20 +18,19 @@ export type SeamlessWriteAsyncParams = {
  *
  * @returns {Function} A shared `onSettled` callback for transaction mutations.
  */
-export function useHandleTransactionMutation({
-  setIsPending,
-  setErrorMessage,
-  settings,
-}: {
-  setIsPending: (isPending: boolean) => void;
-  setErrorMessage: (errorMessage: string | undefined) => void;
-  settings?: SeamlessWriteAsyncParams;
-}) {
-  const { invalidateMany } = useInvalidateQueries();
-  const { showNotification } = useNotificationContext();
+export function useHandleTransactionMutation({ settings }: { settings?: SeamlessWriteAsyncParams }) {
   const wagmiConfig = useConfig();
 
-  return async (txHash: Address | undefined, error: any, args: any) => {
+  const { invalidateMany } = useInvalidateQueries();
+  const [isPending, setIsPending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+
+  const onMutate = () => {
+    setIsPending(true);
+    setErrorMessage(undefined);
+  };
+
+  const onSettled = async (txHash: Address | undefined, error: any, args: any) => {
     try {
       if (error) throw error;
 
@@ -44,6 +41,7 @@ export function useHandleTransactionMutation({
 
       // 2. throw if receipt is not valid
       if (txReceipt.status === "reverted") throw new Error("Execution reverted."); // todo: better way to handle reverted?
+      if (txReceipt.status !== "success") throw new Error("Execution reverted.");
 
       // 3. invalidate queries
       if (settings?.queriesToInvalidate) await invalidateMany(settings?.queriesToInvalidate);
@@ -70,22 +68,20 @@ export function useHandleTransactionMutation({
       // 2. set error message
       setErrorMessage(parsedError);
 
-      // 3. show error notification
-      if (!settings?.hideDefaultErrorOnNotification) {
-        showNotification({
-          status: "error",
-          content: parsedError,
-        });
-      }
-
-      // 4. call callback
+      // 3. call callback
       settings?.onError?.(error);
-      // todo: display error notification always?
     } finally {
       setIsPending(false);
       // 1. call callback
       settings?.onSettled?.();
     }
     return undefined;
+  };
+
+  return {
+    onMutate,
+    onSettled,
+    isPending,
+    errorMessage,
   };
 }

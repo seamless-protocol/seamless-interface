@@ -30,7 +30,6 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
       ...getAllDelegateeQK(user),
       hookFetchGetPowersQK(user),
     ],
-    hideDefaultErrorOnNotification: true,
   });
 
   /* -------------------- */
