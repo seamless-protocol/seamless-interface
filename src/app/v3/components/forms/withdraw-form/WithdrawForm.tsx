@@ -142,12 +142,60 @@ const WithdrawStrategyLocal: React.FC<{
           // todo: invalidate only specific queries, after query key refactor
           queryClient.invalidateQueries();
         },
+<<<<<<< Updated upstream
         onSettled: () => {
           reset();
           onTransaction?.();
         },
       }
     );
+=======
+        {
+          onSuccess: (txHash) => {
+            modalRef.current?.close();
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol>
+                  <Typography type="regular3">
+                    You Withdrew {data.amount} ${strategySymbol}
+                  </Typography>
+                  {underlyingTokenAddress === WETH_ADDRESS && (
+                    <FlexRow className="w-full">
+                      <Link
+                        to={RouterConfig.Routes.unwrapEth}
+                        className="flex flex-row items-center justify-end gap-1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography type="bold2" className="text-right">
+                          To unwrap ETH, click here
+                        </Typography>
+                        <ArrowTopRightOnSquareIcon width={12} />
+                      </Link>
+                    </FlexRow>
+                  )}
+                  {underlyingTokenAddress && underlyingTokenData?.symbol && (
+                    <WatchAssetComponentv2
+                      address={underlyingTokenAddress}
+                      icon={underlyingTokenData.logo}
+                      decimals={underlyingTokenData.decimals}
+                    />
+                  )}
+                </FlexCol>
+              ),
+            });
+            // todo: invalidate only specific queries
+            queryClient.invalidateQueries();
+          },
+          onSettled: () => {
+            reset();
+            onTransaction?.();
+          },
+        }
+      );
+    }
+>>>>>>> Stashed changes
   };
 
   return (
