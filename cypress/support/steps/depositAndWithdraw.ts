@@ -7,6 +7,7 @@ export const depositAndWithdraw = ({
   isMaxAmount = false,
   tab,
   skipWithdraw = false,
+  depositNativeETH,
 }: {
   address: Address;
   amount: number;
@@ -14,6 +15,7 @@ export const depositAndWithdraw = ({
   isMaxAmount?: boolean;
   tab?: string;
   skipWithdraw?: boolean;
+  depositNativeETH?: boolean;
 }) => {
   const name = "test";
 
@@ -25,6 +27,7 @@ export const depositAndWithdraw = ({
         hasApproval,
         isMaxAmount,
         tab,
+        depositNativeETH,
       });
 
       if (!skipWithdraw) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
+import { FlexCol, FlexRow, Typography } from "@shared";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
@@ -7,6 +7,7 @@ import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
 import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { DisplayTextLocal } from "../common/DisplayTextLocal";
 
 export const Seamless_cbBTC_VaultDetails: React.FC<{
   vault?: Address;
@@ -23,9 +24,9 @@ export const Seamless_cbBTC_VaultDetails: React.FC<{
           <div className="collapse-content">
             <div>
               <Typography type="regular3">
-                The Seamless cbBTC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and streamlining efficiencies across various blue-chip collateral markets.
-                Dive deeper into Gauntlet&apos;s curation approach on the Seamless Governance Forum in
-                {" "}
+                The Seamless cbBTC Vault on Morpho is curated by Gauntlet. This vault focuses on optimizing yield and
+                streamlining efficiencies across various blue-chip collateral markets. Dive deeper into Gauntlet&apos;s
+                curation approach on the Seamless Governance Forum in{" "}
                 <Link
                   className="underline"
                   to={getVaultSeamlessprotocolDiscourseGroupUrl(vault)}
@@ -59,14 +60,7 @@ export const Seamless_cbBTC_VaultDetails: React.FC<{
             <div>
               <FlexRow className="gap-1">
                 <Typography type="regular3">
-                  There is a {" "}
-                </Typography>
-                <DisplayPercentage
-                  viewValue={feePercentage}
-                  {...rest}
-                  typography="bold3"
-                />
-                <Typography type="regular3">
+                  There is a <DisplayTextLocal text={`${feePercentage}%`} {...rest} />
                   performance fee on interest collected from borrowers.
                 </Typography>
               </FlexRow>
@@ -80,6 +74,6 @@ export const Seamless_cbBTC_VaultDetails: React.FC<{
           </div>
         </LocalCollapseArrow>
       </FlexCol>
-    </FlexCol >
+    </FlexCol>
   );
 };

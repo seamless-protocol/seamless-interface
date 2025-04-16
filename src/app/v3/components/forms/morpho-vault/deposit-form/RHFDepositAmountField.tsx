@@ -1,14 +1,24 @@
-import { IRHFAmountInputProps, RHFAmountInputV3, fParseUnits, formatFetchBigIntToViewBigInt, useToken } from "@shared";
+import {
+  FlexCol,
+  IRHFAmountInputProps,
+  RHFAmountInputV3,
+  fParseUnits,
+  formatFetchBigIntToViewBigInt,
+  useToken,
+} from "@shared";
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-
+import { zeroAddress } from "viem";
+import { useDepositingNativeETH } from "./useDepositingNativeETH";
+import { WrappingCheckbox } from "./WrappingCheckbox";
+import { isWETH } from "../../../../utils/utils";
+import { useFetchViewMaxUserDeposit } from "../../../../../statev3/common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -56,24 +66,24 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   // *** asset *** //
-  const { strategy } = useFormSettingsContext();
+  const { strategy: vault } = useFormSettingsContext();
 
-  const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(strategy);
-  const underlyingAssetAddress = asset?.address;
-
-  // *** metadata *** //
-  const tokenData = useToken(underlyingAssetAddress);
+  const depositNativeETH = useDepositingNativeETH();
+  const { data: { asset } = {} } = useFetchFormattedFullVaultInfo(vault);
+  const underlyingAssetAddress = depositNativeETH ? zeroAddress : asset?.address;
 
   // *** form functions *** //
   const { watch } = useFormContext();
   const value = watch(other.name);
 
+  // *** metadata *** //
+  const tokenData = useToken(underlyingAssetAddress);
+
   // *** max *** //
-  // todo implement hook for vault
-  const maxUserDepositData = useFetchViewMaxUserDeposit(strategy);
+  const maxUserDepositData = useFetchViewMaxUserDeposit(vault, depositNativeETH ? zeroAddress : underlyingAssetAddress);
 
   // *** price *** //
-  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(underlyingAssetAddress);
+  const { data: price, ...otherPrice } = useFetchFormattedAssetPrice(asset?.address);
 
   // *** balance *** //
   const { data: viewBalance, ...otherViewBalance } = useFetchViewAssetBalance(
@@ -93,23 +103,27 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   // *** JSX *** //
   return (
-    <RHFAmountInputV3
-      {...other}
-      assetAddress={underlyingAssetAddress}
-      dollarValue={{
-        ...otherPrice,
-        data: dollarValueData,
-      }}
-      walletBalance={{
-        ...otherViewBalance,
-        data: {
-          ...viewBalance.balance,
-        },
-      }}
-      protocolMaxValue={{
-        ...maxUserDepositData,
-      }}
-      tokenData={{ ...tokenData }}
-    />
+    <FlexCol className="gap-1">
+      <RHFAmountInputV3
+        {...other}
+        assetAddress={underlyingAssetAddress}
+        dollarValue={{
+          ...otherPrice,
+          data: dollarValueData,
+        }}
+        walletBalance={{
+          ...otherViewBalance,
+          data: {
+            ...viewBalance.balance,
+          },
+        }}
+        protocolMaxValue={{
+          ...maxUserDepositData,
+        }}
+        tokenData={{ ...tokenData }}
+      />
+
+      {isWETH(asset?.address) && <WrappingCheckbox />}
+    </FlexCol>
   );
 }

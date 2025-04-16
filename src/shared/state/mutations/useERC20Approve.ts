@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useSeamlessContractWrite } from "../../wagmi-wrapper/hooks/useSeamlessContractWrite";
 import { useFetchAssetAllowance } from "../queries/useFetchAssetAllowance";
+import { base } from "viem/chains";
 
 const ALWAYS_APPROVE_MAX = false;
 
@@ -34,7 +35,12 @@ export function getApproveState(isApproved?: boolean, justApproved?: boolean) {
  * - {Function} approveAsync - Function to trigger the approval transaction.
  */
 
-export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address, amount?: bigint) => {
+export const useERC20Approve = (
+  tokenAddress?: Address,
+  spenderAddress?: Address,
+  amount?: bigint,
+  targetChainId = base.id
+) => {
   const [isApproved, setIsApproved] = useState(false);
   const [justApproved, setJustApproved] = useState(false);
 
@@ -73,6 +79,7 @@ export const useERC20Approve = (tokenAddress?: Address, spenderAddress?: Address
     try {
       await approveTokenAsync(
         {
+          chainId: targetChainId,
           address: tokenAddress,
           abi: erc20Abi,
           functionName: "approve",

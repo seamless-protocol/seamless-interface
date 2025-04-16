@@ -1,5 +1,6 @@
 export const FIVE_SECONDS_IN_MS = 5 * 1000;
 export const ONE_MINUTE_IN_MS = 60 * 1000;
+export const FIVE_MINUTE_IN_MS = 60 * 5 * 1000;
 export const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
 export const disableCacheQueryConfig = {
@@ -49,4 +50,4 @@ export const queryConfig = {
   analyticsDataQueryConfig,
   walletDataQueryConfig,
   platformDataQueryConfig,
-}
+};

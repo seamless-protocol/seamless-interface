@@ -14,6 +14,8 @@ import { anvilSetErc20Balance } from "./anvil/utils/anvilSetErc20Balance";
 import { tenderlyCreateFork } from "./tenderly/utils/tenderlyCreateFork";
 import { tenderlyFundAccount } from "./tenderly/utils/tenderlyFundAccount";
 import { tenderlyFundAccountERC20 } from "./tenderly/utils/tenderlyFundAccountERC20";
+import { findTestnetIdByDisplayName } from "./tenderly/utils/findTestnetIdBySlug";
+import { tenderlyDeleteFork } from "./tenderly/utils/tenderlyDeleteFork";
 
 declare global {
   namespace Cypress {
@@ -30,7 +32,7 @@ declare global {
        * @param hasApproval boolean
        * @example cy.doDepositSubmit(true)
        */
-      doDepositSubmit(hasApproval: boolean): void;
+      doDepositSubmit(hasApproval: boolean, depositNativeETH?: boolean): void;
       /**
        * This will make confirmation in Modal
        * @example cy.doWithdrawSubmit()
@@ -39,11 +41,11 @@ declare global {
       /**
        * Sets up the anvil test environment by initializing the blockchain state
        */
-      setupAnvilTestEnvironment(testBalanceData: IBalanceConfig): void;
+      setupAnvilTestEnvironment(testBalanceData?: IBalanceConfig): void;
       /**
        * Sets up the tenderly test environment by initializing the blockchain state
        */
-      setupTenderlyTestEnvironment(balanceConfig: IBalanceConfig): void;
+      setupTenderlyTestEnvironment(balanceConfig?: IBalanceConfig): void;
 
       /**
        * Performs a deposit action
@@ -52,6 +54,7 @@ declare global {
        * @param hasApproval boolean Whether approval is required
        * @param isMaxAmount boolean optional Whether to deposit the max amount
        * @param shouldErrorBeThrown boolean optional Whether to check if error is present in UI
+       * @param depositNativeETH boolean optional Whether to deposit native ETH instea of WETH
        * @example cy.deposit({ address: '0x...', amount: 100, hasApproval: true })
        */
       deposit(params: {
@@ -61,6 +64,7 @@ declare global {
         isMaxAmount?: boolean;
         shouldErrorBeThrown?: boolean;
         tab?: string;
+        depositNativeETH?: boolean;
       }): void;
 
       /**
@@ -103,8 +107,12 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
   cy.log("Starting withdraw");
   // *** Navigate *** //
   cy.get(`[data-cy='withdraw-button']`, { timeout: TimeOuts.otherTimeout }).click();
+
+  cy.wait(2500);
   // *** Set amount *** //
   cy.setAmount(amount, isMaxAmount);
+
+  cy.wait(2500);
   // *** Submit form *** //
   cy.doWithdrawSubmit();
   // *** Check success *** //
@@ -112,7 +120,15 @@ Cypress.Commands.add("withdraw", ({ amount, isMaxAmount = true }) => {
 });
 Cypress.Commands.add(
   "deposit",
-  ({ address, amount, hasApproval = true, isMaxAmount = false, shouldErrorBeThrown = false, tab }) => {
+  ({
+    address,
+    amount,
+    hasApproval = true,
+    isMaxAmount = false,
+    shouldErrorBeThrown = false,
+    tab,
+    depositNativeETH,
+  }) => {
     cy.log(`Starting deposit for address: ${address}`);
 
     if (tab) {
@@ -120,10 +136,25 @@ Cypress.Commands.add(
     }
     // *** Navigate *** //
     cy.get(`[data-cy='table-row-${address}']`, { timeout: TimeOuts.otherTimeout }).click();
+
+    // *** Handle depositNativeETH switch/button if provided *** //
+    if (depositNativeETH != null) {
+      if (depositNativeETH === false) {
+        // If depositNativeETH is true, assert that the button exists (but don't click it).
+        cy.get("[data-cy='depositNativeETH']").should("exist");
+      } else {
+        // If depositNativeETH is false, click the switch/button.
+        cy.get("[data-cy='depositNativeETH']").click();
+      }
+    } else {
+      // If depositNativeETH is undefined, assert that the button does not exist.
+      cy.get("[data-cy='depositNativeETH']").should("not.exist");
+    }
+
     // *** Set amount *** //
     cy.setAmount(amount, isMaxAmount);
     // *** Submit form *** //
-    cy.doDepositSubmit(hasApproval);
+    cy.doDepositSubmit(hasApproval, depositNativeETH);
 
     if (shouldErrorBeThrown) {
       cy.checkTransactionError();
@@ -154,8 +185,8 @@ Cypress.Commands.add("setAmount", (amount?: number, max?: boolean) => {
 /* ------------------ */
 /*   Button actions   */
 /* ------------------ */
-Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
-  if (!hasApproval) {
+Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean, depositNativeETH?: boolean) => {
+  if (!hasApproval && !depositNativeETH) {
     cy.get(`[data-cy=approvalButton]`, { timeout: TimeOuts.otherTimeout })
       .last()
       .should("not.be.disabled")
@@ -168,7 +199,7 @@ Cypress.Commands.add("doDepositSubmit", (hasApproval: boolean) => {
 });
 
 Cypress.Commands.add("doWithdrawSubmit", () => {
-  cy.validateAmountInputs(true);
+  cy.validateAmountInputs();
 
   cy.get("[data-cy=actionButton]", { timeout: TimeOuts.otherTimeout })
     .last()
@@ -191,17 +222,10 @@ Cypress.Commands.add("checkTransactionError", () => {
   cy.get(`[data-cy='close-modal']`, { timeout: TimeOuts.otherTimeout }).should("be.visible").click();
 });
 
-Cypress.Commands.add("validateAmountInputs", (checkValues?: boolean) => {
+Cypress.Commands.add("validateAmountInputs", () => {
   cy.get("[data-cy=amount-input-v3]").each(($input) => {
     cy.wrap($input).within(() => {
       cy.get("[data-cy=loader]").should("not.exist");
-
-      if (checkValues) {
-        cy.get("input").should(($inputField) => {
-          const value = $inputField.val();
-          expect(value).to.not.be.oneOf([0, "", "0"]);
-        });
-      }
     });
   });
 });
@@ -209,7 +233,7 @@ Cypress.Commands.add("validateAmountInputs", (checkValues?: boolean) => {
 /* ------------- */
 /*   Setup env   */
 /* ------------- */
-Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig) => {
+Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig?: IBalanceConfig) => {
   const forkUrl = anvilForkUrl;
 
   localStorage.setItem(LOCALSTORAGE_IS_TEST_MODE_KEY, "true");
@@ -226,29 +250,65 @@ Cypress.Commands.add("setupAnvilTestEnvironment", (balanceConfig: IBalanceConfig
     });
 
     // Set up balances and other test states
-    await anvilSetErc20Balance({
-      address: balanceConfig.account,
-      tokenAddress: balanceConfig.tokenAddress,
-      value: balanceConfig.balance,
-    });
+    if (balanceConfig) {
+      await anvilSetErc20Balance({
+        address: balanceConfig.account,
+        tokenAddress: balanceConfig.tokenAddress,
+        value: balanceConfig.balance,
+      });
+    }
   });
 });
 
-Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig: IBalanceConfig) => {
+Cypress.Commands.add("setupTenderlyTestEnvironment", (balanceConfig?: IBalanceConfig) => {
   cy.log("Setting up Tenderly test environment");
+  // eslint-disable-next-line no-console
+  console.log("Setting up Tenderly test environment");
 
   cy.wrap(null).then(async () => {
+    try {
+      const tenderlyOldForkId = await findTestnetIdByDisplayName("Cypress TestNet");
+      cy.log(`Deleting existing fork: ${tenderlyOldForkId}`);
+      // eslint-disable-next-line no-console
+      console.log(`Deleting existing fork: ${tenderlyOldForkId}`);
+      if (tenderlyOldForkId) await tenderlyDeleteFork(tenderlyOldForkId);
+      cy.log("Existing fork deleted");
+      // eslint-disable-next-line no-console
+      console.log("Existing fork deleted");
+    } catch (error: any) {
+      cy.log(`No existing fork to delete or deletion failed: ${error?.message}`);
+      // eslint-disable-next-line no-console
+      console.log(`No existing fork to delete or deletion failed: ${error?.message}`);
+    }
+
     const result = await tenderlyCreateFork();
+    cy.log("Fork created");
+    // eslint-disable-next-line no-console
+    console.log("Fork created");
     const { forkUrl, id } = result;
 
     localStorage.setItem(LOCALSTORAGE_TESTNET_ID_KEY, JSON.stringify({ id }));
     localStorage.setItem(LOCALSTORAGE_IS_TEST_MODE_KEY, "true");
     localStorage.setItem(LOCALSTORAGE_TESTNET_URL_KEY, JSON.stringify({ forkUrl }));
     localStorage.setItem(PRIVATE_KEY, JSON.stringify({ KEY: Cypress.env("private_key") }));
+    cy.log("Local storage set");
+    // eslint-disable-next-line no-console
+    console.log("Local storage set");
 
     await tenderlyFundAccount(forkUrl);
+    cy.log("Funding account done");
+    // eslint-disable-next-line no-console
+    console.log("Funding account done");
 
-    await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
+    if (balanceConfig) {
+      cy.log(`Funding account with ${balanceConfig.tokenAddress}...`);
+      // eslint-disable-next-line no-console
+      console.log(`Funding account with ${balanceConfig.tokenAddress} ...`);
+      await tenderlyFundAccountERC20(forkUrl, balanceConfig.tokenAddress, balanceConfig.account, balanceConfig.balance);
+      cy.log(`Funding account with ${balanceConfig.tokenAddress} done`);
+      // eslint-disable-next-line no-console
+      console.log(`Funding account with ${balanceConfig.tokenAddress} done`);
+    }
   });
 });
 

@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { StrategyState } from "../../../statev3/common/types/StateTypes";
 import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAddress?: Address) => {
   // meta data
@@ -40,6 +41,7 @@ export const useMutateDepositStrategy = (strategy?: StrategyState, subStrategyAd
     await writeContractAsync(
       {
         // ui -> contract arguments
+        chainId: targetChain.id,
         address: subStrategyAddress,
         abi: loopStrategyAbi,
         functionName: "deposit",

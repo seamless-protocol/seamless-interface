@@ -87,7 +87,7 @@ export const NetApyGraphComponent: React.FC<{
                 easing: "easeout",
               },
             },
-            colors: ["#FF5733"],
+            colors: ["#4F68F7"],
             dataLabels: {
               enabled: false,
             },
@@ -152,7 +152,7 @@ export const NetApyGraphComponent: React.FC<{
     };
 
     processData();
-  }, [timeseriesOptions]);
+  }, [timeseriesOptions, vault]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 py-6 px-8 gap-8">

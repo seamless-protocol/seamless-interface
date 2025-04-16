@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { loopStrategyAbi } from "@generated";
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useWriteStrategyWithdraw = (strategy?: Address) => {
   const { writeContractAsync, ...rest } = useSeamlessContractWrite();
@@ -23,6 +24,7 @@ export const useWriteStrategyWithdraw = (strategy?: Address) => {
     try {
       await writeContractAsync(
         {
+          chainId: targetChain.id,
           address: strategy,
           abi: loopStrategyAbi,
           functionName: "redeem",

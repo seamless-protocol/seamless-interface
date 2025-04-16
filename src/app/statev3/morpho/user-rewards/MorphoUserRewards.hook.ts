@@ -10,6 +10,7 @@ export interface MorphoUserRewardsData {
   rewards?: ExtendedUserReward[];
   totalUsdValue: bigint;
   combinedClaimableNowViewValue: ViewBigInt;
+  combinedClaimableNextViewValue: ViewBigInt;
 }
 
 export function useMorphoExtendedUserRewards(

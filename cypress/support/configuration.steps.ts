@@ -11,7 +11,7 @@ import { tenderlyDeleteFork } from "./tenderly/utils/tenderlyDeleteFork";
 
 type TestEnv = "anvil" | "tenderly";
 
-export const prepareTestForRun = (BalanceConfig: IBalanceConfig) => {
+export const prepareTestForRun = (BalanceConfig?: IBalanceConfig) => {
   const testEnv = (Cypress.env("test_env") || "tenderly") as TestEnv;
 
   before(() => {

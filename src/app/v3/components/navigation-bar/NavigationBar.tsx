@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useLifiWidgetContext, Typography, FlexRow, FlexCol, ConnectWalletRainbowWrapperv3 } from "@shared";
 import { MoreButton } from "./MoreButton";
 import { BlueCoinbaseConnectWalletButton } from "./BlueCoinbaseConnectWalletButton";
@@ -19,11 +19,9 @@ export const NavigationBar = () => {
               <img src={seamlessLogo} alt="logo" className="h-8 w-8 mr-8" />
 
               <FlexRow className="items-center gap-8">
-                <Link to="/" data-cy="home">
-                  <Typography type="bold3" className="text-text-blue">
-                    Seamless
-                  </Typography>
-                </Link>
+                <NavLink to="/" data-cy="home" className={({ isActive }) => (isActive ? "text-text-blue" : "")}>
+                  <Typography type="bold3">Seamless</Typography>
+                </NavLink>
 
                 <div className="hidden md:flex md:flex-row md:items-center">
                   <div className="flex items-center gap-8">
@@ -36,11 +34,14 @@ export const NavigationBar = () => {
                             </Typography>
                           </button>
                         ) : (
-                          <Link to={item.href || ""} className="h-max flex items-center">
+                          <NavLink
+                            to={item.href || ""}
+                            className={({ isActive }) => `h-max flex items-center${isActive ? " text-text-blue" : ""}`}
+                          >
                             <Typography className="text-base text-center" type="medium3">
                               {item.name}
                             </Typography>
-                          </Link>
+                          </NavLink>
                         )}
                       </div>
                     ))}

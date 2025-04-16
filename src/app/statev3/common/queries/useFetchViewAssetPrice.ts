@@ -16,7 +16,7 @@ import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPri
 export interface AssetPrice {
   price: FetchBigInt;
 }
-
+// todo delete this and use AssetPrice.all everywhere.
 export const fetchAssetPriceInBlock = async (
   config: Config,
   asset?: Address,
@@ -67,9 +67,7 @@ export const fetchAssetPriceInBlock = async (
   } else {
     // Cannot fetch past block number prices from CoingGecko
     if (!blockNumber) {
-      const config = asset
-        ? assetsConfig[asset] || strategyConfig[asset]
-        : undefined;
+      const config = asset ? assetsConfig[asset] || strategyConfig[asset] : undefined;
       if (config?.useCoinGeckoPrice) {
         return fetchCoinGeckoAssetPriceByAddress({
           address: asset,

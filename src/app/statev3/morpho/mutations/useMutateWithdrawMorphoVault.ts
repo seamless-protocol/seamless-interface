@@ -16,6 +16,8 @@ import { useState } from "react";
 import { getFormattedAssetBalanceUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
+import { getFetchViewMaxUserDepositQueryKey } from "../../common/hooks/FetchMaxUserDeposit/useFetchViewMaxUserDeposit.hook";
+import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
   /* ------------- */
@@ -55,6 +57,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
       getFormattedAssetBalanceUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchFormattedAssetBalanceWithUsdValueQueryKey(address, fullVaultData?.vaultData.vaultByAddress.address),
       getHookFetchUserVaultPositionsQueryKey(address),
+      getFetchViewMaxUserDepositQueryKey(vaultAddress, address),
     ],
     hideDefaultErrorOnNotification: true,
   });
@@ -103,6 +106,7 @@ export const useMutateWithdrawMorphoVault = (vaultAddress?: Address) => {
           {
             to: bundler,
             data: tx.data as any,
+            chainId: targetChain.id,
           },
           { ...settings }
         );

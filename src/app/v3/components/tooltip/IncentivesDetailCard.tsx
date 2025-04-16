@@ -1,9 +1,10 @@
-import { DisplayPercentage, FlexCol, FlexRow, Typography, ViewNumber } from "@shared";
+import { DisplayPercentage, DisplayValue, FlexCol, FlexRow, Typography, ViewNumber } from "@shared";
 
 export interface ViewRewardToken {
   symbol: string;
   logo?: string;
-  apr: ViewNumber;
+  apr?: ViewNumber;
+  points?: ViewNumber;
 }
 
 interface IncentivesDetailCardProps {
@@ -29,7 +30,10 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
                 <Typography type="secondary12">{rewardToken.symbol}</Typography>
               </FlexRow>
               <FlexRow>
-                <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol} APR`} />
+                {rewardToken.apr && (
+                  <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol} APR`} />
+                )}
+                {rewardToken.points && <DisplayValue viewValue={rewardToken.points.viewValue} />}
               </FlexRow>
             </FlexRow>
           );
@@ -37,7 +41,7 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
       </FlexCol>
 
       <FlexRow className="items-center justify-between w-full mt-2">
-        <Typography type="secondary16">Net APR</Typography>
+        <Typography type="secondary16">Total</Typography>
         <FlexRow>
           <DisplayPercentage viewValue={totalApr?.viewValue} symbol="%  APR" />
         </FlexRow>
