@@ -40,7 +40,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
       protocolMaxValue,
       assetButton,
       tokenData,
-      focusOnAssetChange = true,
+      focusOnAssetChange = false,
       hideMaxButton,
       ...other
     },
@@ -97,7 +97,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
               ref={ref ?? inputRef}
             />
             {assetButton || (
-              <div className="inline-flex items-center space-x-2">
+              <div className="inline-flex items-center space-x-2 truncate">
                 <Icon
                   width={24}
                   src={tokenData?.data?.logo}
