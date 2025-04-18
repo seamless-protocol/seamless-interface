@@ -34,6 +34,8 @@ export const delegateUrl = "https://seamlessprotocol.discourse.group/t/seamless-
 export const legacyGovUrl = "https://legacy.seamlessprotocol.com/governance";
 export const gitbookStakingUrl = "https://docs.seamlessprotocol.com/overview/seam-staking";
 
+export const ilmv1DuneUrl = "https://dune.com/seamlessprotocol/ilm-viewer";
+
 const baseScan = "https://basescan.org";
 
 export const RouterConfig = {
