@@ -35,6 +35,7 @@
     "@sentry/react": "^7.106.0",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.17.1",
+    "@tanstack/react-query-devtools": "^5.74.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@uidotdev/usehooks": "^2.4.1",

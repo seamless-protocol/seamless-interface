@@ -1,32 +1,53 @@
-import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { targetChain } from "../../../config/rainbow.config";
 import { useAccount } from "wagmi";
-import { ESSEAM_ADDRESS } from "../../../../meta";
+import { ESSEAM_ADDRESS, generateInvalidationKeys, SEAM_ADDRESS } from "@meta";
 import { EscroSEAMAbi } from "../../../../../abis/EscroSEAM";
+import { fetchSeamRewardsQueryOptions } from "../queries/rewards/FetchSeamRewards.fetch";
+import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateClaimVestedEsSEAM = () => {
-  // grab the current user address
+  /* ------------- */
+  /*   Meta data   */
+  /* ------------- */
   const { address: userAddress } = useAccount();
+  const { showNotification } = useNotificationContext();
 
-  // grab the rewards view query so we can invalidate it
+  /* ----------------- */
+  /*   Mutation config */
+  /* ----------------- */
+  const { writeContractAsync, isPending, ...rest } = useSeamlessContractWrite({
+    queriesToInvalidate: generateInvalidationKeys(
+      fetchBalanceQueryOptions(SEAM_ADDRESS, userAddress!).queryKey,
+      fetchBalanceQueryOptions(ESSEAM_ADDRESS, userAddress!).queryKey,
+      fetchSeamRewardsQueryOptions(userAddress!).queryKey
+    ),
+  });
 
-  // setup the seamless write hook
-  const { writeContractAsync, isPending, ...rest } = useSeamlessContractWrite({});
-
-  // wrapper that actually calls `claim(userAddress)`
+  /* -------------------- */
+  /*   Mutation wrapper   */
+  /* -------------------- */
   const claimVestedAsync = async (settings?: SeamlessWriteAsyncParams) => {
-    if (!userAddress) throw new Error("Wallet not connected");
+    try {
+      if (!userAddress) throw new Error("Wallet not connected");
 
-    await writeContractAsync(
-      {
-        chainId: targetChain.id,
-        address: ESSEAM_ADDRESS,
-        abi: EscroSEAMAbi,
-        functionName: "claim",
-        args: [userAddress],
-      },
-      { ...settings }
-    );
+      await writeContractAsync(
+        {
+          chainId: targetChain.id,
+          address: ESSEAM_ADDRESS,
+          abi: EscroSEAMAbi,
+          functionName: "claim",
+          args: [userAddress],
+        },
+        { ...settings }
+      );
+    } catch (error) {
+      console.error("Failed to claim esSEAM as SEAM rewards.", error);
+      showNotification({
+        status: "error",
+        content: `Failed to claim esSEAM as SEAM rewards: ${getParsedError(error)}`,
+      });
+    }
   };
 
   return {

@@ -1,25 +1,14 @@
-import { readContractQueryOptions } from "wagmi/query";
-import { getConfig } from "../../../../utils/queryContractUtils";
-import { ESSEAM_ADDRESS } from "../../../../../meta";
-import { EscroSEAMAbi } from "../../../../../../abis/EscroSEAM";
-import { Address } from "viem";
-import { queryConfig } from "../../../settings/queryConfig";
-import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
+import { useQuery } from "@tanstack/react-query";
+import { useAccount } from "wagmi";
+import { fetchSeamRewards } from "./FetchSeamRewards.fetch";
+import { GovernanceQueryKeys } from "../../query-keys";
 
-export const fetchSeamRewardsQueryOptions = (userAccount: Address) => {
-  return {
-    ...readContractQueryOptions(getConfig(), {
-      address: ESSEAM_ADDRESS,
-      abi: EscroSEAMAbi,
-      functionName: "getClaimableAmount",
-      args: [userAccount],
-    }),
-    ...queryConfig.semiSensitiveDataQueryConfig,
-  };
-};
+export const useFetchSeamRewards = () => {
+  const { address: userAccount } = useAccount();
 
-export const fetchSeamRewards = async (userAccount: Address) => {
-  const queryClient = getQueryClient();
-
-  return queryClient.fetchQuery(fetchSeamRewardsQueryOptions(userAccount));
+  return useQuery({
+    queryKey: GovernanceQueryKeys.hookFetchSeamRewards(userAccount!),
+    queryFn: () => fetchSeamRewards(userAccount!),
+    enabled: Boolean(userAccount),
+  });
 };
