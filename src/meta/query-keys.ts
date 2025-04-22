@@ -16,12 +16,6 @@ export enum QueryTypes {
   CHILD_API_QUERY = "CHILD_API_QUERY",
 }
 
-/**
- * Turn a raw QueryKey (e.g. `["readContract", {…}]`)
- * into the *exact* one‑element array shape your cache uses:
- *
- *   [ { [hash]: originalKeyArray } ]
- */
 export function getHashedQueryKey(data: { queryKey: QueryKey }): Record<string, QueryKey> {
   const { queryKey } = data;
   const keyStr = JSON.stringify(queryKey);
