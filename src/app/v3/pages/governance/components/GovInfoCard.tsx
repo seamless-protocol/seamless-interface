@@ -14,7 +14,7 @@ import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { useFetchSeamRewards } from "../../../../statev3/governance/queries/rewards/FetchSeamRewards.hook";
-import { useMutateClaimVestedEsSEAM } from "../../../../statev3/governance/mutations/useMutateClaimSeam";
+import { useMutateClaimVestedEsSEAM } from "../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 import { SEAM_ADDRESS } from "@meta";
 
 export const GovInfoCard = () => {
