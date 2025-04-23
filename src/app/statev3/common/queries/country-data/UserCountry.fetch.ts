@@ -3,12 +3,13 @@ import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 import { fetchBlacklist } from "./Blacklist.fetch";
 import { IS_DEV_MODE } from "../../../../../globals";
+import { CountryDataKeys } from "../../query-keys/CountryDataQueryKeys";
 
 async function fetchUserCountry(): Promise<string> {
   const queryClient = getQueryClient();
 
   return queryClient.fetchQuery({
-    queryKey: ["fetchUserCountry"],
+    queryKey: CountryDataKeys.fetchUserCountry(),
     queryFn: async () => {
       if (IS_DEV_MODE && import.meta.env.VITE_DEV_COUNTRY) {
         return import.meta.env.VITE_DEV_COUNTRY;
