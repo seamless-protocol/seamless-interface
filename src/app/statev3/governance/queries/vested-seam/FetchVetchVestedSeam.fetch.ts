@@ -22,13 +22,13 @@ export const fetchVestedSeamQueryOptions = (userAccount: Address) => {
 export const fetchVestedSeam = async (userAccount: Address) => {
   const queryClient = getQueryClient();
 
-  const [seamRewards, token] = await Promise.all([
+  const [vestedSeam, token] = await Promise.all([
     queryClient.fetchQuery(fetchVestedSeamQueryOptions(userAccount)),
     fetchToken(ESSEAM_ADDRESS),
   ]);
 
   return formatFetchBigIntToViewBigInt({
-    bigIntValue: seamRewards,
+    bigIntValue: vestedSeam,
     decimals: token.decimals,
     symbol: token.symbol,
   });
