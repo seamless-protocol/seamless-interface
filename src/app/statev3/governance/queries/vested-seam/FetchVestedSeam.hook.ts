@@ -7,7 +7,7 @@ export const useFetchVestedSeam = () => {
   const { address: userAccount } = useAccount();
 
   return useQuery({
-    queryKey: GovernanceQueryKeys.hookFetchSeamRewards(userAccount!),
+    queryKey: GovernanceQueryKeys.hookFetchVestedSeam(userAccount!),
     queryFn: () => fetchVestedSeam(userAccount!),
     enabled: Boolean(userAccount),
   });

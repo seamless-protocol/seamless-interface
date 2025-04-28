@@ -3,7 +3,7 @@ import { targetChain } from "../../../config/rainbow.config";
 import { useAccount } from "wagmi";
 import { ESSEAM_ADDRESS, generateInvalidationKeys, SEAM_ADDRESS } from "@meta";
 import { EscrowSEAMAbi } from "../../../../../abis/EscroSEAM";
-import { fetchVestedSeamQueryOptions } from "../queries/rewards/FetchVetchVestedSeam.fetch";
+import { fetchVestedSeamQueryOptions } from "../queries/vested-seam/FetchVetchVestedSeam.fetch";
 import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useMutateClaimVestedEsSEAM = () => {

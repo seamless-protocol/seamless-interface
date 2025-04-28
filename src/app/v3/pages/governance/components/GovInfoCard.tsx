@@ -13,7 +13,7 @@ import {
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
-import { useFetchVestedSeam } from "../../../../statev3/governance/queries/rewards/FetchSeamRewards.hook";
+import { useFetchVestedSeam } from "../../../../statev3/governance/queries/vested-seam/FetchVestedSeam.hook";
 import { useMutateClaimVestedEsSEAM } from "../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 import { SEAM_ADDRESS } from "@meta";
 
