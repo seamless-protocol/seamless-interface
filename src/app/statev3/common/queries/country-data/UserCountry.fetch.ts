@@ -18,7 +18,7 @@ async function fetchUserCountry(): Promise<string> {
       if (!res.ok) throw new Error("CF trace failed");
       const txt = await res.text();
       const m = txt.match(/loc=([A-Z]{2})/);
-      return m?.[1] || "US";
+      return m?.[1];
     },
     ...queryConfig.metadataQueryConfig,
   });
