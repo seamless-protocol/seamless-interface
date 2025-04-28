@@ -13,7 +13,7 @@ import {
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
 import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
-import { useFetchSeamRewards } from "../../../../statev3/governance/queries/rewards/FetchSeamRewards.hook";
+import { useFetchVestedSeam } from "../../../../statev3/governance/queries/rewards/FetchSeamRewards.hook";
 import { useMutateClaimVestedEsSEAM } from "../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 import { SEAM_ADDRESS } from "@meta";
 
@@ -29,7 +29,7 @@ export const GovInfoCard = () => {
   /* ------------- */
   const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();
   const { data: { userVotingPower } = {}, ...delegRest } = useFetchDelegates();
-  const { data: seamRewards, ...seamRewardsRest } = useFetchSeamRewards();
+  const { data: vestedSeam, ...vestedSeamRest } = useFetchVestedSeam();
   const { data: seamTokenData } = useToken(SEAM_ADDRESS);
 
   /* ------------- */
@@ -44,7 +44,7 @@ export const GovInfoCard = () => {
           txHash,
           content: (
             <FlexCol className="w-full items-center text-center justify-center">
-              <Typography type="regular3">Rewards Claimed Successfully!</Typography>
+              <Typography type="regular3">Vested Seam Claimed Successfully!</Typography>
               <WatchAssetComponentv2 {...seamTokenData} address={SEAM_ADDRESS} />
             </FlexCol>
           ),
@@ -89,13 +89,13 @@ export const GovInfoCard = () => {
           <GovInfoCardDataPoint
             tooltip={<>Amount of esSEAM that has vested and is claimable as SEAM.</>}
             label="Claimable SEAM"
-            viewValue={seamRewards?.viewValue}
-            {...seamRewardsRest}
+            viewValue={vestedSeam?.viewValue}
+            {...vestedSeamRest}
           />
 
           <Buttonv2
             className="w-1/2 text-bold3"
-            disabled={(seamRewards?.bigIntValue ?? 0n) < 1n}
+            disabled={(vestedSeam?.bigIntValue ?? 0n) < 1n}
             loading={isClaimVestedPending}
             onClick={onClaim}
           >

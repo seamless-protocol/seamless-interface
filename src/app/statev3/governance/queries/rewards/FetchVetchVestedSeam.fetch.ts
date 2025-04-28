@@ -1,17 +1,17 @@
 import { readContractQueryOptions } from "wagmi/query";
 import { getConfig } from "../../../../utils/queryContractUtils";
 import { ESSEAM_ADDRESS } from "../../../../../meta";
-import { EscroSEAMAbi } from "../../../../../../abis/EscroSEAM";
+import { EscrowSEAMAbi } from "../../../../../../abis/EscroSEAM";
 import { Address } from "viem";
 import { queryConfig } from "../../../settings/queryConfig";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { fetchToken, formatFetchBigIntToViewBigInt } from "../../../../../shared";
 
-export const fetchSeamRewardsQueryOptions = (userAccount: Address) => {
+export const fetchVestedSeamQueryOptions = (userAccount: Address) => {
   return {
     ...readContractQueryOptions(getConfig(), {
       address: ESSEAM_ADDRESS,
-      abi: EscroSEAMAbi,
+      abi: EscrowSEAMAbi,
       functionName: "getClaimableAmount",
       args: [userAccount],
     }),
@@ -19,11 +19,11 @@ export const fetchSeamRewardsQueryOptions = (userAccount: Address) => {
   };
 };
 
-export const fetchSeamRewards = async (userAccount: Address) => {
+export const fetchVestedSeam = async (userAccount: Address) => {
   const queryClient = getQueryClient();
 
   const [seamRewards, token] = await Promise.all([
-    queryClient.fetchQuery(fetchSeamRewardsQueryOptions(userAccount)),
+    queryClient.fetchQuery(fetchVestedSeamQueryOptions(userAccount)),
     fetchToken(ESSEAM_ADDRESS),
   ]);
 

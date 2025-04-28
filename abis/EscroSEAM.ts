@@ -1,4 +1,4 @@
-export const EscroSEAMAbi = [
+export const EscrowSEAMAbi = [
   { type: "constructor", inputs: [], stateMutability: "nonpayable" },
   {
     type: "function",

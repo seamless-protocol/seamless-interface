@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
-import { fetchSeamRewards } from "./FetchSeamRewards.fetch";
+import { fetchVestedSeam } from "./FetchVetchVestedSeam.fetch";
 import { GovernanceQueryKeys } from "../../query-keys";
 
-export const useFetchSeamRewards = () => {
+export const useFetchVestedSeam = () => {
   const { address: userAccount } = useAccount();
 
   return useQuery({
     queryKey: GovernanceQueryKeys.hookFetchSeamRewards(userAccount!),
-    queryFn: () => fetchSeamRewards(userAccount!),
+    queryFn: () => fetchVestedSeam(userAccount!),
     enabled: Boolean(userAccount),
   });
 };

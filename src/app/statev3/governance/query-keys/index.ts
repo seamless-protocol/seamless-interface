@@ -1,6 +1,6 @@
 import { getHashedQueryKey, QueryTypes, Scopes } from "@meta";
 import { Address } from "viem";
-import { fetchSeamRewardsQueryOptions } from "../queries/rewards/FetchSeamRewards.fetch";
+import { fetchVestedSeamQueryOptions } from "../queries/rewards/FetchVetchVestedSeam.fetch";
 
 export const GovernanceQueryKeys = {
   hookQueries: [
@@ -18,7 +18,7 @@ export const GovernanceQueryKeys = {
       ...GovernanceQueryKeys.hookQueries[0],
       functionName: "seamRewardsHook",
       ...getHashedQueryKey({
-        queryKey: fetchSeamRewardsQueryOptions(userAccount).queryKey,
+        queryKey: fetchVestedSeamQueryOptions(userAccount).queryKey,
       }),
     },
   ],
