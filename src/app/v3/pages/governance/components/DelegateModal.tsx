@@ -68,32 +68,27 @@ export const DelegateModal: React.FC<{
   });
   const { handleSubmit } = methods;
 
-  const { delegateAsync, isDelegationPending } = useMutateDelegate(isRevoking);
+  const { delegateAsync, isDelegationPending } = useMutateDelegate(isRevoking, {
+    onSuccess: (txHash) => {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography type="regular3">Voting power {isRevoking ? "revoked" : "delegated"} successfully!</Typography>
+          </FlexCol>
+        ),
+      });
+    },
+    onSettled: () => {
+      modalRef.current?.close();
+    },
+  });
 
   const onSubmitAsync = async (data: { delegatee: Address | undefined }) => {
-    await delegateAsync(
-      {
-        delegatee: data.delegatee,
-        token: selectedOption,
-      },
-      {
-        onSuccess: () => {
-          showNotification({
-            txHash: undefined,
-            content: (
-              <FlexCol className="w-full items-center text-center justify-center">
-                <Typography type="regular3">
-                  Voting power {isRevoking ? "revoked" : "delegated"} successfully!
-                </Typography>
-              </FlexCol>
-            ),
-          });
-        },
-        onSettled: () => {
-          modalRef.current?.close();
-        },
-      }
-    );
+    await delegateAsync({
+      delegatee: data.delegatee,
+      token: selectedOption,
+    });
   };
 
   const buttonText = isRevoking ? "Revoke" : "Delegate";
