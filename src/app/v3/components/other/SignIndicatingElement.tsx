@@ -23,33 +23,3 @@ export const SignIndicatingElement: React.FC<{
     </FlexRow>
   );
 };
-
-export const SignIndicatingElementv2: React.FC<{
-  dislayable: Displayable<{
-    hasValue?: boolean;
-    value?: number | string;
-  }>;
-  children: React.ReactNode;
-  noBackground?: boolean;
-}> = ({ dislayable, children, noBackground }) => {
-  const {
-    isLoading,
-    isFetched,
-    data: { value, hasValue },
-  } = dislayable;
-
-  if (isLoading || !isFetched) {
-    return <>{children}</>;
-  }
-
-  return (
-    <FlexRow
-      className={`items-center gap-1 p-2 rounded-tag
-       ${noBackground ? "" : getBackGroundColorBasedOnSign(value)}
-      ${getColorBasedOnSign(value)}`}
-    >
-      <Icon src={getSvgBasedOnSign(value)} alt="polygon" width={16} height={16} hidden={!hasValue} />
-      {children}
-    </FlexRow>
-  );
-};
