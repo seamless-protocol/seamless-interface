@@ -1,9 +1,10 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayMoney, DisplayText, Displayable } from "@shared";
 
-import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
+
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;

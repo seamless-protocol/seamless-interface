@@ -1,11 +1,15 @@
-import { TableRow, TableCell, Typography, Tooltip } from "@shared";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
-import { LoadingTableGuard } from "./LoadingTableGuard";
-import { useFetchAllLeverageTokens } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-import { LeverageTokenDesktopTableRow } from "./ILMDesktopTableRow";
+
+import { TableRow, TableCell, Typography, Tooltip } from "@shared";
+
 import { isNullableAddressEqual } from "@app/v3/utils/utils";
+import { LoadingTableGuard } from "./LoadingTableGuard";
+
+import { useFetchAllLeverageTokens } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+
+import { LeverageTokenDesktopTableRow } from "./ILMDesktopTableRow";
 import { LeverageTokenMobileTableRow } from "./ILMMobileTableRow";
 import { LoadingLeverageTokenDesktopTableRows } from "./loading-state/LoadingLeverageTokenDesktopTableRows";
 import { LoadingLeverageTokenMobileTableRows } from "./loading-state/LoadingLeverageTokenMobileTableRows";

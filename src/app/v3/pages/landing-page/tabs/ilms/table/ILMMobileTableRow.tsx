@@ -1,8 +1,10 @@
-// src/components/LeverageTokenMobileTableRow.tsx
 import React from "react";
+
 import { FlexRow, FlexCol, Icon, DisplayText, DisplayMoney, Displayable } from "@shared";
-import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
-import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
+
+import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
+
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 
 export const LeverageTokenMobileTableRow: React.FC<{
@@ -17,7 +19,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
       tvl,
       apy,
       availableSupplyCap,
-      address,
     },
     ...rest
   } = leverageToken;
@@ -30,12 +31,10 @@ export const LeverageTokenMobileTableRow: React.FC<{
         ${hideBorder ? "" : "border border-b-divider"}
       `}
     >
-      {/* Token description / type */}
       <FlexRow className="justify-between mb-2">
         <DisplayText typography="regular2" viewValue={description} {...rest} />
       </FlexRow>
 
-      {/* Logo + Name */}
       <FlexRow className="items-center gap-3 mb-4">
         <Icon width={40} src={logo} alt={`${symbol} logo`} />
         <FlexCol>
@@ -50,7 +49,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
           <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
         </FlexRow>
 
-        {/* Estimated APY + Incentives */}
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="Estimated APY:" {...rest} />
           <FlexRow className="items-center gap-1">
