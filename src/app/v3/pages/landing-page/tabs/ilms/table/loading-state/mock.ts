@@ -16,7 +16,7 @@ export const propsMock: Displayable<LeverageToken> = {
     address: "" as any,
     tokenData: {} as any,
     additionalData: {} as any,
-    type: "",
+    type: "Long",
     tvl: {} as any,
     availableSupplyCap: {
       dollarAmount: emptyViewBigInt,
