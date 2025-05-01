@@ -65,15 +65,15 @@ const LocalVotesPowerText = () => {
   const {
     data: {
       hasDelegatedAny,
-      esSEAMDelegatedVotingPower,
+      esSeamDelegatedVotingPower,
       esSEAMVotingDelegatee,
       seamDelegatedVotingPower,
       seamVotingDelegatee,
-      stkseamDelegatedVotingPower,
+      stkSeamDelegatedVotingPower,
       stkseamVotingDelegatee,
       esSeamDelegated,
       seamDelegated,
-      stkseamDelegated,
+      stkSeamDelegated,
     } = {},
     ...rest
   } = useFetchDelegates();
@@ -94,7 +94,7 @@ const LocalVotesPowerText = () => {
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(esSEAMVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(esSEAMVotingDelegatee)}</Typography>
           </ExternalLink>
-          <DisplayTokenAmount {...esSEAMDelegatedVotingPower} />
+          <DisplayTokenAmount {...esSeamDelegatedVotingPower} />
         </FlexRow>
       )}
       {seamDelegated && (
@@ -105,12 +105,12 @@ const LocalVotesPowerText = () => {
           <DisplayTokenAmount {...seamDelegatedVotingPower} />
         </FlexRow>
       )}
-      {stkseamDelegated && (
+      {stkSeamDelegated && (
         <FlexRow className="justify-between">
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(stkseamVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(stkseamVotingDelegatee)}</Typography>
           </ExternalLink>
-          <DisplayTokenAmount {...stkseamDelegatedVotingPower} />
+          <DisplayTokenAmount {...stkSeamDelegatedVotingPower} />
         </FlexRow>
       )}
     </FlexCol>

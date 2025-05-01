@@ -28,7 +28,7 @@ const useDelegateModalData = () => {
       seamVotingDelegatee,
       stkseamVotingDelegatee,
       seamDelegated,
-      stkseamDelegated,
+      stkSeamDelegated,
       esSeamDelegated,
     } = {},
     ...delegRest
@@ -44,7 +44,7 @@ const useDelegateModalData = () => {
       seamVotingDelegatee,
       stkseamVotingDelegatee,
       seamDelegated,
-      stkseamDelegated,
+      stkSeamDelegated,
       esSeamDelegated,
     },
   };
@@ -56,7 +56,7 @@ export const DelegateModal: React.FC<{
   const { showNotification } = useNotificationContext();
 
   const {
-    data: { seamBalance, esSeamBalance, stkSeamBalance, seamDelegated, stkseamDelegated, esSeamDelegated } = {},
+    data: { seamBalance, esSeamBalance, stkSeamBalance, seamDelegated, stkSeamDelegated, esSeamDelegated } = {},
     ...rest
   } = useDelegateModalData();
 
@@ -157,7 +157,7 @@ export const DelegateModal: React.FC<{
                   </FlexRow>
                 )}
 
-                {(!isRevoking || (isRevoking && stkseamDelegated)) && (
+                {(!isRevoking || (isRevoking && stkSeamDelegated)) && (
                   <FlexRow className="justify-between w-full">
                     <FlexRow className="gap-2 items-center">
                       <input

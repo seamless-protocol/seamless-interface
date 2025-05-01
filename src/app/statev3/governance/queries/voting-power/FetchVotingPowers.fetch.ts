@@ -19,35 +19,35 @@ export const getVotesReadContractQueryOptions = (delegatee?: Address, token?: Ad
 export interface Powers {
   totalVotingPower: ViewBigInt;
   seamDelegatedVotingPower: ViewBigInt;
-  esSEAMDelegatedVotingPower: ViewBigInt;
-  stkseamDelegatedVotingPower: ViewBigInt;
+  esSeamDelegatedVotingPower: ViewBigInt;
+  stkSeamDelegatedVotingPower: ViewBigInt;
 }
 
 export async function getVotingPowers(
-  SEAMVotingPowerUserAddress: Address,
-  esSEAMVotingPowerUserAddress: Address,
-  stkSEAMVotingPowerUserAddress: Address
+  seamVotingPowerUserAddress: Address,
+  esSeamVotingPowerUserAddress: Address,
+  stkSeamVotingPowerUserAddress: Address
 ): Promise<Powers> {
   const queryClient = getQueryClient();
 
-  const [seamVotes, esSEAMVotes, stkseamVotes] = await Promise.all([
+  const [seamVotes, esSeamVotes, stkSeamVotes] = await Promise.all([
     queryClient.fetchQuery({
-      ...getVotesReadContractQueryOptions(SEAMVotingPowerUserAddress, SEAM_ADDRESS),
+      ...getVotesReadContractQueryOptions(seamVotingPowerUserAddress, SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      ...getVotesReadContractQueryOptions(esSEAMVotingPowerUserAddress, ESSEAM_ADDRESS),
+      ...getVotesReadContractQueryOptions(esSeamVotingPowerUserAddress, ESSEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
     queryClient.fetchQuery({
-      ...getVotesReadContractQueryOptions(stkSEAMVotingPowerUserAddress, STAKED_SEAM_ADDRESS),
+      ...getVotesReadContractQueryOptions(stkSeamVotingPowerUserAddress, STAKED_SEAM_ADDRESS),
       ...queryConfig.semiSensitiveDataQueryConfig,
     }),
   ]);
 
-  const totalVotes = seamVotes + esSEAMVotes + stkseamVotes;
+  const totalVotes = seamVotes + esSeamVotes + stkSeamVotes;
 
-  const [seamTokenData, esSEAMTokenData, stkseamTokenData] = await Promise.all([
+  const [seamTokenData, esSeamTokenData, stkSeamTokenData] = await Promise.all([
     fetchToken(SEAM_ADDRESS),
     fetchToken(ESSEAM_ADDRESS),
     fetchToken(STAKED_SEAM_ADDRESS),
@@ -62,13 +62,13 @@ export async function getVotingPowers(
       ...seamTokenData,
       bigIntValue: seamVotes,
     }),
-    esSEAMDelegatedVotingPower: formatFetchBigIntToViewBigInt({
-      ...esSEAMTokenData,
-      bigIntValue: esSEAMVotes,
+    esSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt({
+      ...esSeamTokenData,
+      bigIntValue: esSeamVotes,
     }),
-    stkseamDelegatedVotingPower: formatFetchBigIntToViewBigInt({
-      ...stkseamTokenData,
-      bigIntValue: stkseamVotes,
+    stkSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt({
+      ...stkSeamTokenData,
+      bigIntValue: stkSeamVotes,
     }),
   };
 

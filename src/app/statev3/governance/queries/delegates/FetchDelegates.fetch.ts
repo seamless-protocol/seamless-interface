@@ -13,8 +13,8 @@ export interface Powers {
   votingPower: ViewBigInt;
   userVotingPower: ViewBigInt;
   seamDelegatedVotingPower: ViewBigInt;
-  esSEAMDelegatedVotingPower: ViewBigInt;
-  stkseamDelegatedVotingPower: ViewBigInt;
+  esSeamDelegatedVotingPower: ViewBigInt;
+  stkSeamDelegatedVotingPower: ViewBigInt;
   seamVotingDelegatee: Address;
   esSEAMVotingDelegatee: Address;
   stkseamVotingDelegatee: Address;
@@ -76,7 +76,7 @@ export async function getPowers(user: Address): Promise<Powers> {
     throw new Error("getPowers: Failed to fetch user balance");
   }
 
-  const { seamDelegatedVotingPower, esSEAMDelegatedVotingPower, stkseamDelegatedVotingPower, totalVotingPower } =
+  const { seamDelegatedVotingPower, esSeamDelegatedVotingPower, stkSeamDelegatedVotingPower, totalVotingPower } =
     await getVotingPowers(seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee);
 
   const result: Powers = {
@@ -86,8 +86,8 @@ export async function getPowers(user: Address): Promise<Powers> {
       bigIntValue: (seamBalance.bigIntValue || 0n) + (esSeamBalance.bigIntValue || 0n),
     }),
     seamDelegatedVotingPower,
-    esSEAMDelegatedVotingPower,
-    stkseamDelegatedVotingPower,
+    esSeamDelegatedVotingPower,
+    stkSeamDelegatedVotingPower,
     seamVotingDelegatee,
     esSEAMVotingDelegatee,
     stkseamVotingDelegatee,
