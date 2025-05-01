@@ -54,9 +54,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <div>
-            <Tag tag={type} />
-          </div>
+          <div>{rest.isLoading ? <span className="w-10 h-6 skeleton flex" /> : <Tag tag={type} />}</div>
         </TableCell>
 
         <TableCell className="col-span-1">
