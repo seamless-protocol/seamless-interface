@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 
 import mockLogo from "@assets/tokens/ilmWstethEth.svg";
+import { TagType } from "../../../../statev3/common/types/StateTypes";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -32,13 +33,13 @@ export interface LeverageToken {
   additionalData: {
     description: string;
   };
-  type?: string;
+  type?: TagType;
 }
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0x1111111111111111111111111111111111111111" as Address,
-    type: "Type 1",
+    type: "Short",
     tvl: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
@@ -90,7 +91,7 @@ export const mockLeverageTokens: LeverageToken[] = [
   },
   {
     address: "0x2222222222222222222222222222222222222222" as Address,
-    type: "Type 2",
+    type: "Long",
     tvl: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,

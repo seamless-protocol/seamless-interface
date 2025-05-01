@@ -1,10 +1,21 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayMoney, DisplayText, Displayable } from "@shared";
+import {
+  TableRow,
+  TableCell,
+  FlexRow,
+  Icon,
+  FlexCol,
+  DisplayMoney,
+  DisplayText,
+  Displayable,
+  DisplayTokenAmount,
+} from "@shared";
 
 import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { Tag } from "../../../../../components/strategy-data/Tag";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -43,11 +54,15 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <DisplayText typography="bold3" viewValue={type} {...rest} />
+          <div>
+            <Tag tag={type} />
+          </div>
         </TableCell>
 
         <TableCell className="col-span-1">
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
+          <DisplayTokenAmount typography="bold3" {...tvl.tokenAmount} {...rest} />
+
+          <DisplayMoney typography="medium1" {...tvl.dollarAmount} {...rest} className="text-primary-600" />
         </TableCell>
         <TableCell className="col-span-1">
           <IncentivesButton
