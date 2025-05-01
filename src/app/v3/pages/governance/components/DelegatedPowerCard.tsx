@@ -65,11 +65,11 @@ const LocalVotesPowerText = () => {
   const {
     data: {
       hasDelegatedAny,
-      esSEAMTokenPower,
+      esSEAMDelegatedVotingPower,
       esSEAMVotingDelegatee,
-      seamTokenPower,
+      seamDelegatedVotingPower,
       seamVotingDelegatee,
-      stkseamTokenPower,
+      stkseamDelegatedVotingPower,
       stkseamVotingDelegatee,
       esSeamDelegated,
       seamDelegated,
@@ -94,7 +94,7 @@ const LocalVotesPowerText = () => {
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(esSEAMVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(esSEAMVotingDelegatee)}</Typography>
           </ExternalLink>
-          <DisplayTokenAmount {...esSEAMTokenPower} />
+          <DisplayTokenAmount {...esSEAMDelegatedVotingPower} />
         </FlexRow>
       )}
       {seamDelegated && (
@@ -102,7 +102,7 @@ const LocalVotesPowerText = () => {
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(seamVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(seamVotingDelegatee)}</Typography>
           </ExternalLink>
-          <DisplayTokenAmount {...seamTokenPower} />
+          <DisplayTokenAmount {...seamDelegatedVotingPower} />
         </FlexRow>
       )}
       {stkseamDelegated && (
@@ -110,7 +110,7 @@ const LocalVotesPowerText = () => {
           <ExternalLink url={RouterConfig.Builder.baseScanAddress(stkseamVotingDelegatee || "")}>
             <Typography type="bold3">{formatAddressToDisplayable(stkseamVotingDelegatee)}</Typography>
           </ExternalLink>
-          <DisplayTokenAmount {...stkseamTokenPower} />
+          <DisplayTokenAmount {...stkseamDelegatedVotingPower} />
         </FlexRow>
       )}
     </FlexCol>

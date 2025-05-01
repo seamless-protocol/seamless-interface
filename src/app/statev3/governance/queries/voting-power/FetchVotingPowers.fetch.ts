@@ -18,9 +18,9 @@ export const getVotesReadContractQueryOptions = (delegatee?: Address, token?: Ad
 
 export interface Powers {
   totalVotingPower: ViewBigInt;
-  seamTokenPower: ViewBigInt;
-  esSEAMTokenPower: ViewBigInt;
-  stkseamTokenPower: ViewBigInt;
+  seamDelegatedVotingPower: ViewBigInt;
+  esSEAMDelegatedVotingPower: ViewBigInt;
+  stkseamDelegatedVotingPower: ViewBigInt;
 }
 
 export async function getVotingPowers(
@@ -58,15 +58,15 @@ export async function getVotingPowers(
       decimals: seamTokenData.decimals,
       bigIntValue: totalVotes,
     }),
-    seamTokenPower: formatFetchBigIntToViewBigInt({
+    seamDelegatedVotingPower: formatFetchBigIntToViewBigInt({
       ...seamTokenData,
       bigIntValue: seamVotes,
     }),
-    esSEAMTokenPower: formatFetchBigIntToViewBigInt({
+    esSEAMDelegatedVotingPower: formatFetchBigIntToViewBigInt({
       ...esSEAMTokenData,
       bigIntValue: esSEAMVotes,
     }),
-    stkseamTokenPower: formatFetchBigIntToViewBigInt({
+    stkseamDelegatedVotingPower: formatFetchBigIntToViewBigInt({
       ...stkseamTokenData,
       bigIntValue: stkseamVotes,
     }),

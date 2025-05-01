@@ -2,18 +2,19 @@ import { Address } from "viem";
 import { StakedTokenAbi } from "../../../../../../abis/StakedToken";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { getConfig } from "../../../../utils/queryContractUtils";
-import { ViewBigInt } from "@shared";
+import { formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 import { getVotingPowers } from "../voting-power/FetchVotingPowers.fetch";
+import { fetchAssetBalance } from "../../../common/queries/useFetchViewAssetBalance";
 
 export interface Powers {
   votingPower: ViewBigInt;
   userVotingPower: ViewBigInt;
-  seamTokenPower: ViewBigInt;
-  esSEAMTokenPower: ViewBigInt;
-  stkseamTokenPower: ViewBigInt;
+  seamDelegatedVotingPower: ViewBigInt;
+  esSEAMDelegatedVotingPower: ViewBigInt;
+  stkseamDelegatedVotingPower: ViewBigInt;
   seamVotingDelegatee: Address;
   esSEAMVotingDelegatee: Address;
   stkseamVotingDelegatee: Address;
@@ -53,35 +54,40 @@ export async function getPowers(user: Address): Promise<Powers> {
   const queryClient = getQueryClient();
 
   // Fetch delegate addresses concurrently.
-  const [seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee] = await Promise.all([
-    queryClient.fetchQuery({
-      ...delegateeReadContractQueryOptions(user, SEAM_ADDRESS),
-      ...queryConfig.semiSensitiveDataQueryConfig,
-    }),
-    queryClient.fetchQuery({
-      ...delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS),
-      ...queryConfig.semiSensitiveDataQueryConfig,
-    }),
-    queryClient.fetchQuery({
-      ...delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS),
-      ...queryConfig.semiSensitiveDataQueryConfig,
-    }),
-  ]);
+  const [seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee, seamBalance, esSeamBalance] =
+    await Promise.all([
+      queryClient.fetchQuery({
+        ...delegateeReadContractQueryOptions(user, SEAM_ADDRESS),
+        ...queryConfig.semiSensitiveDataQueryConfig,
+      }),
+      queryClient.fetchQuery({
+        ...delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS),
+        ...queryConfig.semiSensitiveDataQueryConfig,
+      }),
+      queryClient.fetchQuery({
+        ...delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS),
+        ...queryConfig.semiSensitiveDataQueryConfig,
+      }),
+      fetchAssetBalance(SEAM_ADDRESS, user),
+      fetchAssetBalance(ESSEAM_ADDRESS, user),
+    ]);
 
-  const { seamTokenPower, esSEAMTokenPower, stkseamTokenPower, totalVotingPower } = await getVotingPowers(
-    seamVotingDelegatee,
-    esSEAMVotingDelegatee,
-    stkseamVotingDelegatee
-  );
+  if (seamBalance?.bigIntValue == null || esSeamBalance?.bigIntValue == null) {
+    throw new Error("getPowers: Failed to fetch user balance");
+  }
 
-  const { totalVotingPower: userVotingPower } = await getVotingPowers(user, user, user);
+  const { seamDelegatedVotingPower, esSEAMDelegatedVotingPower, stkseamDelegatedVotingPower, totalVotingPower } =
+    await getVotingPowers(seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee);
 
   const result: Powers = {
     votingPower: totalVotingPower,
-    userVotingPower,
-    seamTokenPower,
-    esSEAMTokenPower,
-    stkseamTokenPower,
+    userVotingPower: formatFetchBigIntToViewBigInt({
+      ...seamBalance,
+      bigIntValue: (seamBalance.bigIntValue || 0n) + (esSeamBalance.bigIntValue || 0n),
+    }),
+    seamDelegatedVotingPower,
+    esSEAMDelegatedVotingPower,
+    stkseamDelegatedVotingPower,
     seamVotingDelegatee,
     esSEAMVotingDelegatee,
     stkseamVotingDelegatee,
