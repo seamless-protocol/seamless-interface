@@ -1,5 +1,5 @@
-import { Displayable } from "../../../../../../../../shared";
-import { LeverageToken } from "../../../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { Displayable } from "@shared";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 
 const emptyViewBigInt = {
   value: undefined,
