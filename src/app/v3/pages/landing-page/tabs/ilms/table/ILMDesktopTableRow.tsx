@@ -32,7 +32,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-6 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
-            <Icon width={64} src={logo} alt="logo" />
+            <Icon width={64} src={logo} alt="logo" isLoading={rest.isLoading} isFetched={rest.isFetched} />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
                 <DisplayText typography="bold3" viewValue={name} {...rest} />

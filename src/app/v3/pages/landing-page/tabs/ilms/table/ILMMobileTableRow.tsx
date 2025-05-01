@@ -36,7 +36,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       </FlexRow>
 
       <FlexRow className="items-center gap-3 mb-4">
-        <Icon width={40} src={logo} alt={`${symbol} logo`} />
+        <Icon width={40} src={logo} alt={`${symbol} logo`} isLoading={rest.isLoading} isFetched={rest.isFetched} />
         <FlexCol>
           <DisplayText typography="bold3" viewValue={name} {...rest} />
           <DisplayText typography="regular1" viewValue={symbol} {...rest} />
