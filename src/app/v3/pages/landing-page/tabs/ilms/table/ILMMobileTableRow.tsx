@@ -1,66 +1,75 @@
-import { Address } from "viem";
-import { FlexRow, FlexCol, Icon, Typography, DisplayMoney, DisplayNumber } from "@shared";
-import { Tag } from "../../../../../components/strategy-data/Tag";
-import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
-import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { getColorBasedOnSign, getSvgBasedOnSign } from "../../../../../utils/uiUtils";
-import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
-import { StrategyIncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+// src/components/LeverageTokenMobileTableRow.tsx
+import React from "react";
+import { FlexRow, FlexCol, Icon, DisplayText, DisplayMoney, Displayable } from "@shared";
+import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 
-export const ILMMobileTableRow: React.FC<{
-  strategy: Address;
+export const LeverageTokenMobileTableRow: React.FC<{
+  leverageToken: Displayable<LeverageToken>;
   hideBorder?: boolean;
   selected?: boolean;
-}> = ({ strategy, selected }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
-
-  const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
-
-  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
-
-  const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
+}> = ({ leverageToken, hideBorder, selected }) => {
+  const {
+    data: {
+      tokenData: { name, symbol, logo },
+      additionalData: { description },
+      tvl,
+      apy,
+      availableSupplyCap,
+      address,
+    },
+    ...rest
+  } = leverageToken;
 
   return (
     <div
-      className={`flex flex-col md:hidden p-4 m-2 bg-white rounded-lg shadow  ${selected ? "bg-neutral-100" : "bg-white"}`}
+      className={`
+        flex flex-col md:hidden p-4 mx-2 mb-2 rounded-lg shadow
+        ${selected ? "bg-neutral-100" : "bg-white"}
+        ${hideBorder ? "" : "border border-b-divider"}
+      `}
     >
-      <FlexCol className="items-end mb-[-10px]">
-        <FlexRow>
-          <Tag key={strategyData?.type} tag={strategyData?.type} {...strategyDataRest} />
+      {/* Token description / type */}
+      <FlexRow className="justify-between mb-2">
+        <DisplayText typography="regular2" viewValue={description} {...rest} />
+      </FlexRow>
+
+      {/* Logo + Name */}
+      <FlexRow className="items-center gap-3 mb-4">
+        <Icon width={40} src={logo} alt={`${symbol} logo`} />
+        <FlexCol>
+          <DisplayText typography="bold3" viewValue={name} {...rest} />
+          <DisplayText typography="regular1" viewValue={symbol} {...rest} />
+        </FlexCol>
+      </FlexRow>
+
+      <FlexCol className="space-y-3">
+        <FlexRow className="justify-between items-center">
+          <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
+          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
+        </FlexRow>
+
+        {/* Estimated APY + Incentives */}
+        <FlexRow className="justify-between items-center">
+          <DisplayText typography="regular1" viewValue="Estimated APY:" {...rest} />
+          <FlexRow className="items-center gap-1">
+            <IncentivesButton totalApr={apy.estimatedAPY} rewardTokens={apy.rewardTokens} {...rest}>
+              <IncentivesDetailCard
+                assetSymbol={symbol}
+                totalApr={apy.estimatedAPY}
+                rewardTokens={apy.rewardTokens}
+                {...rest}
+              />
+            </IncentivesButton>
+          </FlexRow>
+        </FlexRow>
+
+        <FlexRow className="justify-between items-center">
+          <DisplayText typography="regular1" viewValue="Available Cap:" {...rest} />
+          <DisplayMoney typography="bold3" {...availableSupplyCap.dollarAmount} {...rest} />
         </FlexRow>
       </FlexCol>
-      <FlexRow className="items-center mb-4">
-        <FlexRow className="gap-4 items-center">
-          <Icon width={40} src={strategyData?.logo} alt="logo" />
-          <FlexCol className="gap-1 text-start">
-            <Typography type="bold3">{strategyData?.name}</Typography>
-            <Typography type="regular1">{strategyData?.symbol}</Typography>
-          </FlexCol>
-        </FlexRow>
-      </FlexRow>
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between items-center">
-          <Typography type="regular1">TVL:</Typography>
-          <FlexCol className="items-end">
-            <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
-          </FlexCol>
-        </div>
-        <div className="flex justify-between items-center">
-          <Typography type="regular1">30d historical return:</Typography>
-          <FlexRow className="items-center gap-1">
-            <Icon src={getSvgBasedOnSign(apy.value)} alt="polygon" width={12} height={12} hidden={!apy.value} />
-            <DisplayNumber typography="bold3" className={`${getColorBasedOnSign(apy.value)}`} {...apy} {...apyRest} />
-            <StrategyIncentivesButton strategy={strategy} />
-          </FlexRow>
-        </div>
-        <div className="flex justify-between items-center">
-          <Typography type="regular1">Available cap:</Typography>
-          <FlexCol className="items-end">
-            <DisplayMoney typography="bold3" {...availableStrategyCap.dollarAmount} {...availableStrategyCapRest} />
-          </FlexCol>
-        </div>
-      </div>
     </div>
   );
 };
