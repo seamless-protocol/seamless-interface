@@ -54,25 +54,32 @@ export async function getPowers(user: Address): Promise<Powers> {
   const queryClient = getQueryClient();
 
   // Fetch delegate addresses concurrently.
-  const [seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee, seamBalance, esSeamBalance] =
-    await Promise.all([
-      queryClient.fetchQuery({
-        ...delegateeReadContractQueryOptions(user, SEAM_ADDRESS),
-        ...queryConfig.semiSensitiveDataQueryConfig,
-      }),
-      queryClient.fetchQuery({
-        ...delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS),
-        ...queryConfig.semiSensitiveDataQueryConfig,
-      }),
-      queryClient.fetchQuery({
-        ...delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS),
-        ...queryConfig.semiSensitiveDataQueryConfig,
-      }),
-      fetchAssetBalance(SEAM_ADDRESS, user),
-      fetchAssetBalance(ESSEAM_ADDRESS, user),
-    ]);
+  const [
+    seamVotingDelegatee,
+    esSEAMVotingDelegatee,
+    stkseamVotingDelegatee,
+    seamBalance,
+    esSeamBalance,
+    stkSeamBalance,
+  ] = await Promise.all([
+    queryClient.fetchQuery({
+      ...delegateeReadContractQueryOptions(user, SEAM_ADDRESS),
+      ...queryConfig.semiSensitiveDataQueryConfig,
+    }),
+    queryClient.fetchQuery({
+      ...delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS),
+      ...queryConfig.semiSensitiveDataQueryConfig,
+    }),
+    queryClient.fetchQuery({
+      ...delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS),
+      ...queryConfig.semiSensitiveDataQueryConfig,
+    }),
+    fetchAssetBalance(SEAM_ADDRESS, user),
+    fetchAssetBalance(ESSEAM_ADDRESS, user),
+    fetchAssetBalance(STAKED_SEAM_ADDRESS, user),
+  ]);
 
-  if (seamBalance?.bigIntValue == null || esSeamBalance?.bigIntValue == null) {
+  if (seamBalance?.bigIntValue == null || esSeamBalance?.bigIntValue == null || stkSeamBalance?.bigIntValue == null) {
     throw new Error("getPowers: Failed to fetch user balance");
   }
 
@@ -83,7 +90,8 @@ export async function getPowers(user: Address): Promise<Powers> {
     votingPower: totalVotingPower,
     userVotingPower: formatFetchBigIntToViewBigInt({
       ...seamBalance,
-      bigIntValue: (seamBalance.bigIntValue || 0n) + (esSeamBalance.bigIntValue || 0n),
+      bigIntValue:
+        (seamBalance.bigIntValue || 0n) + (esSeamBalance.bigIntValue || 0n) + (stkSeamBalance.bigIntValue || 0n),
     }),
     seamDelegatedVotingPower,
     esSeamDelegatedVotingPower,
