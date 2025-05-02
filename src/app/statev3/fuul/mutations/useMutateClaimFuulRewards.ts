@@ -1,0 +1,92 @@
+// hooks/useMutateClaimFuulRewards.ts
+import { useAccount } from "wagmi";
+import { encodeFunctionData } from "viem";
+
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessSendTransaction } from "@shared";
+import { FUUL_MANAGER_ADDRESS } from "@meta";
+
+import { targetChain } from "../../../config/rainbow.config";
+import {
+  fetchUserBalances,
+  fetchUserBalancesQueryOptions,
+} from "../queries/fetch-user-balances/FetchUserBalances.fetch";
+import { IS_DEV_MODE } from "../../../../globals";
+import { FuulManagerAbi } from "../../../../../abis/FuulManager";
+
+export const useMutateClaimFuulRewards = () => {
+  const { address } = useAccount();
+  const { showNotification } = useNotificationContext();
+
+  const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
+    queriesToInvalidate: [
+      fetchUserBalancesQueryOptions({
+        where: {
+          owner: address,
+        },
+      }).queryKey,
+    ],
+  });
+
+  const claimFuulRewardsAsync = async (settings?: SeamlessWriteAsyncParams) => {
+    try {
+      if (!address) {
+        throw new Error("Wallet not connected. Please connect your wallet and try again.");
+      }
+
+      // 1. fetch real-time availableToClaim balances from subgraph
+      const { data: balances } = await fetchUserBalances({
+        where: {
+          owner: IS_DEV_MODE ? "0x0019de95fa9953074432f7e66a8c5e8f043c8218" : address,
+          //   project: "seamless", todo: not working?
+        },
+      });
+      if (!balances?.userBalances?.length) {
+        throw new Error("No Fuul rewards balance found.");
+      }
+
+      // 2. build claimChecks array
+      const claimChecks = balances?.userBalances
+        .map((b) => ({
+          projectAddress: b.project.deployedAddress,
+          currency: b.currency,
+          amount: b.availableToClaim,
+          tokenIds: [],
+          amounts: [],
+        }))
+        .filter((c) => BigInt(c.amount) > 0n);
+
+      if (claimChecks.length === 0) {
+        throw new Error("You have no rewards available to claim.");
+      }
+
+      // 3. encode ABI data for claim(claimChecks)
+      const data = encodeFunctionData({
+        abi: FuulManagerAbi,
+        functionName: "claim",
+        args: [claimChecks],
+      });
+
+      // 4. send tx to FuulManager
+      await sendTransactionAsync(
+        {
+          to: FUUL_MANAGER_ADDRESS,
+          data,
+          chainId: targetChain.id,
+        },
+        settings
+      );
+    } catch (error) {
+      console.error("Failed to claim Fuul rewards", error);
+      showNotification({
+        status: "error",
+        content: `Failed to claim Fuul rewards: ${getParsedError(error)}`,
+      });
+    }
+  };
+
+  return {
+    claimFuulRewardsAsync,
+    isClaiming: rest.isPending,
+    ...rest,
+  };
+};
