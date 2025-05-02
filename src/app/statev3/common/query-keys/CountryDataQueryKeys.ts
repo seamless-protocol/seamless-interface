@@ -16,35 +16,21 @@ export const CountryDataKeys = {
     },
   ] as const,
 
-  /** Key for fetching the embargoed country list */
-  fetchBlacklist: () =>
+  fetchIsUserRestricted: () =>
     [
       {
         ...CountryDataKeys.apiQueries[0],
-        functionName: "fetchBlacklist",
+        functionName: "fetchIsUserRestricted",
       },
     ] as const,
 
-  /** Key for fetching the user's country */
-  fetchUserCountry: () =>
-    [
-      {
-        ...CountryDataKeys.apiQueries[0],
-        functionName: "fetchUserCountry",
-      },
-    ] as const,
-
-  /** Key for combined country data (blacklist + userCountry) */
-  countryData: () =>
+  isUserRestricted: () =>
     [
       {
         ...CountryDataKeys.hookQueries[0],
-        functionName: "countryData",
+        functionName: "isUserRestricted",
         ...getHashedQueryKey({
-          queryKey: CountryDataKeys.fetchBlacklist(),
-        }),
-        ...getHashedQueryKey({
-          queryKey: CountryDataKeys.fetchUserCountry(),
+          queryKey: CountryDataKeys.fetchIsUserRestricted(),
         }),
       },
     ] as const,
