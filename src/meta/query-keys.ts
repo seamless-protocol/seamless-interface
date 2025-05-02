@@ -5,7 +5,7 @@ export const Scopes = {
   common: "common",
   morpho: "morpho",
   fuul: "fuul",
-  governance: "governance",
+  blockchain: "blockchain",
 };
 
 export enum QueryTypes {
