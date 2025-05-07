@@ -2,7 +2,7 @@ import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSe
 import { targetChain } from "../../../config/rainbow.config";
 import { useAccount } from "wagmi";
 import { ESSEAM_ADDRESS, generateInvalidationKeys, SEAM_ADDRESS } from "@meta";
-import { EscrowSEAMAbi } from "../../../../../abis/EscroSEAM";
+import { EscrowSEAMAbi } from "../../../../../abis/EscrowSEAM";
 import { fetchVestedSeamQueryOptions } from "../queries/vested-seam/FetchVetchVestedSeam.fetch";
 import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 

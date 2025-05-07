@@ -1,7 +1,7 @@
 import { readContractQueryOptions } from "wagmi/query";
 import { getConfig } from "../../../../utils/queryContractUtils";
 import { ESSEAM_ADDRESS } from "../../../../../meta";
-import { EscrowSEAMAbi } from "../../../../../../abis/EscroSEAM";
+import { EscrowSEAMAbi } from "../../../../../../abis/EscrowSEAM";
 import { Address } from "viem";
 import { queryConfig } from "../../../settings/queryConfig";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
