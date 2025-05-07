@@ -42,7 +42,7 @@ jobs:
           echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_STAKING_FEATURE=${{ vars.VITE_STAKING_FEATURE }} >> .env.production
-          echo VITE_CLIENT_META_API=${{ vars.VITE_CLIENT_META_API }} >> .env.production
+          echo VITE_CLIENT_METADATA_API=${{ vars.VITE_CLIENT_METADATA_API }} >> .env.production
           cat .env.production
 
       - run: npm ci
