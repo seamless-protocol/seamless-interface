@@ -38,7 +38,7 @@ jobs:
           echo VITE_CYPRESS_TEST_TENDERLY_PROJECT=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROJECT }} >> .env.development
           echo VITE_CYPRESS_TEST_TENDERLY_PROFILE=${{ vars.VITE_CYPRESS_TEST_TENDERLY_PROFILE }} >> .env.development
           echo VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY=${{ vars.VITE_CYPRESS_TEST_TENDERLY_ACCESS_KEY }} >> .env.development
-          echo VITE_COUNTRY_DATA_API=${{ vars.VITE_COUNTRY_DATA_API }} >> .env.development
+          echo VITE_CLIENT_META_API=${{ vars.VITE_CLIENT_META_API }} >> .env.development
           cat .env.development
 
       - run: npm ci

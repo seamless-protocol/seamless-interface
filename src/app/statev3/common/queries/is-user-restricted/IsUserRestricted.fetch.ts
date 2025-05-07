@@ -9,7 +9,7 @@ export async function fetchIsUserRestricted(): Promise<string> {
   return queryClient.fetchQuery({
     queryKey: CountryDataKeys.fetchIsUserRestricted(),
     queryFn: async () => {
-      const res = await fetch(import.meta.env.VITE_COUNTRY_DATA_API);
+      const res = await fetch(import.meta.env.VITE_CLIENT_META_API);
       if (!res.ok) throw new Error("fetchIsUserRestricted: Failed to fetch user data");
       const data = await res.json();
       return data.isBlocked;
