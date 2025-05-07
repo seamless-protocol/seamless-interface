@@ -36,9 +36,6 @@ interface LeverageTokenWithdrawContextValue {
   assetPrice: Displayable<ViewBigInt>;
 
   // how much underlying token receives on withdraw
-  // receiveAmount: string;
-  // receiveAmountUsdValue: Displayable<ViewBigInt>;
-
   sharesToReceive: Displayable<ViewPreviewWithdraw>;
 
   formOnSubmitAsync: (
