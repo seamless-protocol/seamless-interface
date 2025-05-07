@@ -5,7 +5,7 @@ import { fetchVestedSeamQueryOptions } from "../queries/vested-seam/FetchVetchVe
 export const GovernanceQueryKeys = {
   hookQueries: [
     {
-      scope: Scopes.governance,
+      scope: Scopes.blockchain,
       queryType: QueryTypes.HOOK,
     },
   ] as const,

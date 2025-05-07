@@ -4,7 +4,7 @@ import { sha256, toBytes } from "viem";
 export const Scopes = {
   morpho: "morpho",
   fuul: "fuul",
-  governance: "governance",
+  blockchain: "blockchain",
 };
 
 export enum QueryTypes {
