@@ -2,6 +2,8 @@ import { QueryKey } from "@tanstack/react-query";
 import { sha256, toBytes } from "viem";
 
 export const Scopes = {
+  common: "common",
+  clientMetaApi: "clientMetaApi",
   morpho: "morpho",
   fuul: "fuul",
   blockchain: "blockchain",
