@@ -30,7 +30,7 @@ export const GovInfoCard = () => {
   const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();
   const { data: { userVotingPower } = {}, ...delegRest } = useFetchDelegates();
   const { data: vestedSeam, ...vestedSeamRest } = useFetchVestedSeam();
-  const { data: seamTokenData } = useToken(SEAM_ADDRESS);
+  const { data: seamTokenData, error, isLoading } = useToken(SEAM_ADDRESS);
 
   /* ------------- */
   /*   Mutations   */
@@ -45,7 +45,12 @@ export const GovInfoCard = () => {
           content: (
             <FlexCol className="w-full items-center text-center justify-center">
               <Typography type="regular3">Vested Seam Claimed Successfully!</Typography>
-              <WatchAssetComponentv2 {...seamTokenData} address={SEAM_ADDRESS} />
+              {error && <Typography type="regular3">Error: {error.message}</Typography>}
+              {isLoading ? (
+                <Typography type="regular3">Loading...</Typography>
+              ) : (
+                <WatchAssetComponentv2 {...seamTokenData} address={SEAM_ADDRESS} />
+              )}
             </FlexCol>
           ),
         });
