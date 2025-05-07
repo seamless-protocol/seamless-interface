@@ -1,44 +1,60 @@
-import { useParams } from "react-router-dom";
-import { Address } from "viem";
-import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
-import { DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
+import { Displayable, DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
+
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
-import { StrategyIncentivesButton } from "../../../../components/tooltip/AprTooltip";
+import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
+import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
 
-export const StrategyHeading = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
-
-  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
-
-  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
+export const LeverageTokenHeading: React.FC<{
+  leverageToken: Displayable<LeverageToken | undefined>;
+}> = ({ leverageToken }) => {
+  const {
+    data: {
+      tokenData: { name, symbol } = {},
+      apy: { estimatedAPY = {}, rewardTokens = [] } = {},
+      additionalData: { description } = {},
+    } = {},
+    ...rest
+  } = leverageToken;
 
   return (
     <FlexCol>
       <div className="flex md:flex-row flex-col-reverse md:items-center gap-4">
-        <DisplayText viewValue={strategyData?.name} {...strategyDataRest} typography="bold7" />
+        <DisplayText viewValue={name} {...rest} typography="bold7" />
 
         <FlexRow className="md:items-center gap-4">
           <div className="flex w-auto">
             <SignIndicatingElement
               dislayable={{
-                ...apyRest,
-                data: apy,
+                ...rest,
+                data: estimatedAPY,
               }}
             >
-              <DisplayNumber typography="bold3" {...apy} {...apyRest} />
+              <DisplayNumber typography="bold3" {...estimatedAPY} {...rest} />
             </SignIndicatingElement>
           </div>
 
-          {strategy && (
-            <div className="h-auto mt-[2px]">
-              <StrategyIncentivesButton strategy={strategy} />
-            </div>
-          )}
+          <div className="h-auto mt-[2px]">
+            <IncentivesButton
+              totalApr={{
+                ...estimatedAPY,
+              }}
+              rewardTokens={rewardTokens}
+              {...rest}
+            >
+              <IncentivesDetailCard
+                assetSymbol={symbol}
+                totalApr={{
+                  ...estimatedAPY,
+                }}
+                rewardTokens={rewardTokens}
+                {...rest}
+              />
+            </IncentivesButton>
+          </div>
         </FlexRow>
       </div>
-      {strategyData?.description && <DisplayText {...strategyDataRest} typography="regular5" text={strategyData?.description} />}
+      {description && <DisplayText {...rest} typography="regular5" text={description} />}
     </FlexCol>
   );
 };

@@ -55,6 +55,7 @@ export const RouterConfig = {
     unwrapEth: `${uniswapUrl}?chain=base&inputCurrency=0x4200000000000000000000000000000000000006&outputCurrency=ETH`,
     faq: `${faqUrl}`,
     developers: `${developersUrl}`,
+    leverageTokenDetails: `${baseUrl}/leverage-token-details/:address`,
     ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
     ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
@@ -62,6 +63,7 @@ export const RouterConfig = {
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
+    leverageTokenDetails: (address: Address) => `${baseUrl}/leverage-token-details/${address}`,
     ilmDetailsv2: (id: number) => `${baseUrl}/ilm-detailsv2/${id}`,
     ilmDetails: (address: Address) => `${baseUrl}/ilm-details/${address}`,
     morphoVaultDetails: (address: Address) => `${baseUrl}/vault-details/${address}`,

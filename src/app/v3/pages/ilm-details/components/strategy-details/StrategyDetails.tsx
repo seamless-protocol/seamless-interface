@@ -1,6 +1,13 @@
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { cbBTCLong_1_5x, cbBTCLong_3x, ethLong_1_5x, ethLong_3x, ethShort_ADDRESS_1_5_x, wstETHBooster_3x } from "../../../../../../meta";
+import {
+  cbBTCLong_1_5x,
+  cbBTCLong_3x,
+  ethLong_1_5x,
+  ethLong_3x,
+  ethShort_ADDRESS_1_5_x,
+  wstETHBooster_3x,
+} from "../../../../../../meta";
 import { EthLong1_5xDetails } from "./details-per-strategy/EthLong1_5xDetails";
 import { EthLong3xDetails } from "./details-per-strategy/EthLong3xDetails";
 import { EthShort1_5xDetails } from "./details-per-strategy/EthShort1_5xDetails";
@@ -15,15 +22,13 @@ const DetailsDictionary = {
   [wstETHBooster_3x]: WstETHBooster3xDetails,
   [cbBTCLong_1_5x]: CbBtcLong1_5xDetails,
   [cbBTCLong_3x]: CbBtcLong3xDetails,
-}
+};
 
-export const StrategyDetails = () => {
+export const LeverageTokenDetails = () => {
   const { address } = useParams<{ address: string }>();
   const strategy = address as Address | undefined;
 
   const Details = strategy ? DetailsDictionary[strategy] : undefined;
 
-  return (
-    (Details && strategy) ? <Details strategy={strategy} /> : <div>Strategy details not configured</div>
-  );
+  return Details && strategy ? <Details strategy={strategy} /> : <div>Strategy details not configured</div>;
 };

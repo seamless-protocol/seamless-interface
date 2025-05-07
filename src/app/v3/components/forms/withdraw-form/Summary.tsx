@@ -1,13 +1,12 @@
-import React from "react";
 import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow } from "@shared";
 import { useAccount } from "wagmi";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
 
-export const Summary: React.FC<{
-  debouncedAmount: string;
-}> = ({ debouncedAmount }) => {
+export const Summary = () => {
+  const { debouncedAmount } = useLeverageTokenWithdrawFormContext();
   const { strategy } = useFormSettingsContext();
   const { isConnected } = useAccount();
   const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);

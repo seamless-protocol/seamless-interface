@@ -1,83 +1,60 @@
-import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
-import { useWrappedDebounce } from "../../../../statev3/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
-import {
-  useNotificationContext,
-  FlexCol,
-  Typography,
-  WatchAssetComponentv2,
-  MyFormProvider,
-  FlexRow,
-  useToken,
-} from "@shared";
-import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
+import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
-import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
-import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
-import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
 import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";
+import { LeverageToken } from "../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+
+import {
+  DepositFormData,
+  useLeverageTokenDepositFormContext,
+} from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
 
 export const DepositForm = () => {
-  const { strategy } = useFormSettingsContext();
-  const { data: strategyData } = useFetchFullStrategyData(strategy);
+  const {
+    selectedLeverageToken: { data: leverageToken, isLoading, error },
+  } = useLeverageTokenDepositFormContext();
 
-  if (!strategyData) {
-    // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
-    return <div className="min-h-[1000px]" />;
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
   }
 
-  return <StrategyFormLocal strategyData={strategyData} />;
+  if (!leverageToken || error) {
+    // eslint-disable-next-line no-console
+    console.warn("Vault not found!!!");
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full vault info: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
+
+  return <StrategyFormLocal leverageToken={leverageToken} />;
 };
 
-interface FormData {
-  amount: string;
-  receiveAmount: string;
-}
-
 const StrategyFormLocal: React.FC<{
-  strategyData: FullStrategyData;
-}> = ({ strategyData }) => {
-  const { onTransaction } = useFormSettingsContext();
-  const underlyingAssetAddress = strategyData.underlying;
+  leverageToken: LeverageToken;
+}> = ({ leverageToken }) => {
+  const { onTransaction, formOnSubmitAsync, methods, previewDepositData } = useLeverageTokenDepositFormContext();
   const {
-    data: { symbol: underlyingAssetSymbol },
-  } = useFullTokenData(underlyingAssetAddress);
-
-  const methods = useForm<FormData>({
-    defaultValues: {
-      amount: "",
-      receiveAmount: "",
-    },
-  });
-  const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount", "");
+    underlyingAssetAddress,
+    underlyingAsset: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+  } = leverageToken;
 
   const { showNotification } = useNotificationContext();
 
-  const {
-    data: { decimals: underlyingAssetDecimals },
-    isLoading: isUnderlyingAssetDecimalsLoading,
-  } = useToken(strategyData?.underlying);
-
-  const { depositAsync, isDepositPending } = useMutateDepositStrategy(strategyData);
-
-  const { data: assetPrice } = useFetchFormattedAssetPrice(strategyData?.underlying);
-
-  const { debouncedAmount } = useWrappedDebounce(amount, assetPrice?.bigIntValue, 500);
-  const previewDepositData = useFetchDepositSharesToReceive(debouncedAmount, strategyData?.address);
-
-  const onSubmitAsync = async (data: FormData) => {
-    await depositAsync(
+  const onSubmitAsync = async (data: DepositFormData) => {
+    await formOnSubmitAsync(
       {
         amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
         previewDepositData,
@@ -91,21 +68,20 @@ const StrategyFormLocal: React.FC<{
                 <Typography>
                   You Supplied {data.amount} {underlyingAssetSymbol}
                 </Typography>
-                {strategyData && <WatchAssetComponentv2 {...strategyData} address={strategyData?.address} />}
+                {leverageToken && <WatchAssetComponentv2 {...leverageToken} address={leverageToken?.address} />}
               </FlexCol>
             ),
           });
         },
         onSettled: () => {
           onTransaction?.();
-          reset();
         },
       }
     );
   };
 
   return (
-    <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
+    <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
@@ -132,17 +108,13 @@ const StrategyFormLocal: React.FC<{
 
           <FlexCol className="gap-3">
             <Typography type="medium3">Receive</Typography>
-            <RHFReceiveAmountField debouncedAmount={debouncedAmount} name="receiveAmount" />
+            <RHFReceiveAmountField name="receiveAmount" />
           </FlexCol>
 
-          <Summary debouncedAmount={debouncedAmount} />
+          <Summary />
         </FlexCol>
 
-        <FormButtons
-          isDisabled={!previewDepositData.isSuccess}
-          isLoading={previewDepositData.isLoading || isUnderlyingAssetDecimalsLoading || isDepositPending}
-          strategy={strategyData}
-        />
+        <FormButtons />
       </FlexCol>
     </MyFormProvider>
   );

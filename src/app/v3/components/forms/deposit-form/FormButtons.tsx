@@ -1,34 +1,25 @@
-import {
-  FlexCol,
-  AuthGuardv2,
-  Buttonv2,
-  useERC20Approve,
-  getApproveState,
-  useNotificationContext,
-  useToken,
-} from "@shared";
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { parseUnits } from "viem";
-import { FullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
+import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext } from "@shared";
 
-export const FormButtons: React.FC<{
-  strategy: FullStrategyData;
-  isLoading?: boolean;
-  isDisabled?: boolean;
-}> = ({ strategy, isLoading, isDisabled }) => {
+import { parseUnits } from "viem";
+import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+
+export const FormButtons = () => {
   const { showNotification } = useNotificationContext();
-  const { data: { decimals } = {} } = useToken(strategy.underlying);
 
   const {
-    watch,
-    formState: { isSubmitting },
-  } = useFormContext();
-  const amount = watch("amount");
+    methods: {
+      formState: { isSubmitting },
+    },
+    selectedLeverageToken,
+    amount,
+    isPending,
+  } = useLeverageTokenDepositFormContext();
+
+  const { data: { underlyingAssetAddress, address, underlyingAsset: { decimals } = {} } = {} } = selectedLeverageToken;
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    strategy.underlying,
-    strategy.address,
+    underlyingAssetAddress,
+    address,
     decimals ? parseUnits(amount || "0", decimals) : undefined
   );
 
@@ -47,7 +38,7 @@ export const FormButtons: React.FC<{
           data-cy="approvalButton"
           className="text-bold3"
           disabled={isApproved || isSubmitting}
-          loading={!isApproved && (isApproving || isLoading)}
+          loading={!isApproved && (isApproving || isPending)}
           onClick={async () => {
             try {
               await approveAsync();
@@ -66,8 +57,8 @@ export const FormButtons: React.FC<{
         data-cy="actionButton"
         className="text-bold3"
         type="submit"
-        disabled={!isApproved || isSubmitting || isDisabled}
-        loading={isSubmitting || isLoading}
+        disabled={!isApproved || isSubmitting || isPending}
+        loading={isSubmitting || isPending}
       >
         Submit
       </Buttonv2>

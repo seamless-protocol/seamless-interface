@@ -1,105 +1,73 @@
+import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { parseUnits, Address } from "viem";
+import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
+import { Link } from "react-router-dom";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import {
-  useNotificationContext,
-  ModalHandles,
-  useToken,
-  FlexCol,
-  FlexRow,
-  MyFormProvider,
-  Typography,
-  WatchAssetComponentv2,
-} from "@shared";
+import { useNotificationContext, MyFormProvider, FlexCol, FlexRow, Typography, WatchAssetComponentv2 } from "@shared";
 import { WETH_ADDRESS } from "@meta";
 import { RouterConfig } from "../../../../router";
-import { useWrappedDebounce } from "../../../../statev3/common/hooks/useWrappedDebounce";
-import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPrice } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
-import { useFetchWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { FormButtons } from "./FormButtons";
+import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
-import { Summary } from "./Summary";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
-import { useWriteStrategyWithdraw } from "../../../../statev3/loop-strategy/mutations/useWriteStrategyWithdraw";
+import { Summary } from "./Summary";
+import { FormButtons } from "./FormButtons";
 
-export const WithdrawForm: React.FC = () => {
-  const { strategy } = useFormSettingsContext();
-  const { data: strategyData } = useFetchFullStrategyData(strategy);
+export const WithdrawLeverageToken: React.FC = () => {
+  const {
+    selectedLeverageToken: { data: leverageToken, isLoading, error },
+  } = useLeverageTokenWithdrawFormContext();
 
-  if (!strategyData) {
-    // eslint-disable-next-line no-console
-    console.warn("Strategy not found!!!");
-    return <>Strategy not found!</>;
+  if (isLoading) {
+    return <div className="min-h-[300px]" />;
   }
 
-  return <WithdrawStrategyLocal strategy={strategyData} />;
+  if (!leverageToken || error) {
+    // eslint-disable-next-line no-console
+    console.warn("Vault not found!!!");
+    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+
+    return (
+      <div className="min-h-[300px]">
+        <Typography type="medium3" className="text-red-600">
+          Error while fetching full vault info: {error?.message}
+        </Typography>
+      </div>
+    );
+  }
+
+  return <WithdrawLeverageTokenLocal />;
 };
 
-interface WithdrawModalFormData {
-  amount: string;
-  receiveAmount: string;
-}
-
-const WithdrawStrategyLocal: React.FC<{
-  strategy: FullStrategyData;
-}> = ({ strategy }) => {
-  const { onTransaction } = useFormSettingsContext();
-
-  const {
-    data: { symbol: strategySymbol },
-  } = useToken(strategy.address);
-
-  const underlyingTokenAddress = strategy.underlying;
-  const { data: underlyingTokenData, isLoading: isTokenDecimalsLoading } = useFullTokenData(underlyingTokenAddress);
-
-  const account = useAccount();
-  const { showNotification } = useNotificationContext();
-  const modalRef = useRef<ModalHandles | null>(null);
+export const WithdrawLeverageTokenLocal: React.FC = () => {
   const queryClient = useQueryClient();
+  const { showNotification } = useNotificationContext();
+  const account = useAccount();
 
-  const { data: price } = useFetchAssetPrice({ asset: strategy.address });
+  const { selectedLeverageToken, methods, sharesToReceive, onTransaction, formOnSubmitAsync, amount } =
+    useLeverageTokenWithdrawFormContext();
+  const { data: { underlyingAsset, address, tokenData, underlyingAssetAddress } = {} } = selectedLeverageToken;
 
-  const { withdrawAsync, isPending } = useWriteStrategyWithdraw(strategy.address);
-
-  // FORM //
-  const methods = useForm<WithdrawModalFormData>({
-    defaultValues: {
-      amount: "",
-      receiveAmount: "",
-    },
-  });
-  const { handleSubmit, watch, reset } = methods;
-  const amount = watch("amount", "");
-  const { debouncedAmount } = useWrappedDebounce(amount, price.bigIntValue, 500);
-
-  const previewWithdrawData = useFetchWithdrawSharesToReceive(debouncedAmount, strategy.address);
-
-  const onSubmitAsync = async (data: WithdrawModalFormData) => {
-    await withdrawAsync(
+  const onSubmit = async () => {
+    await formOnSubmitAsync(
       {
-        shares: underlyingTokenData.decimals ? parseUnits(data.amount, underlyingTokenData.decimals) : undefined,
-        from: account.address as Address,
-        receiver: account.address as Address,
-        previewWithdrawData,
+        shares: underlyingAsset?.decimals ? parseUnits(amount, underlyingAsset.decimals) : undefined,
+        from: account.address as string,
+        receiver: account.address as string,
+        previewWithdrawData: sharesToReceive.data,
       },
       {
         onSuccess: (txHash) => {
-          modalRef.current?.close();
+          methods.reset();
           showNotification({
             txHash,
             content: (
-              <FlexCol>
-                <Typography type="regular3">
-                  You Withdrew {data.amount} ${strategySymbol}
+              <FlexCol className="w-full items-center text-center justify-center">
+                <Typography>
+                  You Withdrew {amount} {underlyingAsset?.symbol}
                 </Typography>
-                {underlyingTokenAddress === WETH_ADDRESS && (
+                <WatchAssetComponentv2 {...tokenData} address={address} />
+                {underlyingAssetAddress === WETH_ADDRESS && (
                   <FlexRow className="w-full">
                     <Link
                       to={RouterConfig.Routes.unwrapEth}
@@ -114,21 +82,12 @@ const WithdrawStrategyLocal: React.FC<{
                     </Link>
                   </FlexRow>
                 )}
-                {underlyingTokenAddress && underlyingTokenData?.symbol && (
-                  <WatchAssetComponentv2
-                    address={underlyingTokenAddress}
-                    icon={underlyingTokenData.logo}
-                    decimals={underlyingTokenData.decimals}
-                  />
-                )}
               </FlexCol>
             ),
           });
-          // todo: invalidate only specific queries, after query key refactor
           queryClient.invalidateQueries();
         },
         onSettled: () => {
-          reset();
           onTransaction?.();
         },
       }
@@ -136,24 +95,21 @@ const WithdrawStrategyLocal: React.FC<{
   };
 
   return (
-    <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
+    <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <FlexCol className="gap-8">
         <FlexCol className="gap-3">
           <Typography type="medium3">Withdraw</Typography>
-          <RHFWithdrawStrategyAmountField strategy={strategy.address} name="amount" />
+          <RHFWithdrawStrategyAmountField name="amount" />
         </FlexCol>
 
         <FlexCol className="gap-3">
           <Typography type="medium3">Receive</Typography>
-          <RHFReceiveAmountField debouncedAmount={debouncedAmount} name="receiveAmount" />
+          <RHFReceiveAmountField name="receiveAmount" />
         </FlexCol>
 
-        <Summary debouncedAmount={debouncedAmount} />
+        <Summary />
 
-        <FormButtons
-          isDisabled={!previewWithdrawData.isSuccess}
-          isLoading={previewWithdrawData.isLoading || isTokenDecimalsLoading || isPending}
-        />
+        <FormButtons />
       </FlexCol>
     </MyFormProvider>
   );

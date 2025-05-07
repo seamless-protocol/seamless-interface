@@ -1,11 +1,6 @@
-import { DisplayMoney, DisplayText, FlexCol, FlexRow, Typography, ViewBigInt } from "@shared";
+import { Displayable, DisplayMoney, DisplayText, FlexCol, FlexRow, Typography, ViewBigInt } from "@shared";
 import border from "@assets/common/border.svg";
-import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { useFetchFormattedStrategyCap } from "../../../../../../statev3/queries/StrategyCap.hook";
-import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../statev3/metadata/StrategyTargetMultiples.hook";
-import { useParams } from "react-router-dom";
-import { Address } from "viem";
-import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.all";
+import { LeverageToken } from "../../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 
 function getMinMaxLeverageText(min: ViewBigInt | undefined, max: ViewBigInt | undefined): string | undefined {
   return `${min?.viewValue}${min?.symbol} - ${max?.viewValue}${max?.symbol}`;
@@ -16,17 +11,20 @@ const skeletonLoaderSettings = {
   height: "30px",
 };
 
-export const StrategyStats = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
+export interface LeverageTokenStatsProps {
+  leverageToken: Displayable<LeverageToken | undefined>;
+}
 
-  const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
-
-  const { data: supplyCap, ...supplyCapRest } = useFetchFormattedStrategyCap(strategy);
-
-  const { data: targetMultiples, ...targetMultiplesRest } = useFetchFormattedStrategyTargetMultiples(strategy);
-
-  const { data: currentMultiple, ...currentMultipleRest } = useFetchFormattedStrategyMultiple(strategy);
+export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverageToken }) => {
+  const {
+    data: {
+      tvl: { dollarAmount = {} } = {},
+      availableSupplyCap: { dollarAmount: capDollarAmount } = {},
+      targetMultiples: { minForRebalance, maxForRebalance } = {},
+      currentMultiple,
+    } = {},
+    ...rest
+  } = leverageToken;
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
@@ -36,8 +34,8 @@ export const StrategyStats = () => {
             TVL
           </Typography>
           <DisplayMoney
-            {...tvl.dollarAmount}
-            {...tvlRest}
+            {...dollarAmount}
+            {...rest}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
@@ -51,8 +49,8 @@ export const StrategyStats = () => {
             Supply cap
           </Typography>
           <DisplayMoney
-            {...supplyCap.dollarAmount}
-            {...supplyCapRest}
+            {...capDollarAmount}
+            {...rest}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
@@ -66,10 +64,10 @@ export const StrategyStats = () => {
             Min - Max Leverage
           </Typography>
           <DisplayText
-            {...targetMultiplesRest}
+            {...rest}
             typography="bold5"
             className="text-primary-1000"
-            text={getMinMaxLeverageText(targetMultiples?.maxForRebalance, targetMultiples?.minForRebalance)}
+            text={getMinMaxLeverageText(maxForRebalance, minForRebalance)}
             loaderSkeletonSettings={skeletonLoaderSettings}
           />
         </FlexCol>
@@ -81,7 +79,7 @@ export const StrategyStats = () => {
             Current leverage
           </Typography>
           <DisplayText
-            {...currentMultipleRest}
+            {...rest}
             {...currentMultiple}
             typography="bold5"
             className="text-primary-1000"

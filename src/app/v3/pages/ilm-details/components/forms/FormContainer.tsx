@@ -1,30 +1,40 @@
 import { FlexCol, FlexRow, Typography } from "@shared";
-import { FormSettingsProvider } from "../../../../components/forms/contexts/FormSettingsContext";
-import { WithdrawForm } from "../../../../components/forms/withdraw-form/WithdrawForm";
-import { useParams } from "react-router-dom";
+import { WithdrawLeverageToken } from "../../../../components/forms/withdraw-form/WithdrawForm";
+import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
+import { useState } from "react";
 import { Address } from "viem";
+import { LeverageTokenDepositFormProvider } from "../../../../components/forms/contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { LeverageTokenWithdrawFormProvider } from "../../../../components/forms/contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
 
-export const FormContainer: React.FC = () => {
-  const { address } = useParams();
-  const strategy = address as Address | undefined;
+export const FormContainer: React.FC<{
+  address?: Address;
+}> = ({ address }) => {
+  const [mode, setMode] = useState<"deposit" | "withdraw">("deposit");
 
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
       <FlexRow className="items-center gap-1">
         <div className="cursor-not-allowed">
-          <LocalButtonSwitcher data-cy="deposit-button" className="cursor-not-allowed" isActive={false} disabled>
+          <LocalButtonSwitcher onClick={() => setMode("deposit")} data-cy="deposit-button" disabled>
             Deposit
           </LocalButtonSwitcher>
         </div>
 
-        <LocalButtonSwitcher data-cy="withdraw-button" isActive>
+        <LocalButtonSwitcher onClick={() => setMode("withdraw")} data-cy="withdraw-button" isActive>
           Withdraw
         </LocalButtonSwitcher>
       </FlexRow>
       <div>
-        <FormSettingsProvider defaultStrategy={strategy}>
-          <WithdrawForm />
-        </FormSettingsProvider>
+        {mode === "deposit" && (
+          <LeverageTokenDepositFormProvider defaultLeverageTokenAddress={address}>
+            <DepositForm />
+          </LeverageTokenDepositFormProvider>
+        )}
+        {mode === "withdraw" && (
+          <LeverageTokenWithdrawFormProvider defaultLeverageTokenAddress={address}>
+            <WithdrawLeverageToken />
+          </LeverageTokenWithdrawFormProvider>
+        )}
       </div>
     </FlexCol>
   );

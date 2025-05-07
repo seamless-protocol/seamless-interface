@@ -4,14 +4,10 @@ import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
+import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
 
-export const Summary: React.FC<{
-  debouncedAmount: string;
-}> = ({ debouncedAmount }) => {
-  return <SummaryLocal debouncedAmount={debouncedAmount} />;
-};
-
-const SummaryLocal: React.FC<{ debouncedAmount: string }> = ({ debouncedAmount }) => {
+export const Summary: React.FC = () => {
+  const { debouncedAmount } = useLeverageTokenDepositFormContext();
   const { isConnected } = useAccount();
   const { strategy } = useFormSettingsContext();
 

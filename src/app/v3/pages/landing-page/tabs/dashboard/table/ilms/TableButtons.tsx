@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Address } from "viem";
 import { ModalHandles, FlexRow, Modal } from "@shared";
 import { FormSettingsProvider } from "../../../../../../components/forms/contexts/FormSettingsContext";
-import { WithdrawForm } from "../../../../../../components/forms/withdraw-form/WithdrawForm";
+import { WithdrawLeverageToken } from "../../../../../../components/forms/withdraw-form/WithdrawForm";
 
 export const TableButtons: React.FC<{
   strategy?: Address;
@@ -29,7 +29,7 @@ export const TableButtons: React.FC<{
               removeModal.current?.close();
             }}
           >
-            <WithdrawForm />
+            <WithdrawLeverageToken />
           </FormSettingsProvider>
         </div>
       </Modal>
