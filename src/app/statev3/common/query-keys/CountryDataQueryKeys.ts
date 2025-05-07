@@ -3,7 +3,7 @@ import { Scopes, QueryTypes, getHashedQueryKey } from "../../../../meta/query-ke
 export const CountryDataKeys = {
   apiQueries: [
     {
-      scope: Scopes.common,
+      scope: Scopes.clientMetaApi,
       queryType: QueryTypes.CHILD_API_QUERY,
     },
   ] as const,
@@ -11,7 +11,7 @@ export const CountryDataKeys = {
   /** Base config for hook queries */
   hookQueries: [
     {
-      scope: Scopes.common,
+      scope: Scopes.clientMetaApi,
       queryType: QueryTypes.HOOK,
     },
   ] as const,
