@@ -10,9 +10,9 @@ export const LeverageTokenHeading: React.FC<{
 }> = ({ leverageToken }) => {
   const {
     data: {
-      tokenData: { name, symbol } = {},
-      apy: { estimatedAPY = {}, rewardTokens = [] } = {},
-      additionalData: { description } = {},
+      tokenData: { name = undefined, symbol = undefined } = {},
+      apy: { estimatedAPY = undefined, rewardTokens = [] } = {},
+      additionalData: { description = undefined } = {},
     } = {},
     ...rest
   } = leverageToken;

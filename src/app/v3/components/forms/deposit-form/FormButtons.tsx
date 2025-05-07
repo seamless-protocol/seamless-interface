@@ -15,7 +15,8 @@ export const FormButtons = () => {
     isPending,
   } = useLeverageTokenDepositFormContext();
 
-  const { data: { underlyingAssetAddress, address, underlyingAsset: { decimals } = {} } = {} } = selectedLeverageToken;
+  const { data: { underlyingAssetAddress, address, underlyingAsset: { decimals = undefined } = {} } = {} } =
+    selectedLeverageToken;
 
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     underlyingAssetAddress,

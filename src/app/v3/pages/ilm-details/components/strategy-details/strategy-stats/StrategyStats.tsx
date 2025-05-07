@@ -19,8 +19,8 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
   const {
     data: {
       tvl: { dollarAmount = {} } = {},
-      availableSupplyCap: { dollarAmount: capDollarAmount } = {},
-      targetMultiples: { minForRebalance, maxForRebalance } = {},
+      availableSupplyCap: { dollarAmount: capDollarAmount = undefined } = {},
+      targetMultiples: { minForRebalance = undefined, maxForRebalance = undefined } = {},
       currentMultiple,
     } = {},
     ...rest
