@@ -1,22 +1,29 @@
-import { TableRow, TableCell, Typography } from "@shared";
-import { ILMDesktopTableRow } from "./ILMDesktopTableRow";
-import { ILMMobileTableRow } from "./ILMMobileTableRow";
-import { useFetchAllStrategies } from "../../../../../../statev3/queries/Strategies.hook";
 import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
+
+import { TableRow, TableCell, Typography, StandardTooltip, FlexRow } from "@shared";
+
+import { isNullableAddressEqual } from "@app/v3/utils/utils";
 import { LoadingTableGuard } from "./LoadingTableGuard";
 
-export const IlmTableContainer: React.FC<{
-  selectedStrategy?: Address;
-}> = ({ selectedStrategy }) => {
-  const { data: strategies, ...rest } = useFetchAllStrategies();
+import { useFetchAllLeverageTokens } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+
+import { LeverageTokenDesktopTableRow } from "./ILMDesktopTableRow";
+import { LeverageTokenMobileTableRow } from "./ILMMobileTableRow";
+import { LoadingLeverageTokenDesktopTableRows } from "./loading-state/LoadingLeverageTokenDesktopTableRows";
+import { LoadingLeverageTokenMobileTableRows } from "./loading-state/LoadingLeverageTokenMobileTableRows";
+
+export const LeverageTokensTableContainer: React.FC<{
+  selectedLeverageToken?: Address;
+}> = ({ selectedLeverageToken }) => {
+  const { data: leverageTokens, ...rest } = useFetchAllLeverageTokens();
 
   return (
     <div className="bg-neutral-0 shadow-card rounded-2xl w-full">
       <TableRow className="hidden md:grid grid-cols-6 py-[9px] bg-neutral-0 mt-0 max-h-9 justify-center rounded-t-2xl border-solid border-b border-b-divider">
         <TableCell className="col-span-2 justify-center" alignItems="items-start">
-          <Typography type="bold1">ILM Strategies</Typography>
+          <Typography type="bold1">Name</Typography>
         </TableCell>
         <TableCell className="col-span-1">
           <Typography type="bold1">Type</Typography>
@@ -24,9 +31,12 @@ export const IlmTableContainer: React.FC<{
         <TableCell className="col-span-1">
           <Typography type="bold1">TVL</Typography>
         </TableCell>
-        <TableCell className="col-span-1">
-          <Typography type="bold1">30d Historical Return</Typography>
-        </TableCell>
+        <FlexRow className="items-center gap-1">
+          <Typography type="bold1">Estimated APY</Typography>
+          <StandardTooltip openOnClick={false}>
+            <Typography type="bold1">Yield APY - Borrow APY</Typography>
+          </StandardTooltip>
+        </FlexRow>
         <TableCell className="col-span-1">
           <Typography type="bold1">Available Supply Cap</Typography>
         </TableCell>
@@ -37,19 +47,31 @@ export const IlmTableContainer: React.FC<{
           ...rest,
           data: undefined,
         }}
+        loadingComponent={<LoadingLeverageTokenDesktopTableRows />}
+        mobileLoadingComponent={<LoadingLeverageTokenMobileTableRows />}
       >
-        {strategies?.map((strategy, index) => (
+        {leverageTokens?.map((lvrgToken, index) => (
           <div key={index}>
-            <Link data-cy={`table-row-${strategy}`} to={RouterConfig.Builder.ilmDetails(strategy)}>
-              <ILMDesktopTableRow
-                strategy={strategy}
-                hideBorder={index === strategies.length - 1}
-                selected={strategy === selectedStrategy}
+            <Link data-cy={`table-row-${lvrgToken}`} to={RouterConfig.Builder.ilmDetails(lvrgToken.address)}>
+              <LeverageTokenDesktopTableRow
+                leverageToken={{
+                  data: {
+                    ...lvrgToken,
+                  },
+                  ...rest,
+                }}
+                hideBorder={index === leverageTokens.length - 1}
+                selected={isNullableAddressEqual(lvrgToken.address, selectedLeverageToken)}
               />
-              <ILMMobileTableRow
-                strategy={strategy}
-                hideBorder={index === strategies.length - 1}
-                selected={strategy === selectedStrategy}
+              <LeverageTokenMobileTableRow
+                leverageToken={{
+                  data: {
+                    ...lvrgToken,
+                  },
+                  ...rest,
+                }}
+                hideBorder={index === leverageTokens.length - 1}
+                selected={isNullableAddressEqual(lvrgToken.address, selectedLeverageToken)}
               />
             </Link>
           </div>
