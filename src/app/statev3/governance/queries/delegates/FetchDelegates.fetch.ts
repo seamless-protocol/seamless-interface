@@ -7,7 +7,7 @@ import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 import { getVotingPowers } from "../voting-power/FetchVotingPowers.fetch";
-import { fetchAssetBalance } from "../../../common/queries/useFetchViewAssetBalance";
+import { fetchAssetBalance, fetchBalanceQueryOptions } from "../../../common/queries/useFetchViewAssetBalance";
 
 export interface Powers {
   votingPower: ViewBigInt;
@@ -33,6 +33,9 @@ export const getAllDelegateeQK = (user?: Address) => [
   delegateeReadContractQueryOptions(user, SEAM_ADDRESS).queryKey,
   delegateeReadContractQueryOptions(user, ESSEAM_ADDRESS).queryKey,
   delegateeReadContractQueryOptions(user, STAKED_SEAM_ADDRESS).queryKey,
+  fetchBalanceQueryOptions(SEAM_ADDRESS, user!)?.queryKey,
+  fetchBalanceQueryOptions(ESSEAM_ADDRESS, user!)?.queryKey,
+  fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, user!)?.queryKey,
 ];
 
 /**
@@ -79,23 +82,20 @@ export async function getPowers(user: Address): Promise<Powers> {
     fetchAssetBalance(STAKED_SEAM_ADDRESS, user),
   ]);
 
-  if (seamBalance?.bigIntValue == null || esSeamBalance?.bigIntValue == null || stkSeamBalance?.bigIntValue == null) {
-    throw new Error("getPowers: Failed to fetch user balance");
-  }
+  const { totalVotingPower } = await getVotingPowers(
+    seamVotingDelegatee,
+    esSEAMVotingDelegatee,
+    stkseamVotingDelegatee
+  );
 
-  const { seamDelegatedVotingPower, esSeamDelegatedVotingPower, stkSeamDelegatedVotingPower, totalVotingPower } =
-    await getVotingPowers(seamVotingDelegatee, esSEAMVotingDelegatee, stkseamVotingDelegatee);
+  const { totalVotingPower: userVotingPower } = await getVotingPowers(user, user, user);
 
   const result: Powers = {
     votingPower: totalVotingPower,
-    userVotingPower: formatFetchBigIntToViewBigInt({
-      ...seamBalance,
-      bigIntValue:
-        (seamBalance.bigIntValue || 0n) + (esSeamBalance.bigIntValue || 0n) + (stkSeamBalance.bigIntValue || 0n),
-    }),
-    seamDelegatedVotingPower,
-    esSeamDelegatedVotingPower,
-    stkSeamDelegatedVotingPower,
+    userVotingPower,
+    seamDelegatedVotingPower: formatFetchBigIntToViewBigInt(seamBalance),
+    esSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(esSeamBalance),
+    stkSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(stkSeamBalance),
     seamVotingDelegatee,
     esSEAMVotingDelegatee,
     stkseamVotingDelegatee,
