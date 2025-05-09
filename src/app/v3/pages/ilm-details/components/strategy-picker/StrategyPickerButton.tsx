@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { FlexRow, Icon, Modal, ModalHandles, Typography } from "@shared";
 
 import polygonIcon from "@assets/common/polygon-black-down.svg";
-import { IlmTableContainer } from "../../../landing-page/tabs/ilms/table/IlmTableContainer";
+import { LeverageTokensTableContainer } from "../../../landing-page/tabs/ilms/table/IlmTableContainer";
 import { useRef, useEffect } from "react";
 import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
@@ -35,7 +35,7 @@ export const StrategyPickerButton: React.FC<{
           </button>
         }
       >
-        <IlmTableContainer selectedStrategy={strategy} />
+        <LeverageTokensTableContainer selectedLeverageToken={strategy} />
       </Modal>
     </div>
   );

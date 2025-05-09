@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
         "@router": path.resolve(__dirname, "src/app/router"),
         "@meta": path.resolve(__dirname, "src/meta/index"),
         "@generated-graphql": path.resolve(__dirname, "src/generated-graphql/index"),
+        "@app": path.resolve(__dirname, "src/app/"),
       },
     },
 
