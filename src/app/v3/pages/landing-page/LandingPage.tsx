@@ -16,9 +16,11 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
               Vaults
             </TabButton>
-            <TabButton<Tabs> data-cy="tab-leverage-tokens" tab="LeverageTokens">
-              Leverage Tokens
-            </TabButton>
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+              <TabButton<Tabs> data-cy="tab-leverage-tokens" tab="LeverageTokens">
+                Leverage Tokens
+              </TabButton>
+            )}
             {import.meta.env.VITE_STAKING_FEATURE === "true" && (
               <TabButton<Tabs> data-cy="tab-staking" tab="Staking">
                 Staking
@@ -34,11 +36,13 @@ export const LandingPage = () => {
               <MorphoVaultsTab />
             </div>
           </TabContent>
-          <TabContent<Tabs> tab="LeverageTokens">
-            <div className="mt-8">
-              <LeverageTokensTab />
-            </div>
-          </TabContent>
+          {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+            <TabContent<Tabs> tab="LeverageTokens">
+              <div className="mt-8">
+                <LeverageTokensTab />
+              </div>
+            </TabContent>
+          )}
           {import.meta.env.VITE_STAKING_FEATURE === "true" && (
             <TabContent<Tabs> tab="Staking">
               <div className="mt-8">
