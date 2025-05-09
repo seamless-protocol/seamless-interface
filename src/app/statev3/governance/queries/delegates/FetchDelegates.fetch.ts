@@ -1,8 +1,8 @@
-import { Address } from "viem";
+import { Address, isAddressEqual, zeroAddress } from "viem";
 import { StakedTokenAbi } from "../../../../../../abis/StakedToken";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 import { getConfig } from "../../../../utils/queryContractUtils";
-import { formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
+import { FetchBigInt, formatFetchBigIntToViewBigInt, ViewBigInt } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
@@ -36,6 +36,21 @@ export const getAllDelegateeQK = (user?: Address) => [
   fetchBalanceQueryOptions(ESSEAM_ADDRESS, user!)?.queryKey,
   fetchBalanceQueryOptions(STAKED_SEAM_ADDRESS, user!)?.queryKey,
 ];
+
+function hasDelegate(d?: Address) {
+  return d && !isAddressEqual(d, zeroAddress);
+}
+
+function getDelegateVoringPowerFormatted(delegeteeAddress: Address, balance: FetchBigInt | undefined) {
+  if (hasDelegate(delegeteeAddress)) {
+    return formatFetchBigIntToViewBigInt(balance);
+  }
+  return formatFetchBigIntToViewBigInt({
+    decimals: balance?.decimals,
+    symbol: balance?.symbol,
+    bigIntValue: 0n,
+  });
+}
 
 /**
  * Fetches and computes governance voting power for a user across SEAM, esSEAM, and stkSEAM tokens.
@@ -84,9 +99,9 @@ export async function getPowers(user: Address): Promise<Powers> {
 
   const result: Powers = {
     userVotingPower,
-    seamDelegatedVotingPower: formatFetchBigIntToViewBigInt(seamVotingDelegatee ? seamBalance : undefined),
-    esSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(esSEAMVotingDelegatee ? esSeamBalance : undefined),
-    stkSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(stkseamVotingDelegatee ? stkSeamBalance : undefined),
+    seamDelegatedVotingPower: getDelegateVoringPowerFormatted(seamVotingDelegatee, seamBalance),
+    esSeamDelegatedVotingPower: getDelegateVoringPowerFormatted(esSEAMVotingDelegatee, esSeamBalance),
+    stkSeamDelegatedVotingPower: getDelegateVoringPowerFormatted(stkseamVotingDelegatee, stkSeamBalance),
     seamVotingDelegatee,
     esSEAMVotingDelegatee,
     stkseamVotingDelegatee,
