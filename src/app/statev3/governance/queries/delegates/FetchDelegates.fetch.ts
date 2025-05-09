@@ -10,7 +10,6 @@ import { getVotingPowers } from "../voting-power/FetchVotingPowers.fetch";
 import { fetchAssetBalance, fetchBalanceQueryOptions } from "../../../common/queries/useFetchViewAssetBalance";
 
 export interface Powers {
-  votingPower: ViewBigInt;
   userVotingPower: ViewBigInt;
   seamDelegatedVotingPower: ViewBigInt;
   esSeamDelegatedVotingPower: ViewBigInt;
@@ -81,21 +80,13 @@ export async function getPowers(user: Address): Promise<Powers> {
     fetchAssetBalance(ESSEAM_ADDRESS, user),
     fetchAssetBalance(STAKED_SEAM_ADDRESS, user),
   ]);
-
-  const { totalVotingPower } = await getVotingPowers(
-    seamVotingDelegatee,
-    esSEAMVotingDelegatee,
-    stkseamVotingDelegatee
-  );
-
   const { totalVotingPower: userVotingPower } = await getVotingPowers(user, user, user);
 
   const result: Powers = {
-    votingPower: totalVotingPower,
     userVotingPower,
-    seamDelegatedVotingPower: formatFetchBigIntToViewBigInt(seamBalance),
-    esSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(esSeamBalance),
-    stkSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(stkSeamBalance),
+    seamDelegatedVotingPower: formatFetchBigIntToViewBigInt(seamVotingDelegatee ? seamBalance : undefined),
+    esSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(esSEAMVotingDelegatee ? esSeamBalance : undefined),
+    stkSeamDelegatedVotingPower: formatFetchBigIntToViewBigInt(stkseamVotingDelegatee ? stkSeamBalance : undefined),
     seamVotingDelegatee,
     esSEAMVotingDelegatee,
     stkseamVotingDelegatee,
