@@ -1,13 +1,14 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address, zeroAddress } from "viem";
 import { StakedTokenAbi } from "../../../../../abis/StakedToken";
-import { getAllDelegateeQK, getVotesReadContractQueryOptions } from "../queries/delegates/FetchDelegates.fetch";
+import { getAllDelegateeQK } from "../queries/delegates/FetchDelegates.fetch";
 import { useAccount } from "wagmi";
 import { hookFetchGetPowersQK, useFetchDelegates } from "../queries/delegates/FetchDelegates.hook";
 import { SEAM_ADDRESS, ESSEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../meta";
 import { targetChain } from "../../../config/rainbow.config";
+import { getVotesReadContractQueryOptions } from "../queries/voting-power/FetchVotingPowers.fetch";
 
-export const useMutateDelegate = (isRevoking?: boolean) => {
+export const useMutateDelegate = (isRevoking?: boolean, settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -23,10 +24,14 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: [
       getVotesReadContractQueryOptions(seamVotingDelegatee, SEAM_ADDRESS).queryKey,
       getVotesReadContractQueryOptions(esSEAMVotingDelegatee, ESSEAM_ADDRESS).queryKey,
       getVotesReadContractQueryOptions(stkseamVotingDelegatee, STAKED_SEAM_ADDRESS).queryKey,
+      getVotesReadContractQueryOptions(user, SEAM_ADDRESS).queryKey,
+      getVotesReadContractQueryOptions(user, ESSEAM_ADDRESS).queryKey,
+      getVotesReadContractQueryOptions(user, STAKED_SEAM_ADDRESS).queryKey,
       ...getAllDelegateeQK(user),
       hookFetchGetPowersQK(user),
     ],
@@ -40,8 +45,7 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
     args: {
       delegatee: Address | undefined;
       token: Address | undefined;
-    },
-    settings?: SeamlessWriteAsyncParams
+    }
   ) => {
     try {
       const { delegatee, token } = args;
@@ -52,16 +56,13 @@ export const useMutateDelegate = (isRevoking?: boolean) => {
       const finalDelegatee = isRevoking ? zeroAddress : delegatee;
       if (!finalDelegatee) throw new Error("Delegatee address is not entered. Something went wrong. Contact support.");
 
-      await writeContractAsync(
-        {
-          chainId: targetChain.id,
-          address: token,
-          abi: StakedTokenAbi,
-          functionName: "delegate",
-          args: [finalDelegatee],
-        },
-        { ...settings }
-      );
+      await writeContractAsync({
+        chainId: targetChain.id,
+        address: token,
+        abi: StakedTokenAbi,
+        functionName: "delegate",
+        args: [finalDelegatee],
+      });
     } catch (error) {
       console.error("Failed to delegate voting power.", error);
       showNotification({
