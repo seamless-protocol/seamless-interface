@@ -9,29 +9,29 @@ import { getConfig } from "../../../utils/queryContractUtils";
 import { getBalance } from "wagmi/actions";
 import { useQuery } from "@tanstack/react-query";
 
-export const fetchBalanceQueryOptions = (address: Address, account: Address) => {
-  if (address === zeroAddress) {
+export const fetchBalanceQueryOptions = (tokenAddress: Address, userAddress: Address) => {
+  if (tokenAddress === zeroAddress) {
     return {
       queryKey: [
         "readContract",
         {
-          address,
+          address: tokenAddress,
           functionName: "balanceOf",
-          args: [account],
+          args: [userAddress],
         },
       ],
       queryFn: async () => {
-        const result = await getBalance(getConfig(), { address: account });
+        const result = await getBalance(getConfig(), { address: userAddress });
         return result.value;
       },
     };
   }
   return {
     ...readContractQueryOptions(getConfig(), {
-      address,
+      address: tokenAddress,
       abi: erc20Abi,
       functionName: "balanceOf",
-      args: [account],
+      args: [userAddress],
     }),
   };
 };

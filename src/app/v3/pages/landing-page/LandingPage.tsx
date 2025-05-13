@@ -2,8 +2,9 @@ import { FlexCol, FlexRow, PageContainer, TabButton, TabContent, TabProvider } f
 import { Dashboard } from "./tabs/dashboard/Dashboard";
 import { StakingTab } from "./tabs/staking/StakingTab";
 import { MorphoVaultsTab } from "./tabs/morpho-vaults/MorphoVaultsTab";
+import { LeverageTokensTab } from "./tabs/ilms/LeverageTokensTab";
 
-type Tabs = "Dashboard" | "Staking" | "Vaults";
+type Tabs = "LeverageTokens" | "Dashboard" | "Staking" | "Vaults";
 
 export const LandingPage = () => {
   return (
@@ -15,6 +16,11 @@ export const LandingPage = () => {
             <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults">
               Vaults
             </TabButton>
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+              <TabButton<Tabs> data-cy="tab-leverage-tokens" tab="LeverageTokens">
+                Leverage Tokens
+              </TabButton>
+            )}
             {import.meta.env.VITE_STAKING_FEATURE === "true" && (
               <TabButton<Tabs> data-cy="tab-staking" tab="Staking">
                 Staking
@@ -30,6 +36,13 @@ export const LandingPage = () => {
               <MorphoVaultsTab />
             </div>
           </TabContent>
+          {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+            <TabContent<Tabs> tab="LeverageTokens">
+              <div className="mt-8">
+                <LeverageTokensTab />
+              </div>
+            </TabContent>
+          )}
           {import.meta.env.VITE_STAKING_FEATURE === "true" && (
             <TabContent<Tabs> tab="Staking">
               <div className="mt-8">

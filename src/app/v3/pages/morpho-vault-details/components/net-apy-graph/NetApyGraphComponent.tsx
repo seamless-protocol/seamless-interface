@@ -6,12 +6,13 @@ import { Address } from "viem";
 import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
 import { TimeseriesOptions } from "../../../../../../generated-graphql";
-import { FilterOption } from "../../../../../statev3/hooks/strategy-analytics/StrategyAnalytics.all";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { formatDate } from "../../utils/formatDateForGraph";
 import { fetchNetApyHistorical } from "../../../../../statev3/morpho/net-apy-historical/NetApyHistorical.fetch";
 import { ExtendedNetAPYHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedNetAPYHistoricalQuery";
+
+export type FilterOption = "1w" | "1m" | "3m" | "1y";
 
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
 

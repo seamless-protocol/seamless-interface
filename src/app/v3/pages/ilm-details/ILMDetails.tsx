@@ -1,13 +1,12 @@
-import { FlexCol, FlexRow, PageContainer } from "@shared";
+import { FlexCol, FlexRow, PageContainer, Typography } from "@shared";
 import { StrategyDetails } from "./components/strategy-details/StrategyDetails";
 import { StrategyStats } from "./components/strategy-details/strategy-stats/StrategyStats";
 import { FormContainer } from "./components/forms/FormContainer";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { RouterConfig } from "@router";
+import { ilmv1DuneUrl, RouterConfig } from "@router";
 import { useAccount } from "wagmi";
-import { GraphComponent } from "./components/graph/GraphComponent";
 import { StrategyHeading } from "./components/strategy-heading/StrategyHeading";
 import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
 import { LegacyPlatformDeprecationBanner } from "../../components/banner/LegacyPlatformDeprecationBanner";
@@ -38,7 +37,14 @@ export const ILMDetails = () => {
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}
-            <GraphComponent />
+            <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
+              <Typography type="bold3" className="mb-4">
+                The graph view has been removed from ILMs. You can now view the graphical data on Dune by clicking{" "}
+                <Link target="_blank" className="underline" to={ilmv1DuneUrl}>
+                  here.
+                </Link>
+              </Typography>
+            </FlexCol>
             <StrategyStats />
             <StrategyDetails />
           </div>

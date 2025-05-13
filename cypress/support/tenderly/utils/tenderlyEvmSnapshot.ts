@@ -11,7 +11,6 @@ export const tenderlyEvmSnapshot = async (forkUrl: string) => {
       jsonrpc: "2.0",
       method: "evm_snapshot",
       params: [],
-      id: "1234",
     }),
   });
 

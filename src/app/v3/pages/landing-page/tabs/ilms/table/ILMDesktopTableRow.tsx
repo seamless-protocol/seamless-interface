@@ -1,27 +1,38 @@
-import { Address } from "viem";
-
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { TableRow, TableCell, FlexRow, Icon, FlexCol, DisplayNumber, DisplayMoney, DisplayText } from "@shared";
-import { Tag } from "../../../../../components/strategy-data/Tag";
-import { useFetchFormattedAvailableStrategyCap } from "../../../../../../statev3/queries/AvailableStrategyCap.hook";
-import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../../statev3/hooks/StrartegyReturn.hook";
-import { StrategyIncentivesButton } from "../../../../../components/tooltip/AprTooltip";
-import { useFetchFullStrategyData } from "../../../../../../statev3/metadata/FullStrategyData.all";
-import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
+import {
+  TableRow,
+  TableCell,
+  FlexRow,
+  Icon,
+  FlexCol,
+  DisplayMoney,
+  DisplayText,
+  Displayable,
+  DisplayTokenAmount,
+} from "@shared";
 
-export const ILMDesktopTableRow: React.FC<{
-  strategy: Address;
+import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
+
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { Tag } from "../../../../../components/strategy-data/Tag";
+
+export const LeverageTokenDesktopTableRow: React.FC<{
+  leverageToken: Displayable<LeverageToken>;
   hideBorder?: boolean;
   selected?: boolean;
-}> = ({ strategy, hideBorder, selected }) => {
-  const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
-
-  const { data: availableStrategyCap, ...availableStrategyCapRest } = useFetchFormattedAvailableStrategyCap(strategy);
-
-  const { data: apy, ...apyRest } = useFetchFormattedStrategyHistoricReturn(strategy);
-
-  const { data: tvl, ...tvlRest } = useFetchFormattedEquity(strategy);
+}> = ({ leverageToken, hideBorder, selected }) => {
+  const {
+    data: {
+      tokenData: { name, symbol, logo },
+      additionalData: { description },
+      availableSupplyCap,
+      tvl,
+      type,
+      apy,
+    },
+    ...rest
+  } = leverageToken;
 
   return (
     <div
@@ -32,47 +43,49 @@ export const ILMDesktopTableRow: React.FC<{
       <TableRow className="md:grid grid-cols-6 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
-            <Icon width={64} src={strategyData?.logo} alt="logo" />
+            <Icon width={64} src={logo} alt="logo" isLoading={rest.isLoading} isFetched={rest.isFetched} />
             <FlexCol className="gap-2 text-start">
               <FlexCol className="gap-[2px]">
-                <DisplayText typography="bold3" viewValue={strategyData?.name} />
-                <DisplayText typography="regular1" viewValue={strategyData?.description} />
+                <DisplayText typography="bold3" viewValue={name} {...rest} />
+                <DisplayText typography="regular1" viewValue={description} {...rest} />
               </FlexCol>
             </FlexCol>
           </FlexRow>
         </TableCell>
 
         <TableCell className="col-span-1">
-          <FlexRow>
-            {/* todo refactor this */}
-            {strategyDataRest?.isFetched ? (
-              <Tag key={strategyData?.type} tag={strategyData?.type} />
-            ) : (
-              <div style={{ width: "60px", height: "30px" }} className="skeleton flex mb-[0.5px]" />
-            )}
-          </FlexRow>
+          <div>{rest.isLoading ? <span className="w-10 h-6 skeleton flex" /> : <Tag tag={type} />}</div>
+        </TableCell>
+
+        <TableCell className="col-span-1">
+          <DisplayTokenAmount typography="bold3" {...tvl.tokenAmount} {...rest} />
+
+          <DisplayMoney typography="medium1" {...tvl.dollarAmount} {...rest} className="text-primary-600" />
         </TableCell>
         <TableCell className="col-span-1">
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...tvlRest} />
-        </TableCell>
-        <TableCell className="col-span-1">
-          <SignIndicatingElement
-            noBackground
-            dislayable={{
-              ...apyRest,
-              data: apy,
+          <IncentivesButton
+            totalApr={{
+              ...apy.estimatedAPY,
             }}
+            rewardTokens={apy.rewardTokens}
+            {...rest}
           >
-            <DisplayNumber typography="bold3" {...apy} {...apyRest} />
-          </SignIndicatingElement>
-          <StrategyIncentivesButton strategy={strategy} />
+            <IncentivesDetailCard
+              assetSymbol={symbol}
+              totalApr={{
+                ...apy.estimatedAPY,
+              }}
+              rewardTokens={apy.rewardTokens}
+              {...rest}
+            />
+          </IncentivesButton>
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney
             typography="bold3"
-            className={`${!availableStrategyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
-            {...availableStrategyCap.dollarAmount}
-            {...availableStrategyCapRest}
+            className={`${!availableSupplyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
+            {...availableSupplyCap.dollarAmount}
+            {...rest}
           />
         </TableCell>
 

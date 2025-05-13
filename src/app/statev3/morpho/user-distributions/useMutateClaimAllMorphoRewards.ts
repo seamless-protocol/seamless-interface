@@ -17,7 +17,6 @@ export const useMutateClaimAllMorphoRewards = () => {
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
     queriesToInvalidate: [getFetchRawMorphoUserRewardsQueryKey(address)],
-    hideDefaultErrorOnNotification: true,
   });
 
   // mutation wrapper

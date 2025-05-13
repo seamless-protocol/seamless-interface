@@ -17,7 +17,6 @@ export const useInitiateCooldown = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
-    hideDefaultErrorOnNotification: true,
     queriesToInvalidate: [fetchStakerCooldownQK(STAKED_SEAM_ADDRESS, address), fetchCooldownQK(address)],
   });
 
