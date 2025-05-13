@@ -4,7 +4,7 @@ import {
   TotalAssetsHistoricalQuery,
   TotalAssetsHistoricalQueryVariables,
 } from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
+import { getMorphoApolloClient } from "../../../config/apollo-clients";
 import { ExtendedTotalAssetsHistoricalQuery } from "../types/ExtendedTotalAssetsHistoricalQuery";
 import { fetchToken } from "../../../../shared";
 import { Address } from "viem";
@@ -14,7 +14,7 @@ export async function fetchTotalAssetsHistorical(
   chainId: number,
   options?: TimeseriesOptions
 ): Promise<ExtendedTotalAssetsHistoricalQuery> {
-  const client = getApolloClient();
+  const client = getMorphoApolloClient();
 
   const [result, vaultTokenData] = await Promise.all([
     client.query<TotalAssetsHistoricalQuery, TotalAssetsHistoricalQueryVariables>({

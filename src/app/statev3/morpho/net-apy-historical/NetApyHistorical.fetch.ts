@@ -4,7 +4,7 @@ import {
   NetApyHistoricalQueryVariables,
   TimeseriesOptions,
 } from "@generated-graphql";
-import { getApolloClient } from "../../../config/apollo-client";
+import { getMorphoApolloClient } from "../../../config/apollo-clients";
 import { fetchToken } from "@shared";
 import { Address } from "viem";
 import { ExtendedNetAPYHistoricalQuery } from "../types/ExtendedNetAPYHistoricalQuery";
@@ -14,7 +14,7 @@ export async function fetchNetApyHistorical(
   chainId: number,
   options?: TimeseriesOptions
 ): Promise<ExtendedNetAPYHistoricalQuery> {
-  const client = getApolloClient();
+  const client = getMorphoApolloClient();
 
   const [result, vaultTokenData] = await Promise.all([
     client.query<NetApyHistoricalQuery, NetApyHistoricalQueryVariables>({

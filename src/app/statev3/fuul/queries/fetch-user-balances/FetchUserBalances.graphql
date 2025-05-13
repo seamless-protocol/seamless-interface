@@ -1,0 +1,14 @@
+query GetUserBalances($where: UserBalance_filter) {
+  userBalances(where: $where) {
+    owner {
+      address
+    }
+    claimed
+    availableToClaim
+    currency
+    project {
+      id
+      deployedAddress
+    }
+  }
+}
