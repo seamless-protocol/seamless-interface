@@ -13,6 +13,7 @@ import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
+import { LeverageTokenFormProvider } from "../../../../../../components/forms/contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const StrategyTableDesktopRowContainer: React.FC<{
   strategy: Address;
@@ -92,7 +93,11 @@ export const StrategyTableDesktopRowContainer: React.FC<{
         />
       }
       imageInfoGroup={<UserInfoImageGroup info={allUserRewards?.info} />}
-      tableButtons={<TableButtons strategy={strategy} />}
+      tableButtons={
+        <LeverageTokenFormProvider defaultLeverageTokenAddress={strategy}>
+          <TableButtons leverageTokenAddress={strategy} />
+        </LeverageTokenFormProvider>
+      }
     />
   );
 };

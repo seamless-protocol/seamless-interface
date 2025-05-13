@@ -12,7 +12,7 @@ import * as Sentry from "@sentry/react";
 import { QueryParamProvider } from "use-query-params";
 import { LandingPage } from "./pages/landing-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
-import { ILMDetails } from "./pages/ilm-details/ILMDetails";
+import { LeverageTokensDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
 import { StakingBanner } from "./components/banner/StakingBanner";
@@ -40,7 +40,7 @@ export function App() {
                 <NetworkListener>
                   <SentryRoutes>
                     <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                    <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                    <Route path={RouterConfig.Routes.leverageTokenDetails} element={<LeverageTokensDetails />} />
                     <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
                     <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
                     <Route path="*" element={<PageNotFound />} />

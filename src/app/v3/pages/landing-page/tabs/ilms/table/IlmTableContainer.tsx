@@ -52,7 +52,7 @@ export const LeverageTokensTableContainer: React.FC<{
       >
         {leverageTokens?.map((lvrgToken, index) => (
           <div key={index}>
-            <Link data-cy={`table-row-${lvrgToken}`} to={RouterConfig.Builder.ilmDetails(lvrgToken.address)}>
+            <Link data-cy={`table-row-${lvrgToken}`} to={RouterConfig.Builder.leverageTokenDetails(lvrgToken.address)}>
               <LeverageTokenDesktopTableRow
                 leverageToken={{
                   data: {

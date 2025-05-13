@@ -28,5 +28,9 @@ export const propsMock: Displayable<LeverageToken> = {
       yieldAPY: emptyViewBigInt,
       rewardTokens: [],
     },
+    currentMultiple: {} as any,
+    targetMultiples: {} as any,
+    underlyingAsset: {} as any,
+    underlyingAssetAddress: "" as any,
   },
 };
