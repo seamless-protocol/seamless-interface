@@ -11,7 +11,7 @@ import { Summary } from "./Summary";
 import { FormButtons } from "./FormButtons";
 import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
-export const WithdrawLeverageToken: React.FC = () => {
+export const WithdrawLeverageTokenForm: React.FC = () => {
   const {
     selectedLeverageToken: { data: leverageToken, isLoading, error },
   } = useLeverageTokenFormContext();

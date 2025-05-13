@@ -11,7 +11,7 @@ import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDepr
 import { LeverageToken } from "../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
-export const DepositForm = () => {
+export const DepositLeverageTokenForm = () => {
   const {
     selectedLeverageToken: { data: leverageToken, isLoading, error },
   } = useLeverageTokenFormContext();

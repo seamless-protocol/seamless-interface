@@ -64,6 +64,7 @@ interface LeverageTokenFormContextValue {
   ) => Promise<void>;
   isPending: boolean;
   onTransaction?: () => void;
+  setOnTransaction: (onTransaction?: () => void) => void;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -92,6 +93,7 @@ export function LeverageTokenFormProvider({
   const methods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
   });
+  const [_onTransaction, setOnTransaction] = useState(() => onTransaction);
   const { watch, reset } = methods;
   const depositAmount = watch("depositAmount", "");
   const withdrawAmount = watch("withdrawAmount", "");
@@ -210,7 +212,8 @@ export function LeverageTokenFormProvider({
         sharesToReceiveWithdrawData,
         formOnSubmitAsync,
         isPending,
-        onTransaction,
+        onTransaction: _onTransaction,
+        setOnTransaction,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import { FlexCol, FlexRow, Typography } from "@shared";
-import { WithdrawLeverageToken } from "../../../../components/forms/withdraw-form/WithdrawForm";
-import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
+import { WithdrawLeverageTokenForm } from "../../../../components/forms/withdraw-form/WithdrawForm";
+import { DepositLeverageTokenForm } from "../../../../components/forms/deposit-form/DepositForm";
 import { useLeverageTokenFormContext } from "../../../../components/forms/contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const FormContainer = () => {
@@ -20,8 +20,8 @@ export const FormContainer = () => {
         </LocalButtonSwitcher>
       </FlexRow>
       <div>
-        {mode === "deposit" && <DepositForm />}
-        {mode === "withdraw" && <WithdrawLeverageToken />}
+        {mode === "deposit" && <DepositLeverageTokenForm />}
+        {mode === "withdraw" && <WithdrawLeverageTokenForm />}
       </div>
     </FlexCol>
   );

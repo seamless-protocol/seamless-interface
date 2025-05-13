@@ -17,6 +17,7 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
+import { LeverageTokenFormProvider } from "../../../../../../components/forms/contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const StrategyTableMobileRowContainer: React.FC<{ strategy: Address }> = ({ strategy }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
@@ -69,7 +70,11 @@ export const StrategyTableMobileRowContainer: React.FC<{ strategy: Address }> = 
           className="text-primary-600"
         />
       }
-      buttons={<TableButtons strategy={strategy} />}
+      buttons={
+        <LeverageTokenFormProvider defaultLeverageTokenAddress={strategy}>
+          <TableButtons leverageTokenAddress={strategy} />
+        </LeverageTokenFormProvider>
+      }
     />
   );
 };
