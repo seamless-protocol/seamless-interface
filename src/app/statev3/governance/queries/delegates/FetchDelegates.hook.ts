@@ -17,9 +17,9 @@ export const useFetchDelegates = () => {
 
   const esSeamDelegated = !isNullableAddressEqual(data?.esSEAMVotingDelegatee, zeroAddress);
   const seamDelegated = !isNullableAddressEqual(data?.seamVotingDelegatee, zeroAddress);
-  const stkseamDelegated = !isNullableAddressEqual(data?.stkseamVotingDelegatee, zeroAddress);
+  const stkSeamDelegated = !isNullableAddressEqual(data?.stkseamVotingDelegatee, zeroAddress);
 
-  const hasDelegatedAny = esSeamDelegated || seamDelegated || stkseamDelegated;
+  const hasDelegatedAny = esSeamDelegated || seamDelegated || stkSeamDelegated;
 
   return {
     data: {
@@ -27,7 +27,7 @@ export const useFetchDelegates = () => {
       hasDelegatedAny,
       esSeamDelegated,
       seamDelegated,
-      stkseamDelegated,
+      stkSeamDelegated,
     },
     ...rest,
   };
