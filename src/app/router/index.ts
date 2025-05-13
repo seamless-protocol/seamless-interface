@@ -45,6 +45,7 @@ export const RouterConfig = {
     stakingTab: `/?tab=Staking`,
     dashboardTab: `/?tab=Dashboard`,
     governance: `/governance`,
+    pointLeaderboard: `/point-leaderboard`,
     chaosRiskDashboard: chaosRiskDashboardUrl,
     gauntletRiskDashboard: gauntletRiskDashboardUrl,
     claimAirdrop: `${claimAirdropUrl}`,
