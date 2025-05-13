@@ -1,5 +1,5 @@
 import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
-import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -19,7 +19,7 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  */
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
-  const { selectedLeverageToken, maxUserDepositData, balance, amountUsdValue } = useLeverageTokenDepositFormContext();
+  const { selectedLeverageToken, maxUserDepositData, balance, depositAmountUsdValue } = useLeverageTokenFormContext();
   const { data: { underlyingAssetAddress, underlyingAsset } = {}, ...rest } = selectedLeverageToken;
 
   // *** JSX *** //
@@ -28,8 +28,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
       {...other}
       assetAddress={underlyingAssetAddress}
       dollarValue={{
-        ...amountUsdValue,
-        data: amountUsdValue.data,
+        ...depositAmountUsdValue,
+        data: depositAmountUsdValue.data,
       }}
       walletBalance={{
         ...balance,

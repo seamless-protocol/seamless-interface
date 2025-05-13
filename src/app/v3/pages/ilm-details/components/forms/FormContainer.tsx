@@ -1,15 +1,10 @@
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { WithdrawLeverageToken } from "../../../../components/forms/withdraw-form/WithdrawForm";
 import { DepositForm } from "../../../../components/forms/deposit-form/DepositForm";
-import { useState } from "react";
-import { Address } from "viem";
-import { LeverageTokenDepositFormProvider } from "../../../../components/forms/contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
-import { LeverageTokenWithdrawFormProvider } from "../../../../components/forms/contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
+import { useLeverageTokenFormContext } from "../../../../components/forms/contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
-export const FormContainer: React.FC<{
-  address?: Address;
-}> = ({ address }) => {
-  const [mode, setMode] = useState<"deposit" | "withdraw">("deposit");
+export const FormContainer = () => {
+  const { mode, setMode } = useLeverageTokenFormContext();
 
   return (
     <FlexCol className="bg-neutral-0 shadow-card p-6 gap-6 rounded-2xl w-full">
@@ -25,16 +20,8 @@ export const FormContainer: React.FC<{
         </LocalButtonSwitcher>
       </FlexRow>
       <div>
-        {mode === "deposit" && (
-          <LeverageTokenDepositFormProvider defaultLeverageTokenAddress={address}>
-            <DepositForm />
-          </LeverageTokenDepositFormProvider>
-        )}
-        {mode === "withdraw" && (
-          <LeverageTokenWithdrawFormProvider defaultLeverageTokenAddress={address}>
-            <WithdrawLeverageToken />
-          </LeverageTokenWithdrawFormProvider>
-        )}
+        {mode === "deposit" && <DepositForm />}
+        {mode === "withdraw" && <WithdrawLeverageToken />}
       </div>
     </FlexCol>
   );

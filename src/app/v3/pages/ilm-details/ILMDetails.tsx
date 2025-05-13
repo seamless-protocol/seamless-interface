@@ -10,6 +10,7 @@ import { useAccount } from "wagmi";
 import { LeverageTokenHeading } from "./components/strategy-heading/StrategyHeading";
 import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
 import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
+import { LeverageTokenFormProvider } from "../../components/forms/contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const LeverageTokensDetails = () => {
   const navigate = useNavigate();
@@ -38,7 +39,9 @@ export const LeverageTokensDetails = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
           <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
-            <FormContainer />
+            <LeverageTokenFormProvider>
+              <FormContainer />
+            </LeverageTokenFormProvider>
           </div>
 
           <div className="flex flex-col gap-10 order-2 md:order-1">

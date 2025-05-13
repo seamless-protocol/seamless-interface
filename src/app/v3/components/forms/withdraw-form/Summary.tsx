@@ -3,13 +3,13 @@ import { useAccount } from "wagmi";
 import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary = () => {
-  const { debouncedAmount } = useLeverageTokenWithdrawFormContext();
+  const { debouncedWithdrawAmount } = useLeverageTokenFormContext();
   const { strategy } = useFormSettingsContext();
   const { isConnected } = useAccount();
-  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);
+  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedWithdrawAmount, strategy);
 
   return (
     <FlexCol>

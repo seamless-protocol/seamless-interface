@@ -1,12 +1,12 @@
 import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
-import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 type IStrategyProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
 };
 
 export function RHFWithdrawStrategyAmountField<T>({ ...other }: IStrategyProps<T>) {
-  const { selectedLeverageToken, amountUsdValue, balance: walletBalance } = useLeverageTokenWithdrawFormContext();
+  const { selectedLeverageToken, withdrawAmountUsdValue, balance: walletBalance } = useLeverageTokenFormContext();
 
   const { data: { tokenData, address } = {}, ...rest } = selectedLeverageToken;
 
@@ -15,7 +15,7 @@ export function RHFWithdrawStrategyAmountField<T>({ ...other }: IStrategyProps<T
       {...other}
       assetAddress={address}
       dollarValue={{
-        ...amountUsdValue,
+        ...withdrawAmountUsdValue,
       }}
       walletBalance={{
         ...walletBalance,

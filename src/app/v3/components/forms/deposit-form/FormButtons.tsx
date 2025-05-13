@@ -1,7 +1,7 @@
 import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, useNotificationContext } from "@shared";
 
 import { parseUnits } from "viem";
-import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const FormButtons = () => {
   const { showNotification } = useNotificationContext();
@@ -11,9 +11,9 @@ export const FormButtons = () => {
       formState: { isSubmitting },
     },
     selectedLeverageToken,
-    amount,
+    depositAmount,
     isPending,
-  } = useLeverageTokenDepositFormContext();
+  } = useLeverageTokenFormContext();
 
   const { data: { underlyingAssetAddress, address, underlyingAsset: { decimals = undefined } = {} } = {} } =
     selectedLeverageToken;
@@ -21,10 +21,10 @@ export const FormButtons = () => {
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     underlyingAssetAddress,
     address,
-    decimals ? parseUnits(amount || "0", decimals) : undefined
+    decimals ? parseUnits(depositAmount || "0", decimals) : undefined
   );
 
-  if (!amount) {
+  if (!depositAmount) {
     return (
       <Buttonv2 className="text-bold3" disabled>
         Enter amount

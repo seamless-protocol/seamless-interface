@@ -1,22 +1,20 @@
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { parseUnits } from "viem";
-import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useNotificationContext, MyFormProvider, FlexCol, FlexRow, Typography, WatchAssetComponentv2 } from "@shared";
 import { WETH_ADDRESS } from "@meta";
 import { RouterConfig } from "../../../../router";
-import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { FormButtons } from "./FormButtons";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const WithdrawLeverageToken: React.FC = () => {
   const {
     selectedLeverageToken: { data: leverageToken, isLoading, error },
-  } = useLeverageTokenWithdrawFormContext();
+  } = useLeverageTokenFormContext();
 
   if (isLoading) {
     return <div className="min-h-[300px]" />;
@@ -42,20 +40,14 @@ export const WithdrawLeverageToken: React.FC = () => {
 export const WithdrawLeverageTokenLocal: React.FC = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotificationContext();
-  const account = useAccount();
 
-  const { selectedLeverageToken, methods, sharesToReceive, onTransaction, formOnSubmitAsync, amount } =
-    useLeverageTokenWithdrawFormContext();
+  const { selectedLeverageToken, methods, onTransaction, formOnSubmitAsync, withdrawAmount } =
+    useLeverageTokenFormContext();
   const { data: { underlyingAsset, address, tokenData, underlyingAssetAddress } = {} } = selectedLeverageToken;
 
   const onSubmit = async () => {
     await formOnSubmitAsync(
-      {
-        shares: underlyingAsset?.decimals ? parseUnits(amount, underlyingAsset.decimals) : undefined,
-        from: account.address as string,
-        receiver: account.address as string,
-        previewWithdrawData: sharesToReceive.data,
-      },
+      {},
       {
         onSuccess: (txHash) => {
           methods.reset();
@@ -64,7 +56,7 @@ export const WithdrawLeverageTokenLocal: React.FC = () => {
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Withdrew {amount} {underlyingAsset?.symbol}
+                  You Withdrew {withdrawAmount} {underlyingAsset?.symbol}
                 </Typography>
                 <WatchAssetComponentv2 {...tokenData} address={address} />
                 {underlyingAssetAddress === WETH_ADDRESS && (

@@ -1,16 +1,16 @@
 import { FlexCol, AuthGuardv2, Buttonv2 } from "@shared";
-import { useLeverageTokenWithdrawFormContext } from "../contexts/leverage-token-form-provider/withdraw/LeverageTokenWithdrawFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const FormButtons = () => {
   const {
     methods: {
       formState: { isSubmitting },
     },
-    amount,
+    withdrawAmount,
     isPending,
-  } = useLeverageTokenWithdrawFormContext();
+  } = useLeverageTokenFormContext();
 
-  if (!amount) {
+  if (!withdrawAmount) {
     return (
       <Buttonv2 className="text-bold3" disabled>
         Enter amount

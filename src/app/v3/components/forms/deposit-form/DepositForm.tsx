@@ -5,21 +5,16 @@ import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
-import { parseUnits } from "viem";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";
 import { LeverageToken } from "../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-
-import {
-  DepositFormData,
-  useLeverageTokenDepositFormContext,
-} from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const DepositForm = () => {
   const {
     selectedLeverageToken: { data: leverageToken, isLoading, error },
-  } = useLeverageTokenDepositFormContext();
+  } = useLeverageTokenFormContext();
 
   if (isLoading) {
     return <div className="min-h-[300px]" />;
@@ -27,38 +22,35 @@ export const DepositForm = () => {
 
   if (!leverageToken || error) {
     // eslint-disable-next-line no-console
-    console.warn("Vault not found!!!");
-    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+    console.warn("Leverage token not found!!!");
+    if (error) console.error("LeverageTokenForm error while fetching full vault info", error);
 
     return (
       <div className="min-h-[300px]">
         <Typography type="medium3" className="text-red-600">
-          Error while fetching full vault info: {error?.message}
+          Error while fetching Leverage token info: {error?.message}
         </Typography>
       </div>
     );
   }
 
-  return <StrategyFormLocal leverageToken={leverageToken} />;
+  return <LeverageFormLocal leverageToken={leverageToken} />;
 };
 
-const StrategyFormLocal: React.FC<{
+const LeverageFormLocal: React.FC<{
   leverageToken: LeverageToken;
 }> = ({ leverageToken }) => {
-  const { onTransaction, formOnSubmitAsync, methods, previewDepositData } = useLeverageTokenDepositFormContext();
+  const { onTransaction, formOnSubmitAsync, methods, depositAmount } = useLeverageTokenFormContext();
   const {
     underlyingAssetAddress,
-    underlyingAsset: { symbol: underlyingAssetSymbol, decimals: underlyingAssetDecimals },
+    underlyingAsset: { symbol: underlyingAssetSymbol },
   } = leverageToken;
 
   const { showNotification } = useNotificationContext();
 
-  const onSubmitAsync = async (data: DepositFormData) => {
+  const onSubmitAsync = async () => {
     await formOnSubmitAsync(
-      {
-        amount: underlyingAssetDecimals ? parseUnits(data.amount, underlyingAssetDecimals) : undefined,
-        previewDepositData,
-      },
+      {},
       {
         onSuccess: (txHash) => {
           showNotification({
@@ -66,7 +58,7 @@ const StrategyFormLocal: React.FC<{
             content: (
               <FlexCol className="w-full items-center text-center justify-center">
                 <Typography>
-                  You Supplied {data.amount} {underlyingAssetSymbol}
+                  You Supplied {depositAmount} {underlyingAssetSymbol}
                 </Typography>
                 {leverageToken && <WatchAssetComponentv2 {...leverageToken} address={leverageToken?.address} />}
               </FlexCol>

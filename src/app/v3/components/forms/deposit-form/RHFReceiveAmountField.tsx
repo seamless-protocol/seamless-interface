@@ -1,5 +1,5 @@
 import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
-import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -22,17 +22,19 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 export function RHFReceiveAmountField<T>({ ...other }: IProps<T>) {
   const {
     selectedLeverageToken: { data: leverageToken, ...rest },
-    receiveAmount,
-    receiveAmountUsdValue,
-  } = useLeverageTokenDepositFormContext();
+    sharesToReceiveWithdrawData,
+  } = useLeverageTokenFormContext();
 
   return (
     <RHFAmountInputV3
       {...other}
       assetAddress={leverageToken?.address}
-      dollarValue={receiveAmountUsdValue}
+      dollarValue={{
+        ...sharesToReceiveWithdrawData,
+        data: sharesToReceiveWithdrawData?.data?.assetsToReceive?.dollarAmount,
+      }}
       disabled
-      value={receiveAmount}
+      value={sharesToReceiveWithdrawData?.data?.assetsToReceive?.tokenAmount.viewValue}
       hideMaxButton
       tokenData={{ ...rest, data: leverageToken?.underlyingAsset || {} }}
     />

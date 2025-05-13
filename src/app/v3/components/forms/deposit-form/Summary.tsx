@@ -4,15 +4,18 @@ import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
 import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
-import { useLeverageTokenDepositFormContext } from "../contexts/leverage-token-form-provider/deposit/LeverageTokenDepositFormProvider";
+import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary: React.FC = () => {
-  const { debouncedAmount } = useLeverageTokenDepositFormContext();
+  const { debouncedDepositAmount } = useLeverageTokenFormContext();
   const { isConnected } = useAccount();
   const { strategy } = useFormSettingsContext();
 
   // todo: refactor useFetchPreviewDepositCostInUsdAndUnderlying to accept strategy, not substrategy..
-  const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(debouncedAmount, strategy);
+  const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(
+    debouncedDepositAmount,
+    strategy
+  );
 
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
