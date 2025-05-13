@@ -5,7 +5,7 @@ import { fetchTotalNumberOfUsers } from "../fetch-volume-leaderboard/VolumeLeade
 export async function fetchPointsUserPosition(userAddress: Address) {
   const [userPosition, totalNumberOfUsers] = await Promise.all([
     fetchPointsLeaderboard({
-      userAddress,
+      user_address: userAddress,
     }),
     fetchTotalNumberOfUsers(),
   ]);
