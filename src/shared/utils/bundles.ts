@@ -219,7 +219,7 @@ export async function simulateWithdrawAlchemy(
       withdrawEvent.topics[0],
       pad(withdrawEvent.topics[1]),
       pad(withdrawEvent.topics[2]),
-      pad(withdrawEvent.topics[3] || {}),
+      pad(withdrawEvent.topics[3]),
     ] as any,
   });
 
