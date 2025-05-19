@@ -1,20 +1,18 @@
 import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
-import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
-import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
-import { checkAuthentication } from "../../../../utils/authenticationUtils";
-import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
+import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { checkAuthentication } from "../../../../../utils/authenticationUtils";
+import { DataRow } from "../../DataRow";
+import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary: React.FC = () => {
-  const { debouncedDepositAmount } = useLeverageTokenFormContext();
+  const { debouncedDepositAmount, selectedLeverageToken } = useLeverageTokenFormContext();
   const { isConnected } = useAccount();
-  const { strategy } = useFormSettingsContext();
 
   // todo: refactor useFetchPreviewDepositCostInUsdAndUnderlying to accept strategy, not substrategy..
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(
     debouncedDepositAmount,
-    strategy
+    selectedLeverageToken?.data?.address
   );
 
   return (

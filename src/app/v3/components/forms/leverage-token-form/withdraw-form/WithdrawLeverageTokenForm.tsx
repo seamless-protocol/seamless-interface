@@ -9,7 +9,7 @@ import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawLeverageTokenAmount
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { FormButtons } from "./FormButtons";
-import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
+import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const WithdrawLeverageTokenForm: React.FC = () => {
   const {
@@ -23,7 +23,7 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
   if (!leverageToken || error) {
     // eslint-disable-next-line no-console
     console.warn("Vault not found!!!");
-    if (error) console.error("MorphoDepositForm error while fetching full vault info", error);
+    if (error) console.error("LeverageTokenForm error while fetching info", error);
 
     return (
       <div className="min-h-[300px]">

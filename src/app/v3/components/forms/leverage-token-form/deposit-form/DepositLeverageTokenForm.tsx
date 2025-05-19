@@ -8,6 +8,7 @@ import { RouterConfig } from "@router";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const DepositLeverageTokenForm = () => {
   const {
@@ -21,7 +22,7 @@ export const DepositLeverageTokenForm = () => {
   if (!leverageToken || error) {
     // eslint-disable-next-line no-console
     console.warn("Leverage token not found!!!");
-    if (error) console.error("LeverageTokenForm error while fetching full vault info", error);
+    if (error) console.error("LeverageTokenForm error while fetching info", error);
 
     return (
       <div className="min-h-[300px]">

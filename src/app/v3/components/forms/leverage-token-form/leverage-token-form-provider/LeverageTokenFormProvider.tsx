@@ -1,0 +1,228 @@
+import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { useAccount } from "wagmi";
+import type { Address } from "viem";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { Displayable, FetchData, SeamlessWriteAsyncParams, ViewBigInt } from "@shared";
+import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
+import {
+  SharesToReceiveData,
+  useFetchDepositSharesToReceive,
+} from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import {
+  ViewPreviewWithdraw,
+  useFetchViewWithdrawSharesToReceive,
+} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
+import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useAmountUsdValue } from "./useAmountUsdValue";
+
+/* -------------------- */
+/*   Types & Context    */
+/* -------------------- */
+export type Mode = "deposit" | "withdraw";
+
+export interface LeverageTokenFormData {
+  depositAmount: string;
+  withdrawAmount: string;
+}
+
+interface LeverageTokenFormContextValue {
+  userAddress?: Address;
+  mode: Mode;
+  setMode: (mode: Mode) => void;
+
+  selectedLeverageToken: Displayable<LeverageToken | undefined>;
+  setSelectedLeverageTokenAddress: (address: Address) => void;
+
+  methods: UseFormReturn<LeverageTokenFormData>;
+  depositAmount: string;
+  withdrawAmount: string;
+
+  debouncedDepositAmount: string;
+  debouncedWithdrawAmount: string;
+
+  balance: Displayable<{ balance: ViewBigInt }>;
+  assetPrice: Displayable<ViewBigInt>;
+
+  depositAmountUsdValue: Displayable<ViewBigInt>;
+  withdrawAmountUsdValue: Displayable<ViewBigInt>;
+
+  maxUserDepositData: Displayable<ViewBigInt>;
+  previewDepositData: FetchData<SharesToReceiveData>;
+
+  sharesToReceiveWithdrawData: Displayable<ViewPreviewWithdraw>;
+
+  formOnSubmitAsync: (
+    params: {
+      from?: Address;
+      receiver?: Address;
+    },
+    settings?: SeamlessWriteAsyncParams
+  ) => Promise<void>;
+  isPending: boolean;
+  onTransaction?: () => void;
+  setOnTransaction: (onTransaction?: () => void) => void;
+}
+
+const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
+
+/* -------------------- */
+/*   Provider Props     */
+/* -------------------- */
+interface LeverageTokenFormProviderProps {
+  children: ReactNode;
+  defaultLeverageTokenAddress?: Address;
+  defaultMode?: Mode;
+  onTransaction?: () => void;
+}
+
+export function LeverageTokenFormProvider({
+  children,
+  defaultLeverageTokenAddress,
+  defaultMode = "deposit",
+  onTransaction,
+}: LeverageTokenFormProviderProps) {
+  /* -------------------- */
+  /*   Local State        */
+  /* -------------------- */
+  const { address: userAddress } = useAccount();
+  const [mode, _setMode] = useState<Mode>(defaultMode);
+  const methods = useForm<LeverageTokenFormData>({
+    defaultValues: { depositAmount: "", withdrawAmount: "" },
+  });
+  const [_onTransaction, setOnTransaction] = useState(() => onTransaction);
+  const { watch, reset } = methods;
+  const depositAmount = watch("depositAmount", "");
+  const withdrawAmount = watch("withdrawAmount", "");
+
+  const [selectedLeverageTokenAddress, _setSelectedLeverageTokenAddress] = useState<Address | undefined>(
+    defaultLeverageTokenAddress
+  );
+
+  /* -------------------- */
+  /*   Query Hooks        */
+  /* -------------------- */
+  const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
+  const balance = useFetchViewAssetBalance(selectedLeverageToken.data?.address);
+  const assetPrice = useFetchViewAssetPrice({
+    asset: selectedLeverageToken.data?.address,
+  });
+  const underlyingAssetPrice = useFetchViewAssetPrice({
+    asset: selectedLeverageToken.data?.underlyingAssetAddress,
+  });
+
+  /* -------------------- */
+  /*   Calculations       */
+  /* -------------------- */
+  const { debouncedAmount: debouncedDepositAmount } = useWrappedDebounce(depositAmount);
+  const { debouncedAmount: debouncedWithdrawAmount } = useWrappedDebounce(withdrawAmount);
+
+  const depositAmountUsdValue = useAmountUsdValue(
+    depositAmount,
+    assetPrice,
+    selectedLeverageToken.data?.tokenData.decimals
+  );
+
+  const withdrawAmountUsdValue = useAmountUsdValue(
+    withdrawAmount,
+    underlyingAssetPrice,
+    selectedLeverageToken.data?.underlyingAsset.decimals
+  );
+
+  /* -------------------- */
+  /*   Deposit Logic      */
+  /* -------------------- */
+  const maxUserDepositData = useFetchViewMaxUserDeposit(selectedLeverageToken.data?.address);
+  const previewDepositData = useFetchDepositSharesToReceive(
+    debouncedDepositAmount,
+    selectedLeverageToken.data?.address
+  );
+
+  /* -------------------- */
+  /*   Withdraw Logic     */
+  /* -------------------- */
+  const sharesToReceiveWithdrawData = useFetchViewWithdrawSharesToReceive(
+    debouncedWithdrawAmount,
+    selectedLeverageToken.data?.address
+  );
+
+  /* -------------------- */
+  /*   Handlers           */
+  /* -------------------- */
+  const resetFormsData = useCallback(() => {
+    reset();
+  }, [reset]);
+
+  const setMode = useCallback(
+    (mode: Mode) => {
+      _setMode(mode);
+      resetFormsData();
+    },
+    [_setMode, resetFormsData]
+  );
+
+  const setSelectedLeverageTokenAddress = useCallback(
+    (address: Address) => {
+      _setSelectedLeverageTokenAddress(address);
+      resetFormsData();
+    },
+    [_setSelectedLeverageTokenAddress, resetFormsData]
+  );
+
+  const formOnSubmitAsync = async () => {
+    if (mode === "deposit") {
+      if (!previewDepositData) return;
+      const { sharesToReceive: shares } = previewDepositData.data;
+      // eslint-disable-next-line no-console
+      console.log("formOnSubmitAsync", depositAmount, shares);
+    } else if (mode === "withdraw") {
+      const { assetsToReceive } = sharesToReceiveWithdrawData.data;
+      // eslint-disable-next-line no-console
+      console.log("formOnSubmitAsync", withdrawAmount, assetsToReceive);
+    }
+  };
+
+  const isPending = false; // todo
+
+  /* -------------------- */
+  /*   Return Context     */
+  /* -------------------- */
+  return (
+    <LeverageTokenFormContext.Provider
+      value={{
+        userAddress,
+        mode,
+        setMode,
+        selectedLeverageToken,
+        setSelectedLeverageTokenAddress,
+        methods,
+        depositAmount,
+        withdrawAmount,
+        debouncedDepositAmount,
+        debouncedWithdrawAmount,
+        balance,
+        assetPrice,
+        depositAmountUsdValue,
+        withdrawAmountUsdValue,
+        maxUserDepositData,
+        previewDepositData,
+        sharesToReceiveWithdrawData,
+        formOnSubmitAsync,
+        isPending,
+        onTransaction: _onTransaction,
+        setOnTransaction,
+      }}
+    >
+      {children}
+    </LeverageTokenFormContext.Provider>
+  );
+}
+
+export function useLeverageTokenFormContext() {
+  const ctx = useContext(LeverageTokenFormContext);
+  if (!ctx) throw new Error("useLeverageTokenFormContext must be used within LeverageTokenFormProvider");
+  return ctx;
+}

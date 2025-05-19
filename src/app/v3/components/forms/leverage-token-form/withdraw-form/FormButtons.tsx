@@ -1,5 +1,5 @@
 import { FlexCol, AuthGuardv2, Buttonv2 } from "@shared";
-import { useLeverageTokenFormContext } from "../contexts/leverage-token-form-provider/LeverageTokenFormProvider";
+import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const FormButtons = () => {
   const {
