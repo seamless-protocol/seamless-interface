@@ -10,7 +10,7 @@ import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
 import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
 
-export const LeverageTokensDetails = () => {
+export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
   const { address } = useParams();
   const { isConnected } = useAccount();
