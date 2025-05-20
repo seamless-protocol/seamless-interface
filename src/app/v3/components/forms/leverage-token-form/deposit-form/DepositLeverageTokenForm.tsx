@@ -2,7 +2,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
 import { FormButtons } from "./FormButtons";
-import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
+import { FlexCol, Typography, MyFormProvider, FlexRow } from "@shared";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
@@ -39,36 +39,11 @@ export const DepositLeverageTokenForm = () => {
 const LeverageFormLocal: React.FC<{
   leverageToken: LeverageToken;
 }> = ({ leverageToken }) => {
-  const { onTransaction, formOnSubmitAsync, methods, depositAmount } = useLeverageTokenFormContext();
-  const {
-    underlyingAssetAddress,
-    underlyingAsset: { symbol: underlyingAssetSymbol },
-  } = leverageToken;
-
-  const { showNotification } = useNotificationContext();
+  const { formOnSubmitAsync, methods } = useLeverageTokenFormContext();
+  const { underlyingAssetAddress } = leverageToken;
 
   const onSubmitAsync = async () => {
-    await formOnSubmitAsync(
-      {},
-      {
-        onSuccess: (txHash) => {
-          showNotification({
-            txHash,
-            content: (
-              <FlexCol className="w-full items-center text-center justify-center">
-                <Typography>
-                  You Supplied {depositAmount} {underlyingAssetSymbol}
-                </Typography>
-                {leverageToken && <WatchAssetComponentv2 {...leverageToken} address={leverageToken?.address} />}
-              </FlexCol>
-            ),
-          });
-        },
-        onSettled: () => {
-          onTransaction?.();
-        },
-      }
-    );
+    await formOnSubmitAsync({});
   };
 
   return (

@@ -1,10 +1,5 @@
 import React from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { useNotificationContext, MyFormProvider, FlexCol, FlexRow, Typography, WatchAssetComponentv2 } from "@shared";
-import { WETH_ADDRESS } from "@meta";
-import { RouterConfig } from "../../../../../router";
+import { MyFormProvider, FlexCol, Typography } from "@shared";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawLeverageTokenAmountField";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
@@ -38,52 +33,10 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
 };
 
 export const WithdrawLeverageTokenLocal: React.FC = () => {
-  const queryClient = useQueryClient();
-  const { showNotification } = useNotificationContext();
-
-  const { selectedLeverageToken, methods, onTransaction, formOnSubmitAsync, withdrawAmount } =
-    useLeverageTokenFormContext();
-  const { data: { underlyingAsset, address, tokenData, underlyingAssetAddress } = {} } = selectedLeverageToken;
+  const { methods, formOnSubmitAsync } = useLeverageTokenFormContext();
 
   const onSubmit = async () => {
-    await formOnSubmitAsync(
-      {},
-      {
-        onSuccess: (txHash) => {
-          methods.reset();
-          showNotification({
-            txHash,
-            content: (
-              <FlexCol className="w-full items-center text-center justify-center">
-                <Typography>
-                  You Withdrew {withdrawAmount} {underlyingAsset?.symbol}
-                </Typography>
-                <WatchAssetComponentv2 {...tokenData} address={address} />
-                {underlyingAssetAddress === WETH_ADDRESS && (
-                  <FlexRow className="w-full">
-                    <Link
-                      to={RouterConfig.Routes.unwrapEth}
-                      className="flex flex-row items-center justify-end gap-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography type="bold2" className="text-right">
-                        To unwrap ETH, click here
-                      </Typography>
-                      <ArrowTopRightOnSquareIcon width={12} />
-                    </Link>
-                  </FlexRow>
-                )}
-              </FlexCol>
-            ),
-          });
-          queryClient.invalidateQueries();
-        },
-        onSettled: () => {
-          onTransaction?.();
-        },
-      }
-    );
+    await formOnSubmitAsync({});
   };
 
   return (
