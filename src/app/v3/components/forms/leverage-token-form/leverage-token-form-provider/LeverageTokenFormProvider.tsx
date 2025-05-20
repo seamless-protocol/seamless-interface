@@ -18,7 +18,7 @@ import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrapp
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useAmountUsdValue } from "./useAmountUsdValue";
-import { useClearIfExceedsBalance } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
+import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -135,13 +135,13 @@ export function LeverageTokenFormProvider({
     selectedLeverageToken.data?.underlyingAsset.decimals
   );
 
-  useClearIfExceedsBalance({
+  useClearIfExceedsBalanceAfterWalletConnect({
     getValue: () => methods.getValues("depositAmount"),
     setValue: (value) => methods.setValue("depositAmount", value),
     balance: { bigIntValue: balance.data?.balance?.bigIntValue, decimals: balance.data?.balance?.decimals },
     isConnected,
   });
-  useClearIfExceedsBalance({
+  useClearIfExceedsBalanceAfterWalletConnect({
     getValue: () => methods.getValues("withdrawAmount"),
     setValue: (value) => methods.setValue("withdrawAmount", value),
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },

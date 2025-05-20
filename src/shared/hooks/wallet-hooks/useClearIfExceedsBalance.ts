@@ -15,23 +15,22 @@ export interface Balance {
 }
 
 /**
- * React hook that clears a form field if its parsed numeric value exceeds a specified on-chain balance after wallet connects.
+ * React hook that clears a form field whenever the user connects their wallet
+ * and the field's numeric value exceeds the provided on-chain balance.
  *
- * ## Key Features:
- * - **Automatic Clearing**: Monitors a field value and resets it when it surpasses the balance.
- * - **Debounced Effect**: Runs when connection state or balance changes.
- * - **Error Safety**: Catches parse errors and logs them without breaking the app.
+ * @template TRawValue
  *
- * @param {Object}   params             - Hook parameters.
- * @param {() => string}       params.getValue     - Function to retrieve the current field value.
- * @param {(value: string) => void} params.setValue     - Function to update the form field.
- * @param {Balance} [params.balance]     - The on-chain balance to compare against (in base units).
- * @param {boolean} [params.isConnected] - Flag indicating if the user is connected; effect is disabled otherwise.
+ * @param {object}               params                   - Hook parameters.
+ * @param {() => string}         params.getValue         - Function returning the current raw string value of the field (e.g., from React Hook Form). Should return the human-readable amount (no decimals applied).
+ * @param {(value: string) => void} params.setValue       - Function to update/reset the form field value. Called with an empty string to clear.
+ * @param {object}               params.balance           - On-chain balance details.
+ * @param {bigint}               params.balance.bigIntValue  - Balance in base (smallest) units (e.g., wei).
+ * @param {number}               params.balance.decimals     - Number of decimals used to parse the raw string into base units.
+ * @param {boolean}              params.isConnected       - Whether the user is currently connected; the clear effect only runs when true.
  *
  * @example
  * ```tsx
- * // Clear "amount" if it exceeds on-chain balance
- * useClearIfExceedsBalance({
+ * useClearIfExceedsBalanceAfterWalletConnect({
  *   getValue: () => methods.getValues('amount'),
  *   setValue: (val) => methods.setValue('amount', val),
  *   balance: { bigIntValue: onChainBalance, decimals: tokenDecimals },
@@ -39,7 +38,7 @@ export interface Balance {
  * });
  * ```
  */
-export function useClearIfExceedsBalance({
+export function useClearIfExceedsBalanceAfterWalletConnect({
   getValue,
   setValue,
   balance,
@@ -58,8 +57,8 @@ export function useClearIfExceedsBalance({
 
     try {
       if (balance == null) throw new Error("Invalid balance data");
-      if (balance.bigIntValue == null) throw new Error("Invalid balance data");
-      if (balance.decimals == null) throw new Error("Invalid balance data");
+      if (balance.bigIntValue == null) throw new Error("Invalid bigIntValue");
+      if (balance.decimals == null) throw new Error("Invalid decimals");
 
       if (parseUnits(raw, balance.decimals) > balance.bigIntValue) {
         setValue("");
@@ -67,5 +66,5 @@ export function useClearIfExceedsBalance({
     } catch (err) {
       console.error(`Error in useClearIfExceedsBalance:`, err);
     }
-  }, [isConnected, balance?.bigIntValue, balance?.decimals, getValue, setValue]);
+  }, [isConnected, getValue, setValue]);
 }
