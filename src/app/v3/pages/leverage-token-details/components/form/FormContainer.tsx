@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FlexCol, FlexRow, Typography } from "@shared";
 import { DepositLeverageTokenForm } from "../../../../components/forms/leverage-token-form/deposit-form/DepositLeverageTokenForm";
 import { WithdrawLeverageTokenForm } from "../../../../components/forms/leverage-token-form/withdraw-form/WithdrawLeverageTokenForm";
@@ -7,11 +7,9 @@ import { useLeverageTokenFormContext } from "../../../../components/forms/levera
 import { Address } from "viem";
 
 export const FormContainer = () => {
-  const [isDepositing, setIsDepositing] = useState(true);
-
   const { address } = useParams();
 
-  const { setSelectedLeverageTokenAddress, setMode } = useLeverageTokenFormContext();
+  const { setSelectedLeverageTokenAddress, mode, setMode } = useLeverageTokenFormContext();
 
   useEffect(() => {
     setSelectedLeverageTokenAddress(address as Address);
@@ -23,10 +21,9 @@ export const FormContainer = () => {
         <LocalButtonSwitcher
           data-cy="deposit-button"
           onClick={() => {
-            setIsDepositing(true);
             setMode("deposit");
           }}
-          isActive={isDepositing}
+          isActive={mode === "deposit"}
         >
           Deposit
         </LocalButtonSwitcher>
@@ -34,15 +31,14 @@ export const FormContainer = () => {
         <LocalButtonSwitcher
           data-cy="withdraw-button"
           onClick={() => {
-            setIsDepositing(false);
             setMode("withdraw");
           }}
-          isActive={!isDepositing}
+          isActive={mode === "withdraw"}
         >
           Withdraw
         </LocalButtonSwitcher>
       </FlexRow>
-      <div>{isDepositing ? <DepositLeverageTokenForm /> : <WithdrawLeverageTokenForm />}</div>
+      <div>{mode === "deposit" ? <DepositLeverageTokenForm /> : <WithdrawLeverageTokenForm />}</div>
     </FlexCol>
   );
 };
