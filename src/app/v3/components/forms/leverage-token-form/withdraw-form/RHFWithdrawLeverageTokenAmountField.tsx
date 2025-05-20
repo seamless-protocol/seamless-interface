@@ -6,7 +6,7 @@ type IStrategyProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalanc
 };
 
 export function RHFWithdrawStrategyAmountField<T>({ ...other }: IStrategyProps<T>) {
-  const { selectedLeverageToken, withdrawAmountUsdValue, balance: walletBalance } = useLeverageTokenFormContext();
+  const { selectedLeverageToken, withdrawAmountUsdValue, lpBalance: walletBalance } = useLeverageTokenFormContext();
 
   const { data: { tokenData, address } = {}, ...rest } = selectedLeverageToken;
 

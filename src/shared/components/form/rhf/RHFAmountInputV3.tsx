@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { Displayable, ViewBigInt } from "src/shared/types/Displayable";
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 
 import { FlexCol } from "../../containers/FlexCol";
 import { FlexRow } from "../../containers/FlexRow";
@@ -14,6 +14,7 @@ import { MAX_NUMBER } from "../../../../globals";
 import { DisplayText } from "../../display/DisplayText";
 import { Tooltip } from "../../tooltip/Tooltip";
 import { useFocusOnAssetChange } from "../../../hooks/ui-hooks/useFocusOnAssetChange";
+import { useClearIfExceedsBalance } from "../../../hooks/wallet-hooks/useClearIfExceedsBalance";
 
 export interface IRHFAmountInputPropsV3 extends RHFInputFieldProps {
   assetAddress?: Address;
@@ -65,18 +66,12 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
       setValue(name as string, "");
     }, [assetAddress]);
 
-    useEffect(() => {
-      const value = getValues(name as string);
-
-      if (!value || !tokenData?.data?.decimals) {
-        setValue(name as string, "");
-      } else if (
-        (isConnected && (walletBalance?.data?.bigIntValue || 0n) < parseUnits(value, tokenData?.data.decimals)) ||
-        0n
-      ) {
-        setValue(name as string, "");
-      }
-    }, [isConnected]);
+    useClearIfExceedsBalance({
+      getValue: () => getValues(name as string),
+      setValue: (value) => setValue(name as string, value),
+      balance: { bigIntValue: walletBalance?.data?.bigIntValue, decimals: walletBalance?.data?.decimals },
+      isConnected,
+    });
 
     const inputRef = useFocusOnAssetChange(assetAddress, focusOnAssetChange);
 

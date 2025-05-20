@@ -77,7 +77,7 @@ const LeverageFormLocal: React.FC<{
         <FlexCol className="gap-6">
           <FlexCol className="gap-3">
             <Typography type="medium3">Deposit</Typography>
-            <RHFDepositAmountField name="amount" />
+            <RHFDepositAmountField name="depositAmount" />
           </FlexCol>
 
           {underlyingAssetAddress === WETH_ADDRESS && (

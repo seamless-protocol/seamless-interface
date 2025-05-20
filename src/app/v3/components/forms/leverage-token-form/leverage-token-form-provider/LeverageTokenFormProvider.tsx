@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { useAccount } from "wagmi";
-import type { Address } from "viem";
+import { type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { Displayable, FetchData, SeamlessWriteAsyncParams, ViewBigInt } from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
@@ -18,6 +18,7 @@ import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrapp
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useAmountUsdValue } from "./useAmountUsdValue";
+import { useClearIfExceedsBalance } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -45,6 +46,7 @@ interface LeverageTokenFormContextValue {
   debouncedWithdrawAmount: string;
 
   balance: Displayable<{ balance: ViewBigInt }>;
+  lpBalance: Displayable<{ balance: ViewBigInt }>;
   assetPrice: Displayable<ViewBigInt>;
 
   depositAmountUsdValue: Displayable<ViewBigInt>;
@@ -88,7 +90,7 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
   /*   Local State        */
   /* -------------------- */
-  const { address: userAddress } = useAccount();
+  const { address: userAddress, isConnected } = useAccount();
   const [mode, _setMode] = useState<Mode>(defaultMode);
   const methods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
@@ -106,7 +108,8 @@ export function LeverageTokenFormProvider({
   /*   Query Hooks        */
   /* -------------------- */
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
-  const balance = useFetchViewAssetBalance(selectedLeverageToken.data?.address);
+  const balance = useFetchViewAssetBalance(selectedLeverageToken.data?.underlyingAssetAddress);
+  const lpBalance = useFetchViewAssetBalance(selectedLeverageToken.data?.address);
   const assetPrice = useFetchViewAssetPrice({
     asset: selectedLeverageToken.data?.address,
   });
@@ -131,6 +134,19 @@ export function LeverageTokenFormProvider({
     underlyingAssetPrice,
     selectedLeverageToken.data?.underlyingAsset.decimals
   );
+
+  useClearIfExceedsBalance({
+    getValue: () => methods.getValues("depositAmount"),
+    setValue: (value) => methods.setValue("depositAmount", value),
+    balance: { bigIntValue: balance.data?.balance?.bigIntValue, decimals: balance.data?.balance?.decimals },
+    isConnected,
+  });
+  useClearIfExceedsBalance({
+    getValue: () => methods.getValues("withdrawAmount"),
+    setValue: (value) => methods.setValue("withdrawAmount", value),
+    balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
+    isConnected,
+  });
 
   /* -------------------- */
   /*   Deposit Logic      */
@@ -204,6 +220,7 @@ export function LeverageTokenFormProvider({
         debouncedDepositAmount,
         debouncedWithdrawAmount,
         balance,
+        lpBalance,
         assetPrice,
         depositAmountUsdValue,
         withdrawAmountUsdValue,

@@ -53,16 +53,16 @@ export const FormButtons = () => {
         >
           {getApproveState(isApproved, justApproved)}
         </Buttonv2>
+        <Buttonv2
+          data-cy="actionButton"
+          className="text-bold3"
+          type="submit"
+          disabled={!isApproved || isSubmitting || isPending}
+          loading={isSubmitting || isPending}
+        >
+          Submit
+        </Buttonv2>
       </AuthGuardv2>
-      <Buttonv2
-        data-cy="actionButton"
-        className="text-bold3"
-        type="submit"
-        disabled={!isApproved || isSubmitting || isPending}
-        loading={isSubmitting || isPending}
-      >
-        Submit
-      </Buttonv2>
     </FlexCol>
   );
 };
