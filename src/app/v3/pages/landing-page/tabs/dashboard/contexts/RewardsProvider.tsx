@@ -1,4 +1,3 @@
-// src/contexts/RewardsProvider.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export interface RewardItem {
@@ -11,7 +10,7 @@ export interface RewardItem {
   extraText?: string;
 }
 
-type ClaimStatus = "idle" | "pending" | "success" | "cancelled";
+export type ClaimStatus = "idle" | "pending" | "success" | "failed";
 
 interface RewardsContextValue {
   items: RewardItem[];
@@ -52,7 +51,7 @@ export const RewardsProvider = ({ children, items }: { children: ReactNode; item
   const [claimOrder, setClaimOrder] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [statuses, setStatuses] = useState<Record<string, ClaimStatus>>({});
-  const [claimAsyncFn, setClaimAsyncFn] = useState<((id: string) => Promise<void>) | null>(null);
+  const [claimFn, setClaimFn] = useState<((id: string) => Promise<void>) | null>(null);
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -63,35 +62,32 @@ export const RewardsProvider = ({ children, items }: { children: ReactNode; item
   };
 
   const startClaims = (claimAsync: (id: string) => Promise<void>) => {
-    const selectedIds = Array.from(selected);
-    setClaimOrder(selectedIds);
-    const initStatuses: Record<string, ClaimStatus> = {};
-    selectedIds.forEach((id) => {
-      initStatuses[id] = "idle";
-    });
-    setStatuses(initStatuses);
+    const ids = Array.from(selected);
+    setClaimOrder(ids);
+    setStatuses(ids.reduce((acc, i) => ({ ...acc, [i]: "idle" }), {} as Record<string, ClaimStatus>));
     setCurrentStep(0);
-    setClaimAsyncFn(() => claimAsync);
+    setClaimFn(() => claimAsync);
   };
 
   const confirmStep = async () => {
-    if (currentStep >= claimOrder.length || !claimAsyncFn) return;
+    if (!claimFn || currentStep >= claimOrder.length) return;
     const id = claimOrder[currentStep];
     setStatuses((prev) => ({ ...prev, [id]: "pending" }));
     try {
-      await claimAsyncFn(id);
+      await claimFn(id);
       console.log("claimed", id);
       setStatuses((prev) => ({ ...prev, [id]: "success" }));
       setCurrentStep((prev) => prev + 1);
     } catch {
-      setStatuses((prev) => ({ ...prev, [id]: "cancelled" }));
+      setStatuses((prev) => ({ ...prev, [id]: "failed" }));
     }
   };
 
   const cancelStep = () => {
-    if (currentStep >= claimOrder.length) return;
-    const id = claimOrder[currentStep];
-    setStatuses((prev) => ({ ...prev, [id]: "cancelled" }));
+    if (currentStep < claimOrder.length) {
+      const id = claimOrder[currentStep];
+      setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+    }
   };
 
   const reset = () => {
@@ -99,7 +95,7 @@ export const RewardsProvider = ({ children, items }: { children: ReactNode; item
     setClaimOrder([]);
     setStatuses({});
     setCurrentStep(0);
-    setClaimAsyncFn(null);
+    setClaimFn(null);
   };
 
   return (

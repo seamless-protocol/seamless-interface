@@ -1,8 +1,9 @@
-// src/components/RewardsSelector.tsx
-import React from "react";
+import React, { useState } from "react";
+import { RewardItemRow } from "./RewardItem";
 import { useRewards } from "../../contexts/RewardsProvider";
 
 export const RewardsSelector: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const {
     items,
     selected,
@@ -18,80 +19,97 @@ export const RewardsSelector: React.FC = () => {
 
   const isClaiming = claimOrder.length > 0;
 
-  const handleClaimStart = () => {
-    startClaims(async (id: string) => {
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    reset();
+    setModalOpen(false);
+  };
+
+  const handleStart = () => {
+    startClaims(async (id) => {
       console.log("claimAsync", id);
-      // simulate async
-      return Promise.resolve();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 2000);
+      });
     });
   };
 
-  if (!isClaiming) {
-    return (
-      <div>
-        {items.map((item) => (
-          <div key={item.id} className="flex items-start gap-4 p-4 border mb-2">
-            <input type="checkbox" checked={selected.has(item.id)} onChange={() => toggleSelect(item.id)} />
-            <div className="w-8 h-8">{item.icon}</div>
-            <div className="flex-1">
-              <p className="font-medium">{item.name}</p>
-              <p className="text-sm text-gray-600">{item.description}</p>
-              <p className="text-sm">
-                {item.tokenAmount} tokens (${item.dollarAmount})
-              </p>
-              {item.extraText && <p className="text-xs text-gray-500">{item.extraText}</p>}
-            </div>
-          </div>
-        ))}
-        <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={handleClaimStart}
-          disabled={selected.size === 0}
-        >
-          Claim
-        </button>
-      </div>
-    );
-  }
-
-  if (currentStep < claimOrder.length) {
-    return (
-      <div>
-        {claimOrder.map((id, idx) => {
-          const item = items.find((i) => i.id === id)!;
-          const status = statuses[id];
-          return (
-            <div key={id} className="flex items-center gap-4 p-4 border mb-2">
-              <span
-                className={`w-6 h-6 flex items-center justify-center rounded-full border ${
-                  status === "success" ? "bg-green-500 text-white" : ""
-                }`}
-              >
-                {idx + 1}
-              </span>
-              <div className="flex-1">
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-gray-600">{item.description}</p>
-              </div>
-            </div>
-          );
-        })}
-        <button className="px-3 py-1 bg-green-500 text-white rounded" onClick={() => confirmStep()}>
-          Confirm
-        </button>
-        <button className="px-3 py-1 bg-red-500 text-white rounded" onClick={() => cancelStep()}>
-          Cancel
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-4 text-center">
-      <p className="text-lg font-semibold">All done!</p>
-      <button className="mt-2 px-4 py-2 bg-gray-300 rounded" onClick={reset}>
-        Reset
-      </button>
-    </div>
+    <>
+      {!modalOpen && (
+        <div>
+          {items.map((item) => (
+            <RewardItemRow key={item.id} item={item} />
+          ))}
+          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={openModal}>
+            Claim
+          </button>
+        </div>
+      )}
+
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded w-1/2 relative">
+            <button className="absolute top-2 right-2 text-gray-500" onClick={closeModal}>
+              Cancel
+            </button>
+
+            {!isClaiming && (
+              <div>
+                <h2 className="text-xl font-bold mb-4">Select Rewards</h2>
+                {items.map((item) => (
+                  <RewardItemRow
+                    key={item.id}
+                    item={item}
+                    showCheckbox
+                    checked={selected.has(item.id)}
+                    onToggle={() => toggleSelect(item.id)}
+                  />
+                ))}
+                <div className="mt-4 flex justify-end gap-2">
+                  <button onClick={closeModal} className="px-4 py-2 bg-gray-300 rounded">
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleStart}
+                    disabled={selected.size === 0}
+                    className="px-4 py-2 bg-green-500 text-white rounded"
+                  >
+                    Start Claim
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isClaiming && currentStep < claimOrder.length && (
+              <div>
+                {claimOrder.map((id, idx) => {
+                  const item = items.find((i) => i.id === id)!;
+                  const status = statuses[id];
+                  return <RewardItemRow key={id} item={item} stepNumber={idx + 1} status={status} />;
+                })}
+                <div className="mt-4 flex justify-end gap-2">
+                  <button onClick={confirmStep} className="px-3 py-1 bg-green-500 text-white rounded">
+                    Confirm
+                  </button>
+                  <button onClick={cancelStep} className="px-3 py-1 bg-red-500 text-white rounded">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isClaiming && currentStep >= claimOrder.length && (
+              <div className="text-center mt-6">
+                <p className="text-lg font-semibold">All done!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };

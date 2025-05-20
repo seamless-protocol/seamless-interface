@@ -1,6 +1,6 @@
-// src/contexts/__tests__/RewardsProvider.test.tsx
 import React from "react";
-import { RewardItem, RewardsProvider, useRewards } from "./RewardsProvider";
+import { renderHook, act } from "@testing-library/react-hooks";
+import { RewardsProvider, useRewards, RewardItem } from "../RewardsProvider";
 
 describe("RewardsProvider", () => {
   const items: RewardItem[] = [
