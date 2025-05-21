@@ -20,6 +20,7 @@ import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
+import { LeverageTokenDetailsPage } from "./pages/leverage-token-details/LeverageTokenDetailsPage";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -41,6 +42,9 @@ export function App() {
                   <SentryRoutes>
                     <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                     <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                    {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+                      <Route path={RouterConfig.Routes.leverageToken} element={<LeverageTokenDetailsPage />} />
+                    )}
                     <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
                     <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
                     <Route path="*" element={<PageNotFound />} />
