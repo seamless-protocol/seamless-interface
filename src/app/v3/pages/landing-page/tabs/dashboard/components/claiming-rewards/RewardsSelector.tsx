@@ -1,115 +1,120 @@
-import React, { useState } from "react";
+import React from "react";
 import { RewardItemRow } from "./RewardItem";
 import { useRewards } from "../../contexts/RewardsProvider";
+import { DisplayMoney, Modal, ModalHandles, Typography } from "@shared";
+import { RewardsHeading } from "./RewardsHeading";
+import { RewardItemClaimingRow } from "./RewardItemClaimingRow";
 
 export const RewardsSelector: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const {
-    items,
-    selected,
-    claimOrder,
-    currentStep,
-    statuses,
-    toggleSelect,
-    startClaims,
-    confirmStep,
-    cancelStep,
-    reset,
-  } = useRewards();
+  const modalRef = React.useRef<ModalHandles>(null);
+
+  const { items, selected, claimOrder, currentStep, statuses, toggleSelect, startClaims, confirmStep, reset } =
+    useRewards();
 
   const isClaiming = claimOrder.length > 0;
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    reset();
-    setModalOpen(false);
-  };
-
   const handleStart = () => {
-    startClaims(async (id) => {
-      console.log("claimAsync", id);
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
-    });
+    startClaims();
   };
 
   return (
-    <>
-      {!modalOpen && (
+    <div className="bg-neutral-0 p-10 rounded-3xl border border-blue-100 flex flex-col gap-10">
+      <div className="flex flex-row justify-between">
+        <RewardsHeading />
         <div>
-          {items.map((item) => (
-            <RewardItemRow key={item.id} item={item} />
-          ))}
-          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={openModal}>
-            Claim
-          </button>
-        </div>
-      )}
-
-      {modalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded w-1/2 relative">
-            <button className="absolute top-2 right-2 text-gray-500" onClick={closeModal}>
-              Cancel
-            </button>
-
-            {!isClaiming && (
-              <div>
-                <h2 className="text-xl font-bold mb-4">Select Rewards</h2>
-                {items.map((item) => (
-                  <RewardItemRow
-                    key={item.id}
-                    item={item}
-                    showCheckbox
-                    checked={selected.has(item.id)}
-                    onToggle={() => toggleSelect(item.id)}
-                  />
-                ))}
-                <div className="mt-4 flex justify-end gap-2">
-                  <button onClick={closeModal} className="px-4 py-2 bg-gray-300 rounded">
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleStart}
-                    disabled={selected.size === 0}
-                    className="px-4 py-2 bg-green-500 text-white rounded"
-                  >
-                    Start Claim
-                  </button>
+          <Modal
+            ref={modalRef}
+            size="normal"
+            buttonProps={{
+              children: "Claim",
+              className: "text-bold3 bg-metalic rounded-button text-neutral-0 py-3 px-4",
+            }}
+            onClose={reset}
+          >
+            <div className="mt-[-45px]">
+              {!isClaiming && (
+                <div className="flex flex-col gap-10 mt-10">
+                  <div className="flex flex-row items-center justify-between">
+                    <RewardsHeading />
+                    <div>
+                      <button
+                        className={`text-bold3 ${selected.size === 0 ? "bg-gray-200" : "bg-metalic"}  rounded-button text-neutral-0 py-3 px-10`}
+                        onClick={handleStart}
+                        disabled={selected.size === 0}
+                      >
+                        Claim
+                      </button>
+                    </div>
+                  </div>
+                  {items.map((item) => (
+                    <RewardItemRow
+                      key={item.id}
+                      item={item}
+                      showCheckbox
+                      checked={selected.has(item.id)}
+                      onToggle={() => toggleSelect(item.id)}
+                    />
+                  ))}
                 </div>
-              </div>
-            )}
+              )}
 
-            {isClaiming && currentStep < claimOrder.length && (
-              <div>
-                {claimOrder.map((id, idx) => {
-                  const item = items.find((i) => i.id === id)!;
-                  const status = statuses[id];
-                  return <RewardItemRow key={id} item={item} stepNumber={idx + 1} status={status} />;
-                })}
-                <div className="mt-4 flex justify-end gap-2">
-                  <button onClick={confirmStep} className="px-3 py-1 bg-green-500 text-white rounded">
-                    Confirm
-                  </button>
-                  <button onClick={cancelStep} className="px-3 py-1 bg-red-500 text-white rounded">
-                    Cancel
-                  </button>
+              {isClaiming && currentStep < claimOrder.length && (
+                <div>
+                  <div className="flex flex-col gap-2 mb-8">
+                    <Typography type="medium4">Claim preview</Typography>
+                    <Typography type="body2">
+                      You’re claiming {selected.size} rewards. Each will require a separate confirmation to complete the
+                      claiming process.
+                    </Typography>
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    {claimOrder.map((id, idx) => {
+                      const item = items.find((i) => i.id === id)!;
+                      const status = statuses[id];
+                      return <RewardItemClaimingRow key={id} item={item} stepNumber={idx + 1} status={status} />;
+                    })}
+                  </div>
+
+                  <hr className="bg-navy-100 mt-8 mb-6" />
+
+                  <div className="flex flex-row justify-between">
+                    <Typography type="bold3">Total </Typography>
+                    <DisplayMoney typography="bold3" viewValue="906.64" />
+                  </div>
+                  <div className="mt-8 flex gap-4">
+                    <button
+                      onClick={() => {
+                        reset();
+                        modalRef.current?.close();
+                      }}
+                      className="text-bold3 border border-metalic bg-neutral-0 rounded-button py-3 px-4 w-1/2"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmStep}
+                      className="text-bold3 bg-metalic rounded-button text-neutral-0 py-3 px-4 w-1/2"
+                    >
+                      Confirm {currentStep + 1}/{claimOrder.length}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {isClaiming && currentStep >= claimOrder.length && (
-              <div className="text-center mt-6">
-                <p className="text-lg font-semibold">All done!</p>
-              </div>
-            )}
-          </div>
+              {isClaiming && currentStep >= claimOrder.length && (
+                <div className="text-center mt-6">
+                  <p className="text-lg font-semibold">All done!</p>
+                </div>
+              )}
+            </div>
+          </Modal>
         </div>
-      )}
-    </>
+      </div>
+      <div className="">
+        {items.map((item) => (
+          <RewardItemRow key={item.id} item={item} />
+        ))}
+      </div>
+    </div>
   );
 };

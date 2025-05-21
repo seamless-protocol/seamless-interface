@@ -1,62 +1,140 @@
-import React from "react";
-import { renderHook, act } from "@testing-library/react-hooks";
-import { RewardsProvider, useRewards, RewardItem } from "../RewardsProvider";
+/**
+ * @vitest-environment jsdom
+ */
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, fireEvent, act, cleanup } from "@testing-library/react";
+import { RewardsProvider, useRewards } from "./RewardsProvider";
+import { REWARDS_MOCK_ITEMS } from "./RewardsProvider.mock";
+
+// A tiny consumer to inspect provider state and actions:
+const TestConsumer = () => {
+  const { selected, toggleSelect, startClaims, confirmStep, cancelStep, reset, claimOrder, currentStep, statuses } =
+    useRewards();
+
+  return (
+    <div>
+      <div data-testid="selected-size">{selected.size}</div>
+      <button data-testid="toggle-1" onClick={() => toggleSelect("1")}>
+        Toggle 1
+      </button>
+      <button data-testid="toggle-2" onClick={() => toggleSelect("2")}>
+        Toggle 2
+      </button>
+      <button data-testid="start" onClick={startClaims}>
+        Start
+      </button>
+      <button data-testid="confirm" onClick={() => confirmStep()}>
+        Confirm
+      </button>
+      <button data-testid="cancel" onClick={cancelStep}>
+        Cancel
+      </button>
+      <button data-testid="reset" onClick={reset}>
+        Reset
+      </button>
+      <div data-testid="claim-order">{claimOrder.join(",")}</div>
+      <div data-testid="current-step">{currentStep}</div>
+      <div data-testid="status-1">{statuses["1"] || ""}</div>
+      <div data-testid="status-2">{statuses["2"] || ""}</div>
+    </div>
+  );
+};
 
 describe("RewardsProvider", () => {
-  const items: RewardItem[] = [
-    { id: "1", icon: <div />, name: "One", description: "Desc", tokenAmount: 1, dollarAmount: 10 },
-    { id: "2", icon: <div />, name: "Two", description: "Desc", tokenAmount: 2, dollarAmount: 20 },
-  ];
-
-  const wrapper: React.FC = ({ children }) => <RewardsProvider items={items}>{children}</RewardsProvider>;
-
-  it("toggles selection", () => {
-    const { result } = renderHook(() => useRewards(), { wrapper });
-    act(() => result.current.toggleSelect("1"));
-    expect(result.current.selected.has("1")).toBe(true);
-    act(() => result.current.toggleSelect("1"));
-    expect(result.current.selected.has("1")).toBe(false);
+  beforeEach(() => {
+    vi.useFakeTimers();
   });
 
-  it("startClaims initializes claimOrder and statuses", () => {
-    const { result } = renderHook(() => useRewards(), { wrapper });
-    act(() => {
-      result.current.toggleSelect("1");
-      result.current.toggleSelect("2");
-    });
-    act(() => result.current.startClaims(async (id) => Promise.resolve()));
-    expect(result.current.claimOrder).toEqual(["1", "2"]);
-    expect(result.current.statuses).toEqual({ "1": "idle", "2": "idle" });
-    expect(result.current.currentStep).toBe(0);
+  afterEach(() => {
+    cleanup();
+    vi.useRealTimers();
   });
 
-  it("confirmStep updates status and advances step", async () => {
-    const { result } = renderHook(() => useRewards(), { wrapper });
-    act(() => result.current.toggleSelect("1"));
-    act(() => result.current.startClaims((id) => Promise.resolve()));
+  it("toggles selection on and off", () => {
+    const { getByTestId } = render(
+      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    expect(getByTestId("selected-size").textContent).toBe("0");
+
+    fireEvent.click(getByTestId("toggle-1"));
+    expect(getByTestId("selected-size").textContent).toBe("1");
+
+    fireEvent.click(getByTestId("toggle-1"));
+    expect(getByTestId("selected-size").textContent).toBe("0");
+  });
+
+  it("startClaims initializes order, statuses, and step", () => {
+    const { getByTestId } = render(
+      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    // select two items
+    fireEvent.click(getByTestId("toggle-1"));
+    fireEvent.click(getByTestId("toggle-2"));
+    fireEvent.click(getByTestId("start"));
+
+    expect(getByTestId("claim-order").textContent).toBe("1,2");
+    expect(getByTestId("current-step").textContent).toBe("0");
+    expect(getByTestId("status-1").textContent).toBe("idle");
+    expect(getByTestId("status-2").textContent).toBe("idle");
+  });
+
+  it("confirmStep calls claimAsync, advances status & step", async () => {
+    const { getByTestId } = render(
+      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    // select one and start
+    fireEvent.click(getByTestId("toggle-1"));
+    fireEvent.click(getByTestId("start"));
+
+    // click Confirm and advance timers inside a single act so React can batch the async update
     await act(async () => {
-      await result.current.confirmStep();
+      fireEvent.click(getByTestId("confirm"));
+      vi.advanceTimersByTime(2000);
     });
-    expect(result.current.statuses["1"]).toBe("success");
-    expect(result.current.currentStep).toBe(1);
+
+    // now the state should have updated
+    expect(getByTestId("status-1").textContent).toBe("success");
+    expect(getByTestId("current-step").textContent).toBe("1");
   });
 
-  it("cancelStep sets status to cancelled", () => {
-    const { result } = renderHook(() => useRewards(), { wrapper });
-    act(() => result.current.toggleSelect("1"));
-    act(() => result.current.startClaims((id) => Promise.resolve()));
-    act(() => result.current.cancelStep());
-    expect(result.current.statuses["1"]).toBe("cancelled");
+  it("cancelStep marks current as failed", () => {
+    const { getByTestId } = render(
+      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    fireEvent.click(getByTestId("toggle-1"));
+    fireEvent.click(getByTestId("start"));
+    fireEvent.click(getByTestId("cancel"));
+
+    expect(getByTestId("status-1").textContent).toBe("failed");
   });
 
   it("reset clears all state", () => {
-    const { result } = renderHook(() => useRewards(), { wrapper });
-    act(() => result.current.toggleSelect("1"));
-    act(() => result.current.startClaims((id) => Promise.resolve()));
-    act(() => result.current.reset());
-    expect(result.current.selected.size).toBe(0);
-    expect(result.current.claimOrder).toEqual([]);
-    expect(result.current.statuses).toEqual({});
-    expect(result.current.currentStep).toBe(0);
+    const { getByTestId } = render(
+      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    fireEvent.click(getByTestId("toggle-1"));
+    fireEvent.click(getByTestId("start"));
+    fireEvent.click(getByTestId("reset"));
+
+    expect(getByTestId("selected-size").textContent).toBe("0");
+    expect(getByTestId("claim-order").textContent).toBe("");
+    expect(getByTestId("current-step").textContent).toBe("0");
+    expect(getByTestId("status-1").textContent).toBe("");
+    expect(getByTestId("status-2").textContent).toBe("");
   });
 });

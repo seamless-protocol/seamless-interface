@@ -1,13 +1,23 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
+
+import { Displayable, ViewBigInt } from "@shared";
+
+export interface Reward {
+  tokenAmount: Displayable<ViewBigInt>;
+  dollarAmount?: Displayable<ViewBigInt>;
+  logo: string;
+  address: string;
+}
 
 export interface RewardItem {
   id: string;
-  icon: React.ReactNode;
+  icon: string;
   name: string;
   description: string;
-  tokenAmount: number;
-  dollarAmount: number;
+  dollarAmount?: Displayable<ViewBigInt>;
   extraText?: string;
+  rewards: Reward[];
+  claimAsync: () => Promise<void>;
 }
 
 export type ClaimStatus = "idle" | "pending" | "success" | "failed";
@@ -19,63 +29,46 @@ interface RewardsContextValue {
   currentStep: number;
   statuses: Record<string, ClaimStatus>;
   toggleSelect: (id: string) => void;
-  startClaims: (claimAsync: (id: string) => Promise<void>) => void;
+  startClaims: () => void;
   confirmStep: () => Promise<void>;
   cancelStep: () => void;
   reset: () => void;
 }
 
-export const REWARDS_MOCK_ITEMS: RewardItem[] = [
-  {
-    id: "1",
-    icon: "🎉",
-    name: "Mock Reward",
-    description: "This is a mock reward",
-    tokenAmount: 10,
-    dollarAmount: 100,
-  },
-  {
-    id: "2",
-    icon: "🎉",
-    name: "Mock Reward 2",
-    description: "This is a mock reward 2",
-    tokenAmount: 20,
-    dollarAmount: 200,
-  },
-];
-
 const RewardsContext = createContext<RewardsContextValue | undefined>(undefined);
 
+// RewardsProvider.tsx
 export const RewardsProvider = ({ children, items }: { children: ReactNode; items: RewardItem[] }) => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [claimOrder, setClaimOrder] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [statuses, setStatuses] = useState<Record<string, ClaimStatus>>({});
-  const [claimFn, setClaimFn] = useState<((id: string) => Promise<void>) | null>(null);
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
   };
 
-  const startClaims = (claimAsync: (id: string) => Promise<void>) => {
+  const startClaims = () => {
     const ids = Array.from(selected);
     setClaimOrder(ids);
     setStatuses(ids.reduce((acc, i) => ({ ...acc, [i]: "idle" }), {} as Record<string, ClaimStatus>));
     setCurrentStep(0);
-    setClaimFn(() => claimAsync);
   };
 
   const confirmStep = async () => {
-    if (!claimFn || currentStep >= claimOrder.length) return;
+    if (currentStep >= claimOrder.length) return;
     const id = claimOrder[currentStep];
+    const item = items.find((i) => i.id === id);
+    if (!item) return;
+
     setStatuses((prev) => ({ ...prev, [id]: "pending" }));
     try {
-      await claimFn(id);
-      console.log("claimed", id);
+      await item.claimAsync();
       setStatuses((prev) => ({ ...prev, [id]: "success" }));
       setCurrentStep((prev) => prev + 1);
     } catch {
@@ -95,7 +88,6 @@ export const RewardsProvider = ({ children, items }: { children: ReactNode; item
     setClaimOrder([]);
     setStatuses({});
     setCurrentStep(0);
-    setClaimFn(null);
   };
 
   return (
