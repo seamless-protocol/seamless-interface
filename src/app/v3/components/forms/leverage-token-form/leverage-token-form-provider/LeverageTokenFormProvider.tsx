@@ -47,7 +47,7 @@ interface LeverageTokenFormContextValue {
 
   balance: Displayable<{ balance: ViewBigInt }>;
   lpBalance: Displayable<{ balance: ViewBigInt }>;
-  assetPrice: Displayable<ViewBigInt>;
+  lpAssetPrice: Displayable<ViewBigInt>;
 
   depositAmountUsdValue: Displayable<ViewBigInt>;
   withdrawAmountUsdValue: Displayable<ViewBigInt>;
@@ -90,7 +90,7 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
   /*   Local State        */
   /* -------------------- */
-  const { address: userAddress, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [mode, _setMode] = useState<Mode>(defaultMode);
   const methods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
@@ -110,7 +110,7 @@ export function LeverageTokenFormProvider({
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
   const balance = useFetchViewAssetBalance(selectedLeverageToken.data?.underlyingAssetAddress);
   const lpBalance = useFetchViewAssetBalance(selectedLeverageToken.data?.address);
-  const assetPrice = useFetchViewAssetPrice({
+  const lpAssetPrice = useFetchViewAssetPrice({
     asset: selectedLeverageToken.data?.address,
   });
   const underlyingAssetPrice = useFetchViewAssetPrice({
@@ -125,7 +125,7 @@ export function LeverageTokenFormProvider({
 
   const depositAmountUsdValue = useAmountUsdValue(
     depositAmount,
-    assetPrice,
+    lpAssetPrice,
     selectedLeverageToken.data?.tokenData.decimals
   );
 
@@ -209,7 +209,6 @@ export function LeverageTokenFormProvider({
   return (
     <LeverageTokenFormContext.Provider
       value={{
-        userAddress,
         mode,
         setMode,
         selectedLeverageToken,
@@ -221,7 +220,7 @@ export function LeverageTokenFormProvider({
         debouncedWithdrawAmount,
         balance,
         lpBalance,
-        assetPrice,
+        lpAssetPrice,
         depositAmountUsdValue,
         withdrawAmountUsdValue,
         maxUserDepositData,

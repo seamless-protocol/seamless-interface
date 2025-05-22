@@ -17,13 +17,13 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
 
   if (!leverageToken || error) {
     // eslint-disable-next-line no-console
-    console.warn("Vault not found!!!");
+    console.warn("Leverage Token not found!!!");
     if (error) console.error("LeverageTokenForm error while fetching info", error);
 
     return (
       <div className="min-h-[300px]">
         <Typography type="medium3" className="text-red-600">
-          Error while fetching full vault info: {error?.message}
+          Error while fetching Leverage Token info: {error?.message}
         </Typography>
       </div>
     );

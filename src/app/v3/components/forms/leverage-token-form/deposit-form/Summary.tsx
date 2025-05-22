@@ -9,7 +9,6 @@ export const Summary: React.FC = () => {
   const { debouncedDepositAmount, selectedLeverageToken } = useLeverageTokenFormContext();
   const { isConnected } = useAccount();
 
-  // todo: refactor useFetchPreviewDepositCostInUsdAndUnderlying to accept strategy, not substrategy..
   const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(
     debouncedDepositAmount,
     selectedLeverageToken?.data?.address
