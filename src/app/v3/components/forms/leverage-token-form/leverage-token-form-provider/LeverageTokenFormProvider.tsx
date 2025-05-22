@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { useAccount } from "wagmi";
-import { type Address } from "viem";
+import { parseUnits, type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
-import { Displayable, FetchData, SeamlessWriteAsyncParams, ViewBigInt } from "@shared";
+import { Displayable, FetchData, SeamlessWriteAsyncParams, useERC20Approve, ViewBigInt } from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import {
@@ -67,6 +67,13 @@ interface LeverageTokenFormContextValue {
   isPending: boolean;
   onTransaction?: () => void;
   setOnTransaction: (onTransaction?: () => void) => void;
+
+  approveData: {
+    isApproving: boolean;
+    approveAsync: () => Promise<void>;
+    isApproved: boolean;
+    justApproved: boolean;
+  };
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -147,6 +154,17 @@ export function LeverageTokenFormProvider({
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
     isConnected,
   });
+
+  /* ------------- */
+  /*   Approve     */
+  /* ------------- */
+  const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
+    selectedLeverageToken.data?.underlyingAssetAddress,
+    selectedLeverageToken.data?.address,
+    selectedLeverageToken.data?.underlyingAsset.decimals
+      ? parseUnits(depositAmount || "0", selectedLeverageToken.data?.underlyingAsset.decimals)
+      : undefined
+  );
 
   /* -------------------- */
   /*   Deposit Logic      */
@@ -230,6 +248,12 @@ export function LeverageTokenFormProvider({
         isPending,
         onTransaction: _onTransaction,
         setOnTransaction,
+        approveData: {
+          isApproved,
+          isApproving,
+          justApproved,
+          approveAsync,
+        },
       }}
     >
       {children}
