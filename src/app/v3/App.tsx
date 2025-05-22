@@ -41,7 +41,7 @@ export function App() {
             <FlexCol className="min-h-screen">
               <NotificationProvider>
                 <NetworkListener>
-                  <div className="p-10">
+                  <div className="p-10 max-w-[500px]">
                     <RewardsProvider items={REWARDS_MOCK_ITEMS}>
                       <RewardsSelector />
                     </RewardsProvider>

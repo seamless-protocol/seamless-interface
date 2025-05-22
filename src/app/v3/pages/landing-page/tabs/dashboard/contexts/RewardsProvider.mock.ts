@@ -42,6 +42,7 @@ export const REWARDS_MOCK_ITEMS: RewardItem[] = [
       await new Promise((resolve) => {
         setTimeout(resolve, 1500);
       });
+      return "0x123";
     },
     rewards: [
       {
@@ -93,6 +94,7 @@ export const REWARDS_MOCK_ITEMS: RewardItem[] = [
       await new Promise((resolve) => {
         setTimeout(resolve, 1500);
       });
+      return "0x123";
     },
     rewards: [
       {

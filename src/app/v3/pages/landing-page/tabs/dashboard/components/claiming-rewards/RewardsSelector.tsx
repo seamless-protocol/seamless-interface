@@ -7,11 +7,24 @@ import { RewardItemClaimingRow } from "./RewardItemClaimingRow";
 
 export const RewardsSelector: React.FC = () => {
   const modalRef = React.useRef<ModalHandles>(null);
-
-  const { items, selected, claimOrder, currentStep, statuses, toggleSelect, startClaims, confirmStep, reset } =
-    useRewards();
+  const {
+    items,
+    selected,
+    claimOrder,
+    currentStep,
+    statuses,
+    txHashes,
+    toggleSelect,
+    startClaims,
+    confirmStep,
+    cancelStep,
+    reset,
+  } = useRewards();
 
   const isClaiming = claimOrder.length > 0;
+  const isDone = currentStep >= claimOrder.length;
+  const currentId = claimOrder[currentStep];
+  const isLoading = currentId ? statuses[currentId] === "pending" : false;
 
   const handleStart = () => {
     startClaims();
@@ -32,13 +45,16 @@ export const RewardsSelector: React.FC = () => {
             onClose={reset}
           >
             <div className="mt-[-45px]">
+              {/* Selection view */}
               {!isClaiming && (
                 <div className="flex flex-col gap-10 mt-10">
                   <div className="flex flex-row items-center justify-between">
                     <RewardsHeading />
                     <div>
                       <button
-                        className={`text-bold3 ${selected.size === 0 ? "bg-gray-200" : "bg-metalic"}  rounded-button text-neutral-0 py-3 px-10`}
+                        className={`text-bold3 ${
+                          selected.size === 0 ? "bg-gray-200" : "bg-metalic"
+                        } rounded-button text-neutral-0 py-3 px-10`}
                         onClick={handleStart}
                         disabled={selected.size === 0}
                       >
@@ -58,20 +74,40 @@ export const RewardsSelector: React.FC = () => {
                 </div>
               )}
 
-              {isClaiming && currentStep < claimOrder.length && (
+              {/* Claiming view */}
+              {isClaiming && (
                 <div>
                   <div className="flex flex-col gap-2 mb-8">
-                    <Typography type="medium4">Claim preview</Typography>
-                    <Typography type="body2">
-                      You’re claiming {selected.size} rewards. Each will require a separate confirmation to complete the
-                      claiming process.
-                    </Typography>
+                    <Typography type="medium4">{!isDone ? "Claim preview" : "All done"}</Typography>
+
+                    {!isDone && (
+                      <Typography type="body2">
+                        You’re claiming {selected.size} rewards. Each will require a separate confirmation to complete
+                        the claiming process.
+                      </Typography>
+                    )}
+                    {isDone && (
+                      <Typography type="body2">
+                        All rewards claimed successfully. Your rewards may remain visible for a few minutes while the
+                        reward data is being updated.
+                      </Typography>
+                    )}
                   </div>
+
                   <div className="flex flex-col gap-6">
                     {claimOrder.map((id, idx) => {
                       const item = items.find((i) => i.id === id)!;
                       const status = statuses[id];
-                      return <RewardItemClaimingRow key={id} item={item} stepNumber={idx + 1} status={status} />;
+                      const txHash = txHashes[id];
+                      return (
+                        <RewardItemClaimingRow
+                          key={id}
+                          item={item}
+                          stepNumber={idx + 1}
+                          status={status}
+                          txHash={txHash}
+                        />
+                      );
                     })}
                   </div>
 
@@ -81,36 +117,46 @@ export const RewardsSelector: React.FC = () => {
                     <Typography type="bold3">Total </Typography>
                     <DisplayMoney typography="bold3" viewValue="906.64" />
                   </div>
-                  <div className="mt-8 flex gap-4">
-                    <button
-                      onClick={() => {
-                        reset();
-                        modalRef.current?.close();
-                      }}
-                      className="text-bold3 border border-metalic bg-neutral-0 rounded-button py-3 px-4 w-1/2"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={confirmStep}
-                      className="text-bold3 bg-metalic rounded-button text-neutral-0 py-3 px-4 w-1/2"
-                    >
-                      Confirm {currentStep + 1}/{claimOrder.length}
-                    </button>
-                  </div>
-                </div>
-              )}
 
-              {isClaiming && currentStep >= claimOrder.length && (
-                <div className="text-center mt-6">
-                  <p className="text-lg font-semibold">All done!</p>
+                  {!isDone ? (
+                    <div className="mt-8 flex gap-4">
+                      <button
+                        onClick={cancelStep}
+                        className="text-bold3 border border-metalic bg-neutral-0 rounded-button py-3 px-4 w-1/2"
+                        disabled={isLoading}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={confirmStep}
+                        className="text-bold3 bg-metalic rounded-button text-neutral-0 py-3 px-4 w-1/2"
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Claiming..." : `Confirm ${currentStep + 1}/${claimOrder.length}`}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center mt-6">
+                      <button
+                        onClick={() => {
+                          reset();
+                          modalRef.current?.close();
+                        }}
+                        className="text-bold3 mt-4 bg-metalic rounded-button text-neutral-0 py-3 px-4 w-full"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </Modal>
         </div>
       </div>
-      <div className="">
+
+      {/* Always show all items below */}
+      <div>
         {items.map((item) => (
           <RewardItemRow key={item.id} item={item} />
         ))}

@@ -1,6 +1,6 @@
 import React from "react";
 import { ClaimStatus, Reward, RewardItem } from "../../contexts/RewardsProvider";
-import { DisplayMoney, Icon, ImageGroup, Typography } from "@shared";
+import { DisplayMoney, ExternalLink, Icon, ImageGroup, Typography } from "@shared";
 import { SingularReward } from "./SingularReward";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
   onToggle?: () => void;
   stepNumber?: number;
   status?: ClaimStatus;
+  txHash?: string;
 }
 
 export const RewardItemClaimingRow: React.FC<Props> = ({
@@ -19,6 +20,7 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
   onToggle,
   stepNumber,
   status = "idle",
+  txHash,
 }) => {
   return (
     <div className="flex flex-col">
@@ -30,7 +32,6 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
 
           <div className="flex flex-row items-center gap-4">
             <Icon src={item.icon} alt={item.name} width={40} height={40} />
-
             <div className="flex flex-col items-start">
               <Typography type="bold3">{item.name}</Typography>
             </div>
@@ -41,17 +42,23 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
           <DisplayMoney isApproximate typography="bold3" {...item.dollarAmount} {...item.dollarAmount?.data} />
         </div>
       </div>
-      <div className="flex flex-wrap items-start gap-2 px-14">
-        {status === "idle" && (
-          <>
-            {item.rewards.map((reward, index) => (
-              <SingularReward key={index} icon={reward.logo} amount={reward.tokenAmount} />
-            ))}
-          </>
+
+      <div className="flex flex-wrap items-center gap-4 px-14">
+        {status === "idle" &&
+          item.rewards.map((reward, index) => (
+            <SingularReward key={index} icon={reward.logo} amount={reward.tokenAmount} />
+          ))}
+
+        {status !== "idle" && (
+          <div className="flex items-center gap-4">
+            <LocalStatusIndicator status={status} rewards={item.rewards} />
+            {txHash && (
+              <ExternalLink className="text-[#4F68F7] text-body3" url={`https://basescan.org/tx/${txHash}`}>
+                Review tx details
+              </ExternalLink>
+            )}
+          </div>
         )}
-        {status === "success" && <LocalStatusIndicator status="success" rewards={item.rewards} />}
-        {status === "pending" && <LocalStatusIndicator status="pending" rewards={item.rewards} />}
-        {status === "failed" && <LocalStatusIndicator status="failed" rewards={item.rewards} />}
       </div>
     </div>
   );
@@ -63,6 +70,7 @@ const StatusTextMapper: Record<ClaimStatus, string> = {
   pending: "Claiming rewards...",
   failed: "Claim failed!",
 };
+
 const StatusColorMapper: Record<ClaimStatus, string> = {
   idle: "",
   success: "text-green-900",
@@ -73,9 +81,7 @@ const StatusColorMapper: Record<ClaimStatus, string> = {
 const LocalStatusIndicator = ({ status, rewards }: { status: ClaimStatus; rewards?: Reward[] }) => {
   return (
     <div
-      className={`max-w-fit p-2 flex flex-row 
-    items-center gap-1 text-bold1 rounded-tag border 
-    bg-[#EBF7F0] border-green-900 ${StatusColorMapper[status]}`}
+      className={`max-w-fit p-2 flex flex-row items-center gap-1 text-bold1 rounded-tag border bg-[#EBF7F0] border-green-900 ${StatusColorMapper[status]}`}
     >
       <ImageGroup
         images={rewards?.map((reward) => reward.logo) || []}
