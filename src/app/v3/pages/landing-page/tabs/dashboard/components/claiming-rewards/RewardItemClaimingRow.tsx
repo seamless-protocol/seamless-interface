@@ -73,15 +73,15 @@ const StatusTextMapper: Record<ClaimStatus, string> = {
 
 const StatusColorMapper: Record<ClaimStatus, string> = {
   idle: "",
-  success: "text-green-900",
-  pending: "text-blue-900",
-  failed: "text-red-900",
+  success: "text-green-900 bg-[#EBF7F0] border-green-900",
+  pending: "text-blue-900 bg-[#ECF5FF] border-blue-900",
+  failed: "text-red-900 bg-[#FFEBEB] border-red-900",
 };
 
 const LocalStatusIndicator = ({ status, rewards }: { status: ClaimStatus; rewards?: Reward[] }) => {
   return (
     <div
-      className={`max-w-fit p-2 flex flex-row items-center gap-1 text-bold1 rounded-tag border bg-[#EBF7F0] border-green-900 ${StatusColorMapper[status]}`}
+      className={`max-w-fit p-2 flex flex-row items-center gap-1 text-bold1 rounded-tag border ${StatusColorMapper[status]}`}
     >
       <ImageGroup
         images={rewards?.map((reward) => reward.logo) || []}

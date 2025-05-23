@@ -6,8 +6,12 @@ import { type RewardItem } from "../contexts/RewardsProvider";
 export const useMutateClaimSeamRewards = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
   return {
     ...REWARDS_MOCK_ITEMS[0],
-    claimAllAsync: (txHash = "0x123" as Address) => {
+    claimAllAsync: async (txHash = "0x123" as Address) => {
       const isError = Math.random() > 0.99;
+      // wait 2 sec
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
       if (isError) {
         settings?.onError?.(new Error("Failed to claim rewards"));
       } else {

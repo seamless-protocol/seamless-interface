@@ -17,7 +17,7 @@ export interface RewardItem {
   dollarAmount?: any;
   extraText?: string;
   rewards: Reward[];
-  claimAllAsync?: (txHash?: string) => string;
+  claimAllAsync?: (txHash?: string) => Promise<string>;
   isClaiming?: boolean;
 }
 

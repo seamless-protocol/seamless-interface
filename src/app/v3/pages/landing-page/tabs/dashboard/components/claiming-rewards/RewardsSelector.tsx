@@ -26,7 +26,6 @@ export const RewardsSelector: React.FC = () => {
   const currentId = claimOrder[currentStep];
   const isLoading = currentId ? statuses[currentId] === "pending" : false;
 
-  // <-- NEW: total rewards and successful count
   const total = claimOrder.length;
   const successCount = Object.values(statuses).filter((s) => s === "success").length;
 
