@@ -20,8 +20,6 @@ import { getApolloClient } from "../config/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
-import { RewardsSelector } from "./pages/landing-page/tabs/dashboard/components/claiming-rewards/RewardsSelector";
-import { RewardsProvider } from "./pages/landing-page/tabs/dashboard/contexts/RewardsProvider";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -40,11 +38,6 @@ export function App() {
             <FlexCol className="min-h-screen">
               <NotificationProvider>
                 <NetworkListener>
-                  <div className="p-10 max-w-[500px]">
-                    <RewardsProvider>
-                      <RewardsSelector />
-                    </RewardsProvider>
-                  </div>
                   <SentryRoutes>
                     <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
                     <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
