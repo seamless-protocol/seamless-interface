@@ -26,6 +26,10 @@ export const RewardsSelector: React.FC = () => {
   const currentId = claimOrder[currentStep];
   const isLoading = currentId ? statuses[currentId] === "pending" : false;
 
+  // <-- NEW: total rewards and successful count
+  const total = claimOrder.length;
+  const successCount = Object.values(statuses).filter((s) => s === "success").length;
+
   const handleStart = () => {
     startClaims();
   };
@@ -78,18 +82,18 @@ export const RewardsSelector: React.FC = () => {
               {isClaiming && (
                 <div>
                   <div className="flex flex-col gap-2 mb-8">
-                    <Typography type="medium4">{!isDone ? "Claim preview" : "All done"}</Typography>
+                    <Typography type="medium4">{!isDone ? "Claim preview" : "Done Claiming"}</Typography>
 
                     {!isDone && (
                       <Typography type="body2">
-                        You’re claiming {selected.size} rewards. Each will require a separate confirmation to complete
-                        the claiming process.
+                        You’re claiming {total} rewards. Each will require a separate confirmation to complete the
+                        claiming process.
                       </Typography>
                     )}
                     {isDone && (
                       <Typography type="body2">
-                        All rewards claimed successfully. Your rewards may remain visible for a few minutes while the
-                        reward data is being updated.
+                        Successfully claimed {successCount}/{total} rewards. Your rewards may remain visible for a few
+                        minutes while the reward data is being updated.
                       </Typography>
                     )}
                   </div>
@@ -132,7 +136,7 @@ export const RewardsSelector: React.FC = () => {
                         className="text-bold3 bg-metalic rounded-button text-neutral-0 py-3 px-4 w-1/2"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Claiming..." : `Confirm ${currentStep + 1}/${claimOrder.length}`}
+                        {isLoading ? "Claiming..." : `Confirm ${currentStep + 1}/${total}`}
                       </button>
                     </div>
                   ) : (

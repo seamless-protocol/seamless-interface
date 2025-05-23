@@ -5,6 +5,33 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent, act, cleanup } from "@testing-library/react";
 import { RewardsProvider, useRewards } from "./RewardsProvider";
 import { REWARDS_MOCK_ITEMS } from "./RewardsProvider.mock";
+import { SeamlessWriteAsyncParams } from "../../../../../../../shared";
+
+// ─── MOCK THE TWO HOOKS ─────────────────────────────────────────────────────────
+vi.mock("../mock-hooks/useMutateClaimSeamRewards", () => ({
+  useMutateClaimSeamRewards: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    // always “succeed” for the first reward
+    ...REWARDS_MOCK_ITEMS[0],
+    claimAllAsync: () => {
+      settings.onSuccess?.("0x123");
+      return "0x123";
+    },
+    isClaiming: false,
+  }),
+}));
+
+vi.mock("../mock-hooks/useMutateClaimAllMorphoRewards", () => ({
+  useMutateClaimAllMorphoRewards: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    // always “fail” for the second reward
+    ...REWARDS_MOCK_ITEMS[1],
+    claimAllAsync: () => {
+      settings.onError?.(new Error("Forced failure"));
+      return "0x134";
+    },
+    isClaiming: false,
+  }),
+}));
+// ────────────────────────────────────────────────────────────────────────────────
 
 // A tiny consumer to inspect provider state and actions:
 const TestConsumer = () => {
@@ -52,7 +79,7 @@ describe("RewardsProvider", () => {
 
   it("toggles selection on and off", () => {
     const { getByTestId } = render(
-      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+      <RewardsProvider>
         <TestConsumer />
       </RewardsProvider>
     );
@@ -68,7 +95,7 @@ describe("RewardsProvider", () => {
 
   it("startClaims initializes order, statuses, and step", () => {
     const { getByTestId } = render(
-      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+      <RewardsProvider>
         <TestConsumer />
       </RewardsProvider>
     );
@@ -86,7 +113,7 @@ describe("RewardsProvider", () => {
 
   it("confirmStep calls claimAsync, advances status & step", async () => {
     const { getByTestId } = render(
-      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+      <RewardsProvider>
         <TestConsumer />
       </RewardsProvider>
     );
@@ -101,14 +128,13 @@ describe("RewardsProvider", () => {
       vi.advanceTimersByTime(2000);
     });
 
-    // now the state should have updated
     expect(getByTestId("status-1").textContent).toBe("success");
     expect(getByTestId("current-step").textContent).toBe("1");
   });
 
   it("cancelStep marks current as failed", () => {
     const { getByTestId } = render(
-      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+      <RewardsProvider>
         <TestConsumer />
       </RewardsProvider>
     );
@@ -122,7 +148,7 @@ describe("RewardsProvider", () => {
 
   it("reset clears all state", () => {
     const { getByTestId } = render(
-      <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+      <RewardsProvider>
         <TestConsumer />
       </RewardsProvider>
     );
@@ -136,5 +162,54 @@ describe("RewardsProvider", () => {
     expect(getByTestId("current-step").textContent).toBe("0");
     expect(getByTestId("status-1").textContent).toBe("");
     expect(getByTestId("status-2").textContent).toBe("");
+  });
+
+  it("confirmStep handles onError and advances status & step", async () => {
+    const { getByTestId } = render(
+      <RewardsProvider>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    // just the second item
+    fireEvent.click(getByTestId("toggle-2"));
+    fireEvent.click(getByTestId("start"));
+
+    await act(async () => {
+      fireEvent.click(getByTestId("confirm"));
+      vi.advanceTimersByTime(0);
+    });
+
+    expect(getByTestId("status-2").textContent).toBe("failed");
+    expect(getByTestId("current-step").textContent).toBe("1");
+  });
+
+  it("after an error, manual confirm runs the next reward", async () => {
+    const { getByTestId } = render(
+      <RewardsProvider>
+        <TestConsumer />
+      </RewardsProvider>
+    );
+
+    // select both in order
+    fireEvent.click(getByTestId("toggle-1"));
+    fireEvent.click(getByTestId("toggle-2"));
+    fireEvent.click(getByTestId("start"));
+
+    // 1st is always success
+    await act(async () => {
+      fireEvent.click(getByTestId("confirm"));
+      vi.advanceTimersByTime(0);
+    });
+    expect(getByTestId("status-1").textContent).toBe("success");
+    expect(getByTestId("current-step").textContent).toBe("1");
+
+    // 2nd is always failure
+    await act(async () => {
+      fireEvent.click(getByTestId("confirm"));
+      vi.advanceTimersByTime(0);
+    });
+    expect(getByTestId("status-2").textContent).toBe("failed");
+    expect(getByTestId("current-step").textContent).toBe("2");
   });
 });

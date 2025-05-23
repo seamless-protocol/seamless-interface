@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-
-import { Displayable, ViewBigInt } from "@shared";
+import { useMutateClaimSeamRewards } from "../mock-hooks/useMutateClaimSeamRewards";
+import { useMutateClaimAllMorphoRewards } from "../mock-hooks/useMutateClaimAllMorphoRewards";
 
 export interface Reward {
-  tokenAmount: Displayable<ViewBigInt>;
-  dollarAmount?: Displayable<ViewBigInt>;
+  tokenAmount: any;
+  dollarAmount?: any;
   logo: string;
   address: string;
 }
@@ -14,10 +14,11 @@ export interface RewardItem {
   icon: string;
   name: string;
   description: string;
-  dollarAmount?: Displayable<ViewBigInt>;
+  dollarAmount?: any;
   extraText?: string;
   rewards: Reward[];
-  claimAsync: () => Promise<string>;
+  claimAllAsync?: (txHash?: string) => string;
+  isClaiming?: boolean;
 }
 
 export type ClaimStatus = "idle" | "pending" | "success" | "failed";
@@ -31,24 +32,59 @@ interface RewardsContextValue {
   txHashes: Record<string, string>;
   toggleSelect: (id: string) => void;
   startClaims: () => void;
-  confirmStep: () => Promise<void>;
+  confirmStep: () => void;
   cancelStep: () => void;
   reset: () => void;
 }
 
 const RewardsContext = createContext<RewardsContextValue | undefined>(undefined);
 
-export const RewardsProvider = ({ children, items }: { children: ReactNode; items: RewardItem[] }) => {
+export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [claimOrder, setClaimOrder] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [statuses, setStatuses] = useState<Record<string, ClaimStatus>>({});
   const [txHashes, setTxHashes] = useState<Record<string, string>>({});
 
+  // SEAM HOOK
+  const seamReward = useMutateClaimSeamRewards({
+    settings: {
+      onSuccess: (tx) => {
+        const { id } = seamReward;
+        setStatuses((prev) => ({ ...prev, [id]: "success" }));
+        setTxHashes((prev) => ({ ...prev, [id]: tx }));
+        setCurrentStep((prev) => prev + 1);
+      },
+      onError: () => {
+        const { id } = seamReward;
+        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+        setCurrentStep((prev) => prev + 1);
+      },
+    },
+  });
+
+  // MORPHO HOOK
+  const morphoReward = useMutateClaimAllMorphoRewards({
+    settings: {
+      onSuccess: (tx) => {
+        const { id } = morphoReward;
+        setStatuses((prev) => ({ ...prev, [id]: "success" }));
+        setTxHashes((prev) => ({ ...prev, [id]: tx }));
+        setCurrentStep((prev) => prev + 1);
+      },
+      onError: () => {
+        const { id } = morphoReward;
+        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+        setCurrentStep((prev) => prev + 1);
+      },
+    },
+  });
+
+  const items: RewardItem[] = [seamReward, morphoReward];
+
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
@@ -62,21 +98,12 @@ export const RewardsProvider = ({ children, items }: { children: ReactNode; item
     setCurrentStep(0);
   };
 
-  const confirmStep = async () => {
+  const confirmStep = () => {
     if (currentStep >= claimOrder.length) return;
     const id = claimOrder[currentStep];
-    const item = items.find((i) => i.id === id);
-    if (!item) return;
-
     setStatuses((prev) => ({ ...prev, [id]: "pending" }));
-    try {
-      const txHash = await item.claimAsync();
-      setStatuses((prev) => ({ ...prev, [id]: "success" }));
-      setTxHashes((prev) => ({ ...prev, [id]: txHash })); // todo get real hash from success callback..
-      setCurrentStep((prev) => prev + 1);
-    } catch {
-      setStatuses((prev) => ({ ...prev, [id]: "failed" }));
-    }
+    const reward = items.find((i) => i.id === id);
+    reward?.claimAllAsync?.();
   };
 
   const cancelStep = () => {

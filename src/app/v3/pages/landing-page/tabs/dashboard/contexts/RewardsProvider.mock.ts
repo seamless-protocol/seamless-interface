@@ -1,6 +1,6 @@
 import seamIcon from "@assets/tokens/seam.svg";
 import usdcIcon from "@assets/tokens/usdc.svg";
-import { RewardItem } from "./RewardsProvider";
+import { type RewardItem } from "./RewardsProvider";
 
 const MockTokenAmount = {
   data: {
@@ -37,13 +37,6 @@ export const REWARDS_MOCK_ITEMS: RewardItem[] = [
     name: "stkSEAM rewards",
     description: "Staking rewards and fees",
     dollarAmount: MockDollarAmount,
-    claimAsync: async () => {
-      console.log("mock claim 1");
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1500);
-      });
-      return "0x123";
-    },
     rewards: [
       {
         tokenAmount: MockTokenAmount,
@@ -89,13 +82,6 @@ export const REWARDS_MOCK_ITEMS: RewardItem[] = [
     name: "Morpho vault",
     description: "Vault earnings",
     dollarAmount: MockDollarAmount,
-    claimAsync: async () => {
-      console.log("mock claim 2");
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1500);
-      });
-      return "0x123";
-    },
     rewards: [
       {
         tokenAmount: MockTokenAmount,

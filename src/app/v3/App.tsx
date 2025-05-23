@@ -22,7 +22,6 @@ import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDeta
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { RewardsSelector } from "./pages/landing-page/tabs/dashboard/components/claiming-rewards/RewardsSelector";
 import { RewardsProvider } from "./pages/landing-page/tabs/dashboard/contexts/RewardsProvider";
-import { REWARDS_MOCK_ITEMS } from "./pages/landing-page/tabs/dashboard/contexts/RewardsProvider.mock";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -42,7 +41,7 @@ export function App() {
               <NotificationProvider>
                 <NetworkListener>
                   <div className="p-10 max-w-[500px]">
-                    <RewardsProvider items={REWARDS_MOCK_ITEMS}>
+                    <RewardsProvider>
                       <RewardsSelector />
                     </RewardsProvider>
                   </div>
