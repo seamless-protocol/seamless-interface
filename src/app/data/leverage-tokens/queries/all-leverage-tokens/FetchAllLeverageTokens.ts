@@ -15,6 +15,8 @@ export interface ViewRewardToken {
 
 export interface LeverageToken {
   address: Address;
+  underlyingAssetAddress: Address;
+  underlyingAsset: Token;
   tvl: {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
@@ -31,14 +33,28 @@ export interface LeverageToken {
   };
   tokenData: Token;
   additionalData: {
-    description: string;
+    description?: string;
   };
   type?: TagType;
+  /** Range for rebalancing leverage */
+  targetMultiples: {
+    minForRebalance?: ViewBigInt;
+    maxForRebalance?: ViewBigInt;
+  };
+  /** Current leverage multiple */
+  currentMultiple: ViewBigInt;
 }
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0x1111111111111111111111111111111111111111" as Address,
+    underlyingAssetAddress: "0x1111111111111111111111111111111111111111" as Address,
+    underlyingAsset: {
+      symbol: "ETH",
+      decimals: 18,
+      name: "Ethereum",
+      logo: mockLogo,
+    },
     type: "Short",
     tvl: {
       tokenAmount: formatFetchBigIntToViewBigInt({
@@ -52,6 +68,11 @@ export const mockLeverageTokens: LeverageToken[] = [
         symbol: "$",
       }),
     },
+    targetMultiples: {
+      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
+      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
+    },
+    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
     apy: {
       rewardTokens: [],
       yieldAPY: formatFetchNumberToViewNumber({
@@ -91,6 +112,13 @@ export const mockLeverageTokens: LeverageToken[] = [
   },
   {
     address: "0x2222222222222222222222222222222222222222" as Address,
+    underlyingAssetAddress: "0x1111111111111111111111111111111111111111" as Address,
+    underlyingAsset: {
+      symbol: "ETH",
+      decimals: 18,
+      name: "Ethereum",
+      logo: mockLogo,
+    },
     type: "Long",
     tvl: {
       tokenAmount: formatFetchBigIntToViewBigInt({
@@ -104,6 +132,11 @@ export const mockLeverageTokens: LeverageToken[] = [
         symbol: "$",
       }),
     },
+    targetMultiples: {
+      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
+      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
+    },
+    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
     apy: {
       rewardTokens: [],
       yieldAPY: formatFetchNumberToViewNumber({

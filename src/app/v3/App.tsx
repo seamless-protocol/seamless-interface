@@ -19,6 +19,7 @@ import { StakingBanner } from "./components/banner/StakingBanner";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { FuulPage } from "./pages/fuul/FuulPage";
+import { LeverageTokenDetailsPage } from "./pages/leverage-token-details/LeverageTokenDetailsPage";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -33,30 +34,26 @@ export function App() {
             <Audited />
           </div>
 
-          <FlexCol className="min-h-screen">
-            {import.meta.env.VITE_FUUL_ENABLE === "true" && (
-              <Link to="/fuul" className="text-bold3 underline text-center">
-                Fuul
-              </Link>
-            )}
-            <NotificationProvider>
-              <NetworkListener>
-                <SentryRoutes>
-                  <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
-                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
-                  <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
-                  {import.meta.env.VITE_FUUL_ENABLE === "true" && (
-                    <Route path={RouterConfig.Routes.pointLeaderboard} element={<FuulPage />} />
-                  )}
-                  <Route path="*" element={<PageNotFound />} />
-                </SentryRoutes>
-              </NetworkListener>
-            </NotificationProvider>
-            <Footer />
-          </FlexCol>
-        </QueryParamProvider>
-      </HashRouter>
+            <FlexCol className="min-h-screen">
+              <NotificationProvider>
+                <NetworkListener>
+                  <SentryRoutes>
+                    <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                    <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                    {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+                      <Route path={RouterConfig.Routes.leverageToken} element={<LeverageTokenDetailsPage />} />
+                    )}
+                    <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                    <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
+                    <Route path="*" element={<PageNotFound />} />
+                  </SentryRoutes>
+                </NetworkListener>
+              </NotificationProvider>
+              <Footer />
+            </FlexCol>
+          </QueryParamProvider>
+        </HashRouter>
+      </ApolloProvider>
     </Sentry.ErrorBoundary>
   );
 }
