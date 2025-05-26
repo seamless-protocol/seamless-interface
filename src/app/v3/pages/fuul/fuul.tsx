@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import { usePayoutsLeaderboard } from "../../../statev3/fuul/queries/fetch-payouts-leaderboard/PayoutsLeaderboard.hook";
 import {
@@ -13,7 +14,7 @@ import { Buttonv2 } from "../../../../shared";
 const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
 const sbgraph_user_address = "0x0019de95fa9953074432f7e66a8c5e8f043c8218";
 const payouts_user_addres = "0x2151C90C93F52bE82186f162c86DaEABc8911188";
-const morpho_user_address = "0xa5D42Cf398bd3076eC26dA93A8270b8e75b8062c";
+// const morpho_user_address = "0xa5D42Cf398bd3076eC26dA93A8270b8e75b8062c";
 
 // const project_id = "3cddbe7a-cd0b-445b-aebc-e3d9d075d0a7";
 // const project_id = "seamless";
@@ -118,7 +119,9 @@ export const TestFuulComponent = () => {
           </thead>
           <tbody>
             {leaderboardData?.results
+              // @ts-ignore
               ?.sort((a, b) => Number(b.total_amount) - Number(a.total_amount))
+              // @ts-ignore
               ?.map((entry) => (
                 <tr key={entry.address}>
                   <td>{entry.rank}</td>
@@ -146,7 +149,9 @@ export const TestFuulComponent = () => {
           </thead>
           <tbody>
             {payoutsLeaderboardData?.results
+              // @ts-ignore
               ?.sort((a, b) => Number(b.total_amount) - Number(a.total_amount))
+              // @ts-ignore
               ?.map((entry) => (
                 <tr key={entry.address}>
                   <td>{entry.rank}</td>
