@@ -47,6 +47,7 @@ export const RouterConfig = {
     stakingTab: `/?tab=Staking`,
     dashboardTab: `/?tab=Dashboard`,
     governance: `/governance`,
+    pointLeaderboard: `/point-leaderboard`,
     chaosRiskDashboard: chaosRiskDashboardUrl,
     gauntletRiskDashboard: gauntletRiskDashboardUrl,
     claimAirdrop: `${claimAirdropUrl}`,
@@ -57,6 +58,7 @@ export const RouterConfig = {
     developers: `${developersUrl}`,
     ilmDetails: `${baseUrl}/ilm-detailsv2/:id`,
     ilmDetailsv3: `${baseUrl}/ilm-details/:address`,
+    leverageToken: `${baseUrl}/leverage-token-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
     morphoVaultsTab: `${baseUrl}/?tab=Vaults`,
   },
@@ -64,6 +66,7 @@ export const RouterConfig = {
   Builder: {
     ilmDetailsv2: (id: number) => `${baseUrl}/ilm-detailsv2/${id}`,
     ilmDetails: (address: Address) => `${baseUrl}/ilm-details/${address}`,
+    leverageTokenDetails: (address: Address) => `${baseUrl}/leverage-token-details/${address}`,
     morphoVaultDetails: (address: Address) => `${baseUrl}/vault-details/${address}`,
     assetDetails: (address: Address) =>
       `${lendingAndBorrowingUrl}/reserve-overview/?underlyingAsset=${address.toLowerCase()}&marketName=proto_base_v3`,

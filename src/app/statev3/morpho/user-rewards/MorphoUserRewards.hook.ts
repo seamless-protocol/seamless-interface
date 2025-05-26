@@ -4,7 +4,7 @@ import { queryConfig } from "../../settings/queryConfig";
 import { fetchMorphoExtendedMappedUserRewards } from "./MorphoUserRewards.fetch";
 import { Address } from "viem";
 import { ExtendedUserReward } from "../types/UserReward";
-import { FetchData, ViewBigInt } from "@shared";
+import { ViewBigInt } from "@shared";
 
 export interface MorphoUserRewardsData {
   rewards?: ExtendedUserReward[];
@@ -13,10 +13,7 @@ export interface MorphoUserRewardsData {
   combinedClaimableNextViewValue: ViewBigInt;
 }
 
-export function useMorphoExtendedUserRewards(
-  userAddress?: Address,
-  chainId = base.id
-): FetchData<MorphoUserRewardsData | undefined> {
+export function useMorphoExtendedUserRewards(userAddress?: Address, chainId = base.id) {
   return useQuery({
     queryKey: ["hookMorphoExtendedUserRewards", userAddress, chainId],
     queryFn: () => fetchMorphoExtendedMappedUserRewards(userAddress!, chainId),

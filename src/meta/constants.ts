@@ -102,6 +102,8 @@ export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days
 
 export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0";
 
+export const FUUL_MANAGER_ADDRESS = "0xC38E3A10B5818601b29c83F195E8b5854AAE45aF";
+
 // todo refactor this by address or fetch this?
 // this is deprecated, please use addressIconMap from config v3.
 export const assetLogos: Map<string, string> = new Map([

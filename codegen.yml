@@ -1,12 +1,24 @@
-schema: 'https://blue-api.morpho.org/graphql'
-documents: 'src/**/*.graphql'
 generates:
   src/generated-graphql/index.tsx:
+    schema: "https://blue-api.morpho.org/graphql"
+    documents: "src/app/statev3/morpho/**/*.graphql"
     plugins:
-      - 'typescript'
-      - 'typescript-operations'
-      - 'typescript-react-apollo'
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
     config:
-      withHooks: true
+      withHooks: false
+      withHOC: false
+      withComponent: false
+
+  src/generated-graphql/subgraph-index.tsx:
+    schema: "https://subgraph.satsuma-prod.com/64a0e71a7397/fuul-team--611570/base/api"
+    documents: "src/app/statev3/fuul/**/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: false
       withHOC: false
       withComponent: false

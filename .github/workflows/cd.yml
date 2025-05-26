@@ -42,6 +42,8 @@ jobs:
           echo VITE_ALCHEMY_SIMULATION_RPC_URL=${{ vars.VITE_ALCHEMY_SIMULATION_RPC_URL }} >> .env.production
           echo VITE_EXTENSIVE_OPERATIONS_RPC_URL=${{ vars.VITE_EXTENSIVE_OPERATIONS_RPC_URL }} >> .env.production
           echo VITE_STAKING_FEATURE=${{ vars.VITE_STAKING_FEATURE }} >> .env.production
+          echo VITE_FUUL_ENABLE=${{ vars.VITE_FUUL_ENABLE }} >> .env.production
+          echo VITE_FULL_API_KEY=${{ vars.VITE_FULL_API_KEY }} >> .env.production
           echo VITE_LEVERAGE_TOKENS_FEATURE=${{ vars.VITE_LEVERAGE_TOKENS_FEATURE }} >> .env.production
           echo VITE_CLIENT_METADATA_API=${{ vars.VITE_CLIENT_METADATA_API }} >> .env.production
           cat .env.production
