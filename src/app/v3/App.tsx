@@ -1,5 +1,5 @@
 //* * ROUTER **/
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 
@@ -34,26 +34,28 @@ export function App() {
             <Audited />
           </div>
 
-            <FlexCol className="min-h-screen">
-              <NotificationProvider>
-                <NetworkListener>
-                  <SentryRoutes>
-                    <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                    <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
-                    {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
-                      <Route path={RouterConfig.Routes.leverageToken} element={<LeverageTokenDetailsPage />} />
-                    )}
-                    <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
-                    <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
-                    <Route path="*" element={<PageNotFound />} />
-                  </SentryRoutes>
-                </NetworkListener>
-              </NotificationProvider>
-              <Footer />
-            </FlexCol>
-          </QueryParamProvider>
-        </HashRouter>
-      </ApolloProvider>
+          <FlexCol className="min-h-screen">
+            <NotificationProvider>
+              <NetworkListener>
+                <SentryRoutes>
+                  <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
+                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                  {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
+                    <Route path={RouterConfig.Routes.leverageToken} element={<LeverageTokenDetailsPage />} />
+                  )}
+                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                  <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
+                  {import.meta.env.VITE_FUUL_ENABLE === "true" && (
+                    <Route path={RouterConfig.Routes.pointLeaderboard} element={<FuulPage />} />
+                  )}
+                  <Route path="*" element={<PageNotFound />} />
+                </SentryRoutes>
+              </NetworkListener>
+            </NotificationProvider>
+            <Footer />
+          </FlexCol>
+        </QueryParamProvider>
+      </HashRouter>
     </Sentry.ErrorBoundary>
   );
 }
