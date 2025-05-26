@@ -19,7 +19,7 @@ export const DepositLeverageTokenForm = () => {
   };
 
   return (
-    <EmptyFormGuard data={{ ...selectedLeverageToken }}>
+    <EmptyFormGuard errorSource="DepositLeverageTokenForm" data={{ ...selectedLeverageToken }}>
       <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmitAsync)}>
         <FlexCol className="gap-8">
           <FlexCol className="gap-6">

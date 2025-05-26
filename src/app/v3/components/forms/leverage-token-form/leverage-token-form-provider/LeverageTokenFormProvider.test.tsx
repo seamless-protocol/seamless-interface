@@ -13,7 +13,6 @@ import { parseUnits } from "viem";
 // Centralized mock values for easy maintenance
 const MOCK_VALUES = {
   userAddress: "0xUSER_ADDRESS",
-  // both balances as human‐readable strings
   balance: "100",
   lpBalance: "100",
   price: "200",
@@ -28,51 +27,103 @@ const MOCK_VALUES = {
   },
 };
 
-// Mock wagmi useAccount
-vi.mock("wagmi", () => ({
-  useAccount: vi.fn(() => ({ address: MOCK_VALUES.userAddress })),
+// 1) Stub out @shared completely
+vi.mock("@shared", () => ({
+  __esModule: true,
+  useERC20Approve: () => ({
+    isApproved: true,
+    isApproving: false,
+    justApproved: false,
+    approveAsync: async () => {},
+  }),
+  Displayable: {},
+  FetchData: {},
+  ViewBigInt: {},
+  SeamlessWriteAsyncParams: {},
 }));
 
-// Mock custom hooks to return our MOCK_VALUES
+// 2) Stub wagmi/useAccount
+vi.mock("wagmi", () => ({
+  useAccount: vi.fn(() => ({
+    address: MOCK_VALUES.userAddress,
+    isConnected: true,
+  })),
+}));
+
+// 3) Stub leverage-token lookup
 vi.mock("../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress", () => ({
   useFetchLeverageTokenByAddress: vi.fn(() => ({
     data: { ...MOCK_VALUES.leverageToken },
   })),
 }));
-vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => {
-  const dec = 6;
-  return {
-    useFetchViewAssetBalance: vi.fn(() => ({
-      data: {
-        balance: {
-          bigIntValue: parseUnits("100", dec),
-          decimals: dec,
-        },
+
+// 4) Stub on-chain balance fetch
+vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => ({
+  useFetchViewAssetBalance: vi.fn(() => ({
+    data: {
+      balance: {
+        bigIntValue: parseUnits(MOCK_VALUES.balance, MOCK_VALUES.leverageToken.tokenData.decimals),
+        decimals: MOCK_VALUES.leverageToken.tokenData.decimals,
       },
-    })),
-  };
-});
+    },
+  })),
+}));
+
+// 5) Stub price fetch
 vi.mock("../../../../../statev3/common/queries/useFetchViewAssetPrice", () => ({
   useFetchViewAssetPrice: vi.fn(() => ({ data: MOCK_VALUES.price })),
 }));
+
+// 6) Stub max-deposit lookup
 vi.mock("../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit", () => ({
   useFetchViewMaxUserDeposit: vi.fn(() => ({ data: MOCK_VALUES.maxDeposit })),
 }));
+
+// 7) Stub deposit-shares preview
 vi.mock("../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive", () => ({
   useFetchDepositSharesToReceive: vi.fn(() => ({
     data: { sharesToReceive: MOCK_VALUES.depositShares },
   })),
 }));
+
+// 8) Stub withdraw-assets preview
 vi.mock("../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive", () => ({
   useFetchViewWithdrawSharesToReceive: vi.fn(() => ({
     data: { assetsToReceive: MOCK_VALUES.withdrawAssets },
   })),
 }));
+
+// 9) Stub debounce hook
 vi.mock("../../../../../statev3/common/hooks/useWrappedDebounce", () => ({
-  useWrappedDebounce: vi.fn((val) => ({ debouncedAmount: val })),
+  useWrappedDebounce: vi.fn((val: string) => ({ debouncedAmount: val })),
 }));
-vi.mock("./useAmountUsdValue", () => ({
-  useAmountUsdValue: vi.fn((val) => ({ data: val })),
+
+vi.mock("../../../../../statev3/common/hooks/useAmountUsdValue", () => ({
+  useAmountUsdValue: vi.fn((amount: string) => ({
+    data: amount,
+  })),
+}));
+
+// 11) Stub the wallet-connect clearing hook with real clear-logic
+vi.mock("../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance", () => ({
+  useClearIfExceedsBalanceAfterWalletConnect: ({
+    getValue,
+    setValue,
+    balance: { bigIntValue, decimals },
+    isConnected,
+  }: {
+    getValue: () => string;
+    setValue: (val: string) => void;
+    balance: { bigIntValue: bigint; decimals: number };
+    isConnected: boolean;
+  }) => {
+    if (isConnected) {
+      const current = getValue();
+      const numeric = parseFloat(current) || 0;
+      const max = Number(bigIntValue) / 10 ** decimals;
+      if (numeric > max) setValue("");
+    }
+  },
 }));
 
 describe("LeverageTokenFormProvider", () => {

@@ -15,7 +15,7 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
   };
 
   return (
-    <EmptyFormGuard data={{ ...selectedLeverageToken }}>
+    <EmptyFormGuard errorSource="WithdrawLeverageTokenForm" data={{ ...selectedLeverageToken }}>
       <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
         <FlexCol className="gap-8">
           <FlexCol className="gap-3">

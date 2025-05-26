@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { USD_VALUE_DECIMALS } from "../../../../../../meta";
-import { Displayable, ViewBigInt, fParseUnits, formatFetchBigIntToViewBigInt } from "../../../../../../shared";
-import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
+import { USD_VALUE_DECIMALS } from "@meta";
+import { Displayable, ViewBigInt, fParseUnits, formatFetchBigIntToViewBigInt } from "@shared";
+import { cValueInUsd } from "../math/cValueInUsd";
 
 // Utility hook: compute USD value of an entered amount
 export function useAmountUsdValue(

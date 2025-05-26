@@ -6,11 +6,17 @@ interface EmptyFormGuardProps<T> {
   data: Displayable<T | undefined>;
   children: React.ReactNode;
   minHeight?: string;
+  errorSource?: string;
 }
 
-export function EmptyFormGuard<T>({ data, children, minHeight = "min-h-[300px]" }: EmptyFormGuardProps<T>) {
+export function EmptyFormGuard<T>({
+  data,
+  children,
+  minHeight = "min-h-[300px]",
+  errorSource,
+}: EmptyFormGuardProps<T>) {
   if (data.error) {
-    console.error("FormGuard error or missing data");
+    console.error(`Error happend in ${errorSource}`);
     if (data.error) console.error("FormGuard error", data.error);
 
     return (
@@ -23,7 +29,7 @@ export function EmptyFormGuard<T>({ data, children, minHeight = "min-h-[300px]" 
   }
 
   if (!data.data && !data.isLoading) {
-    console.error("FormGuard missing data");
+    console.error(`FormGuard missing data, Error happend in ${errorSource}`);
 
     return (
       <div className={minHeight}>

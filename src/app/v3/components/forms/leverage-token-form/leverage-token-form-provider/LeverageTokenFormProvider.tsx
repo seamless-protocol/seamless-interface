@@ -17,8 +17,8 @@ import {
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
-import { useAmountUsdValue } from "./useAmountUsdValue";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
+import { useAmountUsdValue } from "../../../../../statev3/common/hooks/useAmountUsdValue";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -135,7 +135,6 @@ export function LeverageTokenFormProvider({
     lpAssetPrice,
     selectedLeverageToken.data?.tokenData.decimals
   );
-
   const withdrawAmountUsdValue = useAmountUsdValue(
     withdrawAmount,
     underlyingAssetPrice,
