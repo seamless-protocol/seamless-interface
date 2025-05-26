@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import { usePayoutsLeaderboard } from "../../../statev3/fuul/queries/fetch-payouts-leaderboard/PayoutsLeaderboard.hook";
 import {
