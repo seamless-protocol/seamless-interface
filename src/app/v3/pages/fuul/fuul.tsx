@@ -31,13 +31,16 @@ export const TestFuulComponent = () => {
     user_address: payouts_user_addres,
     project_id: "seamless",
   });
+  // eslint-disable-next-line no-console
   console.log({ payoutsLeaderboardData });
+  // eslint-disable-next-line no-console
   console.log({ payoutsForAuser });
 
   useEffect(() => {
     const test = async () => {
       const fuulClient = getFuulClient();
       const rez = await fuulClient.getConversions({});
+      // eslint-disable-next-line no-console
       console.log({ rez });
     };
 
@@ -48,6 +51,7 @@ export const TestFuulComponent = () => {
   const { data: leaderboardData } = useFetchPointsLeaderboard({
     page_size: 5,
   });
+  // eslint-disable-next-line no-console
   console.log({ leaderboardData });
 
   // Get user's total points
