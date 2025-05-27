@@ -16,8 +16,7 @@ export function EmptyFormGuard<T>({
   errorSource,
 }: EmptyFormGuardProps<T>) {
   if (data.error) {
-    console.error(`Error happend in ${errorSource}`);
-    if (data.error) console.error("FormGuard error", data.error);
+    console.error(`EmptyFormGuard: Error happend in ${errorSource} error: ${data.error.message}`, data.error);
 
     return (
       <div className={minHeight}>
