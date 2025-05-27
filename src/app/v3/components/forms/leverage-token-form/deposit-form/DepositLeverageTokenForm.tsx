@@ -11,7 +11,7 @@ import { useLeverageTokenFormContext } from "../leverage-token-form-provider/Lev
 import { EmptyFormGuard } from "../../../../pages/common/components/EmptyFormGuard";
 
 export const DepositLeverageTokenForm = () => {
-  const { formOnSubmitAsync, methods, selectedLeverageToken } = useLeverageTokenFormContext();
+  const { formOnSubmitAsync, reactHookFormMethods, selectedLeverageToken } = useLeverageTokenFormContext();
   const { underlyingAssetAddress } = selectedLeverageToken?.data || {};
 
   const onSubmitAsync = async () => {
@@ -20,7 +20,7 @@ export const DepositLeverageTokenForm = () => {
 
   return (
     <EmptyFormGuard errorSource="DepositLeverageTokenForm" data={{ ...selectedLeverageToken }}>
-      <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmitAsync)}>
+      <MyFormProvider methods={reactHookFormMethods} onSubmit={reactHookFormMethods.handleSubmit(onSubmitAsync)}>
         <FlexCol className="gap-8">
           <FlexCol className="gap-6">
             <FlexCol className="gap-3">

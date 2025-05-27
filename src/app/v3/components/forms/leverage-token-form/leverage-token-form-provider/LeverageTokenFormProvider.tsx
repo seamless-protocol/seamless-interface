@@ -41,7 +41,7 @@ interface LeverageTokenFormContextValue {
   selectedLeverageToken: Displayable<LeverageToken | undefined>;
   setSelectedLeverageTokenAddress: (address: Address) => void;
 
-  methods: UseFormReturn<LeverageTokenFormData>;
+  reactHookFormMethods: UseFormReturn<LeverageTokenFormData>;
   depositAmount: string;
   withdrawAmount: string;
 
@@ -104,11 +104,11 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
   const { isConnected } = useAccount();
   const [mode, _setMode] = useState<Mode>(defaultMode);
-  const methods = useForm<LeverageTokenFormData>({
+  const reactHookFormMethods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
   });
   const [_onTransaction, setOnTransaction] = useState(() => onTransaction);
-  const { watch, reset } = methods;
+  const { watch, reset } = reactHookFormMethods;
   const depositAmount = watch("depositAmount", "");
   const withdrawAmount = watch("withdrawAmount", "");
 
@@ -152,14 +152,14 @@ export function LeverageTokenFormProvider({
   );
 
   useClearIfExceedsBalanceAfterWalletConnect({
-    getValue: () => methods.getValues("depositAmount"),
-    setValue: (value) => methods.setValue("depositAmount", value),
+    getValue: () => reactHookFormMethods.getValues("depositAmount"),
+    setValue: (value) => reactHookFormMethods.setValue("depositAmount", value),
     balance: { bigIntValue: balance.data?.balance?.bigIntValue, decimals: balance.data?.balance?.decimals },
     isConnected,
   });
   useClearIfExceedsBalanceAfterWalletConnect({
-    getValue: () => methods.getValues("withdrawAmount"),
-    setValue: (value) => methods.setValue("withdrawAmount", value),
+    getValue: () => reactHookFormMethods.getValues("withdrawAmount"),
+    setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
     isConnected,
   });
@@ -240,7 +240,7 @@ export function LeverageTokenFormProvider({
         setMode,
         selectedLeverageToken,
         setSelectedLeverageTokenAddress,
-        methods,
+        reactHookFormMethods,
         depositAmount,
         withdrawAmount,
         debouncedDepositAmount,

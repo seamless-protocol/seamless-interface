@@ -8,7 +8,7 @@ import { useLeverageTokenFormContext } from "../leverage-token-form-provider/Lev
 import { EmptyFormGuard } from "../../../../pages/common/components/EmptyFormGuard";
 
 export const WithdrawLeverageTokenForm: React.FC = () => {
-  const { methods, formOnSubmitAsync, selectedLeverageToken } = useLeverageTokenFormContext();
+  const { reactHookFormMethods, formOnSubmitAsync, selectedLeverageToken } = useLeverageTokenFormContext();
 
   const onSubmit = async () => {
     await formOnSubmitAsync({});
@@ -16,7 +16,7 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
 
   return (
     <EmptyFormGuard errorSource="WithdrawLeverageTokenForm" data={{ ...selectedLeverageToken }}>
-      <MyFormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+      <MyFormProvider methods={reactHookFormMethods} onSubmit={reactHookFormMethods.handleSubmit(onSubmit)}>
         <FlexCol className="gap-8">
           <FlexCol className="gap-3">
             <Typography type="medium3">Withdraw</Typography>

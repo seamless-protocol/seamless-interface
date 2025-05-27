@@ -3,7 +3,7 @@ import { useLeverageTokenFormContext } from "../leverage-token-form-provider/Lev
 
 export const FormButtons = () => {
   const {
-    methods: {
+    reactHookFormMethods: {
       formState: { isSubmitting },
     },
     withdrawAmount,

@@ -6,7 +6,7 @@ export const FormButtons = () => {
   const { showNotification } = useNotificationContext();
 
   const {
-    methods: {
+    reactHookFormMethods: {
       formState: { isSubmitting },
     },
     depositAmount,

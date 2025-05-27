@@ -148,7 +148,7 @@ describe("LeverageTokenFormProvider", () => {
   it("resets amounts when switching modes", () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    act(() => result.current.methods.setValue("depositAmount", "10"));
+    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
     expect(result.current.depositAmount).toBe("10");
 
     act(() => result.current.setMode("withdraw"));
@@ -159,7 +159,7 @@ describe("LeverageTokenFormProvider", () => {
   it("resets fields when selecting new token", () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    act(() => result.current.methods.setValue("depositAmount", "10"));
+    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
     act(() => result.current.setSelectedLeverageTokenAddress("0xNEW"));
 
     // still returns the same mock leverage token data
@@ -172,7 +172,7 @@ describe("LeverageTokenFormProvider", () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
     const spy = vi.spyOn(console, "log").mockImplementation(() => {});
 
-    act(() => result.current.methods.setValue("depositAmount", "10"));
+    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
     await act(async () => result.current.formOnSubmitAsync({}));
 
     expect(spy).toHaveBeenCalledWith("formOnSubmitAsync", "10", MOCK_VALUES.depositShares);
@@ -183,7 +183,7 @@ describe("LeverageTokenFormProvider", () => {
     const spy = vi.spyOn(console, "log").mockImplementation(() => {});
 
     act(() => result.current.setMode("withdraw"));
-    act(() => result.current.methods.setValue("withdrawAmount", "4"));
+    act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "4"));
     await act(async () => result.current.formOnSubmitAsync({}));
 
     expect(spy).toHaveBeenCalledWith("formOnSubmitAsync", "4", MOCK_VALUES.withdrawAssets);
@@ -196,7 +196,7 @@ describe("LeverageTokenFormProvider", () => {
     const { result, rerender } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
     // before login: can set arbitrarily
-    act(() => result.current.methods.setValue("depositAmount", "200"));
+    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "200"));
     expect(result.current.depositAmount).toBe("200");
 
     // login: balance = 100, so 200 > 100 -> clears
@@ -205,7 +205,7 @@ describe("LeverageTokenFormProvider", () => {
     expect(result.current.depositAmount).toBe("");
 
     // before login again
-    act(() => result.current.methods.setValue("depositAmount", "50"));
+    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "50"));
     expect(result.current.depositAmount).toBe("50");
 
     // login: 50 <= 100 -> stays
@@ -220,7 +220,7 @@ describe("LeverageTokenFormProvider", () => {
     const { result, rerender } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
     // before login
-    act(() => result.current.methods.setValue("withdrawAmount", "200"));
+    act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "200"));
     expect(result.current.withdrawAmount).toBe("200");
 
     // login: lpBalance = 100, so 200 > 100 -> clears
@@ -229,7 +229,7 @@ describe("LeverageTokenFormProvider", () => {
     expect(result.current.withdrawAmount).toBe("");
 
     // before login again
-    act(() => result.current.methods.setValue("withdrawAmount", "50"));
+    act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "50"));
     expect(result.current.withdrawAmount).toBe("50");
 
     // login: 50 <= 100 -> stays
