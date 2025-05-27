@@ -19,6 +19,10 @@ import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/
 import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useAmountUsdValue } from "../../../../../statev3/common/hooks/useAmountUsdValue";
+import {
+  ViewPreviewWithdraw as PreviewWithdraw,
+  useFetchViewWithdrawCostInUsdAndUnderlying,
+} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -73,6 +77,8 @@ interface LeverageTokenFormContextValue {
     isApproved: boolean;
     justApproved: boolean;
   };
+
+  withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -138,6 +144,11 @@ export function LeverageTokenFormProvider({
     withdrawAmount,
     underlyingAssetPrice,
     selectedLeverageToken.data?.underlyingAsset.decimals
+  );
+
+  const withdrawCostInUsdAndUnderlying = useFetchViewWithdrawCostInUsdAndUnderlying(
+    debouncedWithdrawAmount,
+    selectedLeverageToken?.data?.address
   );
 
   useClearIfExceedsBalanceAfterWalletConnect({
@@ -252,6 +263,7 @@ export function LeverageTokenFormProvider({
           justApproved,
           approveAsync,
         },
+        withdrawCostInUsdAndUnderlying,
       }}
     >
       {children}

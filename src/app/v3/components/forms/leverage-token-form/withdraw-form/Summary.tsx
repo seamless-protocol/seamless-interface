@@ -1,16 +1,13 @@
 import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow } from "@shared";
 import { useAccount } from "wagmi";
-import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary = () => {
-  const { debouncedWithdrawAmount, selectedLeverageToken } = useLeverageTokenFormContext();
+  const { withdrawCostInUsdAndUnderlying } = useLeverageTokenFormContext();
+  const { data: costData, ...restCost } = withdrawCostInUsdAndUnderlying;
+
   const { isConnected } = useAccount();
-  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(
-    debouncedWithdrawAmount,
-    selectedLeverageToken?.data?.address
-  );
 
   return (
     <FlexCol>
