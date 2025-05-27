@@ -31,7 +31,6 @@ export interface LeverageTokenFormData {
 }
 
 interface LeverageTokenFormContextValue {
-  userAddress?: Address;
   mode: Mode;
   setMode: (mode: Mode) => void;
 
