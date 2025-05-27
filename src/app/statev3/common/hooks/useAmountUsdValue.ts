@@ -5,7 +5,7 @@ import { cValueInUsd } from "../math/cValueInUsd";
 
 // Utility hook: compute USD value of an entered amount
 export function useAmountUsdValue(
-  amount: string,
+  amount: string | undefined,
   assetPrice: Displayable<ViewBigInt>,
   decimals?: number
 ): Displayable<ViewBigInt> {
