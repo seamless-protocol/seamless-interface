@@ -104,6 +104,23 @@ vi.mock("../../../../../statev3/common/hooks/useAmountUsdValue", () => ({
   })),
 }));
 
+vi.mock("../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying", () => ({
+  useFetchViewWithdrawCostInUsdAndUnderlying: vi.fn(() => ({
+    data: {
+      cost: {
+        tokenAmount: {
+          bigIntValue: parseUnits("1", MOCK_VALUES.leverageToken.tokenData.decimals),
+          decimals: MOCK_VALUES.leverageToken.tokenData.decimals,
+        },
+        dollarAmount: {
+          bigIntValue: parseUnits("1", MOCK_VALUES.leverageToken.tokenData.decimals),
+          decimals: MOCK_VALUES.leverageToken.tokenData.decimals,
+        },
+      },
+    },
+  })),
+}));
+
 // 11) Stub the wallet-connect clearing hook with real clear-logic
 vi.mock("../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance", () => ({
   useClearIfExceedsBalanceAfterWalletConnect: ({
