@@ -35,13 +35,16 @@ export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, che
         </div>
       </div>
 
-      <div className="max-w-fit p-2 flex flex-row items-center gap-1 text-bold1 rounded-tag border">
-        <ImageGroup
-          images={item.rewards?.map((reward) => reward.logo) || []}
-          imageStyle="w-4 h-4 rounded-full"
-          spacing="-space-x-3"
-        />
-      </div>
+      {item.rewards.length > 0 && (
+        <div className="w-full bg-neutral-100 py-4 px-6 flex flex-row gap-2 rounded-[16px] mb-6">
+          <Typography type="bold1">Accruing: $0.00</Typography>
+          <ImageGroup
+            images={item.rewards?.map((reward) => reward.logo) || []}
+            imageStyle="w-4 h-4 rounded-full"
+            spacing="-space-x-3"
+          />
+        </div>
+      )}
     </div>
   );
 };
