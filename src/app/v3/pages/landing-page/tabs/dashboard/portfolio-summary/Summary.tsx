@@ -35,7 +35,7 @@ export const PortfolioSummary = () => {
               <Typography type="medium4" className="text-white">
                 Total rewards claimed
               </Typography>
-              <div className="w-full flex justify-center">todo</div>
+              <div className="w-full flex justify-center text-white">todo</div>
             </div>
           </FlexCol>
         </div>
