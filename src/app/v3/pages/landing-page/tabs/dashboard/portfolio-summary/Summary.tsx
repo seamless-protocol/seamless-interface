@@ -26,7 +26,7 @@ export const PortfolioSummary = () => {
               <Typography type="medium4" className="text-white">
                 Total unrealized gain/loss
               </Typography>
-              <div className="w-full flex justify-center">
+              <div className="w-full flex justify-center text-white">
                 <Profit />
               </div>
             </div>
