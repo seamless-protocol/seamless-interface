@@ -10,20 +10,37 @@ export const PortfolioSummary = () => {
   const { data, ...rest } = useFetchFormattedUserProfitAndPortfolio();
 
   return (
-    <div className="bg-neutral-0 shadow-card rounded-xl">
+    <div className="">
       {/* use grid instead of flex */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Left cell: will stretch to match right */}
         <div className="bg-blueGradient rounded-xl p-8 flex items-center justify-center text-center">
           <FlexCol className="gap-6">
-            <Typography type="bold5" className="text-white">
-              Your total balance
-            </Typography>
-            <DisplayMoney {...data.portfolioValue} {...rest} typography="bold7" className="text-white" />
-            <Typography type="medium4" className="text-white">
-              Total unrealized gain/loss
-            </Typography>
-            <Profit />
+            <div className="flex flex-col gap-3">
+              <Typography type="bold5" className="text-white">
+                Your total balance
+              </Typography>
+              <div className="w-full flex justify-center">
+                <DisplayMoney {...data.portfolioValue} {...rest} typography="bold7" className="text-white" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 mt-10">
+              <Typography type="medium4" className="text-white">
+                Total unrealized gain/loss
+              </Typography>
+              <div className="w-full flex justify-center">
+                <Profit />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Typography type="medium4" className="text-white">
+                Total rewards claimed
+              </Typography>
+              <div className="w-full flex justify-center">
+                <Profit />
+              </div>
+            </div>
           </FlexCol>
         </div>
 

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { useMutateClaimSeamRewards } from "../mock-hooks/useMutateClaimSeamRewards";
-import { useMutateClaimAllMorphoRewards } from "../mock-hooks/useMutateClaimAllMorphoRewards";
+import { useEsSeamRewardsWrapper } from "../mock-hooks/esSeamRewardsWrapper";
 import { Address } from "viem";
+import { useMorphoRewardsWrapper } from "../mock-hooks/MorphoRewardsWrapper";
 
 export interface Reward {
   tokenAmount: any;
@@ -48,7 +48,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const [txHashes, setTxHashes] = useState<Record<string, string>>({});
 
   // SEAM HOOK
-  const seamReward = useMutateClaimSeamRewards({
+  const seamReward = useEsSeamRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
         const { id } = seamReward;
@@ -65,7 +65,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   });
 
   // MORPHO HOOK
-  const morphoReward = useMutateClaimAllMorphoRewards({
+  const morphoReward = useMorphoRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
         const { id } = morphoReward;

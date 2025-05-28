@@ -5,13 +5,13 @@ import seamIcon from "@assets/tokens/seam.svg";
 import { useMutateClaimVestedEsSEAM } from "../../../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 
 const config = {
-  id: "1",
+  id: "4",
   icon: seamIcon,
-  name: "stkSEAM rewards",
-  description: "Staking rewards and fees",
+  name: "esSEAM rewards",
+  description: "Vested esSEAM rewards",
 };
 
-export const useMutateClaimSeamRewards = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
+export const useEsSeamRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
   const { claimVestedAsync, isClaimVestedPending } = useMutateClaimVestedEsSEAM(settings);
 
   return {

@@ -11,7 +11,7 @@ import {
 } from "../../common/hooks/useFetchViewAllUserRewards";
 import { targetChain } from "../../../config/rainbow.config";
 
-export const useMutateClaimAllRewards = () => {
+export const useMutateClaimAllRewards = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -27,6 +27,7 @@ export const useMutateClaimAllRewards = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: [
       fetchGetAllUserRewardsHookQK(rewardsAccruingAssets, address),
       fetchGetAllUserRewardsQueryOptions(address!, rewardsAccruingAssets).queryKey,
@@ -37,18 +38,16 @@ export const useMutateClaimAllRewards = () => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
+  const claimAllAsync = async () => {
+    let txHash;
     try {
-      await writeContractAsync(
-        {
-          chainId: targetChain.id,
-          address: safetyModuleRewardController,
-          abi: rewardsControllerAbi,
-          functionName: "claimAllRewardsToSelf",
-          args: [rewardsAccruingAssets],
-        },
-        { ...settings }
-      );
+      txHash = await writeContractAsync({
+        chainId: targetChain.id,
+        address: safetyModuleRewardController,
+        abi: rewardsControllerAbi,
+        functionName: "claimAllRewardsToSelf",
+        args: [rewardsAccruingAssets],
+      });
     } catch (error) {
       console.error("Failed to claim rewards", error);
       showNotification({
@@ -56,6 +55,7 @@ export const useMutateClaimAllRewards = () => {
         content: `Failed to claim rewards: ${getParsedError(error)}`,
       });
     }
+    return txHash;
   };
 
   return { ...rest, isClaimAllPending: rest.isPending, claimAllAsync };
