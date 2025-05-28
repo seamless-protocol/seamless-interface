@@ -17,7 +17,6 @@ export const RewardsSelector: React.FC = () => {
     toggleSelect,
     startClaims,
     confirmStep,
-    cancelStep,
     reset,
   } = useRewards();
 
