@@ -3,8 +3,8 @@ import { type RewardItem } from "../contexts/RewardsProvider";
 
 // todo vestedSeam icon? is icon correct on figma actually?
 import vestedSeam from "@assets/tokens/vestedSeam.svg";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
-import { useMutateClaimAllRewards } from "../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../state/lending-borrowing/hooks/useFetchViewAllRewards";
+import { useMutateClaimVestedEsSEAM } from "../../../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 
 const config = {
   id: "4",
@@ -14,13 +14,13 @@ const config = {
 };
 
 export const useEsSeamRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
-  const { claimAllAsync, isClaimAllPending } = useMutateClaimAllRewards(settings);
+  const { claimVestedAsync, isClaimVestedPending } = useMutateClaimVestedEsSEAM(settings);
   const { data: rewardsData } = useFetchViewAllUserRewards();
 
   return {
     ...config,
-    claimAllAsync,
-    isClaiming: isClaimAllPending,
+    claimAllAsync: claimVestedAsync,
+    isClaiming: isClaimVestedPending,
     rewards: rewardsData?.rewards || [],
   };
 };

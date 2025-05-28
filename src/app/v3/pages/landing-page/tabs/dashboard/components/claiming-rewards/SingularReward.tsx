@@ -18,7 +18,7 @@ const SingularRewardBody: React.FC<{
 }> = ({ icon, amount }) => {
   return (
     <div className="flex flex-row gap-1">
-      <Icon src={icon} alt={amount.data.symbol || ""} width={16} height={16} />
+      <Icon src={icon} alt={amount.data?.symbol || ""} width={16} height={16} />
       <DisplayTokenAmount className="" typography="bold1" {...amount} {...amount.data} />
     </div>
   );

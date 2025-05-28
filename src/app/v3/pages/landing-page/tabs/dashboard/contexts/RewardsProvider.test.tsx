@@ -31,6 +31,26 @@ vi.mock("../mock-hooks/useMutateClaimAllMorphoRewards", () => ({
     isClaiming: false,
   }),
 }));
+
+vi.mock("../mock-hooks/useMutateClaimVestedEsSEAM", () => ({
+  useMutateClaimVestedEsSEAM: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    // always “fail” for the third reward
+    ...REWARDS_MOCK_ITEMS[2],
+    claimVestedAsync: () => {
+      settings.onError?.(new Error("Forced failure"));
+      return "0x134";
+    },
+    isClaimVestedPending: false,
+  }),
+}));
+
+vi.mock("../mock-hooks/useFetchViewAllUserRewards", () => ({
+  useFetchViewAllUserRewards: () => ({
+    data: {
+      rewards: REWARDS_MOCK_ITEMS,
+    },
+  }),
+}));
 // ────────────────────────────────────────────────────────────────────────────────
 
 // A tiny consumer to inspect provider state and actions:
