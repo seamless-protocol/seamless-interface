@@ -2,6 +2,8 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { useEsSeamRewardsWrapper } from "../mock-hooks/esSeamRewardsWrapper";
 import { Address } from "viem";
 import { useMorphoRewardsWrapper } from "../mock-hooks/MorphoRewardsWrapper";
+import { useStkSeamRewardsWrapper } from "../mock-hooks/stkSeamRewardsWrapper";
+import { useFuulRewardsWrapper } from "../mock-hooks/FuulRewardsWrapper";
 
 export interface Reward {
   tokenAmount: any;
@@ -47,23 +49,22 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const [statuses, setStatuses] = useState<Record<string, ClaimStatus>>({});
   const [txHashes, setTxHashes] = useState<Record<string, string>>({});
 
-  // SEAM HOOK
-  const seamReward = useEsSeamRewardsWrapper({
+  // stkSeam HOOK
+  const stkSeamReward = useStkSeamRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
-        const { id } = seamReward;
+        const { id } = stkSeamReward;
         setStatuses((prev) => ({ ...prev, [id]: "success" }));
         setTxHashes((prev) => ({ ...prev, [id]: tx }));
         setCurrentStep((prev) => prev + 1);
       },
       onError: () => {
-        const { id } = seamReward;
+        const { id } = stkSeamReward;
         setStatuses((prev) => ({ ...prev, [id]: "failed" }));
         setCurrentStep((prev) => prev + 1);
       },
     },
   });
-
   // MORPHO HOOK
   const morphoReward = useMorphoRewardsWrapper({
     settings: {
@@ -80,8 +81,41 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
       },
     },
   });
+  // Fuul HOOK
+  const fuulReward = useFuulRewardsWrapper({
+    settings: {
+      onSuccess: (tx) => {
+        const { id } = fuulReward;
+        setStatuses((prev) => ({ ...prev, [id]: "success" }));
+        setTxHashes((prev) => ({ ...prev, [id]: tx }));
+        setCurrentStep((prev) => prev + 1);
+      },
+      onError: () => {
+        const { id } = fuulReward;
+        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+        setCurrentStep((prev) => prev + 1);
+      },
+    },
+  });
 
-  const items: RewardItem[] = [seamReward, morphoReward];
+  // esSEAM HOOK
+  const esSeamReward = useEsSeamRewardsWrapper({
+    settings: {
+      onSuccess: (tx) => {
+        const { id } = esSeamReward;
+        setStatuses((prev) => ({ ...prev, [id]: "success" }));
+        setTxHashes((prev) => ({ ...prev, [id]: tx }));
+        setCurrentStep((prev) => prev + 1);
+      },
+      onError: () => {
+        const { id } = esSeamReward;
+        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+        setCurrentStep((prev) => prev + 1);
+      },
+    },
+  });
+
+  const items: RewardItem[] = [stkSeamReward, morphoReward, fuulReward, esSeamReward];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {

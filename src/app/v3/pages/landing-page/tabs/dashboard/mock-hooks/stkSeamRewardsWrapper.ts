@@ -1,12 +1,12 @@
 import { SeamlessWriteAsyncParams } from "@shared";
 import { type RewardItem } from "../contexts/RewardsProvider";
 
-import fuulIcon from "@assets/logos/logo-fuul.svg";
+import seamIcon from "@assets/tokens/seam.svg";
 import { useMutateClaimAllRewards } from "../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
 
 const config = {
   id: "1",
-  icon: fuulIcon,
+  icon: seamIcon,
   name: "stSEAM rewards",
   description: "stSEAM rewards",
 };

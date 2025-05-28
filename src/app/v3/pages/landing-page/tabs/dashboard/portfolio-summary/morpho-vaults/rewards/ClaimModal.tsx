@@ -19,24 +19,24 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ totalUsdValue, rewards, 
   const modalRef = useRef<ModalHandles | null>(null);
   const { showNotification } = useNotificationContext();
 
-  const { claimAllAsync, isClaiming } = useMutateClaimAllMorphoRewards();
+  const { claimAllAsync, isClaiming } = useMutateClaimAllMorphoRewards({
+    onSuccess: (txHash) => {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography type="regular3">Rewards Claimed Successfully!</Typography>
+            <Typography type="bold">
+              Your rewards may remain visible for a few minutes while the reward data is being updated.
+            </Typography>
+          </FlexCol>
+        ),
+      });
+    },
+  });
 
   const onSubmitAsync = async () => {
-    await claimAllAsync({
-      onSuccess: (txHash) => {
-        showNotification({
-          txHash,
-          content: (
-            <FlexCol className="w-full items-center text-center justify-center">
-              <Typography type="regular3">Rewards Claimed Successfully!</Typography>
-              <Typography type="bold">
-                Your rewards may remain visible for a few minutes while the reward data is being updated.
-              </Typography>
-            </FlexCol>
-          ),
-        });
-      },
-    });
+    await claimAllAsync();
   };
 
   return (
