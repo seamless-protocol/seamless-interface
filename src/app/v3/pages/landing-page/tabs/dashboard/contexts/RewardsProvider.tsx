@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useMutateClaimSeamRewards } from "../mock-hooks/useMutateClaimSeamRewards";
 import { useMutateClaimAllMorphoRewards } from "../mock-hooks/useMutateClaimAllMorphoRewards";
+import { Address } from "viem";
 
 export interface Reward {
   tokenAmount: any;
@@ -17,7 +18,7 @@ export interface RewardItem {
   dollarAmount?: any;
   extraText?: string;
   rewards: Reward[];
-  claimAllAsync?: (txHash?: string) => Promise<string>;
+  claimAllAsync?: () => Promise<Address | undefined>;
   isClaiming?: boolean;
 }
 
