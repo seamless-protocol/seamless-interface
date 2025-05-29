@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { useEsSeamRewardsWrapper } from "../mock-hooks/esSeamRewardsWrapper";
+import { useEsSeamRewardsWrapper } from "../hooks/esSeamRewardsWrapper";
 import { Address } from "viem";
-import { useMorphoRewardsWrapper } from "../mock-hooks/MorphoRewardsWrapper";
-import { useStkSeamRewardsWrapper } from "../mock-hooks/stkSeamRewardsWrapper";
-import { useFuulRewardsWrapper } from "../mock-hooks/FuulRewardsWrapper";
+import { useMorphoRewardsWrapper } from "../hooks/MorphoRewardsWrapper";
+import { useStkSeamRewardsWrapper } from "../hooks/stkSeamRewardsWrapper";
+import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
 
 export interface Reward {
   tokenAmount: any;
