@@ -9,6 +9,7 @@ import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/qu
 import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
 import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
+import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ export const LeverageTokenDetailsPage = () => {
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}
-            <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">{/* todo graph component */}</FlexCol>
+            <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
+              <YieldVsBorrowRateGraphComponent />
+            </FlexCol>
             <LeverageTokenStats
               leverageToken={{
                 data: lvrgToken,
