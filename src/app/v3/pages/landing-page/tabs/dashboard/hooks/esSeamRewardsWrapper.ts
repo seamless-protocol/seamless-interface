@@ -22,12 +22,15 @@ export const useEsSeamRewardsWrapper = ({ settings }: { settings: SeamlessWriteA
     ...config,
     claimAllAsync: claimVestedAsync,
     isClaiming: isClaimVestedPending,
-    rewards: [
-      {
-        tokenAmount: vestedSeam,
-        logo: vestedSeamIcon,
-        address: ESSEAM_ADDRESS,
-      },
-    ],
+    rewards:
+      (vestedSeam?.bigIntValue || 0n) > 0n
+        ? [
+            {
+              tokenAmount: vestedSeam,
+              logo: vestedSeamIcon,
+              address: ESSEAM_ADDRESS,
+            },
+          ]
+        : [],
   };
 };
