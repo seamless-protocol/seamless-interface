@@ -5,7 +5,7 @@ import { FlexCol, FlexRow, Typography, formatToDisplayable } from "@shared";
 import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import { GraphButton } from "../../../../components/graph/GraphButton";
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
-import { formatDate } from "../../../morpho-vault-details/utils/formatDateForGraph";
+import { formatDate } from "../../utils/formatDateForGraph";
 
 export type FilterOption = "1w" | "1m" | "3m" | "1y";
 const FilterOptions: FilterOption[] = ["1w", "1m", "3m", "1y"];
@@ -21,9 +21,8 @@ export const YieldVsBorrowRateGraphComponent: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    // generate 25 random dates within the last 30 days
     const labels = Array.from({ length: 25 }).map(() => {
-      const daysAgo = Math.floor(Math.random() * 30); // 0–29 days ago
+      const daysAgo = Math.floor(Math.random() * 30);
       const date = new Date(Date.now() - daysAgo * 86400_000);
       return formatDate(date, false, false);
     });
