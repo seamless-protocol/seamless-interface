@@ -7,10 +7,52 @@ import { RewardsProvider, useRewards } from "./RewardsProvider";
 import { REWARDS_MOCK_ITEMS } from "./RewardsProvider.mock";
 import { SeamlessWriteAsyncParams } from "../../../../../../../shared";
 
-// ─── MOCK THE TWO HOOKS ─────────────────────────────────────────────────────────
+vi.mock("../hooks/stkSeamRewardsWrapper", () => ({
+  useStkSeamRewardsWrapper: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    ...REWARDS_MOCK_ITEMS[0],
+    claimAllAsync: () => {
+      settings.onSuccess?.("0x123");
+      return "0x123";
+    },
+    isClaiming: false,
+  }),
+}));
+
+vi.mock("../hooks/MorphoRewardsWrapper", () => ({
+  useMorphoRewardsWrapper: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    ...REWARDS_MOCK_ITEMS[1],
+    claimAllAsync: () => {
+      settings.onError?.(new Error("Forced failure"));
+      return "0x134";
+    },
+    isClaiming: false,
+  }),
+}));
+
+vi.mock("../hooks/FuulRewardsWrapper", () => ({
+  useFuulRewardsWrapper: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    ...REWARDS_MOCK_ITEMS[2],
+    claimAllAsync: () => {
+      settings.onError?.(new Error("Forced failure"));
+      return "0x135";
+    },
+    isClaiming: false,
+  }),
+}));
+
+vi.mock("../hooks/esSeamRewardsWrapper", () => ({
+  useEsSeamRewardsWrapper: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    ...REWARDS_MOCK_ITEMS[3],
+    claimAllAsync: () => {
+      settings.onSuccess?.("0x136");
+      return "0x136";
+    },
+    isClaiming: false,
+  }),
+}));
+
 vi.mock("../mock-hooks/useMutateClaimSeamRewards", () => ({
   useMutateClaimSeamRewards: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
-    // always “succeed” for the first reward
     ...REWARDS_MOCK_ITEMS[0],
     claimAllAsync: () => {
       settings.onSuccess?.("0x123");
@@ -22,7 +64,6 @@ vi.mock("../mock-hooks/useMutateClaimSeamRewards", () => ({
 
 vi.mock("../mock-hooks/useMutateClaimAllMorphoRewards", () => ({
   useMutateClaimAllMorphoRewards: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
-    // always “fail” for the second reward
     ...REWARDS_MOCK_ITEMS[1],
     claimAllAsync: () => {
       settings.onError?.(new Error("Forced failure"));
@@ -31,7 +72,25 @@ vi.mock("../mock-hooks/useMutateClaimAllMorphoRewards", () => ({
     isClaiming: false,
   }),
 }));
-// ────────────────────────────────────────────────────────────────────────────────
+
+vi.mock("../mock-hooks/useMutateClaimVestedEsSEAM", () => ({
+  useMutateClaimVestedEsSEAM: ({ settings }: { settings: SeamlessWriteAsyncParams }) => ({
+    ...REWARDS_MOCK_ITEMS[2],
+    claimVestedAsync: () => {
+      settings.onError?.(new Error("Forced failure"));
+      return "0x134";
+    },
+    isClaimVestedPending: false,
+  }),
+}));
+
+vi.mock("../mock-hooks/useFetchViewAllUserRewards", () => ({
+  useFetchViewAllUserRewards: () => ({
+    data: {
+      rewards: REWARDS_MOCK_ITEMS,
+    },
+  }),
+}));
 
 // A tiny consumer to inspect provider state and actions:
 const TestConsumer = () => {
@@ -100,7 +159,6 @@ describe("RewardsProvider", () => {
       </RewardsProvider>
     );
 
-    // select two items
     fireEvent.click(getByTestId("toggle-1"));
     fireEvent.click(getByTestId("toggle-2"));
     fireEvent.click(getByTestId("start"));
@@ -118,11 +176,9 @@ describe("RewardsProvider", () => {
       </RewardsProvider>
     );
 
-    // select one and start
     fireEvent.click(getByTestId("toggle-1"));
     fireEvent.click(getByTestId("start"));
 
-    // click Confirm and advance timers inside a single act so React can batch the async update
     await act(async () => {
       fireEvent.click(getByTestId("confirm"));
       vi.advanceTimersByTime(2000);
@@ -171,7 +227,6 @@ describe("RewardsProvider", () => {
       </RewardsProvider>
     );
 
-    // just the second item
     fireEvent.click(getByTestId("toggle-2"));
     fireEvent.click(getByTestId("start"));
 
@@ -191,12 +246,10 @@ describe("RewardsProvider", () => {
       </RewardsProvider>
     );
 
-    // select both in order
     fireEvent.click(getByTestId("toggle-1"));
     fireEvent.click(getByTestId("toggle-2"));
     fireEvent.click(getByTestId("start"));
 
-    // 1st is always success
     await act(async () => {
       fireEvent.click(getByTestId("confirm"));
       vi.advanceTimersByTime(0);
@@ -204,7 +257,6 @@ describe("RewardsProvider", () => {
     expect(getByTestId("status-1").textContent).toBe("success");
     expect(getByTestId("current-step").textContent).toBe("1");
 
-    // 2nd is always failure
     await act(async () => {
       fireEvent.click(getByTestId("confirm"));
       vi.advanceTimersByTime(0);

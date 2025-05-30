@@ -17,7 +17,6 @@ export const RewardsSelector: React.FC = () => {
     toggleSelect,
     startClaims,
     confirmStep,
-    cancelStep,
     reset,
   } = useRewards();
 
@@ -50,8 +49,8 @@ export const RewardsSelector: React.FC = () => {
             <div className="mt-[-45px]">
               {/* Selection view */}
               {!isClaiming && (
-                <div className="flex flex-col gap-10 mt-10">
-                  <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-col mt-10">
+                  <div className="flex flex-row items-center justify-between mb-10">
                     <RewardsHeading />
                     <div>
                       <button
@@ -124,7 +123,7 @@ export const RewardsSelector: React.FC = () => {
                   {!isDone ? (
                     <div className="mt-8 flex gap-4">
                       <button
-                        onClick={cancelStep}
+                        onClick={modalRef.current?.close}
                         className="text-bold3 border border-metalic bg-neutral-0 rounded-button py-3 px-4 w-1/2"
                         disabled={isLoading}
                       >

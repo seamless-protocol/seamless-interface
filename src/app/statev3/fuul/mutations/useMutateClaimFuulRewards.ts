@@ -13,11 +13,12 @@ import {
 import { IS_DEV_MODE } from "../../../../globals";
 import { FuulManagerAbi } from "../../../../../abis/FuulManager";
 
-export const useMutateClaimFuulRewards = () => {
+export const useMutateClaimFuulRewards = (settings?: SeamlessWriteAsyncParams) => {
   const { address } = useAccount();
   const { showNotification } = useNotificationContext();
 
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
+    ...settings,
     queriesToInvalidate: [
       fetchUserBalancesQueryOptions({
         where: {
@@ -27,7 +28,8 @@ export const useMutateClaimFuulRewards = () => {
     ],
   });
 
-  const claimFuulRewardsAsync = async (settings?: SeamlessWriteAsyncParams) => {
+  const claimFuulRewardsAsync = async () => {
+    let txHash;
     try {
       if (!address) {
         throw new Error("Wallet not connected. Please connect your wallet and try again.");
@@ -67,14 +69,11 @@ export const useMutateClaimFuulRewards = () => {
       });
 
       // 4. send tx to FuulManager
-      await sendTransactionAsync(
-        {
-          to: FUUL_MANAGER_ADDRESS,
-          data,
-          chainId: targetChain.id,
-        },
-        settings
-      );
+      txHash = await sendTransactionAsync({
+        to: FUUL_MANAGER_ADDRESS,
+        data,
+        chainId: targetChain.id,
+      });
     } catch (error) {
       console.error("Failed to claim Fuul rewards", error);
       showNotification({
@@ -82,6 +81,8 @@ export const useMutateClaimFuulRewards = () => {
         content: `Failed to claim Fuul rewards: ${getParsedError(error)}`,
       });
     }
+
+    return txHash;
   };
 
   return {
