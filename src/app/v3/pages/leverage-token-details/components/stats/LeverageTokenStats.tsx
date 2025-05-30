@@ -18,8 +18,7 @@ export interface LeverageTokenStatsProps {
 export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverageToken }) => {
   const {
     data: {
-      tvl: { dollarAmount = {} } = {},
-      availableSupplyCap: { dollarAmount: capDollarAmount = undefined } = {},
+      availableSupplyCap: { dollarAmount: capDollarAmount = undefined, tokenAmount: capTokenAmount = undefined } = {},
       targetMultiples: { minForRebalance = undefined, maxForRebalance = undefined } = {},
       currentMultiple,
     } = {},
@@ -28,39 +27,33 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
 
   return (
     <div className="flex md:flex-row flex-col w-full rounded-card bg-neutral-0 py-8 pl-6 md:min-h-36 gap-5">
-      <FlexRow className="md:w-1/4 justify-between">
-        <FlexCol className="justify-between ">
-          <Typography type="medium3" className="text-primary-600">
-            TVL
-          </Typography>
-          <DisplayMoney
-            {...dollarAmount}
-            {...rest}
-            typography="bold5"
-            className="text-primary-1000"
-            loaderSkeletonSettings={skeletonLoaderSettings}
-          />
-        </FlexCol>
-        <img src={border} alt="border" className="hidden md:block" />
-      </FlexRow>
-      <FlexRow className="md:w-1/4 justify-between">
+      <FlexRow className="md:w-1/3 justify-between">
         <FlexCol className="max-w-max justify-between">
           <Typography type="medium3" className="text-primary-600">
             Supply cap
           </Typography>
-          <DisplayMoney
-            {...capDollarAmount}
-            {...rest}
-            typography="bold5"
-            className="text-primary-1000"
-            loaderSkeletonSettings={skeletonLoaderSettings}
-          />
+          <FlexCol className="gap-1">
+            <DisplayMoney
+              {...capDollarAmount}
+              {...rest}
+              typography="bold5"
+              className="text-primary-1000"
+              loaderSkeletonSettings={skeletonLoaderSettings}
+            />
+            <DisplayMoney
+              {...capTokenAmount}
+              {...rest}
+              typography="bold2"
+              className="text-primary-1000"
+              loaderSkeletonSettings={skeletonLoaderSettings}
+            />
+          </FlexCol>
         </FlexCol>
         <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>
-      <FlexRow className="md:w-1/4 justify-between">
+      <FlexRow className="md:w-1/3 justify-between">
         <FlexCol className="justify-between">
-          <Typography type="medium3" className="text-primary-600 md:max-w-20">
+          <Typography type="medium3" className="text-primary-600 ">
             Min - Max Leverage
           </Typography>
           <DisplayText
@@ -73,9 +66,9 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
         </FlexCol>
         <img src={border} alt="border" className="hidden md:block" />
       </FlexRow>
-      <FlexRow className="md:w-1/4">
+      <FlexRow className="md:w-1/3">
         <FlexCol className="justify-between">
-          <Typography type="medium3" className="text-primary-600  md:max-w-20">
+          <Typography type="medium3" className="text-primary-600  ">
             Current leverage
           </Typography>
           <DisplayText
