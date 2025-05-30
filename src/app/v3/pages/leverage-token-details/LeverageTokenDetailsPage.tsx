@@ -10,7 +10,6 @@ import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
 import { LeverageTokenDetails } from "./components/details-section/LeverageTokenDetails";
 import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
-import { LeverageTokenActivityHistoryGraphComponent } from "./components/graphs/LeverageTokenActivityHistoryGraphComponent";
 import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 
 export const LeverageTokenDetailsPage = () => {
