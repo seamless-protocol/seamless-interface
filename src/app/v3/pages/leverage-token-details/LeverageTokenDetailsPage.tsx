@@ -8,12 +8,10 @@ import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldin
 import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
-import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
+import { LeverageTokenDetails } from "./components/details-section/LeverageTokenDetails";
 import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
-import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
-import { LeverageTokenAuctionStats } from "./components/stats-auction/LeverageTokenAuctionStats";
-import { LeverageTokenFees } from "./components/stats-fees/LeverageTokenFees";
 import { LeverageTokenActivityHistoryGraphComponent } from "./components/graphs/LeverageTokenActivityHistoryGraphComponent";
+import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -46,19 +44,13 @@ export const LeverageTokenDetailsPage = () => {
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}
 
-            <LeverageTokenStatsAdditional leverageToken={{ data: lvrgToken, ...rest }} />
             <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
 
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
               <YieldVsBorrowRateGraphComponent />
             </FlexCol>
 
-            <LeverageTokenFees tokenAddress={lvrgToken?.address} />
-            <LeverageTokenAuctionStats tokenAddress={lvrgToken?.address} />
-
-            <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
-              <LeverageTokenActivityHistoryGraphComponent />
-            </FlexCol>
+            <LeverageTokenStatsAdditional tokenAddress={lvrgToken?.address} />
 
             <LeverageTokenDetails />
           </div>
