@@ -15,7 +15,6 @@ import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-import { Tag } from "../../../../../components/strategy-data/Tag";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -28,8 +27,6 @@ export const LeverageTokenDesktopTableRow: React.FC<{
       additionalData: { description },
       availableSupplyCap,
       tvl,
-      equity,
-      type,
       apy,
     },
     ...rest
@@ -41,7 +38,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
     >
-      <TableRow className="md:grid grid-cols-7 relative">
+      <TableRow className="md:grid grid-cols-5 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
             <Icon width={64} src={logo} alt="logo" isLoading={rest.isLoading} isFetched={rest.isFetched} />
@@ -55,19 +52,9 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <div>{rest.isLoading ? <span className="w-10 h-6 skeleton flex" /> : <Tag tag={type} />}</div>
-        </TableCell>
-
-        <TableCell className="col-span-1">
           <DisplayTokenAmount typography="bold3" {...tvl.tokenAmount} {...rest} />
 
           <DisplayMoney typography="medium1" {...tvl.dollarAmount} {...rest} className="text-primary-600" />
-        </TableCell>
-
-        <TableCell className="col-span-1">
-          <DisplayTokenAmount typography="bold3" {...equity?.tokenAmount} {...rest} />
-
-          <DisplayMoney typography="medium1" {...equity?.dollarAmount} {...rest} className="text-primary-600" />
         </TableCell>
 
         <TableCell className="col-span-1">

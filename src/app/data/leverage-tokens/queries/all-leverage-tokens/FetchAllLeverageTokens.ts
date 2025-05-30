@@ -21,10 +21,6 @@ export interface LeverageToken {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
-  equity: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
-  };
   debt: {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
@@ -72,18 +68,6 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    equity: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 510_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 510_000n * 10n ** 6n,
         decimals: 8,
         symbol: "$",
       }),
@@ -153,18 +137,6 @@ export const mockLeverageTokens: LeverageToken[] = [
     },
     type: "Long",
     tvl: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    equity: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
         decimals: 6,
