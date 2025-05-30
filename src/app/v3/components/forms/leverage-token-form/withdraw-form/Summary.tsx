@@ -29,7 +29,7 @@ export const Summary = () => {
             {...restCost}
             typography="medium2"
             className="text-navy-1000"
-            {...costData?.cost.dollarAmount}
+            // {...costData?.cost.dollarAmount}
           />
         </FlexRow>
       </FlexCol>

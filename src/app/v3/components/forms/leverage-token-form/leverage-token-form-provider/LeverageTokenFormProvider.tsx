@@ -4,7 +4,9 @@ import { parseUnits, type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Displayable,
+  FetchData,
   FlexCol,
+  formatFetchBigIntToViewBigInt,
   SeamlessWriteAsyncParams,
   Typography,
   useERC20Approve,
@@ -24,6 +26,11 @@ import { etherFiLeverageRouterAddress } from "../../../../../generated";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
 import { useFetchPreviewRedeemWithSwap } from "../../../../../state/leverage/useFetchPreviewRedeemWithSwap";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
+import { SharesToReceiveData } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import {
+  PreviewWithdraw,
+  ViewPreviewWithdraw,
+} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -52,6 +59,16 @@ interface LeverageTokenFormContextValue {
   balance: Displayable<{ balance: ViewBigInt }>;
   lpBalance: Displayable<{ balance: ViewBigInt }>;
 
+  lpAssetPrice: Displayable<ViewBigInt>;
+
+  depositAmountUsdValue: Displayable<ViewBigInt>;
+  withdrawAmountUsdValue: Displayable<ViewBigInt>;
+
+  maxUserDepositData: Displayable<ViewBigInt>;
+  previewDepositData: FetchData<SharesToReceiveData>;
+
+  sharesToReceiveWithdrawData: Displayable<ViewPreviewWithdraw>;
+
   formOnSubmitAsync: (
     params: {
       from?: Address;
@@ -60,10 +77,14 @@ interface LeverageTokenFormContextValue {
     settings?: SeamlessWriteAsyncParams
   ) => Promise<void>;
 
+  isPending: boolean;
+
   isMintPending: boolean;
 
   onTransaction?: () => void;
   setOnTransaction: (onTransaction?: () => void) => void;
+
+  withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
 
   approveData: {
     isApproving: boolean;
@@ -251,6 +272,69 @@ export function LeverageTokenFormProvider({
 
   const isPending = false; // todo
 
+  const previewDepositData = {
+    data: {
+      sharesToReceive: {
+        bigIntValue: previewMintData.data?.shares || 0n,
+        decimals: 18,
+        symbol: "shares",
+      },
+      sharesToReceiveInUsd: {
+        bigIntValue: previewMintData.data?.shares || 0n,
+        decimals: 18,
+        symbol: "shares",
+      },
+    },
+    isLoading: previewMintData.isLoading,
+    isFetched: previewMintData.isFetched,
+  };
+  const sharesToReceiveWithdrawData = {
+    data: {
+      assetsToReceive: {
+        tokenAmount: {
+          bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
+          decimals: 18,
+          symbol: "shares",
+        },
+        dollarAmount: {
+          bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
+          decimals: 18,
+          symbol: "shares",
+        },
+      },
+    },
+    isLoading: previewRedeemWithSwapData.isLoading,
+    isFetched: previewRedeemWithSwapData.isFetched,
+  };
+
+  const depositAmountUsdValue = {
+    data: {
+      value: "0",
+      decimals: 8,
+      symbol: "$",
+      viewValue: "0",
+    },
+    isLoading: false,
+    isFetched: true,
+  };
+
+  const withdrawCostInUsdAndUnderlying = {
+    data: {
+      assetsToReceive: {
+        bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
+        decimals: 18,
+        symbol: "shares",
+      },
+      assetsToReceiveInUsd: {
+        bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
+        decimals: 18,
+        symbol: "shares",
+      },
+    },
+    isLoading: false,
+    isFetched: true,
+  };
+
   /* -------------------- */
   /*   Return Context     */
   /* -------------------- */
@@ -272,11 +356,29 @@ export function LeverageTokenFormProvider({
         isMintPending,
         onTransaction: _onTransaction,
         setOnTransaction,
+        depositAmountUsdValue,
+        withdrawCostInUsdAndUnderlying,
+        withdrawAmountUsdValue: depositAmountUsdValue,
+        maxUserDepositData: depositAmountUsdValue,
+        previewDepositData,
+        sharesToReceiveWithdrawData,
+        isPending,
+
         approveData: {
           isApproved,
           isApproving,
           justApproved,
           approveAsync,
+        },
+        lpAssetPrice: {
+          isLoading: false,
+          isFetched: true,
+          data: {
+            value: "0",
+            decimals: 8,
+            symbol: "$",
+            viewValue: "0",
+          },
         },
       }}
     >
