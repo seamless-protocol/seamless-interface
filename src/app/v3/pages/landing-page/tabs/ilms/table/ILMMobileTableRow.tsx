@@ -17,6 +17,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       tokenData: { name, symbol, logo },
       additionalData: { description },
       tvl,
+      equity,
       apy,
       availableSupplyCap,
     },
@@ -47,6 +48,10 @@ export const LeverageTokenMobileTableRow: React.FC<{
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
           <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
+        </FlexRow>
+        <FlexRow className="justify-between items-center">
+          <DisplayText typography="regular1" viewValue="Total Assets:" {...rest} />
+          <DisplayMoney typography="bold3" {...equity.dollarAmount} {...rest} />
         </FlexRow>
 
         <FlexRow className="justify-between items-center">
