@@ -2,27 +2,28 @@ import { createContext, useContext, useState, useCallback, ReactNode } from "rea
 import { useAccount } from "wagmi";
 import { parseUnits, type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
-import { Displayable, FetchData, SeamlessWriteAsyncParams, useERC20Approve, ViewBigInt } from "@shared";
+import {
+  Displayable,
+  FlexCol,
+  SeamlessWriteAsyncParams,
+  Typography,
+  useERC20Approve,
+  useNotificationContext,
+  ViewBigInt,
+} from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import {
-  SharesToReceiveData,
-  useFetchDepositSharesToReceive,
-} from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
-import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import {
-  ViewPreviewWithdraw,
-  useFetchViewWithdrawSharesToReceive,
-} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
-import { useAmountUsdValue } from "../../../../../statev3/common/hooks/useAmountUsdValue";
-import {
-  ViewPreviewWithdraw as PreviewWithdraw,
-  useFetchViewWithdrawCostInUsdAndUnderlying,
-} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
+import { useFetchDebtAsset } from "../../../../../statev3/queries/DebtAsset.all";
+import { useFetchPreviewMint } from "../../../../../state/leverage/useFetchPreviewMint";
+import { etherFiLeverageRouterAddress } from "../../../../../generated";
+import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
+import { useFetchPreviewRedeemWithSwap } from "../../../../../state/leverage/useFetchPreviewRedeemWithSwap";
+import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -50,15 +51,6 @@ interface LeverageTokenFormContextValue {
 
   balance: Displayable<{ balance: ViewBigInt }>;
   lpBalance: Displayable<{ balance: ViewBigInt }>;
-  lpAssetPrice: Displayable<ViewBigInt>;
-
-  depositAmountUsdValue: Displayable<ViewBigInt>;
-  withdrawAmountUsdValue: Displayable<ViewBigInt>;
-
-  maxUserDepositData: Displayable<ViewBigInt>;
-  previewDepositData: FetchData<SharesToReceiveData>;
-
-  sharesToReceiveWithdrawData: Displayable<ViewPreviewWithdraw>;
 
   formOnSubmitAsync: (
     params: {
@@ -67,7 +59,9 @@ interface LeverageTokenFormContextValue {
     },
     settings?: SeamlessWriteAsyncParams
   ) => Promise<void>;
-  isPending: boolean;
+
+  isMintPending: boolean;
+
   onTransaction?: () => void;
   setOnTransaction: (onTransaction?: () => void) => void;
 
@@ -77,8 +71,6 @@ interface LeverageTokenFormContextValue {
     isApproved: boolean;
     justApproved: boolean;
   };
-
-  withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -116,40 +108,22 @@ export function LeverageTokenFormProvider({
     defaultLeverageTokenAddress
   );
 
+  const { data: collateralAsset } = useFetchCollateralAsset(selectedLeverageTokenAddress);
+
+  const { data: debtAsset } = useFetchDebtAsset(selectedLeverageTokenAddress);
+
   /* -------------------- */
   /*   Query Hooks        */
   /* -------------------- */
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
-  const balance = useFetchViewAssetBalance(selectedLeverageToken.data?.underlyingAssetAddress);
-  const lpBalance = useFetchViewAssetBalance(selectedLeverageToken.data?.address);
-  const lpAssetPrice = useFetchViewAssetPrice({
-    asset: selectedLeverageToken.data?.address,
-  });
-  const underlyingAssetPrice = useFetchViewAssetPrice({
-    asset: selectedLeverageToken.data?.underlyingAssetAddress,
-  });
+  const balance = useFetchViewAssetBalance(collateralAsset);
+  const lpBalance = useFetchViewAssetBalance(selectedLeverageTokenAddress);
 
   /* -------------------- */
   /*   Calculations       */
   /* -------------------- */
   const { debouncedAmount: debouncedDepositAmount } = useWrappedDebounce(depositAmount);
   const { debouncedAmount: debouncedWithdrawAmount } = useWrappedDebounce(withdrawAmount);
-
-  const depositAmountUsdValue = useAmountUsdValue(
-    depositAmount,
-    lpAssetPrice,
-    selectedLeverageToken.data?.tokenData.decimals
-  );
-  const withdrawAmountUsdValue = useAmountUsdValue(
-    withdrawAmount,
-    underlyingAssetPrice,
-    selectedLeverageToken.data?.underlyingAsset.decimals
-  );
-
-  const withdrawCostInUsdAndUnderlying = useFetchViewWithdrawCostInUsdAndUnderlying(
-    debouncedWithdrawAmount,
-    selectedLeverageToken?.data?.address
-  );
 
   useClearIfExceedsBalanceAfterWalletConnect({
     getValue: () => reactHookFormMethods.getValues("depositAmount"),
@@ -168,28 +142,24 @@ export function LeverageTokenFormProvider({
   /*   Approve     */
   /* ------------- */
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
-    selectedLeverageToken.data?.underlyingAssetAddress,
-    selectedLeverageToken.data?.address,
-    selectedLeverageToken.data?.underlyingAsset.decimals
-      ? parseUnits(depositAmount || "0", selectedLeverageToken.data?.underlyingAsset.decimals)
-      : undefined
+    collateralAsset,
+    etherFiLeverageRouterAddress,
+    parseUnits(depositAmount || "0", 18)
   );
 
   /* -------------------- */
   /*   Deposit Logic      */
   /* -------------------- */
-  const maxUserDepositData = useFetchViewMaxUserDeposit(selectedLeverageToken.data?.address);
-  const previewDepositData = useFetchDepositSharesToReceive(
-    debouncedDepositAmount,
-    selectedLeverageToken.data?.address
-  );
+
+  const previewMintData = useFetchPreviewMint(selectedLeverageToken.data?.address, debouncedDepositAmount);
 
   /* -------------------- */
   /*   Withdraw Logic     */
   /* -------------------- */
-  const sharesToReceiveWithdrawData = useFetchViewWithdrawSharesToReceive(
-    debouncedWithdrawAmount,
-    selectedLeverageToken.data?.address
+
+  const previewRedeemWithSwapData = useFetchPreviewRedeemWithSwap(
+    selectedLeverageToken.data?.address,
+    debouncedWithdrawAmount
   );
 
   /* -------------------- */
@@ -215,16 +185,67 @@ export function LeverageTokenFormProvider({
     [_setSelectedLeverageTokenAddress, resetFormsData]
   );
 
+  const { mintAsync, isMintPending } = useMintLeverageToken();
+
+  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken();
+
+  const { showNotification } = useNotificationContext();
+
   const formOnSubmitAsync = async () => {
     if (mode === "deposit") {
-      if (!previewDepositData) return;
-      const { sharesToReceive: shares } = previewDepositData.data;
-      // eslint-disable-next-line no-console
-      console.log("formOnSubmitAsync", depositAmount, shares);
+      if (!previewMintData.data) return;
+
+      await mintAsync(
+        {
+          leverageToken: selectedLeverageTokenAddress!,
+          amount: previewMintData.data.equity,
+          minShares: previewMintData.data?.shares / 2n,
+        },
+        {
+          onSuccess: (txHash) => {
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol className="w-full items-center text-center justify-center">
+                  <Typography>You deposited {debouncedDepositAmount}</Typography>
+                </FlexCol>
+              ),
+            });
+          },
+          onSettled: () => {
+            onTransaction?.();
+            reset();
+          },
+        }
+      );
     } else if (mode === "withdraw") {
-      const { assetsToReceive } = sharesToReceiveWithdrawData.data;
-      // eslint-disable-next-line no-console
-      console.log("formOnSubmitAsync", withdrawAmount, assetsToReceive);
+      if (!previewRedeemWithSwapData.data) return;
+
+      await redeemAsync(
+        {
+          leverageToken: selectedLeverageTokenAddress!,
+          equityInCollateral: previewRedeemWithSwapData.data.equityAfterSwapCost,
+          maxShares: previewRedeemWithSwapData.data.previewRedeemData.shares,
+          maxSwapCostInCollateral: previewRedeemWithSwapData.data.swapCost + 1n,
+          swapContext: previewRedeemWithSwapData.data.swapContext,
+        },
+        {
+          onSuccess: (txHash) => {
+            showNotification({
+              txHash,
+              content: (
+                <FlexCol className="w-full items-center text-center justify-center">
+                  <Typography>You withdrew {debouncedWithdrawAmount}</Typography>
+                </FlexCol>
+              ),
+            });
+          },
+          onSettled: () => {
+            onTransaction?.();
+            reset();
+          },
+        }
+      );
     }
   };
 
@@ -247,14 +268,8 @@ export function LeverageTokenFormProvider({
         debouncedWithdrawAmount,
         balance,
         lpBalance,
-        lpAssetPrice,
-        depositAmountUsdValue,
-        withdrawAmountUsdValue,
-        maxUserDepositData,
-        previewDepositData,
-        sharesToReceiveWithdrawData,
         formOnSubmitAsync,
-        isPending,
+        isMintPending,
         onTransaction: _onTransaction,
         setOnTransaction,
         approveData: {
@@ -263,7 +278,6 @@ export function LeverageTokenFormProvider({
           justApproved,
           approveAsync,
         },
-        withdrawCostInUsdAndUnderlying,
       }}
     >
       {children}

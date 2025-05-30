@@ -36,6 +36,13 @@ export const useFetchViewMaxUserDeposit = (strategy?: Address): Displayable<View
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigInt(maxUserDeposit, walletBalanceDecimalsOptions),
+    data: formatFetchBigIntToViewBigInt(
+      {
+        bigIntValue: 1111111111111111111111111111111111111111n,
+        decimals: 18,
+        symbol: "weETH",
+      },
+      walletBalanceDecimalsOptions
+    ),
   };
 };

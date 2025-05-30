@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, mergeQueryStates, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
-import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
 import { InitiateCooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/InitiateCooldownForm";
 import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
@@ -110,16 +109,14 @@ export const FormContainer: React.FC = () => {
       </FlexRow>
       <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
-            <StakingForm />
-          </FormSettingsProvider>
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>{/* <StakingForm /> */}</FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
-            {!hasCooldown ? (
+            {/* {!hasCooldown ? (
               <InitiateCooldownForm />
             ) : (
-              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} deadline={deadline} />
-            )}
+              // <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} deadline={deadline} />
+            )} */}
           </FormSettingsProvider>
         )}
       </div>

@@ -1,10 +1,11 @@
-import { Address, parseEther } from "viem";
+import { Address, parseEther, zeroAddress } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
 import esSeamLogo from "@assets/tokens/esSeam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";
 import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
 import type { DecimalsOptions } from "@shared";
+import { uniswapV2Router02Address } from "../app/generated";
 
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
@@ -124,3 +125,14 @@ export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
 
 // Error constants
 export const OVERFLOW_UNDERFLOW_REASON_MESSAGE = "Arithmetic operation resulted in underflow or overflow.";
+
+export const SWAP_ADAPTER_EXCHANGE_ADDRESSES = {
+  aerodromeRouter: "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+  aerodromePoolFactory: "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+  aerodromeSlipstreamRouter: "0xBE6D8f0d05cC4be24d5167a3eF062215bE6D18a5",
+  uniswapSwapRouter02: "0x2626664c2603336E57B271c5C0b26F421741e481",
+  uniswapV2Router02: uniswapV2Router02Address,
+};
+
+export const UNISWAP_FEES = [100, 300, 500, 1000];
+export const AERODROME_FEES = [100, 300, 500, 1000];
