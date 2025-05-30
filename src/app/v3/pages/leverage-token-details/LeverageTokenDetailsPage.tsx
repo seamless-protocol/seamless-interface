@@ -9,6 +9,8 @@ import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/qu
 import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
 import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
+import { LeverageTokenFormProvider } from "../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
+import { FormContainer } from "./components/form/FormContainer";
 import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
 
 export const LeverageTokenDetailsPage = () => {
@@ -37,7 +39,11 @@ export const LeverageTokenDetailsPage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-8 w-full items-start">
-          <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">{/* todo: form comes here */}</div>
+          <div className="md:sticky top-6 order-1 md:order-2 md:min-w-[460px]">
+            <LeverageTokenFormProvider>
+              <FormContainer />
+            </LeverageTokenFormProvider>
+          </div>
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}

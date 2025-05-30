@@ -47,8 +47,8 @@ export interface LeverageToken {
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
-    address: "0x1111111111111111111111111111111111111111" as Address,
-    underlyingAssetAddress: "0x1111111111111111111111111111111111111111" as Address,
+    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
+    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAsset: {
       symbol: "ETH",
       decimals: 18,
@@ -111,8 +111,8 @@ export const mockLeverageTokens: LeverageToken[] = [
     },
   },
   {
-    address: "0x2222222222222222222222222222222222222222" as Address,
-    underlyingAssetAddress: "0x1111111111111111111111111111111111111111" as Address,
+    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
+    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAsset: {
       symbol: "ETH",
       decimals: 18,
