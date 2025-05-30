@@ -13,6 +13,8 @@ export const propsMock: Displayable<LeverageToken> = {
   isLoading: true,
   isFetched: false,
   data: {
+    debt: {} as any,
+    equity: {} as any,
     address: "" as any,
     tokenData: {} as any,
     additionalData: {} as any,
