@@ -37,7 +37,7 @@ export const WeethEthDetails: React.FC = () => {
           <LocalCollapseTitle>What is weETH?</LocalCollapseTitle>
           <div className="collapse-content">
             <Typography type="regular3">
-              weETH is Ether.Fi’s wrapped, non-rebasing version of eETH. It represents ETH staked through Ether.Fi’s
+              weETH is Ether.Fi's wrapped, non-rebasing version of eETH. It represents ETH staked through Ether.Fi’s
               liquid restaking system and accumulates rewards over time, causing its price to climb relative to ETH.
               Learn more at{" "}
               <a href="http://ether.fi" target="_blank" rel="noopener noreferrer" className="underline">
