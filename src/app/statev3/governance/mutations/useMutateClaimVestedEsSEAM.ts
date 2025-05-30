@@ -6,7 +6,7 @@ import { EscrowSEAMAbi } from "../../../../../abis/EscrowSEAM";
 import { fetchVestedSeamQueryOptions } from "../queries/vested-seam/FetchVetchVestedSeam.fetch";
 import { fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 
-export const useMutateClaimVestedEsSEAM = () => {
+export const useMutateClaimVestedEsSEAM = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -17,6 +17,7 @@ export const useMutateClaimVestedEsSEAM = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, isPending, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: generateInvalidationKeys(
       fetchBalanceQueryOptions(SEAM_ADDRESS, userAddress!).queryKey,
       fetchBalanceQueryOptions(ESSEAM_ADDRESS, userAddress!).queryKey,
@@ -27,11 +28,12 @@ export const useMutateClaimVestedEsSEAM = () => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const claimVestedAsync = async (settings?: SeamlessWriteAsyncParams) => {
+  const claimVestedAsync = async () => {
+    let txHash;
     try {
       if (!userAddress) throw new Error("Wallet not connected");
 
-      await writeContractAsync(
+      txHash = await writeContractAsync(
         {
           chainId: targetChain.id,
           address: ESSEAM_ADDRESS,
@@ -48,6 +50,7 @@ export const useMutateClaimVestedEsSEAM = () => {
         content: `Failed to claim vested SEAM: ${getParsedError(error)}`,
       });
     }
+    return txHash;
   };
 
   return {

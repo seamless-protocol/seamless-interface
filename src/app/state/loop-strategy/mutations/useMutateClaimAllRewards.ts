@@ -11,7 +11,7 @@ function isBrettOnlyRewardToken(allUsersRewards: ViewAllUserRewards): boolean {
   return allUsersRewards.rewards?.length === 1 && allUsersRewards.rewards?.[0].tokenAmount.symbol === "BRETT";
 }
 
-export const useMutateClaimAllRewards = () => {
+export const useMutateClaimAllRewards = (settings?: SeamlessWriteAsyncParams) => {
   const { data: allRewardsAccruingAssets } = useFetchAllRewardsAccruingAssets();
 
   // cache data
@@ -19,16 +19,18 @@ export const useMutateClaimAllRewards = () => {
 
   // hook call
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: [allUsersRewardsQK],
   });
 
   // mutation wrapper
-  const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
+  const claimAllAsync = async () => {
+    let txHash;
     // TODO: Remove this dirty if statement once esSEAM is upgraded and works properly
     if (isBrettOnlyRewardToken(allUsersRewards)) {
       const brettRewardAmount = allUsersRewards.rewards?.[0].tokenAmount?.bigIntValue;
 
-      await writeContractAsync(
+      txHash = await writeContractAsync(
         {
           chainId: targetChain.id,
           ...rewardsControllerConfig,
@@ -39,15 +41,14 @@ export const useMutateClaimAllRewards = () => {
       );
     }
 
-    await writeContractAsync(
-      {
-        chainId: targetChain.id,
-        ...rewardsControllerConfig,
-        functionName: "claimAllRewardsToSelf",
-        args: [allRewardsAccruingAssets!],
-      },
-      { ...settings }
-    );
+    txHash = await writeContractAsync({
+      chainId: targetChain.id,
+      ...rewardsControllerConfig,
+      functionName: "claimAllRewardsToSelf",
+      args: [allRewardsAccruingAssets!],
+    });
+
+    return txHash;
   };
 
   return { ...rest, isClaimAllPending: rest.isPending, claimAllAsync };
