@@ -35,27 +35,27 @@ export const GovInfoCard = () => {
   /* ------------- */
   /*   Mutations   */
   /* ------------- */
-  const { claimVestedAsync, isClaimVestedPending } = useMutateClaimVestedEsSEAM();
+  const { claimVestedAsync, isClaimVestedPending } = useMutateClaimVestedEsSEAM({
+    onSuccess(txHash) {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography type="regular3">Vested Seam Claimed Successfully!</Typography>
+            {error && <Typography type="regular3">Error: {error.message}</Typography>}
+            {isLoading ? (
+              <Typography type="regular3">Loading...</Typography>
+            ) : (
+              <WatchAssetComponentv2 {...seamTokenData} address={SEAM_ADDRESS} />
+            )}
+          </FlexCol>
+        ),
+      });
+    },
+  });
 
   const onClaim = async () => {
-    await claimVestedAsync({
-      onSuccess(txHash) {
-        showNotification({
-          txHash,
-          content: (
-            <FlexCol className="w-full items-center text-center justify-center">
-              <Typography type="regular3">Vested Seam Claimed Successfully!</Typography>
-              {error && <Typography type="regular3">Error: {error.message}</Typography>}
-              {isLoading ? (
-                <Typography type="regular3">Loading...</Typography>
-              ) : (
-                <WatchAssetComponentv2 {...seamTokenData} address={SEAM_ADDRESS} />
-              )}
-            </FlexCol>
-          ),
-        });
-      },
-    });
+    await claimVestedAsync();
   };
 
   /* --------- */
