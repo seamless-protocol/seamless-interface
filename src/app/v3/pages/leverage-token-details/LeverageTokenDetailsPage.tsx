@@ -8,10 +8,11 @@ import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldin
 import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { LeverageTokenStats } from "./components/stats/LeverageTokenStats";
 import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading";
-import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
+import { LeverageTokenDetails } from "./components/details-section/LeverageTokenDetails";
 import { LeverageTokenFormProvider } from "../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { FormContainer } from "./components/form/FormContainer";
 import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
+import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -47,15 +48,15 @@ export const LeverageTokenDetailsPage = () => {
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}
+
+            <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
+
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
               <YieldVsBorrowRateGraphComponent />
             </FlexCol>
-            <LeverageTokenStats
-              leverageToken={{
-                data: lvrgToken,
-                ...rest,
-              }}
-            />
+
+            <LeverageTokenStatsAdditional tokenAddress={lvrgToken?.address} />
+
             <LeverageTokenDetails />
           </div>
         </div>
