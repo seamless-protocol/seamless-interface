@@ -186,7 +186,7 @@ export const WeethEthDetails: React.FC = () => {
           <LocalCollapseTitle>Where can I track performance & learn more?</LocalCollapseTitle>
           <div className="collapse-content">
             <FlexRow className="items-center gap-2">
-              <ExternalLink url={"https://docs.seamlessprotocol.io/leverage-tokens"}>GitBook</ExternalLink>
+              <ExternalLink url="https://docs.seamlessprotocol.io/leverage-tokens">GitBook</ExternalLink>
             </FlexRow>
           </div>
         </LocalCollapseArrow>
