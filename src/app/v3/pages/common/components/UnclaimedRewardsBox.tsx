@@ -1,12 +1,12 @@
 import { Displayable, DisplayMoney, FlexCol, FlexRow, ImageGroup, SeamlessWriteAsyncParams, Typography } from "@shared";
 import { ClaimModal } from "./ClaimModal";
 import { ViewAllUserRewards } from "../../../../state/lending-borrowing/types/ViewAllUserRewards";
-import { Address } from "viem";
+import { Hash } from "viem";
 
 export interface UnclaimedRewardsBoxProps extends Displayable<ViewAllUserRewards> {
   noRewardsMessage?: string;
   className?: string;
-  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<Address | undefined>;
+  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<Hash | undefined>;
   isPending?: boolean;
 }
 

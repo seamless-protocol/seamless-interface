@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useEsSeamRewardsWrapper } from "../hooks/esSeamRewardsWrapper";
-import { Address } from "viem";
+import { Hash } from "viem";
 import { useMorphoRewardsWrapper } from "../hooks/MorphoRewardsWrapper";
 import { useStkSeamRewardsWrapper } from "../hooks/stkSeamRewardsWrapper";
 import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
@@ -20,7 +20,7 @@ export interface RewardItem {
   dollarAmount?: any;
   extraText?: string;
   rewards: Reward[];
-  claimAllAsync?: () => Promise<Address | undefined>;
+  claimAllAsync?: () => Promise<Hash | undefined>;
   isClaiming?: boolean;
 }
 
@@ -120,6 +120,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });

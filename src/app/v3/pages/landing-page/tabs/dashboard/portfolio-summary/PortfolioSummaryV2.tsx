@@ -4,7 +4,7 @@ import { Profit } from "./Profit";
 import { RewardsSelector } from "../components/claiming-rewards/RewardsSelector";
 import { RewardsProvider } from "../contexts/RewardsProvider";
 
-export const NewPortfolioSummary = () => {
+export const PortfolioSummaryV2 = () => {
   const { data, ...rest } = useFetchFormattedUserProfitAndPortfolio();
 
   return (

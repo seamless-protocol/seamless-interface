@@ -8,7 +8,7 @@ import {
 } from "@shared";
 import React, { useRef } from "react";
 import { ClaimModalComponent } from "./ClaimModalComponent";
-import { Address } from "viem";
+import { Hash } from "viem";
 
 interface Reward {
   tokenAmount: ViewBigInt;
@@ -20,7 +20,7 @@ interface ClaimModalProps {
   rewards: Reward[] | undefined;
   totalRewards: ViewBigInt | undefined;
   disabled?: boolean;
-  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<Address | undefined>;
+  claimAllAsync: (settings?: SeamlessWriteAsyncParams) => Promise<Hash | undefined>;
   isPending?: boolean;
 }
 

@@ -12,8 +12,8 @@ import {
 const config = {
   id: "2",
   icon: morphoIcon,
-  name: "Morpho rewards",
-  description: "Morpho rewards",
+  name: "Vault rewards",
+  description: "Vault rewards",
 };
 
 export const useMorphoRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {

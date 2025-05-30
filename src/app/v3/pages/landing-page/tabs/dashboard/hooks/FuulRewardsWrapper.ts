@@ -10,8 +10,8 @@ import { Address } from "viem";
 const config = {
   id: "3",
   icon: fuulIcon,
-  name: "Fuul rewards",
-  description: "Fuul rewards",
+  name: "Leverage Token Rewards",
+  description: "Leverage Token Rewards",
 };
 
 export const useFuulRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
