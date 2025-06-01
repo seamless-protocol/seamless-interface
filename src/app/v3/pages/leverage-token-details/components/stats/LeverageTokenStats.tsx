@@ -2,6 +2,10 @@
 import React from "react";
 import { Displayable, DisplayMoney, DisplayText, Typography } from "@shared";
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { useFetchLeverageTokenState } from "../../../../../data/leverage-tokens/queries/leverage-token-state/leverage-token-state.hook";
+import { useFetchLeverageRatios } from "../../../../../data/leverage-tokens/queries/collateral-ratios/leverage-ratios.hook";
+import { useFetchLeverageTokenCollateral } from "../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
+import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 
 const skeletonLoaderSettings = { width: "120px", height: "30px" };
 
@@ -10,7 +14,19 @@ export interface LeverageTokenStatsProps {
 }
 
 export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverageToken }) => {
-  const { data: { tvl, currentMultiple } = {}, ...rest } = leverageToken;
+  const { data: leverageTokenState, ...restLeverageTokenState } = useFetchLeverageTokenState(
+    leverageToken?.data?.address
+  );
+
+  const { data: leverageRatios, ...restLeverageRatios } = useFetchLeverageRatios(leverageToken?.data?.address);
+
+  const { data: leverageTokenCollateral, ...restLeverageTokenCollateral } = useFetchLeverageTokenCollateral(
+    leverageToken?.data?.address
+  );
+
+  const { data: leverageTokenPrice, ...restLeverageTokenPrice } = useFetchFormattedAssetPrice(
+    leverageToken?.data?.address
+  );
 
   return (
     <div className="w-full rounded-card bg-neutral-0 overflow-hidden">
@@ -28,15 +44,15 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           </Typography>
           <div className="flex flex-col gap-1">
             <DisplayMoney
-              {...tvl?.dollarAmount}
-              {...rest}
+              {...leverageTokenCollateral?.dollarAmount}
+              {...restLeverageTokenCollateral}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
             />
             <DisplayMoney
-              {...tvl?.tokenAmount}
-              {...rest}
+              {...leverageTokenCollateral?.tokenAmount}
+              {...restLeverageTokenCollateral}
               typography="bold2"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
@@ -50,8 +66,8 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
             Leverage Token Price
           </Typography>
           <DisplayMoney
-            viewValue="1.1" // replace with real price fetch
-            {...rest}
+            {...leverageTokenPrice}
+            {...restLeverageTokenPrice}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
@@ -64,8 +80,8 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
             Current leverage
           </Typography>
           <DisplayText
-            {...rest}
-            {...currentMultiple}
+            {...restLeverageTokenState}
+            {...leverageTokenState?.currentLeverage}
             typography="bold5"
             className="text-primary-1000"
             symbolPosition="after"
@@ -79,8 +95,8 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
             Target leverage
           </Typography>
           <DisplayText
-            viewValue="17x" // or pull from config
-            {...rest}
+            {...leverageRatios?.targetLeverage}
+            {...restLeverageRatios}
             typography="bold5"
             className="text-primary-1000"
             symbolPosition="after"

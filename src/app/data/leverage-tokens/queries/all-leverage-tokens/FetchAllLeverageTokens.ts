@@ -1,6 +1,6 @@
-import { Address } from "viem";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, Token, ViewBigInt, ViewNumber } from "@shared";
 import { useQuery } from "@tanstack/react-query";
-import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewNumber, formatFetchNumberToViewNumber } from "@shared";
+import { Address } from "viem";
 
 import mockLogo from "@assets/tokens/ilmWstethEth.svg";
 import { TagType } from "../../../../statev3/common/types/StateTypes";
@@ -25,15 +25,15 @@ export interface LeverageToken {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  availableSupplyCap: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
   apy: {
     estimatedAPY: ViewNumber;
     borrowAPY: ViewNumber;
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];
-  };
-  availableSupplyCap: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
   };
   tokenData: Token;
   additionalData: {
@@ -51,7 +51,7 @@ export interface LeverageToken {
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
-    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
+    address: "0xa5Aa41483586D3530397de18B59122DAbc502817" as Address,
     underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAsset: {
       symbol: "ETH",
@@ -76,7 +76,7 @@ export const mockLeverageTokens: LeverageToken[] = [
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
         decimals: 6,
-        symbol: "USDC",
+        symbol: "ETH",
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
