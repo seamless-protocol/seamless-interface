@@ -1,4 +1,3 @@
-// src/app/queries/get-fuul-conversions-all.fetch.ts
 import type { Conversion, GetConversionsParams } from "@fuul/sdk/dist/types/api";
 import { getFuulClient } from "@app/config/fuul-client";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
