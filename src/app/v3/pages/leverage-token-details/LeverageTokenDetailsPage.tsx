@@ -1,4 +1,4 @@
-import { ExternalLink, FlexCol, FlexRow, PageContainer, Typography } from "@shared";
+import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";

@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import {
-  ethLong_1_5x,
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
   seamlessUSDCMorphoVault,
