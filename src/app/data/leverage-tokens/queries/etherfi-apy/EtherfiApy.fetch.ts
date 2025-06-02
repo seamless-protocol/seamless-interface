@@ -60,7 +60,7 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
       const aprPreFeesBigInt = parseUnits(aprPreFeesFloat.toString(), APY_DECIMALS);
 
       const aprPreFeesView: ViewBigInt = formatFetchBigIntToViewBigInt({
-        bigIntValue: aprPreFeesBigInt,
+        bigIntValue: aprPreFeesBigInt * 100n,
         decimals: APY_DECIMALS,
         symbol: "%",
       });
