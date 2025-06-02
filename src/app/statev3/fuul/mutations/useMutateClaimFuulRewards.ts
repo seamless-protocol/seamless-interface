@@ -39,9 +39,10 @@ export const useMutateClaimFuulRewards = (settings?: SeamlessWriteAsyncParams) =
       const { data: balances } = await fetchUserBalances({
         where: {
           owner: IS_DEV_MODE ? "0x0019de95fa9953074432f7e66a8c5e8f043c8218" : address,
-          //   project: "seamless", todo: not working?
+          project: "seamless",
         },
       });
+
       if (!balances?.userBalances?.length) {
         throw new Error("No Fuul rewards balance found.");
       }

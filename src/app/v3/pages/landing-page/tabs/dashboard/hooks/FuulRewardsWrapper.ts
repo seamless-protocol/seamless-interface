@@ -20,6 +20,7 @@ export const useFuulRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsy
   const { data } = useFetchUserBalances({
     where: {
       owner: address,
+      project: "seamless",
     },
   });
 
