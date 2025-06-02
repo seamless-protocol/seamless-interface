@@ -50,7 +50,6 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
       }
       const raw = (await res.json()) as EtherFiRawResponse;
 
-      // 2) Rename snake_case → camelCase:
       const sevenDayApr = raw["7_day_apr"];
       const sevenDayRestakingApr = raw["7_day_restaking_apr"];
       const tvl = raw.tvl;
@@ -60,14 +59,12 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
 
       const aprPreFeesBigInt = parseUnits(aprPreFeesFloat.toString(), APY_DECIMALS);
 
-      // 5) Wrap in ViewBigInt so UI can show “%” with correct precision
       const aprPreFeesView: ViewBigInt = formatFetchBigIntToViewBigInt({
         bigIntValue: aprPreFeesBigInt,
         decimals: APY_DECIMALS,
         symbol: "%",
       });
 
-      // 6) Return everything in one shape matching EtherFiApyData
       return {
         sevenDayApr,
         sevenDayRestakingApr,
