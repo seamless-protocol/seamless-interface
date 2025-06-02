@@ -1,14 +1,6 @@
 // src/components/LeverageTokenAuctionStats.tsx
 import React from "react";
-import {
-  DisplayText,
-  Displayable,
-  formatFetchBigIntToViewBigInt,
-  ViewBigInt,
-  ViewNumber,
-  FlexCol,
-  Typography,
-} from "@shared";
+import { DisplayText, Displayable, formatFetchBigIntToViewBigInt, ViewBigInt, ViewNumber, FlexCol } from "@shared";
 import { Address } from "viem";
 import { StatCell } from "./StatsCell";
 
