@@ -8,7 +8,7 @@ import { baseBundlerAbi } from "../../../../../abis/urdBundler";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { targetChain } from "../../../config/rainbow.config";
 
-export const useMutateClaimAllMorphoRewards = () => {
+export const useMutateClaimAllMorphoRewards = (settings?: SeamlessWriteAsyncParams) => {
   const { address } = useAccount();
 
   const { bundler } = getMorphoChainAddresses(ChainId.BaseMainnet);
@@ -16,11 +16,13 @@ export const useMutateClaimAllMorphoRewards = () => {
 
   // hook call
   const { sendTransactionAsync, ...rest } = useSeamlessSendTransaction({
+    ...settings,
     queriesToInvalidate: [getFetchRawMorphoUserRewardsQueryKey(address)],
   });
 
   // mutation wrapper
-  const claimAllAsync = async (settings?: SeamlessWriteAsyncParams) => {
+  const claimAllAsync = async () => {
+    let txHash;
     try {
       if (!address) throw new Error("Account address is not found. Please connect your wallet.");
 
@@ -43,18 +45,17 @@ export const useMutateClaimAllMorphoRewards = () => {
         args: [actions] as any,
       });
 
-      await sendTransactionAsync(
-        {
-          to: bundler,
-          data,
-          chainId: targetChain.id,
-        },
-        { ...settings }
-      );
+      txHash = await sendTransactionAsync({
+        to: bundler,
+        data,
+        chainId: targetChain.id,
+      });
     } catch (error) {
       console.error("Failed to claim all rewards", error);
       showNotification({ status: "error", content: `Failed to claim all rewards: ${getParsedError(error)}` });
     }
+
+    return txHash;
   };
 
   return { claimAllAsync, isClaiming: rest.isPending, ...rest };
