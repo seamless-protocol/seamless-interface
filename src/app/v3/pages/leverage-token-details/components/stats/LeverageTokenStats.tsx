@@ -13,7 +13,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
   const { data: { tvl, currentMultiple } = {}, ...rest } = leverageToken;
 
   return (
-    <div className="w-full rounded-card bg-neutral-0 overflow-hidden">
+    <div className="w-full rounded-card bg-neutral-0 overflow-hidden py-3">
       <div
         className="
           grid grid-cols-1 md:grid-cols-4
