@@ -6,7 +6,6 @@ import {
   Displayable,
   FetchData,
   FlexCol,
-  formatFetchBigIntToViewBigInt,
   SeamlessWriteAsyncParams,
   Typography,
   useERC20Approve,
@@ -17,7 +16,6 @@ import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-l
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useFetchViewAssetPrice } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
 import { useFetchDebtAsset } from "../../../../../statev3/queries/DebtAsset.all";
