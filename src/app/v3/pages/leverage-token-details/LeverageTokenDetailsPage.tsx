@@ -1,4 +1,4 @@
-import { FlexCol, FlexRow, PageContainer } from "@shared";
+import { ExternalLink, FlexCol, FlexRow, PageContainer, Typography } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
@@ -13,6 +13,7 @@ import { LeverageTokenFormProvider } from "../../components/forms/leverage-token
 import { FormContainer } from "./components/form/FormContainer";
 import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
 import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
+import { LinksAdditional } from "./components/links-additional/LinksAdditional";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ export const LeverageTokenDetailsPage = () => {
             {isConnected && <CurrentHoldings address={address as Address} />}
 
             <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
+
+            <LinksAdditional address={lvrgToken?.address} />
 
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
               <YieldVsBorrowRateGraphComponent />
