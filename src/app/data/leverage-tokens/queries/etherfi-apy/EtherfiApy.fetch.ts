@@ -52,8 +52,7 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
 
       const sevenDayApr = raw["7_day_apr"];
       const sevenDayRestakingApr = raw["7_day_restaking_apr"];
-      const tvl = raw.tvl;
-      const bufferEth = raw.buffer_eth;
+      const { tvl, buffer_eth: bufferEth } = raw;
 
       const aprPreFeesFloat = sevenDayApr / 0.9 + sevenDayRestakingApr;
 
