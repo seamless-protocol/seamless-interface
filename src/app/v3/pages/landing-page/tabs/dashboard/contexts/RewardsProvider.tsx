@@ -4,10 +4,11 @@ import { Hash } from "viem";
 import { useMorphoRewardsWrapper } from "../hooks/MorphoRewardsWrapper";
 import { useStkSeamRewardsWrapper } from "../hooks/stkSeamRewardsWrapper";
 import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
+import { FetchData, mergeQueryStates, ViewBigInt } from "@shared";
 
 export interface Reward {
-  tokenAmount: any;
-  dollarAmount?: any;
+  tokenAmount?: ViewBigInt;
+  dollarAmount?: ViewBigInt;
   logo: string;
   address: string;
 }
@@ -28,6 +29,7 @@ export type ClaimStatus = "idle" | "pending" | "success" | "failed";
 
 interface RewardsContextValue {
   items: RewardItem[];
+  itemsRest: FetchData<RewardItem[]>;
   selected: Set<string>;
   claimOrder: string[];
   currentStep: number;
@@ -53,13 +55,13 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const stkSeamReward = useStkSeamRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
-        const { id } = stkSeamReward;
+        const { id } = stkSeamReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "success" }));
         setTxHashes((prev) => ({ ...prev, [id]: tx }));
         setCurrentStep((prev) => prev + 1);
       },
       onError: () => {
-        const { id } = stkSeamReward;
+        const { id } = stkSeamReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "failed" }));
         setCurrentStep((prev) => prev + 1);
       },
@@ -69,13 +71,13 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const morphoReward = useMorphoRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
-        const { id } = morphoReward;
+        const { id } = morphoReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "success" }));
         setTxHashes((prev) => ({ ...prev, [id]: tx }));
         setCurrentStep((prev) => prev + 1);
       },
       onError: () => {
-        const { id } = morphoReward;
+        const { id } = morphoReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "failed" }));
         setCurrentStep((prev) => prev + 1);
       },
@@ -85,13 +87,13 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const fuulReward = useFuulRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
-        const { id } = fuulReward;
+        const { id } = fuulReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "success" }));
         setTxHashes((prev) => ({ ...prev, [id]: tx }));
         setCurrentStep((prev) => prev + 1);
       },
       onError: () => {
-        const { id } = fuulReward;
+        const { id } = fuulReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "failed" }));
         setCurrentStep((prev) => prev + 1);
       },
@@ -102,20 +104,20 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   const esSeamReward = useEsSeamRewardsWrapper({
     settings: {
       onSuccess: (tx) => {
-        const { id } = esSeamReward;
+        const { id } = esSeamReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "success" }));
         setTxHashes((prev) => ({ ...prev, [id]: tx }));
         setCurrentStep((prev) => prev + 1);
       },
       onError: () => {
-        const { id } = esSeamReward;
+        const { id } = esSeamReward.data;
         setStatuses((prev) => ({ ...prev, [id]: "failed" }));
         setCurrentStep((prev) => prev + 1);
       },
     },
   });
 
-  const items: RewardItem[] = [stkSeamReward, morphoReward, fuulReward, esSeamReward];
+  const items: RewardItem[] = [stkSeamReward.data, morphoReward.data, fuulReward.data, esSeamReward.data];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -161,6 +163,10 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     <RewardsContext.Provider
       value={{
         items,
+        itemsRest: {
+          ...mergeQueryStates([stkSeamReward, fuulReward, esSeamReward]),
+          data: items,
+        },
         selected,
         claimOrder,
         currentStep,

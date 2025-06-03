@@ -4,11 +4,13 @@ import { useRewards } from "../../contexts/RewardsProvider";
 import { DisplayMoney, Modal, ModalHandles, Typography } from "@shared";
 import { RewardsHeading } from "./RewardsHeading";
 import { RewardItemClaimingRow } from "./RewardItemClaimingRow";
+import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 export const RewardsSelector: React.FC = () => {
   const modalRef = React.useRef<ModalHandles>(null);
   const {
     items,
+    itemsRest,
     selected,
     claimOrder,
     currentStep,
@@ -32,10 +34,12 @@ export const RewardsSelector: React.FC = () => {
     startClaims();
   };
 
+  const dollarAmount = useSumRewardDollarAmounts(items.map((i) => i.rewards).flat());
+
   return (
     <div className="bg-neutral-0 p-10 rounded-3xl border border-blue-100 flex flex-col gap-10">
       <div className="flex flex-row justify-between">
-        <RewardsHeading />
+        <RewardsHeading items={itemsRest} />
         <div>
           <Modal
             ref={modalRef}
@@ -51,7 +55,7 @@ export const RewardsSelector: React.FC = () => {
               {!isClaiming && (
                 <div className="flex flex-col mt-10">
                   <div className="flex flex-row items-center justify-between mb-10">
-                    <RewardsHeading />
+                    <RewardsHeading items={itemsRest} />
                     <div>
                       <button
                         className={`text-bold3 ${
@@ -117,7 +121,7 @@ export const RewardsSelector: React.FC = () => {
 
                   <div className="flex flex-row justify-between">
                     <Typography type="bold3">Total </Typography>
-                    <DisplayMoney typography="bold3" viewValue="906.64" />
+                    <DisplayMoney typography="bold3" viewValue={dollarAmount.viewValue} />
                   </div>
 
                   {!isDone ? (

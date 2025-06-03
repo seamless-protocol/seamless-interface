@@ -2,6 +2,7 @@ import React from "react";
 import { ClaimStatus, Reward, RewardItem } from "../../contexts/RewardsProvider";
 import { DisplayMoney, ExternalLink, Icon, ImageGroup, Typography } from "@shared";
 import { SingularReward } from "./SingularReward";
+import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 interface Props {
   item: RewardItem;
@@ -22,6 +23,10 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
   status = "idle",
   txHash,
 }) => {
+  const dollarAmount = useSumRewardDollarAmounts(item.rewards);
+
+  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox) return null;
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between items-center px-4 py-2">
@@ -39,7 +44,7 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
         </div>
 
         <div className="flex flex-col items-end">
-          <DisplayMoney isApproximate typography="bold3" {...item.dollarAmount} {...item.dollarAmount?.data} />
+          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} />
         </div>
       </div>
 

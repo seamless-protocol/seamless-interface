@@ -1,6 +1,7 @@
 import React from "react";
 import { RewardItem } from "../../contexts/RewardsProvider";
 import { DisplayMoney, Icon, ImageGroup, Typography } from "@shared";
+import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 interface Props {
   item: RewardItem;
@@ -11,6 +12,10 @@ interface Props {
 }
 
 export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, checked = false, onToggle }) => {
+  const dollarAmount = useSumRewardDollarAmounts(item.rewards);
+
+  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox) return null;
+
   return (
     <div>
       <div
@@ -31,13 +36,13 @@ export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, che
         </div>
 
         <div className="flex flex-col items-end">
-          <DisplayMoney isApproximate typography="bold3" {...item.dollarAmount} {...item.dollarAmount?.data} />
+          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} />
         </div>
       </div>
 
       {item.rewards.length > 0 && (
         <div className="w-full bg-neutral-100 py-4 px-6 flex flex-row gap-2 rounded-[16px] mb-6">
-          <Typography type="bold1">Accruing: $0.00</Typography>
+          <Typography type="bold1">Accruing: {dollarAmount.viewValue} $</Typography>
           <ImageGroup
             images={item.rewards?.map((reward) => reward.logo) || []}
             imageStyle="w-4 h-4 rounded-full"
