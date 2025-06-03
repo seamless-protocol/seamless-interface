@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { targetChain } from "../../../config/rainbow.config";
 import { Address } from "viem";
 
-export const useMintLeverageToken = () => {
+export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -15,35 +15,26 @@ export const useMintLeverageToken = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: [],
   });
 
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const mintAsync = async (
-    args: {
-      leverageToken: Address;
-      amount: bigint;
-      minShares: bigint;
-    },
-    settings?: SeamlessWriteAsyncParams
-  ) => {
+  const mintAsync = async (args: { leverageToken: Address; amount: bigint; minShares: bigint }) => {
     try {
       const { leverageToken, amount, minShares } = args;
       if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-      await writeContractAsync(
-        {
-          chainId: targetChain.id,
-          address: etherFiLeverageRouterAddress,
-          abi: etherFiLeverageRouterAbi,
-          functionName: "mint",
-          args: [leverageToken, amount, minShares],
-        },
-        { ...settings }
-      );
+      await writeContractAsync({
+        chainId: targetChain.id,
+        address: etherFiLeverageRouterAddress,
+        abi: etherFiLeverageRouterAbi,
+        functionName: "mint",
+        args: [leverageToken, amount, minShares],
+      });
     } catch (error) {
       console.error("Failed to stake", error);
       showNotification({

@@ -6,7 +6,7 @@ import { Address } from "viem";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 
-export const useRedeemLeverageToken = () => {
+export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
   /*   Meta data   */
   /* ------------- */
@@ -17,38 +17,33 @@ export const useRedeemLeverageToken = () => {
   /*   Mutation config */
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+    ...settings,
     queriesToInvalidate: [],
   });
 
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const redeemAsync = async (
-    args: {
-      leverageToken: Address;
-      equityInCollateral: bigint;
-      maxShares: bigint;
-      maxSwapCostInCollateral: bigint;
-      swapContext: SwapContext;
-    },
-    settings?: SeamlessWriteAsyncParams
-  ) => {
+  const redeemAsync = async (args: {
+    leverageToken: Address;
+    equityInCollateral: bigint;
+    maxShares: bigint;
+    maxSwapCostInCollateral: bigint;
+    swapContext: SwapContext;
+  }) => {
     try {
       const { leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext } = args;
 
       if (!equityInCollateral) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-      await writeContractAsync(
-        {
-          chainId: targetChain.id,
-          address: leverageRouterAddress,
-          abi: LeverageRouterAbi,
-          functionName: "redeem",
-          args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
-        },
-        { ...settings }
-      );
+      await writeContractAsync({
+        chainId: targetChain.id,
+        address: leverageRouterAddress,
+        abi: LeverageRouterAbi,
+        functionName: "redeem",
+        args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
+      });
     } catch (error) {
       console.error("Failed to stake", error);
       showNotification({

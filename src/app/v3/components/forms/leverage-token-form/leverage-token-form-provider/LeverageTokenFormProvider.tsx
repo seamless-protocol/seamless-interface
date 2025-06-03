@@ -203,9 +203,39 @@ export function LeverageTokenFormProvider({
     [_setSelectedLeverageTokenAddress, resetFormsData]
   );
 
-  const { mintAsync, isMintPending } = useMintLeverageToken();
+  const { mintAsync, isMintPending } = useMintLeverageToken({
+    onSuccess: (txHash) => {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography>You deposited {debouncedDepositAmount}</Typography>
+          </FlexCol>
+        ),
+      });
+    },
+    onSettled: () => {
+      onTransaction?.();
+      reset();
+    },
+  });
 
-  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken();
+  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
+    onSuccess: (txHash) => {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            <Typography>You withdrew {debouncedWithdrawAmount}</Typography>
+          </FlexCol>
+        ),
+      });
+    },
+    onSettled: () => {
+      onTransaction?.();
+      reset();
+    },
+  });
 
   const { showNotification } = useNotificationContext();
 
@@ -213,57 +243,21 @@ export function LeverageTokenFormProvider({
     if (mode === "deposit") {
       if (!previewMintData.data) return;
 
-      await mintAsync(
-        {
-          leverageToken: selectedLeverageTokenAddress!,
-          amount: previewMintData.data.equity,
-          minShares: previewMintData.data?.shares / 2n,
-        },
-        {
-          onSuccess: (txHash) => {
-            showNotification({
-              txHash,
-              content: (
-                <FlexCol className="w-full items-center text-center justify-center">
-                  <Typography>You deposited {debouncedDepositAmount}</Typography>
-                </FlexCol>
-              ),
-            });
-          },
-          onSettled: () => {
-            onTransaction?.();
-            reset();
-          },
-        }
-      );
+      await mintAsync({
+        leverageToken: selectedLeverageTokenAddress!,
+        amount: previewMintData.data.equity,
+        minShares: (previewMintData.data?.shares || 0n) / 2n,
+      });
     } else if (mode === "withdraw") {
       if (!previewRedeemWithSwapData.data) return;
 
-      await redeemAsync(
-        {
-          leverageToken: selectedLeverageTokenAddress!,
-          equityInCollateral: previewRedeemWithSwapData.data.equityAfterSwapCost,
-          maxShares: previewRedeemWithSwapData.data.previewRedeemData.shares,
-          maxSwapCostInCollateral: previewRedeemWithSwapData.data.swapCost + 1n,
-          swapContext: previewRedeemWithSwapData.data.swapContext,
-        },
-        {
-          onSuccess: (txHash) => {
-            showNotification({
-              txHash,
-              content: (
-                <FlexCol className="w-full items-center text-center justify-center">
-                  <Typography>You withdrew {debouncedWithdrawAmount}</Typography>
-                </FlexCol>
-              ),
-            });
-          },
-          onSettled: () => {
-            onTransaction?.();
-            reset();
-          },
-        }
-      );
+      await redeemAsync({
+        leverageToken: selectedLeverageTokenAddress!,
+        equityInCollateral: previewRedeemWithSwapData.data.equityAfterSwapCost,
+        maxShares: previewRedeemWithSwapData.data.previewRedeemData.shares,
+        maxSwapCostInCollateral: previewRedeemWithSwapData.data.swapCost + 1n,
+        swapContext: previewRedeemWithSwapData.data.swapContext,
+      });
     }
   };
 
