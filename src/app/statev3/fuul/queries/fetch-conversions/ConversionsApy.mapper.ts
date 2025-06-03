@@ -22,7 +22,7 @@ export interface FuulSingleApr {
 }
 
 export const fetchConversionByProjectQueryOptions = (id: string) => ({
-  queryKey: FuulQueryKeys.conversionByProject(),
+  queryKey: FuulQueryKeys.conversionById(id),
   queryFn: async (): Promise<FuulSingleApr> => {
     const raw: Conversion[] = await fetchAllConversions({});
 

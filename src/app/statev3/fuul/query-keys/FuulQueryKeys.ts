@@ -64,10 +64,11 @@ export const FuulQueryKeys = {
     },
   ],
 
-  conversionByProject: () => [
+  conversionById: (id: string) => [
     {
       ...FuulQueryKeys.childApiQueries[0],
       functionName: "getConversionByProject",
+      id,
     },
   ],
 
@@ -101,7 +102,7 @@ export const FuulQueryKeys = {
       ...FuulQueryKeys.hookQueries[0],
       functionName: "getConversionByProjectHook",
       ...getHashedQueryKey({
-        queryKey: FuulQueryKeys.conversionByProject(),
+        queryKey: FuulQueryKeys.conversionById(),
       }),
     },
   ],
