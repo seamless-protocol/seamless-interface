@@ -16,7 +16,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
-  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+  const { writeContract, ...rest } = useSeamlessContractWrite({
     ...settings,
     queriesToInvalidate: [],
   });
@@ -24,7 +24,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const redeemAsync = async (args: {
+  const redeem = (args: {
     leverageToken: Address;
     equityInCollateral: bigint;
     maxShares: bigint;
@@ -37,7 +37,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
       if (!equityInCollateral) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-      await writeContractAsync({
+      writeContract({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: LeverageRouterAbi,
@@ -53,5 +53,5 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     }
   };
 
-  return { ...rest, isRedeemPending: rest.isPending, redeemAsync };
+  return { ...rest, isRedeemPending: rest.isPending, redeem };
 };

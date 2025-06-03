@@ -14,7 +14,7 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ----------------- */
   /*   Mutation config */
   /* ----------------- */
-  const { writeContractAsync, ...rest } = useSeamlessContractWrite({
+  const { writeContract, ...rest } = useSeamlessContractWrite({
     ...settings,
     queriesToInvalidate: [],
   });
@@ -22,13 +22,13 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const mintAsync = async (args: { leverageToken: Address; amount: bigint; minShares: bigint }) => {
+  const mint = (args: { leverageToken: Address; amount: bigint; minShares: bigint }) => {
     try {
       const { leverageToken, amount, minShares } = args;
       if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-      await writeContractAsync({
+      writeContract({
         chainId: targetChain.id,
         address: etherFiLeverageRouterAddress,
         abi: etherFiLeverageRouterAbi,
@@ -44,5 +44,5 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     }
   };
 
-  return { ...rest, isMintPending: rest.isPending, mintAsync };
+  return { ...rest, isMintPending: rest.isPending, mint };
 };
