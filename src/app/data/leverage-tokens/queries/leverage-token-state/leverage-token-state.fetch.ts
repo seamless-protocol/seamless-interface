@@ -5,6 +5,7 @@ import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { leverageManagerAddress } from "../../../../generated";
+import { platformDataQueryConfig } from "../../../../statev3/settings/queryConfig";
 import { cCollateralRatioToLeverage } from "../collateral-ratios/leverage-ratios.fetch";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 
@@ -15,6 +16,7 @@ export const getLeverageTokenStateQueryOptions = (leverageToken: Address) => ({
     functionName: "getLeverageTokenState",
     args: [leverageToken],
   }),
+  ...platformDataQueryConfig,
 });
 
 export interface LeverageTokenState {

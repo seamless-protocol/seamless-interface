@@ -76,7 +76,7 @@ export const mockLeverageTokens: LeverageToken[] = [
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
         decimals: 6,
-        symbol: "ETH",
+        symbol: "USDC",
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
