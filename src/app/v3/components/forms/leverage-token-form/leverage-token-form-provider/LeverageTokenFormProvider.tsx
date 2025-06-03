@@ -203,7 +203,7 @@ export function LeverageTokenFormProvider({
     [_setSelectedLeverageTokenAddress, resetFormsData]
   );
 
-  const { mint, isMintPending } = useMintLeverageToken({
+  const { mintAsync, isMintPending } = useMintLeverageToken({
     onSuccess: (txHash) => {
       showNotification({
         txHash,
@@ -220,7 +220,7 @@ export function LeverageTokenFormProvider({
     },
   });
 
-  const { redeem, isRedeemPending } = useRedeemLeverageToken({
+  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
     onSuccess: (txHash) => {
       showNotification({
         txHash,
@@ -240,46 +240,19 @@ export function LeverageTokenFormProvider({
   const { showNotification } = useNotificationContext();
 
   const formOnSubmitAsync = async () => {
-    if (!selectedLeverageTokenAddress) {
-      console.error("No selectedLeverageTokenAddress");
-      showNotification({
-        content: <Typography>Selected leverage token is not found</Typography>,
-        status: "error",
-      });
-      return;
-    }
-
     if (mode === "deposit") {
-      if (!previewMintData.data) {
-        console.error("No previewMintData found");
-        showNotification({
-          content: <Typography>No preview data available, please try again later.</Typography>,
-          status: "error",
-        });
-        return;
-      }
-
-      mint({
+      await mintAsync({
         leverageToken: selectedLeverageTokenAddress,
-        amount: previewMintData.data.equity,
-        minShares: (previewMintData.data?.shares || 0n) / 2n,
+        amount: previewMintData?.data?.equity,
+        minShares: (previewMintData?.data?.shares || 0n) / 2n,
       });
     } else if (mode === "withdraw") {
-      if (!previewRedeemWithSwapData.data) {
-        console.error("No previewRedeemWithSwapData found!");
-        showNotification({
-          content: <Typography>No preview data available, please try again later.</Typography>,
-          status: "error",
-        });
-        return;
-      }
-
-      redeem({
+      await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
-        equityInCollateral: previewRedeemWithSwapData.data.equityAfterSwapCost,
-        maxShares: previewRedeemWithSwapData.data.previewRedeemData.shares,
-        maxSwapCostInCollateral: previewRedeemWithSwapData.data.swapCost + 1n,
-        swapContext: previewRedeemWithSwapData.data.swapContext,
+        equityInCollateral: previewRedeemWithSwapData?.data?.equityAfterSwapCost,
+        maxShares: previewRedeemWithSwapData?.data?.previewRedeemData?.shares,
+        maxSwapCostInCollateral: previewRedeemWithSwapData?.data?.swapCost,
+        swapContext: previewRedeemWithSwapData?.data?.swapContext,
       });
     }
   };
