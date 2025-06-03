@@ -1,11 +1,11 @@
-import { leverageManagerAbi, leverageManagerAddress } from "../../generated";
-import { readContractQueryOptions } from "wagmi/query";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { Address, parseUnits } from "viem";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../statev3/settings/queryConfig";
-import { fetchCollateralAsset } from "../../statev3/queries/CollateralAsset.all";
-import { fetchDecimals } from "../../../shared";
+import { Address, parseUnits } from "viem";
+import { readContractQueryOptions } from "wagmi/query";
+import { fetchDecimals } from "@shared";
+import { leverageManagerAddress, leverageManagerAbi } from "../../../generated";
+import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
+import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 
 interface FetchPreviewMintInput {
   leverageToken: Address;

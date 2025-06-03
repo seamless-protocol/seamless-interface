@@ -1,22 +1,18 @@
-import { Address, SimulateContractReturnType, zeroAddress } from "viem";
+import { Address, zeroAddress } from "viem";
 import {
   aerodromeQuoterAbi,
   aerodromeQuoterAddress,
   aerodromeSlipstreamFactoryAbi,
   aerodromeSlipstreamFactoryAddress,
-  uniswapQuoterAbi,
-  uniswapQuoterAddress,
   uniswapV2Router02Abi,
   uniswapV2Router02Address,
-  uniswapV3FactoryAbi,
-  uniswapV3FactoryAddress,
-} from "../../generated";
+} from "@generated";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../statev3/settings/queryConfig";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
-import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, UNISWAP_FEES } from "../../../meta";
 import { simulateContract } from "wagmi/actions";
+import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "@meta";
+import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 
 interface GetQuoteInput {
   tokenInAddress: Address;
