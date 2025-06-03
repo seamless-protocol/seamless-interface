@@ -10,7 +10,7 @@ export async function fetchDebtAsset({ leverageToken }: { leverageToken: Address
   const lendingAdapter = await fetchLendingAdapter({ leverageToken });
 
   // Infinite cache because debt asset should never change on lending adapter
-  return await queryContract({
+  return queryContract({
     ...readContractQueryOptions(getConfig(), {
       address: lendingAdapter,
       abi: LendingAdapterAbi,

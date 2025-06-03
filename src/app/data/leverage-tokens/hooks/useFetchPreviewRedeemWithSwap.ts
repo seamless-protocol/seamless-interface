@@ -7,13 +7,7 @@ import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
 import { fetchPreviewRedeem } from "./useFetchPreviewRedeem";
 import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFetchUniswapRoute";
-
-export enum Exchange {
-  AERODROME = 0,
-  AERODROME_SLIPSTREAM = 1,
-  UNISWAP_V2 = 2,
-  UNISWAP_V3 = 3,
-}
+import { Exchange } from "../common/enums";
 
 export interface FetchBestSwapInput {
   tokenInAddress: Address;

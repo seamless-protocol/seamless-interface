@@ -14,7 +14,8 @@ import {
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { SwapContext } from "./useFetchAerodromeRoute";
-import { FetchBestSwapInput, Exchange } from "./useFetchPreviewRedeemWithSwap";
+import type { FetchBestSwapInput } from "./useFetchPreviewRedeemWithSwap";
+import { Exchange } from "../common/enums";
 
 export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput) => {
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
@@ -70,7 +71,7 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
             tokenIn: tokenInAddress,
             tokenOut: tokenOutAddress,
             amount: amountOut,
-            fee: fee,
+            fee,
             sqrtPriceLimitX96: 0n,
           },
         ],

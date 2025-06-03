@@ -1,4 +1,4 @@
-import { Address, parseEther, zeroAddress } from "viem";
+import { Address, parseEther } from "viem";
 import seamLogo from "@assets/tokens/seam.svg";
 import esSeamLogo from "@assets/tokens/esSeam.svg";
 import usdcLogo from "@assets/tokens/usdc.svg";

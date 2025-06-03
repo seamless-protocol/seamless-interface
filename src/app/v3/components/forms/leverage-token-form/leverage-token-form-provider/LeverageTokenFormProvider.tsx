@@ -18,17 +18,16 @@ import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrapp
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { useFetchDebtAsset } from "../../../../../statev3/queries/DebtAsset.all";
-import { useFetchPreviewMint } from "../../../../../state/leverage/useFetchPreviewMint";
 import { etherFiLeverageRouterAddress } from "../../../../../generated";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
-import { useFetchPreviewRedeemWithSwap } from "../../../../../state/leverage/useFetchPreviewRedeemWithSwap";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import { SharesToReceiveData } from "../../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
 import {
   PreviewWithdraw,
   ViewPreviewWithdraw,
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { useFetchPreviewMint } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMint";
+import { useFetchPreviewRedeemWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -129,7 +128,7 @@ export function LeverageTokenFormProvider({
 
   const { data: collateralAsset } = useFetchCollateralAsset(selectedLeverageTokenAddress);
 
-  const { data: debtAsset } = useFetchDebtAsset(selectedLeverageTokenAddress);
+  // const { data: debtAsset } = useFetchDebtAsset(selectedLeverageTokenAddress);
 
   /* -------------------- */
   /*   Query Hooks        */
@@ -268,7 +267,7 @@ export function LeverageTokenFormProvider({
     }
   };
 
-  const isPending = false; // todo
+  const isPending = isRedeemPending || isMintPending;
 
   const previewDepositData = {
     data: {

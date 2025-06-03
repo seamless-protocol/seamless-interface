@@ -10,7 +10,6 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { VITE_EXTENSIVE_OPERATIONS_RPC_URL } from "../../globals";
-import { createPublicClient } from "viem";
 import { ethers } from "ethers";
 
 const rpcConfig = [

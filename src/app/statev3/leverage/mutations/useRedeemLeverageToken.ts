@@ -1,10 +1,10 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { etherFiLeverageRouterAbi, etherFiLeverageRouterAddress, leverageRouterAddress } from "@generated";
+import { leverageRouterAddress } from "@generated";
 import { useAccount } from "wagmi";
 import { targetChain } from "../../../config/rainbow.config";
 import { Address } from "viem";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
-import { SwapContext } from "../../../state/leverage/useFetchUniswapRoute";
+import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 
 export const useRedeemLeverageToken = () => {
   /* ------------- */

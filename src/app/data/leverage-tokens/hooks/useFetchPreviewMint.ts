@@ -26,7 +26,7 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
   const decimals = await fetchDecimals(collateral);
   const amountBigInt = parseUnits(amount, decimals);
 
-  return await queryContract({
+  return queryContract({
     ...readContractQueryOptions(getConfig(), {
       address: leverageManagerAddress,
       abi: leverageManagerAbi,

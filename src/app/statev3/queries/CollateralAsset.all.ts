@@ -1,4 +1,4 @@
-import { Address, erc20Abi } from "viem";
+import { Address } from "viem";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
 import { fetchLendingAdapter } from "./LendingAdapter.hook";
@@ -10,7 +10,7 @@ export async function fetchCollateralAsset({ leverageToken }: { leverageToken: A
   const lendingAdapter = await fetchLendingAdapter({ leverageToken });
 
   // Infinite cache because collateral asset should never change on lending adapter
-  return await queryContract({
+  return queryContract({
     ...readContractQueryOptions(getConfig(), {
       address: lendingAdapter,
       abi: LendingAdapterAbi,
