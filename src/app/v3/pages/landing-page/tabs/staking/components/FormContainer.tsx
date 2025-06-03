@@ -10,6 +10,7 @@ import { STAKED_SEAM_ADDRESS } from "@meta";
 import { useBlock } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../../../globals";
 import { FIVE_MINUTE_IN_MS } from "../../../../../../statev3/settings/queryConfig";
+import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;
@@ -109,14 +110,16 @@ export const FormContainer: React.FC = () => {
       </FlexRow>
       <div>
         {isDepositing ? (
-          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>{/* <StakingForm /> */}</FormSettingsProvider>
+          <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
+            <StakingForm />
+          </FormSettingsProvider>
         ) : (
           <FormSettingsProvider defaultStrategy={STAKED_SEAM_ADDRESS}>
-            {/* {!hasCooldown ? (
+            {!hasCooldown ? (
               <InitiateCooldownForm />
             ) : (
-              // <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} deadline={deadline} />
-            )} */}
+              <UnstakeForm remaining={remaining} isUnstakeWindow={isUnstakeWindow} deadline={deadline} />
+            )}
           </FormSettingsProvider>
         )}
       </div>
