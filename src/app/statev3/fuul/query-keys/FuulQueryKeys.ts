@@ -97,12 +97,12 @@ export const FuulQueryKeys = {
     },
   ],
 
-  conversionByProjectHook: () => [
+  conversionByProjectHook: (id: string) => [
     {
       ...FuulQueryKeys.hookQueries[0],
       functionName: "getConversionByProjectHook",
       ...getHashedQueryKey({
-        queryKey: FuulQueryKeys.conversionById(),
+        queryKey: FuulQueryKeys.conversionById(id),
       }),
     },
   ],
