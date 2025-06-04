@@ -24,7 +24,7 @@ export const DepositLeverageTokenForm = () => {
         <FlexCol className="gap-8">
           <FlexCol className="gap-6">
             <FlexCol className="gap-3">
-              <Typography type="medium3">Deposit</Typography>
+              <Typography type="medium3">Mint</Typography>
               <RHFDepositAmountField name="depositAmount" />
             </FlexCol>
 

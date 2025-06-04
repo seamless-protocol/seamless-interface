@@ -25,7 +25,7 @@ export const FormContainer = () => {
           }}
           isActive={mode === "deposit"}
         >
-          Deposit
+          Mint
         </LocalButtonSwitcher>
 
         <LocalButtonSwitcher
@@ -35,7 +35,7 @@ export const FormContainer = () => {
           }}
           isActive={mode === "withdraw"}
         >
-          Withdraw
+          Redeem
         </LocalButtonSwitcher>
       </FlexRow>
       <div>{mode === "deposit" ? <DepositLeverageTokenForm /> : <WithdrawLeverageTokenForm />}</div>

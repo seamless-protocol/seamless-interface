@@ -50,7 +50,7 @@ export const FormButtons = () => {
           disabled={!isApproved || isSubmitting || isPending}
           loading={isSubmitting || isPending}
         >
-          Submit
+          Mint
         </Buttonv2>
       </AuthGuardv2>
     </FlexCol>

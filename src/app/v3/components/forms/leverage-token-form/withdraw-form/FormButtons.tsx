@@ -28,7 +28,7 @@ export const FormButtons = () => {
           disabled={isSubmitting || isPending}
           loading={isSubmitting || isPending}
         >
-          Withdraw
+          Redeem
         </Buttonv2>
       </AuthGuardv2>
     </FlexCol>
