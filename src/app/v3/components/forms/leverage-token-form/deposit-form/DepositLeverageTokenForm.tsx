@@ -9,6 +9,7 @@ import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 import { EmptyFormGuard } from "../../../../pages/common/components/EmptyFormGuard";
+import { LimitStatusComponent } from "../components/LimitStatus";
 
 export const DepositLeverageTokenForm = () => {
   const { formOnSubmitAsync, reactHookFormMethods, selectedLeverageToken } = useLeverageTokenFormContext();
@@ -51,6 +52,8 @@ export const DepositLeverageTokenForm = () => {
 
             <Summary />
           </FlexCol>
+
+          <LimitStatusComponent />
 
           <FormButtons />
         </FlexCol>

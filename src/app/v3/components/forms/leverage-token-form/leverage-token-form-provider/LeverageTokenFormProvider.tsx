@@ -23,6 +23,10 @@ import {
   ViewPreviewWithdraw as PreviewWithdraw,
   useFetchViewWithdrawCostInUsdAndUnderlying,
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import {
+  LimitStatus,
+  useLeverageTokenLimitStatus,
+} from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatus";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -79,6 +83,8 @@ interface LeverageTokenFormContextValue {
   };
 
   withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
+
+  limitStatus: LimitStatus;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -162,6 +168,11 @@ export function LeverageTokenFormProvider({
     setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
     isConnected,
+  });
+
+  const limitStatus = useLeverageTokenLimitStatus({
+    debouncedDepositAmount,
+    debouncedWithdrawAmount,
   });
 
   /* ------------- */
@@ -264,6 +275,7 @@ export function LeverageTokenFormProvider({
           approveAsync,
         },
         withdrawCostInUsdAndUnderlying,
+        limitStatus,
       }}
     >
       {children}
