@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { RebalanceAdapterAbi } from "../../../../../../abis/RebalanceAdapter";
+import { COLLATERAL_RATIO_DECIMALS } from "../../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -25,7 +26,7 @@ export const fetchPreLiquidationCollateralRatio = async (leverageToken: Address)
 
   return formatFetchBigIntToViewBigInt({
     bigIntValue: preLiquidationCollateralRatio,
-    decimals: 18,
+    decimals: COLLATERAL_RATIO_DECIMALS,
     symbol: "x",
   });
 };

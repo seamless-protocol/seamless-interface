@@ -1,10 +1,10 @@
-import { Address, parseEther } from "viem";
-import seamLogo from "@assets/tokens/seam.svg";
-import esSeamLogo from "@assets/tokens/esSeam.svg";
-import usdcLogo from "@assets/tokens/usdc.svg";
-import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
+import esSeamLogo from "@assets/tokens/esSeam.svg";
+import ogPointsLogo from "@assets/tokens/og-points.svg";
+import seamLogo from "@assets/tokens/seam.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
 import type { DecimalsOptions } from "@shared";
+import { Address, parseEther } from "viem";
 
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
@@ -124,3 +124,7 @@ export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
 
 // Error constants
 export const OVERFLOW_UNDERFLOW_REASON_MESSAGE = "Arithmetic operation resulted in underflow or overflow.";
+
+export const AUCTION_PRICE_MULTIPLIER_DECIMALS = 18;
+
+export const COLLATERAL_RATIO_DECIMALS = 18;

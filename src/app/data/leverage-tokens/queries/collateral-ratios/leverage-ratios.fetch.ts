@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { RebalanceAdapterAbi } from "../../../../../../abis/RebalanceAdapter";
-import { ONE_ETHER } from "../../../../../meta";
+import { COLLATERAL_RATIO_DECIMALS } from "../../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -42,7 +42,8 @@ export const getTargetCollateralRatioQueryOptions = (rebalanceAdapter: Address) 
 });
 
 export const cCollateralRatioToLeverage = (collateralRatio: bigint) => {
-  return (collateralRatio * ONE_ETHER) / (collateralRatio - ONE_ETHER);
+  const BASE_RATIO = BigInt(10 ** COLLATERAL_RATIO_DECIMALS);
+  return (collateralRatio * BASE_RATIO) / (collateralRatio - BASE_RATIO);
 };
 
 export async function fetchLeverageRatios(leverageToken: Address): Promise<CollateralRatios> {

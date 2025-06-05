@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { LeverageManagerAbi } from "../../../../../../abis/LeverageManager";
+import { COLLATERAL_RATIO_DECIMALS } from "../../../../../meta";
 import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -54,7 +55,7 @@ export const fetchLeverageTokenState = async (leverageToken: Address) => {
     }),
     currentLeverage: formatFetchBigIntToViewBigInt({
       bigIntValue: cCollateralRatioToLeverage(leverageTokenState.collateralRatio),
-      decimals: 18,
+      decimals: COLLATERAL_RATIO_DECIMALS,
       symbol: "x",
     }),
   };

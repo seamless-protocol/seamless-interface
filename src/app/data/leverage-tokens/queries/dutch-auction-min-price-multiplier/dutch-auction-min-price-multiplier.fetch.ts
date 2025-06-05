@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { RebalanceAdapterAbi } from "../../../../../../abis/RebalanceAdapter";
+import { AUCTION_PRICE_MULTIPLIER_DECIMALS } from "../../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -25,7 +26,7 @@ export const fetchDutchAuctionMinPriceMultiplier = async (leverageToken: Address
 
   return formatFetchBigIntToViewBigInt({
     bigIntValue: minPriceMultiplier,
-    decimals: 18,
+    decimals: AUCTION_PRICE_MULTIPLIER_DECIMALS,
     symbol: "x",
   });
 };
