@@ -22,7 +22,7 @@ export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { addre
     checkGraphQlResponse(result);
     return result.data;
   },
-  ...queryConfig.semiSensitiveDataQueryConfig,
+  ...queryConfig.platformDataQueryConfig,
 });
 
 export async function fetchLeverageTokenValueHistorical(variables: { address: string }) {
