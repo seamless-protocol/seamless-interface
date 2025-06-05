@@ -44,7 +44,7 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
     queryKey: ["etherFiData"],
     ...queryConfig.semiSensitiveDataQueryConfig,
     queryFn: async (): Promise<EtherFiApyData> => {
-      const res = await fetch("https://app.ether.fi/api/protocol/protocol-detail");
+      const res = await fetch("https://misc-cache.seamlessprotocol.com/etherfi-apy-detail");
       if (!res.ok) {
         throw new Error(`Failed to fetch Ether.fi data (status ${res.status}): ${res.statusText}`);
       }
@@ -59,7 +59,7 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
       const aprPreFeesBigInt = parseUnits(aprPreFeesFloat.toString(), APY_DECIMALS);
 
       const aprPreFeesView: ViewBigInt = formatFetchBigIntToViewBigInt({
-        bigIntValue: aprPreFeesBigInt * 100n,
+        bigIntValue: aprPreFeesBigInt,
         decimals: APY_DECIMALS,
         symbol: "%",
       });
