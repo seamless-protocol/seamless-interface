@@ -56,7 +56,7 @@ export const LeverageTokenDetailsPage = () => {
 
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
               <CollateralVsValueGraphComponent
-                tokenAddress="0xa2fceeae99d2caeee978da27be2d95b0381dbb8c"
+                tokenAddress={lvrgToken?.address}
                 collateralPriceLabel={lvrgToken?.config?.collateralPriceLabel}
               />
             </FlexCol>

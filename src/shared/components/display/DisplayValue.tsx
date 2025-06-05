@@ -67,6 +67,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
   viewValue,
   symbol,
   isLoading,
+  isFetched,
   isError,
   loaderSkeleton,
   loaderSkeletonSettings,
@@ -95,7 +96,7 @@ export const DisplayValue: React.FC<DisplayValueProps> = ({
       </Tooltip>
     );
   }
-  if (isLoading && isLoading != null) {
+  if ((!isFetched && isFetched != null) || (isLoading && isLoading != null)) {
     if (loaderSkeleton) {
       let width = "";
       let height = "";
