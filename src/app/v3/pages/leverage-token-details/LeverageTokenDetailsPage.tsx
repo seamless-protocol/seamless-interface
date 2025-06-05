@@ -11,8 +11,8 @@ import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading"
 import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails";
 import { LeverageTokenFormProvider } from "../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { FormContainer } from "./components/form/FormContainer";
-import { CollateralPriceGraphComponent } from "./components/graphs/CollateralPriceGraphComponent";
-import { LeverageTokenValueGraphComponent } from "./components/graphs/LeverageTokenValueGraphComponent";
+import { CollateralVsValueGraphComponent } from "./components/graphs/CollateralPriceTokenValueGraphComponents";
+import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ export const LeverageTokenDetailsPage = () => {
   const { isConnected } = useAccount();
 
   const { data: lvrgToken, ...rest } = useFetchLeverageTokenByAddress(address as Address);
-  console.log({ lvrgToken });
 
   return (
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
@@ -50,13 +49,10 @@ export const LeverageTokenDetailsPage = () => {
           <div className="flex flex-col gap-10 order-2 md:order-1">
             {isConnected && <CurrentHoldings address={address as Address} />}
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
-              <CollateralPriceGraphComponent
-                collateralAddress="0xa2fceeae99d2caeee978da27be2d95b0381dbb8c"
+              <CollateralVsValueGraphComponent
+                tokenAddress="0xa2fceeae99d2caeee978da27be2d95b0381dbb8c"
                 collateralPriceLabel={lvrgToken?.config?.collateralPriceLabel}
               />
-            </FlexCol>
-            <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
-              <LeverageTokenValueGraphComponent tokenAddress="0xa2fceeae99d2caeee978da27be2d95b0381dbb8c" />
             </FlexCol>
             <LeverageTokenStats
               leverageToken={{
