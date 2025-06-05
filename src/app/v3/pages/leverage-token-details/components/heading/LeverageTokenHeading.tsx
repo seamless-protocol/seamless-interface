@@ -1,6 +1,6 @@
 import { Displayable, DisplayNumber, DisplayText, FlexCol, FlexRow, useToken } from "@shared";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
