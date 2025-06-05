@@ -6,6 +6,7 @@ import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { useFetchLeverageTokenCollateral } from "../../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 
 export const LeverageTokenMobileTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -16,12 +17,13 @@ export const LeverageTokenMobileTableRow: React.FC<{
     data: {
       tokenData: { name, symbol, logo },
       additionalData: { description },
-      tvl,
       apy,
       availableSupplyCap,
     },
     ...rest
   } = leverageToken;
+
+  const { data: tvl, ...tvlRest } = useFetchLeverageTokenCollateral(leverageToken.data?.address);
 
   return (
     <div
@@ -46,7 +48,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       <FlexCol className="space-y-3">
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
+          <DisplayMoney typography="bold3" {...tvl?.dollarAmount} {...tvlRest} />
         </FlexRow>
 
         <FlexRow className="justify-between items-center">

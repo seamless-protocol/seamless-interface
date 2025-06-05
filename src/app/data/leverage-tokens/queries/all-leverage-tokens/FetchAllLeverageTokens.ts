@@ -16,11 +16,6 @@ export interface ViewRewardToken {
 export interface LeverageToken {
   address: Address;
   underlyingAssetAddress: Address;
-  underlyingAsset: Token;
-  tvl: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
-  };
   debt: {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
@@ -53,25 +48,7 @@ export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
     underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAsset: {
-      symbol: "ETH",
-      decimals: 18,
-      name: "Ethereum",
-      logo: mockLogo,
-    },
     type: "Short",
-    tvl: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
     debt: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
@@ -129,25 +106,7 @@ export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAsset: {
-      symbol: "ETH",
-      decimals: 18,
-      name: "Ethereum",
-      logo: mockLogo,
-    },
     type: "Long",
-    tvl: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
     debt: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 32_000n * 10n ** 6n,
