@@ -12,7 +12,6 @@ import { LeverageTokenDetails } from "./components/details/LeverageTokenDetails"
 import { LeverageTokenFormProvider } from "../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { FormContainer } from "./components/form/FormContainer";
 import { CollateralVsValueGraphComponent } from "./components/graphs/CollateralPriceTokenValueGraphComponents";
-import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();

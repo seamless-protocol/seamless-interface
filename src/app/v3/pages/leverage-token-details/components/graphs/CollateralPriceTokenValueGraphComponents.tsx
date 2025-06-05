@@ -25,6 +25,10 @@ export const CollateralVsValueGraphComponent: React.FC<{
   const [chartOptions, setChartOptions] = useState<ApexOptions>({});
   const [chartSeries, setChartSeries] = useState<{ name: string; data: (number | null)[] }[]>([]);
 
+  // fixed colors:
+  const BLUE = "#4F68F7";
+  const GREEN = "#22C55E";
+
   useEffect(() => {
     const loadData = async () => {
       if (!tokenAddress) return;
@@ -57,41 +61,77 @@ export const CollateralVsValueGraphComponent: React.FC<{
         return;
       }
 
-      // Extract and sort collateral price points
+      // Extract collateral price points and sort by timestamp (ms)
       const collateralRaw = collateralResult.leverageToken.lendingAdapter.oracle.priceUpdates || [];
       const collateralDecimals = collateralResult.leverageToken.lendingAdapter.oracle.decimals;
-      const collateralPoints = collateralRaw.map((pt) => ({
-        ts: Number(pt.timestamp) / 1_000, // micro → ms
-        value: Number(pt.price) / 10 ** collateralDecimals,
-      }));
-      collateralPoints.sort((a, b) => a.ts - b.ts);
+      const collateralPoints = collateralRaw
+        .map((pt) => ({
+          ts: Number(pt.timestamp) / 1_000,
+          value: Number(pt.price) / 10 ** collateralDecimals,
+        }))
+        .sort((a, b) => a.ts - b.ts);
 
-      // Extract and sort token value points
+      // Extract equity-per-token points and sort by timestamp (ms)
       const valueRaw = valueResult.leverageToken.stateHistory || [];
-      const valuePoints = valueRaw.map((pt) => ({
-        ts: Number(pt.timestamp) / 1_000,
-        value: Number(formatUnits(pt.equityPerTokenInCollateral, tokenData.decimals)),
-      }));
-      valuePoints.sort((a, b) => a.ts - b.ts);
+      const valuePoints = valueRaw
+        .map((pt) => ({
+          ts: Number(pt.timestamp) / 1_000,
+          value: Number(formatUnits(pt.equityPerTokenInCollateral, tokenData.decimals)),
+        }))
+        .sort((a, b) => a.ts - b.ts);
 
-      // Build maps for quick lookup
-      const collateralMap = new Map<number, number>();
-      collateralPoints.forEach((pt) => collateralMap.set(pt.ts, pt.value));
-
-      const valueMap = new Map<number, number>();
-      valuePoints.forEach((pt) => valueMap.set(pt.ts, pt.value));
-
-      // Merge all timestamps
+      // Build merged timestamp list
       const allTimestamps = Array.from(
         new Set([...collateralPoints.map((pt) => pt.ts), ...valuePoints.map((pt) => pt.ts)])
-      );
-      allTimestamps.sort((a, b) => a - b);
+      ).sort((a, b) => a - b);
 
-      // Build categories (formatted) and series arrays
-      const newCategories = allTimestamps.map((ts) => formatDate(new Date(ts), false, false));
-      const collateralSeriesData = allTimestamps.map((ts) => (collateralMap.has(ts) ? collateralMap.get(ts)! : null));
-      const valueSeriesData = allTimestamps.map((ts) => (valueMap.has(ts) ? valueMap.get(ts)! : null));
+      // Prepare arrays for series data
+      const collateralSeriesData: (number | null)[] = [];
+      const valueSeriesData: (number | null)[] = [];
+      const categories: string[] = [];
 
+      // Use a pointer to forward-fill collateral price
+      let j = 0;
+      for (const ts of allTimestamps) {
+        // Build category label
+        categories.push(formatDate(new Date(ts), false, false));
+        // Advance j to the latest collateralPoints index where collateralPoints[j].ts <= ts
+        while (j + 1 < collateralPoints.length && collateralPoints[j + 1].ts <= ts) {
+          j++;
+        }
+        // If collateralPoints[j].ts <= ts, use collateralPoints[j].value; else null
+        if (collateralPoints.length > 0 && collateralPoints[j].ts <= ts) {
+          collateralSeriesData.push(collateralPoints[j].value);
+        } else {
+          collateralSeriesData.push(null);
+        }
+        // For equity, use exact match or null
+        const equPt = valuePoints.find((pt) => pt.ts === ts);
+        valueSeriesData.push(equPt ? equPt.value : null);
+      }
+
+      // Prepare series & colors based on toggles
+      const newSeries: { name: string; data: (number | null)[] }[] = [];
+      const seriesColors: string[] = [];
+
+      if (showCollateral) {
+        newSeries.push({
+          name: `Collateral Price (${collateralPriceLabel})`,
+          data: collateralSeriesData,
+        });
+        seriesColors.push(BLUE);
+      }
+      if (showValue) {
+        newSeries.push({
+          name: "Equity per Token",
+          data: valueSeriesData,
+        });
+        seriesColors.push(GREEN);
+      }
+
+      setChartSeries(newSeries);
+
+      // Build chart options using the dynamic colors
       setChartOptions({
         chart: {
           id: "collateral-vs-value-graph",
@@ -100,11 +140,11 @@ export const CollateralVsValueGraphComponent: React.FC<{
           zoom: { enabled: true },
           animations: { enabled: true, speed: 1500, easing: "easeout" },
         },
-        colors: ["#4F68F7", "#F47F5E"],
+        colors: seriesColors,
         dataLabels: { enabled: false },
         xaxis: {
           type: "category",
-          categories: newCategories,
+          categories,
           tickAmount: 5,
           labels: { rotate: 0, formatter: (val: string) => val },
           tooltip: { enabled: true },
@@ -121,7 +161,7 @@ export const CollateralVsValueGraphComponent: React.FC<{
         tooltip: {
           x: {
             show: true,
-            formatter: (index: number) => newCategories[index],
+            formatter: (index: number) => categories[index - 1],
           },
           y: {
             formatter: (val: number) => `${formatToDisplayable(val, { singleDigitNumberDecimals: 5 })}`,
@@ -131,22 +171,6 @@ export const CollateralVsValueGraphComponent: React.FC<{
           },
         },
       });
-
-      // Build series based on toggles (both use the single y-axis)
-      const newSeries: { name: string; data: (number | null)[] }[] = [];
-      if (showCollateral) {
-        newSeries.push({
-          name: `Collateral Price (${collateralPriceLabel})`,
-          data: collateralSeriesData,
-        });
-      }
-      if (showValue) {
-        newSeries.push({
-          name: "Equity per Token",
-          data: valueSeriesData,
-        });
-      }
-      setChartSeries(newSeries);
 
       setIsLoading(false);
     };
