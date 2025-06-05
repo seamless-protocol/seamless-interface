@@ -1,10 +1,11 @@
-import { Address, parseEther } from "viem";
-import seamLogo from "@assets/tokens/seam.svg";
-import esSeamLogo from "@assets/tokens/esSeam.svg";
-import usdcLogo from "@assets/tokens/usdc.svg";
-import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
+import esSeamLogo from "@assets/tokens/esSeam.svg";
+import ogPointsLogo from "@assets/tokens/og-points.svg";
+import seamLogo from "@assets/tokens/seam.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
 import type { DecimalsOptions } from "@shared";
+import { Address, parseEther } from "viem";
+import { uniswapV2Router02Address } from "../app/generated";
 
 export const USD_VALUE_DECIMALS = 8;
 export const PERCENTAGE_VALUE_DECIMALS = 2;
@@ -25,7 +26,9 @@ export const COMPOUNDING_PERIODS_APY = 1;
 
 export const MOCK_PRICE_ORACLE = "0x602823807C919A92B63cF5C126387c4759976072";
 
+export const ETH_ADDRESS: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
 export const WETH_ADDRESS: Address = "0x4200000000000000000000000000000000000006";
+export const WEETH_ADDRESS: Address = "0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A";
 export const CBETH_ADDRESS: Address = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
 export const WSTETH_ADDRESS: Address = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
 export const USDBC_ADDRESS: Address = "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA";
@@ -77,6 +80,9 @@ export const ethLong_4_5x: Address = "0x8199bE1c92cf87Ac52705dab9F2B65d7fABbceD6
 export const cbBTCLong_1_5x: Address = "0x5CE6A61E60AD45dBD80565349A8B902DC461A1FE";
 export const cbBTCLong_3x: Address = "0xdeCF8c9D927275e8b25721d3EF16d14AC8eb8766";
 
+// leverage tokens
+export const weeth_weth_leverage_token: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
+
 // MORPHO VAULTS
 export const seamlessUSDCMorphoVault: Address = "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738";
 export const seamlesscbBTCMorphoVault: Address = "0x5a47C803488FE2BB0A0EAaf346b420e4dF22F3C7";
@@ -104,6 +110,8 @@ export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0
 
 export const FUUL_MANAGER_ADDRESS = "0xC38E3A10B5818601b29c83F195E8b5854AAE45aF";
 
+export const ETHERFI_L2_MODE_SYNC_POOL_ADDRESS = "0xc38e046dFDAdf15f7F56853674242888301208a5";
+
 // todo refactor this by address or fetch this?
 // this is deprecated, please use addressIconMap from config v3.
 export const assetLogos: Map<string, string> = new Map([
@@ -124,3 +132,17 @@ export const NOT_CONNECTED_WALLET_MESSAGE = "Please connect your wallet.";
 
 // Error constants
 export const OVERFLOW_UNDERFLOW_REASON_MESSAGE = "Arithmetic operation resulted in underflow or overflow.";
+
+export const SWAP_ADAPTER_EXCHANGE_ADDRESSES = {
+  aerodromeRouter: "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+  aerodromePoolFactory: "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+  aerodromeSlipstreamRouter: "0xBE6D8f0d05cC4be24d5167a3eF062215bE6D18a5",
+  uniswapSwapRouter02: "0x2626664c2603336E57B271c5C0b26F421741e481",
+  uniswapV2Router02: uniswapV2Router02Address,
+};
+
+export const UNISWAP_FEES = [100, 300, 500, 1000];
+export const AERODROME_FEES = [100, 300, 500, 1000];
+export const AUCTION_PRICE_MULTIPLIER_DECIMALS = 18;
+
+export const COLLATERAL_RATIO_DECIMALS = 18;

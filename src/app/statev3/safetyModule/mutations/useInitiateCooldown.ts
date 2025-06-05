@@ -1,10 +1,10 @@
-import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { stakedTokenAbi } from "@generated";
 import { STAKED_SEAM_ADDRESS } from "@meta";
-import { fetchStakerCooldownQK } from "../hooks/useFetchStakerCooldown";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { useAccount } from "wagmi";
-import { fetchCooldownQK } from "../hooks/useFetchCooldown";
+import { StakedTokenAbi } from "../../../../../abis/StakedToken";
 import { targetChain } from "../../../config/rainbow.config";
+import { fetchCooldownQK } from "../hooks/useFetchCooldown";
+import { fetchStakerCooldownQK } from "../hooks/useFetchStakerCooldown";
 
 export const useInitiateCooldown = () => {
   /* ------------- */
@@ -29,7 +29,7 @@ export const useInitiateCooldown = () => {
         {
           chainId: targetChain.id,
           address: STAKED_SEAM_ADDRESS,
-          abi: stakedTokenAbi,
+          abi: StakedTokenAbi,
           functionName: "cooldown",
           args: [],
         },
