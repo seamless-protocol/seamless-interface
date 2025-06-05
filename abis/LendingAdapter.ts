@@ -124,7 +124,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "collateral",
+        name: "",
         type: "uint256",
         internalType: "uint256",
       },
