@@ -78,9 +78,6 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
       }
     }, [isConnected]);
 
-    console.log("isConnected", isConnected);
-    console.log("max", max);
-
     const inputRef = useFocusOnAssetChange(assetAddress, focusOnAssetChange);
 
     return (

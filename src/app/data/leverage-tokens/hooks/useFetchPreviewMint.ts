@@ -7,12 +7,12 @@ import {
   fUsdValueStructured,
   ViewBigIntWithUsdValue,
 } from "../../../../shared";
-import { fetchLeverageTokenAssets } from "../../../data/leverage-tokens/queries/leverage-token-assets/leverage-token-assets.fetch";
 import { leverageManagerAbi, leverageManagerAddress } from "../../../generated";
 import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
 
 interface FetchPreviewMintInput {
   leverageToken: Address;
@@ -57,26 +57,6 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
       args: [leverageToken, amountBigInt],
     }),
   });
-
-  console.log("previewMintData", previewMintData);
-
-  const tokenFee = {
-    tokenAmount: formatFetchBigIntToViewBigInt({
-      bigIntValue: previewMintData.tokenFee,
-      ...leverageTokenData,
-    }),
-    dollarAmount: formatFetchBigIntToViewBigInt({
-      ...fUsdValueStructured(
-        cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-      ),
-      ...collateralAssetPriceData,
-    }),
-  };
-
-  console.log(
-    "tokenFee",
-    cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-  );
 
   return {
     collateral: {

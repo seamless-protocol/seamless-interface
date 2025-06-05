@@ -1,12 +1,8 @@
 import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow } from "@shared";
 import { useAccount } from "wagmi";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
-import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary = () => {
-  const { withdrawCostInUsdAndUnderlying } = useLeverageTokenFormContext();
-  const { data: costData, ...restCost } = withdrawCostInUsdAndUnderlying;
-
   const { isConnected } = useAccount();
 
   return (
@@ -26,7 +22,7 @@ export const Summary = () => {
           </FlexRow>
           <DisplayMoney
             {...checkAuthentication(isConnected)}
-            {...restCost}
+            // {...restCost}
             typography="medium2"
             className="text-navy-1000"
             // {...costData?.cost.dollarAmount}

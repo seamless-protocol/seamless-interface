@@ -66,11 +66,7 @@ export const LendingAdapterAbi = [
     ],
     outputs: [
       {
-<<<<<<< HEAD
         name: "debt",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -89,11 +85,7 @@ export const LendingAdapterAbi = [
     ],
     outputs: [
       {
-<<<<<<< HEAD
         name: "collateral",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -106,11 +98,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "collateral",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -123,11 +111,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "collateralAsset",
-=======
-        name: "",
->>>>>>> main
         type: "address",
         internalType: "contract IERC20",
       },
@@ -153,11 +137,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "debt",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -170,11 +150,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "debtAsset",
-=======
-        name: "",
->>>>>>> main
         type: "address",
         internalType: "contract IERC20",
       },
@@ -187,11 +163,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "equity",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -204,11 +176,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-<<<<<<< HEAD
         name: "equity",
-=======
-        name: "",
->>>>>>> main
         type: "uint256",
         internalType: "uint256",
       },
@@ -341,11 +309,7 @@ export const LendingAdapterAbi = [
         internalType: "address",
       },
       {
-<<<<<<< HEAD
         name: "leverageToken",
-=======
-        name: "",
->>>>>>> main
         type: "address",
         internalType: "address",
       },

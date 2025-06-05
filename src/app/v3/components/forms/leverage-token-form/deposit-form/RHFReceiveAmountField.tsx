@@ -1,10 +1,6 @@
-import { formatFetchBigIntToViewBigInt, IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
+import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
-import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { USD_VALUE_DECIMALS } from "../../../../../../meta";
-import { useMemo } from "react";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

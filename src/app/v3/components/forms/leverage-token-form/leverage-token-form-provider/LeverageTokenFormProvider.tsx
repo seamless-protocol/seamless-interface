@@ -17,7 +17,7 @@ import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrapp
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { PreviewMintData, useFetchPreviewMint } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMint";
+import { PreviewMintData } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMint";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import {
