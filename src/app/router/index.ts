@@ -1,5 +1,10 @@
 import { Address } from "viem";
-import { seamlesscbBTCMorphoVault, seamlessETHMorphoVault, seamlessUSDCMorphoVault } from "@meta";
+import {
+  seamlesscbBTCMorphoVault,
+  seamlessETHMorphoVault,
+  seamlessUSDCMorphoVault,
+  weeth_weth_leverage_token,
+} from "@meta";
 
 const baseUrl = "";
 
@@ -82,6 +87,16 @@ const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } =
   [seamlessETHMorphoVault]: `${discourseBaseUrl}/t/introducing-seamless-weth-vault/864`,
 };
 
+const _LeverageTokenMorphoMarketUrls: { [address: string]: string } = {
+  // todo add real address here
+  [weeth_weth_leverage_token]:
+    "https://app.morpho.org/base/market/0xfd0895ba253889c243bf59bc4b96fd1e06d68631241383947b04d1c293a0cfea/weeth-weth",
+};
+
 export const getVaultSeamlessprotocolDiscourseGroupUrl = (vaultAddress?: string) => {
   return vaultAddress ? _VaultSeamlessprotocolDiscourseGroupUrl[vaultAddress] : "";
+};
+
+export const getLeverageTokenMorphoMarketUrl = (address?: string) => {
+  return address ? _LeverageTokenMorphoMarketUrls[address] : "";
 };

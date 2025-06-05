@@ -1,5 +1,6 @@
 import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
+import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -21,22 +22,25 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 
 export function RHFReceiveAmountField<T>({ ...other }: IProps<T>) {
   const {
-    selectedLeverageToken: { data: leverageToken, ...rest },
-    sharesToReceiveWithdrawData,
+    selectedLeverageToken: { data: leverageToken },
+    previewMintData,
   } = useLeverageTokenFormContext();
+
+  const { data: leverageTokenData, ...leverageTokenDataRest } = useFullTokenData(leverageToken?.address);
 
   return (
     <RHFAmountInputV3
       {...other}
       assetAddress={leverageToken?.address}
       dollarValue={{
-        ...sharesToReceiveWithdrawData,
-        data: sharesToReceiveWithdrawData?.data?.assetsToReceive?.dollarAmount,
+        data: previewMintData?.data?.shares.dollarAmount,
+        isLoading: previewMintData.isLoading,
+        isFetched: previewMintData.isFetched,
       }}
       disabled
-      value={sharesToReceiveWithdrawData?.data?.assetsToReceive?.tokenAmount.viewValue}
+      value={previewMintData?.data?.shares.tokenAmount.viewValue}
       hideMaxButton
-      tokenData={{ ...rest, data: leverageToken?.underlyingAsset || {} }}
+      tokenData={{ ...leverageTokenDataRest, data: leverageTokenData || {} }}
     />
   );
 }

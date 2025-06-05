@@ -1,9 +1,9 @@
-import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { stakedTokenAbi } from "@generated";
-import { useAccount } from "wagmi";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
-import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
+import { useAccount } from "wagmi";
+import { StakedTokenAbi } from "../../../../../abis/StakedToken";
 import { targetChain } from "../../../config/rainbow.config";
+import { fetchBalanceHookQK, fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
 
 export const useStakeSafetyModule = () => {
   /* ------------- */
@@ -42,7 +42,7 @@ export const useStakeSafetyModule = () => {
         {
           chainId: targetChain.id,
           address: STAKED_SEAM_ADDRESS,
-          abi: stakedTokenAbi,
+          abi: StakedTokenAbi,
           functionName: "deposit",
           args: [amount, address],
         },
