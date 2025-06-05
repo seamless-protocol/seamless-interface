@@ -57,9 +57,9 @@ export const mockLeverageTokens: LeverageToken[] = [
     },
     availableSupplyCap: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
+        bigIntValue: 500_000n * 10n ** 18n,
+        decimals: 18,
+        symbol: "weETH",
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
