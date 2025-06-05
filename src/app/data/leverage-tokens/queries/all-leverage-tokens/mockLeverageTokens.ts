@@ -35,10 +35,17 @@ export interface LeverageToken {
   tokenData?: Token;
   collateralAssetTokenData?: Token;
   debtAssetTokenData?: Token;
+
+  config?: {
+    collateralPriceLabel?: string;
+  };
 }
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
+    config: {
+      collateralPriceLabel: "weETH/eETH",
+    },
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
     apy: {
       rewardTokens: [],
