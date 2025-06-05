@@ -27,6 +27,7 @@ import {
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFetchPreviewRedeemWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
 
 /* -------------------- */
 /*   Types & Context    */
