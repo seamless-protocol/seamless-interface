@@ -19,7 +19,6 @@ import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { checkIfContractExists } from "../../utils/wagmiUtils";
 import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
-import { cValueInUsd } from "../math/utils";
 import { configuredVaultAddresses, strategyConfig } from "../settings/config";
 import { assetsConfig } from "../settings/landingMarketConfig";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
@@ -60,11 +59,8 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
     if (!collateralUsd?.bigIntValue || !debtUsd?.bigIntValue) return formatUsdValue(0n);
 
-    const leverageTokenPrice = cValueInUsd(
-      totalSupply.bigIntValue,
-      collateralUsd.bigIntValue - debtUsd.bigIntValue,
-      assetDecimals
-    );
+    const equity = collateralUsd.bigIntValue - debtUsd.bigIntValue;
+    const leverageTokenPrice = (equity * parseUnits("1", assetDecimals)) / totalSupply.bigIntValue;
 
     return formatUsdValue(leverageTokenPrice);
   }

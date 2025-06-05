@@ -51,7 +51,7 @@ export interface LeverageToken {
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
-    address: "0xa5Aa41483586D3530397de18B59122DAbc502817" as Address,
+    address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
     underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAsset: {
       symbol: "ETH",

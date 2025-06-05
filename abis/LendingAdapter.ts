@@ -66,7 +66,7 @@ export const LendingAdapterAbi = [
     ],
     outputs: [
       {
-        name: "",
+        name: "debt",
         type: "uint256",
         internalType: "uint256",
       },
@@ -85,7 +85,7 @@ export const LendingAdapterAbi = [
     ],
     outputs: [
       {
-        name: "",
+        name: "collateral",
         type: "uint256",
         internalType: "uint256",
       },
@@ -98,7 +98,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "collateral",
         type: "uint256",
         internalType: "uint256",
       },
@@ -111,7 +111,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "collateralAsset",
         type: "address",
         internalType: "contract IERC20",
       },
@@ -137,7 +137,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "debt",
         type: "uint256",
         internalType: "uint256",
       },
@@ -150,7 +150,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "debtAsset",
         type: "address",
         internalType: "contract IERC20",
       },
@@ -163,7 +163,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "equity",
         type: "uint256",
         internalType: "uint256",
       },
@@ -176,7 +176,7 @@ export const LendingAdapterAbi = [
     inputs: [],
     outputs: [
       {
-        name: "",
+        name: "equity",
         type: "uint256",
         internalType: "uint256",
       },
@@ -309,7 +309,7 @@ export const LendingAdapterAbi = [
         internalType: "address",
       },
       {
-        name: "",
+        name: "leverageToken",
         type: "address",
         internalType: "address",
       },
