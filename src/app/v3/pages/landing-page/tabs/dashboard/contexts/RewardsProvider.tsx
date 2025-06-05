@@ -28,7 +28,7 @@ export interface RewardItem {
 export type ClaimStatus = "idle" | "pending" | "success" | "failed";
 
 interface RewardsContextValue {
-  items: FetchData<RewardItem[] | undefined>;
+  items: FetchData<FetchData<RewardItem | undefined>[]>;
   selected: Set<string>;
   claimOrder: string[];
   currentStep: number;
@@ -116,7 +116,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  const items: RewardItem[] = [stkSeamReward.data, morphoReward.data, fuulReward.data, esSeamReward.data];
+  const items: FetchData<RewardItem>[] = [stkSeamReward, morphoReward, fuulReward, esSeamReward];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -139,8 +139,8 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     if (currentStep >= claimOrder.length) return;
     const id = claimOrder[currentStep];
     setStatuses((prev) => ({ ...prev, [id]: "pending" }));
-    const reward = items.find((i) => i.id === id);
-    reward?.claimAllAsync?.();
+    const reward = items.find((i) => i?.data.id === id);
+    reward?.data?.claimAllAsync?.();
   };
 
   const cancelStep = () => {

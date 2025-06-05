@@ -1,11 +1,11 @@
 import React from "react";
 import { ClaimStatus, Reward, RewardItem } from "../../contexts/RewardsProvider";
-import { DisplayMoney, ExternalLink, Icon, ImageGroup, Typography } from "@shared";
+import { DisplayMoney, ExternalLink, FetchData, Icon, ImageGroup, Typography } from "@shared";
 import { SingularReward } from "./SingularReward";
 import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 interface Props {
-  item: RewardItem;
+  item: FetchData<RewardItem | undefined>;
   showCheckbox?: boolean;
   checked?: boolean;
   onToggle?: () => void;
@@ -23,9 +23,9 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
   status = "idle",
   txHash,
 }) => {
-  const dollarAmount = useSumRewardDollarAmounts(item.rewards);
+  const dollarAmount = useSumRewardDollarAmounts(item?.data?.rewards || []);
 
-  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox) return null;
+  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox && !item.isError) return null;
 
   return (
     <div className="flex flex-col">
@@ -36,27 +36,27 @@ export const RewardItemClaimingRow: React.FC<Props> = ({
           {stepNumber !== undefined && <LocalStepIndicator status={status} stepNumber={stepNumber} />}
 
           <div className="flex flex-row items-center gap-4">
-            <Icon src={item.icon} alt={item.name} width={40} height={40} />
+            <Icon src={item?.data?.icon} alt={item?.data?.name || "Reward"} width={40} height={40} />
             <div className="flex flex-col items-start">
-              <Typography type="bold3">{item.name}</Typography>
+              <Typography type="bold3">{item?.data?.name}</Typography>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-end">
-          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} />
+          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} {...item} />
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4 px-14">
         {status === "idle" &&
-          item.rewards.map((reward, index) => (
+          item?.data?.rewards.map((reward, index) => (
             <SingularReward key={index} icon={reward.logo} amount={reward.tokenAmount} />
           ))}
 
         {status !== "idle" && (
           <div className="flex items-center gap-4">
-            <LocalStatusIndicator status={status} rewards={item.rewards} />
+            <LocalStatusIndicator status={status} rewards={item?.data?.rewards} />
             {txHash && (
               <ExternalLink className="text-[#4F68F7] text-body3" url={`https://basescan.org/tx/${txHash}`}>
                 Review tx details

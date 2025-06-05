@@ -33,7 +33,7 @@ export const RewardsSelector: React.FC = () => {
     startClaims();
   };
 
-  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i.rewards).flat() || []);
+  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i?.data?.rewards).flat() || []);
 
   return (
     <div className="bg-neutral-0 p-10 rounded-3xl border border-blue-100 flex flex-col gap-10">
@@ -67,13 +67,13 @@ export const RewardsSelector: React.FC = () => {
                       </button>
                     </div>
                   </div>
-                  {items.data?.map((item) => (
+                  {items.data?.map((item, index) => (
                     <RewardItemRow
-                      key={item.id}
+                      key={item.data?.id || index}
                       item={item}
                       showCheckbox
-                      checked={selected.has(item.id)}
-                      onToggle={() => toggleSelect(item.id)}
+                      checked={selected.has(item?.data?.id || "")}
+                      onToggle={() => toggleSelect(item?.data?.id || "")}
                     />
                   ))}
                 </div>
@@ -101,7 +101,7 @@ export const RewardsSelector: React.FC = () => {
 
                   <div className="flex flex-col gap-6">
                     {claimOrder.map((id, idx) => {
-                      const item = items.data?.find((i) => i.id === id)!;
+                      const item = items.data?.find((i) => i?.data?.id === id)!;
                       const status = statuses[id];
                       const txHash = txHashes[id];
                       return (
@@ -161,7 +161,7 @@ export const RewardsSelector: React.FC = () => {
       </div>
 
       {/* Always show all items below */}
-      <div>{items.data?.map((item) => <RewardItemRow key={item.id} item={item} />)}</div>
+      <div>{items.data?.map((item, index) => <RewardItemRow key={item?.data?.id || index} item={item} />)}</div>
     </div>
   );
 };

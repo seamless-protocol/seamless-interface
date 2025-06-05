@@ -1,10 +1,10 @@
 import React from "react";
 import { RewardItem } from "../../contexts/RewardsProvider";
-import { DisplayMoney, Icon, ImageGroup, Typography } from "@shared";
+import { DisplayMoney, FetchData, Icon, ImageGroup, Typography } from "@shared";
 import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 interface Props {
-  item: RewardItem;
+  item: FetchData<RewardItem | undefined>;
   showCheckbox?: boolean;
   checked?: boolean;
   onToggle?: () => void;
@@ -12,9 +12,9 @@ interface Props {
 }
 
 export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, checked = false, onToggle }) => {
-  const dollarAmount = useSumRewardDollarAmounts(item.rewards);
+  const dollarAmount = useSumRewardDollarAmounts(item?.data?.rewards || []);
 
-  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox) return null;
+  if ((dollarAmount?.bigIntValue || 0n) < 1n && showCheckbox && !item.isError) return null;
 
   return (
     <div>
@@ -26,25 +26,25 @@ export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, che
           {showCheckbox && <input type="checkbox" checked={checked} onChange={onToggle} className="checkbox" />}
 
           <div className="flex flex-row items-center gap-4">
-            <Icon src={item.icon} alt={item.name} width={40} height={40} />
+            <Icon src={item?.data?.icon} alt={item?.data?.name || "Reward"} width={40} height={40} />
 
             <div className="flex flex-col items-start">
-              <Typography type="bold3">{item.name}</Typography>
-              <Typography type="body1">{item.description}</Typography>
+              <Typography type="bold3">{item?.data?.name}</Typography>
+              <Typography type="body1">{item?.data?.description}</Typography>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-end">
-          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} />
+          <DisplayMoney isApproximate typography="bold3" {...dollarAmount} {...item} />
         </div>
       </div>
 
-      {item.rewards.length > 0 && (
+      {(item?.data?.rewards?.length || 0) > 0 && (
         <div className="w-full bg-neutral-100 py-4 px-6 flex flex-row gap-2 rounded-[16px] mb-6">
           <Typography type="bold1">Accruing: {dollarAmount.viewValue} $</Typography>
           <ImageGroup
-            images={item.rewards?.map((reward) => reward.logo) || []}
+            images={item?.data?.rewards?.map((reward) => reward.logo) || []}
             imageStyle="w-4 h-4 rounded-full"
             spacing="-space-x-3"
           />

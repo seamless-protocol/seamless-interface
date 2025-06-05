@@ -7,10 +7,10 @@ import { Reward } from "../contexts/RewardsProvider";
  * Hook: sum up all `dollarAmount` fields from an array of `Reward`.
  * The result is memoized so it only recalculates if any reward’s `dollarAmount.bigIntValue` changes.
  */
-export function useSumRewardDollarAmounts(rewards: Reward[]): ViewBigInt {
+export function useSumRewardDollarAmounts(rewards: (Reward | undefined)[]): ViewBigInt {
   return useMemo(() => {
     const totalRaw: bigint = rewards.reduce((acc, r) => {
-      return acc + (r.dollarAmount?.bigIntValue ?? 0n);
+      return acc + (r?.dollarAmount?.bigIntValue ?? 0n);
     }, 0n);
 
     return formatFetchBigIntToViewBigInt({
