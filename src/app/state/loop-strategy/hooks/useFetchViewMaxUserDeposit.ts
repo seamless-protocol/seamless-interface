@@ -1,11 +1,11 @@
-import { Address } from "viem";
-import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
-import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { Displayable, fFetchBigIntStructured, mergeQueryStates, useToken, ViewBigInt } from "@shared";
-import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { walletBalanceDecimalsOptions } from "@meta";
+import { Displayable, fFetchBigIntStructured, mergeQueryStates, useToken, ViewBigInt } from "@shared";
+import { Address } from "viem";
+import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
+import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
+import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 
 export const cMaxUserDeposit = (maxDepositValue?: bigint, assetBalanceValue?: bigint) => {
   if (maxDepositValue == null && assetBalanceValue == null) return undefined;
@@ -32,10 +32,17 @@ export const useFetchMaxUserDeposit = (strategy?: Address): FetchData<FetchBigIn
 };
 
 export const useFetchViewMaxUserDeposit = (strategy?: Address): Displayable<ViewBigInt> => {
-  const { data: maxUserDeposit, ...rest } = useFetchMaxUserDeposit(strategy);
+  const { ...rest } = useFetchMaxUserDeposit(strategy);
 
   return {
     ...rest,
-    data: formatFetchBigIntToViewBigInt(maxUserDeposit, walletBalanceDecimalsOptions),
+    data: formatFetchBigIntToViewBigInt(
+      {
+        bigIntValue: 1111111111111111111111111111111111111111n,
+        decimals: 18,
+        symbol: "weETH",
+      },
+      walletBalanceDecimalsOptions
+    ),
   };
 };
