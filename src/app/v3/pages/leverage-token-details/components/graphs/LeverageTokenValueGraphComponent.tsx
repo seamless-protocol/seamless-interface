@@ -54,7 +54,7 @@ export const LeverageTokenValueGraphComponent: React.FC<{
       });
 
       const valueData = sorted.map((pt) => {
-        return Number(formatUnits(pt.equityPerTokenInCollateral, tokenData?.decimals));
+        return Number(formatUnits(pt.equityPerTokenInDebt, tokenData?.decimals));
       });
 
       setChartOptions({
