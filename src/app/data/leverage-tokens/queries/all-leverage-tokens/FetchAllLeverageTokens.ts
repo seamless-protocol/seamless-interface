@@ -1,4 +1,10 @@
-import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, ViewBigInt, ViewNumber } from "@shared";
+import {
+  formatFetchBigIntToViewBigInt,
+  formatFetchNumberToViewNumber,
+  ViewBigInt,
+  ViewBigIntWithUsdValue,
+  ViewNumber,
+} from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 
@@ -22,6 +28,7 @@ export interface LeverageToken {
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];
   };
+  tvl?: ViewBigIntWithUsdValue;
   additionalData: {
     description?: string;
   };

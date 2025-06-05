@@ -19,6 +19,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       additionalData: { description },
       apy,
       availableSupplyCap,
+      tvl,
     },
     ...rest
   } = leverageToken;
@@ -26,8 +27,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
   const {
     data: { name, symbol, logo },
   } = useFullTokenData(leverageToken.data?.address);
-
-  const { data: tvl, ...tvlRest } = useFetchLeverageTokenCollateral(leverageToken.data?.address);
 
   return (
     <div
@@ -52,7 +51,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       <FlexCol className="space-y-3">
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
-          <DisplayMoney typography="bold3" {...tvl?.dollarAmount} {...tvlRest} />
+          <DisplayMoney typography="bold3" {...tvl?.dollarAmount} {...rest} />
         </FlexRow>
 
         <FlexRow className="justify-between items-center">
