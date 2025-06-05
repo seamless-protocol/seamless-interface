@@ -1,4 +1,4 @@
-import { SeamlessWriteAsyncParams } from "@shared";
+import { FetchData, SeamlessWriteAsyncParams } from "@shared";
 import { type RewardItem } from "../contexts/RewardsProvider";
 
 import seamIcon from "@assets/tokens/seam.svg";
@@ -13,14 +13,21 @@ const config = {
   description: "stSEAM rewards",
 };
 
-export const useStkSeamRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
+export const useStkSeamRewardsWrapper = ({
+  settings,
+}: {
+  settings: SeamlessWriteAsyncParams;
+}): FetchData<RewardItem> => {
   const { claimAllAsync, isClaimAllPending } = useMutateClaimAllRewards({ ...settings });
-  const { data } = useFetchViewAllUserRewards(rewardsAccruingAssets);
+  const { data, ...rest } = useFetchViewAllUserRewards(rewardsAccruingAssets);
 
   return {
-    ...config,
-    claimAllAsync,
-    isClaiming: isClaimAllPending,
-    rewards: data?.rewards || [],
+    ...rest,
+    data: {
+      ...config,
+      claimAllAsync,
+      isClaiming: isClaimAllPending,
+      rewards: data?.rewards || [],
+    },
   };
 };

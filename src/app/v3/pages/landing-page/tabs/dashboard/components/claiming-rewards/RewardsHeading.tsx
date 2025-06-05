@@ -1,10 +1,16 @@
-import { Typography, DisplayMoney } from "@shared";
+import { Typography, DisplayMoney, FetchData } from "@shared";
+import { RewardItem } from "../../contexts/RewardsProvider";
+import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
-export const RewardsHeading = () => {
+export const RewardsHeading: React.FC<{
+  items: FetchData<FetchData<RewardItem | undefined>[]>;
+}> = ({ items }) => {
+  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i?.data?.rewards).flat() || []);
+
   return (
     <div className="flex flex-col gap-2">
       <Typography type="regular5">Claim rewards</Typography>
-      <DisplayMoney typography="bold6" viewValue="906.64" />
+      <DisplayMoney typography="bold6" {...items} {...dollarAmount} />
     </div>
   );
 };
