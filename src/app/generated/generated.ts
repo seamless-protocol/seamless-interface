@@ -6,6 +6,153 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  UniswapV3Factory
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const uniswapV3FactoryAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'fee', internalType: 'uint24', type: 'uint24', indexed: true },
+      {
+        name: 'tickSpacing',
+        internalType: 'int24',
+        type: 'int24',
+        indexed: true,
+      },
+    ],
+    name: 'FeeAmountEnabled',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnerChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token0',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'token1',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'fee', internalType: 'uint24', type: 'uint24', indexed: true },
+      {
+        name: 'tickSpacing',
+        internalType: 'int24',
+        type: 'int24',
+        indexed: false,
+      },
+      {
+        name: 'pool',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'PoolCreated',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenA', internalType: 'address', type: 'address' },
+      { name: 'tokenB', internalType: 'address', type: 'address' },
+      { name: 'fee', internalType: 'uint24', type: 'uint24' },
+    ],
+    name: 'createPool',
+    outputs: [{ name: 'pool', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'fee', internalType: 'uint24', type: 'uint24' },
+      { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+    ],
+    name: 'enableFeeAmount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint24', type: 'uint24' }],
+    name: 'feeAmountTickSpacing',
+    outputs: [{ name: '', internalType: 'int24', type: 'int24' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint24', type: 'uint24' },
+    ],
+    name: 'getPool',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'parameters',
+    outputs: [
+      { name: 'factory', internalType: 'address', type: 'address' },
+      { name: 'token0', internalType: 'address', type: 'address' },
+      { name: 'token1', internalType: 'address', type: 'address' },
+      { name: 'fee', internalType: 'uint24', type: 'uint24' },
+      { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_owner', internalType: 'address', type: 'address' }],
+    name: 'setOwner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+export const uniswapV3FactoryAddress =
+  '0x33128a8fC17869897dcE68Ed026d694621f6FDfD' as const
+
+export const uniswapV3FactoryConfig = {
+  address: uniswapV3FactoryAddress,
+  abi: uniswapV3FactoryAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AaveOracle
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -159,6 +306,547 @@ export const aaveOracleAddress =
 export const aaveOracleConfig = {
   address: aaveOracleAddress,
   abi: aaveOracleAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AerodromeQuoter
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const aerodromeQuoterAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_factory', internalType: 'address', type: 'address' },
+      { name: '_WETH9', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'WETH9',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'factory',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'quoteExactInput',
+    outputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'sqrtPriceX96AfterList',
+        internalType: 'uint160[]',
+        type: 'uint160[]',
+      },
+      {
+        name: 'initializedTicksCrossedList',
+        internalType: 'uint32[]',
+        type: 'uint32[]',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'params',
+        internalType: 'struct IQuoterV2.QuoteExactInputSingleParams',
+        type: 'tuple',
+        components: [
+          { name: 'tokenIn', internalType: 'address', type: 'address' },
+          { name: 'tokenOut', internalType: 'address', type: 'address' },
+          { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+          { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+          {
+            name: 'sqrtPriceLimitX96',
+            internalType: 'uint160',
+            type: 'uint160',
+          },
+        ],
+      },
+    ],
+    name: 'quoteExactInputSingle',
+    outputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'sqrtPriceX96After', internalType: 'uint160', type: 'uint160' },
+      {
+        name: 'initializedTicksCrossed',
+        internalType: 'uint32',
+        type: 'uint32',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'quoteExactOutput',
+    outputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'sqrtPriceX96AfterList',
+        internalType: 'uint160[]',
+        type: 'uint160[]',
+      },
+      {
+        name: 'initializedTicksCrossedList',
+        internalType: 'uint32[]',
+        type: 'uint32[]',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'params',
+        internalType: 'struct IQuoterV2.QuoteExactOutputSingleParams',
+        type: 'tuple',
+        components: [
+          { name: 'tokenIn', internalType: 'address', type: 'address' },
+          { name: 'tokenOut', internalType: 'address', type: 'address' },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+          { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+          {
+            name: 'sqrtPriceLimitX96',
+            internalType: 'uint160',
+            type: 'uint160',
+          },
+        ],
+      },
+    ],
+    name: 'quoteExactOutputSingle',
+    outputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'sqrtPriceX96After', internalType: 'uint160', type: 'uint160' },
+      {
+        name: 'initializedTicksCrossed',
+        internalType: 'uint32',
+        type: 'uint32',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amount0Delta', internalType: 'int256', type: 'int256' },
+      { name: 'amount1Delta', internalType: 'int256', type: 'int256' },
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'uniswapV3SwapCallback',
+    outputs: [],
+    stateMutability: 'view',
+  },
+] as const
+
+export const aerodromeQuoterAddress =
+  '0x254cF9E1E6e233aa1AC962CB9B05b2cfeAaE15b0' as const
+
+export const aerodromeQuoterConfig = {
+  address: aerodromeQuoterAddress,
+  abi: aerodromeQuoterAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AerodromeSlipstreamFactory
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const aerodromeSlipstreamFactoryAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_voter', internalType: 'address', type: 'address' },
+      { name: '_poolImplementation', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldUnstakedFee',
+        internalType: 'uint24',
+        type: 'uint24',
+        indexed: true,
+      },
+      {
+        name: 'newUnstakedFee',
+        internalType: 'uint24',
+        type: 'uint24',
+        indexed: true,
+      },
+    ],
+    name: 'DefaultUnstakedFeeChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnerChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token0',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'token1',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'tickSpacing',
+        internalType: 'int24',
+        type: 'int24',
+        indexed: true,
+      },
+      {
+        name: 'pool',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'PoolCreated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldFeeManager',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newFeeManager',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'SwapFeeManagerChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldFeeModule',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newFeeModule',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'SwapFeeModuleChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tickSpacing',
+        internalType: 'int24',
+        type: 'int24',
+        indexed: true,
+      },
+      { name: 'fee', internalType: 'uint24', type: 'uint24', indexed: true },
+    ],
+    name: 'TickSpacingEnabled',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldFeeManager',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newFeeManager',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'UnstakedFeeManagerChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldFeeModule',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newFeeModule',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'UnstakedFeeModuleChanged',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'allPools',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'allPoolsLength',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenA', internalType: 'address', type: 'address' },
+      { name: 'tokenB', internalType: 'address', type: 'address' },
+      { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+      { name: 'sqrtPriceX96', internalType: 'uint160', type: 'uint160' },
+    ],
+    name: 'createPool',
+    outputs: [{ name: 'pool', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'defaultUnstakedFee',
+    outputs: [{ name: '', internalType: 'uint24', type: 'uint24' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tickSpacing', internalType: 'int24', type: 'int24' },
+      { name: 'fee', internalType: 'uint24', type: 'uint24' },
+    ],
+    name: 'enableTickSpacing',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'factoryRegistry',
+    outputs: [
+      { name: '', internalType: 'contract IFactoryRegistry', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'int24', type: 'int24' },
+    ],
+    name: 'getPool',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'pool', internalType: 'address', type: 'address' }],
+    name: 'getSwapFee',
+    outputs: [{ name: '', internalType: 'uint24', type: 'uint24' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'pool', internalType: 'address', type: 'address' }],
+    name: 'getUnstakedFee',
+    outputs: [{ name: '', internalType: 'uint24', type: 'uint24' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'pool', internalType: 'address', type: 'address' }],
+    name: 'isPool',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'poolImplementation',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_defaultUnstakedFee', internalType: 'uint24', type: 'uint24' },
+    ],
+    name: 'setDefaultUnstakedFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_owner', internalType: 'address', type: 'address' }],
+    name: 'setOwner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_swapFeeManager', internalType: 'address', type: 'address' },
+    ],
+    name: 'setSwapFeeManager',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_swapFeeModule', internalType: 'address', type: 'address' },
+    ],
+    name: 'setSwapFeeModule',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_unstakedFeeManager', internalType: 'address', type: 'address' },
+    ],
+    name: 'setUnstakedFeeManager',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_unstakedFeeModule', internalType: 'address', type: 'address' },
+    ],
+    name: 'setUnstakedFeeModule',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'swapFeeManager',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'swapFeeModule',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'int24', type: 'int24' }],
+    name: 'tickSpacingToFee',
+    outputs: [{ name: '', internalType: 'uint24', type: 'uint24' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'tickSpacings',
+    outputs: [{ name: '', internalType: 'int24[]', type: 'int24[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unstakedFeeManager',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unstakedFeeModule',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'voter',
+    outputs: [{ name: '', internalType: 'contract IVoter', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
+
+export const aerodromeSlipstreamFactoryAddress =
+  '0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A' as const
+
+export const aerodromeSlipstreamFactoryConfig = {
+  address: aerodromeSlipstreamFactoryAddress,
+  abi: aerodromeSlipstreamFactoryAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2339,6 +3027,1291 @@ export const lendingPoolAddress =
 export const lendingPoolConfig = {
   address: lendingPoolAddress,
   abi: lendingPoolAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LeverageManager
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const leverageManagerAbi = [
+  {
+    type: 'function',
+    inputs: [],
+    name: 'BASE_RATIO',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'FEE_MANAGER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'defaultAdmin', internalType: 'address', type: 'address' },
+      { name: 'treasury', internalType: 'address', type: 'address' },
+    ],
+    name: '__FeeManager_init',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'chargeManagementFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'tokenConfig',
+        internalType: 'struct LeverageTokenConfig',
+        type: 'tuple',
+        components: [
+          {
+            name: 'lendingAdapter',
+            internalType: 'contract ILendingAdapter',
+            type: 'address',
+          },
+          {
+            name: 'rebalanceAdapter',
+            internalType: 'contract IRebalanceAdapterBase',
+            type: 'address',
+          },
+          { name: 'mintTokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'redeemTokenFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'symbol', internalType: 'string', type: 'string' },
+    ],
+    name: 'createNewLeverageToken',
+    outputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getDefaultManagementFeeAtCreation',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLastManagementFeeAccrualTimestamp',
+    outputs: [{ name: '', internalType: 'uint120', type: 'uint120' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      { name: 'action', internalType: 'enum ExternalAction', type: 'uint8' },
+    ],
+    name: 'getLeverageTokenActionFee',
+    outputs: [{ name: 'fee', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenCollateralAsset',
+    outputs: [
+      {
+        name: 'collateralAsset',
+        internalType: 'contract IERC20',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenConfig',
+    outputs: [
+      {
+        name: 'config',
+        internalType: 'struct LeverageTokenConfig',
+        type: 'tuple',
+        components: [
+          {
+            name: 'lendingAdapter',
+            internalType: 'contract ILendingAdapter',
+            type: 'address',
+          },
+          {
+            name: 'rebalanceAdapter',
+            internalType: 'contract IRebalanceAdapterBase',
+            type: 'address',
+          },
+          { name: 'mintTokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'redeemTokenFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenDebtAsset',
+    outputs: [
+      { name: 'debtAsset', internalType: 'contract IERC20', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getLeverageTokenFactory',
+    outputs: [
+      {
+        name: 'factory',
+        internalType: 'contract IBeaconProxyFactory',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenInitialCollateralRatio',
+    outputs: [{ name: 'ratio', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenLendingAdapter',
+    outputs: [
+      {
+        name: 'adapter',
+        internalType: 'contract ILendingAdapter',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenRebalanceAdapter',
+    outputs: [
+      {
+        name: 'module',
+        internalType: 'contract IRebalanceAdapterBase',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getLeverageTokenState',
+    outputs: [
+      {
+        name: 'state',
+        internalType: 'struct LeverageTokenState',
+        type: 'tuple',
+        components: [
+          {
+            name: 'collateralInDebtAsset',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'collateralRatio', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'getManagementFee',
+    outputs: [{ name: 'fee', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getTreasury',
+    outputs: [{ name: 'treasury', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'action', internalType: 'enum ExternalAction', type: 'uint8' },
+    ],
+    name: 'getTreasuryActionFee',
+    outputs: [{ name: 'fee', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'initialAdmin', internalType: 'address', type: 'address' },
+      { name: 'treasury', internalType: 'address', type: 'address' },
+      {
+        name: 'leverageTokenFactory',
+        internalType: 'contract IBeaconProxyFactory',
+        type: 'address',
+      },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'minShares', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [
+      {
+        name: 'actionData',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+    ],
+    name: 'previewMint',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+    ],
+    name: 'previewRedeem',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'leverageToken',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'actions',
+        internalType: 'struct RebalanceAction[]',
+        type: 'tuple[]',
+        components: [
+          {
+            name: 'actionType',
+            internalType: 'enum ActionType',
+            type: 'uint8',
+          },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'tokenIn', internalType: 'contract IERC20', type: 'address' },
+      { name: 'tokenOut', internalType: 'contract IERC20', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'rebalance',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'maxShares', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'redeem',
+    outputs: [
+      {
+        name: 'actionData',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'fee', internalType: 'uint256', type: 'uint256' }],
+    name: 'setDefaultManagementFeeAtCreation',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      { name: 'fee', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setManagementFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'treasury', internalType: 'address', type: 'address' }],
+    name: 'setTreasury',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'action', internalType: 'enum ExternalAction', type: 'uint8' },
+      { name: 'fee', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setTreasuryActionFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'fee', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'DefaultManagementFeeAtCreationSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'version',
+        internalType: 'uint64',
+        type: 'uint64',
+        indexed: false,
+      },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'leverageTokenFactory',
+        internalType: 'contract IBeaconProxyFactory',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'LeverageManagerInitialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'leverageToken',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'action',
+        internalType: 'enum ExternalAction',
+        type: 'uint8',
+        indexed: true,
+      },
+      { name: 'fee', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'LeverageTokenActionFeeSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'collateralAsset',
+        internalType: 'contract IERC20',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'debtAsset',
+        internalType: 'contract IERC20',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'config',
+        internalType: 'struct LeverageTokenConfig',
+        type: 'tuple',
+        components: [
+          {
+            name: 'lendingAdapter',
+            internalType: 'contract ILendingAdapter',
+            type: 'address',
+          },
+          {
+            name: 'rebalanceAdapter',
+            internalType: 'contract IRebalanceAdapterBase',
+            type: 'address',
+          },
+          { name: 'mintTokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'redeemTokenFee', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'LeverageTokenCreated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'leverageToken',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sharesFee',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'ManagementFeeCharged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'fee', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'ManagementFeeSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'actionData',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'Mint',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'stateBefore',
+        internalType: 'struct LeverageTokenState',
+        type: 'tuple',
+        components: [
+          {
+            name: 'collateralInDebtAsset',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'collateralRatio', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+      {
+        name: 'stateAfter',
+        internalType: 'struct LeverageTokenState',
+        type: 'tuple',
+        components: [
+          {
+            name: 'collateralInDebtAsset',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'collateralRatio', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+      {
+        name: 'actions',
+        internalType: 'struct RebalanceAction[]',
+        type: 'tuple[]',
+        components: [
+          {
+            name: 'actionType',
+            internalType: 'enum ActionType',
+            type: 'uint8',
+          },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'Rebalance',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'actionData',
+        internalType: 'struct ActionData',
+        type: 'tuple',
+        components: [
+          { name: 'collateral', internalType: 'uint256', type: 'uint256' },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'shares', internalType: 'uint256', type: 'uint256' },
+          { name: 'tokenFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'treasuryFee', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'Redeem',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'previousAdminRole',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+      {
+        name: 'newAdminRole',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+    ],
+    name: 'RoleAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'RoleGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'RoleRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'action',
+        internalType: 'enum ExternalAction',
+        type: 'uint8',
+        indexed: true,
+      },
+      { name: 'fee', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'TreasuryActionFeeSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'treasury',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'TreasurySet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'Upgraded',
+  },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'AccessControlUnauthorizedAccount',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'implementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'ERC1967InvalidImplementation',
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'FailedCall' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'fee', internalType: 'uint256', type: 'uint256' },
+      { name: 'maxFee', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'FeeTooHigh',
+  },
+  { type: 'error', inputs: [], name: 'InvalidCollateralRatios' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'InvalidLeverageTokenAssets' },
+  {
+    type: 'error',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+    ],
+    name: 'InvalidLeverageTokenStateAfterRebalance',
+  },
+  { type: 'error', inputs: [], name: 'LeverageTokenNotEligibleForRebalance' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'error',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      { name: 'caller', internalType: 'address', type: 'address' },
+    ],
+    name: 'NotRebalancer',
+  },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'actual', internalType: 'uint256', type: 'uint256' },
+      { name: 'expected', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'SlippageTooHigh',
+  },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID',
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddressTreasury' },
+] as const
+
+export const leverageManagerAddress =
+  '0x38Ba21C6Bf31dF1b1798FCEd07B4e9b07C5ec3a8' as const
+
+export const leverageManagerConfig = {
+  address: leverageManagerAddress,
+  abi: leverageManagerAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LeverageRouter
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const leverageRouterAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      {
+        name: '_leverageManager',
+        internalType: 'contract ILeverageManager',
+        type: 'address',
+      },
+      { name: '_morpho', internalType: 'contract IMorpho', type: 'address' },
+      {
+        name: '_swapper',
+        internalType: 'contract ISwapAdapter',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'actualCost', internalType: 'uint256', type: 'uint256' },
+      { name: 'maxCost', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'MaxSwapCostExceeded',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  { type: 'error', inputs: [], name: 'Unauthorized' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'leverageManager',
+    outputs: [
+      { name: '', internalType: 'contract ILeverageManager', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'minShares', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'maxSwapCostInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      {
+        name: 'swapContext',
+        internalType: 'struct ISwapAdapter.SwapContext',
+        type: 'tuple',
+        components: [
+          { name: 'path', internalType: 'address[]', type: 'address[]' },
+          { name: 'encodedPath', internalType: 'bytes', type: 'bytes' },
+          { name: 'fees', internalType: 'uint24[]', type: 'uint24[]' },
+          { name: 'tickSpacing', internalType: 'int24[]', type: 'int24[]' },
+          {
+            name: 'exchange',
+            internalType: 'enum ISwapAdapter.Exchange',
+            type: 'uint8',
+          },
+          {
+            name: 'exchangeAddresses',
+            internalType: 'struct ISwapAdapter.ExchangeAddresses',
+            type: 'tuple',
+            components: [
+              {
+                name: 'aerodromeRouter',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'aerodromePoolFactory',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'aerodromeSlipstreamRouter',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'uniswapSwapRouter02',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'uniswapV2Router02',
+                internalType: 'address',
+                type: 'address',
+              },
+            ],
+          },
+          { name: 'additionalData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'morpho',
+    outputs: [{ name: '', internalType: 'contract IMorpho', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'loanAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'onMorphoFlashLoan',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+      },
+      {
+        name: 'equityInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      { name: 'maxShares', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'maxSwapCostInCollateralAsset',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      {
+        name: 'swapContext',
+        internalType: 'struct ISwapAdapter.SwapContext',
+        type: 'tuple',
+        components: [
+          { name: 'path', internalType: 'address[]', type: 'address[]' },
+          { name: 'encodedPath', internalType: 'bytes', type: 'bytes' },
+          { name: 'fees', internalType: 'uint24[]', type: 'uint24[]' },
+          { name: 'tickSpacing', internalType: 'int24[]', type: 'int24[]' },
+          {
+            name: 'exchange',
+            internalType: 'enum ISwapAdapter.Exchange',
+            type: 'uint8',
+          },
+          {
+            name: 'exchangeAddresses',
+            internalType: 'struct ISwapAdapter.ExchangeAddresses',
+            type: 'tuple',
+            components: [
+              {
+                name: 'aerodromeRouter',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'aerodromePoolFactory',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'aerodromeSlipstreamRouter',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'uniswapSwapRouter02',
+                internalType: 'address',
+                type: 'address',
+              },
+              {
+                name: 'uniswapV2Router02',
+                internalType: 'address',
+                type: 'address',
+              },
+            ],
+          },
+          { name: 'additionalData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'redeem',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'swapper',
+    outputs: [
+      { name: '', internalType: 'contract ISwapAdapter', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+] as const
+
+export const leverageRouterAddress =
+  '0xDbA92fC3dc10a17b96b6E807a908155C389A887C' as const
+
+export const leverageRouterConfig = {
+  address: leverageRouterAddress,
+  abi: leverageRouterAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4728,1109 +6701,477 @@ export const rewardsControllerConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// StakedToken
+// UniswapQuoter
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const stakedTokenAbi = [
-  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+export const uniswapQuoterAbi = [
   {
-    type: 'function',
-    inputs: [],
-    name: 'CLOCK_MODE',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'DEFAULT_ADMIN_ROLE',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'DOMAIN_SEPARATOR',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'UPGRADE_INTERFACE_VERSION',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
+    type: 'constructor',
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: '_factory', internalType: 'address', type: 'address' },
+      { name: '_WETH9', internalType: 'address', type: 'address' },
     ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     inputs: [],
-    name: 'asset',
+    name: 'WETH9',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    inputs: [],
+    name: 'factory',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'pos', internalType: 'uint32', type: 'uint32' },
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'checkpoints',
+    name: 'quoteExactInput',
     outputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
       {
-        name: '',
-        internalType: 'struct Checkpoints.Checkpoint208',
+        name: 'sqrtPriceX96AfterList',
+        internalType: 'uint160[]',
+        type: 'uint160[]',
+      },
+      {
+        name: 'initializedTicksCrossedList',
+        internalType: 'uint32[]',
+        type: 'uint32[]',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'params',
+        internalType: 'struct IQuoterV2.QuoteExactInputSingleParams',
         type: 'tuple',
         components: [
-          { name: '_key', internalType: 'uint48', type: 'uint48' },
-          { name: '_value', internalType: 'uint208', type: 'uint208' },
+          { name: 'tokenIn', internalType: 'address', type: 'address' },
+          { name: 'tokenOut', internalType: 'address', type: 'address' },
+          { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+          { name: 'fee', internalType: 'uint24', type: 'uint24' },
+          {
+            name: 'sqrtPriceLimitX96',
+            internalType: 'uint160',
+            type: 'uint160',
+          },
         ],
       },
     ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'clock',
-    outputs: [{ name: '', internalType: 'uint48', type: 'uint48' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'convertToShares',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'cooldown',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'decimals',
-    outputs: [{ name: 'decimal', internalType: 'uint8', type: 'uint8' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'delegatee', internalType: 'address', type: 'address' }],
-    name: 'delegate',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'delegatee', internalType: 'address', type: 'address' },
-      { name: 'nonce', internalType: 'uint256', type: 'uint256' },
-      { name: 'expiry', internalType: 'uint256', type: 'uint256' },
-      { name: 'v', internalType: 'uint8', type: 'uint8' },
-      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
-      { name: 's', internalType: 'bytes32', type: 'bytes32' },
-    ],
-    name: 'delegateBySig',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'delegates',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-    ],
-    name: 'deposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'eip712Domain',
+    name: 'quoteExactInputSingle',
     outputs: [
-      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
-      { name: 'name', internalType: 'string', type: 'string' },
-      { name: 'version', internalType: 'string', type: 'string' },
-      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
-      { name: 'verifyingContract', internalType: 'address', type: 'address' },
-      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'sqrtPriceX96After', internalType: 'uint160', type: 'uint160' },
+      {
+        name: 'initializedTicksCrossed',
+        internalType: 'uint32',
+        type: 'uint32',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
     ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amt', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'emergencyWithdrawal',
-    outputs: [],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    inputs: [],
-    name: 'getCooldown',
-    outputs: [
-      { name: 'cooldownTime', internalType: 'uint256', type: 'uint256' },
+    inputs: [
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
     ],
-    stateMutability: 'view',
+    name: 'quoteExactOutput',
+    outputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'sqrtPriceX96AfterList',
+        internalType: 'uint160[]',
+        type: 'uint160[]',
+      },
+      {
+        name: 'initializedTicksCrossedList',
+        internalType: 'uint32[]',
+        type: 'uint32[]',
+      },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     inputs: [
       {
-        name: 'fromCooldownTimestamp',
-        internalType: 'uint256',
-        type: 'uint256',
+        name: 'params',
+        internalType: 'struct IQuoterV2.QuoteExactOutputSingleParams',
+        type: 'tuple',
+        components: [
+          { name: 'tokenIn', internalType: 'address', type: 'address' },
+          { name: 'tokenOut', internalType: 'address', type: 'address' },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+          { name: 'fee', internalType: 'uint24', type: 'uint24' },
+          {
+            name: 'sqrtPriceLimitX96',
+            internalType: 'uint160',
+            type: 'uint160',
+          },
+        ],
       },
-      { name: 'amountToReceive', internalType: 'uint256', type: 'uint256' },
-      { name: 'toAddress', internalType: 'address', type: 'address' },
-      { name: 'toBalance', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'getNextCooldownTimestamp',
+    name: 'quoteExactOutputSingle',
     outputs: [
-      { name: 'cooldownTimestamp', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'timepoint', internalType: 'uint256', type: 'uint256' }],
-    name: 'getPastTotalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'timepoint', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'getPastVotes',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getRewardsController',
-    outputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'sqrtPriceX96After', internalType: 'uint160', type: 'uint160' },
       {
-        name: 'rewardController',
-        internalType: 'contract IRewardsController',
-        type: 'address',
+        name: 'initializedTicksCrossed',
+        internalType: 'uint32',
+        type: 'uint32',
       },
+      { name: 'gasEstimate', internalType: 'uint256', type: 'uint256' },
     ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'getRoleAdmin',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
-    name: 'getScaledUserBalanceAndSupply',
-    outputs: [
-      { name: 'scaledBalance', internalType: 'uint256', type: 'uint256' },
-      { name: 'scaledSupply', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
-    name: 'getStakerCooldown',
-    outputs: [
-      { name: 'cooldownStartedAt', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getUnstakeWindow',
-    outputs: [
-      { name: 'unstakeWindow', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'getVotes',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount0Delta', internalType: 'int256', type: 'int256' },
+      { name: 'amount1Delta', internalType: 'int256', type: 'int256' },
+      { name: 'path', internalType: 'bytes', type: 'bytes' },
     ],
-    name: 'grantRole',
+    name: 'uniswapV3SwapCallback',
     outputs: [],
+    stateMutability: 'view',
+  },
+] as const
+
+export const uniswapQuoterAddress =
+  '0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a' as const
+
+export const uniswapQuoterConfig = {
+  address: uniswapQuoterAddress,
+  abi: uniswapQuoterAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// UniswapV2Router02
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const uniswapV2Router02Abi = [
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', type: 'uint256' },
+      { name: 'amountOutMin', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
+    ],
+    name: 'swapExactTokensForTokens',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amountOut', type: 'uint256' },
+      { name: 'amountInMax', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
     ],
-    name: 'hasRole',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: '_asset', internalType: 'address', type: 'address' },
-      { name: '_initialAdmin', internalType: 'address', type: 'address' },
-      { name: '_erc20name', internalType: 'string', type: 'string' },
-      { name: '_erc20symbol', internalType: 'string', type: 'string' },
-      { name: '_cooldown', internalType: 'uint256', type: 'uint256' },
-      { name: '_unstakeWindow', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'initialize',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'maxMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'maxRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'maxWithdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-    ],
-    name: 'mint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'nonces',
-    outputs: [{ name: 'nonce', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'numCheckpoints',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'pause',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
-      { name: 'v', internalType: 'uint8', type: 'uint8' },
-      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
-      { name: 's', internalType: 'bytes32', type: 'bytes32' },
-    ],
-    name: 'permit',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewDeposit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewMint',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewRedeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
-    name: 'previewWithdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'redeem',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'swapTokensForExactTokens',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'callerConfirmation', internalType: 'address', type: 'address' },
+      { name: 'amountOutMin', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
     ],
-    name: 'renounceRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' },
-    ],
-    name: 'revokeRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'scaledTotalSupply',
-    outputs: [
-      { name: 'scaledSupply', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newController', internalType: 'address', type: 'address' },
-    ],
-    name: 'setController',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: '_cooldown', internalType: 'uint256', type: 'uint256' },
-      { name: '_unstake', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'setTimers',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
-    name: 'supportsInterface',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalAssets',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'unpause',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'upgradeToAndCall',
-    outputs: [],
+    name: 'swapExactETHForTokens',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
     stateMutability: 'payable',
   },
   {
     type: 'function',
     inputs: [
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'amountOut', type: 'uint256' },
+      { name: 'amountInMax', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
     ],
-    name: 'withdraw',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'swapTokensForExactETH',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
     stateMutability: 'nonpayable',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'spender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
+      { name: 'amountIn', type: 'uint256' },
+      { name: 'amountOutMin', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
     ],
-    name: 'Approval',
+    name: 'swapExactTokensForETH',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
+    stateMutability: 'nonpayable',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'user',
-        internalType: 'address',
-        type: 'address',
-        indexed: false,
-      },
+      { name: 'amountOut', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
+      { name: 'to', type: 'address' },
+      { name: 'deadline', type: 'uint256' },
     ],
-    name: 'Cooldown',
+    name: 'swapETHForExactTokens',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
+    stateMutability: 'payable',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'delegator',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'fromDelegate',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'toDelegate',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
+      { name: 'amountA', type: 'uint256' },
+      { name: 'reserveA', type: 'uint256' },
+      { name: 'reserveB', type: 'uint256' },
     ],
-    name: 'DelegateChanged',
+    name: 'quote',
+    outputs: [{ name: 'amountB', type: 'uint256' }],
+    stateMutability: 'pure',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'delegate',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'previousVotes',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'newVotes',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
+      { name: 'amountIn', type: 'uint256' },
+      { name: 'reserveIn', type: 'uint256' },
+      { name: 'reserveOut', type: 'uint256' },
     ],
-    name: 'DelegateVotesChanged',
+    name: 'getAmountOut',
+    outputs: [{ name: 'amountOut', type: 'uint256' }],
+    stateMutability: 'pure',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'assets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'shares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
+      { name: 'amountOut', type: 'uint256' },
+      { name: 'reserveIn', type: 'uint256' },
+      { name: 'reserveOut', type: 'uint256' },
     ],
-    name: 'Deposit',
+    name: 'getAmountIn',
+    outputs: [{ name: 'amountIn', type: 'uint256' }],
+    stateMutability: 'pure',
   },
-  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address', indexed: false },
-      { name: 'amt', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'amountIn', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
     ],
-    name: 'EmergencyWithdraw',
+    name: 'getAmountsOut',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
+    stateMutability: 'view',
   },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'function',
     inputs: [
-      {
-        name: 'version',
-        internalType: 'uint64',
-        type: 'uint64',
-        indexed: false,
-      },
+      { name: 'amountOut', type: 'uint256' },
+      { name: 'path', type: 'address[]' },
     ],
-    name: 'Initialized',
+    name: 'getAmountsIn',
+    outputs: [{ name: 'amounts', type: 'uint256[]' }],
+    stateMutability: 'view',
   },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'account',
-        internalType: 'address',
-        type: 'address',
-        indexed: false,
-      },
-    ],
-    name: 'Paused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'RewardsController',
-        internalType: 'address',
-        type: 'address',
-        indexed: false,
-      },
-    ],
-    name: 'RewardsControllerSet',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      {
-        name: 'previousAdminRole',
-        internalType: 'bytes32',
-        type: 'bytes32',
-        indexed: true,
-      },
-      {
-        name: 'newAdminRole',
-        internalType: 'bytes32',
-        type: 'bytes32',
-        indexed: true,
-      },
-    ],
-    name: 'RoleAdminChanged',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      {
-        name: 'account',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'RoleGranted',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
-      {
-        name: 'account',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'RoleRevoked',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'cooldown',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'unstake',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'TimersSet',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Transfer',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'account',
-        internalType: 'address',
-        type: 'address',
-        indexed: false,
-      },
-    ],
-    name: 'Unpaused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'implementation',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'Upgraded',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'sender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'receiver',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'assets',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-      {
-        name: 'shares',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Withdraw',
-  },
-  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' },
-    ],
-    name: 'AccessControlUnauthorizedAccount',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
-    name: 'AddressEmptyCode',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'AddressInsufficientBalance',
-  },
-  { type: 'error', inputs: [], name: 'CheckpointUnorderedInsertion' },
-  { type: 'error', inputs: [], name: 'CooldownNotInitiated' },
-  { type: 'error', inputs: [], name: 'CooldownStillActive' },
-  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
-  {
-    type: 'error',
-    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
-    name: 'ECDSAInvalidSignatureLength',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'ECDSAInvalidSignatureS',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'implementation', internalType: 'address', type: 'address' },
-    ],
-    name: 'ERC1967InvalidImplementation',
-  },
-  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'increasedSupply', internalType: 'uint256', type: 'uint256' },
-      { name: 'cap', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20ExceededSafeSupply',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20InsufficientAllowance',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
-      { name: 'balance', internalType: 'uint256', type: 'uint256' },
-      { name: 'needed', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC20InsufficientBalance',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidApprover',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidReceiver',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
-    name: 'ERC20InvalidSpender',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
-    name: 'ERC2612ExpiredSignature',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'signer', internalType: 'address', type: 'address' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-    ],
-    name: 'ERC2612InvalidSigner',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxDeposit',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'receiver', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxMint',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'shares', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxRedeem',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'assets', internalType: 'uint256', type: 'uint256' },
-      { name: 'max', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'ERC4626ExceededMaxWithdraw',
-  },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'timepoint', internalType: 'uint256', type: 'uint256' },
-      { name: 'clock', internalType: 'uint48', type: 'uint48' },
-    ],
-    name: 'ERC5805FutureLookup',
-  },
-  { type: 'error', inputs: [], name: 'ERC6372InconsistentClock' },
-  { type: 'error', inputs: [], name: 'EnforcedPause' },
-  { type: 'error', inputs: [], name: 'ExpectedPause' },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
-  { type: 'error', inputs: [], name: 'InsufficientStake' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'InvalidAccountNonce',
-  },
-  { type: 'error', inputs: [], name: 'InvalidInitialization' },
-  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
-  { type: 'error', inputs: [], name: 'NotInEmergency' },
-  { type: 'error', inputs: [], name: 'NotInitializing' },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'bits', internalType: 'uint8', type: 'uint8' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'SafeCastOverflowedUintDowncast',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  { type: 'error', inputs: [], name: 'SendFailed' },
-  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
-  {
-    type: 'error',
-    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'UUPSUnsupportedProxiableUUID',
-  },
-  { type: 'error', inputs: [], name: 'UnstakeWindowExpired' },
-  {
-    type: 'error',
-    inputs: [{ name: 'expiry', internalType: 'uint256', type: 'uint256' }],
-    name: 'VotesExpiredSignature',
-  },
-  { type: 'error', inputs: [], name: 'ZeroAddress' },
 ] as const
 
-export const stakedTokenAddress =
-  '0x0Fb8B28d18889b121cDd1ef82A88e1aC1540f284' as const
+export const uniswapV2Router02Address =
+  '0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24' as const
 
-export const stakedTokenConfig = {
-  address: stakedTokenAddress,
-  abi: stakedTokenAbi,
+export const uniswapV2Router02Config = {
+  address: uniswapV2Router02Address,
+  abi: uniswapV2Router02Abi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__
+ */
+export const useReadUniswapV3Factory = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapV3FactoryAbi,
+  address: uniswapV3FactoryAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"feeAmountTickSpacing"`
+ */
+export const useReadUniswapV3FactoryFeeAmountTickSpacing =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'feeAmountTickSpacing',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"getPool"`
+ */
+export const useReadUniswapV3FactoryGetPool =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'getPool',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadUniswapV3FactoryOwner = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'owner',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"parameters"`
+ */
+export const useReadUniswapV3FactoryParameters =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'parameters',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__
+ */
+export const useWriteUniswapV3Factory = /*#__PURE__*/ createUseWriteContract({
+  abi: uniswapV3FactoryAbi,
+  address: uniswapV3FactoryAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"createPool"`
+ */
+export const useWriteUniswapV3FactoryCreatePool =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'createPool',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"enableFeeAmount"`
+ */
+export const useWriteUniswapV3FactoryEnableFeeAmount =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'enableFeeAmount',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"setOwner"`
+ */
+export const useWriteUniswapV3FactorySetOwner =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'setOwner',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__
+ */
+export const useSimulateUniswapV3Factory =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"createPool"`
+ */
+export const useSimulateUniswapV3FactoryCreatePool =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'createPool',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"enableFeeAmount"`
+ */
+export const useSimulateUniswapV3FactoryEnableFeeAmount =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'enableFeeAmount',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `functionName` set to `"setOwner"`
+ */
+export const useSimulateUniswapV3FactorySetOwner =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    functionName: 'setOwner',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link uniswapV3FactoryAbi}__
+ */
+export const useWatchUniswapV3FactoryEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `eventName` set to `"FeeAmountEnabled"`
+ */
+export const useWatchUniswapV3FactoryFeeAmountEnabledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    eventName: 'FeeAmountEnabled',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `eventName` set to `"OwnerChanged"`
+ */
+export const useWatchUniswapV3FactoryOwnerChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    eventName: 'OwnerChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link uniswapV3FactoryAbi}__ and `eventName` set to `"PoolCreated"`
+ */
+export const useWatchUniswapV3FactoryPoolCreatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: uniswapV3FactoryAbi,
+    address: uniswapV3FactoryAddress,
+    eventName: 'PoolCreated',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aaveOracleAbi}__
@@ -6003,6 +7344,586 @@ export const useWatchAaveOracleFallbackOracleUpdatedEvent =
     abi: aaveOracleAbi,
     address: aaveOracleAddress,
     eventName: 'FallbackOracleUpdated',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__
+ */
+export const useReadAerodromeQuoter = /*#__PURE__*/ createUseReadContract({
+  abi: aerodromeQuoterAbi,
+  address: aerodromeQuoterAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"WETH9"`
+ */
+export const useReadAerodromeQuoterWeth9 = /*#__PURE__*/ createUseReadContract({
+  abi: aerodromeQuoterAbi,
+  address: aerodromeQuoterAddress,
+  functionName: 'WETH9',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"factory"`
+ */
+export const useReadAerodromeQuoterFactory =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'factory',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"uniswapV3SwapCallback"`
+ */
+export const useReadAerodromeQuoterUniswapV3SwapCallback =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'uniswapV3SwapCallback',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__
+ */
+export const useWriteAerodromeQuoter = /*#__PURE__*/ createUseWriteContract({
+  abi: aerodromeQuoterAbi,
+  address: aerodromeQuoterAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactInput"`
+ */
+export const useWriteAerodromeQuoterQuoteExactInput =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactInput',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactInputSingle"`
+ */
+export const useWriteAerodromeQuoterQuoteExactInputSingle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactInputSingle',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactOutput"`
+ */
+export const useWriteAerodromeQuoterQuoteExactOutput =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactOutput',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactOutputSingle"`
+ */
+export const useWriteAerodromeQuoterQuoteExactOutputSingle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactOutputSingle',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__
+ */
+export const useSimulateAerodromeQuoter =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactInput"`
+ */
+export const useSimulateAerodromeQuoterQuoteExactInput =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactInput',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactInputSingle"`
+ */
+export const useSimulateAerodromeQuoterQuoteExactInputSingle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactInputSingle',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactOutput"`
+ */
+export const useSimulateAerodromeQuoterQuoteExactOutput =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactOutput',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeQuoterAbi}__ and `functionName` set to `"quoteExactOutputSingle"`
+ */
+export const useSimulateAerodromeQuoterQuoteExactOutputSingle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeQuoterAbi,
+    address: aerodromeQuoterAddress,
+    functionName: 'quoteExactOutputSingle',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__
+ */
+export const useReadAerodromeSlipstreamFactory =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"allPools"`
+ */
+export const useReadAerodromeSlipstreamFactoryAllPools =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'allPools',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"allPoolsLength"`
+ */
+export const useReadAerodromeSlipstreamFactoryAllPoolsLength =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'allPoolsLength',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"defaultUnstakedFee"`
+ */
+export const useReadAerodromeSlipstreamFactoryDefaultUnstakedFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'defaultUnstakedFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"factoryRegistry"`
+ */
+export const useReadAerodromeSlipstreamFactoryFactoryRegistry =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'factoryRegistry',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"getPool"`
+ */
+export const useReadAerodromeSlipstreamFactoryGetPool =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'getPool',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"getSwapFee"`
+ */
+export const useReadAerodromeSlipstreamFactoryGetSwapFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'getSwapFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"getUnstakedFee"`
+ */
+export const useReadAerodromeSlipstreamFactoryGetUnstakedFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'getUnstakedFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"isPool"`
+ */
+export const useReadAerodromeSlipstreamFactoryIsPool =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'isPool',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadAerodromeSlipstreamFactoryOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'owner',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"poolImplementation"`
+ */
+export const useReadAerodromeSlipstreamFactoryPoolImplementation =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'poolImplementation',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"swapFeeManager"`
+ */
+export const useReadAerodromeSlipstreamFactorySwapFeeManager =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'swapFeeManager',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"swapFeeModule"`
+ */
+export const useReadAerodromeSlipstreamFactorySwapFeeModule =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'swapFeeModule',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"tickSpacingToFee"`
+ */
+export const useReadAerodromeSlipstreamFactoryTickSpacingToFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'tickSpacingToFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"tickSpacings"`
+ */
+export const useReadAerodromeSlipstreamFactoryTickSpacings =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'tickSpacings',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"unstakedFeeManager"`
+ */
+export const useReadAerodromeSlipstreamFactoryUnstakedFeeManager =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'unstakedFeeManager',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"unstakedFeeModule"`
+ */
+export const useReadAerodromeSlipstreamFactoryUnstakedFeeModule =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'unstakedFeeModule',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"voter"`
+ */
+export const useReadAerodromeSlipstreamFactoryVoter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'voter',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__
+ */
+export const useWriteAerodromeSlipstreamFactory =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"createPool"`
+ */
+export const useWriteAerodromeSlipstreamFactoryCreatePool =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'createPool',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"enableTickSpacing"`
+ */
+export const useWriteAerodromeSlipstreamFactoryEnableTickSpacing =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'enableTickSpacing',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setDefaultUnstakedFee"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetDefaultUnstakedFee =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setDefaultUnstakedFee',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setOwner"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetOwner =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setOwner',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setSwapFeeManager"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetSwapFeeManager =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setSwapFeeManager',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setSwapFeeModule"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetSwapFeeModule =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setSwapFeeModule',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setUnstakedFeeManager"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetUnstakedFeeManager =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setUnstakedFeeManager',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setUnstakedFeeModule"`
+ */
+export const useWriteAerodromeSlipstreamFactorySetUnstakedFeeModule =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setUnstakedFeeModule',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__
+ */
+export const useSimulateAerodromeSlipstreamFactory =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"createPool"`
+ */
+export const useSimulateAerodromeSlipstreamFactoryCreatePool =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'createPool',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"enableTickSpacing"`
+ */
+export const useSimulateAerodromeSlipstreamFactoryEnableTickSpacing =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'enableTickSpacing',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setDefaultUnstakedFee"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetDefaultUnstakedFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setDefaultUnstakedFee',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setOwner"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetOwner =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setOwner',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setSwapFeeManager"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetSwapFeeManager =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setSwapFeeManager',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setSwapFeeModule"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetSwapFeeModule =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setSwapFeeModule',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setUnstakedFeeManager"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetUnstakedFeeManager =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setUnstakedFeeManager',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `functionName` set to `"setUnstakedFeeModule"`
+ */
+export const useSimulateAerodromeSlipstreamFactorySetUnstakedFeeModule =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    functionName: 'setUnstakedFeeModule',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__
+ */
+export const useWatchAerodromeSlipstreamFactoryEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"DefaultUnstakedFeeChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactoryDefaultUnstakedFeeChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'DefaultUnstakedFeeChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"OwnerChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactoryOwnerChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'OwnerChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"PoolCreated"`
+ */
+export const useWatchAerodromeSlipstreamFactoryPoolCreatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'PoolCreated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"SwapFeeManagerChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactorySwapFeeManagerChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'SwapFeeManagerChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"SwapFeeModuleChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactorySwapFeeModuleChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'SwapFeeModuleChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"TickSpacingEnabled"`
+ */
+export const useWatchAerodromeSlipstreamFactoryTickSpacingEnabledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'TickSpacingEnabled',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"UnstakedFeeManagerChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactoryUnstakedFeeManagerChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'UnstakedFeeManagerChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aerodromeSlipstreamFactoryAbi}__ and `eventName` set to `"UnstakedFeeModuleChanged"`
+ */
+export const useWatchAerodromeSlipstreamFactoryUnstakedFeeModuleChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aerodromeSlipstreamFactoryAbi,
+    address: aerodromeSlipstreamFactoryAddress,
+    eventName: 'UnstakedFeeModuleChanged',
   })
 
 /**
@@ -7110,6 +9031,865 @@ export const useWatchLendingPoolWithdrawEvent =
     abi: lendingPoolAbi,
     address: lendingPoolAddress,
     eventName: 'Withdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__
+ */
+export const useReadLeverageManager = /*#__PURE__*/ createUseReadContract({
+  abi: leverageManagerAbi,
+  address: leverageManagerAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"BASE_RATIO"`
+ */
+export const useReadLeverageManagerBaseRatio =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'BASE_RATIO',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
+ */
+export const useReadLeverageManagerDefaultAdminRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"FEE_MANAGER_ROLE"`
+ */
+export const useReadLeverageManagerFeeManagerRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'FEE_MANAGER_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"UPGRADER_ROLE"`
+ */
+export const useReadLeverageManagerUpgraderRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'UPGRADER_ROLE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
+ */
+export const useReadLeverageManagerUpgradeInterfaceVersion =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getDefaultManagementFeeAtCreation"`
+ */
+export const useReadLeverageManagerGetDefaultManagementFeeAtCreation =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getDefaultManagementFeeAtCreation',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLastManagementFeeAccrualTimestamp"`
+ */
+export const useReadLeverageManagerGetLastManagementFeeAccrualTimestamp =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLastManagementFeeAccrualTimestamp',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenActionFee"`
+ */
+export const useReadLeverageManagerGetLeverageTokenActionFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenActionFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenCollateralAsset"`
+ */
+export const useReadLeverageManagerGetLeverageTokenCollateralAsset =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenCollateralAsset',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenConfig"`
+ */
+export const useReadLeverageManagerGetLeverageTokenConfig =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenConfig',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenDebtAsset"`
+ */
+export const useReadLeverageManagerGetLeverageTokenDebtAsset =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenDebtAsset',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenFactory"`
+ */
+export const useReadLeverageManagerGetLeverageTokenFactory =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenFactory',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenInitialCollateralRatio"`
+ */
+export const useReadLeverageManagerGetLeverageTokenInitialCollateralRatio =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenInitialCollateralRatio',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenLendingAdapter"`
+ */
+export const useReadLeverageManagerGetLeverageTokenLendingAdapter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenLendingAdapter',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenRebalanceAdapter"`
+ */
+export const useReadLeverageManagerGetLeverageTokenRebalanceAdapter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenRebalanceAdapter',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getLeverageTokenState"`
+ */
+export const useReadLeverageManagerGetLeverageTokenState =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getLeverageTokenState',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getManagementFee"`
+ */
+export const useReadLeverageManagerGetManagementFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getManagementFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getRoleAdmin"`
+ */
+export const useReadLeverageManagerGetRoleAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getRoleAdmin',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getTreasury"`
+ */
+export const useReadLeverageManagerGetTreasury =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getTreasury',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"getTreasuryActionFee"`
+ */
+export const useReadLeverageManagerGetTreasuryActionFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'getTreasuryActionFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"hasRole"`
+ */
+export const useReadLeverageManagerHasRole =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'hasRole',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"previewMint"`
+ */
+export const useReadLeverageManagerPreviewMint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'previewMint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const useReadLeverageManagerPreviewRedeem =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'previewRedeem',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const useReadLeverageManagerProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'proxiableUUID',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"supportsInterface"`
+ */
+export const useReadLeverageManagerSupportsInterface =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'supportsInterface',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__
+ */
+export const useWriteLeverageManager = /*#__PURE__*/ createUseWriteContract({
+  abi: leverageManagerAbi,
+  address: leverageManagerAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"__FeeManager_init"`
+ */
+export const useWriteLeverageManagerFeeManagerInit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: '__FeeManager_init',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"chargeManagementFee"`
+ */
+export const useWriteLeverageManagerChargeManagementFee =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'chargeManagementFee',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"createNewLeverageToken"`
+ */
+export const useWriteLeverageManagerCreateNewLeverageToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'createNewLeverageToken',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useWriteLeverageManagerGrantRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteLeverageManagerInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteLeverageManagerMint = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'mint',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"rebalance"`
+ */
+export const useWriteLeverageManagerRebalance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'rebalance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteLeverageManagerRedeem =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useWriteLeverageManagerRenounceRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useWriteLeverageManagerRevokeRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setDefaultManagementFeeAtCreation"`
+ */
+export const useWriteLeverageManagerSetDefaultManagementFeeAtCreation =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setDefaultManagementFeeAtCreation',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setManagementFee"`
+ */
+export const useWriteLeverageManagerSetManagementFee =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setManagementFee',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setTreasury"`
+ */
+export const useWriteLeverageManagerSetTreasury =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setTreasury',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setTreasuryActionFee"`
+ */
+export const useWriteLeverageManagerSetTreasuryActionFee =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setTreasuryActionFee',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useWriteLeverageManagerUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__
+ */
+export const useSimulateLeverageManager =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"__FeeManager_init"`
+ */
+export const useSimulateLeverageManagerFeeManagerInit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: '__FeeManager_init',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"chargeManagementFee"`
+ */
+export const useSimulateLeverageManagerChargeManagementFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'chargeManagementFee',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"createNewLeverageToken"`
+ */
+export const useSimulateLeverageManagerCreateNewLeverageToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'createNewLeverageToken',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"grantRole"`
+ */
+export const useSimulateLeverageManagerGrantRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'grantRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateLeverageManagerInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateLeverageManagerMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"rebalance"`
+ */
+export const useSimulateLeverageManagerRebalance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'rebalance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateLeverageManagerRedeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"renounceRole"`
+ */
+export const useSimulateLeverageManagerRenounceRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'renounceRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"revokeRole"`
+ */
+export const useSimulateLeverageManagerRevokeRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'revokeRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setDefaultManagementFeeAtCreation"`
+ */
+export const useSimulateLeverageManagerSetDefaultManagementFeeAtCreation =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setDefaultManagementFeeAtCreation',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setManagementFee"`
+ */
+export const useSimulateLeverageManagerSetManagementFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setManagementFee',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setTreasury"`
+ */
+export const useSimulateLeverageManagerSetTreasury =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setTreasury',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"setTreasuryActionFee"`
+ */
+export const useSimulateLeverageManagerSetTreasuryActionFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'setTreasuryActionFee',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageManagerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useSimulateLeverageManagerUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__
+ */
+export const useWatchLeverageManagerEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"DefaultManagementFeeAtCreationSet"`
+ */
+export const useWatchLeverageManagerDefaultManagementFeeAtCreationSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'DefaultManagementFeeAtCreationSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchLeverageManagerInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"LeverageManagerInitialized"`
+ */
+export const useWatchLeverageManagerLeverageManagerInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'LeverageManagerInitialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"LeverageTokenActionFeeSet"`
+ */
+export const useWatchLeverageManagerLeverageTokenActionFeeSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'LeverageTokenActionFeeSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"LeverageTokenCreated"`
+ */
+export const useWatchLeverageManagerLeverageTokenCreatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'LeverageTokenCreated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"ManagementFeeCharged"`
+ */
+export const useWatchLeverageManagerManagementFeeChargedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'ManagementFeeCharged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"ManagementFeeSet"`
+ */
+export const useWatchLeverageManagerManagementFeeSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'ManagementFeeSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Mint"`
+ */
+export const useWatchLeverageManagerMintEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Mint',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Rebalance"`
+ */
+export const useWatchLeverageManagerRebalanceEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Rebalance',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Redeem"`
+ */
+export const useWatchLeverageManagerRedeemEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Redeem',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"RoleAdminChanged"`
+ */
+export const useWatchLeverageManagerRoleAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'RoleAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"RoleGranted"`
+ */
+export const useWatchLeverageManagerRoleGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'RoleGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"RoleRevoked"`
+ */
+export const useWatchLeverageManagerRoleRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'RoleRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"TreasuryActionFeeSet"`
+ */
+export const useWatchLeverageManagerTreasuryActionFeeSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'TreasuryActionFeeSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"TreasurySet"`
+ */
+export const useWatchLeverageManagerTreasurySetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'TreasurySet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchLeverageManagerUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageRouterAbi}__
+ */
+export const useReadLeverageRouter = /*#__PURE__*/ createUseReadContract({
+  abi: leverageRouterAbi,
+  address: leverageRouterAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"leverageManager"`
+ */
+export const useReadLeverageRouterLeverageManager =
+  /*#__PURE__*/ createUseReadContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'leverageManager',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"morpho"`
+ */
+export const useReadLeverageRouterMorpho = /*#__PURE__*/ createUseReadContract({
+  abi: leverageRouterAbi,
+  address: leverageRouterAddress,
+  functionName: 'morpho',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"swapper"`
+ */
+export const useReadLeverageRouterSwapper = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'swapper',
+  },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageRouterAbi}__
+ */
+export const useWriteLeverageRouter = /*#__PURE__*/ createUseWriteContract({
+  abi: leverageRouterAbi,
+  address: leverageRouterAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteLeverageRouterMint = /*#__PURE__*/ createUseWriteContract({
+  abi: leverageRouterAbi,
+  address: leverageRouterAddress,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"onMorphoFlashLoan"`
+ */
+export const useWriteLeverageRouterOnMorphoFlashLoan =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'onMorphoFlashLoan',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteLeverageRouterRedeem =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageRouterAbi}__
+ */
+export const useSimulateLeverageRouter =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateLeverageRouterMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"onMorphoFlashLoan"`
+ */
+export const useSimulateLeverageRouterOnMorphoFlashLoan =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'onMorphoFlashLoan',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link leverageRouterAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateLeverageRouterRedeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: leverageRouterAbi,
+    address: leverageRouterAddress,
+    functionName: 'redeem',
   })
 
 /**
@@ -8935,1047 +11715,327 @@ export const useWatchRewardsControllerTransferStrategyInstalledEvent =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapQuoterAbi}__
  */
-export const useReadStakedToken = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
+export const useReadUniswapQuoter = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapQuoterAbi,
+  address: uniswapQuoterAddress,
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"CLOCK_MODE"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"WETH9"`
  */
-export const useReadStakedTokenClockMode = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'CLOCK_MODE',
+export const useReadUniswapQuoterWeth9 = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapQuoterAbi,
+  address: uniswapQuoterAddress,
+  functionName: 'WETH9',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"factory"`
  */
-export const useReadStakedTokenDefaultAdminRole =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'DEFAULT_ADMIN_ROLE',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
- */
-export const useReadStakedTokenDomainSeparator =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'DOMAIN_SEPARATOR',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
- */
-export const useReadStakedTokenUpgradeInterfaceVersion =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'UPGRADE_INTERFACE_VERSION',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"allowance"`
- */
-export const useReadStakedTokenAllowance = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'allowance',
+export const useReadUniswapQuoterFactory = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapQuoterAbi,
+  address: uniswapQuoterAddress,
+  functionName: 'factory',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"asset"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"uniswapV3SwapCallback"`
  */
-export const useReadStakedTokenAsset = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'asset',
+export const useReadUniswapQuoterUniswapV3SwapCallback =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'uniswapV3SwapCallback',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapQuoterAbi}__
+ */
+export const useWriteUniswapQuoter = /*#__PURE__*/ createUseWriteContract({
+  abi: uniswapQuoterAbi,
+  address: uniswapQuoterAddress,
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactInput"`
  */
-export const useReadStakedTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'balanceOf',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"checkpoints"`
- */
-export const useReadStakedTokenCheckpoints =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'checkpoints',
+export const useWriteUniswapQuoterQuoteExactInput =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactInput',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"clock"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactInputSingle"`
  */
-export const useReadStakedTokenClock = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'clock',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"convertToAssets"`
- */
-export const useReadStakedTokenConvertToAssets =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'convertToAssets',
+export const useWriteUniswapQuoterQuoteExactInputSingle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactInputSingle',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"convertToShares"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactOutput"`
  */
-export const useReadStakedTokenConvertToShares =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'convertToShares',
+export const useWriteUniswapQuoterQuoteExactOutput =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactOutput',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"decimals"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactOutputSingle"`
  */
-export const useReadStakedTokenDecimals = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'decimals',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegates"`
- */
-export const useReadStakedTokenDelegates = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'delegates',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"eip712Domain"`
- */
-export const useReadStakedTokenEip712Domain =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'eip712Domain',
+export const useWriteUniswapQuoterQuoteExactOutputSingle =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactOutputSingle',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getCooldown"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapQuoterAbi}__
  */
-export const useReadStakedTokenGetCooldown =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getCooldown',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getNextCooldownTimestamp"`
- */
-export const useReadStakedTokenGetNextCooldownTimestamp =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getNextCooldownTimestamp',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getPastTotalSupply"`
- */
-export const useReadStakedTokenGetPastTotalSupply =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getPastTotalSupply',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getPastVotes"`
- */
-export const useReadStakedTokenGetPastVotes =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getPastVotes',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getRewardsController"`
- */
-export const useReadStakedTokenGetRewardsController =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getRewardsController',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getRoleAdmin"`
- */
-export const useReadStakedTokenGetRoleAdmin =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getRoleAdmin',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getScaledUserBalanceAndSupply"`
- */
-export const useReadStakedTokenGetScaledUserBalanceAndSupply =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getScaledUserBalanceAndSupply',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getStakerCooldown"`
- */
-export const useReadStakedTokenGetStakerCooldown =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getStakerCooldown',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getUnstakeWindow"`
- */
-export const useReadStakedTokenGetUnstakeWindow =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'getUnstakeWindow',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"getVotes"`
- */
-export const useReadStakedTokenGetVotes = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'getVotes',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"hasRole"`
- */
-export const useReadStakedTokenHasRole = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'hasRole',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxDeposit"`
- */
-export const useReadStakedTokenMaxDeposit = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'maxDeposit',
-  },
+export const useSimulateUniswapQuoter = /*#__PURE__*/ createUseSimulateContract(
+  { abi: uniswapQuoterAbi, address: uniswapQuoterAddress },
 )
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxMint"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactInput"`
  */
-export const useReadStakedTokenMaxMint = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'maxMint',
+export const useSimulateUniswapQuoterQuoteExactInput =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactInput',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactInputSingle"`
+ */
+export const useSimulateUniswapQuoterQuoteExactInputSingle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactInputSingle',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactOutput"`
+ */
+export const useSimulateUniswapQuoterQuoteExactOutput =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactOutput',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapQuoterAbi}__ and `functionName` set to `"quoteExactOutputSingle"`
+ */
+export const useSimulateUniswapQuoterQuoteExactOutputSingle =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapQuoterAbi,
+    address: uniswapQuoterAddress,
+    functionName: 'quoteExactOutputSingle',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__
+ */
+export const useReadUniswapV2Router02 = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapV2Router02Abi,
+  address: uniswapV2Router02Address,
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxRedeem"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"quote"`
  */
-export const useReadStakedTokenMaxRedeem = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'maxRedeem',
+export const useReadUniswapV2Router02Quote =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'quote',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"getAmountOut"`
+ */
+export const useReadUniswapV2Router02GetAmountOut =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'getAmountOut',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"getAmountIn"`
+ */
+export const useReadUniswapV2Router02GetAmountIn =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'getAmountIn',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"getAmountsOut"`
+ */
+export const useReadUniswapV2Router02GetAmountsOut =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'getAmountsOut',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"getAmountsIn"`
+ */
+export const useReadUniswapV2Router02GetAmountsIn =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'getAmountsIn',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__
+ */
+export const useWriteUniswapV2Router02 = /*#__PURE__*/ createUseWriteContract({
+  abi: uniswapV2Router02Abi,
+  address: uniswapV2Router02Address,
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"maxWithdraw"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactTokensForTokens"`
  */
-export const useReadStakedTokenMaxWithdraw =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'maxWithdraw',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"name"`
- */
-export const useReadStakedTokenName = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'name',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"nonces"`
- */
-export const useReadStakedTokenNonces = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'nonces',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"numCheckpoints"`
- */
-export const useReadStakedTokenNumCheckpoints =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'numCheckpoints',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"paused"`
- */
-export const useReadStakedTokenPaused = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'paused',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewDeposit"`
- */
-export const useReadStakedTokenPreviewDeposit =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'previewDeposit',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewMint"`
- */
-export const useReadStakedTokenPreviewMint =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'previewMint',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewRedeem"`
- */
-export const useReadStakedTokenPreviewRedeem =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'previewRedeem',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"previewWithdraw"`
- */
-export const useReadStakedTokenPreviewWithdraw =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'previewWithdraw',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"proxiableUUID"`
- */
-export const useReadStakedTokenProxiableUuid =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'proxiableUUID',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"scaledTotalSupply"`
- */
-export const useReadStakedTokenScaledTotalSupply =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'scaledTotalSupply',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"supportsInterface"`
- */
-export const useReadStakedTokenSupportsInterface =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'supportsInterface',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"symbol"`
- */
-export const useReadStakedTokenSymbol = /*#__PURE__*/ createUseReadContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'symbol',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"totalAssets"`
- */
-export const useReadStakedTokenTotalAssets =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'totalAssets',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"totalSupply"`
- */
-export const useReadStakedTokenTotalSupply =
-  /*#__PURE__*/ createUseReadContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'totalSupply',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__
- */
-export const useWriteStakedToken = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"approve"`
- */
-export const useWriteStakedTokenApprove = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'approve',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"cooldown"`
- */
-export const useWriteStakedTokenCooldown = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'cooldown',
-  },
-)
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegate"`
- */
-export const useWriteStakedTokenDelegate = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'delegate',
-  },
-)
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegateBySig"`
- */
-export const useWriteStakedTokenDelegateBySig =
+export const useWriteUniswapV2Router02SwapExactTokensForTokens =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'delegateBySig',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactTokensForTokens',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"deposit"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapTokensForExactTokens"`
  */
-export const useWriteStakedTokenDeposit = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'deposit',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"emergencyWithdrawal"`
- */
-export const useWriteStakedTokenEmergencyWithdrawal =
+export const useWriteUniswapV2Router02SwapTokensForExactTokens =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'emergencyWithdrawal',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapTokensForExactTokens',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"grantRole"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactETHForTokens"`
  */
-export const useWriteStakedTokenGrantRole =
+export const useWriteUniswapV2Router02SwapExactEthForTokens =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'grantRole',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactETHForTokens',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"initialize"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapTokensForExactETH"`
  */
-export const useWriteStakedTokenInitialize =
+export const useWriteUniswapV2Router02SwapTokensForExactEth =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'initialize',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapTokensForExactETH',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"mint"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactTokensForETH"`
  */
-export const useWriteStakedTokenMint = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'mint',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"pause"`
- */
-export const useWriteStakedTokenPause = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'pause',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"permit"`
- */
-export const useWriteStakedTokenPermit = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'permit',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"redeem"`
- */
-export const useWriteStakedTokenRedeem = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'redeem',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"renounceRole"`
- */
-export const useWriteStakedTokenRenounceRole =
+export const useWriteUniswapV2Router02SwapExactTokensForEth =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'renounceRole',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactTokensForETH',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"revokeRole"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapETHForExactTokens"`
  */
-export const useWriteStakedTokenRevokeRole =
+export const useWriteUniswapV2Router02SwapEthForExactTokens =
   /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'revokeRole',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapETHForExactTokens',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setController"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__
  */
-export const useWriteStakedTokenSetController =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'setController',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setTimers"`
- */
-export const useWriteStakedTokenSetTimers =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'setTimers',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transfer"`
- */
-export const useWriteStakedTokenTransfer = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'transfer',
-  },
-)
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const useWriteStakedTokenTransferFrom =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'transferFrom',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"unpause"`
- */
-export const useWriteStakedTokenUnpause = /*#__PURE__*/ createUseWriteContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-  functionName: 'unpause',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
- */
-export const useWriteStakedTokenUpgradeToAndCall =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'upgradeToAndCall',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"withdraw"`
- */
-export const useWriteStakedTokenWithdraw = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'withdraw',
-  },
-)
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__
- */
-export const useSimulateStakedToken = /*#__PURE__*/ createUseSimulateContract({
-  abi: stakedTokenAbi,
-  address: stakedTokenAddress,
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"approve"`
- */
-export const useSimulateStakedTokenApprove =
+export const useSimulateUniswapV2Router02 =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'approve',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"cooldown"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactTokensForTokens"`
  */
-export const useSimulateStakedTokenCooldown =
+export const useSimulateUniswapV2Router02SwapExactTokensForTokens =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'cooldown',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactTokensForTokens',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegate"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapTokensForExactTokens"`
  */
-export const useSimulateStakedTokenDelegate =
+export const useSimulateUniswapV2Router02SwapTokensForExactTokens =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'delegate',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapTokensForExactTokens',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"delegateBySig"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactETHForTokens"`
  */
-export const useSimulateStakedTokenDelegateBySig =
+export const useSimulateUniswapV2Router02SwapExactEthForTokens =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'delegateBySig',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactETHForTokens',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"deposit"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapTokensForExactETH"`
  */
-export const useSimulateStakedTokenDeposit =
+export const useSimulateUniswapV2Router02SwapTokensForExactEth =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'deposit',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapTokensForExactETH',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"emergencyWithdrawal"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapExactTokensForETH"`
  */
-export const useSimulateStakedTokenEmergencyWithdrawal =
+export const useSimulateUniswapV2Router02SwapExactTokensForEth =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'emergencyWithdrawal',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapExactTokensForETH',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"grantRole"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapV2Router02Abi}__ and `functionName` set to `"swapETHForExactTokens"`
  */
-export const useSimulateStakedTokenGrantRole =
+export const useSimulateUniswapV2Router02SwapEthForExactTokens =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'grantRole',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"initialize"`
- */
-export const useSimulateStakedTokenInitialize =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'initialize',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"mint"`
- */
-export const useSimulateStakedTokenMint =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'mint',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"pause"`
- */
-export const useSimulateStakedTokenPause =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'pause',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"permit"`
- */
-export const useSimulateStakedTokenPermit =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'permit',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"redeem"`
- */
-export const useSimulateStakedTokenRedeem =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'redeem',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"renounceRole"`
- */
-export const useSimulateStakedTokenRenounceRole =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'renounceRole',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"revokeRole"`
- */
-export const useSimulateStakedTokenRevokeRole =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'revokeRole',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setController"`
- */
-export const useSimulateStakedTokenSetController =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'setController',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"setTimers"`
- */
-export const useSimulateStakedTokenSetTimers =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'setTimers',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transfer"`
- */
-export const useSimulateStakedTokenTransfer =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'transfer',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const useSimulateStakedTokenTransferFrom =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'transferFrom',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"unpause"`
- */
-export const useSimulateStakedTokenUnpause =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'unpause',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
- */
-export const useSimulateStakedTokenUpgradeToAndCall =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'upgradeToAndCall',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakedTokenAbi}__ and `functionName` set to `"withdraw"`
- */
-export const useSimulateStakedTokenWithdraw =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    functionName: 'withdraw',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__
- */
-export const useWatchStakedTokenEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Approval"`
- */
-export const useWatchStakedTokenApprovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Approval',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Cooldown"`
- */
-export const useWatchStakedTokenCooldownEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Cooldown',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"DelegateChanged"`
- */
-export const useWatchStakedTokenDelegateChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'DelegateChanged',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"DelegateVotesChanged"`
- */
-export const useWatchStakedTokenDelegateVotesChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'DelegateVotesChanged',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Deposit"`
- */
-export const useWatchStakedTokenDepositEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Deposit',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"EIP712DomainChanged"`
- */
-export const useWatchStakedTokenEip712DomainChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'EIP712DomainChanged',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"EmergencyWithdraw"`
- */
-export const useWatchStakedTokenEmergencyWithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'EmergencyWithdraw',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Initialized"`
- */
-export const useWatchStakedTokenInitializedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Initialized',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Paused"`
- */
-export const useWatchStakedTokenPausedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Paused',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RewardsControllerSet"`
- */
-export const useWatchStakedTokenRewardsControllerSetEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'RewardsControllerSet',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleAdminChanged"`
- */
-export const useWatchStakedTokenRoleAdminChangedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'RoleAdminChanged',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleGranted"`
- */
-export const useWatchStakedTokenRoleGrantedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'RoleGranted',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"RoleRevoked"`
- */
-export const useWatchStakedTokenRoleRevokedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'RoleRevoked',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"TimersSet"`
- */
-export const useWatchStakedTokenTimersSetEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'TimersSet',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Transfer"`
- */
-export const useWatchStakedTokenTransferEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Transfer',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Unpaused"`
- */
-export const useWatchStakedTokenUnpausedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Unpaused',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Upgraded"`
- */
-export const useWatchStakedTokenUpgradedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Upgraded',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakedTokenAbi}__ and `eventName` set to `"Withdraw"`
- */
-export const useWatchStakedTokenWithdrawEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: stakedTokenAbi,
-    address: stakedTokenAddress,
-    eventName: 'Withdraw',
+    abi: uniswapV2Router02Abi,
+    address: uniswapV2Router02Address,
+    functionName: 'swapETHForExactTokens',
   })

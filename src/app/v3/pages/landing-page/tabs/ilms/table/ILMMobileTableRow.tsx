@@ -5,7 +5,8 @@ import { FlexRow, FlexCol, Icon, DisplayText, DisplayMoney, Displayable } from "
 import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 export const LeverageTokenMobileTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -14,14 +15,17 @@ export const LeverageTokenMobileTableRow: React.FC<{
 }> = ({ leverageToken, hideBorder, selected }) => {
   const {
     data: {
-      tokenData: { name, symbol, logo },
       additionalData: { description },
-      tvl,
       apy,
       availableSupplyCap,
+      tvl,
     },
     ...rest
   } = leverageToken;
+
+  const {
+    data: { name, symbol, logo },
+  } = useFullTokenData(leverageToken.data?.address);
 
   return (
     <div
@@ -46,7 +50,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
       <FlexCol className="space-y-3">
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
-          <DisplayMoney typography="bold3" {...tvl.dollarAmount} {...rest} />
+          <DisplayMoney typography="bold3" {...tvl?.dollarAmount} {...rest} />
         </FlexRow>
 
         <FlexRow className="justify-between items-center">

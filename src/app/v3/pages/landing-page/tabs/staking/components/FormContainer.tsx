@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { FlexCol, FlexRow, mergeQueryStates, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
-import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
 import { InitiateCooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/InitiateCooldownForm";
 import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
@@ -11,6 +10,7 @@ import { STAKED_SEAM_ADDRESS } from "@meta";
 import { useBlock } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../../../globals";
 import { FIVE_MINUTE_IN_MS } from "../../../../../../statev3/settings/queryConfig";
+import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {
   const canUnstakeAt = startTime + cooldown;

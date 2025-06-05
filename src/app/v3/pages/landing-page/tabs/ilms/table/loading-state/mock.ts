@@ -1,5 +1,5 @@
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { Displayable } from "@shared";
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 
 const emptyViewBigInt = {
   value: undefined,
@@ -14,9 +14,7 @@ export const propsMock: Displayable<LeverageToken> = {
   isFetched: false,
   data: {
     address: "" as any,
-    tokenData: {} as any,
     additionalData: {} as any,
-    type: "Long",
     tvl: {} as any,
     availableSupplyCap: {
       dollarAmount: emptyViewBigInt,
@@ -28,9 +26,5 @@ export const propsMock: Displayable<LeverageToken> = {
       yieldAPY: emptyViewBigInt,
       rewardTokens: [],
     },
-    currentMultiple: {} as any,
-    targetMultiples: {} as any,
-    underlyingAsset: {} as any,
-    underlyingAssetAddress: "" as any,
   },
 };

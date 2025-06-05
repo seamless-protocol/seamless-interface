@@ -20,7 +20,7 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
       <MyFormProvider methods={reactHookFormMethods} onSubmit={reactHookFormMethods.handleSubmit(onSubmit)}>
         <FlexCol className="gap-8">
           <FlexCol className="gap-3">
-            <Typography type="medium3">Withdraw</Typography>
+            <Typography type="medium3">Redeem</Typography>
             <RHFWithdrawStrategyAmountField name="withdrawAmount" />
           </FlexCol>
 
