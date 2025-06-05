@@ -138,7 +138,7 @@ export function LeverageTokenFormProvider({
   const depositAmountUsdValue = useAmountUsdValue(
     depositAmount,
     lpAssetPrice,
-    selectedLeverageToken.data?.tokenData.decimals
+    selectedLeverageToken.data?.underlyingAsset.decimals
   );
   const withdrawAmountUsdValue = useAmountUsdValue(
     withdrawAmount,

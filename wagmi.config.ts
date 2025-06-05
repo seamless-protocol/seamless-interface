@@ -1,13 +1,14 @@
 import { defineConfig } from "@wagmi/cli";
-import { LoopStrategyAbi } from "./abis/LoopStrategy";
-import { AaveOracleAbi } from "./abis/AaveOracle";
-import { LendingPoolAbi } from "./abis/LendingPool";
-import { ILMRegistryAbi } from "./abis/ILMRegistry";
 import { react } from "@wagmi/cli/plugins";
-import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
-import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
+import { AaveOracleAbi } from "./abis/AaveOracle";
+import { ILMRegistryAbi } from "./abis/ILMRegistry";
+import { LendingPoolAbi } from "./abis/LendingPool";
+import { LeverageManagerAbi } from "./abis/LeverageManager";
+import { LoopStrategyAbi } from "./abis/LoopStrategy";
 import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
+import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
 import { RewardsControllerAbi } from "./abis/RewardsController";
+import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",
@@ -50,6 +51,11 @@ export default defineConfig({
       name: "RewardsController",
       address: "0x91Ac2FfF8CBeF5859eAA6DdA661feBd533cD3780",
       abi: RewardsControllerAbi,
+    },
+    {
+      name: "LeverageManager",
+      address: "0x66dc1b08F8e19F81430b034218fce3dD7CF7F8E1",
+      abi: LeverageManagerAbi,
     },
   ],
   plugins: [react()],
