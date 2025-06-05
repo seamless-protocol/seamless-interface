@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   aerodromeQuoterAbi,
   aerodromeQuoterAddress,
@@ -34,7 +35,7 @@ export interface SwapContext {
   tickSpacing: number[];
   exchange: Exchange;
   exchangeAddresses: typeof SWAP_ADAPTER_EXCHANGE_ADDRESSES;
-  additionalData: `0x${string}`;
+  additionalData?: `0x${string}`;
 }
 
 export const getQuoteAndParamsAerodrome = async (args: GetQuoteInput) => {

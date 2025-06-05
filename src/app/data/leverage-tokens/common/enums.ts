@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export enum Exchange {
   AERODROME = 0,
   AERODROME_SLIPSTREAM = 1,
