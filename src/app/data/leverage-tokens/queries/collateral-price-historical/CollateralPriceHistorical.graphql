@@ -1,0 +1,13 @@
+query CollateralPriceHistorical($address: ID!) {
+  leverageToken(id: $address) {
+    lendingAdapter {
+      oracle {
+        decimals
+        priceUpdates {
+          price
+          timestamp
+        }
+      }
+    }
+  }
+}

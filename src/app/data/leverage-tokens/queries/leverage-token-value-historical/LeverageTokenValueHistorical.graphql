@@ -1,0 +1,8 @@
+query LeverageTokenValueHistorical($address: ID!) {
+  leverageToken(id: $address) {
+    stateHistory {
+      equityPerTokenInCollateral
+      timestamp
+    }
+  }
+}
