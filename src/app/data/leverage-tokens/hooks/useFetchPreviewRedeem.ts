@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { fetchDecimals } from "../../../../shared";
-import { leverageManagerAddress, leverageManagerAbi } from "../../../generated";
+import { leverageManagerAbi, leverageManagerAddress } from "../../../generated";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
@@ -29,7 +29,7 @@ export const fetchPreviewRedeem = async ({
   const decimals = await fetchDecimals(collateral);
   const amountBigInt = parseUnits(amount, decimals);
 
-  return await queryContract({
+  const previewRedeemData = await queryContract({
     ...readContractQueryOptions(getConfig(), {
       address: leverageManagerAddress,
       abi: leverageManagerAbi,
@@ -37,6 +37,7 @@ export const fetchPreviewRedeem = async ({
       args: [leverageToken, amountBigInt],
     }),
   });
+  return previewRedeemData;
 };
 
 export const useFetchPreviewRedeem = (leverageToken?: Address, amount?: string) => {

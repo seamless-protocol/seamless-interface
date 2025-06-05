@@ -49,7 +49,6 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
   const isLeverageToken = mockLeverageTokens.some((leverageToken) => isAddressEqual(leverageToken.address, asset));
 
   if (isLeverageToken) {
-    console.log("isLeverageToken", asset);
     const [{ dollarAmount: collateralUsd }, { dollarAmount: debtUsd }, totalSupply, { decimals: assetDecimals }] =
       await Promise.all([
         fetchLeverageTokenCollateral(asset),

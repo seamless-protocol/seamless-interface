@@ -10,7 +10,9 @@ export const Summary: React.FC<{
 }> = ({ debouncedAmount }) => {
   const { strategy } = useFormSettingsContext();
   const { isConnected } = useAccount();
-  const { data: costData, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);
+  const { data, ...restCost } = useFetchViewWithdrawCostInUsdAndUnderlying(debouncedAmount, strategy);
+
+  console.log("data", data);
 
   return (
     <FlexCol>
