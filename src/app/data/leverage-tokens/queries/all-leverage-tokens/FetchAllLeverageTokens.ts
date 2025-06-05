@@ -1,9 +1,6 @@
-import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, Token, ViewBigInt, ViewNumber } from "@shared";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, ViewBigInt, ViewNumber } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-
-import mockLogo from "@assets/tokens/ilmWstethEth.svg";
-import { TagType } from "../../../../statev3/common/types/StateTypes";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -15,11 +12,6 @@ export interface ViewRewardToken {
 
 export interface LeverageToken {
   address: Address;
-  underlyingAssetAddress: Address;
-  debt: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
-  };
   availableSupplyCap: {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
@@ -30,42 +22,14 @@ export interface LeverageToken {
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];
   };
-  tokenData: Token;
   additionalData: {
     description?: string;
   };
-  type?: TagType;
-  /** Range for rebalancing leverage */
-  targetMultiples: {
-    minForRebalance?: ViewBigInt;
-    maxForRebalance?: ViewBigInt;
-  };
-  /** Current leverage multiple */
-  currentMultiple: ViewBigInt;
 }
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
-    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    type: "Short",
-    debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    targetMultiples: {
-      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
-      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
-    },
-    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
     apy: {
       rewardTokens: [],
       yieldAPY: formatFetchNumberToViewNumber({
@@ -93,37 +57,12 @@ export const mockLeverageTokens: LeverageToken[] = [
         symbol: "$",
       }),
     },
-    tokenData: {
-      name: "USD Coin Lvrg Token",
-      decimals: 6,
-      symbol: "USDCLT",
-      logo: mockLogo,
-    },
     additionalData: {
       description: "wstETH/USDC Looping",
     },
   },
   {
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    type: "Long",
-    debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    targetMultiples: {
-      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
-      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
-    },
-    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
     apy: {
       rewardTokens: [],
       yieldAPY: formatFetchNumberToViewNumber({
@@ -150,12 +89,6 @@ export const mockLeverageTokens: LeverageToken[] = [
         decimals: 8,
         symbol: "$",
       }),
-    },
-    tokenData: {
-      name: "USD Coin Lvrg Token 2",
-      decimals: 6,
-      symbol: "USDCLT2",
-      logo: mockLogo,
     },
     additionalData: {
       description: "wstETH/USDC LT 2 descr",

@@ -16,6 +16,7 @@ import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetai
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 import { useFetchLeverageTokenCollateral } from "../../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
+import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -24,13 +25,16 @@ export const LeverageTokenDesktopTableRow: React.FC<{
 }> = ({ leverageToken, hideBorder, selected }) => {
   const {
     data: {
-      tokenData: { name, symbol, logo },
       additionalData: { description },
       availableSupplyCap,
       apy,
     },
     ...rest
   } = leverageToken;
+
+  const {
+    data: { name, symbol, logo },
+  } = useFullTokenData(leverageToken.data?.address);
 
   const { data: tvl, ...tvlRest } = useFetchLeverageTokenCollateral(leverageToken.data?.address);
 
