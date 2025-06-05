@@ -168,7 +168,6 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
 
   const previewMintData = useFetchPreviewMintWithSwap(selectedLeverageToken.data?.address, debouncedDepositAmount);
-  console.log("previewMintData", previewMintData);
 
   /* -------------------- */
   /*   Withdraw Logic     */
@@ -229,8 +228,8 @@ export function LeverageTokenFormProvider({
 
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
-        amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue!,
-        minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue! / 2n,
+        amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
+        minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
     } else if (mode === "withdraw") {
