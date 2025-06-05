@@ -1,296 +1,130 @@
 export const LeverageRouterAbi = [
   {
+    inputs: [
+      { internalType: "contract ILeverageManager", name: "_leverageManager", type: "address" },
+      { internalType: "contract IMorpho", name: "_morpho", type: "address" },
+      { internalType: "contract ISwapAdapter", name: "_swapper", type: "address" },
+    ],
+    stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
     inputs: [
-      {
-        name: "_leverageManager",
-        type: "address",
-        internalType: "contract ILeverageManager",
-      },
-      {
-        name: "_morpho",
-        type: "address",
-        internalType: "contract IMorpho",
-      },
-      {
-        name: "_swapper",
-        type: "address",
-        internalType: "contract ISwapAdapter",
-      },
+      { internalType: "uint256", name: "actualCost", type: "uint256" },
+      { internalType: "uint256", name: "maxCost", type: "uint256" },
     ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "leverageManager",
-    inputs: [],
-    outputs: [
-      {
-        name: "",
-        type: "address",
-        internalType: "contract ILeverageManager",
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "mint",
-    inputs: [
-      {
-        name: "token",
-        type: "address",
-        internalType: "contract ILeverageToken",
-      },
-      {
-        name: "equityInCollateralAsset",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "minShares",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "maxSwapCostInCollateralAsset",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "swapContext",
-        type: "tuple",
-        internalType: "struct ISwapAdapter.SwapContext",
-        components: [
-          {
-            name: "path",
-            type: "address[]",
-            internalType: "address[]",
-          },
-          {
-            name: "encodedPath",
-            type: "bytes",
-            internalType: "bytes",
-          },
-          {
-            name: "fees",
-            type: "uint24[]",
-            internalType: "uint24[]",
-          },
-          {
-            name: "tickSpacing",
-            type: "int24[]",
-            internalType: "int24[]",
-          },
-          {
-            name: "exchange",
-            type: "uint8",
-            internalType: "enum ISwapAdapter.Exchange",
-          },
-          {
-            name: "exchangeAddresses",
-            type: "tuple",
-            internalType: "struct ISwapAdapter.ExchangeAddresses",
-            components: [
-              {
-                name: "aerodromeRouter",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "aerodromePoolFactory",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "aerodromeSlipstreamRouter",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "uniswapSwapRouter02",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "uniswapV2Router02",
-                type: "address",
-                internalType: "address",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "morpho",
-    inputs: [],
-    outputs: [
-      {
-        name: "",
-        type: "address",
-        internalType: "contract IMorpho",
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "onMorphoFlashLoan",
-    inputs: [
-      {
-        name: "loanAmount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "data",
-        type: "bytes",
-        internalType: "bytes",
-      },
-    ],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "redeem",
-    inputs: [
-      {
-        name: "token",
-        type: "address",
-        internalType: "contract ILeverageToken",
-      },
-      {
-        name: "equityInCollateralAsset",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "maxShares",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "maxSwapCostInCollateralAsset",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "swapContext",
-        type: "tuple",
-        internalType: "struct ISwapAdapter.SwapContext",
-        components: [
-          {
-            name: "path",
-            type: "address[]",
-            internalType: "address[]",
-          },
-          {
-            name: "encodedPath",
-            type: "bytes",
-            internalType: "bytes",
-          },
-          {
-            name: "fees",
-            type: "uint24[]",
-            internalType: "uint24[]",
-          },
-          {
-            name: "tickSpacing",
-            type: "int24[]",
-            internalType: "int24[]",
-          },
-          {
-            name: "exchange",
-            type: "uint8",
-            internalType: "enum ISwapAdapter.Exchange",
-          },
-          {
-            name: "exchangeAddresses",
-            type: "tuple",
-            internalType: "struct ISwapAdapter.ExchangeAddresses",
-            components: [
-              {
-                name: "aerodromeRouter",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "aerodromePoolFactory",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "aerodromeSlipstreamRouter",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "uniswapSwapRouter02",
-                type: "address",
-                internalType: "address",
-              },
-              {
-                name: "uniswapV2Router02",
-                type: "address",
-                internalType: "address",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "swapper",
-    inputs: [],
-    outputs: [
-      {
-        name: "",
-        type: "address",
-        internalType: "contract ISwapAdapter",
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "error",
     name: "MaxSwapCostExceeded",
-    inputs: [
-      {
-        name: "actualCost",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "maxCost",
-        type: "uint256",
-        internalType: "uint256",
-      },
-    ],
+    type: "error",
   },
   {
-    type: "error",
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
     name: "SafeERC20FailedOperation",
-    inputs: [
-      {
-        name: "token",
-        type: "address",
-        internalType: "address",
-      },
-    ],
+    type: "error",
+  },
+  { inputs: [], name: "Unauthorized", type: "error" },
+  {
+    inputs: [],
+    name: "leverageManager",
+    outputs: [{ internalType: "contract ILeverageManager", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
   },
   {
-    type: "error",
-    name: "Unauthorized",
+    inputs: [
+      { internalType: "contract ILeverageToken", name: "token", type: "address" },
+      { internalType: "uint256", name: "equityInCollateralAsset", type: "uint256" },
+      { internalType: "uint256", name: "minShares", type: "uint256" },
+      { internalType: "uint256", name: "maxSwapCostInCollateralAsset", type: "uint256" },
+      {
+        components: [
+          { internalType: "address[]", name: "path", type: "address[]" },
+          { internalType: "bytes", name: "encodedPath", type: "bytes" },
+          { internalType: "uint24[]", name: "fees", type: "uint24[]" },
+          { internalType: "int24[]", name: "tickSpacing", type: "int24[]" },
+          { internalType: "enum ISwapAdapter.Exchange", name: "exchange", type: "uint8" },
+          {
+            components: [
+              { internalType: "address", name: "aerodromeRouter", type: "address" },
+              { internalType: "address", name: "aerodromePoolFactory", type: "address" },
+              { internalType: "address", name: "aerodromeSlipstreamRouter", type: "address" },
+              { internalType: "address", name: "uniswapSwapRouter02", type: "address" },
+              { internalType: "address", name: "uniswapV2Router02", type: "address" },
+            ],
+            internalType: "struct ISwapAdapter.ExchangeAddresses",
+            name: "exchangeAddresses",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "additionalData", type: "bytes" },
+        ],
+        internalType: "struct ISwapAdapter.SwapContext",
+        name: "swapContext",
+        type: "tuple",
+      },
+    ],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
+    name: "morpho",
+    outputs: [{ internalType: "contract IMorpho", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "loanAmount", type: "uint256" },
+      { internalType: "bytes", name: "data", type: "bytes" },
+    ],
+    name: "onMorphoFlashLoan",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "contract ILeverageToken", name: "token", type: "address" },
+      { internalType: "uint256", name: "equityInCollateralAsset", type: "uint256" },
+      { internalType: "uint256", name: "maxShares", type: "uint256" },
+      { internalType: "uint256", name: "maxSwapCostInCollateralAsset", type: "uint256" },
+      {
+        components: [
+          { internalType: "address[]", name: "path", type: "address[]" },
+          { internalType: "bytes", name: "encodedPath", type: "bytes" },
+          { internalType: "uint24[]", name: "fees", type: "uint24[]" },
+          { internalType: "int24[]", name: "tickSpacing", type: "int24[]" },
+          { internalType: "enum ISwapAdapter.Exchange", name: "exchange", type: "uint8" },
+          {
+            components: [
+              { internalType: "address", name: "aerodromeRouter", type: "address" },
+              { internalType: "address", name: "aerodromePoolFactory", type: "address" },
+              { internalType: "address", name: "aerodromeSlipstreamRouter", type: "address" },
+              { internalType: "address", name: "uniswapSwapRouter02", type: "address" },
+              { internalType: "address", name: "uniswapV2Router02", type: "address" },
+            ],
+            internalType: "struct ISwapAdapter.ExchangeAddresses",
+            name: "exchangeAddresses",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "additionalData", type: "bytes" },
+        ],
+        internalType: "struct ISwapAdapter.SwapContext",
+        name: "swapContext",
+        type: "tuple",
+      },
+    ],
+    name: "redeem",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "swapper",
+    outputs: [{ internalType: "contract ISwapAdapter", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
   },
 ] as const;

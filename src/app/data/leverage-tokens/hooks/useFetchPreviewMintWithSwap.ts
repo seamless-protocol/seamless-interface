@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, encodeAbiParameters, zeroAddress } from "viem";
-import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, WEETH_ADDRESS, WETH_ADDRESS } from "../../../../meta";
+import {
+  ETH_ADDRESS,
+  ETHERFI_L2_MODE_SYNC_POOL_ADDRESS,
+  SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+  WEETH_ADDRESS,
+} from "../../../../meta";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";
@@ -18,6 +23,10 @@ const getSwapContext = () => {
     additionalData: encodeAbiParameters(
       [
         {
+          name: "etherFiL2ModeSyncPool",
+          type: "address",
+        },
+        {
           name: "tokenIn",
           type: "address",
         },
@@ -30,7 +39,7 @@ const getSwapContext = () => {
           type: "address",
         },
       ],
-      [WETH_ADDRESS, WEETH_ADDRESS, zeroAddress]
+      [ETHERFI_L2_MODE_SYNC_POOL_ADDRESS, ETH_ADDRESS, WEETH_ADDRESS, zeroAddress]
     ),
   };
 

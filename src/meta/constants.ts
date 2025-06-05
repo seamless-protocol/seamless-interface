@@ -26,6 +26,7 @@ export const COMPOUNDING_PERIODS_APY = 1;
 
 export const MOCK_PRICE_ORACLE = "0x602823807C919A92B63cF5C126387c4759976072";
 
+export const ETH_ADDRESS: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
 export const WETH_ADDRESS: Address = "0x4200000000000000000000000000000000000006";
 export const WEETH_ADDRESS: Address = "0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A";
 export const CBETH_ADDRESS: Address = "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22";
@@ -105,6 +106,8 @@ export const APY_BLOCK_FRAME = ((60n * 60n * 24n) / 2n) * 30n; // 30 days
 export const AAVE_ADDRESS_PROVIDER = "0x0E02EB705be325407707662C6f6d3466E939f3a0";
 
 export const FUUL_MANAGER_ADDRESS = "0xC38E3A10B5818601b29c83F195E8b5854AAE45aF";
+
+export const ETHERFI_L2_MODE_SYNC_POOL_ADDRESS = "0xc38e046dFDAdf15f7F56853674242888301208a5";
 
 // todo refactor this by address or fetch this?
 // this is deprecated, please use addressIconMap from config v3.

@@ -4110,6 +4110,20 @@ export const leverageRouterAbi = [
     stateMutability: 'nonpayable',
   },
   {
+    type: 'error',
+    inputs: [
+      { name: 'actualCost', internalType: 'uint256', type: 'uint256' },
+      { name: 'maxCost', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'MaxSwapCostExceeded',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  { type: 'error', inputs: [], name: 'Unauthorized' },
+  {
     type: 'function',
     inputs: [],
     name: 'leverageManager',
@@ -4183,6 +4197,7 @@ export const leverageRouterAbi = [
               },
             ],
           },
+          { name: 'additionalData', internalType: 'bytes', type: 'bytes' },
         ],
       },
     ],
@@ -4272,6 +4287,7 @@ export const leverageRouterAbi = [
               },
             ],
           },
+          { name: 'additionalData', internalType: 'bytes', type: 'bytes' },
         ],
       },
     ],
@@ -4288,20 +4304,6 @@ export const leverageRouterAbi = [
     ],
     stateMutability: 'view',
   },
-  {
-    type: 'error',
-    inputs: [
-      { name: 'actualCost', internalType: 'uint256', type: 'uint256' },
-      { name: 'maxCost', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'MaxSwapCostExceeded',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  { type: 'error', inputs: [], name: 'Unauthorized' },
 ] as const
 
 export const leverageRouterAddress =
