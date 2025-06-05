@@ -19,7 +19,6 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
   }
 
   leverageToken.tvl = collateral;
-  console.log("leverageToken", leverageToken);
   return leverageToken;
 }
 

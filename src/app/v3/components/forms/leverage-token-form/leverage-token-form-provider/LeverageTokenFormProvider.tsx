@@ -320,11 +320,7 @@ export function LeverageTokenFormProvider({
         onTransaction: _onTransaction,
         setOnTransaction,
         withdrawCostInUsdAndUnderlying,
-<<<<<<< HEAD
-        withdrawAmountUsdValue: withdrawAmountUsdValue,
-=======
         withdrawAmountUsdValue,
->>>>>>> main
         maxUserDepositData: {
           data: {
             bigIntValue: 10000000000000000000000000n,
