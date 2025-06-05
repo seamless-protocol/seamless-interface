@@ -1,10 +1,10 @@
-import { Address, parseEther } from "viem";
-import seamLogo from "@assets/tokens/seam.svg";
-import esSeamLogo from "@assets/tokens/esSeam.svg";
-import usdcLogo from "@assets/tokens/usdc.svg";
-import ogPointsLogo from "@assets/tokens/og-points.svg";
 import brettLogo from "@assets/tokens/brett.svg";
+import esSeamLogo from "@assets/tokens/esSeam.svg";
+import ogPointsLogo from "@assets/tokens/og-points.svg";
+import seamLogo from "@assets/tokens/seam.svg";
+import usdcLogo from "@assets/tokens/usdc.svg";
 import type { DecimalsOptions } from "@shared";
+import { Address, parseEther } from "viem";
 import { uniswapV2Router02Address } from "../app/generated";
 
 export const USD_VALUE_DECIMALS = 8;
@@ -136,3 +136,6 @@ export const SWAP_ADAPTER_EXCHANGE_ADDRESSES = {
 
 export const UNISWAP_FEES = [100, 300, 500, 1000];
 export const AERODROME_FEES = [100, 300, 500, 1000];
+export const AUCTION_PRICE_MULTIPLIER_DECIMALS = 18;
+
+export const COLLATERAL_RATIO_DECIMALS = 18;

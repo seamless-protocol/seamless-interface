@@ -1,21 +1,21 @@
 import { defineConfig } from "@wagmi/cli";
-import { LoopStrategyAbi } from "./abis/LoopStrategy";
-import { AaveOracleAbi } from "./abis/AaveOracle";
-import { LendingPoolAbi } from "./abis/LendingPool";
-import { ILMRegistryAbi } from "./abis/ILMRegistry";
 import { react } from "@wagmi/cli/plugins";
-import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
-import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
-import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
-import { RewardsControllerAbi } from "./abis/RewardsController";
-import { LeverageManagerAbi } from "./abis/LeverageManager";
-import { EtherFiLeverageRouterAbi } from "./abis/EtherFiLeverageRouter";
-import { UniswapV2RouterAbi } from "./abis/UniswapV2Router";
-import { LeverageRouterAbi } from "./abis/LeverageRouter";
-import { QuoterAbi } from "./abis/Qouter";
-import { UniswapV3FactoryAbi } from "./abis/UniswapV3Factory";
-import { AerodromeSlipstreamFactoryAbi } from "./abis/AerodromeSlipstreamFactory";
+import { AaveOracleAbi } from "./abis/AaveOracle";
 import { AerodromeQuoterAbi } from "./abis/AerodromeQuoterAbi";
+import { AerodromeSlipstreamFactoryAbi } from "./abis/AerodromeSlipstreamFactory";
+import { EtherFiLeverageRouterAbi } from "./abis/EtherFiLeverageRouter";
+import { ILMRegistryAbi } from "./abis/ILMRegistry";
+import { LendingPoolAbi } from "./abis/LendingPool";
+import { LeverageManagerAbi } from "./abis/LeverageManager";
+import { LeverageRouterAbi } from "./abis/LeverageRouter";
+import { LoopStrategyAbi } from "./abis/LoopStrategy";
+import { PoolDataProviderAbi } from "./abis/PoolDataProvider";
+import { ProtocolDataProviderAbi } from "./abis/ProtocolDataProvider";
+import { QuoterAbi } from "./abis/Qouter";
+import { RewardsControllerAbi } from "./abis/RewardsController";
+import { UIIncentiveDataProviderAbi } from "./abis/UIIncentiveDataProvider";
+import { UniswapV2RouterAbi } from "./abis/UniswapV2Router";
+import { UniswapV3FactoryAbi } from "./abis/UniswapV3Factory";
 
 export default defineConfig({
   out: "src/app/generated/generated.ts",

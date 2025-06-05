@@ -1,18 +1,12 @@
 import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
 import { useAccount } from "wagmi";
-import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary: React.FC = () => {
-  const { debouncedDepositAmount, selectedLeverageToken } = useLeverageTokenFormContext();
+  const { previewMintData } = useLeverageTokenFormContext();
   const { isConnected } = useAccount();
-
-  const { data: costData, ...restCost } = useFetchPreviewDepositCostInUsdAndUnderlying(
-    debouncedDepositAmount,
-    selectedLeverageToken?.data?.address
-  );
 
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
@@ -21,22 +15,62 @@ export const Summary: React.FC = () => {
       <DataRow
         label={
           <FlexRow className="md:gap-1 items-center">
-            3rd party DEX fees
+            Mint token fee
             <StandardTooltip width={1}>
               <Typography type="medium2" className="text-navy-1000">
-                DEX fees and price impact incurred to keep the strategy <br /> at the target multiple after your
-                deposit. If transaction cost <br /> is high, try depositing smaller amounts over time.
+                Some description about this fee.
               </Typography>
             </StandardTooltip>
           </FlexRow>
         }
       >
         <DisplayTokenAmount
-          {...restCost}
-          {...costData?.cost.dollarAmount}
+          {...previewMintData.data?.tokenFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
+      </DataRow>
+      <DataRow
+        label={
+          <FlexRow className="md:gap-1 items-center">
+            Treasury token fee
+            <StandardTooltip width={1}>
+              <Typography type="medium2" className="text-navy-1000">
+                Some description about this fee.
+              </Typography>
+            </StandardTooltip>
+          </FlexRow>
+        }
+      >
+        <DisplayTokenAmount
+          {...previewMintData.data?.treasuryFee.dollarAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
+      </DataRow>
+      <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
+        <DisplayTokenAmount
+          {...previewMintData.data?.equity.dollarAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
+      </DataRow>
+      <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
+        <DisplayTokenAmount
+          {...previewMintData.data?.debt.tokenAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
+      </DataRow>
+      <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
+        <DisplayTokenAmount
+          {...previewMintData.data?.collateral.tokenAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
+      </DataRow>
+      <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
+        <DisplayTokenAmount viewValue="0" symbol="$" symbolPosition="before" {...checkAuthentication(isConnected)} />
       </DataRow>
     </FlexCol>
   );

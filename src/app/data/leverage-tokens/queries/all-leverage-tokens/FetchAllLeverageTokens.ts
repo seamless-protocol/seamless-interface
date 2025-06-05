@@ -1,6 +1,6 @@
-import { Address } from "viem";
+import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, Token, ViewBigInt, ViewNumber } from "@shared";
 import { useQuery } from "@tanstack/react-query";
-import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewNumber, formatFetchNumberToViewNumber } from "@shared";
+import { Address } from "viem";
 
 import mockLogo from "@assets/tokens/ilmWstethEth.svg";
 import { TagType } from "../../../../statev3/common/types/StateTypes";
@@ -21,15 +21,19 @@ export interface LeverageToken {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
+  debt: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
+  availableSupplyCap: {
+    tokenAmount: ViewBigInt;
+    dollarAmount: ViewBigInt;
+  };
   apy: {
     estimatedAPY: ViewNumber;
     borrowAPY: ViewNumber;
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];
-  };
-  availableSupplyCap: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
   };
   tokenData: Token;
   additionalData: {
@@ -64,6 +68,18 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
+        decimals: 8,
+        symbol: "$",
+      }),
+    },
+    debt: {
+      tokenAmount: formatFetchBigIntToViewBigInt({
+        bigIntValue: 32_000n * 10n ** 6n,
+        decimals: 6,
+        symbol: "USDC",
+      }),
+      dollarAmount: formatFetchBigIntToViewBigInt({
+        bigIntValue: 32_000n * 10n ** 6n,
         decimals: 8,
         symbol: "$",
       }),
@@ -128,6 +144,18 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 6n,
+        decimals: 8,
+        symbol: "$",
+      }),
+    },
+    debt: {
+      tokenAmount: formatFetchBigIntToViewBigInt({
+        bigIntValue: 32_000n * 10n ** 6n,
+        decimals: 6,
+        symbol: "USDC",
+      }),
+      dollarAmount: formatFetchBigIntToViewBigInt({
+        bigIntValue: 32_000n * 10n ** 6n,
         decimals: 8,
         symbol: "$",
       }),

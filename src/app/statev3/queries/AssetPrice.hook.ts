@@ -1,25 +1,30 @@
+import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
 import {
-  formatFetchBigIntToViewBigInt,
   Displayable,
   FetchBigIntStrict,
+  fetchToken,
+  formatFetchBigIntToViewBigInt,
+  FormattingOptions,
   formatUsdValue,
   ViewBigInt,
-  FormattingOptions,
-  fetchToken,
 } from "@shared";
-import { Address, parseUnits, erc4626Abi, isAddressEqual } from "viem";
-import { OG_POINTS_ADDRESS, OG_POINTS_MOCK_PRICE } from "@meta";
-import { assetsConfig } from "../settings/landingMarketConfig";
+import { useQuery } from "@tanstack/react-query";
+import { Address, erc4626Abi, isAddressEqual, parseUnits } from "viem";
+import { readContractQueryOptions } from "wagmi/query";
+import { mockLeverageTokens } from "../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+/* eslint-disable import/no-cycle */
+import { fetchLeverageTokenCollateral } from "../../data/leverage-tokens/queries/collateral/collateral.fetch";
+import { fetchLeverageTokenDebt } from "../../data/leverage-tokens/queries/debt/debt.fetch";
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
+import { checkIfContractExists } from "../../utils/wagmiUtils";
+import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
+import { cValueInUsd } from "../math/utils";
+import { configuredVaultAddresses, strategyConfig } from "../settings/config";
+import { assetsConfig } from "../settings/landingMarketConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
 import { fetchEquityInBlock } from "./Equity.hook";
-import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
-import { readContractQueryOptions } from "wagmi/query";
-import { checkIfContractExists } from "../../utils/wagmiUtils";
-import { strategyConfig, configuredVaultAddresses } from "../settings/config";
-import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {
@@ -40,6 +45,28 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
     if (totalSupply.bigIntValue === 0n) return formatUsdValue(0n);
 
     return formatUsdValue((equityUsd.bigIntValue * parseUnits("1", totalSupply.decimals)) / totalSupply.bigIntValue);
+  }
+
+  const isLeverageToken = mockLeverageTokens.some((leverageToken) => isAddressEqual(leverageToken.address, asset));
+
+  if (isLeverageToken) {
+    const [{ dollarAmount: collateralUsd }, { dollarAmount: debtUsd }, totalSupply, { decimals: assetDecimals }] =
+      await Promise.all([
+        fetchLeverageTokenCollateral(asset),
+        fetchLeverageTokenDebt(asset),
+        fetchAssetTotalSupplyInBlock({ asset, blockNumber }),
+        fetchToken(asset),
+      ]);
+
+    if (!collateralUsd?.bigIntValue || !debtUsd?.bigIntValue) return formatUsdValue(0n);
+
+    const leverageTokenPrice = cValueInUsd(
+      totalSupply.bigIntValue,
+      collateralUsd.bigIntValue - debtUsd.bigIntValue,
+      assetDecimals
+    );
+
+    return formatUsdValue(leverageTokenPrice);
   }
 
   const cacheConfig = blockNumber ? infiniteCacheQueryConfig : platformDataQueryConfig;

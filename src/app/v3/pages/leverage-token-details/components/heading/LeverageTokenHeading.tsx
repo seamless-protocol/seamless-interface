@@ -1,4 +1,4 @@
-import { Displayable, DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
+import { Displayable, DisplayNumber, DisplayText, FlexCol, FlexRow, useToken } from "@shared";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
@@ -10,17 +10,18 @@ export const LeverageTokenHeading: React.FC<{
 }> = ({ leverageToken }) => {
   const {
     data: {
-      tokenData: { name = undefined, symbol = undefined } = {},
       apy: { estimatedAPY = undefined, rewardTokens = [] } = {},
       additionalData: { description = undefined } = {},
     } = {},
     ...rest
   } = leverageToken;
 
+  const { data: tokenData, ...tokenDataRest } = useToken(leverageToken?.data?.address);
+
   return (
     <FlexCol>
       <div className="flex md:flex-row flex-col-reverse md:items-center gap-4">
-        <DisplayText viewValue={name} {...rest} typography="bold7" />
+        <DisplayText viewValue={tokenData.name} {...tokenDataRest} typography="bold7" />
 
         <FlexRow className="md:items-center gap-4">
           <div className="flex w-auto">
@@ -43,7 +44,7 @@ export const LeverageTokenHeading: React.FC<{
               {...rest}
             >
               <IncentivesDetailCard
-                assetSymbol={symbol}
+                assetSymbol={tokenData.symbol}
                 totalApr={{
                   ...estimatedAPY,
                 }}

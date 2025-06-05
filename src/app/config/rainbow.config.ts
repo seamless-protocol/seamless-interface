@@ -1,6 +1,4 @@
-import { base } from "wagmi/chains";
 import logoSeamless from "@assets/logos/logo-seamless.svg";
-import { createConfig, fallback, http, webSocket } from "wagmi";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   coinbaseWallet,
@@ -9,8 +7,9 @@ import {
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+import { createConfig, fallback, http, webSocket } from "wagmi";
+import { base } from "wagmi/chains";
 import { VITE_EXTENSIVE_OPERATIONS_RPC_URL } from "../../globals";
-import { ethers } from "ethers";
 
 const rpcConfig = [
   { url: import.meta.env.VITE_BASE_RPC_FREE_1, isWebSocket: false },
@@ -71,8 +70,6 @@ export const extensiveOperationsConfig = createConfig({
     [targetChain.id]: http(VITE_EXTENSIVE_OPERATIONS_RPC_URL),
   },
 });
-
-export const extensiveOperationsProvider = new ethers.providers.JsonRpcProvider(VITE_EXTENSIVE_OPERATIONS_RPC_URL);
 
 declare module "wagmi" {
   interface Register {

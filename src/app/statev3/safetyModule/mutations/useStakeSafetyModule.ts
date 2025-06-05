@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 // import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 // import { stakedTokenAbi } from "@generated";
 // import { useAccount } from "wagmi";
 // import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
 // import { fetchBalanceQueryOptions, fetchBalanceHookQK } from "../../common/queries/useFetchViewAssetBalance";
 // import { targetChain } from "../../../config/rainbow.config";
+=======
+import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
+import { useAccount } from "wagmi";
+import { StakedTokenAbi } from "../../../../../abis/StakedToken";
+import { targetChain } from "../../../config/rainbow.config";
+import { fetchBalanceHookQK, fetchBalanceQueryOptions } from "../../common/queries/useFetchViewAssetBalance";
+>>>>>>> feat/fetch-leverage-token-details
 
 // export const useStakeSafetyModule = () => {
 //   /* ------------- */
@@ -38,24 +47,24 @@
 //       if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
 //       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
 
-//       await writeContractAsync(
-//         {
-//           chainId: targetChain.id,
-//           address: STAKED_SEAM_ADDRESS,
-//           abi: stakedTokenAbi,
-//           functionName: "deposit",
-//           args: [amount, address],
-//         },
-//         { ...settings }
-//       );
-//     } catch (error) {
-//       console.error("Failed to stake", error);
-//       showNotification({
-//         status: "error",
-//         content: `Failed to stake: ${getParsedError(error)}`,
-//       });
-//     }
-//   };
+  //     await writeContractAsync(
+  //       {
+  //         chainId: targetChain.id,
+  //         address: STAKED_SEAM_ADDRESS,
+  //         abi: StakedTokenAbi,
+  //         functionName: "deposit",
+  //         args: [amount, address],
+  //       },
+  //       { ...settings }
+  //     );
+  //   } catch (error) {
+  //     console.error("Failed to stake", error);
+  //     showNotification({
+  //       status: "error",
+  //       content: `Failed to stake: ${getParsedError(error)}`,
+  //     });
+  //   }
+  // };
 
 //   return { ...rest, isDepositPending: rest.isPending, stakeAsync };
 // };

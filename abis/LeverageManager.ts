@@ -1173,6 +1173,99 @@ export const LeverageManagerAbi = [
   },
   {
     type: "event",
+    name: "Rebalance",
+    inputs: [
+      {
+        name: "token",
+        type: "address",
+        indexed: true,
+        internalType: "contract ILeverageToken",
+      },
+      {
+        name: "sender",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "stateBefore",
+        type: "tuple",
+        indexed: false,
+        internalType: "struct LeverageTokenState",
+        components: [
+          {
+            name: "collateralInDebtAsset",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "debt",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "equity",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "collateralRatio",
+            type: "uint256",
+            internalType: "uint256",
+          },
+        ],
+      },
+      {
+        name: "stateAfter",
+        type: "tuple",
+        indexed: false,
+        internalType: "struct LeverageTokenState",
+        components: [
+          {
+            name: "collateralInDebtAsset",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "debt",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "equity",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          {
+            name: "collateralRatio",
+            type: "uint256",
+            internalType: "uint256",
+          },
+        ],
+      },
+      {
+        name: "actions",
+        type: "tuple[]",
+        indexed: false,
+        internalType: "struct RebalanceAction[]",
+        components: [
+          {
+            name: "actionType",
+            type: "uint8",
+            internalType: "enum ActionType",
+          },
+          {
+            name: "amount",
+            type: "uint256",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
     name: "Redeem",
     inputs: [
       {

@@ -3913,6 +3913,71 @@ export const leverageManagerAbi = [
         indexed: true,
       },
       {
+        name: 'stateBefore',
+        internalType: 'struct LeverageTokenState',
+        type: 'tuple',
+        components: [
+          {
+            name: 'collateralInDebtAsset',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'collateralRatio', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+      {
+        name: 'stateAfter',
+        internalType: 'struct LeverageTokenState',
+        type: 'tuple',
+        components: [
+          {
+            name: 'collateralInDebtAsset',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'debt', internalType: 'uint256', type: 'uint256' },
+          { name: 'equity', internalType: 'uint256', type: 'uint256' },
+          { name: 'collateralRatio', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+      {
+        name: 'actions',
+        internalType: 'struct RebalanceAction[]',
+        type: 'tuple[]',
+        components: [
+          {
+            name: 'actionType',
+            internalType: 'enum ActionType',
+            type: 'uint8',
+          },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'Rebalance',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'token',
+        internalType: 'contract ILeverageToken',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
         name: 'actionData',
         internalType: 'struct ActionData',
         type: 'tuple',
@@ -9821,6 +9886,16 @@ export const useWatchLeverageManagerMintEvent =
     abi: leverageManagerAbi,
     address: leverageManagerAddress,
     eventName: 'Mint',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link leverageManagerAbi}__ and `eventName` set to `"Rebalance"`
+ */
+export const useWatchLeverageManagerRebalanceEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: leverageManagerAbi,
+    address: leverageManagerAddress,
+    eventName: 'Rebalance',
   })
 
 /**
