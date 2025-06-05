@@ -1,11 +1,9 @@
 import { useMemo } from "react";
 
-export type LimitStatus = "normal" | "highUtilization" | "highBorrowRate" | "depositLimitExceeded";
+export type LimitStatus = "highUtilization" | "highBorrowRate" | "depositLimitExceeded";
 
 const MAX_DEPOSIT_WE_TH = 26;
-
 const BORROW_RATE_WARNING_AMOUNT = 20;
-
 const UTILIZATION_WARNING_AMOUNT = 10;
 
 interface UseFormStatusArgs {
@@ -13,25 +11,26 @@ interface UseFormStatusArgs {
   debouncedWithdrawAmount: string;
 }
 
-export function useLeverageTokenLimitStatus({
+export function useLeverageTokenLimitStatuses({
   debouncedDepositAmount,
-  debouncedWithdrawAmount, // (unused here)
-}: UseFormStatusArgs): LimitStatus {
+  debouncedWithdrawAmount,
+}: UseFormStatusArgs): LimitStatus[] {
   return useMemo(() => {
     const depositNum = parseFloat(debouncedDepositAmount) || 0;
+    const statuses: LimitStatus[] = [];
 
-    if (depositNum > MAX_DEPOSIT_WE_TH) {
-      return "depositLimitExceeded";
+    if (depositNum > UTILIZATION_WARNING_AMOUNT) {
+      statuses.push("highUtilization");
     }
 
     if (depositNum > BORROW_RATE_WARNING_AMOUNT) {
-      return "highBorrowRate";
+      statuses.push("highBorrowRate");
     }
 
-    if (depositNum > UTILIZATION_WARNING_AMOUNT) {
-      return "highUtilization";
+    if (depositNum > MAX_DEPOSIT_WE_TH) {
+      statuses.push("depositLimitExceeded");
     }
 
-    return "normal";
+    return statuses;
   }, [debouncedDepositAmount, debouncedWithdrawAmount]);
 }

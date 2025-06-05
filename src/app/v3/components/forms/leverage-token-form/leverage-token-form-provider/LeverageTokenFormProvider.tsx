@@ -25,8 +25,8 @@ import {
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
 import {
   LimitStatus,
-  useLeverageTokenLimitStatus,
-} from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatus";
+  useLeverageTokenLimitStatuses,
+} from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -84,7 +84,7 @@ interface LeverageTokenFormContextValue {
 
   withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
 
-  limitStatus: LimitStatus;
+  limitStatuses: LimitStatus[];
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -170,7 +170,7 @@ export function LeverageTokenFormProvider({
     isConnected,
   });
 
-  const limitStatus = useLeverageTokenLimitStatus({
+  const limitStatuses = useLeverageTokenLimitStatuses({
     debouncedDepositAmount,
     debouncedWithdrawAmount,
   });
@@ -275,7 +275,7 @@ export function LeverageTokenFormProvider({
           approveAsync,
         },
         withdrawCostInUsdAndUnderlying,
-        limitStatus,
+        limitStatuses,
       }}
     >
       {children}

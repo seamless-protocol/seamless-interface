@@ -1,6 +1,7 @@
 import { FlexRow, Typography } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
+// We keep the same STATUS_CONFIG; keys are the three possible warnings.
 const STATUS_CONFIG: Record<string, { bgClass: string; textColor: string; message: string }> = {
   highUtilization: {
     bgClass: "bg-yellow-200",
@@ -22,28 +23,33 @@ const STATUS_CONFIG: Record<string, { bgClass: string; textColor: string; messag
 };
 
 export const LimitStatusComponent = () => {
-  const { limitStatus } = useLeverageTokenFormContext();
+  const { limitStatuses } = useLeverageTokenFormContext();
 
-  if (limitStatus === "normal" || !STATUS_CONFIG[limitStatus]) {
+  // If there are no statuses in the array, render nothing
+  if (!limitStatuses || limitStatuses.length === 0) {
     return null;
   }
 
-  const { bgClass, textColor, message } = STATUS_CONFIG[limitStatus];
-
   return (
     <div className="flex justify-center px-2 md:px-0">
-      <div className="w-full max-w-page-content">
-        <div
-          className={`
-            flex flex-col justify-center items-center 
-            text-center w-full md:flex-row py-4 px-8 
-            rounded-[100px] ${bgClass} ${textColor}
-          `}
-        >
-          <FlexRow className="md:gap-1 gap-4 items-center justify-center w-full">
-            <Typography type="bold2">{message}</Typography>
-          </FlexRow>
-        </div>
+      <div className="w-full max-w-page-content flex flex-col space-y-4">
+        {limitStatuses.map((statusKey) => {
+          const { bgClass, textColor, message } = STATUS_CONFIG[statusKey];
+          return (
+            <div
+              key={statusKey}
+              className={`
+                flex flex-col justify-center items-center
+                text-center w-full md:flex-row py-4 px-8
+                rounded-[100px] ${bgClass} ${textColor}
+              `}
+            >
+              <FlexRow className="md:gap-1 gap-4 items-center justify-center w-full">
+                <Typography type="bold2">{message}</Typography>
+              </FlexRow>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
