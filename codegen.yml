@@ -22,3 +22,15 @@ generates:
       withHooks: false
       withHOC: false
       withComponent: false
+
+  src/generated-graphql/leverage-token-index.tsx:
+    schema: "https://api.studio.thegraph.com/query/113147/seamless-leverage-tokens-base/version/latest"
+    documents: "src/app/data/leverage-tokens/**/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: false
+      withHOC: false
+      withComponent: false
