@@ -30,7 +30,7 @@ export interface EtherFiApyData {
   sevenDayRestakingApr: number;
   tvl: number;
   bufferEth: number;
-  aprPreFees: ViewBigInt;
+  apyView: ViewBigInt;
 }
 
 /**
@@ -54,12 +54,12 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
       const sevenDayRestakingApr = raw["7_day_restaking_apr"];
       const { tvl, buffer_eth: bufferEth } = raw;
 
-      const aprPreFeesFloat = sevenDayApr / 0.9 + sevenDayRestakingApr;
+      const apy = sevenDayApr + sevenDayRestakingApr;
 
-      const aprPreFeesBigInt = parseUnits(aprPreFeesFloat.toString(), APY_DECIMALS);
+      const apyBigInt = parseUnits(apy.toString(), APY_DECIMALS);
 
-      const aprPreFeesView: ViewBigInt = formatFetchBigIntToViewBigInt({
-        bigIntValue: aprPreFeesBigInt,
+      const apyView: ViewBigInt = formatFetchBigIntToViewBigInt({
+        bigIntValue: apyBigInt,
         decimals: APY_DECIMALS,
         symbol: "%",
       });
@@ -69,7 +69,7 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
         sevenDayRestakingApr,
         tvl,
         bufferEth,
-        aprPreFees: aprPreFeesView,
+        apyView,
       };
     },
   });
