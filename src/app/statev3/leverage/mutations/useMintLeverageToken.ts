@@ -1,8 +1,9 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { etherFiLeverageRouterAbi, etherFiLeverageRouterAddress } from "@generated";
+import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { targetChain } from "../../../config/rainbow.config";
-import { Address } from "viem";
+import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
+import { leverageRouterAbi, leverageRouterAddress } from "../../../generated";
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
@@ -22,9 +23,14 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* -------------------- */
   /*   Mutation wrapper   */
   /* -------------------- */
-  const mintAsync = async (args: { leverageToken?: Address; amount?: bigint; minShares?: bigint }) => {
+  const mintAsync = async (args: {
+    leverageToken?: Address;
+    amount?: bigint;
+    minShares?: bigint;
+    swapContext?: SwapContext;
+  }) => {
     try {
-      const { leverageToken, amount, minShares } = args;
+      const { leverageToken, amount, minShares, swapContext } = args;
       if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
       if (!minShares) throw new Error("Min shares is not defined.");
@@ -32,10 +38,11 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
 
       await writeContractAsync({
         chainId: targetChain.id,
-        address: etherFiLeverageRouterAddress,
-        abi: etherFiLeverageRouterAbi,
+        address: leverageRouterAddress,
+        abi: leverageRouterAbi,
         functionName: "mint",
-        args: [leverageToken, amount, minShares],
+        // TODO: This has hardcoded 1n for maxSwapCostInCollateral, we need to change this to be dynamic
+        args: [leverageToken, amount, minShares, 1n, swapContext as never],
       });
     } catch (error) {
       console.error("Failed to stake", error);

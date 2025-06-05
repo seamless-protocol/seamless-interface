@@ -1,4 +1,3 @@
-import { Address, zeroAddress } from "viem";
 import {
   aerodromeQuoterAbi,
   aerodromeQuoterAddress,
@@ -7,10 +6,11 @@ import {
   uniswapV2Router02Abi,
   uniswapV2Router02Address,
 } from "@generated";
-import { useQuery } from "@tanstack/react-query";
-import { readContractQueryOptions } from "wagmi/query";
-import { simulateContract } from "wagmi/actions";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "@meta";
+import { useQuery } from "@tanstack/react-query";
+import { Address, zeroAddress } from "viem";
+import { simulateContract } from "wagmi/actions";
+import { readContractQueryOptions } from "wagmi/query";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 
@@ -34,6 +34,7 @@ export interface SwapContext {
   tickSpacing: number[];
   exchange: Exchange;
   exchangeAddresses: typeof SWAP_ADAPTER_EXCHANGE_ADDRESSES;
+  additionalData: `0x${string}`;
 }
 
 export const getQuoteAndParamsAerodrome = async (args: GetQuoteInput) => {
@@ -57,6 +58,7 @@ export const getQuoteAndParamsAerodrome = async (args: GetQuoteInput) => {
       tickSpacing: [],
       exchange: Exchange.UNISWAP_V2,
       exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+      additionalData: "0x",
     } as SwapContext,
   };
 };

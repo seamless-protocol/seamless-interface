@@ -850,103 +850,6 @@ export const aerodromeSlipstreamFactoryConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// EtherFiLeverageRouter
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const etherFiLeverageRouterAbi = [
-  {
-    type: 'constructor',
-    inputs: [
-      {
-        name: '_leverageManager',
-        internalType: 'contract ILeverageManager',
-        type: 'address',
-      },
-      { name: '_morpho', internalType: 'contract IMorpho', type: 'address' },
-      {
-        name: '_etherFiL2ModeSyncPool',
-        internalType: 'contract IEtherFiL2ModeSyncPool',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'nonpayable',
-  },
-  { type: 'receive', stateMutability: 'payable' },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'etherFiL2ModeSyncPool',
-    outputs: [
-      {
-        name: '',
-        internalType: 'contract IEtherFiL2ModeSyncPool',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'leverageManager',
-    outputs: [
-      { name: '', internalType: 'contract ILeverageManager', type: 'address' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      {
-        name: 'token',
-        internalType: 'contract ILeverageToken',
-        type: 'address',
-      },
-      {
-        name: 'equityInCollateralAsset',
-        internalType: 'uint256',
-        type: 'uint256',
-      },
-      { name: 'minShares', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'mint',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'morpho',
-    outputs: [{ name: '', internalType: 'contract IMorpho', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'loanAmount', internalType: 'uint256', type: 'uint256' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'onMorphoFlashLoan',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  { type: 'error', inputs: [], name: 'Unauthorized' },
-] as const
-
-export const etherFiLeverageRouterAddress =
-  '0x25E0D6E5a35Afeac83167B9A01dEa0a8E23853bE' as const
-
-export const etherFiLeverageRouterConfig = {
-  address: etherFiLeverageRouterAddress,
-  abi: etherFiLeverageRouterAbi,
-} as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ILMRegistry
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -4177,7 +4080,7 @@ export const leverageManagerAbi = [
 ] as const
 
 export const leverageManagerAddress =
-  '0x66dc1b08F8e19F81430b034218fce3dD7CF7F8E1' as const
+  '0x38Ba21C6Bf31dF1b1798FCEd07B4e9b07C5ec3a8' as const
 
 export const leverageManagerConfig = {
   address: leverageManagerAddress,
@@ -4402,7 +4305,7 @@ export const leverageRouterAbi = [
 ] as const
 
 export const leverageRouterAddress =
-  '0x92F04D478Ea99D8dcF564aAb6444DD347de1766e' as const
+  '0xDbA92fC3dc10a17b96b6E807a908155C389A887C' as const
 
 export const leverageRouterConfig = {
   address: leverageRouterAddress,
@@ -8019,101 +7922,6 @@ export const useWatchAerodromeSlipstreamFactoryUnstakedFeeModuleChangedEvent =
     abi: aerodromeSlipstreamFactoryAbi,
     address: aerodromeSlipstreamFactoryAddress,
     eventName: 'UnstakedFeeModuleChanged',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__
- */
-export const useReadEtherFiLeverageRouter = /*#__PURE__*/ createUseReadContract(
-  { abi: etherFiLeverageRouterAbi, address: etherFiLeverageRouterAddress },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"etherFiL2ModeSyncPool"`
- */
-export const useReadEtherFiLeverageRouterEtherFiL2ModeSyncPool =
-  /*#__PURE__*/ createUseReadContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'etherFiL2ModeSyncPool',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"leverageManager"`
- */
-export const useReadEtherFiLeverageRouterLeverageManager =
-  /*#__PURE__*/ createUseReadContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'leverageManager',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"morpho"`
- */
-export const useReadEtherFiLeverageRouterMorpho =
-  /*#__PURE__*/ createUseReadContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'morpho',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__
- */
-export const useWriteEtherFiLeverageRouter =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"mint"`
- */
-export const useWriteEtherFiLeverageRouterMint =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'mint',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"onMorphoFlashLoan"`
- */
-export const useWriteEtherFiLeverageRouterOnMorphoFlashLoan =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'onMorphoFlashLoan',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__
- */
-export const useSimulateEtherFiLeverageRouter =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"mint"`
- */
-export const useSimulateEtherFiLeverageRouterMint =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'mint',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherFiLeverageRouterAbi}__ and `functionName` set to `"onMorphoFlashLoan"`
- */
-export const useSimulateEtherFiLeverageRouterOnMorphoFlashLoan =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: etherFiLeverageRouterAbi,
-    address: etherFiLeverageRouterAddress,
-    functionName: 'onMorphoFlashLoan',
   })
 
 /**

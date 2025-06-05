@@ -18,16 +18,14 @@ import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
 import { PreviewMintData, useFetchPreviewMint } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMint";
-import { etherFiLeverageRouterAddress } from "../../../../../generated";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import {
   PreviewWithdraw,
   ViewPreviewWithdraw,
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
-import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { useFetchPreviewRedeemWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
+import { leverageRouterAddress } from "../../../../../generated";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -157,7 +155,7 @@ export function LeverageTokenFormProvider({
   /* ------------- */
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     collateralAsset,
-    etherFiLeverageRouterAddress,
+    leverageRouterAddress,
     parseUnits(depositAmount || "0", 18)
   );
 
