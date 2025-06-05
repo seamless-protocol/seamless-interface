@@ -6,7 +6,6 @@ import { Summary } from "./Summary";
 import { FormButtons } from "./FormButtons";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 import { EmptyFormGuard } from "../../../../pages/common/components/EmptyFormGuard";
-import { LimitStatusComponent } from "../components/LimitStatus";
 
 export const WithdrawLeverageTokenForm: React.FC = () => {
   const { reactHookFormMethods, formOnSubmitAsync, selectedLeverageToken } = useLeverageTokenFormContext();
@@ -30,8 +29,6 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
           </FlexCol>
 
           <Summary />
-
-          <LimitStatusComponent />
 
           <FormButtons />
         </FlexCol>
