@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   formatFetchBigIntToViewBigInt,
   formatFetchNumberToViewNumber,
@@ -9,14 +8,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { fetchLeverageTokenByAddress } from "../leverage-token-by-address/FetchLeverageTokenByAddress";
-=======
-import { formatFetchBigIntToViewBigInt, formatFetchNumberToViewNumber, Token, ViewBigInt, ViewNumber } from "@shared";
-import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
-
-import mockLogo from "@assets/tokens/ilmWstethEth.svg";
-import { TagType } from "../../../../statev3/common/types/StateTypes";
->>>>>>> main
 
 export interface ViewRewardToken {
   symbol: string;
@@ -32,25 +23,13 @@ export interface LeverageToken {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
-  debt: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
-  };
-  availableSupplyCap: {
-    tokenAmount: ViewBigInt;
-    dollarAmount: ViewBigInt;
-  };
   apy: {
     estimatedAPY: ViewNumber;
     borrowAPY: ViewNumber;
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];
   };
-<<<<<<< HEAD
   tvl?: ViewBigIntWithUsdValue;
-=======
-  tokenData: Token;
->>>>>>> main
   additionalData: {
     description?: string;
   };
@@ -59,46 +38,6 @@ export interface LeverageToken {
 export const mockLeverageTokens: LeverageToken[] = [
   {
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
-<<<<<<< HEAD
-=======
-    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAsset: {
-      symbol: "ETH",
-      decimals: 18,
-      name: "Ethereum",
-      logo: mockLogo,
-    },
-    type: "Short",
-    tvl: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    targetMultiples: {
-      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
-      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
-    },
-    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
->>>>>>> main
     apy: {
       rewardTokens: [],
       yieldAPY: formatFetchNumberToViewNumber({
@@ -130,85 +69,6 @@ export const mockLeverageTokens: LeverageToken[] = [
       description: "wstETH/USDC Looping",
     },
   },
-<<<<<<< HEAD
-=======
-  {
-    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    underlyingAsset: {
-      symbol: "ETH",
-      decimals: 18,
-      name: "Ethereum",
-      logo: mockLogo,
-    },
-    type: "Long",
-    tvl: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 32_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    targetMultiples: {
-      minForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 1n * 10n ** 18n, decimals: 18, symbol: "x" }),
-      maxForRebalance: formatFetchBigIntToViewBigInt({ bigIntValue: 3n * 10n ** 18n, decimals: 18, symbol: "x" }),
-    },
-    currentMultiple: formatFetchBigIntToViewBigInt({ bigIntValue: 2n * 10n ** 18n, decimals: 18, symbol: "x" }),
-    apy: {
-      rewardTokens: [],
-      yieldAPY: formatFetchNumberToViewNumber({
-        value: 15.44,
-        symbol: "%",
-      }),
-      borrowAPY: formatFetchNumberToViewNumber({
-        value: 1.44,
-        symbol: "%",
-      }),
-      estimatedAPY: formatFetchNumberToViewNumber({
-        value: 12.44,
-        symbol: "%",
-      }),
-    },
-    availableSupplyCap: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    tokenData: {
-      name: "USD Coin Lvrg Token 2",
-      decimals: 6,
-      symbol: "USDCLT2",
-      logo: mockLogo,
-    },
-    additionalData: {
-      description: "wstETH/USDC LT 2 descr",
-    },
-  },
->>>>>>> main
 ];
 
 /**
