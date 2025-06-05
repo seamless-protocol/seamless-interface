@@ -13,11 +13,8 @@ export const propsMock: Displayable<LeverageToken> = {
   isLoading: true,
   isFetched: false,
   data: {
-    debt: {} as any,
     address: "" as any,
-    tokenData: {} as any,
     additionalData: {} as any,
-    type: "Long",
     tvl: {} as any,
     availableSupplyCap: {
       dollarAmount: emptyViewBigInt,
@@ -29,9 +26,5 @@ export const propsMock: Displayable<LeverageToken> = {
       yieldAPY: emptyViewBigInt,
       rewardTokens: [],
     },
-    currentMultiple: {} as any,
-    targetMultiples: {} as any,
-    underlyingAsset: {} as any,
-    underlyingAssetAddress: "" as any,
   },
 };

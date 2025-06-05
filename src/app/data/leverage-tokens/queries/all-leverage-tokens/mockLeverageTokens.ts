@@ -1,6 +1,7 @@
 import {
   formatFetchBigIntToViewBigInt,
   formatFetchNumberToViewNumber,
+  Token,
   ViewBigInt,
   ViewBigIntWithUsdValue,
   ViewNumber,
@@ -31,6 +32,9 @@ export interface LeverageToken {
   additionalData: {
     description?: string;
   };
+  tokenData?: Token;
+  collateralAssetTokenData?: Token;
+  debtAssetTokenData?: Token;
 }
 
 export const mockLeverageTokens: LeverageToken[] = [

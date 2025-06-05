@@ -6,9 +6,6 @@ import { LeverageToken, mockLeverageTokens } from "./mockLeverageTokens";
  * Mock fetchStrategies: returns our two dummy strategies
  */
 export async function fetchLeverageTokens(): Promise<LeverageToken[]> {
-  // eslint-disable-next-line no-promise-executor-return
-  await new Promise((r) => setTimeout(r, 1500));
-
   const leverageTokens = await Promise.all(
     mockLeverageTokens.map(async (token) => {
       const leverageToken = await fetchLeverageTokenByAddress(token.address);
@@ -18,8 +15,6 @@ export async function fetchLeverageTokens(): Promise<LeverageToken[]> {
       };
     })
   );
-
-  console.log("leverageTokens", leverageTokens);
 
   return leverageTokens;
 }
