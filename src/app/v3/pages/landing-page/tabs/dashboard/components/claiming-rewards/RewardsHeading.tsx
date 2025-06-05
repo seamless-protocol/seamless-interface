@@ -3,9 +3,9 @@ import { RewardItem } from "../../contexts/RewardsProvider";
 import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 export const RewardsHeading: React.FC<{
-  items: FetchData<RewardItem[]>;
+  items: FetchData<RewardItem[] | undefined>;
 }> = ({ items }) => {
-  const dollarAmount = useSumRewardDollarAmounts(items.data.map((i) => i.rewards).flat());
+  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i.rewards).flat() || []);
 
   return (
     <div className="flex flex-col gap-2">

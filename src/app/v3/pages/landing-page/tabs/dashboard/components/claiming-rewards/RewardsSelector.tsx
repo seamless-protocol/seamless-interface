@@ -10,7 +10,6 @@ export const RewardsSelector: React.FC = () => {
   const modalRef = React.useRef<ModalHandles>(null);
   const {
     items,
-    itemsRest,
     selected,
     claimOrder,
     currentStep,
@@ -34,12 +33,12 @@ export const RewardsSelector: React.FC = () => {
     startClaims();
   };
 
-  const dollarAmount = useSumRewardDollarAmounts(items.map((i) => i.rewards).flat());
+  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i.rewards).flat() || []);
 
   return (
     <div className="bg-neutral-0 p-10 rounded-3xl border border-blue-100 flex flex-col gap-10">
       <div className="flex flex-row justify-between">
-        <RewardsHeading items={itemsRest} />
+        <RewardsHeading items={items} />
         <div>
           <Modal
             ref={modalRef}
@@ -55,7 +54,7 @@ export const RewardsSelector: React.FC = () => {
               {!isClaiming && (
                 <div className="flex flex-col mt-10">
                   <div className="flex flex-row items-center justify-between mb-10">
-                    <RewardsHeading items={itemsRest} />
+                    <RewardsHeading items={items} />
                     <div>
                       <button
                         className={`text-bold3 ${
@@ -68,7 +67,7 @@ export const RewardsSelector: React.FC = () => {
                       </button>
                     </div>
                   </div>
-                  {items.map((item) => (
+                  {items.data?.map((item) => (
                     <RewardItemRow
                       key={item.id}
                       item={item}
@@ -102,7 +101,7 @@ export const RewardsSelector: React.FC = () => {
 
                   <div className="flex flex-col gap-6">
                     {claimOrder.map((id, idx) => {
-                      const item = items.find((i) => i.id === id)!;
+                      const item = items.data?.find((i) => i.id === id)!;
                       const status = statuses[id];
                       const txHash = txHashes[id];
                       return (
@@ -162,11 +161,7 @@ export const RewardsSelector: React.FC = () => {
       </div>
 
       {/* Always show all items below */}
-      <div>
-        {items.map((item) => (
-          <RewardItemRow key={item.id} item={item} />
-        ))}
-      </div>
+      <div>{items.data?.map((item) => <RewardItemRow key={item.id} item={item} />)}</div>
     </div>
   );
 };

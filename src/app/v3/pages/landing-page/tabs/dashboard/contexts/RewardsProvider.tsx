@@ -28,8 +28,7 @@ export interface RewardItem {
 export type ClaimStatus = "idle" | "pending" | "success" | "failed";
 
 interface RewardsContextValue {
-  items: RewardItem[];
-  itemsRest: FetchData<RewardItem[]>;
+  items: FetchData<RewardItem[] | undefined>;
   selected: Set<string>;
   claimOrder: string[];
   currentStep: number;
@@ -162,9 +161,8 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
   return (
     <RewardsContext.Provider
       value={{
-        items,
-        itemsRest: {
-          ...mergeQueryStates([stkSeamReward, fuulReward, esSeamReward]),
+        items: {
+          ...mergeQueryStates([stkSeamReward, morphoReward, fuulReward, esSeamReward]),
           data: items,
         },
         selected,
