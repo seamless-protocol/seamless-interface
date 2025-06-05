@@ -66,7 +66,6 @@ export interface DisplayValueProps extends DisplayableAmount {
 export const DisplayValue: React.FC<DisplayValueProps> = ({
   viewValue,
   symbol,
-  isFetched,
   isLoading,
   isError,
   loaderSkeleton,
