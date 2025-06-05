@@ -43,10 +43,16 @@ export interface LeverageToken {
   };
   /** Current leverage multiple */
   currentMultiple: ViewBigInt;
+  config?: {
+    collateralPriceLabel?: string;
+  };
 }
 
 export const mockLeverageTokens: LeverageToken[] = [
   {
+    config: {
+      collateralPriceLabel: "weETH/eETH",
+    },
     address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAssetAddress: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
     underlyingAsset: {

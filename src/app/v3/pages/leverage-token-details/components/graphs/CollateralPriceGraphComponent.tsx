@@ -10,7 +10,8 @@ import { fetchCollateralPriceHistorical } from "../../../../../data/leverage-tok
 
 export const CollateralPriceGraphComponent: React.FC<{
   collateralAddress?: Address;
-}> = ({ collateralAddress }) => {
+  collateralPriceLabel?: string;
+}> = ({ collateralAddress, collateralPriceLabel }) => {
   const { showNotification } = useNotificationContext();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +79,10 @@ export const CollateralPriceGraphComponent: React.FC<{
         yaxis: {
           tickAmount: 4,
           labels: {
-            formatter: (val: number) => `$${formatToDisplayable(val)}`,
+            formatter: (val: number) =>
+              `${formatToDisplayable(val, {
+                singleDigitNumberDecimals: 5,
+              })}`,
           },
         },
         tooltip: {
@@ -103,7 +107,7 @@ export const CollateralPriceGraphComponent: React.FC<{
 
       setChartSeries([
         {
-          name: "Collateral Price (USD)",
+          name: `Collateral Price (${collateralPriceLabel})`,
           data: priceData,
         },
       ]);

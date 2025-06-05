@@ -84,7 +84,10 @@ export const LeverageTokenValueGraphComponent: React.FC<{
         yaxis: {
           tickAmount: 4,
           labels: {
-            formatter: (val: number) => `${formatToDisplayable(val)}`,
+            formatter: (val: number) =>
+              `${formatToDisplayable(val, {
+                singleDigitNumberDecimals: 5,
+              })}`,
           },
         },
         tooltip: {
