@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, isAddressEqual } from "viem";
-import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/FetchAllLeverageTokens";
+import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/mockLeverageTokens";
 import { fetchLeverageTokenCollateral } from "../collateral/collateral.fetch";
 
 /**

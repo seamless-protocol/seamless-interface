@@ -5,8 +5,7 @@ import { FlexRow, FlexCol, Icon, DisplayText, DisplayMoney, Displayable } from "
 import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-import { useFetchLeverageTokenCollateral } from "../../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 export const LeverageTokenMobileTableRow: React.FC<{

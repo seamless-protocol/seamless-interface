@@ -11,7 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Address, erc4626Abi, isAddressEqual, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
-import { mockLeverageTokens } from "../../data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { mockLeverageTokens } from "../../data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 /* eslint-disable import/no-cycle */
 import { fetchLeverageTokenCollateral } from "../../data/leverage-tokens/queries/collateral/collateral.fetch";
 import { fetchLeverageTokenDebt } from "../../data/leverage-tokens/queries/debt/debt.fetch";

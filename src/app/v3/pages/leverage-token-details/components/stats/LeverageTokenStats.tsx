@@ -1,7 +1,7 @@
 // src/components/LeverageTokenStats.tsx
 import React from "react";
 import { Displayable, DisplayMoney, DisplayText, Typography } from "@shared";
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { useFetchLeverageTokenState } from "../../../../../data/leverage-tokens/queries/leverage-token-state/leverage-token-state.hook";
 import { useFetchLeverageRatios } from "../../../../../data/leverage-tokens/queries/collateral-ratios/leverage-ratios.hook";
 import { useFetchLeverageTokenCollateral } from "../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
