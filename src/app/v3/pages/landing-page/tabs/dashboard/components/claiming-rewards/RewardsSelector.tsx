@@ -4,6 +4,7 @@ import { useRewards } from "../../contexts/RewardsProvider";
 import { DisplayMoney, Modal, ModalHandles, Typography } from "@shared";
 import { RewardsHeading } from "./RewardsHeading";
 import { RewardItemClaimingRow } from "./RewardItemClaimingRow";
+import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 
 export const RewardsSelector: React.FC = () => {
   const modalRef = React.useRef<ModalHandles>(null);
@@ -32,10 +33,12 @@ export const RewardsSelector: React.FC = () => {
     startClaims();
   };
 
+  const dollarAmount = useSumRewardDollarAmounts(items.data?.map((i) => i?.data?.rewards).flat() || []);
+
   return (
     <div className="bg-neutral-0 p-10 rounded-3xl border border-blue-100 flex flex-col gap-10">
       <div className="flex flex-row justify-between">
-        <RewardsHeading />
+        <RewardsHeading items={items} />
         <div>
           <Modal
             ref={modalRef}
@@ -51,7 +54,7 @@ export const RewardsSelector: React.FC = () => {
               {!isClaiming && (
                 <div className="flex flex-col mt-10">
                   <div className="flex flex-row items-center justify-between mb-10">
-                    <RewardsHeading />
+                    <RewardsHeading items={items} />
                     <div>
                       <button
                         className={`text-bold3 ${
@@ -64,13 +67,13 @@ export const RewardsSelector: React.FC = () => {
                       </button>
                     </div>
                   </div>
-                  {items.map((item) => (
+                  {items.data?.map((item, index) => (
                     <RewardItemRow
-                      key={item.id}
+                      key={item.data?.id || index}
                       item={item}
                       showCheckbox
-                      checked={selected.has(item.id)}
-                      onToggle={() => toggleSelect(item.id)}
+                      checked={selected.has(item?.data?.id || "")}
+                      onToggle={() => toggleSelect(item?.data?.id || "")}
                     />
                   ))}
                 </div>
@@ -98,7 +101,7 @@ export const RewardsSelector: React.FC = () => {
 
                   <div className="flex flex-col gap-6">
                     {claimOrder.map((id, idx) => {
-                      const item = items.find((i) => i.id === id)!;
+                      const item = items.data?.find((i) => i?.data?.id === id)!;
                       const status = statuses[id];
                       const txHash = txHashes[id];
                       return (
@@ -117,7 +120,7 @@ export const RewardsSelector: React.FC = () => {
 
                   <div className="flex flex-row justify-between">
                     <Typography type="bold3">Total </Typography>
-                    <DisplayMoney typography="bold3" viewValue="906.64" />
+                    <DisplayMoney typography="bold3" viewValue={dollarAmount.viewValue} />
                   </div>
 
                   {!isDone ? (
@@ -158,11 +161,7 @@ export const RewardsSelector: React.FC = () => {
       </div>
 
       {/* Always show all items below */}
-      <div>
-        {items.map((item) => (
-          <RewardItemRow key={item.id} item={item} />
-        ))}
-      </div>
+      <div>{items.data?.map((item, index) => <RewardItemRow key={item?.data?.id || index} item={item} />)}</div>
     </div>
   );
 };

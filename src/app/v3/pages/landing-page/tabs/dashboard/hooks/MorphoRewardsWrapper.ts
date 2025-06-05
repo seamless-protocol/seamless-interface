@@ -1,4 +1,4 @@
-import { SeamlessWriteAsyncParams } from "@shared";
+import { FetchData, SeamlessWriteAsyncParams } from "@shared";
 import { type RewardItem } from "../contexts/RewardsProvider";
 
 import morphoIcon from "@assets/tokens/morpho.svg";
@@ -16,11 +16,15 @@ const config = {
   description: "Vault rewards",
 };
 
-export const useMorphoRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
+export const useMorphoRewardsWrapper = ({
+  settings,
+}: {
+  settings: SeamlessWriteAsyncParams;
+}): FetchData<RewardItem> => {
   const { address } = useAccount();
   const { claimAllAsync, isClaiming } = useMutateClaimAllMorphoRewards({ ...settings });
 
-  const { data } = useMorphoExtendedUserRewards(address);
+  const { data, ...rest } = useMorphoExtendedUserRewards(address);
   const rewardData = data || ({} as MorphoUserRewardsData);
   const rewards = rewardData.rewards?.map((reward) => ({
     tokenAmount: reward.formatted.claimableNow,
@@ -30,9 +34,12 @@ export const useMorphoRewardsWrapper = ({ settings }: { settings: SeamlessWriteA
   }));
 
   return {
-    ...config,
-    claimAllAsync,
-    isClaiming,
-    rewards: rewards || [],
+    ...rest,
+    data: {
+      ...config,
+      claimAllAsync,
+      isClaiming,
+      rewards: rewards || [],
+    },
   };
 };

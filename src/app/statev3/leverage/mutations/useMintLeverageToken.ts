@@ -42,7 +42,7 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         abi: leverageRouterAbi,
         functionName: "mint",
         // TODO: This has hardcoded 1n for maxSwapCostInCollateral, we need to change this to be dynamic
-        args: [leverageToken, amount, minShares, 1n, swapContext as never],
+        args: [leverageToken, amount, minShares / 2n, 1n, swapContext as never],
       });
     } catch (error) {
       console.error("Failed to stake", error);
