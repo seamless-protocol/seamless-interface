@@ -22,4 +22,14 @@ export const GovernanceQueryKeys = {
       }),
     },
   ],
+
+  hookFetchVestedSeamWithDollarAmount: (userAccount: Address) => [
+    {
+      ...GovernanceQueryKeys.hookQueries[0],
+      functionName: "hookFetchVestedSeamWithDollarAmount",
+      ...getHashedQueryKey({
+        queryKey: fetchVestedSeamQueryOptions(userAccount).queryKey,
+      }),
+    },
+  ],
 };
