@@ -47,6 +47,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
         )
       );
     }
+
+    return undefined;
   }, [collateralAssetPriceData?.bigIntValue, debouncedDepositAmount]);
 
   // *** JSX *** //
