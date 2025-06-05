@@ -769,8 +769,10 @@ export type LeverageTokenStateHistoryArgs = {
 
 export type LeverageTokenBalanceChange = {
   __typename?: 'LeverageTokenBalanceChange';
-  /**  The balance added / removed to the position  */
+  /**  The amount of shares held in the position with the change  */
   amount: Scalars['BigInt']['output'];
+  /**  The balance added / removed to the position  */
+  amountDelta: Scalars['BigInt']['output'];
   /**  The block number of this data point  */
   blockNumber: Scalars['BigInt']['output'];
   /**  The equity value of the balance added / removed in collateral asset  */
@@ -799,6 +801,14 @@ export type LeverageTokenBalanceChange_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   amount?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  amountDelta_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_not?: InputMaybe<Scalars['BigInt']['input']>;
+  amountDelta_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   amount_gt?: InputMaybe<Scalars['BigInt']['input']>;
   amount_gte?: InputMaybe<Scalars['BigInt']['input']>;
   amount_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
@@ -898,6 +908,7 @@ export type LeverageTokenBalanceChange_Filter = {
 
 export enum LeverageTokenBalanceChange_OrderBy {
   Amount = 'amount',
+  AmountDelta = 'amountDelta',
   BlockNumber = 'blockNumber',
   EquityInCollateral = 'equityInCollateral',
   EquityInDebt = 'equityInDebt',
@@ -2864,7 +2875,7 @@ export type LeverageTokenValueHistoricalQueryVariables = Exact<{
 }>;
 
 
-export type LeverageTokenValueHistoricalQuery = { __typename?: 'Query', leverageToken?: { __typename?: 'LeverageToken', stateHistory: Array<{ __typename?: 'LeverageTokenState', equityPerTokenInCollateral: any, timestamp: any }> } | null };
+export type LeverageTokenValueHistoricalQuery = { __typename?: 'Query', leverageToken?: { __typename?: 'LeverageToken', stateHistory: Array<{ __typename?: 'LeverageTokenState', equityPerTokenInDebt: any, timestamp: any }> } | null };
 
 
 export const CollateralPriceHistoricalDocument = gql`
@@ -2887,7 +2898,7 @@ export const LeverageTokenValueHistoricalDocument = gql`
     query LeverageTokenValueHistorical($address: ID!) {
   leverageToken(id: $address) {
     stateHistory {
-      equityPerTokenInCollateral
+      equityPerTokenInDebt
       timestamp
     }
   }

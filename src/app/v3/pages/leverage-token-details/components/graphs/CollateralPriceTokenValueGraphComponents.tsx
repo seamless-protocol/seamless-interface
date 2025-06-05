@@ -76,7 +76,7 @@ export const CollateralVsValueGraphComponent: React.FC<{
       const valuePoints = valueRaw
         .map((pt) => ({
           ts: Number(pt.timestamp) / 1_000,
-          value: Number(formatUnits(pt.equityPerTokenInCollateral, tokenData.decimals)),
+          value: Number(formatUnits(pt.equityPerTokenInDebt, tokenData.decimals)),
         }))
         .sort((a, b) => a.ts - b.ts);
 
