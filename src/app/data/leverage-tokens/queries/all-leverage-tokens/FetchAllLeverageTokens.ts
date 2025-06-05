@@ -7,6 +7,7 @@ import {
 } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
+import { fetchLeverageTokenByAddress } from "../leverage-token-by-address/FetchLeverageTokenByAddress";
 
 export interface ViewRewardToken {
   symbol: string;
@@ -68,39 +69,6 @@ export const mockLeverageTokens: LeverageToken[] = [
       description: "wstETH/USDC Looping",
     },
   },
-  {
-    address: "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4" as Address,
-    apy: {
-      rewardTokens: [],
-      yieldAPY: formatFetchNumberToViewNumber({
-        value: 15.44,
-        symbol: "%",
-      }),
-      borrowAPY: formatFetchNumberToViewNumber({
-        value: 1.44,
-        symbol: "%",
-      }),
-      estimatedAPY: formatFetchNumberToViewNumber({
-        value: 12.44,
-        symbol: "%",
-      }),
-    },
-    availableSupplyCap: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 6,
-        symbol: "USDC",
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: 500_000n * 10n ** 6n,
-        decimals: 8,
-        symbol: "$",
-      }),
-    },
-    additionalData: {
-      description: "wstETH/USDC LT 2 descr",
-    },
-  },
 ];
 
 /**
@@ -109,7 +77,20 @@ export const mockLeverageTokens: LeverageToken[] = [
 export async function fetchLeverageTokens(): Promise<LeverageToken[]> {
   // eslint-disable-next-line no-promise-executor-return
   await new Promise((r) => setTimeout(r, 1500));
-  return mockLeverageTokens;
+
+  const leverageTokens = await Promise.all(
+    mockLeverageTokens.map(async (token) => {
+      const leverageToken = await fetchLeverageTokenByAddress(token.address);
+      return {
+        ...token,
+        ...leverageToken,
+      };
+    })
+  );
+
+  console.log("leverageTokens", leverageTokens);
+
+  return leverageTokens;
 }
 
 /**

@@ -12,7 +12,6 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
   await new Promise((r) => setTimeout(r, 1500));
 
   const collateral = await fetchLeverageTokenCollateral(address);
-
   const leverageToken = mockLeverageTokens.find((token) => isAddressEqual(token.address, address));
 
   if (!leverageToken) {
@@ -20,6 +19,7 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
   }
 
   leverageToken.tvl = collateral;
+  console.log("leverageToken", leverageToken);
   return leverageToken;
 }
 
