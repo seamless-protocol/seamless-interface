@@ -24,8 +24,12 @@ import {
   PreviewWithdraw,
   ViewPreviewWithdraw,
 } from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useFetchPreviewRedeemWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
+import {
+  SwapContext,
+  useFetchPreviewRedeemWithSwap,
+} from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
 import { leverageRouterAddress } from "../../../../../generated";
+import { useFetchPreviewMintWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -163,7 +167,7 @@ export function LeverageTokenFormProvider({
   /*   Deposit Logic      */
   /* -------------------- */
 
-  const previewMintData = useFetchPreviewMint(selectedLeverageToken.data?.address, debouncedDepositAmount);
+  const previewMintData = useFetchPreviewMintWithSwap(selectedLeverageToken.data?.address, debouncedDepositAmount);
   console.log("previewMintData", previewMintData);
 
   /* -------------------- */
@@ -225,8 +229,9 @@ export function LeverageTokenFormProvider({
 
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
-        amount: previewMintData.data.equity.tokenAmount.bigIntValue!,
-        minShares: previewMintData.data?.shares.tokenAmount.bigIntValue! / 2n,
+        amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue!,
+        minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue! / 2n,
+        swapContext: previewMintData.data?.swapContext,
       });
     } else if (mode === "withdraw") {
       await redeemAsync({
@@ -234,7 +239,7 @@ export function LeverageTokenFormProvider({
         equityInCollateral: previewRedeemWithSwapData?.data?.equityAfterSwapCost,
         maxShares: previewRedeemWithSwapData?.data?.previewRedeemData?.shares,
         maxSwapCostInCollateral: previewRedeemWithSwapData?.data?.swapCost,
-        swapContext: previewRedeemWithSwapData?.data?.swapContext,
+        swapContext: previewRedeemWithSwapData?.data?.swapContext as SwapContext,
       });
     }
   };
@@ -307,7 +312,7 @@ export function LeverageTokenFormProvider({
         lpBalance,
         formOnSubmitAsync,
         previewMintData: {
-          data: previewMintData.data,
+          data: previewMintData.data?.previewMint,
           isLoading: previewMintData.isLoading,
           isFetched: previewMintData.isFetched,
         },

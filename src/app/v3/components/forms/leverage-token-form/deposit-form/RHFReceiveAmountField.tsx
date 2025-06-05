@@ -30,8 +30,6 @@ export function RHFReceiveAmountField<T>({ ...other }: IProps<T>) {
     previewMintData,
   } = useLeverageTokenFormContext();
 
-  console.log("previewMintData", previewMintData);
-
   const { data: leverageTokenData, ...leverageTokenDataRest } = useFullTokenData(leverageToken?.address);
 
   return (

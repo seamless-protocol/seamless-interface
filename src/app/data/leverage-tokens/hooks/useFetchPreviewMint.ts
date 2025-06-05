@@ -58,77 +58,97 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
     }),
   });
 
+  console.log("previewMintData", previewMintData);
+
+  const tokenFee = {
+    tokenAmount: formatFetchBigIntToViewBigInt({
+      bigIntValue: previewMintData.tokenFee,
+      ...leverageTokenData,
+    }),
+    dollarAmount: formatFetchBigIntToViewBigInt({
+      ...fUsdValueStructured(
+        cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+      ),
+      ...collateralAssetPriceData,
+    }),
+  };
+
+  console.log(
+    "tokenFee",
+    cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+  );
+
   return {
     collateral: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.collateral,
         ...collateralAssetData,
+        bigIntValue: previewMintData.collateral,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...collateralAssetData,
         ...fUsdValueStructured(
           cValueInUsd(previewMintData.collateral, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
         ),
-        ...collateralAssetPriceData,
       }),
     },
     debt: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.debt,
         ...debtTokenData,
+        bigIntValue: previewMintData.debt,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...debtTokenPriceData,
         ...fUsdValueStructured(
           cValueInUsd(previewMintData.debt, debtTokenPriceData?.bigIntValue, debtTokenData.decimals)
         ),
-        ...debtTokenPriceData,
       }),
     },
     equity: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.equity,
         ...collateralAssetData,
+        bigIntValue: previewMintData.equity,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...collateralAssetPriceData,
         ...fUsdValueStructured(
           cValueInUsd(previewMintData.equity, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
         ),
-        ...collateralAssetPriceData,
       }),
     },
     shares: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.shares,
         ...leverageTokenData,
+        bigIntValue: previewMintData.shares,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...leverageTokenPriceData,
         ...fUsdValueStructured(
           cValueInUsd(previewMintData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
         ),
-        ...leverageTokenPriceData,
       }),
     },
     tokenFee: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.tokenFee,
         ...leverageTokenData,
+        bigIntValue: previewMintData.tokenFee,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...collateralAssetPriceData,
         ...fUsdValueStructured(
-          cValueInUsd(previewMintData.tokenFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
         ),
-        ...leverageTokenPriceData,
       }),
     },
     treasuryFee: {
       tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: previewMintData.treasuryFee,
         ...leverageTokenData,
+        bigIntValue: previewMintData.treasuryFee,
       }),
       dollarAmount: formatFetchBigIntToViewBigInt({
+        ...leverageTokenPriceData,
         ...fUsdValueStructured(
           cValueInUsd(previewMintData.treasuryFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
         ),
-        ...leverageTokenPriceData,
       }),
     },
   };
