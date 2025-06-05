@@ -39,6 +39,7 @@ const _fetchCoinGeckoAssetPriceByAddress = async ({ address, precision }: FetchC
   return parseUnits(price.toString(), precision);
 };
 
+// todo https://basescan.org/address/0x2d1519305D2aAA04ef09333B464A4fD53491b5f4 handle this one?
 export const fetchCoinGeckoAssetPriceByAddress = async ({
   address,
   precision,

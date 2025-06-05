@@ -1,5 +1,5 @@
-import { SeamlessWriteAsyncParams } from "@shared";
-import { type RewardItem } from "../contexts/RewardsProvider";
+import { FetchData, SeamlessWriteAsyncParams } from "@shared";
+import type { Reward, RewardItem } from "../contexts/RewardsProvider";
 
 import fuulIcon from "@assets/logos/logo-fuul.svg";
 import { useMutateClaimFuulRewards } from "../../../../../../statev3/fuul/mutations/useMutateClaimFuulRewards";
@@ -14,25 +14,30 @@ const config = {
   description: "Leverage Token Rewards",
 };
 
-export const useFuulRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): RewardItem => {
+export const useFuulRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsyncParams }): FetchData<RewardItem> => {
   const { address } = useAccount();
   const { claimFuulRewardsAsync, isClaiming } = useMutateClaimFuulRewards({ ...settings });
-  const { data } = useFetchUserBalances({
+  const { data, ...rest } = useFetchUserBalances({
     where: {
       owner: address,
     },
   });
 
-  const rewards = data?.userBalances?.map((b) => ({
-    tokenAmount: b.availableToClaimFormatted,
-    logo: b.currencyToken.logo || "",
-    address: b.currency as Address,
-  }));
+  const rewards: Reward[] =
+    data?.userBalances?.map((b) => ({
+      tokenAmount: b.availableToClaimFormatted,
+      dollarAmount: b.availableToClaimDollarAmountFormatted,
+      logo: b.currencyToken.logo || "",
+      address: b.currency as Address,
+    })) || [];
 
   return {
-    ...config,
-    claimAllAsync: claimFuulRewardsAsync,
-    isClaiming,
-    rewards: rewards || [],
+    ...rest,
+    data: {
+      ...config,
+      claimAllAsync: claimFuulRewardsAsync,
+      isClaiming,
+      rewards: rewards || [],
+    },
   };
 };
