@@ -15,6 +15,7 @@ import { fetchUserEquity } from "../user-equity/user-equity.fetch";
 import { useAccount } from "wagmi";
 import { fetchAssetPriceInBlock } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { getConfig } from "../../../../utils/queryContractUtils";
+import { IS_DEV_MODE } from "../../../../../globals";
 
 export interface UserUnrealized {
   unrealizedCollateral: ViewBigInt;
@@ -28,7 +29,9 @@ export async function fetchUserUnrealized(user: Address, leverageToken: Address)
     leverageTokenId: leverageToken.toLowerCase(),
   });
   const position = profitData.user?.positions?.[0];
-  const totalDepositedInCollateralBigInt = position ? BigInt(position.totalEquityDepositedInCollateral) : 0n;
+  if (!position && !IS_DEV_MODE) throw new Error("No position found");
+
+  const totalDepositedInCollateralBigInt = BigInt(position?.totalEquityDepositedInCollateral || 0n);
 
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
 
