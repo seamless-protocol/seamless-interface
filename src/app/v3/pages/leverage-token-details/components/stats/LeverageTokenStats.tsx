@@ -2,7 +2,6 @@
 import React from "react";
 import { Displayable, DisplayMoney, DisplayText, Typography } from "@shared";
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
-import { useFetchLeverageTokenState } from "../../../../../data/leverage-tokens/queries/leverage-token-state/leverage-token-state.hook";
 import { useFetchLeverageRatios } from "../../../../../data/leverage-tokens/queries/collateral-ratios/leverage-ratios.hook";
 import { useFetchLeverageTokenCollateral } from "../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
@@ -14,10 +13,6 @@ export interface LeverageTokenStatsProps {
 }
 
 export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverageToken }) => {
-  const { data: leverageTokenState, ...restLeverageTokenState } = useFetchLeverageTokenState(
-    leverageToken?.data?.address
-  );
-
   const { data: leverageRatios, ...restLeverageRatios } = useFetchLeverageRatios(leverageToken?.data?.address);
 
   const { data: leverageTokenCollateral, ...restLeverageTokenCollateral } = useFetchLeverageTokenCollateral(
@@ -32,7 +27,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
     <div className="w-full rounded-card bg-neutral-0 overflow-hidden py-3">
       <div
         className="
-          grid grid-cols-1 md:grid-cols-4
+          grid grid-cols-1 md:grid-cols-3
           divide-y divide-neutral-200
           md:divide-y-0 md:divide-x
         "
@@ -56,6 +51,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
               typography="bold2"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
+              symbolPosition="after"
             />
           </div>
         </div>
@@ -74,22 +70,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           />
         </div>
 
-        {/* 3. Current Leverage */}
-        <div className="p-6 flex flex-col justify-between min-h-[80px]">
-          <Typography type="medium3" className="text-primary-600">
-            Current leverage
-          </Typography>
-          <DisplayText
-            {...restLeverageTokenState}
-            {...leverageTokenState?.currentLeverage}
-            typography="bold5"
-            className="text-primary-1000"
-            symbolPosition="after"
-            loaderSkeletonSettings={skeletonLoaderSettings}
-          />
-        </div>
-
-        {/* 4. Target Leverage */}
+        {/* 3. Target Leverage */}
         <div className="p-6 flex flex-col justify-between min-h-[80px]">
           <Typography type="medium3" className="text-primary-600">
             Target leverage

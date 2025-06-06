@@ -15,8 +15,9 @@ import {
 
 export const CollateralVsValueGraphComponent: React.FC<{
   tokenAddress?: Address;
-  collateralPriceLabel?: string;
-}> = ({ tokenAddress, collateralPriceLabel }) => {
+  collateralSymbol?: string;
+  debtSymbol?: string;
+}> = ({ tokenAddress, collateralSymbol, debtSymbol }) => {
   const { showNotification } = useNotificationContext();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -116,14 +117,14 @@ export const CollateralVsValueGraphComponent: React.FC<{
 
       if (showCollateral) {
         newSeries.push({
-          name: `Collateral Price (${collateralPriceLabel})`,
+          name: `${collateralSymbol} Price (in ${debtSymbol})`,
           data: collateralSeriesData,
         });
         seriesColors.push(BLUE);
       }
       if (showValue) {
         newSeries.push({
-          name: "Equity per Token",
+          name: `Leverage Token Price (in ${debtSymbol})`,
           data: valueSeriesData,
         });
         seriesColors.push(GREEN);
@@ -176,18 +177,20 @@ export const CollateralVsValueGraphComponent: React.FC<{
     };
 
     loadData();
-  }, [tokenAddress, collateralPriceLabel, showCollateral, showValue, showNotification]);
+  }, [tokenAddress, showCollateral, showValue, showNotification]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 gap-8 p-4">
-      <Typography type="bold5">Collateral vs. Token Value</Typography>
+      <Typography type="bold5">
+        {collateralSymbol} vs. Leverage Token Value
+      </Typography>
 
       <FlexRow className="gap-2">
         <GraphButton isActive={showCollateral} onClick={() => setShowCollateral((prev) => !prev)}>
-          Collateral Price
+          {collateralSymbol} Price (in {debtSymbol})
         </GraphButton>
         <GraphButton isActive={showValue} onClick={() => setShowValue((prev) => !prev)}>
-          Equity per Token
+          Leverage Token Price (in {debtSymbol})
         </GraphButton>
       </FlexRow>
 
