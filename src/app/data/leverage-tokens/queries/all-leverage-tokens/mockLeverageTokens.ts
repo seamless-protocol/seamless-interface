@@ -54,7 +54,7 @@ export const mockLeverageTokens: LeverageToken[] = [
         symbol: "%",
       }),
       borrowAPY: formatFetchNumberToViewNumber({
-        value: 12.44,
+        value: 1.44,
         symbol: "%",
       }),
       estimatedAPY: formatFetchNumberToViewNumber({

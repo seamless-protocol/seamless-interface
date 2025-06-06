@@ -1,9 +1,6 @@
-import { parseUnits } from "viem";
-import { ViewBigInt, formatFetchBigIntToViewBigInt } from "../../../../../shared";
+import { ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
-
-const APY_DECIMALS = 2;
 
 /**
  * 1) The shape of the JSON returned by Ether.fi’s /protocol-detail endpoint:
@@ -30,13 +27,15 @@ export interface EtherFiApyData {
   sevenDayRestakingApr: number;
   tvl: number;
   bufferEth: number;
-  apyView: ViewBigInt;
+  apyView: ViewNumber;
 }
 
 /**
- * Fetches Ether.fi’s protocol‐detail, renames all fields, computes the “pre‐fees” APR,
+ * Fetches Ether.fi’s protocol‐detail, renames all fields, computes the fees APR,
  * and returns everything in one object conforming to EtherFiApyData.
  */
+
+// todo: how do i felter APY per LT?
 export async function fetchEtherFiData(): Promise<EtherFiApyData> {
   const queryClient = getQueryClient();
 
@@ -56,20 +55,15 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
 
       const apy = sevenDayApr + sevenDayRestakingApr;
 
-      const apyBigInt = parseUnits(apy.toString(), APY_DECIMALS);
-
-      const apyView: ViewBigInt = formatFetchBigIntToViewBigInt({
-        bigIntValue: apyBigInt,
-        decimals: APY_DECIMALS,
-        symbol: "%",
-      });
-
       return {
         sevenDayApr,
         sevenDayRestakingApr,
         tvl,
         bufferEth,
-        apyView,
+        apyView: formatFetchNumberToViewNumber({
+          value: apy,
+          symbol: "%",
+        }),
       };
     },
   });
