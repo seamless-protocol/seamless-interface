@@ -45,7 +45,7 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, amount, minShares / 2n, 1n, swapContext as never],
       });
     } catch (error) {
-      console.error("Failed to stake", error);
+      console.error("Failed to mint", error);
       showNotification({
         status: "error",
         content: `Failed to mint: ${getParsedError(error)}`,

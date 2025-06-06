@@ -75,7 +75,7 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
     },
     additionalData: {
-      description: "wstETH/USDC Looping",
+      description: "Description here...",
     },
   },
 ];

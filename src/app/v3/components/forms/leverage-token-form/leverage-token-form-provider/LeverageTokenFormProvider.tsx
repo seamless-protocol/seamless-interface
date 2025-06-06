@@ -5,6 +5,7 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Displayable,
   FlexCol,
+  getParsedError,
   SeamlessWriteAsyncParams,
   Typography,
   useERC20Approve,
@@ -210,6 +211,12 @@ export function LeverageTokenFormProvider({
             <Typography>You deposited {debouncedDepositAmount}</Typography>
           </FlexCol>
         ),
+      });
+    },
+    onError: (error: any) => {
+      showNotification({
+        status: "error",
+        content: `Failed to mint: ${getParsedError(error)}`,
       });
     },
     onSettled: () => {
