@@ -9,6 +9,7 @@ const ColorByTypeDict: { [key in TagType]: string } = {
   Staking: "bg-smallElements-red text-neutral-0",
   Short: "bg-smallElements-gray text-navy-1000",
   Vault: "bg-slate-800 text-white",
+  LeverageToken: "bg-smallElements-gray text-navy-1000",
 };
 
 export const Tag: React.FC<{ tag?: TagType }> = ({ tag }) => {

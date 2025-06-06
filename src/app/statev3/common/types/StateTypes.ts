@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { LendMarketConfig, SubStrategyDataConfig } from "../../settings/configTypes";
 
-export type TagType = "Long" | "Staking" | "Short" | "Vault";
+export type TagType = "Long" | "Staking" | "Short" | "Vault" | "LeverageToken";
 
 export interface AssetBase {
   address: Address;
@@ -9,7 +9,7 @@ export interface AssetBase {
   tags: TagType[];
   // todo add apy? and any other sortable/filterable data
 }
-export interface LendMarketState extends AssetBase { }
+export interface LendMarketState extends AssetBase {}
 export interface StrategyState extends AssetBase {
   // todo replace it with fetched data
   underlyingAsset: LendMarketConfig;

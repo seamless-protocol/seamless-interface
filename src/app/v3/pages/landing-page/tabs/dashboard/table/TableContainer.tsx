@@ -8,10 +8,14 @@ import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRow
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
 import { StrategyTableMobileRowContainer } from "./ilms/StrategyTableMobileRowContainer";
 import { VaultTableMobileRowContainer } from "./morpho-vaults/VaultTableMobileRowContainer";
+import { useFetchLeverageTokensUserPosition } from "../../../../../../data/leverage-tokens/queries/leverage-tokens-user-position/leverage-tokens-user-position.fetch";
+import { LeverageTokenTableDesktopRowContainer } from "./leverage-tokens/LeverageTokenTableDesktopRowContainer";
+import { LeverageTokenTableMobileRowContainer } from "./leverage-tokens/LeverageTokenTableMobileRowContainer";
 
 export const TableContainer = () => {
   const { data: strategies, ...rest } = useFetchUserDepositStrategies();
   const { data: vaults, ...vaultsRest } = useFetchUserVaultPositions();
+  const { data: lts, ...ltRest } = useFetchLeverageTokensUserPosition();
 
   return (
     <div>
@@ -39,9 +43,21 @@ export const TableContainer = () => {
           numberOfStrategiesDisplayable={{
             ...rest,
             ...vaultsRest,
+            ...ltRest,
             data: (strategies?.length || 0) + (vaults?.vaultPositions?.length || 0),
           }}
         >
+          {lts?.map((lt, index) => (
+            <div key={lt.token.address}>
+              <Link to={RouterConfig.Builder.leverageTokenDetails(lt.token.address)}>
+                <LeverageTokenTableDesktopRowContainer
+                  address={lt.token.address}
+                  hideBorder={index === lts.length - 1}
+                />
+                <LeverageTokenTableMobileRowContainer address={lt.token.address} />
+              </Link>
+            </div>
+          ))}
           {vaults?.vaultPositions?.map((position) => (
             <div key={position.mappedVaultDetails.vaultAddress}>
               <Link to={RouterConfig.Builder.morphoVaultDetails(position.mappedVaultDetails.vaultAddress)}>
