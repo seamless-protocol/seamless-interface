@@ -42,10 +42,6 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
   const aerodromeSlipstreamQuote =
     aerodromeSlipstreamQuoteResp.status === "fulfilled" ? aerodromeSlipstreamQuoteResp.value : undefined;
 
-  console.log("uniswapV2Quote", uniswapV2Quote);
-  console.log("uniswapV3Quote", uniswapV3Quote);
-  console.log("aerodromeSlipstreamQuote", aerodromeSlipstreamQuote);
-
   // Best route is the one with the lowest quote
 
   let bestQuoteSwapData = uniswapV3Quote;
@@ -61,8 +57,6 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
   ) {
     bestQuoteSwapData = aerodromeSlipstreamQuote;
   }
-
-  console.log("bestQuoteSwapData", bestQuoteSwapData);
 
   return bestQuoteSwapData;
 };

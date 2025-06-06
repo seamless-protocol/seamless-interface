@@ -11,8 +11,6 @@ export function RHFReceiveAmountField<T>({ name, ...other }: IProps<T>) {
 
   const { data: leverageTokenData, ...leverageTokenRest } = useFullTokenData(selectedLeverageToken?.data?.address);
 
-  console.log("previewRedeemData", previewRedeemData);
-
   return (
     <RHFAmountInputV3
       {...other}
