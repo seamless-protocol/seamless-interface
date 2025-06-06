@@ -182,7 +182,7 @@ export const CollateralVsValueGraphComponent: React.FC<{
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 gap-8 p-4">
       <Typography type="bold5">
-        {collateralSymbol} vs. Leverage Token Value
+        {collateralSymbol} vs. Leverage Token Price
       </Typography>
 
       <FlexRow className="gap-2">

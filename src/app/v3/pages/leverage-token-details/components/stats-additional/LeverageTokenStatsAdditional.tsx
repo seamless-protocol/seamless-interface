@@ -214,13 +214,14 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
           />
         </StatCell>
 
-        <StatCell label="Pre-liquidation Collateral Ratio">
+        <StatCell label="Pre-liquidation Leverage">
           <DisplayText
             {...preLiquidationCollateralRatio}
             {...preLiquidationCollateralRatioRest}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
 
