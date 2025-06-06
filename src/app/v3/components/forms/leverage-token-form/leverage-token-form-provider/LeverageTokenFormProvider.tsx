@@ -5,6 +5,7 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Displayable,
   FlexCol,
+  getParsedError,
   SeamlessWriteAsyncParams,
   Typography,
   useERC20Approve,
@@ -222,6 +223,12 @@ export function LeverageTokenFormProvider({
         ),
       });
     },
+    onError: (error) => {
+      showNotification({
+        status: "error",
+        content: `Failed to mint: ${getParsedError(error)}`,
+      });
+    },
     onSettled: () => {
       onTransaction?.();
       reset();
@@ -237,6 +244,12 @@ export function LeverageTokenFormProvider({
             You redeemed {debouncedWithdrawAmount}
           </FlexCol>
         ),
+      });
+    },
+    onError: (error) => {
+      showNotification({
+        status: "error",
+        content: `Failed to mint: ${getParsedError(error)}`,
       });
     },
     onSettled: () => {
