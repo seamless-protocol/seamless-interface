@@ -850,6 +850,681 @@ export const aerodromeSlipstreamFactoryConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EtherfiL2ModeSyncPool
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const etherfiL2ModeSyncPoolAbi = [
+  {
+    type: 'constructor',
+    inputs: [{ name: 'endpoint', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance',
+  },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidDelegate' },
+  { type: 'error', inputs: [], name: 'InvalidEndpointCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  {
+    type: 'error',
+    inputs: [{ name: 'options', internalType: 'bytes', type: 'bytes' }],
+    name: 'InvalidOptions',
+  },
+  { type: 'error', inputs: [], name: 'L2BaseSyncPool__InsufficientAmountOut' },
+  {
+    type: 'error',
+    inputs: [],
+    name: 'L2BaseSyncPool__InsufficientAmountToSync',
+  },
+  { type: 'error', inputs: [], name: 'L2BaseSyncPool__InvalidAmountIn' },
+  { type: 'error', inputs: [], name: 'L2BaseSyncPool__UnauthorizedToken' },
+  { type: 'error', inputs: [], name: 'L2BaseSyncPool__ZeroAmount' },
+  { type: 'error', inputs: [], name: 'L2ModeSyncPoolETH__OnlyETH' },
+  { type: 'error', inputs: [], name: 'LzTokenUnavailable' },
+  {
+    type: 'error',
+    inputs: [{ name: 'eid', internalType: 'uint32', type: 'uint32' }],
+    name: 'NoPeer',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'msgValue', internalType: 'uint256', type: 'uint256' }],
+    name: 'NotEnoughNative',
+  },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'eid', internalType: 'uint32', type: 'uint32' },
+      { name: 'sender', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'OnlyPeer',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'OwnableInvalidOwner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'OwnableUnauthorizedAccount',
+  },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amountIn',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountOut',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Deposit',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'referral',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'DepositWithReferral',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'dstEid',
+        internalType: 'uint32',
+        type: 'uint32',
+        indexed: false,
+      },
+    ],
+    name: 'DstEidSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: '_enforcedOptions',
+        internalType: 'struct EnforcedOptionParam[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'eid', internalType: 'uint32', type: 'uint32' },
+          { name: 'msgType', internalType: 'uint16', type: 'uint16' },
+          { name: 'options', internalType: 'bytes', type: 'bytes' },
+        ],
+        indexed: false,
+      },
+    ],
+    name: 'EnforcedOptionSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'version',
+        internalType: 'uint64',
+        type: 'uint64',
+        indexed: false,
+      },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'l1TokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'L1TokenInSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'l2ExchangeRateProvider',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'L2ExchangeRateProviderSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'messenger',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'MessengerSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'minSyncAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MinSyncAmountSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'eid', internalType: 'uint32', type: 'uint32', indexed: false },
+      {
+        name: 'peer',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: false,
+      },
+    ],
+    name: 'PeerSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'rateLimiter',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'RateLimiterSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'ReceiverSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'dstEid',
+        internalType: 'uint32',
+        type: 'uint32',
+        indexed: false,
+      },
+      {
+        name: 'tokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amountIn',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountOut',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Sync',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tokenOut',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'TokenOutSet',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_eid', internalType: 'uint32', type: 'uint32' },
+      { name: '_msgType', internalType: 'uint16', type: 'uint16' },
+      { name: '_extraOptions', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'combineOptions',
+    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'minAmountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'amountOut', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'minAmountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'referral', internalType: 'address', type: 'address' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'amountOut', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'endpoint',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract ILayerZeroEndpointV2',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_eid', internalType: 'uint32', type: 'uint32' },
+      { name: '_msgType', internalType: 'uint16', type: 'uint16' },
+    ],
+    name: 'enforcedOptions',
+    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getDstEid',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getL2ExchangeRateProvider',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getMessenger',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getRateLimiter',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getReceiver',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenIn', internalType: 'address', type: 'address' }],
+    name: 'getTokenData',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct L2BaseSyncPoolUpgradeable.Token',
+        type: 'tuple',
+        components: [
+          {
+            name: 'unsyncedAmountIn',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          {
+            name: 'unsyncedAmountOut',
+            internalType: 'uint256',
+            type: 'uint256',
+          },
+          { name: 'minSyncAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'l1Address', internalType: 'address', type: 'address' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getTokenOut',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'l2ExchangeRateProvider',
+        internalType: 'address',
+        type: 'address',
+      },
+      { name: 'rateLimiter', internalType: 'address', type: 'address' },
+      { name: 'tokenOut', internalType: 'address', type: 'address' },
+      { name: 'dstEid', internalType: 'uint32', type: 'uint32' },
+      { name: 'messenger', internalType: 'address', type: 'address' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'delegate', internalType: 'address', type: 'address' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'oAppVersion',
+    outputs: [
+      { name: 'senderVersion', internalType: 'uint64', type: 'uint64' },
+      { name: 'receiverVersion', internalType: 'uint64', type: 'uint64' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_eid', internalType: 'uint32', type: 'uint32' }],
+    name: 'peers',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'extraOptions', internalType: 'bytes', type: 'bytes' },
+      { name: 'payInLzToken', internalType: 'bool', type: 'bool' },
+    ],
+    name: 'quoteSync',
+    outputs: [
+      {
+        name: 'msgFee',
+        internalType: 'struct MessagingFee',
+        type: 'tuple',
+        components: [
+          { name: 'nativeFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'lzTokenFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_delegate', internalType: 'address', type: 'address' }],
+    name: 'setDelegate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'dstEid', internalType: 'uint32', type: 'uint32' }],
+    name: 'setDstEid',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: '_enforcedOptions',
+        internalType: 'struct EnforcedOptionParam[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'eid', internalType: 'uint32', type: 'uint32' },
+          { name: 'msgType', internalType: 'uint16', type: 'uint16' },
+          { name: 'options', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'setEnforcedOptions',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'l2TokenIn', internalType: 'address', type: 'address' },
+      { name: 'l1TokenIn', internalType: 'address', type: 'address' },
+    ],
+    name: 'setL1TokenIn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'l2ExchangeRateProvider',
+        internalType: 'address',
+        type: 'address',
+      },
+    ],
+    name: 'setL2ExchangeRateProvider',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'messenger', internalType: 'address', type: 'address' }],
+    name: 'setMessenger',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'minSyncAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setMinSyncAmount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_eid', internalType: 'uint32', type: 'uint32' },
+      { name: '_peer', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'setPeer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'rateLimiter', internalType: 'address', type: 'address' }],
+    name: 'setRateLimiter',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'setReceiver',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'tokenOut', internalType: 'address', type: 'address' }],
+    name: 'setTokenOut',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'extraOptions', internalType: 'bytes', type: 'bytes' },
+      {
+        name: 'fee',
+        internalType: 'struct MessagingFee',
+        type: 'tuple',
+        components: [
+          { name: 'nativeFee', internalType: 'uint256', type: 'uint256' },
+          { name: 'lzTokenFee', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    name: 'sync',
+    outputs: [
+      { name: 'unsyncedAmountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'unsyncedAmountOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+export const etherfiL2ModeSyncPoolAddress =
+  '0xc38e046dFDAdf15f7F56853674242888301208a5' as const
+
+export const etherfiL2ModeSyncPoolConfig = {
+  address: etherfiL2ModeSyncPoolAddress,
+  abi: etherfiL2ModeSyncPoolAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ILMRegistry
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -7924,6 +8599,650 @@ export const useWatchAerodromeSlipstreamFactoryUnstakedFeeModuleChangedEvent =
     abi: aerodromeSlipstreamFactoryAbi,
     address: aerodromeSlipstreamFactoryAddress,
     eventName: 'UnstakedFeeModuleChanged',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__
+ */
+export const useReadEtherfiL2ModeSyncPool = /*#__PURE__*/ createUseReadContract(
+  { abi: etherfiL2ModeSyncPoolAbi, address: etherfiL2ModeSyncPoolAddress },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"combineOptions"`
+ */
+export const useReadEtherfiL2ModeSyncPoolCombineOptions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'combineOptions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"endpoint"`
+ */
+export const useReadEtherfiL2ModeSyncPoolEndpoint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'endpoint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"enforcedOptions"`
+ */
+export const useReadEtherfiL2ModeSyncPoolEnforcedOptions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'enforcedOptions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getDstEid"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetDstEid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getDstEid',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getL2ExchangeRateProvider"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetL2ExchangeRateProvider =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getL2ExchangeRateProvider',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getMessenger"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetMessenger =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getMessenger',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getRateLimiter"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetRateLimiter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getRateLimiter',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getReceiver"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetReceiver =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getReceiver',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getTokenData"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetTokenData =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getTokenData',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"getTokenOut"`
+ */
+export const useReadEtherfiL2ModeSyncPoolGetTokenOut =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'getTokenOut',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"oAppVersion"`
+ */
+export const useReadEtherfiL2ModeSyncPoolOAppVersion =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'oAppVersion',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadEtherfiL2ModeSyncPoolOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'owner',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"peers"`
+ */
+export const useReadEtherfiL2ModeSyncPoolPeers =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'peers',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"quoteSync"`
+ */
+export const useReadEtherfiL2ModeSyncPoolQuoteSync =
+  /*#__PURE__*/ createUseReadContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'quoteSync',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__
+ */
+export const useWriteEtherfiL2ModeSyncPool =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolDeposit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setDelegate"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetDelegate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setDelegate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setDstEid"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetDstEid =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setDstEid',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setEnforcedOptions"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetEnforcedOptions =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setEnforcedOptions',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setL1TokenIn"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetL1TokenIn =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setL1TokenIn',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setL2ExchangeRateProvider"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetL2ExchangeRateProvider =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setL2ExchangeRateProvider',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setMessenger"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetMessenger =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setMessenger',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setMinSyncAmount"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetMinSyncAmount =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setMinSyncAmount',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setPeer"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetPeer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setPeer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setRateLimiter"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetRateLimiter =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setRateLimiter',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setReceiver"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetReceiver =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setReceiver',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setTokenOut"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSetTokenOut =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setTokenOut',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"sync"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolSync =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'sync',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useWriteEtherfiL2ModeSyncPoolTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__
+ */
+export const useSimulateEtherfiL2ModeSyncPool =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setDelegate"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetDelegate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setDelegate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setDstEid"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetDstEid =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setDstEid',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setEnforcedOptions"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetEnforcedOptions =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setEnforcedOptions',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setL1TokenIn"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetL1TokenIn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setL1TokenIn',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setL2ExchangeRateProvider"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetL2ExchangeRateProvider =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setL2ExchangeRateProvider',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setMessenger"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetMessenger =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setMessenger',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setMinSyncAmount"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetMinSyncAmount =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setMinSyncAmount',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setPeer"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetPeer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setPeer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setRateLimiter"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetRateLimiter =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setRateLimiter',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setReceiver"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetReceiver =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setReceiver',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"setTokenOut"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSetTokenOut =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'setTokenOut',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"sync"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolSync =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'sync',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useSimulateEtherfiL2ModeSyncPoolTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__
+ */
+export const useWatchEtherfiL2ModeSyncPoolEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"Deposit"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'Deposit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"DepositWithReferral"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolDepositWithReferralEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'DepositWithReferral',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"DstEidSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolDstEidSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'DstEidSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"EnforcedOptionSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolEnforcedOptionSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'EnforcedOptionSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"L1TokenInSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolL1TokenInSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'L1TokenInSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"L2ExchangeRateProviderSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolL2ExchangeRateProviderSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'L2ExchangeRateProviderSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"MessengerSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolMessengerSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'MessengerSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"MinSyncAmountSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolMinSyncAmountSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'MinSyncAmountSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"PeerSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolPeerSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'PeerSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"RateLimiterSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolRateLimiterSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'RateLimiterSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"ReceiverSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolReceiverSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'ReceiverSet',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"Sync"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolSyncEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'Sync',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link etherfiL2ModeSyncPoolAbi}__ and `eventName` set to `"TokenOutSet"`
+ */
+export const useWatchEtherfiL2ModeSyncPoolTokenOutSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: etherfiL2ModeSyncPoolAbi,
+    address: etherfiL2ModeSyncPoolAddress,
+    eventName: 'TokenOutSet',
   })
 
 /**

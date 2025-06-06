@@ -1,31 +1,67 @@
-import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
+import { formatFetchBigIntToViewBigInt, fUsdValueStructured, IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
+import { useMemo } from "react";
+import { cValueInUsd } from "../../../../../statev3/math/utils";
+import { parseUnits } from "viem";
+import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFetchLeverageTokenAssets } from "../../../../../data/leverage-tokens/queries/leverage-token-assets/leverage-token-assets.hook";
+import { useFetchAssetPriceInBlock } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchUserEquity } from "../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
+import { useAccount } from "wagmi";
 
 type IStrategyProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
 };
 
 export function RHFWithdrawStrategyAmountField<T>({ ...other }: IStrategyProps<T>) {
-  const { selectedLeverageToken, withdrawAmountUsdValue, lpBalance: walletBalance } = useLeverageTokenFormContext();
+  const { address } = useAccount();
 
-  const { data: { tokenData, address } = {}, ...rest } = selectedLeverageToken;
+  const { selectedLeverageToken, debouncedWithdrawAmount } = useLeverageTokenFormContext();
+
+  const { data: leverageTokenAssets } = useFetchLeverageTokenAssets(selectedLeverageToken.data?.address);
+
+  const { data: collateralTokenData, ...collateralTokenRest } = useFullTokenData(leverageTokenAssets?.collateralAsset);
+
+  const { data: collateralAssetPriceData, ...collateralAssetPriceRest } = useFetchAssetPriceInBlock(
+    leverageTokenAssets?.collateralAsset
+  );
+
+  const { data: userEquityData, ...userEquityRest } = useFetchUserEquity(address, selectedLeverageToken.data?.address);
+
+  const withdrawAmountUsdValue = useMemo(() => {
+    if (collateralAssetPriceData?.bigIntValue && collateralTokenData?.decimals) {
+      return formatFetchBigIntToViewBigInt(
+        fUsdValueStructured(
+          cValueInUsd(
+            parseUnits(debouncedWithdrawAmount, collateralTokenData?.decimals),
+            collateralAssetPriceData.bigIntValue,
+            collateralTokenData?.decimals
+          )
+        )
+      );
+    }
+
+    return undefined;
+  }, [collateralAssetPriceData?.bigIntValue, debouncedWithdrawAmount]);
 
   return (
     <RHFAmountInputV3
       {...other}
-      assetAddress={address}
+      assetAddress={leverageTokenAssets?.collateralAsset}
       dollarValue={{
-        ...withdrawAmountUsdValue,
+        data: { ...withdrawAmountUsdValue },
+        isLoading: collateralAssetPriceRest.isLoading || collateralTokenRest.isLoading,
+        isFetched: collateralAssetPriceRest.isFetched && collateralTokenRest.isFetched,
       }}
       walletBalance={{
-        ...walletBalance,
-        data: walletBalance?.data.balance,
+        ...userEquityRest,
+        data: userEquityData?.tokenAmount,
       }}
       protocolMaxValue={{
-        ...walletBalance,
-        data: walletBalance?.data.balance,
+        ...userEquityRest,
+        data: userEquityData?.tokenAmount,
       }}
-      tokenData={{ data: tokenData || {}, ...rest }}
+      tokenData={{ data: collateralTokenData || {}, ...collateralTokenRest }}
     />
   );
 }
