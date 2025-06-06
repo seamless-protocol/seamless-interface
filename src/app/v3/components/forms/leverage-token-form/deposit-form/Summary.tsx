@@ -9,14 +9,14 @@ export const Summary: React.FC = () => {
   const { isConnected } = useAccount();
 
   return (
-    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3 cursor-default">
       <Typography type="bold3">Summary</Typography>
 
       <DataRow
         label={
           <FlexRow className="md:gap-1 items-center">
             Mint token fee
-            <StandardTooltip width={1}>
+            <StandardTooltip width={1} openOnClick={false}>
               <Typography type="medium2" className="text-navy-1000">
                 Some description about this fee.
               </Typography>
@@ -25,6 +25,7 @@ export const Summary: React.FC = () => {
         }
       >
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
@@ -34,7 +35,7 @@ export const Summary: React.FC = () => {
         label={
           <FlexRow className="md:gap-1 items-center">
             Treasury token fee
-            <StandardTooltip width={1}>
+            <StandardTooltip width={1} openOnClick={false}>
               <Typography type="medium2" className="text-navy-1000">
                 Some description about this fee.
               </Typography>
@@ -43,6 +44,7 @@ export const Summary: React.FC = () => {
         }
       >
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
@@ -50,6 +52,7 @@ export const Summary: React.FC = () => {
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.previewMint.equity.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
@@ -57,6 +60,7 @@ export const Summary: React.FC = () => {
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.previewMint.debt.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
@@ -64,6 +68,7 @@ export const Summary: React.FC = () => {
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.previewMint.collateral.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
@@ -71,6 +76,7 @@ export const Summary: React.FC = () => {
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
         <DisplayTokenAmount
+          typography="bold2"
           {...previewMintData.data?.swapCost.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}

@@ -49,7 +49,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
     } catch (error) {
-      console.error("Failed to stake", error);
+      console.error("Failed to redeem", error);
       showNotification({
         status: "error",
         content: `Failed to mint: ${getParsedError(error)}`,

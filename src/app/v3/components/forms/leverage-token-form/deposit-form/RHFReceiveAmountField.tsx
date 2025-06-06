@@ -35,7 +35,7 @@ export function RHFReceiveAmountField<T>({ ...other }: IProps<T>) {
       dollarValue={{
         data: previewMintData?.data?.previewMint.shares.dollarAmount,
         isLoading: previewMintData.isLoading,
-        isFetched: previewMintData.isFetched,
+        isFetched: true,
       }}
       disabled
       value={previewMintData?.data?.previewMint.shares.tokenAmount.value || "0"}

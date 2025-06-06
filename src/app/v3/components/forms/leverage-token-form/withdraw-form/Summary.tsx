@@ -1,4 +1,4 @@
-import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow, DisplayTokenAmount } from "@shared";
+import { FlexCol, Typography, StandardTooltip, FlexRow, DisplayTokenAmount } from "@shared";
 import { useAccount } from "wagmi";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
@@ -11,7 +11,7 @@ export const Summary = () => {
 
   return (
     <FlexCol>
-      <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4">
+      <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3">
         <Typography type="bold3">Summary</Typography>
 
         <DataRow
@@ -46,6 +46,7 @@ export const Summary = () => {
           }
         >
           <DisplayTokenAmount
+            typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.treasuryFee?.dollarAmount}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
@@ -54,6 +55,7 @@ export const Summary = () => {
 
         <DataRow label={<FlexRow className="md:gap-1 items-center">Received equity</FlexRow>}>
           <DisplayTokenAmount
+            typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.equity?.dollarAmount}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
@@ -61,6 +63,7 @@ export const Summary = () => {
         </DataRow>
         <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
           <DisplayTokenAmount
+            typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.debt?.tokenAmount}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
@@ -69,6 +72,7 @@ export const Summary = () => {
 
         <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
           <DisplayTokenAmount
+            typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.collateral?.tokenAmount}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
@@ -76,7 +80,13 @@ export const Summary = () => {
         </DataRow>
 
         <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
-          <DisplayTokenAmount viewValue="0" symbol="$" symbolPosition="before" {...checkAuthentication(isConnected)} />
+          <DisplayTokenAmount
+            typography="bold2"
+            viewValue="0"
+            symbol="$"
+            symbolPosition="before"
+            {...checkAuthentication(isConnected)}
+          />
         </DataRow>
       </FlexCol>
     </FlexCol>
