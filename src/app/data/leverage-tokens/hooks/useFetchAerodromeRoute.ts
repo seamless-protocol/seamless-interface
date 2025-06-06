@@ -126,6 +126,7 @@ export const getQuoteAndParamsAerodromeSlipstream = async (args: GetQuoteInput) 
       tickSpacing: [existingTickSpacings[bestQuoteIndex]],
       exchange: Exchange.AERODROME_SLIPSTREAM,
       exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+      additionalData: "0x",
     } as SwapContext,
   };
 };
