@@ -2,7 +2,7 @@
 
 React front end application for interacting with [Seamless Protocol](https://seamlessprotocol.com/).
 
-<!-- Badge row 1 -- status -->
+<!-- Badge row 1 - status -->
 
 [![GitHub contributors](https://img.shields.io/github/contributors/seamless-protocol/seamless-interface)](https://github.com/seamless-protocol/seamless-interface/graphs/contributors)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/seamless-protocol/seamless-interface)](https://github.com/seamless-protocol/seamless-interface/graphs/contributors)
