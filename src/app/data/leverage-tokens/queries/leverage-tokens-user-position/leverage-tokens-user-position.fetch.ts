@@ -5,7 +5,6 @@ import { Address, erc20Abi } from "viem";
 import { useQuery } from "@tanstack/react-query";
 import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/mockLeverageTokens";
 import { getConfig } from "../../../../utils/queryContractUtils";
-import { config } from "dotenv";
 
 /**
  * Represents a leverage token that the user holds (balance > 0).
@@ -17,7 +16,7 @@ export interface UserLeveragePosition {
 }
 
 const fetchLeverageTokensUserPosition = async (user: Address | undefined): Promise<UserLeveragePosition[]> => {
-  if (!config || !user) return [];
+  if (!user) return [];
 
   const promises: Promise<UserLeveragePosition | undefined>[] = mockLeverageTokens.map(async (lt) => {
     try {

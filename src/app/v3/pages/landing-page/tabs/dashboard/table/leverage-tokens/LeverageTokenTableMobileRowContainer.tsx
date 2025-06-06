@@ -7,26 +7,26 @@ import {
   FlexCol,
   DisplayPercentage,
 } from "../../../../../../../../shared";
-import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { TableButtons } from "./TableButtons";
-import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
+import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/FetchFormattedUserLeverageTokenProfit.hook";
+import { useFetchFormattedAllUserRewardsByLeverageToken } from "../../../../../../../data/leverage-tokens/queries/leverage-token-rewards/FetchFormattedAllUserRewardsByLeverageToken.hook";
 
 export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }> = ({ address }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(address);
 
-  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(address);
+  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByLeverageToken(address);
   const { data: balanceUsdPair, ...otherBalanceUsdPair } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
   });
-  const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
-    address,
+  const { data: leverageTokenProfit, ...leverageTokenProfitRest } = useFetchFormattedUserLeverageTokenProfit({
+    leverageToken: address,
   });
 
   return (
@@ -45,17 +45,17 @@ export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }
         <SignIndicatingElement
           noBackground
           dislayable={{
-            data: strategyProfit?.unrealizedProfit,
-            ...strategyProfitRest,
+            data: leverageTokenProfit?.unrealizedProfit,
+            ...leverageTokenProfitRest,
           }}
         >
           <DisplayPercentage
             typography="bold3"
-            viewValue={strategyProfit?.unrealizedProfitPercentage.viewValue}
-            className={`${getColorBasedOnSign(strategyProfit?.unrealizedProfit.value)}`}
-            {...strategyProfitRest}
+            viewValue={leverageTokenProfit?.unrealizedProfitPercentage.viewValue}
+            className={`${getColorBasedOnSign(leverageTokenProfit?.unrealizedProfit.value)}`}
+            {...leverageTokenProfitRest}
           />
-          <DisplayMoney viewValue={strategyProfit?.unrealizedProfit.viewValue} {...strategyProfitRest} />
+          <DisplayMoney viewValue={leverageTokenProfit?.unrealizedProfit.viewValue} {...leverageTokenProfitRest} />
         </SignIndicatingElement>
       }
       holdingTokenAmount={
