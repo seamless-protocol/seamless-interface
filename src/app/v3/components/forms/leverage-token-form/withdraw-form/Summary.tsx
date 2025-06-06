@@ -82,8 +82,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
-            viewValue="0"
-            symbol="$"
+            {...previewRedeemData.data?.swapCost}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
           />

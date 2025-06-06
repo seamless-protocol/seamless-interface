@@ -18,7 +18,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     ...settings,
-    queriesToInvalidate: [],
+    queriesToInvalidate: [undefined],
   });
 
   /* -------------------- */

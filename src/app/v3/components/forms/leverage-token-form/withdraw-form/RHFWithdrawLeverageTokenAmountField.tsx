@@ -61,7 +61,7 @@ export function RHFWithdrawStrategyAmountField<T>({ ...other }: IStrategyProps<T
         ...userEquityRest,
         data: userEquityData?.tokenAmount,
       }}
-      tokenData={{ data: collateralTokenData || {}, ...collateralTokenRest }}
+      tokenData={{ ...collateralTokenRest, data: collateralTokenData || {} }}
     />
   );
 }

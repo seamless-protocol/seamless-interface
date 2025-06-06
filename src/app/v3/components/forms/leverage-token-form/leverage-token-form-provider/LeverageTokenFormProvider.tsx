@@ -186,7 +186,7 @@ export function LeverageTokenFormProvider({
   } = useERC20Approve(
     selectedLeverageToken.data?.address,
     leverageRouterAddress,
-    previewRedeemData.data?.previewRedeemData?.shares.tokenAmount.bigIntValue
+    previewRedeemData.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue
   );
 
   /* -------------------- */
@@ -218,7 +218,7 @@ export function LeverageTokenFormProvider({
         txHash,
         content: (
           <FlexCol className="w-full items-center text-center justify-center">
-            <Typography>You deposited {debouncedDepositAmount}</Typography>
+            <Typography>You minted {debouncedDepositAmount}</Typography>
           </FlexCol>
         ),
       });
@@ -268,13 +268,14 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
+        maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
     } else if (mode === "withdraw") {
       await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
-        maxShares: previewRedeemData?.data?.previewRedeemData?.shares.tokenAmount.bigIntValue,
+        maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
         maxSwapCostInCollateral: (previewRedeemData?.data?.swapCost.bigIntValue || 0n) * 2n,
         swapContext: previewRedeemData?.data?.swapContext,
       });
