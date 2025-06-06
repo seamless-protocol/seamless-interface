@@ -44,7 +44,7 @@ export const TableContainer = () => {
             ...rest,
             ...vaultsRest,
             ...ltRest,
-            data: (strategies?.length || 0) + (vaults?.vaultPositions?.length || 0),
+            data: (strategies?.length || 0) + (vaults?.vaultPositions?.length || 0) + (lts?.length || 0),
           }}
         >
           {lts?.map((lt, index) => (
