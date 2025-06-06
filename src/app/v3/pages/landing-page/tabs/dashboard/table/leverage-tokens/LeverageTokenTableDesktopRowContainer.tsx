@@ -10,7 +10,7 @@ import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/FetchFormattedUserLeverageTokenProfit.hook";
+import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/formatted-user-leverage-token-profit.hook";
 import { useFetchFormattedAllUserRewardsByLeverageToken } from "../../../../../../../data/leverage-tokens/queries/leverage-token-rewards/FetchFormattedAllUserRewardsByLeverageToken.hook";
 
 export const LeverageTokenTableDesktopRowContainer: React.FC<{

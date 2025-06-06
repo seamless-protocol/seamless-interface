@@ -15,7 +15,7 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/FetchFormattedUserLeverageTokenProfit.hook";
+import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/formatted-user-leverage-token-profit.hook";
 import { useFetchFormattedAllUserRewardsByLeverageToken } from "../../../../../../../data/leverage-tokens/queries/leverage-token-rewards/FetchFormattedAllUserRewardsByLeverageToken.hook";
 
 export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }> = ({ address }) => {
