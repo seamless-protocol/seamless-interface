@@ -11,7 +11,8 @@ import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/formatted-user-leverage-token-profit.hook";
-import { useFetchFormattedAllUserRewardsByLeverageToken } from "../../../../../../../data/leverage-tokens/queries/leverage-token-rewards/FetchFormattedAllUserRewardsByLeverageToken.hook";
+import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
+import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const LeverageTokenTableDesktopRowContainer: React.FC<{
   address: Address;
@@ -19,7 +20,11 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
 }> = ({ address, hideBorder }) => {
   const { data: leverageToken, ...rest } = useFetchLeverageTokenByAddress(address);
 
-  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByLeverageToken(address);
+  const {
+    data: { rewards, dollarAmount },
+    ...allUserRewardsRest
+  } = useFuulRewardsWithDollarAmount(address);
+
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
   });
@@ -36,7 +41,7 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
       tag={
         <div>
           {rest?.isFetched ? (
-            <Tag tag="LeverageToken" />
+            <Tag tag="Leverage Token" />
           ) : (
             <div style={{ width: "60px", height: "30px" }} className="skeleton flex mb-[0.5px]" />
           )}
@@ -83,15 +88,13 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
           {...leverageTokenProfitRest}
         />
       }
-      rewards={
-        <DisplayMoney
-          typography="bold3"
-          viewValue={allUserRewards?.totalRewardsUsd.viewValue}
-          {...allUserRewardsRest}
-        />
+      rewards={<DisplayMoney typography="bold3" viewValue={dollarAmount.viewValue} {...allUserRewardsRest} />}
+      imageInfoGroup={<UserInfoImageGroup info={rewards} />}
+      tableButtons={
+        <LeverageTokenFormProvider defaultLeverageTokenAddress={address}>
+          <TableButtons address={address} />
+        </LeverageTokenFormProvider>
       }
-      imageInfoGroup={<UserInfoImageGroup info={allUserRewards?.info} />}
-      tableButtons={<TableButtons strategy={address} />}
     />
   );
 };

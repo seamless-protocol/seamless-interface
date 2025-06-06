@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { LendMarketConfig, SubStrategyDataConfig } from "../../settings/configTypes";
 
-export type TagType = "Long" | "Staking" | "Short" | "Vault" | "LeverageToken";
+export type TagType = "Long" | "Staking" | "Short" | "Vault" | "Leverage Token";
 
 export interface AssetBase {
   address: Address;
