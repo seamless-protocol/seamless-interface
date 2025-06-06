@@ -268,6 +268,7 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
+        maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
     } else if (mode === "withdraw") {

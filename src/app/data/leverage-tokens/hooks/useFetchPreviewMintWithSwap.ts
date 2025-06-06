@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address, encodeAbiParameters, parseUnits, zeroAddress } from "viem";
+import { Address, encodeAbiParameters, formatUnits, parseUnits, zeroAddress } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import EtherfiL2ExchangeRateProviderAbi from "../../../../../abis/EtherfiL2ExchangeRateProvider";
 import { etherfiL2SyncPoolAbi } from "../../../../../abis/EtherfiL2SyncPool";
@@ -86,7 +86,10 @@ export interface PreviewMintWithSwapData {
   swapCost: ViewBigIntWithUsdValue;
 }
 
-const fetchPreviewMintWithSwap = async (leverageToken: Address, amount: string): Promise<PreviewMintWithSwapData> => {
+const fetchPreviewMintWithSwap = async (
+  leverageToken: Address,
+  amount: string
+): Promise<PreviewMintWithSwapData | undefined> => {
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
   const previewMint = await fetchPreviewMint({ leverageToken, amount });
   const swapContext = getSwapContext();
@@ -99,10 +102,17 @@ const fetchPreviewMintWithSwap = async (leverageToken: Address, amount: string):
     swapCost = previewMint.collateral.tokenAmount.bigIntValue - BigInt(parsedAmountIn) - weethAmountOut;
   }
 
+  if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) return;
+
+  const previewMintAfterCostDeduction = await fetchPreviewMint({
+    leverageToken,
+    amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
+  });
+
   const collateralTokenPrice = await fetchAssetPriceInBlock(collateralAsset);
 
   return {
-    previewMint,
+    previewMint: previewMintAfterCostDeduction,
     swapContext,
     swapCost: {
       tokenAmount: formatFetchBigIntToViewBigInt({
