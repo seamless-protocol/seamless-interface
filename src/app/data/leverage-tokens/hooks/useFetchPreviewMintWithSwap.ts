@@ -52,7 +52,7 @@ const getSwapContext = () => {
     encodedPath: "0x",
     fees: [],
     tickSpacing: [],
-    exchange: Exchange.UNISWAP_V2,
+    exchange: Exchange.ETHERFI,
     exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
     additionalData: encodeAbiParameters(
       [
