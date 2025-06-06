@@ -1,7 +1,6 @@
-import { fetchToken, formatFetchBigIntToViewBigInt } from "@shared";
+import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigIntWithUsdValue } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-import { ViewBigIntWithUsdValue } from "../../../../../shared";
 import { cValueFromUsd, cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
 import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
 import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";

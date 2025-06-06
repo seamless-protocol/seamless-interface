@@ -22,7 +22,7 @@ import { SwapContext } from "./useFetchAerodromeRoute";
 import { fetchPreviewMint, PreviewMintData } from "./useFetchPreviewMint";
 
 export const getWeethAmountOut = async (amount: bigint | undefined): Promise<bigint | undefined> => {
-  if (!amount) return;
+  if (!amount) return undefined;
 
   const exchangeRateProvider = await getQueryClient().fetchQuery({
     ...readContractQueryOptions(getConfig(), {
@@ -102,7 +102,7 @@ const fetchPreviewMintWithSwap = async (
     swapCost = previewMint.collateral.tokenAmount.bigIntValue - BigInt(parsedAmountIn) - weethAmountOut;
   }
 
-  if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) return;
+  if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) return undefined;
 
   const previewMintAfterCostDeduction = await fetchPreviewMint({
     leverageToken,
