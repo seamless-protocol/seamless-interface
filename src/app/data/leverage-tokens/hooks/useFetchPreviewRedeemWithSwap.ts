@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
+import { Address, parseUnits } from "viem";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
@@ -42,9 +42,27 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
   const aerodromeSlipstreamQuote =
     aerodromeSlipstreamQuoteResp.status === "fulfilled" ? aerodromeSlipstreamQuoteResp.value : undefined;
 
-  const bestQuoteSwapData = [uniswapV2Quote, uniswapV3Quote, aerodromeSlipstreamQuote]
-    .filter(Boolean)
-    .sort((a, b) => Number((a?.quote || 0n) - (b?.quote || 0n)))[0];
+  console.log("uniswapV2Quote", uniswapV2Quote);
+  console.log("uniswapV3Quote", uniswapV3Quote);
+  console.log("aerodromeSlipstreamQuote", aerodromeSlipstreamQuote);
+
+  // Best route is the one with the lowest quote
+
+  let bestQuoteSwapData = uniswapV3Quote;
+
+  if (uniswapV2Quote?.quote && bestQuoteSwapData?.quote && uniswapV2Quote.quote < bestQuoteSwapData.quote) {
+    bestQuoteSwapData = uniswapV2Quote;
+  }
+
+  if (
+    aerodromeSlipstreamQuote?.quote &&
+    bestQuoteSwapData?.quote &&
+    aerodromeSlipstreamQuote.quote < bestQuoteSwapData.quote
+  ) {
+    bestQuoteSwapData = aerodromeSlipstreamQuote;
+  }
+
+  console.log("bestQuoteSwapData", bestQuoteSwapData);
 
   return bestQuoteSwapData;
 };
@@ -73,7 +91,6 @@ export const fetchPreviewRedeemWithSwap = async ({
     !previewRedeemData.collateral.tokenAmount.bigIntValue ||
     !previewRedeemData.equity.tokenAmount.bigIntValue
   ) {
-    console.log("fake");
     return undefined;
   }
 
@@ -90,10 +107,12 @@ export const fetchPreviewRedeemWithSwap = async ({
       (previewRedeemData.collateral.tokenAmount.bigIntValue - previewRedeemData.equity.tokenAmount.bigIntValue);
   }
 
+  const parsedAmount = parseUnits(amount, 18);
+
   return {
     equityAfterSwapCost: formatFetchBigIntToViewBigInt({
       ...previewRedeemData.equity.tokenAmount,
-      bigIntValue: swapCost ? previewRedeemData.equity.tokenAmount.bigIntValue - swapCost : undefined,
+      bigIntValue: swapCost ? parsedAmount - swapCost : undefined,
     }),
     swapCost: formatFetchBigIntToViewBigInt({
       ...previewRedeemData.collateral.tokenAmount,

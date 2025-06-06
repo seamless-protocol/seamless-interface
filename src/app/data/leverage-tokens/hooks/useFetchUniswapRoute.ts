@@ -4,18 +4,18 @@ import { simulateContract } from "wagmi/actions";
 import { readContractQueryOptions } from "wagmi/query";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, UNISWAP_FEES } from "../../../../meta";
 import {
-  uniswapV2Router02Address,
-  uniswapV2Router02Abi,
-  uniswapV3FactoryAddress,
-  uniswapV3FactoryAbi,
   uniswapQuoterAbi,
   uniswapQuoterAddress,
+  uniswapV2Router02Abi,
+  uniswapV2Router02Address,
+  uniswapV3FactoryAbi,
+  uniswapV3FactoryAddress,
 } from "../../../generated";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";
 import type { FetchBestSwapInput } from "./useFetchPreviewRedeemWithSwap";
-import { Exchange } from "../common/enums";
 
 export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput) => {
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
@@ -34,6 +34,7 @@ export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput) => {
     swapContext: {
       path: [tokenInAddress, tokenOutAddress],
       encodedPath: "0x",
+      additionalData: "0x",
       fees: [],
       tickSpacing: [],
       exchange: Exchange.UNISWAP_V2,
@@ -91,6 +92,7 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
     swapContext: {
       path: [tokenInAddress, tokenOutAddress],
       encodedPath: "0x",
+      additionalData: "0x",
       fees: [UNISWAP_FEES[bestQuoteIndex]],
       tickSpacing: [],
       exchange: Exchange.UNISWAP_V3,

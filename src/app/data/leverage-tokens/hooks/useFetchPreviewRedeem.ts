@@ -36,8 +36,6 @@ export const fetchPreviewRedeem = async ({
 }: FetchPreviewRedeemInput): Promise<PreviewRedeemData> => {
   const leverageTokenAssets = await fetchLeverageTokenAssets(leverageToken);
 
-  console.log("uso");
-
   const [
     collateralAssetData,
     debtTokenData,
@@ -54,8 +52,6 @@ export const fetchPreviewRedeem = async ({
     fetchAssetPriceInBlock(leverageToken),
   ]);
 
-  console.log("proso");
-
   const collateral = await fetchCollateralAsset({ leverageToken });
   const decimals = await fetchDecimals(collateral);
   const amountBigInt = parseUnits(amount, decimals);
@@ -68,8 +64,6 @@ export const fetchPreviewRedeem = async ({
       args: [leverageToken, amountBigInt],
     }),
   });
-
-  console.log("aaaaaaaaaaaaaa");
 
   return {
     collateral: {
