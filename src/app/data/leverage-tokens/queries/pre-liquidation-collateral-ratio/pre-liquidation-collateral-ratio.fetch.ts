@@ -27,6 +27,5 @@ export const fetchPreLiquidationCollateralRatio = async (leverageToken: Address)
   return formatFetchBigIntToViewBigInt({
     bigIntValue: preLiquidationCollateralRatio,
     decimals: COLLATERAL_RATIO_DECIMALS,
-    symbol: "x",
   });
 };
