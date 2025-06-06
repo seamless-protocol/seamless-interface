@@ -1,13 +1,16 @@
-import { FlexCol, AuthGuardv2, Buttonv2 } from "@shared";
+import { FlexCol, AuthGuardv2, Buttonv2, useNotificationContext, getApproveState } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const FormButtons = () => {
+  const { showNotification } = useNotificationContext();
+
   const {
     reactHookFormMethods: {
       formState: { isSubmitting },
     },
     withdrawAmount,
-    isPending,
+    isRedeemPending,
+    redeemApproveData: { isApproved, isApproving, justApproved, approveAsync },
   } = useLeverageTokenFormContext();
 
   if (!withdrawAmount) {
@@ -20,13 +23,32 @@ export const FormButtons = () => {
 
   return (
     <FlexCol className="gap-2 w-full">
+      <Buttonv2
+        data-cy="approvalButton"
+        className="text-bold3"
+        disabled={isApproved || isSubmitting}
+        loading={!isApproved && (isApproving || isRedeemPending)}
+        onClick={async () => {
+          try {
+            await approveAsync();
+          } catch (e: any) {
+            showNotification({
+              status: "error",
+              content: e?.message,
+            });
+          }
+        }}
+      >
+        {getApproveState(isApproved, justApproved)}
+      </Buttonv2>
+
       <AuthGuardv2 message="">
         <Buttonv2
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={isSubmitting || isPending}
-          loading={isSubmitting || isPending}
+          disabled={isSubmitting || isRedeemPending}
+          loading={isSubmitting || isRedeemPending}
         >
           Redeem
         </Buttonv2>

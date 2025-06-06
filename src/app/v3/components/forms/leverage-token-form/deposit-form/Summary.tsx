@@ -25,7 +25,7 @@ export const Summary: React.FC = () => {
         }
       >
         <DisplayTokenAmount
-          {...previewMintData.data?.tokenFee.dollarAmount}
+          {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -43,34 +43,38 @@ export const Summary: React.FC = () => {
         }
       >
         <DisplayTokenAmount
-          {...previewMintData.data?.treasuryFee.dollarAmount}
+          {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.equity.dollarAmount}
+          {...previewMintData.data?.previewMint.equity.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.debt.tokenAmount}
+          {...previewMintData.data?.previewMint.debt.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.collateral.tokenAmount}
+          {...previewMintData.data?.previewMint.collateral.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
-        <DisplayTokenAmount viewValue="0" symbol="$" symbolPosition="before" {...checkAuthentication(isConnected)} />
+        <DisplayTokenAmount
+          {...previewMintData.data?.swapCost.dollarAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
       </DataRow>
     </FlexCol>
   );

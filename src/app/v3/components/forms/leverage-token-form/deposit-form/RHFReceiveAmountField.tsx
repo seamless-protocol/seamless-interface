@@ -33,12 +33,12 @@ export function RHFReceiveAmountField<T>({ ...other }: IProps<T>) {
       {...other}
       assetAddress={leverageToken?.address}
       dollarValue={{
-        data: previewMintData?.data?.shares.dollarAmount,
+        data: previewMintData?.data?.previewMint.shares.dollarAmount,
         isLoading: previewMintData.isLoading,
         isFetched: previewMintData.isFetched,
       }}
       disabled
-      value={previewMintData?.data?.shares.tokenAmount.viewValue}
+      value={previewMintData?.data?.previewMint.shares.tokenAmount.value || "0"}
       hideMaxButton
       tokenData={{ ...leverageTokenDataRest, data: leverageTokenData || {} }}
     />

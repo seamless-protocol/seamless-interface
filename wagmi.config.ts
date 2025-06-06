@@ -3,6 +3,7 @@ import { react } from "@wagmi/cli/plugins";
 import { AaveOracleAbi } from "./abis/AaveOracle";
 import { AerodromeQuoterAbi } from "./abis/AerodromeQuoterAbi";
 import { AerodromeSlipstreamFactoryAbi } from "./abis/AerodromeSlipstreamFactory";
+import { etherfiL2SyncPoolAbi } from "./abis/EtherfiL2SyncPool";
 import { ILMRegistryAbi } from "./abis/ILMRegistry";
 import { LendingPoolAbi } from "./abis/LendingPool";
 import { LeverageManagerAbi } from "./abis/LeverageManager";
@@ -67,6 +68,11 @@ export default defineConfig({
       name: "LeverageRouter",
       address: "0xDbA92fC3dc10a17b96b6E807a908155C389A887C",
       abi: LeverageRouterAbi,
+    },
+    {
+      name: "EtherfiL2ModeSyncPool",
+      address: "0xc38e046dfdadf15f7f56853674242888301208a5",
+      abi: etherfiL2SyncPoolAbi,
     },
     {
       name: "UniswapV2Router02",

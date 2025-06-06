@@ -24,7 +24,7 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
           </FlexCol>
 
           <FlexCol className="gap-3">
-            <Typography type="medium3">Receive</Typography>
+            <Typography type="medium3">Burn</Typography>
             <RHFReceiveAmountField name="receiveAmount" />
           </FlexCol>
 
