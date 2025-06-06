@@ -1,8 +1,9 @@
-import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
+import { Address, formatUnits } from "viem";
 
-import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
-import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
+import { useAccount } from "wagmi";
+import { IS_DEV_MODE } from "../../../../../globals";
+import { ONE_ETHER } from "../../../../../meta";
 import {
   fetchToken,
   formatFetchBigIntToViewBigInt,
@@ -10,12 +11,12 @@ import {
   ViewBigInt,
   ViewNumber,
 } from "../../../../../shared";
-import { fetchUserLeverageTokenProfit } from "./user-leverage-token-profit.fetch";
-import { fetchUserEquity } from "../user-equity/user-equity.fetch";
-import { useAccount } from "wagmi";
+import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
 import { getConfig } from "../../../../utils/queryContractUtils";
-import { IS_DEV_MODE } from "../../../../../globals";
+import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
+import { fetchUserEquity } from "../user-equity/user-equity.fetch";
+import { fetchUserLeverageTokenProfit } from "./user-leverage-token-profit.fetch";
 
 export interface UserUnrealized {
   unrealizedCollateral: ViewBigInt;
@@ -74,10 +75,11 @@ export async function fetchUserUnrealized(user: Address, leverageToken: Address)
     symbol: "%",
   });
 
-  if ((depositUsdBigInt || 0n) > 0n) {
-    const ratio = (Number(unrealizedUsdBigInt) / Number(depositUsdBigInt)) * 100;
+  if (unrealizedUsdBigInt && depositUsdBigInt && (depositUsdBigInt || 0n) > 0n) {
+    // const ratio = (Number(unrealizedUsdBigInt) / Number(depositUsdBigInt)) * 100;
+    const ratio = (unrealizedUsdBigInt * ONE_ETHER * 100n) / depositUsdBigInt;
     unrealizedPercent = formatFetchNumberToViewNumber({
-      value: ratio,
+      value: Number(formatUnits(ratio, 18)),
       symbol: "%",
     });
   }
