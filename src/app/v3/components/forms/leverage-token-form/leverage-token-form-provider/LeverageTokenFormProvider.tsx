@@ -218,7 +218,7 @@ export function LeverageTokenFormProvider({
         txHash,
         content: (
           <FlexCol className="w-full items-center text-center justify-center">
-            <Typography>You deposited {debouncedDepositAmount}</Typography>
+            <Typography>You minted {debouncedDepositAmount}</Typography>
           </FlexCol>
         ),
       });
