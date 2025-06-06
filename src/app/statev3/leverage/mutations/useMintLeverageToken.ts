@@ -17,7 +17,7 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     ...settings,
-    queriesToInvalidate: [],
+    queriesToInvalidate: [undefined],
   });
 
   /* -------------------- */
@@ -27,22 +27,25 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     leverageToken?: Address;
     amount?: bigint;
     minShares?: bigint;
+    maxSwapCostInCollateral?: bigint;
     swapContext?: SwapContext;
   }) => {
     try {
-      const { leverageToken, amount, minShares, swapContext } = args;
+      const { leverageToken, amount, minShares, maxSwapCostInCollateral, swapContext } = args;
       if (!amount) throw new Error("Amount is not defined. Please ensure the amount is greater than 0.");
       if (!address) throw new Error("Account address is not found. Please re-connect your wallet.");
       if (!minShares) throw new Error("Min shares is not defined.");
+      if (!maxSwapCostInCollateral) throw new Error("Max swap cost in collateral is not defined.");
       if (!leverageToken) throw new Error("Leverage token is not defined.");
+
+      const amountAfterSwapCost = amount - maxSwapCostInCollateral;
 
       await writeContractAsync({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: leverageRouterAbi,
         functionName: "mint",
-        // TODO: This has hardcoded 1n for maxSwapCostInCollateral, we need to change this to be dynamic
-        args: [leverageToken, amount, minShares / 2n, 1n, swapContext as never],
+        args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
       });
     } catch (error) {
       console.error("Failed to mint", error);
