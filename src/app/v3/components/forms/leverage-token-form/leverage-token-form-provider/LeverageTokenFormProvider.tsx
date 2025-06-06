@@ -72,6 +72,7 @@ interface LeverageTokenFormContextValue {
   ) => Promise<void>;
 
   isPending: boolean;
+  isRedeemPending: boolean;
 
   isMintPending: boolean;
 
@@ -227,7 +228,7 @@ export function LeverageTokenFormProvider({
     },
   });
 
-  const { redeemAsync } = useRedeemLeverageToken({
+  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
     onSuccess: (txHash) => {
       showNotification({
         txHash,
@@ -293,6 +294,7 @@ export function LeverageTokenFormProvider({
           isFetched: previewMintData.isFetched,
         },
         isMintPending,
+        isRedeemPending,
         onTransaction: _onTransaction,
         setOnTransaction,
         maxUserDepositData: {

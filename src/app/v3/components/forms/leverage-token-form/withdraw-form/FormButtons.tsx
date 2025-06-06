@@ -47,7 +47,7 @@ export const FormButtons = () => {
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={isSubmitting || isRedeemPending}
+          disabled={!isApproved || isSubmitting || isRedeemPending}
           loading={isSubmitting || isRedeemPending}
         >
           Redeem
