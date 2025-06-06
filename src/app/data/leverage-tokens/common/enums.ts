@@ -2,6 +2,7 @@
 export enum Exchange {
   AERODROME = 0,
   AERODROME_SLIPSTREAM = 1,
-  UNISWAP_V2 = 2,
-  UNISWAP_V3 = 3,
+  ETHERFI = 2,
+  UNISWAP_V2 = 3,
+  UNISWAP_V3 = 4,
 }

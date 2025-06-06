@@ -26,7 +26,7 @@ export const Summary: React.FC = () => {
       >
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.tokenFee.dollarAmount}
+          {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -45,7 +45,7 @@ export const Summary: React.FC = () => {
       >
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.treasuryFee.dollarAmount}
+          {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -53,7 +53,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.equity.dollarAmount}
+          {...previewMintData.data?.previewMint.equity.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -61,7 +61,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.debt.tokenAmount}
+          {...previewMintData.data?.previewMint.debt.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -69,7 +69,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.collateral.tokenAmount}
+          {...previewMintData.data?.previewMint.collateral.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
@@ -77,8 +77,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
-          viewValue="0"
-          symbol="$"
+          {...previewMintData.data?.swapCost.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
