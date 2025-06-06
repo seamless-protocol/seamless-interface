@@ -186,7 +186,7 @@ export function LeverageTokenFormProvider({
   } = useERC20Approve(
     selectedLeverageToken.data?.address,
     leverageRouterAddress,
-    previewRedeemData.data?.previewRedeemData?.shares.tokenAmount.bigIntValue
+    previewRedeemData.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue
   );
 
   /* -------------------- */
@@ -275,7 +275,7 @@ export function LeverageTokenFormProvider({
       await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
-        maxShares: previewRedeemData?.data?.previewRedeemData?.shares.tokenAmount.bigIntValue,
+        maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
         maxSwapCostInCollateral: (previewRedeemData?.data?.swapCost.bigIntValue || 0n) * 2n,
         swapContext: previewRedeemData?.data?.swapContext,
       });
