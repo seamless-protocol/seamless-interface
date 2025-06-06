@@ -2,7 +2,6 @@ import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
-import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
 import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
 import {
   fetchToken,
@@ -14,6 +13,8 @@ import {
 import { fetchUserLeverageTokenProfit } from "./user-leverage-token-profit.fetch";
 import { fetchUserEquity } from "../user-equity/user-equity.fetch";
 import { useAccount } from "wagmi";
+import { fetchAssetPriceInBlock } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { getConfig } from "../../../../utils/queryContractUtils";
 
 export interface UserUnrealized {
   unrealizedCollateral: ViewBigInt;
@@ -36,10 +37,10 @@ export async function fetchUserUnrealized(user: Address, leverageToken: Address)
   const currentEquityUsdBigInt = dollarAmount.bigIntValue;
 
   const [collateralPriceData, collateralTokenData] = await Promise.all([
-    fetchAssetPriceInBlock(collateralAsset),
+    fetchAssetPriceInBlock(getConfig(), collateralAsset),
     fetchToken(collateralAsset),
   ]);
-  const collateralPriceBigInt = collateralPriceData.bigIntValue;
+  const collateralPriceBigInt = collateralPriceData;
   const collateralDecimals = collateralTokenData.decimals;
 
   const depositUsdBigInt = cValueInUsd(totalDepositedInCollateralBigInt, collateralPriceBigInt, collateralDecimals);
@@ -65,11 +66,11 @@ export async function fetchUserUnrealized(user: Address, leverageToken: Address)
   });
 
   // 8) Compute %: (unrealizedUsd / depositUsd) × 100
-  //    If depositUsdBigInt is zero, fall back to "0.00 %".
   let unrealizedPercent = formatFetchNumberToViewNumber({
     value: 0,
     symbol: "%",
   });
+
   if ((depositUsdBigInt || 0n) > 0n) {
     const ratio = (Number(unrealizedUsdBigInt) / Number(depositUsdBigInt)) * 100;
     unrealizedPercent = formatFetchNumberToViewNumber({
