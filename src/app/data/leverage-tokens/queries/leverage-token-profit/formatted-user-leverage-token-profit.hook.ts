@@ -27,10 +27,8 @@ export const useFetchFormattedUserLeverageTokenProfit = ({
 }: UseFetchFormattedUserLeverageTokenProfitInput): Displayable<FormattedUserLeverageTokenProfit> => {
   const { address: user } = useAccount();
 
-  // Tell useQuery that `data` will conform to RawUserLeverageTokenProfit
   const { data, ...rest } = useQuery<RawUserLeverageTokenProfit>({
     queryKey: ["fetchFormattedUserLeverageTokenProfit", user, leverageToken],
-    // Mocked queryFn returning zeros
     queryFn: async () =>
       Promise.resolve<RawUserLeverageTokenProfit>({
         leverageTokenBalance: {

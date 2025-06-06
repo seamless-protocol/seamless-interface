@@ -10,9 +10,9 @@ import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useFetchFormattedUserLeverageTokenProfit } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/formatted-user-leverage-token-profit.hook";
 import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
 import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
+import { useFetchUserUnrealized } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
 
 export const LeverageTokenTableDesktopRowContainer: React.FC<{
   address: Address;
@@ -28,9 +28,7 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
   });
-  const { data: leverageTokenProfit, ...leverageTokenProfitRest } = useFetchFormattedUserLeverageTokenProfit({
-    leverageToken: address,
-  });
+  const { data: leverageTokenProfit, ...leverageTokenProfitRest } = useFetchUserUnrealized(address);
 
   return (
     <TableDesktopRowComponent
@@ -67,14 +65,14 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
         <SignIndicatingElement
           noBackground
           dislayable={{
-            data: leverageTokenProfit?.unrealizedProfit,
+            data: leverageTokenProfit?.unrealizedPercent,
             ...leverageTokenProfitRest,
           }}
         >
           <DisplayPercentage
             typography="bold3"
-            viewValue={leverageTokenProfit?.unrealizedProfitPercentage.viewValue}
-            className={`${getColorBasedOnSign(leverageTokenProfit?.unrealizedProfit.value)}`}
+            viewValue={leverageTokenProfit?.unrealizedPercent.viewValue}
+            className={`${getColorBasedOnSign(leverageTokenProfit?.unrealizedPercent.value)}`}
             {...leverageTokenProfitRest}
           />
         </SignIndicatingElement>
@@ -83,7 +81,7 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
         <DisplayMoney
           typography="medium1"
           className="text-primary-600"
-          viewValue={leverageTokenProfit?.unrealizedProfit.viewValue}
+          viewValue={leverageTokenProfit?.unrealizedUsd.viewValue}
           isApproximate
           {...leverageTokenProfitRest}
         />
