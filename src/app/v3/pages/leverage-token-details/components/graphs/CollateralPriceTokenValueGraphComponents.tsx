@@ -177,7 +177,7 @@ export const CollateralVsValueGraphComponent: React.FC<{
     };
 
     loadData();
-  }, [tokenAddress, showCollateral, showValue, showNotification]);
+  }, [collateralSymbol, debtSymbol, tokenAddress, showCollateral, showValue, showNotification]);
 
   return (
     <div className="flex flex-col w-full rounded-card bg-neutral-0 gap-8 p-4">
