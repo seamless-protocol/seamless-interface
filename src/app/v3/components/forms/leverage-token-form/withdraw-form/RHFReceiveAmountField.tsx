@@ -8,18 +8,18 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 export function RHFReceiveAmountField<T>({ name, ...other }: IProps<T>) {
   const { selectedLeverageToken, withdrawAmountUsdValue, sharesToReceiveWithdrawData } = useLeverageTokenFormContext();
 
-  const { data: { underlyingAssetAddress, underlyingAsset } = {}, ...restTokenData } = selectedLeverageToken;
+  const collateralTokenData = selectedLeverageToken?.data?.collateralAssetTokenData;
 
   return (
     <RHFAmountInputV3
       {...other}
       name={name as string}
-      assetAddress={underlyingAssetAddress}
+      assetAddress={collateralTokenData?.address}
       dollarValue={withdrawAmountUsdValue}
       value={sharesToReceiveWithdrawData?.data?.assetsToReceive.tokenAmount.value || "0"}
       disabled
       hideMaxButton
-      tokenData={{ ...restTokenData, data: underlyingAsset || {} }}
+      tokenData={{ ...selectedLeverageToken, data: collateralTokenData || {} }}
     />
   );
 }

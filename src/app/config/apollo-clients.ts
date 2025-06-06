@@ -14,3 +14,10 @@ const fuulApolloClient = new ApolloClient({
 });
 
 export const getFuulApolloClient = () => fuulApolloClient;
+
+const leverageApolloClient = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/113147/seamless-leverage-tokens-base/version/latest",
+  cache: new InMemoryCache(),
+});
+
+export const getLeverageApolloClient = () => leverageApolloClient;

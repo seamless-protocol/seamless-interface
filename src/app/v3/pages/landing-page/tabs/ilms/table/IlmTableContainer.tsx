@@ -7,12 +7,11 @@ import { TableRow, TableCell, Typography, StandardTooltip, FlexRow } from "@shar
 import { isNullableAddressEqual } from "@app/v3/utils/utils";
 import { LoadingTableGuard } from "./LoadingTableGuard";
 
-import { useFetchAllLeverageTokens } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
-
 import { LeverageTokenDesktopTableRow } from "./ILMDesktopTableRow";
 import { LeverageTokenMobileTableRow } from "./ILMMobileTableRow";
 import { LoadingLeverageTokenDesktopTableRows } from "./loading-state/LoadingLeverageTokenDesktopTableRows";
 import { LoadingLeverageTokenMobileTableRows } from "./loading-state/LoadingLeverageTokenMobileTableRows";
+import { useFetchAllLeverageTokens } from "../../../../../../data/leverage-tokens/queries/all-leverage-tokens/fetch-leverage-tokens.all";
 
 export const LeverageTokensTableContainer: React.FC<{
   selectedLeverageToken?: Address;

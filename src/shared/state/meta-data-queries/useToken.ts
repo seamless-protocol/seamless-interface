@@ -11,6 +11,7 @@ import emptyToken from "@assets/tokens/empty-token.svg";
 import ethTokenIcon from "@assets/tokens/eth.svg";
 
 export interface Token {
+  address?: Address;
   symbol: string;
   decimals: number;
   name: string;
@@ -135,6 +136,7 @@ export async function fetchToken(token: Address): Promise<Token> {
   }
 
   return {
+    address: token,
     symbol,
     decimals,
     name,

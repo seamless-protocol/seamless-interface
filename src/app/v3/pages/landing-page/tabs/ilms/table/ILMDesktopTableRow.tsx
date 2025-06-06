@@ -14,7 +14,8 @@ import {
 import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/FetchAllLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -23,14 +24,17 @@ export const LeverageTokenDesktopTableRow: React.FC<{
 }> = ({ leverageToken, hideBorder, selected }) => {
   const {
     data: {
-      tokenData: { name, symbol, logo },
       additionalData: { description },
       availableSupplyCap,
-      tvl,
       apy,
+      tvl,
     },
     ...rest
   } = leverageToken;
+
+  const {
+    data: { name, symbol, logo },
+  } = useFullTokenData(leverageToken.data?.address);
 
   return (
     <div
@@ -52,9 +56,9 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <DisplayTokenAmount typography="bold3" {...tvl.tokenAmount} {...rest} />
+          <DisplayTokenAmount typography="bold3" {...tvl?.tokenAmount} {...rest} />
 
-          <DisplayMoney typography="medium1" {...tvl.dollarAmount} {...rest} className="text-primary-600" />
+          <DisplayMoney typography="medium1" {...tvl?.dollarAmount} {...rest} className="text-primary-600" />
         </TableCell>
 
         <TableCell className="col-span-1">

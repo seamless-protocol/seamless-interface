@@ -3,31 +3,19 @@ import usdcIcon from "@assets/tokens/usdc.svg";
 import { type RewardItem } from "./RewardsProvider";
 
 const MockTokenAmount = {
-  data: {
-    bigIntValue: 10n,
-    viewValue: "453.32",
-    symbol: "SEAM",
-  },
-  isLoading: false,
-  isFetched: true,
+  bigIntValue: 10n,
+  viewValue: "453.32",
+  symbol: "SEAM",
 };
 const MockTokenAmount2 = {
-  data: {
-    bigIntValue: 10n,
-    viewValue: "32.32",
-    symbol: "SEAM",
-  },
-  isLoading: false,
-  isFetched: true,
+  bigIntValue: 10n,
+  viewValue: "32.32",
+  symbol: "SEAM",
 };
 const MockDollarAmount = {
-  data: {
-    bigIntValue: 10n,
-    viewValue: "453.32",
-    symbol: "$",
-  },
-  isLoading: false,
-  isFetched: true,
+  bigIntValue: 10n,
+  viewValue: "453.32",
+  symbol: "$",
 };
 
 export const REWARDS_MOCK_ITEMS: RewardItem[] = [
