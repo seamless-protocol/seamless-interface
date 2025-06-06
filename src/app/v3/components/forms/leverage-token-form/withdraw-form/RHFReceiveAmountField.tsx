@@ -21,7 +21,7 @@ export function RHFReceiveAmountField<T>({ name, ...other }: IProps<T>) {
       dollarValue={{
         data: previewRedeemData?.data?.previewRedeemData?.shares?.dollarAmount,
         isLoading: previewRedeemData?.isLoading,
-        isFetched: false,
+        isFetched: true,
       }}
       value={previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount.value || "0"}
       disabled
