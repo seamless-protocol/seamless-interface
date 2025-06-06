@@ -81,7 +81,7 @@ export const cbBTCLong_1_5x: Address = "0x5CE6A61E60AD45dBD80565349A8B902DC461A1
 export const cbBTCLong_3x: Address = "0xdeCF8c9D927275e8b25721d3EF16d14AC8eb8766";
 
 // leverage tokens
-export const weeth_weth_leverage_token: Address = "0x2FB1bEa0a63F77eFa77619B903B2830b52eE78f4";
+export const weeth_weth_leverage_token: Address = "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c";
 
 // MORPHO VAULTS
 export const seamlessUSDCMorphoVault: Address = "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738";
