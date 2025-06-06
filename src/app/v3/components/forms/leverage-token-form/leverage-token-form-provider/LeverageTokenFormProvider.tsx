@@ -31,6 +31,10 @@ import {
 } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
 import { leverageRouterAddress } from "../../../../../generated";
 import { useFetchPreviewMintWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap";
+import {
+  LimitStatus,
+  useLeverageTokenLimitStatuses,
+} from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -91,6 +95,8 @@ interface LeverageTokenFormContextValue {
     isApproved: boolean;
     justApproved: boolean;
   };
+
+  limitStatuses: LimitStatus[];
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -153,6 +159,11 @@ export function LeverageTokenFormProvider({
     setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
     isConnected,
+  });
+
+  const limitStatuses = useLeverageTokenLimitStatuses({
+    debouncedDepositAmount,
+    debouncedWithdrawAmount,
   });
 
   /* ------------- */
@@ -354,6 +365,7 @@ export function LeverageTokenFormProvider({
             viewValue: "0",
           },
         },
+        limitStatuses,
       }}
     >
       {children}
