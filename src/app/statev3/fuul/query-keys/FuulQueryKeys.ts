@@ -56,6 +56,22 @@ export const FuulQueryKeys = {
     },
   ],
 
+  conversions: (params: GetPayoutsLeaderboardParams) => [
+    {
+      ...FuulQueryKeys.childApiQueries[0],
+      functionName: "getConversions",
+      ...params,
+    },
+  ],
+
+  conversionById: (id: string) => [
+    {
+      ...FuulQueryKeys.childApiQueries[0],
+      functionName: "getConversionByProject",
+      id,
+    },
+  ],
+
   /* ------------------- */
   /*   GRAPHQL QUERIES   */
   /* ------------------- */
@@ -77,6 +93,16 @@ export const FuulQueryKeys = {
       ...params,
       ...getHashedQueryKey({
         queryKey: FuulQueryKeys.pointsLeaderboard(params),
+      }),
+    },
+  ],
+
+  conversionByProjectHook: (id: string) => [
+    {
+      ...FuulQueryKeys.hookQueries[0],
+      functionName: "getConversionByProjectHook",
+      ...getHashedQueryKey({
+        queryKey: FuulQueryKeys.conversionById(id),
       }),
     },
   ],

@@ -92,6 +92,7 @@ export const Tooltip: React.FC<{
           ...sizeStyles[size],
           zIndex: 99999999,
           boxShadow: "rgba(0, 0, 0, 0.2) 0px 0px 2px, rgba(0, 0, 0, 0.1) 0px 2px 10px",
+          borderRadius: "12px",
         }}
         className={isVisible ? "show-tooltip" : "hide-tooltip"}
         opacity={1}

@@ -11,11 +11,9 @@ import {
   DisplayTokenAmount,
 } from "@shared";
 
-import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
-import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
-
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { ApyButton, ApyDetailCard } from "../../../../../components/tooltip/apy-detail-card/ApyDetailCard";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -26,15 +24,20 @@ export const LeverageTokenDesktopTableRow: React.FC<{
     data: {
       additionalData: { description },
       availableSupplyCap,
-      apy,
       tvl,
     },
     ...rest
   } = leverageToken;
 
   const {
-    data: { name, symbol, logo },
+    data: { name, logo },
   } = useFullTokenData(leverageToken.data?.address);
+
+  const apyItems = [
+    { label: "Yield APY", value: leverageToken?.data?.apy.yieldAPY },
+    { label: "Borrow APY", value: leverageToken?.data?.apy.borrowAPY },
+    { label: "Estimated APY", value: leverageToken?.data?.apy.estimatedAPY },
+  ];
 
   return (
     <div
@@ -62,22 +65,9 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <IncentivesButton
-            totalApr={{
-              ...apy.estimatedAPY,
-            }}
-            rewardTokens={apy.rewardTokens}
-            {...rest}
-          >
-            <IncentivesDetailCard
-              assetSymbol={symbol}
-              totalApr={{
-                ...apy.estimatedAPY,
-              }}
-              rewardTokens={apy.rewardTokens}
-              {...rest}
-            />
-          </IncentivesButton>
+          <ApyButton items={apyItems} {...rest}>
+            <ApyDetailCard items={apyItems} />
+          </ApyButton>
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney
