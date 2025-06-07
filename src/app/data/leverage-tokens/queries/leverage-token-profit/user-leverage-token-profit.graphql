@@ -1,0 +1,12 @@
+query UserLeverageTokenProfit($userId: ID!, $leverageTokenId: String!) {
+  user(id: $userId) {
+    positions(where: { leverageToken: $leverageTokenId }) {
+      id
+      totalEquityDepositedInCollateral
+      realizedPnlInCollateral
+      leverageToken {
+        id
+      }
+    }
+  }
+}
