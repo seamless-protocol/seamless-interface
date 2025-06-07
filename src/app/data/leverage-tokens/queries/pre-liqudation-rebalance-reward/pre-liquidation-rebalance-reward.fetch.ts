@@ -1,5 +1,6 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
+import { LendingAdapterAbi } from "../../../../../../abis/LendingAdapter";
 import { RebalanceAdapterAbi } from "../../../../../../abis/RebalanceAdapter";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
@@ -16,16 +17,29 @@ export const getPreLiquidationRebalanceRewardQueryOptions = (rebalanceAdapter: A
   ...queryConfig.infiniteCacheQueryConfig,
 });
 
+export const getLiquidationPenalty = (lendingAdapter: Address) => ({
+  ...readContractQueryOptions(config, {
+    address: lendingAdapter,
+    abi: LendingAdapterAbi,
+    functionName: "getLiquidationPenalty",
+  }),
+  ...queryConfig.infiniteCacheQueryConfig,
+});
+
 export const fetchPreLiquidationRebalanceReward = async (leverageToken: Address): Promise<ViewBigInt> => {
-  const { rebalanceAdapter } = await fetchLeverageTokenConfig(leverageToken);
+  const { lendingAdapter, rebalanceAdapter } = await fetchLeverageTokenConfig(leverageToken);
 
   const preLiquidationRebalanceReward = await getQueryClient().fetchQuery({
     ...getPreLiquidationRebalanceRewardQueryOptions(rebalanceAdapter),
   });
 
+  const liquidationPenalty = await getQueryClient().fetchQuery({
+    ...getLiquidationPenalty(lendingAdapter),
+  });
+
   return formatFetchBigIntToViewBigInt({
-    bigIntValue: preLiquidationRebalanceReward,
-    decimals: 2,
+    bigIntValue: liquidationPenalty * preLiquidationRebalanceReward,
+    decimals: 20, // liquidationPenalty is 18 decimals, preLiquidationRebalanceReward is 2 decimals
     symbol: "%",
   });
 };

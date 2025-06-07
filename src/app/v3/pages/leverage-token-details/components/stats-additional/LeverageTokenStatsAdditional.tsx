@@ -10,6 +10,7 @@ import { useFetchDutchAuctionInitialPriceMultiplier } from "../../../../../data/
 import { useFetchDutchAuctionMinPriceMultiplier } from "../../../../../data/leverage-tokens/queries/dutch-auction-min-price-multiplier/dutch-auction-min-price-mutliplier.hook";
 import { useFetchPreLiquidationCollateralRatio } from "../../../../../data/leverage-tokens/queries/pre-liquidation-collateral-ratio/pre-liquidation-collateral-ratio.hook";
 import { useFetchPreLiquidationRebalanceReward } from "../../../../../data/leverage-tokens/queries/pre-liqudation-rebalance-reward/pre-liquidation-rebalance-reward.hook";
+import { useFetchLeverageTokenState } from "@app/data/leverage-tokens/queries/leverage-token-state/leverage-token-state.hook";
 
 const skeletonLoaderSettings = { width: "120px", height: "30px" };
 
@@ -101,6 +102,8 @@ export interface LeverageTokenAuctionStatsProps {
 }
 
 export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsProps> = ({ tokenAddress }) => {
+  const { data: leverageTokenState, ...restLeverageTokenState } = useFetchLeverageTokenState(tokenAddress);
+
   const { data: leverageRatios, ...leverageRatiosRest } = useFetchLeverageRatios(tokenAddress);
 
   const { data: leverageTokenConfig, ...leverageTokenConfigRest } = useFetchLeverageTokenConfig(tokenAddress);
@@ -122,22 +125,24 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
   return (
     <FlexCol className="w-full rounded-card bg-neutral-0 overflow-hidden p-4">
       <div
-        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x 
+        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x
       divide-neutral-200 border-b border-solid border-neutral-200"
       >
-        <StatCell label="Min Leverage (Max Collateral Ratio)">
+
+        <StatCell label="Current Leverage">
           <DisplayText
-            {...leverageRatios?.minLeverage}
-            {...leverageRatiosRest}
+            {...leverageTokenState?.currentLeverage}
+            {...restLeverageTokenState}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
 
-        <StatCell label="Max Leverage (Min Collateral Ratio)">
+        <StatCell label="Min - Max Leverage">
           <DisplayText
-            {...leverageRatios?.maxLeverage}
+            viewValue={`${leverageRatios?.minLeverage?.viewValue}x - ${leverageRatios?.maxLeverage?.viewValue}x`}
             {...leverageRatiosRest}
             typography="bold5"
             className="text-primary-1000"
@@ -152,12 +157,13 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
       </div>
 
       <div
-        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x 
+        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x
       divide-neutral-200 border-b border-solid border-neutral-200"
       >
         <StatCell label="Redeem Token Fee">
@@ -167,6 +173,7 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
 
@@ -187,12 +194,13 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
       </div>
 
       <div
-        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x 
+        className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x
       divide-neutral-200"
       >
         <StatCell label="Dutch Auction Min Price Multiplier">
@@ -202,16 +210,18 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
 
-        <StatCell label="Pre-liquidation Collateral Ratio">
+        <StatCell label="Pre-liquidation Leverage">
           <DisplayText
             {...preLiquidationCollateralRatio}
             {...preLiquidationCollateralRatioRest}
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
 
@@ -222,6 +232,7 @@ export const LeverageTokenStatsAdditional: React.FC<LeverageTokenAuctionStatsPro
             typography="bold5"
             className="text-primary-1000"
             loaderSkeletonSettings={skeletonLoaderSettings}
+            symbolPosition="after"
           />
         </StatCell>
       </div>

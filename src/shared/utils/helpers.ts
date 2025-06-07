@@ -22,6 +22,7 @@ const defaultDecimalsOptions: DecimalsOptions = {
 
 export interface FormattingOptions {
   disableCompact?: boolean;
+  roundDown?: boolean;
 }
 
 export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number) {
@@ -70,9 +71,11 @@ export function formatToDisplayable(
     decimals = decimalsFormattingOptions.fourDigitNumberDecimals;
   }
 
-  if (options?.disableCompact) return formatFull(value, decimals);
+  const valueToFormat = options?.roundDown ? Math.floor(value * 10 ** decimals) / 10 ** decimals : value;
 
-  return format(value, decimals);
+  if (options?.disableCompact) return formatFull(valueToFormat, decimals);
+
+  return format(valueToFormat, decimals);
 }
 
 /**
