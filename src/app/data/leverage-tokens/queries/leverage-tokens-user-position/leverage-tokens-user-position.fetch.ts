@@ -19,19 +19,15 @@ const fetchLeverageTokensUserPosition = async (user: Address | undefined): Promi
   if (!user) return [];
 
   const promises: Promise<UserLeveragePosition | undefined>[] = mockLeverageTokens.map(async (lt) => {
-    try {
-      const balance: bigint = await readContract(getConfig(), {
-        address: lt.address,
-        abi: erc20Abi,
-        functionName: "balanceOf",
-        args: [user],
-      });
+    const balance: bigint = await readContract(getConfig(), {
+      address: lt.address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [user],
+    });
 
-      if (balance > 0n) {
-        return { token: lt, balance };
-      }
-    } catch {
-      return undefined;
+    if (balance > 0n) {
+      return { token: lt, balance };
     }
     return undefined;
   });
