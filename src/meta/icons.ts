@@ -10,6 +10,7 @@ import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
 import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
+import wstETH_ETH_3x_StakingIcon from "@assets/tokens/weETH_ETH LT Strategy.svg";
 import {
   SEAM_ADDRESS,
   ESSEAM_ADDRESS,
@@ -29,6 +30,7 @@ import {
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
   STAKED_SEAM_ADDRESS,
+  weeth_weth_leverage_token,
 } from "./constants";
 
 /* --------- */
@@ -53,4 +55,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
   [STAKED_SEAM_ADDRESS, stakedSEAMIcon],
+  [weeth_weth_leverage_token, wstETH_ETH_3x_StakingIcon],
 ]);

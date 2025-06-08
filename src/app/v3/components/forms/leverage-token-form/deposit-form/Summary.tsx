@@ -1,4 +1,4 @@
-import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
+import { FlexRow, Typography, FlexCol, DisplayTokenAmount } from "@shared";
 import { useAccount } from "wagmi";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
@@ -12,18 +12,7 @@ export const Summary: React.FC = () => {
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3 cursor-default">
       <Typography type="bold3">Summary</Typography>
 
-      <DataRow
-        label={
-          <FlexRow className="md:gap-1 items-center">
-            Mint token fee
-            <StandardTooltip width={1} openOnClick={false}>
-              <Typography type="medium2" className="text-navy-1000">
-                Some description about this fee.
-              </Typography>
-            </StandardTooltip>
-          </FlexRow>
-        }
-      >
+      <DataRow label={<FlexRow className="md:gap-1 items-center">Mint token fee</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
           {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
@@ -31,18 +20,7 @@ export const Summary: React.FC = () => {
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
-      <DataRow
-        label={
-          <FlexRow className="md:gap-1 items-center">
-            Treasury token fee
-            <StandardTooltip width={1} openOnClick={false}>
-              <Typography type="medium2" className="text-navy-1000">
-                Some description about this fee.
-              </Typography>
-            </StandardTooltip>
-          </FlexRow>
-        }
-      >
+      <DataRow label={<FlexRow className="md:gap-1 items-center">DAO treasury fee</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
           {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}

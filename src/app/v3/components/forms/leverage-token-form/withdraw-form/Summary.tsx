@@ -1,4 +1,4 @@
-import { FlexCol, Typography, StandardTooltip, FlexRow, DisplayTokenAmount } from "@shared";
+import { FlexCol, Typography, FlexRow, DisplayTokenAmount } from "@shared";
 import { useAccount } from "wagmi";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
@@ -14,18 +14,7 @@ export const Summary = () => {
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3">
         <Typography type="bold3">Summary</Typography>
 
-        <DataRow
-          label={
-            <FlexRow className="md:gap-1 items-center">
-              Redeem token fee
-              <StandardTooltip width={1}>
-                <Typography type="medium2" className="text-navy-1000">
-                  Some description about this fee.
-                </Typography>
-              </StandardTooltip>
-            </FlexRow>
-          }
-        >
+        <DataRow label={<FlexRow className="md:gap-1 items-center">Redeem token fee</FlexRow>}>
           <DisplayTokenAmount
             {...previewRedeemData.data?.previewRedeemData?.tokenFee?.dollarAmount}
             symbolPosition="before"
@@ -33,18 +22,7 @@ export const Summary = () => {
           />
         </DataRow>
 
-        <DataRow
-          label={
-            <FlexRow className="md:gap-1 items-center">
-              Treasury token fee
-              <StandardTooltip width={1}>
-                <Typography type="medium2" className="text-navy-1000">
-                  Some description about this fee.
-                </Typography>
-              </StandardTooltip>
-            </FlexRow>
-          }
-        >
+        <DataRow label={<FlexRow className="md:gap-1 items-center">DAO treasury fee</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.treasuryFee?.dollarAmount}
