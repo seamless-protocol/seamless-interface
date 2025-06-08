@@ -28,5 +28,5 @@ export const fetchDutchAuctionMinPriceMultiplier = async (leverageToken: Address
     bigIntValue: minPriceMultiplier,
     decimals: AUCTION_PRICE_MULTIPLIER_DECIMALS,
     symbol: "x",
-  });
+  }, undefined, { roundDown: true });
 };
