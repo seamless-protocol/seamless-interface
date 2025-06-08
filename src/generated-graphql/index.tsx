@@ -3574,6 +3574,13 @@ export enum WarningLevel {
   Yellow = 'YELLOW'
 }
 
+export type BorrowApyByMarketIdQueryVariables = Exact<{
+  marketId: Scalars['String']['input'];
+}>;
+
+
+export type BorrowApyByMarketIdQuery = { __typename?: 'Query', market: { __typename?: 'Market', state?: { __typename?: 'MarketState', borrowApy: number } | null } };
+
 export type FullVaultInfoQueryVariables = Exact<{
   address: Scalars['String']['input'];
   chainId: Scalars['Int']['input'];
@@ -3601,6 +3608,16 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
 
+export const BorrowApyByMarketIdDocument = gql`
+    query BorrowApyByMarketId($marketId: String!) {
+  market(id: $marketId) {
+    state {
+      borrowApy
+    }
+  }
+}
+    `;
+export type BorrowApyByMarketIdQueryResult = Apollo.QueryResult<BorrowApyByMarketIdQuery, BorrowApyByMarketIdQueryVariables>;
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
   vaultByAddress(address: $address, chainId: $chainId) {

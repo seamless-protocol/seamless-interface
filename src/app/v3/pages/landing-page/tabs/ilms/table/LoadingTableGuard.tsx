@@ -7,10 +7,14 @@ export const LoadingTableGuard: React.FC<{
   loadingComponent?: React.ReactNode;
   mobileLoadingComponent?: React.ReactNode;
 }> = ({ loadingState, children, loadingComponent, mobileLoadingComponent }) => {
-  const { isLoading, isFetched } = loadingState;
+  const { isLoading, isFetched, error } = loadingState;
 
   if (isFetched || !isLoading) {
     return <>{children}</>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
   }
 
   const hasDesktop = Boolean(loadingComponent);

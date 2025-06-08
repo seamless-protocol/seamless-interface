@@ -1,0 +1,7 @@
+query BorrowApyByMarketId($marketId: String!) {
+  market(id: $marketId) {
+    state {
+      borrowApy
+    }
+  }
+}
