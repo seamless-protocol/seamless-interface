@@ -14,6 +14,8 @@ export const useFetchPlatformTVL = () => {
 
   const { data: leverageTokenEquity, ...restLeverageTokenEquity } = useFetchTotalLeverageTokenEquity();
 
+  console.log("leverageTokenEquity", leverageTokenEquity);
+
   return {
     ...mergeQueryStates([restLandingPool, restMorpho, restLeverageTokenEquity]),
     TVL:

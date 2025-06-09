@@ -8,7 +8,7 @@ export const fetchTotalLeverageTokenEquity = async () => {
 
   let equityUsdValue: bigint | undefined;
 
-  leverageTokens.forEach(async (leverageToken) => {
+  leverageTokens.forEach((leverageToken) => {
     if (leverageToken.tvl?.dollarAmount.bigIntValue) {
       if (!equityUsdValue) {
         equityUsdValue = leverageToken.tvl?.dollarAmount.bigIntValue;
