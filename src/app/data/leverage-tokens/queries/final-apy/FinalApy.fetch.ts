@@ -5,8 +5,10 @@ import { fetchEtherFiApy } from "../etherfi-apy/EtherfiApy.fetch";
 import { fetchBorrowApy } from "../borrow-apy/borrow-apy.fetch";
 import chartIcon from "@assets/common/chart.svg";
 import KINGIcon from "@assets/logos/KING-icon.svg";
+import etherFiIcon from "@assets/logos/etherfi-icon.svg";
 import seamIcon from "@assets/tokens/seam.svg";
 import { fetchConversionByProgramId } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
+import { PointsProgram } from "../../../../statev3/settings/config";
 
 export interface LeverageTokenApys {
   estimatedAPY: ViewNumber;
@@ -15,20 +17,15 @@ export interface LeverageTokenApys {
   restakingAPY: ViewNumber;
   fuulAPY: ViewNumber | null;
   apyBreakdown: RewardToken[];
+  pointsPrograms: PointsProgram[];
 }
 
 export async function fetchLeverageTokenApys(address: Address, fuulProgramId: string): Promise<LeverageTokenApys> {
-  // Prepare promises, ensuring borrow resolves to a number (never undefined)
-  const etherfiPromise = fetchEtherFiApy();
-  const borrowPromise = fetchBorrowApy(address);
-  const fuulPromise = fetchConversionByProgramId(fuulProgramId);
-
-  // Destructure as a fixed tuple to satisfy TypeScript
   const [etherfiData, borrowRaw, fuulAprData] = await Promise.all([
-    etherfiPromise,
-    borrowPromise,
-    fuulPromise,
-  ] as const);
+    fetchEtherFiApy(),
+    fetchBorrowApy(address),
+    fetchConversionByProgramId(fuulProgramId),
+  ]);
 
   const yieldAPY = etherfiData.apyView;
   const restakingAPY = etherfiData.restakingAPy;
@@ -52,5 +49,10 @@ export async function fetchLeverageTokenApys(address: Address, fuulProgramId: st
     apyBreakdown.push({ symbol: "Seam APY", apr: fuulAPY, logo: seamIcon });
   }
 
-  return { estimatedAPY, yieldAPY, borrowAPY, restakingAPY, fuulAPY, apyBreakdown };
+  const pointsPrograms: PointsProgram[] = [
+    { symbol: "KING points", viewValue: "1x", icon: KINGIcon },
+    { symbol: "Etherfi points", viewValue: "2x", icon: etherFiIcon },
+  ];
+
+  return { estimatedAPY, yieldAPY, borrowAPY, restakingAPY, fuulAPY, apyBreakdown, pointsPrograms };
 }

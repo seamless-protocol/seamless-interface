@@ -8,6 +8,7 @@ import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetai
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { useFetchLeverageTokenApys } from "../../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
+import { PointsProgramsComponent } from "../../../../../components/tooltip/PointsPrograms";
 
 export const LeverageTokenMobileTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -58,7 +59,12 @@ export const LeverageTokenMobileTableRow: React.FC<{
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="Estimated APY:" {...rest} />
           <FlexRow className="items-center gap-1">
-            <IncentivesButton totalApr={apy?.estimatedAPY} rewardTokens={apy?.apyBreakdown} {...apyRest}>
+            <IncentivesButton
+              totalApr={apy?.estimatedAPY}
+              rewardTokens={apy?.apyBreakdown}
+              {...apyRest}
+              additionalElement={<PointsProgramsComponent programs={apy?.pointsPrograms} />}
+            >
               <IncentivesDetailCard
                 assetSymbol={symbol}
                 totalApr={apy?.estimatedAPY}

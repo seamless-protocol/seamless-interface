@@ -16,6 +16,7 @@ import { useFullTokenData } from "../../../../../../statev3/common/meta-data-que
 import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
 import { useFetchLeverageTokenApys } from "../../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
+import { PointsProgramsComponent } from "../../../../../components/tooltip/PointsPrograms";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -66,7 +67,12 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <IncentivesButton totalApr={apy?.estimatedAPY} rewardTokens={apy?.apyBreakdown} {...apyRest}>
+          <IncentivesButton
+            totalApr={apy?.estimatedAPY}
+            rewardTokens={apy?.apyBreakdown}
+            {...apyRest}
+            additionalElement={<PointsProgramsComponent programs={apy?.pointsPrograms} />}
+          >
             <IncentivesDetailCard
               assetSymbol="$"
               totalApr={apy?.estimatedAPY}

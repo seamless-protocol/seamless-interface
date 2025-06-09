@@ -4,6 +4,7 @@ import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-to
 import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
 import { useFetchLeverageTokenApys } from "../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
+import { PointsProgramsComponent } from "../../../../components/tooltip/PointsPrograms";
 
 export const LeverageTokenHeading: React.FC<{
   leverageToken: Displayable<LeverageToken | undefined>;
@@ -30,6 +31,7 @@ export const LeverageTokenHeading: React.FC<{
               }}
               rewardTokens={apy?.apyBreakdown}
               {...apyRest}
+              additionalElement={<PointsProgramsComponent programs={apy?.pointsPrograms} />}
             >
               <IncentivesDetailCard
                 assetSymbol={tokenData.symbol}
