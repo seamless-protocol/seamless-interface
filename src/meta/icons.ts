@@ -1,34 +1,36 @@
+import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
+import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
 import seamIcon from "@assets/logos/logo-seamless.svg";
-import esSeamIcon from "@assets/tokens/esSeam.svg";
-import usdcIcon from "@assets/tokens/usdc.svg";
-import ogPointsIcon from "@assets/tokens/og-points.svg";
 import brettIcon from "@assets/tokens/brett.svg";
+import cbBTCIcon from "@assets/tokens/cbBTC.svg";
+import esSeamIcon from "@assets/tokens/esSeam.svg";
+import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
+import ogPointsIcon from "@assets/tokens/og-points.svg";
+import stakedSEAMIcon from "@assets/tokens/stakedSEAM.svg";
+import usdcIcon from "@assets/tokens/usdc.svg";
+import weethIcon from "@assets/tokens/weeth.svg";
 import wethIcon from "@assets/tokens/weth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
-import stakedSEAMIcon from "@assets/tokens/stakedSEAM.svg";
-import ilmcbBTCIcon from "@assets/tokens/ilmcbBTC.svg";
-import cbBTCIcon from "@assets/tokens/cbBTC.svg";
-import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
-import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
 import {
-  SEAM_ADDRESS,
-  ESSEAM_ADDRESS,
-  OG_POINTS_ADDRESS,
-  USDC_ADDRESS,
   BRETT_ADDRESS,
-  WETH_ADDRESS,
-  wstETHBooster_3x,
+  cbBTC_ADDRESS,
+  cbBTCLong_1_5x,
+  cbBTCLong_3x,
+  ESSEAM_ADDRESS,
   ethLong_1_5x,
   ethLong_3x,
   ethShort_ADDRESS_1_5_x,
-  WSTETH_ADDRESS,
-  cbBTCLong_1_5x,
-  cbBTCLong_3x,
-  cbBTC_ADDRESS,
-  seamlessUSDCMorphoVault,
+  OG_POINTS_ADDRESS,
+  SEAM_ADDRESS,
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
+  seamlessUSDCMorphoVault,
   STAKED_SEAM_ADDRESS,
+  USDC_ADDRESS,
+  WEETH_ADDRESS,
+  WETH_ADDRESS,
+  WSTETH_ADDRESS,
+  wstETHBooster_3x,
 } from "./constants";
 
 /* --------- */
@@ -53,4 +55,5 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
   [STAKED_SEAM_ADDRESS, stakedSEAMIcon],
+  [WEETH_ADDRESS, weethIcon],
 ]);
