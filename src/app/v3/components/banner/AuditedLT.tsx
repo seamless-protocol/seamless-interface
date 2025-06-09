@@ -1,5 +1,5 @@
 import { DisplayMoney, ExternalLink, FlexRow, Icon, Typography } from "@shared";
-import { CertoraAuditReportLink } from "@router";
+import { cantinaLTAuditReportLink, sherlockLTAuditReportLink } from "@router";
 
 /* ----------- */
 /*    Icons    */
@@ -20,13 +20,14 @@ export const AuditedLT = () => {
             <Typography type="medium3" className="font-semibold tracking-wide">
               Leverage Tokens Audited by
             </Typography>
-            <Icon src={cantinaIcon} alt="Cantina Logo" width={100} height={1} className="filter invert" />
+            <ExternalLink url={cantinaLTAuditReportLink} className="ml-2">
+              <Icon src={cantinaIcon} alt="Cantina Logo" width={100} height={1} className="filter invert" />
+            </ExternalLink>
             <Typography type="medium3" className="font-semibold tracking-wide">
               and
             </Typography>
-            <Icon src={sherlockIcon} alt="Sherlock Logo" width={120} height={1} className="filter invert" />
-            <ExternalLink url={CertoraAuditReportLink} className="ml-2 text-medium3 underline hover:text-gray-200">
-              Read Audit
+            <ExternalLink url={sherlockLTAuditReportLink} className="ml-2">
+              <Icon src={sherlockIcon} alt="Sherlock Logo" width={120} height={1} className="filter invert" />
             </ExternalLink>
           </FlexRow>
 

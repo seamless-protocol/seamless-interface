@@ -27,6 +27,9 @@ export const legacyPlatformDeprecationNoticeUrl =
   "https://discord.com/channels/1037820309400731769/1037836076875788419/1355232743541182566";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
 
+export const cantinaLTAuditReportLink = "https://x.com/SeamlessFi/status/1923367211756048573";
+export const sherlockLTAuditReportLink = "https://x.com/SeamlessFi/status/1927394384196108479";
+
 export const discourseBaseUrl = "https://seamlessprotocol.discourse.group";
 
 export const disourseUrl = `${discourseBaseUrl}/t/gp-what-drives-seamless-core-beliefs-vision-future/584`;
