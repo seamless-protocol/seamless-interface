@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
+import { walletBalanceDecimalsOptions } from "../../../../meta";
 import {
   fetchDecimals,
   fetchToken,
@@ -67,76 +68,116 @@ export const fetchPreviewRedeem = async ({
 
   return {
     collateral: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetData,
-        bigIntValue: previewRedeemData.collateral,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.collateral, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          bigIntValue: previewRedeemData.collateral,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          ...fUsdValueStructured(
+            cValueInUsd(
+              previewRedeemData.collateral,
+              collateralAssetPriceData?.bigIntValue,
+              collateralAssetData.decimals
+            )
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...debtTokenData,
-        bigIntValue: previewRedeemData.debt,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...debtTokenData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.debt, debtTokenPriceData?.bigIntValue, debtTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...debtTokenData,
+          bigIntValue: previewRedeemData.debt,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...debtTokenData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewRedeemData.debt, debtTokenPriceData?.bigIntValue, debtTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     equity: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewRedeemData.equity,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.equity, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewRedeemData.equity,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewRedeemData.equity, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     shares: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewRedeemData.shares,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewRedeemData.shares,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewRedeemData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     tokenFee: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewRedeemData.tokenFee,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.tokenFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewRedeemData.tokenFee,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewRedeemData.tokenFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     treasuryFee: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewRedeemData.treasuryFee,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewRedeemData.treasuryFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewRedeemData.treasuryFee,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewRedeemData.treasuryFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
   };
 };
