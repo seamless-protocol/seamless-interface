@@ -24,6 +24,7 @@ export interface LeverageToken {
   };
   apy: {
     estimatedAPY: ViewNumber;
+    restakingAPY?: ViewNumber;
     borrowAPY: ViewNumber;
     yieldAPY: ViewNumber;
     rewardTokens: ViewRewardToken[];

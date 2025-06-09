@@ -4,8 +4,11 @@ import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/mockLe
 import { fetchLeverageTokenCollateral } from "../collateral/collateral.fetch";
 import { fetchToken, formatFetchNumberToViewNumber } from "@shared";
 import { fetchLeverageTokenAssetsTokenData } from "../leverage-token-assets/leverage-token-assets.fetch";
-import { fetchEtherFiData } from "../etherfi-apy/EtherfiApy.fetch";
+import { fetchEtherFiApy } from "../etherfi-apy/EtherfiApy.fetch";
 import { fetchBorrowApy } from "../borrow-apy/borrow-apy.fetch";
+
+import chartIcon from "@assets/common/chart.svg";
+import KINGIcon from "@assets/logos/KING-icon.svg";
 
 /**
  * Mock fetchLeverageTokenByAddress: returns a single token by address (or undefined if not found)
@@ -16,8 +19,8 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
       fetchLeverageTokenCollateral(address),
       fetchToken(address),
       fetchLeverageTokenAssetsTokenData(address),
-      fetchEtherFiData(),
-      fetchBorrowApy(address),
+      fetchEtherFiApy(), // move this out?
+      fetchBorrowApy(address), // move this out?
     ]);
   const leverageToken = mockLeverageTokens.find((token) => isAddressEqual(token.address, address));
 
@@ -25,8 +28,6 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
     console.error(`Leverage token with address ${address} not configured`);
     throw new Error(`Leverage token with address ${address} not configured`);
   }
-
-  // const borrowApy = leverageToken.apy.borrowAPY.value;
 
   const estimatedAPY =
     etherfyApy.apyView.value == null || borrowApy == null
@@ -54,11 +55,23 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
       ...leverageToken.apy,
       estimatedAPY,
       yieldAPY: etherfyApy.apyView,
+      restakingAPY: etherfyApy.restakingAPy,
       borrowAPY,
       rewardTokens: [
         {
-          symbol: "Estimated APY",
-          apr: estimatedAPY,
+          symbol: "Native APY",
+          apr: etherfyApy.apyView,
+          logo: chartIcon,
+        },
+        {
+          symbol: "Restaking APY",
+          apr: etherfyApy.restakingAPy,
+          logo: KINGIcon,
+        },
+        {
+          symbol: "Borrow APY",
+          apr: borrowAPY,
+          logo: chartIcon,
         },
       ],
     },

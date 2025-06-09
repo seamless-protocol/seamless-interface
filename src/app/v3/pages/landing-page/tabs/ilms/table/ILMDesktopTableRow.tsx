@@ -13,7 +13,8 @@ import {
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { ApyButton, ApyDetailCard } from "../../../../../components/tooltip/apy-detail-card/ApyDetailCard";
+import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -25,6 +26,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
       additionalData: { description },
       availableSupplyCap,
       tvl,
+      apy,
     },
     ...rest
   } = leverageToken;
@@ -33,11 +35,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
     data: { name, logo },
   } = useFullTokenData(leverageToken.data?.address);
 
-  const apyItems = [
-    { label: "Yield APY", value: leverageToken?.data?.apy.yieldAPY },
-    { label: "Borrow APY", value: leverageToken?.data?.apy.borrowAPY },
-    { label: "Estimated APY", value: leverageToken?.data?.apy.estimatedAPY },
-  ];
+  const { rewardTokens } = apy;
 
   return (
     <div
@@ -65,9 +63,9 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         </TableCell>
 
         <TableCell className="col-span-1">
-          <ApyButton items={apyItems} {...rest}>
-            <ApyDetailCard items={apyItems} />
-          </ApyButton>
+          <IncentivesButton totalApr={apy.estimatedAPY} rewardTokens={rewardTokens} {...rest}>
+            <IncentivesDetailCard assetSymbol="$" totalApr={apy.estimatedAPY} rewardTokens={rewardTokens} {...rest} />
+          </IncentivesButton>
         </TableCell>
         <TableCell className="col-span-1">
           <DisplayMoney

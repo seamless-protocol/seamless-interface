@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchEtherFiData, EtherFiApyData } from "./EtherfiApy.fetch";
+import { fetchEtherFiApy, EtherFiApyData } from "./EtherfiApy.fetch";
 
-export const hookEtherFiDataQueryOptions = () => ({
+export const hookEtherFiApyQueryOptions = () => ({
   queryKey: ["hookEtherFiData"] as const,
-  queryFn: () => fetchEtherFiData(),
+  queryFn: () => fetchEtherFiApy(),
 });
 
-export function useFetchEtherFiData() {
-  return useQuery<EtherFiApyData>(hookEtherFiDataQueryOptions());
+export function useFetchEtherFiApy() {
+  return useQuery<EtherFiApyData>(hookEtherFiApyQueryOptions());
 }

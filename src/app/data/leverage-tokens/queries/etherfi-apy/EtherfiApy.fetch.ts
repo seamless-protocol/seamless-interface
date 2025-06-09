@@ -28,6 +28,7 @@ export interface EtherFiApyData {
   tvl: number;
   bufferEth: number;
   apyView: ViewNumber;
+  restakingAPy: ViewNumber;
 }
 
 /**
@@ -36,7 +37,7 @@ export interface EtherFiApyData {
  */
 
 // todo: how do i felter APY per LT?
-export async function fetchEtherFiData(): Promise<EtherFiApyData> {
+export async function fetchEtherFiApy(): Promise<EtherFiApyData> {
   const queryClient = getQueryClient();
 
   return queryClient.fetchQuery({
@@ -62,6 +63,10 @@ export async function fetchEtherFiData(): Promise<EtherFiApyData> {
         bufferEth,
         apyView: formatFetchNumberToViewNumber({
           value: apy,
+          symbol: "%",
+        }),
+        restakingAPy: formatFetchNumberToViewNumber({
+          value: sevenDayRestakingApr,
           symbol: "%",
         }),
       };
