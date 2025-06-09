@@ -4,19 +4,19 @@ import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-to
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
+import { useFetchLeverageTokenApys } from "../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
 
 export const LeverageTokenHeading: React.FC<{
   leverageToken: Displayable<LeverageToken | undefined>;
 }> = ({ leverageToken }) => {
-  const {
-    data: {
-      apy: { estimatedAPY = undefined, rewardTokens = [] } = {},
-      additionalData: { description = undefined } = {},
-    } = {},
-    ...rest
-  } = leverageToken;
+  const { data: { additionalData: { description = undefined } = {} } = {}, ...rest } = leverageToken;
 
   const { data: tokenData, ...tokenDataRest } = useToken(leverageToken?.data?.address);
+
+  const { data: apy, ...apyRest } = useFetchLeverageTokenApys(
+    leverageToken?.data?.address,
+    leverageToken?.data?.config?.fuulProgramId
+  );
 
   return (
     <FlexCol>
@@ -28,28 +28,28 @@ export const LeverageTokenHeading: React.FC<{
             <SignIndicatingElement
               dislayable={{
                 ...rest,
-                data: estimatedAPY,
+                data: apy?.estimatedAPY,
               }}
             >
-              <DisplayNumber typography="bold3" {...estimatedAPY} {...rest} />
+              <DisplayNumber typography="bold3" {...apyRest} {...rest} />
             </SignIndicatingElement>
           </div>
 
           <div className="h-auto mt-[2px]">
             <IncentivesButton
               totalApr={{
-                ...estimatedAPY,
+                ...apy?.estimatedAPY,
               }}
-              rewardTokens={rewardTokens}
-              {...rest}
+              rewardTokens={apy?.apyBreakdown}
+              {...apyRest}
             >
               <IncentivesDetailCard
                 assetSymbol={tokenData.symbol}
                 totalApr={{
-                  ...estimatedAPY,
+                  ...apy?.estimatedAPY,
                 }}
-                rewardTokens={rewardTokens}
-                {...rest}
+                rewardTokens={apy?.apyBreakdown}
+                {...apyRest}
               />
             </IncentivesButton>
           </div>

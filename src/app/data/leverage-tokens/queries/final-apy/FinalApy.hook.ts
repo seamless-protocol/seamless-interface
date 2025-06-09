@@ -1,4 +1,3 @@
-// useFetchLeverageTokenApys.ts
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { LeverageTokenApys, fetchLeverageTokenApys } from "./FinalApy.fetch";
