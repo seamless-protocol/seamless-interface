@@ -3,7 +3,7 @@ import {
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
   seamlessUSDCMorphoVault,
-  weeth_weth_leverage_token,
+  weeth_weth_17x_LT,
 } from "@meta";
 
 const baseUrl = "";
@@ -93,7 +93,7 @@ const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } =
 
 const _LeverageTokenMorphoMarketUrls: { [address: string]: string } = {
   // todo add real address here
-  [weeth_weth_leverage_token]:
+  [weeth_weth_17x_LT]:
     "https://app.morpho.org/base/market/0xfd0895ba253889c243bf59bc4b96fd1e06d68631241383947b04d1c293a0cfea/weeth-weth",
 };
 
