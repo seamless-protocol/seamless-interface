@@ -1,11 +1,4 @@
-import {
-  formatFetchBigIntToViewBigInt,
-  formatFetchNumberToViewNumber,
-  Token,
-  ViewBigInt,
-  ViewBigIntWithUsdValue,
-  ViewNumber,
-} from "@shared";
+import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewBigIntWithUsdValue, ViewNumber } from "@shared";
 import { Address } from "viem";
 
 export interface ViewRewardToken {
@@ -22,13 +15,6 @@ export interface LeverageToken {
     tokenAmount: ViewBigInt;
     dollarAmount: ViewBigInt;
   };
-  apy: {
-    estimatedAPY: ViewNumber;
-    restakingAPY?: ViewNumber;
-    borrowAPY: ViewNumber;
-    yieldAPY: ViewNumber;
-    rewardTokens: ViewRewardToken[];
-  };
   tvl?: ViewBigIntWithUsdValue;
   additionalData: {
     description?: string;
@@ -39,6 +25,7 @@ export interface LeverageToken {
 
   config?: {
     collateralPriceLabel?: string;
+    fuulProgramId?: string;
   };
 }
 
@@ -46,23 +33,9 @@ export const mockLeverageTokens: LeverageToken[] = [
   {
     config: {
       collateralPriceLabel: "weETH/eETH",
+      fuulProgramId: "0x0000000000000000000000000000000000000000", // add id
     },
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
-    apy: {
-      rewardTokens: [],
-      yieldAPY: formatFetchNumberToViewNumber({
-        value: 55.44,
-        symbol: "%",
-      }),
-      borrowAPY: formatFetchNumberToViewNumber({
-        value: 1.44,
-        symbol: "%",
-      }),
-      estimatedAPY: formatFetchNumberToViewNumber({
-        value: 12.44,
-        symbol: "%",
-      }),
-    },
     availableSupplyCap: {
       tokenAmount: formatFetchBigIntToViewBigInt({
         bigIntValue: 500_000n * 10n ** 18n,

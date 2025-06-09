@@ -1,6 +1,7 @@
 import { ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { IS_DEV_MODE } from "../../../../../globals";
 
 /**
  * 1) The shape of the JSON returned by Ether.fi’s /protocol-detail endpoint:
@@ -71,5 +72,6 @@ export async function fetchEtherFiApy(): Promise<EtherFiApyData> {
         }),
       };
     },
+    retry: IS_DEV_MODE ? 0 : 3,
   });
 }
