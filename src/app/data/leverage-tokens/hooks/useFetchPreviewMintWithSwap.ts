@@ -7,6 +7,7 @@ import {
   ETH_ADDRESS,
   ETHERFI_L2_MODE_SYNC_POOL_ADDRESS,
   SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+  walletBalanceDecimalsOptions,
   WEETH_ADDRESS,
 } from "../../../../meta";
 import { formatFetchBigIntToViewBigInt, fUsdValueStructured, ViewBigIntWithUsdValue } from "../../../../shared";
@@ -115,15 +116,19 @@ const fetchPreviewMintWithSwap = async (
     previewMint: previewMintAfterCostDeduction,
     swapContext,
     swapCost: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        bigIntValue: swapCost,
-        decimals: collateralTokenPrice.decimals,
-        symbol: collateralTokenPrice.symbol,
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          bigIntValue: swapCost,
+          decimals: collateralTokenPrice.decimals,
+          symbol: collateralTokenPrice.symbol,
+        },
+        walletBalanceDecimalsOptions
+      ),
       dollarAmount: formatFetchBigIntToViewBigInt(
         fUsdValueStructured(
           cValueInUsd(swapCost, collateralTokenPrice.bigIntValue, previewMint.collateral.tokenAmount.decimals)
-        )
+        ),
+        walletBalanceDecimalsOptions
       ),
     },
   };

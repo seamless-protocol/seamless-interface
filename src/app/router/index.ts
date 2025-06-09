@@ -3,7 +3,7 @@ import {
   seamlesscbBTCMorphoVault,
   seamlessETHMorphoVault,
   seamlessUSDCMorphoVault,
-  weeth_weth_leverage_token,
+  weeth_weth_17x_LT,
 } from "@meta";
 
 const baseUrl = "";
@@ -26,6 +26,9 @@ export const seamlessSurveyUrl = "https://form.typeform.com/to/WAJ8RIoL";
 export const legacyPlatformDeprecationNoticeUrl =
   "https://discord.com/channels/1037820309400731769/1037836076875788419/1355232743541182566";
 export const CertoraAuditReportLink = "https://www.certora.com/reports/seamless";
+
+export const cantinaLTAuditReportLink = "https://x.com/SeamlessFi/status/1923367211756048573";
+export const sherlockLTAuditReportLink = "https://x.com/SeamlessFi/status/1927394384196108479";
 
 export const discourseBaseUrl = "https://seamlessprotocol.discourse.group";
 
@@ -66,6 +69,7 @@ export const RouterConfig = {
     leverageToken: `${baseUrl}/leverage-token-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
     morphoVaultsTab: `${baseUrl}/?tab=Vaults`,
+    leverageTokenTab: `${baseUrl}/?tab=LeverageTokens`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {
@@ -89,7 +93,7 @@ const _VaultSeamlessprotocolDiscourseGroupUrl: { [vaultName: string]: string } =
 
 const _LeverageTokenMorphoMarketUrls: { [address: string]: string } = {
   // todo add real address here
-  [weeth_weth_leverage_token]:
+  [weeth_weth_17x_LT]:
     "https://app.morpho.org/base/market/0xfd0895ba253889c243bf59bc4b96fd1e06d68631241383947b04d1c293a0cfea/weeth-weth",
 };
 
