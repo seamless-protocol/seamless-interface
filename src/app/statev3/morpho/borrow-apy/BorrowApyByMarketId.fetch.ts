@@ -1,3 +1,4 @@
+import { base } from "viem/chains";
 import {
   BorrowApyByMarketIdDocument,
   BorrowApyByMarketIdQuery,
@@ -15,7 +16,7 @@ export const fetchBorrowApyByMarketIdQueryOptions = (marketId: string) => ({
     const client = getMorphoApolloClient();
     const result = await client.query<BorrowApyByMarketIdQuery, BorrowApyByMarketIdQueryVariables>({
       query: BorrowApyByMarketIdDocument,
-      variables: { marketId },
+      variables: { uniqueKey: marketId, chainId: base.id },
       fetchPolicy: "no-cache",
     });
     checkGraphQlResponse(result);

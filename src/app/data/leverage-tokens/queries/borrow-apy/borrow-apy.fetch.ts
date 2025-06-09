@@ -9,5 +9,5 @@ export async function fetchBorrowApy(leverageToken: Address) {
   if (!marketId) throw new Error("fetchBorrowApy: Market id is not found");
 
   const borrowApy = await fetchBorrowApyByMarketId(marketId);
-  return borrowApy?.market?.state?.borrowApy;
+  return borrowApy?.marketByUniqueKey?.state?.borrowApy;
 }

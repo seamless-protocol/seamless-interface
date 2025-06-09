@@ -3575,11 +3575,12 @@ export enum WarningLevel {
 }
 
 export type BorrowApyByMarketIdQueryVariables = Exact<{
-  marketId: Scalars['String']['input'];
+  uniqueKey: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type BorrowApyByMarketIdQuery = { __typename?: 'Query', market: { __typename?: 'Market', state?: { __typename?: 'MarketState', borrowApy: number } | null } };
+export type BorrowApyByMarketIdQuery = { __typename?: 'Query', marketByUniqueKey: { __typename?: 'Market', id: string, uniqueKey: any, state?: { __typename?: 'MarketState', borrowApy: number } | null } };
 
 export type FullVaultInfoQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -3609,8 +3610,10 @@ export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress:
 
 
 export const BorrowApyByMarketIdDocument = gql`
-    query BorrowApyByMarketId($marketId: String!) {
-  market(id: $marketId) {
+    query BorrowApyByMarketId($uniqueKey: String!, $chainId: Int) {
+  marketByUniqueKey(uniqueKey: $uniqueKey, chainId: $chainId) {
+    id
+    uniqueKey
     state {
       borrowApy
     }

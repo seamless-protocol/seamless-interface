@@ -29,7 +29,7 @@ export async function fetchLeverageTokenApys(address: Address, fuulProgramId: st
 
   const yieldAPY = etherfiData.apyView;
   const restakingAPY = etherfiData.restakingAPy;
-  const borrowAPY = formatFetchNumberToViewNumber({ value: borrowRaw, symbol: "%" });
+  const borrowAPY = formatFetchNumberToViewNumber({ value: (borrowRaw || 0) * 100, symbol: "%" });
   const fuulAPY = fuulAprData?.fuulApr ?? null;
 
   const estimatedAPY =

@@ -1,5 +1,7 @@
-query BorrowApyByMarketId($marketId: String!) {
-  market(id: $marketId) {
+query BorrowApyByMarketId($uniqueKey: String!, $chainId: Int) {
+  marketByUniqueKey(uniqueKey: $uniqueKey, chainId: $chainId) {
+    id
+    uniqueKey
     state {
       borrowApy
     }
