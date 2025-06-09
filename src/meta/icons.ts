@@ -11,6 +11,7 @@ import cbBTCIcon from "@assets/tokens/cbBTC.svg";
 import wstETHIlmIcon from "@assets/ilms/wstETH-ilm.svg";
 import ilmIcon from "@assets/ilms/ethLong-ilm.svg";
 import weETH_ETH_LT_StrategyIcon from "@assets/tokens/weETH_ETH LT Strategy.svg";
+
 import {
   SEAM_ADDRESS,
   ESSEAM_ADDRESS,
