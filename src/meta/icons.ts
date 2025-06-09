@@ -11,6 +11,8 @@ import usdcIcon from "@assets/tokens/usdc.svg";
 import weethIcon from "@assets/tokens/weeth.svg";
 import wethIcon from "@assets/tokens/weth.svg";
 import wsteth from "@assets/tokens/wsteth.svg";
+import weETH_ETH_17x_Icon from "@assets/tokens/weETH_ETH_17x.svg";
+
 import {
   BRETT_ADDRESS,
   cbBTC_ADDRESS,
@@ -26,6 +28,7 @@ import {
   seamlessETHMorphoVault,
   seamlessUSDCMorphoVault,
   STAKED_SEAM_ADDRESS,
+  weeth_weth_17x_LT,
   USDC_ADDRESS,
   WEETH_ADDRESS,
   WETH_ADDRESS,
@@ -55,5 +58,6 @@ export const addressIconMap: Map<string, string> = new Map([
   [seamlesscbBTCMorphoVault, cbBTCIcon],
   [seamlessETHMorphoVault, wethIcon],
   [STAKED_SEAM_ADDRESS, stakedSEAMIcon],
+  [weeth_weth_17x_LT, weETH_ETH_17x_Icon],
   [WEETH_ADDRESS, weethIcon],
 ]);
