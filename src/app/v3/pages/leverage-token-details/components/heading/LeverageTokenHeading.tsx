@@ -1,7 +1,6 @@
-import { Displayable, DisplayNumber, DisplayText, FlexCol, FlexRow, useToken } from "@shared";
+import { Displayable, DisplayText, FlexCol, FlexRow, useToken } from "@shared";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
-import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
 import { useFetchLeverageTokenApys } from "../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
@@ -24,17 +23,6 @@ export const LeverageTokenHeading: React.FC<{
         <DisplayText viewValue={tokenData.name} {...tokenDataRest} typography="bold7" />
 
         <FlexRow className="md:items-center gap-4">
-          <div className="flex w-auto">
-            <SignIndicatingElement
-              dislayable={{
-                ...rest,
-                data: apy?.estimatedAPY,
-              }}
-            >
-              <DisplayNumber typography="bold3" {...apyRest} {...rest} />
-            </SignIndicatingElement>
-          </div>
-
           <div className="h-auto mt-[2px]">
             <IncentivesButton
               totalApr={{
