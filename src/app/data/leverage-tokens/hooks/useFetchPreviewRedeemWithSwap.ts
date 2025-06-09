@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
-import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "../../../../meta";
+import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, walletBalanceDecimalsOptions } from "../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
@@ -104,14 +104,20 @@ export const fetchPreviewRedeemWithSwap = async ({
   const parsedAmount = parseUnits(amount, 18);
 
   return {
-    equityAfterSwapCost: formatFetchBigIntToViewBigInt({
-      ...previewRedeemData.equity.tokenAmount,
-      bigIntValue: swapCost ? parsedAmount - swapCost : undefined,
-    }),
-    swapCost: formatFetchBigIntToViewBigInt({
-      ...previewRedeemData.collateral.tokenAmount,
-      bigIntValue: swapCost,
-    }),
+    equityAfterSwapCost: formatFetchBigIntToViewBigInt(
+      {
+        ...previewRedeemData.equity.tokenAmount,
+        bigIntValue: swapCost ? parsedAmount - swapCost : undefined,
+      },
+      walletBalanceDecimalsOptions
+    ),
+    swapCost: formatFetchBigIntToViewBigInt(
+      {
+        ...previewRedeemData.collateral.tokenAmount,
+        bigIntValue: swapCost,
+      },
+      walletBalanceDecimalsOptions
+    ),
     previewRedeemData,
     swapContext: swapData?.swapContext,
   };

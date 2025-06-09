@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
+import { walletBalanceDecimalsOptions } from "../../../../meta";
 import {
   fetchToken,
   formatFetchBigIntToViewBigInt,
@@ -60,76 +61,112 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
 
   return {
     collateral: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetData,
-        bigIntValue: previewMintData.collateral,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.collateral, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          bigIntValue: previewMintData.collateral,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.collateral, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     debt: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...debtTokenData,
-        bigIntValue: previewMintData.debt,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...debtTokenPriceData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.debt, debtTokenPriceData?.bigIntValue, debtTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...debtTokenData,
+          bigIntValue: previewMintData.debt,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...debtTokenPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.debt, debtTokenPriceData?.bigIntValue, debtTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     equity: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetData,
-        bigIntValue: previewMintData.equity,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetPriceData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.equity, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          bigIntValue: previewMintData.equity,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.equity, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     shares: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewMintData.shares,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenPriceData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewMintData.shares,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     tokenFee: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewMintData.tokenFee,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...collateralAssetPriceData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewMintData.tokenFee,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
     treasuryFee: {
-      tokenAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenData,
-        bigIntValue: previewMintData.treasuryFee,
-      }),
-      dollarAmount: formatFetchBigIntToViewBigInt({
-        ...leverageTokenPriceData,
-        ...fUsdValueStructured(
-          cValueInUsd(previewMintData.treasuryFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
-        ),
-      }),
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: previewMintData.treasuryFee,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(previewMintData.treasuryFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
     },
   };
 };
