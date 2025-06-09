@@ -30,8 +30,7 @@ export function App() {
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <NavigationBar />
           <div className="flex flex-col gap-4">
-            {import.meta.env.VITE_STAKING_FEATURE === "true" && <LeverageTokensBanner />}
-
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <LeverageTokensBanner />}
             {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <AuditedLT />}
           </div>
 
