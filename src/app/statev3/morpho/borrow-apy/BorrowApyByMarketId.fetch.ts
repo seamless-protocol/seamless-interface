@@ -27,12 +27,6 @@ export const fetchBorrowApyByMarketIdQueryOptions = (marketId: string) => ({
 
 export async function fetchBorrowApyByMarketId(marketId: string) {
   const queryClient = getQueryClient();
-  try {
-    const data = await queryClient.fetchQuery(fetchBorrowApyByMarketIdQueryOptions(marketId));
-
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-  return undefined;
+  const data = await queryClient.fetchQuery(fetchBorrowApyByMarketIdQueryOptions(marketId));
+  return data;
 }
