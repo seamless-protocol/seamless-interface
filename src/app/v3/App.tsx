@@ -31,7 +31,8 @@ export function App() {
           <NavigationBar />
           <div className="flex flex-col gap-4">
             {import.meta.env.VITE_STAKING_FEATURE === "true" && <LeverageTokensBanner />}
-            <AuditedLT />
+
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <AuditedLT />}
           </div>
 
           <FlexCol className="min-h-screen">
