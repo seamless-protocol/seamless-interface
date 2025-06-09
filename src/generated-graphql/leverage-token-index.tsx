@@ -2870,6 +2870,14 @@ export type CollateralPriceHistoricalQueryVariables = Exact<{
 
 export type CollateralPriceHistoricalQuery = { __typename?: 'Query', leverageToken?: { __typename?: 'LeverageToken', lendingAdapter: { __typename?: 'LendingAdapter', oracle: { __typename?: 'Oracle', decimals: number, priceUpdates: Array<{ __typename?: 'OraclePrice', price: any, timestamp: any }> } } } | null };
 
+export type UserLeverageTokenProfitQueryVariables = Exact<{
+  userId: Scalars['ID']['input'];
+  leverageTokenId: Scalars['String']['input'];
+}>;
+
+
+export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __typename?: 'User', positions: Array<{ __typename?: 'Position', id: string, totalEquityDepositedInCollateral: any, realizedPnlInCollateral: any, leverageToken: { __typename?: 'LeverageToken', id: any } }> } | null };
+
 export type LeverageTokenValueHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
 }>;
@@ -2894,6 +2902,21 @@ export const CollateralPriceHistoricalDocument = gql`
 }
     `;
 export type CollateralPriceHistoricalQueryResult = Apollo.QueryResult<CollateralPriceHistoricalQuery, CollateralPriceHistoricalQueryVariables>;
+export const UserLeverageTokenProfitDocument = gql`
+    query UserLeverageTokenProfit($userId: ID!, $leverageTokenId: String!) {
+  user(id: $userId) {
+    positions(where: {leverageToken: $leverageTokenId}) {
+      id
+      totalEquityDepositedInCollateral
+      realizedPnlInCollateral
+      leverageToken {
+        id
+      }
+    }
+  }
+}
+    `;
+export type UserLeverageTokenProfitQueryResult = Apollo.QueryResult<UserLeverageTokenProfitQuery, UserLeverageTokenProfitQueryVariables>;
 export const LeverageTokenValueHistoricalDocument = gql`
     query LeverageTokenValueHistorical($address: ID!) {
   leverageToken(id: $address) {

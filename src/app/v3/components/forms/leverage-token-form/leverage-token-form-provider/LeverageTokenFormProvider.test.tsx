@@ -76,7 +76,7 @@ vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => 
   })),
 }));
 
-// 5) Stub collateral‐asset lookup
+// 5) Stub collateral-asset lookup
 vi.mock("../../../../../statev3/queries/CollateralAsset.all", () => ({
   useFetchCollateralAsset: vi.fn(() => ({
     data: {
@@ -94,22 +94,15 @@ vi.mock("../../../../../statev3/common/hooks/useWrappedDebounce", () => ({
   useWrappedDebounce: vi.fn((val: string) => ({ debouncedAmount: val })),
 }));
 
-// 7) Stub preview‐mint hook
+// 7) Stub preview-mint hook
 vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap", () => ({
   useFetchPreviewMintWithSwap: vi.fn(() => ({
     data: {
       previewMint: {
-        equity: {
-          tokenAmount: {
-            bigIntValue: BigInt(MOCK_VALUES.depositShares),
-          },
-        },
-        shares: {
-          tokenAmount: {
-            bigIntValue: BigInt(MOCK_VALUES.depositShares),
-          },
-        },
+        equity: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.depositShares) } },
+        shares: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.depositShares) } },
       },
+      swapCost: { tokenAmount: { bigIntValue: 0n } },
       swapContext: null,
     },
     isLoading: false,
@@ -117,17 +110,16 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap",
   })),
 }));
 
-// 8) Stub preview‐redeem hook
+// 8) Stub preview-redeem hook
 vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap", () => ({
   useFetchPreviewRedeemWithSwap: vi.fn(() => ({
     data: {
       previewRedeemData: {
-        // shares ↦ withdrawAssets
-        shares: BigInt(MOCK_VALUES.withdrawAssets),
+        shares: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.withdrawAssets) } },
       },
-      swapCost: BigInt(0),
+      swapCost: { bigIntValue: 0n },
+      equityAfterSwapCost: { bigIntValue: 0n },
       swapContext: null,
-      equityAfterSwapCost: BigInt(0),
     },
     isLoading: false,
     isFetched: true,
@@ -151,7 +143,7 @@ vi.mock("../../../../../statev3/leverage/mutations/useRedeemLeverageToken", () =
   }),
 }));
 
-// 11) Stub the wallet‐connect clearing hook
+// 11) Stub the wallet-connect clearing hook
 vi.mock("../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance", () => ({
   useClearIfExceedsBalanceAfterWalletConnect: ({
     getValue,
@@ -193,7 +185,7 @@ describe("LeverageTokenFormProvider", () => {
   beforeEach(() => {
     mockMintAsync.mockClear();
     mockRedeemAsync.mockClear();
-    // Reset useAccount to the “logged‐in” state by default
+    // Reset useAccount to the “logged-in” state by default
     (useAccount as Mock).mockReturnValue({
       address: MOCK_VALUES.userAddress,
       isConnected: true,
@@ -255,6 +247,7 @@ describe("LeverageTokenFormProvider", () => {
       leverageToken: MOCK_VALUES.leverageToken.address,
       amount: BigInt(MOCK_VALUES.depositShares),
       minShares: BigInt(MOCK_VALUES.depositShares),
+      maxSwapCostInCollateral: 0n,
       swapContext: null,
     });
   });
@@ -276,7 +269,7 @@ describe("LeverageTokenFormProvider", () => {
       leverageToken: MOCK_VALUES.leverageToken.address,
       equityInCollateral: BigInt(0),
       maxShares: BigInt(MOCK_VALUES.withdrawAssets),
-      maxSwapCostInCollateral: BigInt(0),
+      maxSwapCostInCollateral: 0n,
       swapContext: null,
     });
   });
@@ -304,7 +297,7 @@ describe("LeverageTokenFormProvider", () => {
     act(() => result.current.reactHookFormMethods.setValue("depositAmount", "50"));
     expect(result.current.depositAmount).toBe("50");
 
-    // login: 50 <= 100 -> stays
+    // login: 50 <= 100 → stays
     mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
     rerender();
     expect(result.current.depositAmount).toBe("50");
@@ -318,11 +311,11 @@ describe("LeverageTokenFormProvider", () => {
 
     const { result, rerender } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    // login: lpBalance = 100, so 200 > 100 -> clears
+    // login: lpBalance = 100, so 200 > 100 → clears
     act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "200"));
     expect(result.current.withdrawAmount).toBe("200");
 
-    // login: lpBalance = 100, so 200 > 100 -> clears
+    // login: lpBalance = 100 → clears 200 > 100
     mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
     rerender();
     expect(result.current.withdrawAmount).toBe("");
@@ -333,7 +326,7 @@ describe("LeverageTokenFormProvider", () => {
     act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "50"));
     expect(result.current.withdrawAmount).toBe("50");
 
-    // login: 50 <= 100 -> stays
+    // login: 50 <= 100 → stays
     mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
     rerender();
     expect(result.current.withdrawAmount).toBe("50");

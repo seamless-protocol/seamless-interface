@@ -5,6 +5,7 @@ import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchLeverageTokenConfig } from "../leverage-token-config/leverage-token-config.fetch";
+import { intervalToDuration, formatDuration } from "date-fns";
 
 export const getDutchAuctionDurationQueryOptions = (rebalanceAdapter: Address) => ({
   ...readContractQueryOptions(config, {
@@ -22,5 +23,5 @@ export const fetchDutchAuctionDuration = async (leverageToken: Address): Promise
     ...getDutchAuctionDurationQueryOptions(rebalanceAdapter),
   });
 
-  return new Date(Number(duration) * 1000).toISOString().slice(11, 19);
+  return formatDuration(intervalToDuration({ start: 0, end: Number(duration) * 1000 }));
 };

@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
+import { Address, parseUnits } from "viem";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "../../../../meta";
+import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
-import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
-import { fetchPreviewRedeem } from "./useFetchPreviewRedeem";
-import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFetchUniswapRoute";
 import { Exchange } from "../common/enums";
+import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
+import { fetchPreviewRedeem, PreviewRedeemData } from "./useFetchPreviewRedeem";
+import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFetchUniswapRoute";
 
 export interface FetchBestSwapInput {
   tokenInAddress: Address;
@@ -29,19 +30,43 @@ export interface SwapData {
   swapContext: SwapContext;
 }
 
-export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData> => {
-  const [uniswapV2Quote, uniswapV3Quote, aerodromeSlipstreamQuote] = await Promise.all([
+export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData | undefined> => {
+  const [uniswapV2QuoteResp, uniswapV3QuoteResp, aerodromeSlipstreamQuoteResp] = await Promise.allSettled([
     getQuoteAndParamsUniswapV2(input),
     getQuoteAndParamsUniswapV3(input),
     getQuoteAndParamsAerodromeSlipstream(input),
   ]);
 
-  const bestQuoteSwapData = [uniswapV2Quote, uniswapV3Quote, aerodromeSlipstreamQuote].sort((a, b) =>
-    Number((a.quote || 0n) - (b.quote || 0n))
-  )[0];
+  const uniswapV2Quote = uniswapV2QuoteResp.status === "fulfilled" ? uniswapV2QuoteResp.value : undefined;
+  const uniswapV3Quote = uniswapV3QuoteResp.status === "fulfilled" ? uniswapV3QuoteResp.value : undefined;
+  const aerodromeSlipstreamQuote =
+    aerodromeSlipstreamQuoteResp.status === "fulfilled" ? aerodromeSlipstreamQuoteResp.value : undefined;
+
+  // Best route is the one with the lowest quote
+
+  let bestQuoteSwapData = uniswapV3Quote;
+
+  if (uniswapV2Quote?.quote && bestQuoteSwapData?.quote && uniswapV2Quote.quote < bestQuoteSwapData.quote) {
+    bestQuoteSwapData = uniswapV2Quote;
+  }
+
+  if (
+    aerodromeSlipstreamQuote?.quote &&
+    bestQuoteSwapData?.quote &&
+    aerodromeSlipstreamQuote.quote < bestQuoteSwapData.quote
+  ) {
+    bestQuoteSwapData = aerodromeSlipstreamQuote;
+  }
 
   return bestQuoteSwapData;
 };
+
+export interface PreviewRedeemWithSwap {
+  equityAfterSwapCost: ViewBigInt;
+  swapCost: ViewBigInt;
+  previewRedeemData: PreviewRedeemData;
+  swapContext: SwapContext | undefined;
+}
 
 export const fetchPreviewRedeemWithSwap = async ({
   leverageToken,
@@ -49,25 +74,46 @@ export const fetchPreviewRedeemWithSwap = async ({
 }: {
   leverageToken: Address;
   amount: string;
-}) => {
+}): Promise<PreviewRedeemWithSwap | undefined> => {
   const collateralAsset = await fetchCollateralAsset({ leverageToken });
   const debtAsset = await fetchDebtAsset({ leverageToken });
 
   const previewRedeemData = await fetchPreviewRedeem({ leverageToken, amount });
 
+  if (
+    !previewRedeemData.debt.tokenAmount.bigIntValue ||
+    !previewRedeemData.collateral.tokenAmount.bigIntValue ||
+    !previewRedeemData.equity.tokenAmount.bigIntValue
+  ) {
+    return undefined;
+  }
+
   const swapData = await fetchBestSwap({
     tokenInAddress: collateralAsset,
     tokenOutAddress: debtAsset,
-    amountOut: previewRedeemData.debt,
+    amountOut: previewRedeemData.debt.tokenAmount.bigIntValue,
   });
 
-  const swapCost = swapData.quote - (previewRedeemData.collateral - previewRedeemData.equity);
+  let swapCost;
+  if (swapData) {
+    swapCost =
+      swapData.quote -
+      (previewRedeemData.collateral.tokenAmount.bigIntValue - previewRedeemData.equity.tokenAmount.bigIntValue);
+  }
+
+  const parsedAmount = parseUnits(amount, 18);
 
   return {
-    equityAfterSwapCost: previewRedeemData.equity - swapCost,
-    swapCost,
+    equityAfterSwapCost: formatFetchBigIntToViewBigInt({
+      ...previewRedeemData.equity.tokenAmount,
+      bigIntValue: swapCost ? parsedAmount - swapCost : undefined,
+    }),
+    swapCost: formatFetchBigIntToViewBigInt({
+      ...previewRedeemData.collateral.tokenAmount,
+      bigIntValue: swapCost,
+    }),
     previewRedeemData,
-    swapContext: swapData.swapContext,
+    swapContext: swapData?.swapContext,
   };
 };
 
