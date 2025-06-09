@@ -1,3 +1,4 @@
+import { Address } from "viem";
 import type { Conversion } from "@fuul/sdk/dist/types/api";
 import { ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -17,8 +18,8 @@ export interface FuulConversionWithMetrics extends Conversion {
 export const APY_DECIMALS = 2;
 
 export interface FuulSingleApr {
-  fuulAprRaw: string | null;
-  fuulApr: ViewNumber | null;
+  fuulAprRaw: string | undefined;
+  fuulApr: ViewNumber | undefined;
 }
 
 export const fetchConversionByProgramQueryOptions = (id: string) => ({
@@ -31,7 +32,7 @@ export const fetchConversionByProgramQueryOptions = (id: string) => ({
     if (!found || !found.metrics) throw new Error("No metrics found");
 
     const rawApr = found.metrics.apr;
-    let aprView: ViewNumber | null = null;
+    let aprView: ViewNumber | undefined = undefined;
 
     if (rawApr !== null && rawApr !== undefined) {
       aprView = formatFetchNumberToViewNumber({
@@ -53,10 +54,51 @@ export async function fetchConversionByProgramId(id: string): Promise<FuulSingle
   });
 }
 
-export const useFetchFuulApyByProgramId = (id?: string) => {
+export const useFetchFuulAprByProgramId = (id?: string) => {
   return useQuery({
-    queryKey: ["hookFetchFuulApyByAddress", id],
+    queryKey: ["useFetchFuulAprByProgramId", id],
     queryFn: () => fetchConversionByProgramId(id!),
     enabled: Boolean(id),
+  });
+};
+
+export const fetchConversionByTokenAddressQueryOptions = (address: Address) => ({
+  queryKey: FuulQueryKeys.conversionByTokenAddress(address),
+  queryFn: async (): Promise<FuulSingleApr> => {
+    const raw: Conversion[] = await fetchAllConversions({});
+    
+    address = IS_DEV_MODE ? "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738" : address;
+
+    const found = raw.find((item) => item.triggers.some((trigger) => trigger.contracts?.some((contract) => contract.address === address))) as FuulConversionWithMetrics;
+
+    if (!found || !found.metrics) throw new Error("No metrics found");
+
+    const rawApr = found.metrics.apr;
+    let aprView: ViewNumber | undefined = undefined;
+
+    if (rawApr !== null && rawApr !== undefined) {
+      aprView = formatFetchNumberToViewNumber({
+        value: Number(rawApr) * 100,
+        symbol: "%",
+      });
+    }
+
+    return { fuulAprRaw: rawApr, fuulApr: aprView };
+  },
+  ...queryConfig.semiSensitiveDataQueryConfig,
+});
+
+export async function fetchConversionByTokenAddress(address: Address): Promise<FuulSingleApr> {
+  const queryClient = getQueryClient();
+  return queryClient.fetchQuery({
+    ...fetchConversionByTokenAddressQueryOptions(address),
+  });
+}
+
+export const useFetchFuulAprByTokenAddress = (address?: Address) => {
+  return useQuery({
+    queryKey: ["useFetchFuulAprByTokenAddress", address],
+    queryFn: () => fetchConversionByTokenAddress(address!),
+    enabled: Boolean(address),
   });
 };

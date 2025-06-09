@@ -4,7 +4,7 @@ import { Address, isAddressEqual } from "viem";
 import { USD_VALUE_DECIMALS } from "../../../../../meta";
 import { cValueFromUsd } from "../../../../statev3/common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
-import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken, leverageTokensConfig } from "../all-leverage-tokens/leverageTokens";
 import { fetchLeverageTokenCollateral } from "../collateral/collateral.fetch";
 import { fetchLeverageTokenDebt } from "../debt/debt.fetch";
 import {
@@ -26,7 +26,7 @@ export async function fetchLeverageTokenByAddress(address: Address): Promise<Lev
     ]);
 
   const collateralTokenPrice = await fetchAssetPriceInBlock(leverageTokenAssets.collateralAsset);
-  const leverageToken = mockLeverageTokens.find((token) => isAddressEqual(token.address, address));
+  const leverageToken = leverageTokensConfig.find((token) => isAddressEqual(token.address, address));
 
   if (!leverageToken) {
     console.error(`Leverage token with address ${address} not configured`);

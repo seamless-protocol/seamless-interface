@@ -12,7 +12,7 @@ import {
   useNotificationContext,
   ViewBigInt,
 } from "@shared";
-import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";

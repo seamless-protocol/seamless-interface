@@ -1,4 +1,4 @@
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { Displayable } from "@shared";
 
 const emptyViewBigInt = {

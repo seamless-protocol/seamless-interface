@@ -59,16 +59,16 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
         <FlexCol className="md:items-start items-end gap-1">
           <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
             <FlexRow className="object-cover ">
-              {rewardTokens?.map((rewardToken, index) => {
-                return (
-                  <Icon
-                    key={index}
-                    className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
-                    src={rewardToken.logo}
-                    alt="reward-token-logo"
-                  />
-                );
-              })}
+              {rewardTokens?.filter((token, index, array) => 
+                index === array.findIndex(t => t.logo === token.logo)
+              ).map((rewardToken, index) => (
+                <Icon
+                  key={index}
+                  className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
+                  src={rewardToken.logo}
+                  alt="reward-token-logo"
+                />
+              ))}
             </FlexRow>
             <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
           </FlexRow>

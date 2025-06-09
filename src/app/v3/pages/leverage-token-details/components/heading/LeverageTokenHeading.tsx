@@ -1,10 +1,9 @@
 import { Displayable, DisplayText, FlexCol, FlexRow, useToken } from "@shared";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { IncentivesButton } from "../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../components/tooltip/IncentivesDetailCard";
-import { useFetchLeverageTokenApys } from "../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
-import { PointsProgramsComponent } from "../../../../components/tooltip/PointsPrograms";
+import { useFetchLeverageTokenYields } from "../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
 
 export const LeverageTokenHeading: React.FC<{
   leverageToken: Displayable<LeverageToken | undefined>;
@@ -13,10 +12,7 @@ export const LeverageTokenHeading: React.FC<{
 
   const { data: tokenData, ...tokenDataRest } = useToken(leverageToken?.data?.address);
 
-  const { data: apy, ...apyRest } = useFetchLeverageTokenApys(
-    leverageToken?.data?.address,
-    leverageToken?.data?.config?.fuulProgramId
-  );
+  const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken?.data?.address);
 
   return (
     <FlexCol>
@@ -27,19 +23,17 @@ export const LeverageTokenHeading: React.FC<{
           <div className="h-auto mt-[2px]">
             <IncentivesButton
               totalApr={{
-                ...apy?.estimatedAPY,
+                ...yields?.estimateNetYield,
               }}
-              rewardTokens={apy?.apyBreakdown}
-              {...apyRest}
-              additionalElement={<PointsProgramsComponent programs={apy?.pointsPrograms} />}
+              rewardTokens={yields?.yieldBreakdown}
+              {...yieldsRest}
             >
               <IncentivesDetailCard
-                assetSymbol={tokenData.symbol}
                 totalApr={{
-                  ...apy?.estimatedAPY,
+                  ...yields?.estimateNetYield,
                 }}
-                rewardTokens={apy?.apyBreakdown}
-                {...apyRest}
+                rewardTokens={yields?.yieldBreakdown}
+                {...yieldsRest}
               />
             </IncentivesButton>
           </div>

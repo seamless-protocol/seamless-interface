@@ -72,6 +72,14 @@ export const FuulQueryKeys = {
     },
   ],
 
+  conversionByTokenAddress: (address: Address) => [
+    {
+      ...FuulQueryKeys.childApiQueries[0],
+      functionName: "getConversionByTokenAddress",
+      address,
+    },
+  ],
+
   /* ------------------- */
   /*   GRAPHQL QUERIES   */
   /* ------------------- */

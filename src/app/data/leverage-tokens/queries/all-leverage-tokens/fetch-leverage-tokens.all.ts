@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchLeverageTokenByAddress } from "../leverage-token-by-address/FetchLeverageTokenByAddress";
-import { LeverageToken, mockLeverageTokens } from "./mockLeverageTokens";
+import { LeverageToken, leverageTokensConfig } from "./leverageTokens";
 
 /**
  * Mock fetchStrategies: returns our two dummy strategies
  */
 export async function fetchLeverageTokens(): Promise<LeverageToken[]> {
   const leverageTokens = await Promise.all(
-    mockLeverageTokens.map(async (token) => {
+    leverageTokensConfig.map(async (token) => {
       const leverageToken = await fetchLeverageTokenByAddress(token.address);
       return {
         ...token,

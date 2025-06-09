@@ -5,10 +5,9 @@ import { FlexRow, FlexCol, Icon, DisplayText, DisplayMoney, Displayable } from "
 import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchLeverageTokenApys } from "../../../../../../data/leverage-tokens/queries/final-apy/FinalApy.hook";
-import { PointsProgramsComponent } from "../../../../../components/tooltip/PointsPrograms";
+import { useFetchLeverageTokenYields } from "../../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
 
 export const LeverageTokenMobileTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -28,7 +27,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
     data: { name, symbol, logo },
   } = useFullTokenData(leverageToken.data?.address);
 
-  const { data: apy, ...apyRest } = useFetchLeverageTokenApys(leverageToken.data.address);
+  const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken.data.address);
 
   return (
     <div
@@ -60,16 +59,14 @@ export const LeverageTokenMobileTableRow: React.FC<{
           <DisplayText typography="regular1" viewValue="Estimated APY:" {...rest} />
           <FlexRow className="items-center gap-1">
             <IncentivesButton
-              totalApr={apy?.estimatedAPY}
-              rewardTokens={apy?.apyBreakdown}
-              {...apyRest}
-              additionalElement={<PointsProgramsComponent programs={apy?.pointsPrograms} />}
+              totalApr={{...yields?.estimateNetYield}}
+              rewardTokens={yields?.yieldBreakdown}
+              {...yieldsRest}
             >
               <IncentivesDetailCard
-                assetSymbol={symbol}
-                totalApr={apy?.estimatedAPY}
-                rewardTokens={apy?.apyBreakdown}
-                {...rest}
+                totalApr={{...yields?.estimateNetYield}}
+                rewardTokens={yields?.yieldBreakdown}
+                {...yieldsRest}
               />
             </IncentivesButton>
           </FlexRow>

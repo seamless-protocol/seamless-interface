@@ -23,13 +23,13 @@ interface EtherFiRawResponse {
  * 2) Our “mapped” return type, with renamed fields (camelCase),
  *    plus a ViewBigInt for the computed aprPreFees.
  */
-export interface EtherFiApyData {
+export interface EtherFiAprData {
   sevenDayApr: number;
   sevenDayRestakingApr: number;
   tvl: number;
   bufferEth: number;
-  apyView: ViewNumber;
-  restakingAPy: ViewNumber;
+  aprView: ViewNumber;
+  restakingAPR: ViewNumber;
 }
 
 /**
@@ -38,14 +38,14 @@ export interface EtherFiApyData {
  */
 
 // todo: how do i felter APY per LT?
-export async function fetchEtherFiApy(): Promise<EtherFiApyData> {
+export async function fetchEtherFiApr(): Promise<EtherFiAprData> {
   const queryClient = getQueryClient();
 
   return queryClient.fetchQuery({
     queryKey: ["etherFiData"],
     ...queryConfig.semiSensitiveDataQueryConfig,
-    queryFn: async (): Promise<EtherFiApyData> => {
-      const res = await fetch("https://misc-cache.seamlessprotocol.com/etherfi-apy-detail");
+    queryFn: async (): Promise<EtherFiAprData> => {
+      const res = await fetch("https://misc-cache.seamlessprotocol.com/etherfi-protocol-detail");
       if (!res.ok) {
         throw new Error(`Failed to fetch Ether.fi data (status ${res.status}): ${res.statusText}`);
       }
@@ -55,18 +55,18 @@ export async function fetchEtherFiApy(): Promise<EtherFiApyData> {
       const sevenDayRestakingApr = raw["7_day_restaking_apr"];
       const { tvl, buffer_eth: bufferEth } = raw;
 
-      const apy = sevenDayApr + sevenDayRestakingApr;
+      const apr = sevenDayApr + sevenDayRestakingApr;
 
       return {
         sevenDayApr,
         sevenDayRestakingApr,
         tvl,
         bufferEth,
-        apyView: formatFetchNumberToViewNumber({
-          value: apy,
+        aprView: formatFetchNumberToViewNumber({
+          value: apr,
           symbol: "%",
         }),
-        restakingAPy: formatFetchNumberToViewNumber({
+        restakingAPR: formatFetchNumberToViewNumber({
           value: sevenDayRestakingApr,
           symbol: "%",
         }),

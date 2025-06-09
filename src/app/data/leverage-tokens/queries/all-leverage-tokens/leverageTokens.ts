@@ -1,14 +1,6 @@
 import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewBigIntWithUsdValue, ViewNumber } from "@shared";
 import { Address } from "viem";
 
-export interface ViewRewardToken {
-  symbol: string;
-  address?: Address;
-  logo?: string;
-  apr?: ViewNumber;
-  points?: ViewNumber;
-}
-
 export interface LeverageToken {
   address: Address;
   availableSupplyCap: {
@@ -17,24 +9,15 @@ export interface LeverageToken {
   };
   tvl?: ViewBigIntWithUsdValue;
   additionalData: {
-    description?: string;
+    description: string;
   };
   tokenData?: Token;
   collateralAssetTokenData?: Token;
   debtAssetTokenData?: Token;
-
-  config?: {
-    collateralPriceLabel?: string;
-    fuulProgramId?: string;
-  };
 }
 
-export const mockLeverageTokens: LeverageToken[] = [
+export const leverageTokensConfig: LeverageToken[] = [
   {
-    config: {
-      collateralPriceLabel: "weETH/eETH",
-      fuulProgramId: "0x0000000000000000000000000000000000000000", // add id
-    },
     address: "0xA2fceEAe99d2cAeEe978DA27bE2d95b0381dBB8c" as Address,
     availableSupplyCap: {
       tokenAmount: formatFetchBigIntToViewBigInt({
@@ -49,7 +32,7 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
     },
     additionalData: {
-      description: "A 17x Ether.Fi weETH Yield Loop",
+      description: "Ether.Fi weETH Yield Loop",
     },
   },
 ];
