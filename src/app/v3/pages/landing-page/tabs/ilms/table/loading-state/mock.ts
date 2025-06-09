@@ -20,11 +20,5 @@ export const propsMock: Displayable<LeverageToken> = {
       dollarAmount: emptyViewBigInt,
       tokenAmount: emptyViewBigInt,
     },
-    apy: {
-      estimatedAPY: emptyViewBigInt,
-      borrowAPY: emptyViewBigInt,
-      yieldAPY: emptyViewBigInt,
-      rewardTokens: [],
-    },
   },
 };
