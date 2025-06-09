@@ -15,7 +15,7 @@ import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { Audited } from "./components/banner/Audited";
-import { StakingBanner } from "./components/banner/StakingBanner";
+import { LeverageTokensBanner } from "./components/banner/LeverageTokensBanner";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { FuulPage } from "./pages/fuul/FuulPage";
@@ -30,7 +30,7 @@ export function App() {
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <NavigationBar />
           <div className="flex flex-col gap-4">
-            {import.meta.env.VITE_STAKING_FEATURE === "true" && <StakingBanner />}
+            {import.meta.env.VITE_STAKING_FEATURE === "true" && <LeverageTokensBanner />}
             <Audited />
           </div>
 

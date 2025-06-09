@@ -66,6 +66,7 @@ export const RouterConfig = {
     leverageToken: `${baseUrl}/leverage-token-details/:address`,
     morphoVaultDetailsv3: `${baseUrl}/vault-details/:address`,
     morphoVaultsTab: `${baseUrl}/?tab=Vaults`,
+    leverageTokenTab: `${baseUrl}/?tab=LeverageTokens`,
   },
   // This is used everywhere in app, for navigation and links to build dynamic routes
   Builder: {

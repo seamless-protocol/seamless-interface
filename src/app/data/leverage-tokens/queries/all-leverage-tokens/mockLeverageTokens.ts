@@ -75,7 +75,7 @@ export const mockLeverageTokens: LeverageToken[] = [
       }),
     },
     additionalData: {
-      description: "Description here...",
+      description: "A 17x Ether.Fi weETH Yield Loop",
     },
   },
 ];
