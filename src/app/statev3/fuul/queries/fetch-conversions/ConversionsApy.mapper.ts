@@ -73,8 +73,9 @@ export const fetchConversionByTokenAddressQueryOptions = (address: Address) => (
       item.triggers.some((trigger) => trigger.contracts?.some((contract) => contract.address === finalAddress))
     ) as FuulConversionWithMetrics;
 
-    if (!found || !found.metrics) throw new Error("No metrics found");
-
+    if (!found || !found.metrics) {
+      return { fuulAprRaw: "0", fuulApr: formatFetchNumberToViewNumber({ value: 0, symbol: "%" }) };
+    }
     const rawApr = found.metrics.apr;
     let aprView: ViewNumber | undefined;
 
