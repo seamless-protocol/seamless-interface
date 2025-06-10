@@ -10,7 +10,8 @@ export const FormButtons = () => {
       formState: { isSubmitting },
     },
     depositAmount,
-    isPending,
+    isMintLoading,
+    isMintDisabled,
     approveData: { isApproved, isApproving, justApproved, approveAsync },
   } = useLeverageTokenFormContext();
 
@@ -28,8 +29,8 @@ export const FormButtons = () => {
         <Buttonv2
           data-cy="approvalButton"
           className="text-bold3"
-          disabled={isApproved || isSubmitting}
-          loading={!isApproved && (isApproving || isPending)}
+          disabled={isApproved || isSubmitting || isMintDisabled}
+          loading={!isApproved && (isApproving || isMintLoading)}
           onClick={async () => {
             try {
               await approveAsync();
@@ -47,8 +48,8 @@ export const FormButtons = () => {
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={!isApproved || isSubmitting || isPending}
-          loading={isSubmitting || isPending}
+          disabled={!isApproved || isSubmitting || isMintDisabled}
+          loading={isSubmitting || isMintLoading}
         >
           Mint
         </Buttonv2>

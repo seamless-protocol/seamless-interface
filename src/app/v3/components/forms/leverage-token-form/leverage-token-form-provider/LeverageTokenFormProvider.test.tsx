@@ -174,6 +174,17 @@ vi.mock("../../../../../statev3/common/queries/useFetchViewAssetPrice", () => ({
   })),
 }));
 
+// 13) Stub useLeverageTokenLimitStatuses
+vi.mock("../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses", () => ({
+  useLeverageTokenLimitStatuses: vi.fn(() => ({
+    data: [], // no warnings by default
+    isLoading: false,
+    isFetched: true,
+    isError: false,
+    error: undefined,
+  })),
+}));
+
 describe("LeverageTokenFormProvider", () => {
   // We wrap with a defaultLeverageTokenAddress so that `selectedLeverageTokenAddress` is never undefined
   const wrapper = ({ children }: { children?: React.ReactNode }) => (

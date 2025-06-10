@@ -29,6 +29,10 @@ import {
   PreviewMintWithSwapData,
   useFetchPreviewMintWithSwap,
 } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap";
+import {
+  LimitStatus,
+  useLeverageTokenLimitStatuses,
+} from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -72,10 +76,11 @@ interface LeverageTokenFormContextValue {
     settings?: SeamlessWriteAsyncParams
   ) => Promise<void>;
 
-  isPending: boolean;
-  isRedeemPending: boolean;
+  isMintDisabled: boolean;
+  isRedeemDisabled: boolean;
 
-  isMintPending: boolean;
+  isMintLoading: boolean;
+  isRedeemLoading: boolean;
 
   onTransaction?: () => void;
   setOnTransaction: (onTransaction?: () => void) => void;
@@ -93,6 +98,8 @@ interface LeverageTokenFormContextValue {
     isApproved: boolean;
     justApproved: boolean;
   };
+
+  limitStatuses: Displayable<LimitStatus[] | undefined>;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -155,6 +162,11 @@ export function LeverageTokenFormProvider({
     setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
     balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
     isConnected,
+  });
+
+  const limitStatuses = useLeverageTokenLimitStatuses({
+    debouncedDepositAmount,
+    selectedLeverageToken: selectedLeverageToken.data,
   });
 
   /* ------------- */
@@ -262,11 +274,9 @@ export function LeverageTokenFormProvider({
 
   const formOnSubmitAsync = async () => {
     if (mode === "deposit") {
-      if (!previewMintData.data) return;
-
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
-        amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
+        amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
@@ -276,13 +286,17 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
-        maxSwapCostInCollateral: (previewRedeemData?.data?.swapCost.bigIntValue || 0n) * 2n,
+        maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
       });
     }
   };
 
-  const isPending = isMintPending;
+  const isMintLoading = isMintPending || isApproving || previewMintData.isLoading;
+  const isRedeemLoading = isRedeemPending || isRedeemApproving || previewRedeemData.isLoading;
+
+  const isMintDisabled = limitStatuses.data.some((status) => status === "mintLimitExceeded") || previewMintData.isError;
+  const isRedeemDisabled = previewRedeemData.isError;
 
   /* -------------------- */
   /*   Return Context     */
@@ -307,8 +321,6 @@ export function LeverageTokenFormProvider({
           isLoading: previewMintData.isLoading,
           isFetched: previewMintData.isFetched,
         },
-        isMintPending,
-        isRedeemPending,
         onTransaction: _onTransaction,
         setOnTransaction,
         maxUserDepositData: {
@@ -325,7 +337,10 @@ export function LeverageTokenFormProvider({
           isLoading: previewRedeemData.isLoading,
           isFetched: previewRedeemData.isFetched,
         },
-        isPending,
+        isMintLoading,
+        isRedeemLoading,
+        isMintDisabled,
+        isRedeemDisabled,
         approveData: {
           isApproved,
           isApproving,
@@ -348,6 +363,7 @@ export function LeverageTokenFormProvider({
             viewValue: "0",
           },
         },
+        limitStatuses,
       }}
     >
       {children}
