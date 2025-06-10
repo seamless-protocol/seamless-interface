@@ -92,11 +92,11 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
         <FlexCol className="items-center w-full gap-1">
           <FlexRow className="justify-between w-full gap-1 text-medium4">
             <RHFInputField
-              {...other}
               name={name}
               min={0}
               max={isConnected ? max || "0" : String(MAX_NUMBER)}
               placeholder="0.00"
+              {...other}
               disabled={other.disabled || !assetAddress}
               ref={ref ?? inputRef}
             />
