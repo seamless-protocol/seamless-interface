@@ -4,8 +4,13 @@ import { LocalCollapseArrow } from "../../../../../components/details-section/De
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
 import { ExternalLink, FlexCol, FlexRow, Typography } from "@shared";
 import { Link } from "react-router-dom";
+import { Address } from "viem";
 
-export const WeethEthDetails: React.FC = () => {
+export interface WeethEthDetailsProps {
+  tokenAddress?: Address;
+}
+
+export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }) => {
   return (
     <FlexCol className="w-full gap-8">
       <Typography type="bold5">Leverage Token details</Typography>
@@ -127,7 +132,7 @@ export const WeethEthDetails: React.FC = () => {
             <ul className="list-disc list-inside mt-2 space-y-0">
               <li>Smart-contract exploits (Seamless, Morpho, Ether.Fi)</li>
               <li>Morpho lending-market risks (rate volatility, liquidation)</li>
-              <li>Oracle failures (Chainlink weETH/ETH feed)</li>
+              <li>Oracle failures (Chainlink weETH/eETH feed)</li>
               <li>Borrow-rate risk (if ETH borrow APY {">"} weETH yield)</li>
               <li>Fixed params (no manual override if conditions shift)</li>
               <li>Exit costs (DEX slippage or withdrawal delays)</li>
@@ -183,10 +188,13 @@ export const WeethEthDetails: React.FC = () => {
 
         {/* 11 */}
         <LocalCollapseArrow>
-          <LocalCollapseTitle>Where can I track performance & learn more?</LocalCollapseTitle>
+          <LocalCollapseTitle>Where can I learn more?</LocalCollapseTitle>
           <div className="collapse-content">
             <FlexRow className="items-center gap-2">
-              <ExternalLink url="https://docs.seamlessprotocol.io/leverage-tokens">GitBook</ExternalLink>
+              <ExternalLink url={`https://basescan.org/address/${tokenAddress}`}>Leverage Token Contract</ExternalLink>
+            </FlexRow>
+            <FlexRow className="items-center gap-2">
+              <ExternalLink url="https://docs.seamlessprotocol.com/">GitBook</ExternalLink>
             </FlexRow>
           </div>
         </LocalCollapseArrow>
