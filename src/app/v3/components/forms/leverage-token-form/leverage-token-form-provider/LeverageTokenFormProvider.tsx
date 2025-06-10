@@ -153,8 +153,6 @@ export function LeverageTokenFormProvider({
   const { debouncedAmount: debouncedDepositAmount } = useWrappedDebounce(depositAmount);
   const { debouncedAmount: debouncedWithdrawAmount } = useWrappedDebounce(withdrawAmount);
 
-  console.log({ balance });
-
   useClearIfExceedsBalanceAfterWalletConnect({
     getValue: () => reactHookFormMethods.getValues("depositAmount"),
     setValue: (value) => reactHookFormMethods.setValue("depositAmount", value),
