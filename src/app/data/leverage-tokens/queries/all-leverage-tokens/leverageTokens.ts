@@ -14,6 +14,10 @@ export interface LeverageToken {
   tokenData?: Token;
   collateralAssetTokenData?: Token;
   debtAssetTokenData?: Token;
+  limitsConfig: {
+    maxBorrowApy: number; // %
+    maxDeposit: number;
+  };
 }
 
 export const leverageTokensConfig: LeverageToken[] = [
@@ -33,6 +37,10 @@ export const leverageTokensConfig: LeverageToken[] = [
     },
     additionalData: {
       description: "Ether.Fi weETH Yield Loop",
+    },
+    limitsConfig: {
+      maxBorrowApy: 2.9,
+      maxDeposit: 26,
     },
   },
 ];

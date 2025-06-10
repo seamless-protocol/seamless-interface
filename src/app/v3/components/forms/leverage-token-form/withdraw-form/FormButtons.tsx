@@ -9,7 +9,8 @@ export const FormButtons = () => {
       formState: { isSubmitting },
     },
     withdrawAmount,
-    isRedeemPending,
+    isRedeemDisabled,
+    isRedeemLoading,
     redeemApproveData: { isApproved, isApproving, justApproved, approveAsync },
   } = useLeverageTokenFormContext();
 
@@ -26,8 +27,8 @@ export const FormButtons = () => {
       <Buttonv2
         data-cy="approvalButton"
         className="text-bold3"
-        disabled={isApproved || isSubmitting}
-        loading={!isApproved && (isApproving || isRedeemPending)}
+        disabled={isApproved || isSubmitting || isRedeemDisabled}
+        loading={!isApproved && (isApproving || isRedeemLoading)}
         onClick={async () => {
           try {
             await approveAsync();
@@ -47,8 +48,8 @@ export const FormButtons = () => {
           data-cy="actionButton"
           className="text-bold3"
           type="submit"
-          disabled={!isApproved || isSubmitting || isRedeemPending}
-          loading={isSubmitting || isRedeemPending}
+          disabled={!isApproved || isSubmitting || isRedeemDisabled}
+          loading={isSubmitting || isRedeemLoading}
         >
           Redeem
         </Buttonv2>
