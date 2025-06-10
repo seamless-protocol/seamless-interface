@@ -3,7 +3,6 @@ import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { walletBalanceDecimalsOptions } from "../../../../meta";
 import {
-  fetchDecimals,
   fetchToken,
   formatFetchBigIntToViewBigInt,
   fUsdValueStructured,
@@ -12,7 +11,6 @@ import {
 import { leverageManagerAbi, leverageManagerAddress } from "../../../generated";
 import { cValueInUsd } from "../../../statev3/math/utils";
 import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
-import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
@@ -53,9 +51,7 @@ export const fetchPreviewRedeem = async ({
     fetchAssetPriceInBlock(leverageToken),
   ]);
 
-  const collateral = await fetchCollateralAsset({ leverageToken });
-  const decimals = await fetchDecimals(collateral);
-  const amountBigInt = parseUnits(amount, decimals);
+  const amountBigInt = parseUnits(amount, collateralAssetData.decimals);
 
   const previewRedeemData = await queryContract({
     ...readContractQueryOptions(getConfig(), {
@@ -155,7 +151,7 @@ export const fetchPreviewRedeem = async ({
         {
           ...leverageTokenData,
           ...fUsdValueStructured(
-            cValueInUsd(previewRedeemData.tokenFee, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+            cValueInUsd(previewRedeemData.tokenFee, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
           ),
         },
         walletBalanceDecimalsOptions

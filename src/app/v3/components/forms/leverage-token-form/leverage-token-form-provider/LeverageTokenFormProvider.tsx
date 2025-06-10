@@ -274,11 +274,9 @@ export function LeverageTokenFormProvider({
 
   const formOnSubmitAsync = async () => {
     if (mode === "deposit") {
-      if (!previewMintData.data) return;
-
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
-        amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
+        amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
@@ -288,7 +286,7 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
-        maxSwapCostInCollateral: (previewRedeemData?.data?.swapCost.bigIntValue || 0n) * 2n,
+        maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
       });
     }

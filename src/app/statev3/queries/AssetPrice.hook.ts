@@ -48,7 +48,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
 
   const isLeverageToken = leverageTokensConfig.some((leverageToken) => isAddressEqual(leverageToken.address, asset));
 
-  if (isLeverageToken) {
+  if (isLeverageToken && !blockNumber) {
     const [{ dollarAmount: collateralUsd }, { dollarAmount: debtUsd }, totalSupply, { decimals: assetDecimals }] =
       await Promise.all([
         fetchLeverageTokenCollateral(asset),

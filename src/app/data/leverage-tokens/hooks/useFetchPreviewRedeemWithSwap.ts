@@ -94,11 +94,17 @@ export const fetchPreviewRedeemWithSwap = async ({
     amountOut: previewRedeemData.debt.tokenAmount.bigIntValue,
   });
 
-  let swapCost;
+  let swapCost: bigint | undefined;
   if (swapData) {
     swapCost =
       swapData.quote -
       (previewRedeemData.collateral.tokenAmount.bigIntValue - previewRedeemData.equity.tokenAmount.bigIntValue);
+
+    if (swapCost < 0n) {
+      swapCost = 0n;
+    }
+
+    swapCost = swapCost * 10500n / 10000n; // Add 5% slippage buffer to the swap cost
   }
 
   const parsedAmount = parseUnits(amount, 18);
