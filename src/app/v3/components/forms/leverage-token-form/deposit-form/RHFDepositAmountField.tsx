@@ -6,6 +6,8 @@ import { useFetchAssetPriceInBlock } from "../../../../../statev3/common/queries
 import { useMemo } from "react";
 import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
 import { parseUnits } from "viem";
+import { useAccount } from "wagmi";
+import { useFetchMaxLeverageTokenDeposit } from "../../../../../data/leverage-tokens/queries/max-leverage-token-deposit/max-leverage-token-deposit.fetch";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;
@@ -25,7 +27,9 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
  */
 
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
-  const { selectedLeverageToken, maxUserDepositData, debouncedDepositAmount, balance } = useLeverageTokenFormContext();
+  const { address } = useAccount();
+
+  const { selectedLeverageToken, debouncedDepositAmount, balance } = useLeverageTokenFormContext();
 
   const { data: leverageTokenAssets } = useFetchLeverageTokenAssets(selectedLeverageToken.data?.address);
 
@@ -33,6 +37,11 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
 
   const { data: collateralAssetPriceData, ...collateralAssetPriceRest } = useFetchAssetPriceInBlock(
     leverageTokenAssets?.collateralAsset
+  );
+
+  const { data: maxUserDepositData, ...maxUserDepositRest } = useFetchMaxLeverageTokenDeposit(
+    address,
+    selectedLeverageToken.data?.address
   );
 
   const depositAmountUsdValue = useMemo(() => {
@@ -68,12 +77,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
         },
       }}
       protocolMaxValue={{
-        isLoading: maxUserDepositData.isLoading,
-        isFetched: maxUserDepositData.isFetched,
-        data: {
-          ...maxUserDepositData.data,
-          value: maxUserDepositData.data.bigIntValue?.toString(),
-        },
+        ...maxUserDepositRest,
+        data: maxUserDepositData,
       }}
       tokenData={{ ...collateralTokenRest, data: collateralTokenData || {} }}
     />
