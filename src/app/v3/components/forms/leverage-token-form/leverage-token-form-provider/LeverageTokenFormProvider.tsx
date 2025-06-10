@@ -98,7 +98,7 @@ interface LeverageTokenFormContextValue {
     justApproved: boolean;
   };
 
-  limitStatuses: LimitStatus[];
+  limitStatuses: Displayable<LimitStatus[] | undefined>;
 }
 
 const LeverageTokenFormContext = createContext<LeverageTokenFormContextValue | undefined>(undefined);
@@ -165,7 +165,7 @@ export function LeverageTokenFormProvider({
 
   const limitStatuses = useLeverageTokenLimitStatuses({
     debouncedDepositAmount,
-    debouncedWithdrawAmount,
+    selectedLeverageToken: selectedLeverageToken.data,
   });
 
   /* ------------- */

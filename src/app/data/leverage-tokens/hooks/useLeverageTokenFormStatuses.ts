@@ -1,36 +1,62 @@
 import { useMemo } from "react";
+import { LeverageToken } from "../queries/all-leverage-tokens/leverageTokens";
+import { useFetchBorrowApy } from "../queries/borrow-apy/borrow-apy.fetch";
+import { useFetchUtilization } from "../queries/utilization/utilization.fetch";
+import { Displayable, mergeQueryStates } from "../../../../shared";
 
 export type LimitStatus = "highUtilization" | "highBorrowRate" | "depositLimitExceeded";
 
-const MAX_DEPOSIT_WE_TH = 26;
-const BORROW_RATE_WARNING_AMOUNT = 20;
-const UTILIZATION_WARNING_AMOUNT = 10;
-
 interface UseFormStatusArgs {
   debouncedDepositAmount: string;
-  debouncedWithdrawAmount: string;
+  selectedLeverageToken?: LeverageToken;
 }
 
 export function useLeverageTokenLimitStatuses({
   debouncedDepositAmount,
-  debouncedWithdrawAmount,
-}: UseFormStatusArgs): LimitStatus[] {
+  selectedLeverageToken,
+}: UseFormStatusArgs): Displayable<LimitStatus[]> {
+  const { data: borrowApy, ...borrowApyRest } = useFetchBorrowApy(selectedLeverageToken?.address);
+  const { data: utilization, ...utilizationRest } = useFetchUtilization(selectedLeverageToken?.address);
+
   return useMemo(() => {
-    const depositNum = parseFloat(debouncedDepositAmount) || 0;
     const statuses: LimitStatus[] = [];
 
-    if (depositNum > UTILIZATION_WARNING_AMOUNT) {
+    if (
+      utilization?.currentUtilization &&
+      utilization?.optimalUtilization &&
+      utilization.currentUtilization > utilization.optimalUtilization
+    ) {
       statuses.push("highUtilization");
     }
 
-    if (depositNum > BORROW_RATE_WARNING_AMOUNT) {
+    if (
+      selectedLeverageToken?.limitsConfig.maxBorrowApy != null &&
+      (borrowApy || 0) > selectedLeverageToken?.limitsConfig.maxBorrowApy
+    ) {
       statuses.push("highBorrowRate");
     }
 
-    if (depositNum > MAX_DEPOSIT_WE_TH) {
+    if (
+      selectedLeverageToken?.tvl != null &&
+      selectedLeverageToken?.limitsConfig.maxDeposit &&
+      (Number(selectedLeverageToken.tvl?.tokenAmount.value) || 0) + Number(debouncedDepositAmount || 0) >
+        selectedLeverageToken?.limitsConfig.maxDeposit
+    ) {
       statuses.push("depositLimitExceeded");
     }
 
-    return statuses;
-  }, [debouncedDepositAmount, debouncedWithdrawAmount]);
+    return {
+      ...mergeQueryStates([borrowApyRest, utilizationRest]),
+      data: statuses,
+    };
+  }, [
+    debouncedDepositAmount,
+    selectedLeverageToken,
+    borrowApy,
+    selectedLeverageToken?.tvl?.tokenAmount.value,
+    utilization?.currentUtilization,
+    utilization?.optimalUtilization,
+    borrowApyRest,
+    utilizationRest,
+  ]);
 }

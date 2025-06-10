@@ -17,13 +17,13 @@ export const WithdrawLeverageTokenForm: React.FC = () => {
   return (
     <EmptyFormGuard errorSource="WithdrawLeverageTokenForm" data={{ ...selectedLeverageToken }}>
       <MyFormProvider methods={reactHookFormMethods} onSubmit={reactHookFormMethods.handleSubmit(onSubmit)}>
-        <FlexCol className="gap-8">
-          <FlexCol className="gap-3">
+        <FlexCol className="gap-4">
+          <FlexCol className="gap-2">
             <Typography type="medium3">Redeem</Typography>
             <RHFWithdrawStrategyAmountField name="withdrawAmount" />
           </FlexCol>
 
-          <FlexCol className="gap-3">
+          <FlexCol className="gap-2">
             <Typography type="medium3">Burn</Typography>
             <RHFReceiveAmountField name="receiveAmount" />
           </FlexCol>
