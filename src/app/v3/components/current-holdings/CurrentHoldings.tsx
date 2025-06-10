@@ -6,7 +6,8 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../statev3/quer
 export const CurrentHoldings: React.FC<{
   address?: Address;
   displayProfit?: boolean;
-}> = ({ address, displayProfit = true }) => {
+  userProfitComponent?: React.ReactNode;
+}> = ({ address, displayProfit = true, userProfitComponent }) => {
   const { data: tokenData, ...tokenDataRest } = useToken(address);
 
   const { data: balance, ...balanceData } = useFetchFormattedAssetBalanceWithUsdValue({
@@ -51,7 +52,7 @@ export const CurrentHoldings: React.FC<{
           />
         </FlexCol>
       </FlexCol>
-      {displayProfit && <UserProfit />}
+      {displayProfit && (userProfitComponent || <UserProfit />)}
     </FlexCol>
   );
 };

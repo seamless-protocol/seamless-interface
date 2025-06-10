@@ -14,6 +14,7 @@ import { FormContainer } from "./components/form/FormContainer";
 import { CollateralVsValueGraphComponent } from "./components/graphs/CollateralPriceTokenValueGraphComponents";
 import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 import { LinksAdditional } from "./components/links-additional/LinksAdditional";
+import { AllTimeComponent } from "./components/current-holdings/AllTimeComponent";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -48,7 +49,12 @@ export const LeverageTokenDetailsPage = () => {
           </div>
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
-            {isConnected && <CurrentHoldings address={address as Address} />}
+            {isConnected && (
+              <CurrentHoldings
+                address={address as Address}
+                userProfitComponent={<AllTimeComponent address={lvrgToken?.address} />}
+              />
+            )}
 
             <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
 
