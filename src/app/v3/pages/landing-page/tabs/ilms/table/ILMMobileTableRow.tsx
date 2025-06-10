@@ -17,7 +17,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
   const {
     data: {
       additionalData: { description },
-      availableSupplyCap,
       tvl,
     },
     ...rest
@@ -70,11 +69,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
               />
             </IncentivesButton>
           </FlexRow>
-        </FlexRow>
-
-        <FlexRow className="justify-between items-center">
-          <DisplayText typography="regular1" viewValue="Available Cap:" {...rest} />
-          <DisplayMoney typography="bold3" {...availableSupplyCap.dollarAmount} {...rest} />
         </FlexRow>
       </FlexCol>
     </div>
