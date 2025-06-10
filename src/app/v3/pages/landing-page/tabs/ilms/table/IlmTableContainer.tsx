@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 
-import { TableRow, TableCell, Typography, StandardTooltip, FlexRow } from "@shared";
+import { TableRow, TableCell, Typography, FlexRow } from "@shared";
 
 import { isNullableAddressEqual } from "@app/v3/utils/utils";
 import { LoadingTableGuard } from "./LoadingTableGuard";

@@ -35,9 +35,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
     data: { name, logo },
   } = useFullTokenData(leverageToken.data?.address);
 
-  const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(
-    leverageToken.data.address
-  );
+  const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken.data.address);
 
   return (
     <div
@@ -66,13 +64,13 @@ export const LeverageTokenDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <IncentivesButton
-            totalApr={{...yields?.estimateNetYield }}
+            totalApr={{ ...yields?.estimateNetYield }}
             rewardTokens={yields?.yieldBreakdown}
             {...yieldsRest}
           >
             <IncentivesDetailCard
               totalApr={yields?.estimateNetYield}
-              rewardTokens={yields?.yieldBreakdown}
+              rewardTokens={[...(yields?.yieldBreakdown || []), ...(yields?.pointsPrograms || [])]}
               {...yieldsRest}
             />
           </IncentivesButton>

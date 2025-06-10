@@ -20,11 +20,6 @@ export const fetchMorphoMarketIdQueryOptions = (variables: { adapterAddress: Add
 
 export async function fetchMorphoMarketId(variables: { adapterAddress: Address }) {
   const queryClient = getQueryClient();
-  try {
-    const marketId: string = await queryClient.fetchQuery(fetchMorphoMarketIdQueryOptions(variables));
-    return marketId;
-  } catch (error) {
-    console.error(error);
-  }
-  return undefined;
+  const marketId: string = await queryClient.fetchQuery(fetchMorphoMarketIdQueryOptions(variables));
+  return marketId;
 }

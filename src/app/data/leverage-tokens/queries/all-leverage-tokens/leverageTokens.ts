@@ -1,4 +1,4 @@
-import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewBigIntWithUsdValue, ViewNumber } from "@shared";
+import { formatFetchBigIntToViewBigInt, Token, ViewBigInt, ViewBigIntWithUsdValue } from "@shared";
 import { Address } from "viem";
 
 export interface LeverageToken {

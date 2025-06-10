@@ -32,7 +32,7 @@ export const fetchConversionByProgramQueryOptions = (id: string) => ({
     if (!found || !found.metrics) throw new Error("No metrics found");
 
     const rawApr = found.metrics.apr;
-    let aprView: ViewNumber | undefined = undefined;
+    let aprView: ViewNumber | undefined;
 
     if (rawApr !== null && rawApr !== undefined) {
       aprView = formatFetchNumberToViewNumber({
@@ -66,15 +66,17 @@ export const fetchConversionByTokenAddressQueryOptions = (address: Address) => (
   queryKey: FuulQueryKeys.conversionByTokenAddress(address),
   queryFn: async (): Promise<FuulSingleApr> => {
     const raw: Conversion[] = await fetchAllConversions({});
-    
-    address = IS_DEV_MODE ? "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738" : address;
 
-    const found = raw.find((item) => item.triggers.some((trigger) => trigger.contracts?.some((contract) => contract.address === address))) as FuulConversionWithMetrics;
+    const finalAddress = IS_DEV_MODE ? "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738" : address;
+
+    const found = raw.find((item) =>
+      item.triggers.some((trigger) => trigger.contracts?.some((contract) => contract.address === finalAddress))
+    ) as FuulConversionWithMetrics;
 
     if (!found || !found.metrics) throw new Error("No metrics found");
 
     const rawApr = found.metrics.apr;
-    let aprView: ViewNumber | undefined = undefined;
+    let aprView: ViewNumber | undefined;
 
     if (rawApr !== null && rawApr !== undefined) {
       aprView = formatFetchNumberToViewNumber({

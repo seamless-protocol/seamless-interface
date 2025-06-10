@@ -59,13 +59,13 @@ export const LeverageTokenMobileTableRow: React.FC<{
           <DisplayText typography="regular1" viewValue="Estimated APY:" {...rest} />
           <FlexRow className="items-center gap-1">
             <IncentivesButton
-              totalApr={{...yields?.estimateNetYield}}
+              totalApr={{ ...yields?.estimateNetYield }}
               rewardTokens={yields?.yieldBreakdown}
               {...yieldsRest}
             >
               <IncentivesDetailCard
-                totalApr={{...yields?.estimateNetYield}}
-                rewardTokens={yields?.yieldBreakdown}
+                totalApr={{ ...yields?.estimateNetYield }}
+                rewardTokens={[...(yields?.yieldBreakdown || []), ...(yields?.pointsPrograms || [])]}
                 {...yieldsRest}
               />
             </IncentivesButton>

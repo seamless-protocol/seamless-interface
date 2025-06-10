@@ -32,7 +32,7 @@ export const LeverageTokenHeading: React.FC<{
                 totalApr={{
                   ...yields?.estimateNetYield,
                 }}
-                rewardTokens={yields?.yieldBreakdown}
+                rewardTokens={[...(yields?.yieldBreakdown || []), ...(yields?.pointsPrograms || [])]}
                 {...yieldsRest}
               />
             </IncentivesButton>
