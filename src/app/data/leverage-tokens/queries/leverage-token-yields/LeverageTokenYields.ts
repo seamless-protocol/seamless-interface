@@ -5,7 +5,7 @@ import { fetchEtherFiApr } from "../etherfi-apr/EtherfiApr.fetch";
 import { fetchBorrowApy } from "../borrow-apy/borrow-apy.fetch";
 import chartIcon from "@assets/common/chart.svg";
 import kingIcon from "@assets/tokens/king.svg";
-import weETHIcon from "@assets/tokens/weETH.svg";
+import weETHIcon from "@assets/tokens/weeth.svg";
 import seamIcon from "@assets/tokens/seam.svg";
 import { fetchLeverageRatios } from "../collateral-ratios/leverage-ratios.fetch";
 import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
@@ -21,7 +21,12 @@ export interface LeverageTokenYields {
   pointsPrograms: ViewRewardToken[];
 }
 
-const decimalsOptions = { singleDigitNumberDecimals: 0, doubleDigitNumberDecimals: 0, threeDigitNumberDecimals: 0, fourDigitNumberDecimals: 0 };
+const decimalsOptions = {
+  singleDigitNumberDecimals: 0,
+  doubleDigitNumberDecimals: 0,
+  threeDigitNumberDecimals: 0,
+  fourDigitNumberDecimals: 0,
+};
 
 export async function fetchLeverageTokenYields(address: Address): Promise<LeverageTokenYields> {
   const [leverageRatios, etherfiData, borrowAPY, fuulAprData] = await Promise.all([
@@ -31,19 +36,34 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
     fetchConversionByTokenAddress(address),
   ]);
 
-  const targetLeverage = leverageRatios.targetLeverage?.value != null ? Number(leverageRatios.targetLeverage?.value) : null;
+  const targetLeverage =
+    leverageRatios.targetLeverage?.value != null ? Number(leverageRatios.targetLeverage?.value) : null;
 
-  const stakingYield = formatFetchNumberToViewNumber({ value: etherfiData.aprView?.value && targetLeverage ? etherfiData.aprView.value * targetLeverage : undefined, symbol: "%" });
-  const restakingYield = formatFetchNumberToViewNumber({ value: etherfiData.restakingAPR?.value && targetLeverage ? etherfiData.restakingAPR.value * targetLeverage : undefined, symbol: "%" });
-  const borrowAPYFormatted = formatFetchNumberToViewNumber({ value: (borrowAPY && targetLeverage ? borrowAPY * -100 * (targetLeverage - 1) : undefined), symbol: "%" });
+  const stakingYield = formatFetchNumberToViewNumber({
+    value: etherfiData.aprView?.value && targetLeverage ? etherfiData.aprView.value * targetLeverage : undefined,
+    symbol: "%",
+  });
+  const restakingYield = formatFetchNumberToViewNumber({
+    value:
+      etherfiData.restakingAPR?.value && targetLeverage ? etherfiData.restakingAPR.value * targetLeverage : undefined,
+    symbol: "%",
+  });
+  const borrowAPYFormatted = formatFetchNumberToViewNumber({
+    value: borrowAPY && targetLeverage ? borrowAPY * -100 * (targetLeverage - 1) : undefined,
+    symbol: "%",
+  });
   const fuulAPR = fuulAprData?.fuulApr;
 
   const estimateNetYield =
-    stakingYield.value != null && fuulAPR?.value != null && borrowAPYFormatted.value != null && targetLeverage != null && restakingYield.value != null
+    stakingYield.value != null &&
+    fuulAPR?.value != null &&
+    borrowAPYFormatted.value != null &&
+    targetLeverage != null &&
+    restakingYield.value != null
       ? formatFetchNumberToViewNumber({
-        value: (stakingYield.value + restakingYield.value + fuulAPR.value) + borrowAPYFormatted.value,
-        symbol: "%",
-      })
+          value: stakingYield.value + restakingYield.value + fuulAPR.value + borrowAPYFormatted.value,
+          symbol: "%",
+        })
       : formatFetchNumberToViewNumber({ value: undefined, symbol: "%" });
 
   const yieldBreakdown: ViewRewardToken[] = [
@@ -54,11 +74,33 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
   ];
 
   const pointsPrograms: ViewRewardToken[] = [
-    { symbol: "KING points", points: formatFetchNumberToViewNumber({ value: targetLeverage ? 1 * targetLeverage : undefined, symbol: "x" }, decimalsOptions), logo: kingIcon },
-    { symbol: "Etherfi points", points: formatFetchNumberToViewNumber({ value: targetLeverage ? 2 * targetLeverage : undefined, symbol: "x" }, decimalsOptions), logo: weETHIcon },
+    {
+      symbol: "KING points",
+      points: formatFetchNumberToViewNumber(
+        { value: targetLeverage ? 1 * targetLeverage : undefined, symbol: "x" },
+        decimalsOptions
+      ),
+      logo: kingIcon,
+    },
+    {
+      symbol: "Etherfi points",
+      points: formatFetchNumberToViewNumber(
+        { value: targetLeverage ? 2 * targetLeverage : undefined, symbol: "x" },
+        decimalsOptions
+      ),
+      logo: weETHIcon,
+    },
   ];
 
   yieldBreakdown.push(...pointsPrograms);
 
-  return { estimateNetYield, stakingYield, borrowRate: borrowAPYFormatted, restakingYield, rewardsYield: fuulAPR, yieldBreakdown, pointsPrograms };
+  return {
+    estimateNetYield,
+    stakingYield,
+    borrowRate: borrowAPYFormatted,
+    restakingYield,
+    rewardsYield: fuulAPR,
+    yieldBreakdown,
+    pointsPrograms,
+  };
 }
