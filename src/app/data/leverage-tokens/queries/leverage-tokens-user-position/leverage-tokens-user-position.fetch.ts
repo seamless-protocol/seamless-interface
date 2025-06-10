@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { Address, erc20Abi } from "viem";
 import { useQuery } from "@tanstack/react-query";
-import { LeverageToken, mockLeverageTokens } from "../all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken, leverageTokensConfig } from "../all-leverage-tokens/leverageTokens";
 import { getConfig } from "../../../../utils/queryContractUtils";
 
 /**
@@ -18,7 +18,7 @@ export interface UserLeveragePosition {
 const fetchLeverageTokensUserPosition = async (user: Address | undefined): Promise<UserLeveragePosition[]> => {
   if (!user) return [];
 
-  const promises: Promise<UserLeveragePosition | undefined>[] = mockLeverageTokens.map(async (lt) => {
+  const promises: Promise<UserLeveragePosition | undefined>[] = leverageTokensConfig.map(async (lt) => {
     const balance: bigint = await readContract(getConfig(), {
       address: lt.address,
       abi: erc20Abi,

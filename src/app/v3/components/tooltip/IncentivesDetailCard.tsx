@@ -13,14 +13,9 @@ interface IncentivesDetailCardProps {
   rewardTokens?: ViewRewardToken[];
 }
 
-export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ assetSymbol, totalApr, rewardTokens }) => {
+export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ totalApr, rewardTokens }) => {
   return (
     <FlexCol className="w-56 items-center gap-4">
-      <Typography type="caption" className="text-left">
-        Participating in this {assetSymbol || ""} reserve gives annualized rewards. APR refers solely to the annualized
-        rate of earning reward tokens for your participation in the Seamless ecosystem.
-      </Typography>
-
       <FlexCol className="gap-2 w-full">
         {rewardTokens?.map((rewardToken, index) => {
           return (
@@ -31,9 +26,15 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
               </FlexRow>
               <FlexRow>
                 {rewardToken.apr && (
-                  <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol} APR`} />
+                  <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol}`} />
                 )}
-                {rewardToken.points && <DisplayValue viewValue={rewardToken.points.viewValue} />}
+                {rewardToken.points && (
+                  <DisplayValue
+                    viewValue={rewardToken.points.viewValue}
+                    symbol={rewardToken.points.symbol}
+                    symbolPosition="after"
+                  />
+                )}
               </FlexRow>
             </FlexRow>
           );
@@ -43,7 +44,7 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
       <FlexRow className="items-center justify-between w-full mt-2">
         <Typography type="secondary16">Total</Typography>
         <FlexRow>
-          <DisplayPercentage viewValue={totalApr?.viewValue} symbol="%  APR" />
+          <DisplayPercentage viewValue={totalApr?.viewValue} symbol="%" />
         </FlexRow>
       </FlexRow>
     </FlexCol>

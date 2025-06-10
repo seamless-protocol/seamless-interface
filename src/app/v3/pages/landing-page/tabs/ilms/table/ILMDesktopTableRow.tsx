@@ -11,11 +11,11 @@ import {
   DisplayTokenAmount,
 } from "@shared";
 
-import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
-import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
-
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
+import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
+import { useFetchLeverageTokenYields } from "../../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -26,15 +26,16 @@ export const LeverageTokenDesktopTableRow: React.FC<{
     data: {
       additionalData: { description },
       availableSupplyCap,
-      apy,
       tvl,
     },
     ...rest
   } = leverageToken;
 
   const {
-    data: { name, symbol, logo },
+    data: { name, logo },
   } = useFullTokenData(leverageToken.data?.address);
+
+  const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken.data.address);
 
   return (
     <div
@@ -63,19 +64,14 @@ export const LeverageTokenDesktopTableRow: React.FC<{
 
         <TableCell className="col-span-1">
           <IncentivesButton
-            totalApr={{
-              ...apy.estimatedAPY,
-            }}
-            rewardTokens={apy.rewardTokens}
-            {...rest}
+            totalApr={{ ...yields?.estimateNetYield }}
+            rewardTokens={yields?.yieldBreakdown}
+            {...yieldsRest}
           >
             <IncentivesDetailCard
-              assetSymbol={symbol}
-              totalApr={{
-                ...apy.estimatedAPY,
-              }}
-              rewardTokens={apy.rewardTokens}
-              {...rest}
+              totalApr={yields?.estimateNetYield}
+              rewardTokens={yields?.yieldBreakdown}
+              {...yieldsRest}
             />
           </IncentivesButton>
         </TableCell>

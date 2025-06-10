@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 
-import { TableRow, TableCell, Typography, StandardTooltip, FlexRow } from "@shared";
+import { TableRow, TableCell, Typography, FlexRow } from "@shared";
 
 import { isNullableAddressEqual } from "@app/v3/utils/utils";
 import { LoadingTableGuard } from "./LoadingTableGuard";
@@ -29,9 +29,6 @@ export const LeverageTokensTableContainer: React.FC<{
         </TableCell>
         <FlexRow className="items-center gap-1">
           <Typography type="bold1">Estimated APY</Typography>
-          <StandardTooltip openOnClick={false}>
-            <Typography type="bold1">Yield APY - Borrow APY</Typography>
-          </StandardTooltip>
         </FlexRow>
         <TableCell className="col-span-1">
           <Typography type="bold1">Available Supply Cap</Typography>

@@ -11,7 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Address, erc4626Abi, isAddressEqual, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
-import { mockLeverageTokens } from "../../data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { leverageTokensConfig } from "../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 /* eslint-disable import/no-cycle */
 import { fetchLeverageTokenCollateral } from "../../data/leverage-tokens/queries/collateral/collateral.fetch";
 import { fetchLeverageTokenDebt } from "../../data/leverage-tokens/queries/debt/debt.fetch";
@@ -46,7 +46,7 @@ export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigin
     return formatUsdValue((equityUsd.bigIntValue * parseUnits("1", totalSupply.decimals)) / totalSupply.bigIntValue);
   }
 
-  const isLeverageToken = mockLeverageTokens.some((leverageToken) => isAddressEqual(leverageToken.address, asset));
+  const isLeverageToken = leverageTokensConfig.some((leverageToken) => isAddressEqual(leverageToken.address, asset));
 
   if (isLeverageToken) {
     const [{ dollarAmount: collateralUsd }, { dollarAmount: debtUsd }, totalSupply, { decimals: assetDecimals }] =

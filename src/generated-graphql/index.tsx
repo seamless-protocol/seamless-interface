@@ -3574,6 +3574,14 @@ export enum WarningLevel {
   Yellow = 'YELLOW'
 }
 
+export type BorrowApyByMarketIdQueryVariables = Exact<{
+  uniqueKey: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type BorrowApyByMarketIdQuery = { __typename?: 'Query', marketByUniqueKey: { __typename?: 'Market', id: string, uniqueKey: any, state?: { __typename?: 'MarketState', borrowApy: number } | null } };
+
 export type FullVaultInfoQueryVariables = Exact<{
   address: Scalars['String']['input'];
   chainId: Scalars['Int']['input'];
@@ -3601,6 +3609,18 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
 
+export const BorrowApyByMarketIdDocument = gql`
+    query BorrowApyByMarketId($uniqueKey: String!, $chainId: Int) {
+  marketByUniqueKey(uniqueKey: $uniqueKey, chainId: $chainId) {
+    id
+    uniqueKey
+    state {
+      borrowApy
+    }
+  }
+}
+    `;
+export type BorrowApyByMarketIdQueryResult = Apollo.QueryResult<BorrowApyByMarketIdQuery, BorrowApyByMarketIdQueryVariables>;
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
   vaultByAddress(address: $address, chainId: $chainId) {
