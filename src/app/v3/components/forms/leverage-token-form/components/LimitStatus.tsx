@@ -8,18 +8,18 @@ const STATUS_CONFIG: Record<string, { bgClass: string; textColor: string; messag
     bgClass: "bg-yellow-200",
     textColor: "text-black",
     message:
-      "Underlying lending market utilization is currently HIGH. Consider waiting for utilization to decrease before depositing into this Leverage Token.",
+      "Underlying lending market utilization is currently HIGH. Consider waiting for utilization to decrease before minting into this Leverage Token.",
   },
   highBorrowRate: {
     bgClass: "bg-red-200",
     textColor: "text-black",
     message:
-      "Underlying lending market borrow rate is currently HIGH. Consider waiting for the borrow rate to decrease before depositing into this Leverage Token.",
+      "Underlying lending market borrow rate is currently HIGH. Consider waiting for the borrow rate to decrease before minting into this Leverage Token.",
   },
-  depositLimitExceeded: {
+  mintLimitExceeded: {
     bgClass: "bg-red-500",
     textColor: "text-white",
-    message: "The deposit amount exceeds the current Leverage Token recommended deposit cap.",
+    message: "The mint amount exceeds the current Leverage Token recommended mint cap.",
   },
 };
 
