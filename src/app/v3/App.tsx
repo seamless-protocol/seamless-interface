@@ -14,12 +14,12 @@ import { LandingPage } from "./pages/landing-page/LandingPage";
 import { Footer } from "./components/footer/Footer";
 import { ILMDetails } from "./pages/ilm-details/ILMDetails";
 import { NavigationBar } from "./components/navigation-bar/NavigationBar";
-import { Audited } from "./components/banner/Audited";
-import { StakingBanner } from "./components/banner/StakingBanner";
+import { LeverageTokensBanner } from "./components/banner/LeverageTokensBanner";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { FuulPage } from "./pages/fuul/FuulPage";
 import { LeverageTokenDetailsPage } from "./pages/leverage-token-details/LeverageTokenDetailsPage";
+import { AuditedLT } from "./components/banner/AuditedLT";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -30,8 +30,8 @@ export function App() {
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <NavigationBar />
           <div className="flex flex-col gap-4">
-            {import.meta.env.VITE_STAKING_FEATURE === "true" && <StakingBanner />}
-            <Audited />
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <LeverageTokensBanner />}
+            {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <AuditedLT />}
           </div>
 
           <FlexCol className="min-h-screen">

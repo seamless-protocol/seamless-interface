@@ -30,13 +30,13 @@ export const PortfolioSummaryV2 = () => {
                 <Profit />
               </div>
             </div>
-
+            {/* 
             <div className="flex flex-col gap-2">
               <Typography type="medium4" className="text-white">
                 Total rewards claimed
               </Typography>
               <div className="w-full flex justify-center text-white">todo</div>
-            </div>
+            </div> */}
           </FlexCol>
         </div>
 

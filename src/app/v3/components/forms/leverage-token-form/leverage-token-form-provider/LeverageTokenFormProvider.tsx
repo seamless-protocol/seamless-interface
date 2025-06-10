@@ -5,31 +5,30 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Displayable,
   FlexCol,
+  getParsedError,
   SeamlessWriteAsyncParams,
   Typography,
   useERC20Approve,
   useNotificationContext,
   ViewBigInt,
 } from "@shared";
-import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { PreviewMintData } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMint";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import {
-  PreviewWithdraw,
-  ViewPreviewWithdraw,
-} from "../../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import {
-  SwapContext,
+  PreviewRedeemWithSwap,
   useFetchPreviewRedeemWithSwap,
 } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap";
 import { leverageRouterAddress } from "../../../../../generated";
-import { useFetchPreviewMintWithSwap } from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap";
+import {
+  PreviewMintWithSwapData,
+  useFetchPreviewMintWithSwap,
+} from "../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap";
 import {
   LimitStatus,
   useLeverageTokenLimitStatuses,
@@ -63,13 +62,11 @@ interface LeverageTokenFormContextValue {
   lpBalance: Displayable<{ balance: ViewBigInt }>;
   lpAssetPrice: Displayable<ViewBigInt>;
 
-  withdrawAmountUsdValue: Displayable<ViewBigInt>;
-
   maxUserDepositData: Displayable<ViewBigInt>;
 
-  sharesToReceiveWithdrawData: Displayable<ViewPreviewWithdraw>;
+  previewMintData: Displayable<PreviewMintWithSwapData | undefined>;
 
-  previewMintData: Displayable<PreviewMintData | undefined>;
+  previewRedeemData: Displayable<PreviewRedeemWithSwap | undefined>;
 
   formOnSubmitAsync: (
     params: {
@@ -80,15 +77,21 @@ interface LeverageTokenFormContextValue {
   ) => Promise<void>;
 
   isPending: boolean;
+  isRedeemPending: boolean;
 
   isMintPending: boolean;
 
   onTransaction?: () => void;
   setOnTransaction: (onTransaction?: () => void) => void;
 
-  withdrawCostInUsdAndUnderlying: Displayable<PreviewWithdraw>;
-
   approveData: {
+    isApproving: boolean;
+    approveAsync: () => Promise<void>;
+    isApproved: boolean;
+    justApproved: boolean;
+  };
+
+  redeemApproveData: {
     isApproving: boolean;
     approveAsync: () => Promise<void>;
     isApproved: boolean;
@@ -184,9 +187,17 @@ export function LeverageTokenFormProvider({
   /*   Withdraw Logic     */
   /* -------------------- */
 
-  const previewRedeemWithSwapData = useFetchPreviewRedeemWithSwap(
+  const previewRedeemData = useFetchPreviewRedeemWithSwap(selectedLeverageToken.data?.address, debouncedWithdrawAmount);
+
+  const {
+    isApproved: isRedeemApproved,
+    isApproving: isRedeemApproving,
+    justApproved: isRedeemJustApproved,
+    approveAsync: redeemApproveAsync,
+  } = useERC20Approve(
     selectedLeverageToken.data?.address,
-    debouncedWithdrawAmount
+    leverageRouterAddress,
+    previewRedeemData.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue
   );
 
   /* -------------------- */
@@ -218,9 +229,15 @@ export function LeverageTokenFormProvider({
         txHash,
         content: (
           <FlexCol className="w-full items-center text-center justify-center">
-            <Typography>You deposited {debouncedDepositAmount}</Typography>
+            <Typography>You minted {debouncedDepositAmount}</Typography>
           </FlexCol>
         ),
+      });
+    },
+    onError: (error) => {
+      showNotification({
+        status: "error",
+        content: `Failed to mint: ${getParsedError(error)}`,
       });
     },
     onSettled: () => {
@@ -229,7 +246,28 @@ export function LeverageTokenFormProvider({
     },
   });
 
-  const { redeemAsync } = useRedeemLeverageToken();
+  const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
+    onSuccess: (txHash) => {
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            You redeemed {debouncedWithdrawAmount}
+          </FlexCol>
+        ),
+      });
+    },
+    onError: (error) => {
+      showNotification({
+        status: "error",
+        content: `Failed to mint: ${getParsedError(error)}`,
+      });
+    },
+    onSettled: () => {
+      onTransaction?.();
+      reset();
+    },
+  });
 
   const { showNotification } = useNotificationContext();
 
@@ -241,67 +279,21 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
+        maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
     } else if (mode === "withdraw") {
       await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
-        equityInCollateral: previewRedeemWithSwapData?.data?.equityAfterSwapCost,
-        maxShares: previewRedeemWithSwapData?.data?.previewRedeemData?.shares,
-        maxSwapCostInCollateral: previewRedeemWithSwapData?.data?.swapCost,
-        swapContext: previewRedeemWithSwapData?.data?.swapContext as SwapContext,
+        equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
+        maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
+        maxSwapCostInCollateral: (previewRedeemData?.data?.swapCost.bigIntValue || 0n) * 2n,
+        swapContext: previewRedeemData?.data?.swapContext,
       });
     }
   };
 
   const isPending = isMintPending;
-
-  const sharesToReceiveWithdrawData = {
-    data: {
-      assetsToReceive: {
-        tokenAmount: {
-          bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
-          decimals: 18,
-          symbol: "shares",
-        },
-        dollarAmount: {
-          bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
-          decimals: 18,
-          symbol: "shares",
-        },
-      },
-    },
-    isLoading: previewRedeemWithSwapData.isLoading,
-    isFetched: previewRedeemWithSwapData.isFetched,
-  };
-
-  const withdrawAmountUsdValue = {
-    data: {
-      value: "0",
-      decimals: 8,
-      symbol: "$",
-      viewValue: "0",
-    },
-    isLoading: false,
-    isFetched: true,
-  };
-
-  const withdrawCostInUsdAndUnderlying = {
-    data: {
-      assetsToReceive: {
-        bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
-        decimals: 18,
-        symbol: "shares",
-      },
-      assetsToReceiveInUsd: {
-        bigIntValue: previewRedeemWithSwapData.data?.previewRedeemData.shares || 0n,
-        decimals: 18,
-        symbol: "shares",
-      },
-    },
-    isLoading: false,
-    isFetched: true,
-  };
 
   /* -------------------- */
   /*   Return Context     */
@@ -322,15 +314,14 @@ export function LeverageTokenFormProvider({
         lpBalance,
         formOnSubmitAsync,
         previewMintData: {
-          data: previewMintData.data?.previewMint,
+          data: previewMintData.data,
           isLoading: previewMintData.isLoading,
           isFetched: previewMintData.isFetched,
         },
         isMintPending,
+        isRedeemPending,
         onTransaction: _onTransaction,
         setOnTransaction,
-        withdrawCostInUsdAndUnderlying,
-        withdrawAmountUsdValue,
         maxUserDepositData: {
           data: {
             bigIntValue: 10000000000000000000000000n,
@@ -340,13 +331,23 @@ export function LeverageTokenFormProvider({
           isLoading: false,
           isFetched: true,
         },
-        sharesToReceiveWithdrawData,
+        previewRedeemData: {
+          data: previewRedeemData.data,
+          isLoading: previewRedeemData.isLoading,
+          isFetched: previewRedeemData.isFetched,
+        },
         isPending,
         approveData: {
           isApproved,
           isApproving,
           justApproved,
           approveAsync,
+        },
+        redeemApproveData: {
+          isApproved: isRedeemApproved,
+          isApproving: isRedeemApproving,
+          justApproved: isRedeemJustApproved,
+          approveAsync: redeemApproveAsync,
         },
         lpAssetPrice: {
           isLoading: false,

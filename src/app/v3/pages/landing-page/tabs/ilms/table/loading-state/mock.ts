@@ -1,4 +1,4 @@
-import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/mockLeverageTokens";
+import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { Displayable } from "@shared";
 
 const emptyViewBigInt = {
@@ -19,12 +19,6 @@ export const propsMock: Displayable<LeverageToken> = {
     availableSupplyCap: {
       dollarAmount: emptyViewBigInt,
       tokenAmount: emptyViewBigInt,
-    },
-    apy: {
-      estimatedAPY: emptyViewBigInt,
-      borrowAPY: emptyViewBigInt,
-      yieldAPY: emptyViewBigInt,
-      rewardTokens: [],
     },
   },
 };

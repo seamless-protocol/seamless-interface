@@ -1,9 +1,9 @@
-import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { leverageRouterAddress } from "@generated";
-import { useAccount } from "wagmi";
-import { targetChain } from "../../../config/rainbow.config";
+import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
+import { useAccount } from "wagmi";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
+import { targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 
 export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
@@ -18,7 +18,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ----------------- */
   const { writeContractAsync, ...rest } = useSeamlessContractWrite({
     ...settings,
-    queriesToInvalidate: [],
+    queriesToInvalidate: [undefined],
   });
 
   /* -------------------- */
@@ -46,10 +46,10 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         address: leverageRouterAddress,
         abi: LeverageRouterAbi,
         functionName: "redeem",
-        args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral + 1n, swapContext as never],
+        args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
     } catch (error) {
-      console.error("Failed to stake", error);
+      console.error("Failed to redeem", error);
       showNotification({
         status: "error",
         content: `Failed to mint: ${getParsedError(error)}`,

@@ -1,4 +1,4 @@
-import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } from "@shared";
+import { FlexRow, Typography, FlexCol, DisplayTokenAmount } from "@shared";
 import { useAccount } from "wagmi";
 import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
@@ -9,68 +9,56 @@ export const Summary: React.FC = () => {
   const { isConnected } = useAccount();
 
   return (
-    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-4 cursor-default">
+    <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3 cursor-default">
       <Typography type="bold3">Summary</Typography>
 
-      <DataRow
-        label={
-          <FlexRow className="md:gap-1 items-center">
-            Mint token fee
-            <StandardTooltip width={1}>
-              <Typography type="medium2" className="text-navy-1000">
-                Some description about this fee.
-              </Typography>
-            </StandardTooltip>
-          </FlexRow>
-        }
-      >
+      <DataRow label={<FlexRow className="md:gap-1 items-center">Mint token fee</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.tokenFee.dollarAmount}
+          typography="bold2"
+          {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
-      <DataRow
-        label={
-          <FlexRow className="md:gap-1 items-center">
-            Treasury token fee
-            <StandardTooltip width={1}>
-              <Typography type="medium2" className="text-navy-1000">
-                Some description about this fee.
-              </Typography>
-            </StandardTooltip>
-          </FlexRow>
-        }
-      >
+      <DataRow label={<FlexRow className="md:gap-1 items-center">DAO treasury fee</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.treasuryFee.dollarAmount}
+          typography="bold2"
+          {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.equity.dollarAmount}
+          typography="bold2"
+          {...previewMintData.data?.previewMint.equity.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.debt.tokenAmount}
+          typography="bold2"
+          {...previewMintData.data?.previewMint.debt.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
         <DisplayTokenAmount
-          {...previewMintData.data?.collateral.tokenAmount}
+          typography="bold2"
+          {...previewMintData.data?.previewMint.collateral.tokenAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />
       </DataRow>
       <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
-        <DisplayTokenAmount viewValue="0" symbol="$" symbolPosition="before" {...checkAuthentication(isConnected)} />
+        <DisplayTokenAmount
+          typography="bold2"
+          {...previewMintData.data?.swapCost.dollarAmount}
+          symbolPosition="before"
+          {...checkAuthentication(isConnected)}
+        />
       </DataRow>
     </FlexCol>
   );

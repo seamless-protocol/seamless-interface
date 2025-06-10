@@ -1,10 +1,10 @@
+import { QueryKey } from "@tanstack/query-core";
+import { useState } from "react";
+import { Address } from "viem";
+import { useConfig } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
 import { getParsedError } from "../../utils/errorParser";
 import { useInvalidateQueries } from "./useInvalidateQueries";
-import { useConfig } from "wagmi";
-import { QueryKey } from "@tanstack/query-core";
-import { Address } from "viem";
-import { useState } from "react";
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;

@@ -11,7 +11,7 @@ import { LeverageTokenHeading } from "./components/heading/LeverageTokenHeading"
 import { LeverageTokenDetails } from "./components/details-section/LeverageTokenDetails";
 import { LeverageTokenFormProvider } from "../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { FormContainer } from "./components/form/FormContainer";
-import { YieldVsBorrowRateGraphComponent } from "./components/graphs/YieldVsBorrowRateGraphComponent";
+import { CollateralVsValueGraphComponent } from "./components/graphs/CollateralPriceTokenValueGraphComponents";
 import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 import { LinksAdditional } from "./components/links-additional/LinksAdditional";
 
@@ -52,11 +52,15 @@ export const LeverageTokenDetailsPage = () => {
 
             <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
 
-            <LinksAdditional address={lvrgToken?.address} />
-
             <FlexCol className="px-8 py-6 w-full rounded-xl bg-neutral-0 gap-4">
-              <YieldVsBorrowRateGraphComponent />
+              <CollateralVsValueGraphComponent
+                tokenAddress={lvrgToken?.address}
+                collateralSymbol={lvrgToken?.collateralAssetTokenData?.symbol}
+                debtSymbol={lvrgToken?.debtAssetTokenData?.symbol}
+              />
             </FlexCol>
+
+            <LinksAdditional address={lvrgToken?.address} />
 
             <LeverageTokenStatsAdditional tokenAddress={lvrgToken?.address} />
 

@@ -14,3 +14,13 @@ const fuulApolloClient = new ApolloClient({
 });
 
 export const getFuulApolloClient = () => fuulApolloClient;
+
+const leverageTokenApolloClient = new ApolloClient({
+  uri: import.meta.env.VITE_LEVERAGE_TOKENS_SUBGRAPH,
+  cache: new InMemoryCache(),
+  headers: {
+    "Authorization": `Bearer ${import.meta.env.VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY}`,
+  },
+});
+
+export const getLeverageTokenApolloClient = () => leverageTokenApolloClient;

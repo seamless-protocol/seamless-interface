@@ -63,12 +63,12 @@ export async function fetchLeverageRatios(leverageToken: Address): Promise<Colla
 
   return {
     minLeverage: formatFetchBigIntToViewBigInt({
-      bigIntValue: cCollateralRatioToLeverage(minCollateralRatio),
+      bigIntValue: cCollateralRatioToLeverage(maxCollateralRatio),
       decimals: 18,
       symbol: "x",
     }),
     maxLeverage: formatFetchBigIntToViewBigInt({
-      bigIntValue: cCollateralRatioToLeverage(maxCollateralRatio),
+      bigIntValue: cCollateralRatioToLeverage(minCollateralRatio),
       decimals: 18,
       symbol: "x",
     }),

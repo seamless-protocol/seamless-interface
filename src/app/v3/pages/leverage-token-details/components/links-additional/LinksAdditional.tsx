@@ -14,7 +14,7 @@ export const LinksAdditional: React.FC<{
         <div>
           <div className="bg-smallElements-lend p-2 px-4 rounded-tag">
             <ExternalLink url={getLeverageTokenMorphoMarketUrl(address)}>
-              Leverage Token Lending Adapter Details
+              Underlying Morpho Lending Market
             </ExternalLink>
           </div>
         </div>

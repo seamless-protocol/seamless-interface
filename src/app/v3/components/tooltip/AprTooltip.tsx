@@ -1,9 +1,10 @@
-import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken, FlexCol } from "@shared";
+import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken, FlexCol, Typography } from "@shared";
 import { IncentivesDetailCard, ViewRewardToken } from "./IncentivesDetailCard";
 import { Address } from "viem";
 import { useFetchViewSupplyIncentives } from "../../../state/lending-borrowing/hooks/useFetchViewSupplyIncentives";
 import { useFetchStrategyIncentives } from "../../../state/loop-strategy/hooks/useFetchViewStrategyIncentives.all";
 import { useFetchStrategyAssets } from "../../../state/loop-strategy/metadataQueries/useFetchStrategyAssets";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 interface IncentivesButtonProps {
   totalApr?: ViewNumber;
@@ -12,6 +13,8 @@ interface IncentivesButtonProps {
   isLoading?: boolean;
   isFetched?: boolean;
   isError?: boolean;
+  error?: any;
+  errorMessage?: string;
   additionalElement?: React.ReactNode;
 }
 
@@ -21,11 +24,29 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
   children,
   isLoading = false,
   isFetched = true,
+  error,
+  errorMessage,
   isError,
   additionalElement,
 }) => {
   if (isLoading || !isFetched) {
     return <span className="skeleton mt-[0.2px] flex w-20 h-6" />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex">
+        <Tooltip
+          tooltip={
+            <Typography type="body1">
+              {error?.message || errorMessage || "Could not load this value, try later 😓"}
+            </Typography>
+          }
+        >
+          <ExclamationTriangleIcon width={20} height={20} />
+        </Tooltip>
+      </div>
+    );
   }
 
   if (!totalApr?.viewValue) {
@@ -38,16 +59,16 @@ export const IncentivesButton: React.FC<IncentivesButtonProps> = ({
         <FlexCol className="md:items-start items-end gap-1">
           <FlexRow className=" bg-smallElements-rewardAPY items-center gap-2 border border-solid px-2 py-1.5 rounded-[100px] border-metallicBorder max-w-max">
             <FlexRow className="object-cover ">
-              {rewardTokens?.map((rewardToken, index) => {
-                return (
-                  <Icon
-                    key={index}
-                    className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
-                    src={rewardToken.logo}
-                    alt="reward-token-logo"
-                  />
-                );
-              })}
+              {rewardTokens?.filter((token, index, array) => 
+                index === array.findIndex(t => t.logo === token.logo)
+              ).map((rewardToken, index) => (
+                <Icon
+                  key={index}
+                  className={index > 0 ? "-ml-1 w-4 h-4" : "w-4 h-4"}
+                  src={rewardToken.logo}
+                  alt="reward-token-logo"
+                />
+              ))}
             </FlexRow>
             <DisplayPercentage {...totalApr} typography="medium2" isError={isError} />
           </FlexRow>
