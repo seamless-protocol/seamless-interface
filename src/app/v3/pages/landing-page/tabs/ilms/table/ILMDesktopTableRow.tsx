@@ -25,7 +25,6 @@ export const LeverageTokenDesktopTableRow: React.FC<{
   const {
     data: {
       additionalData: { description },
-      availableSupplyCap,
       tvl,
     },
     ...rest
@@ -43,7 +42,7 @@ export const LeverageTokenDesktopTableRow: React.FC<{
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
     >
-      <TableRow className="md:grid grid-cols-5 relative">
+      <TableRow className="md:grid grid-cols-4 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
             <Icon width={64} src={logo} alt="logo" isLoading={rest.isLoading} isFetched={rest.isFetched} />
@@ -74,14 +73,6 @@ export const LeverageTokenDesktopTableRow: React.FC<{
               {...yieldsRest}
             />
           </IncentivesButton>
-        </TableCell>
-        <TableCell className="col-span-1">
-          <DisplayMoney
-            typography="bold3"
-            className={`${!availableSupplyCap.dollarAmount.bigIntValue ? "text-primary-600" : ""}`}
-            {...availableSupplyCap.dollarAmount}
-            {...rest}
-          />
         </TableCell>
 
         <ChevronRightIcon width={20} className="absolute right-6" />
