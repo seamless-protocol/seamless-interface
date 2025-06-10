@@ -64,7 +64,7 @@ export const LeverageTokenDetailsPage = () => {
 
             <LeverageTokenStatsAdditional tokenAddress={lvrgToken?.address} />
 
-            <LeverageTokenDetails />
+            <LeverageTokenDetails tokenAddress={lvrgToken?.address} />
           </div>
         </div>
       </FlexCol>
