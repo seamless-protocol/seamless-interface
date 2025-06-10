@@ -20,5 +20,6 @@ export const propsMock: Displayable<LeverageToken> = {
       dollarAmount: emptyViewBigInt,
       tokenAmount: emptyViewBigInt,
     },
+    limitsConfig: {} as any,
   },
 };
