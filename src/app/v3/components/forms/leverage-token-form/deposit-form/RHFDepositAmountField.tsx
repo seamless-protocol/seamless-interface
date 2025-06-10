@@ -29,7 +29,7 @@ type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "as
 export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
   const { address } = useAccount();
 
-  const { selectedLeverageToken, debouncedDepositAmount, balance } = useLeverageTokenFormContext();
+  const { selectedLeverageToken, debouncedDepositAmount } = useLeverageTokenFormContext();
 
   const { data: leverageTokenAssets } = useFetchLeverageTokenAssets(selectedLeverageToken.data?.address);
 
