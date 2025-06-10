@@ -185,6 +185,28 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses"
   })),
 }));
 
+// 14) Stub useFetchUserEquity
+vi.mock("../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch.ts", () => ({
+  useFetchUserEquity: vi.fn(() => ({
+    data: {
+      tokenAmount: {
+        bigIntValue: parseUnits(MOCK_VALUES.lpBalance, MOCK_VALUES.leverageToken.underlyingAsset.decimals),
+        decimals: MOCK_VALUES.leverageToken.underlyingAsset.decimals,
+        symbol: "MOCK",
+      },
+      dollarAmount: {
+        bigIntValue: 0n,
+        decimals: MOCK_VALUES.leverageToken.tokenData.decimals,
+        symbol: "MOCK",
+      },
+    },
+    isLoading: false,
+    isFetched: true,
+    isError: false,
+    error: undefined,
+  })),
+}));
+
 describe("LeverageTokenFormProvider", () => {
   // We wrap with a defaultLeverageTokenAddress so that `selectedLeverageTokenAddress` is never undefined
   const wrapper = ({ children }: { children?: React.ReactNode }) => (
