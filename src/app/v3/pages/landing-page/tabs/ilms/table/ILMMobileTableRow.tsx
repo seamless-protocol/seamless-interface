@@ -65,7 +65,7 @@ export const LeverageTokenMobileTableRow: React.FC<{
             >
               <IncentivesDetailCard
                 totalApr={{ ...yields?.estimateNetYield }}
-                rewardTokens={[...(yields?.yieldBreakdown || []), ...(yields?.pointsPrograms || [])]}
+                rewardTokens={yields?.yieldBreakdown}
                 {...yieldsRest}
               />
             </IncentivesButton>
