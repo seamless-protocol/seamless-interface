@@ -46,6 +46,8 @@ jobs:
           echo VITE_FULL_API_KEY=${{ vars.VITE_FULL_API_KEY }} >> .env.production
           echo VITE_LEVERAGE_TOKENS_FEATURE=${{ vars.VITE_LEVERAGE_TOKENS_FEATURE }} >> .env.production
           echo VITE_CLIENT_METADATA_API=${{ vars.VITE_CLIENT_METADATA_API }} >> .env.production
+          echo VITE_LEVERAGE_TOKENS_SUBGRAPH=${{ vars.VITE_LEVERAGE_TOKENS_SUBGRAPH }} >> .env.production
+          echo VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY=${{ vars.VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY }} >> .env.production
           cat .env.production
 
       - run: npm ci

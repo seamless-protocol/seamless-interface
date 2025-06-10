@@ -1,4 +1,4 @@
-import { getLeverageApolloClient } from "../../../../config/apollo-clients";
+import { getLeverageTokenApolloClient } from "../../../../config/apollo-clients";
 import {
   CollateralPriceHistoricalDocument,
   CollateralPriceHistoricalQuery,
@@ -11,7 +11,7 @@ import { queryConfig } from "../../../../statev3/settings/queryConfig";
 export const fetchCollateralPriceHistoricalQueryOptions = (variables: { address: string }) => ({
   queryKey: ["fetchCollateralPriceHistorical", variables.address],
   queryFn: async () => {
-    const client = getLeverageApolloClient();
+    const client = getLeverageTokenApolloClient();
     const result = await client.query<CollateralPriceHistoricalQuery, CollateralPriceHistoricalQueryVariables>({
       query: CollateralPriceHistoricalDocument,
       variables: { address: variables.address },

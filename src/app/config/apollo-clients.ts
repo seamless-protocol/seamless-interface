@@ -15,9 +15,12 @@ const fuulApolloClient = new ApolloClient({
 
 export const getFuulApolloClient = () => fuulApolloClient;
 
-const leverageApolloClient = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/113147/seamless-leverage-tokens-base/version/latest",
+const leverageTokenApolloClient = new ApolloClient({
+  uri: import.meta.env.VITE_LEVERAGE_TOKENS_SUBGRAPH,
   cache: new InMemoryCache(),
+  headers: {
+    "Authorization": `Bearer ${import.meta.env.VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY}`,
+  },
 });
 
-export const getLeverageApolloClient = () => leverageApolloClient;
+export const getLeverageTokenApolloClient = () => leverageTokenApolloClient;
