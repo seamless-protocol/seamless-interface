@@ -3,7 +3,6 @@ import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { walletBalanceDecimalsOptions } from "../../../../meta";
 import {
-  fetchDecimals,
   fetchToken,
   formatFetchBigIntToViewBigInt,
   fUsdValueStructured,
