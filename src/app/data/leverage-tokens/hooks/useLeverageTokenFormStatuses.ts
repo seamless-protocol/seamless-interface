@@ -4,7 +4,7 @@ import { useFetchBorrowApy } from "../queries/borrow-apy/borrow-apy.fetch";
 import { useFetchUtilization } from "../queries/utilization/utilization.fetch";
 import { Displayable, mergeQueryStates } from "../../../../shared";
 
-export type LimitStatus = "highUtilization" | "highBorrowRate" | "depositLimitExceeded";
+export type LimitStatus = "highUtilization" | "highBorrowRate" | "mintLimitExceeded";
 
 interface UseFormStatusArgs {
   debouncedDepositAmount: string;
@@ -42,7 +42,7 @@ export function useLeverageTokenLimitStatuses({
       (Number(selectedLeverageToken.tvl?.tokenAmount.value) || 0) + Number(debouncedDepositAmount || 0) >
         selectedLeverageToken?.limitsConfig.maxDeposit
     ) {
-      statuses.push("depositLimitExceeded");
+      statuses.push("mintLimitExceeded");
     }
 
     return {
