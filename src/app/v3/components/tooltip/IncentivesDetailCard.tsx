@@ -13,7 +13,7 @@ interface IncentivesDetailCardProps {
   rewardTokens?: ViewRewardToken[];
 }
 
-export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ assetSymbol, totalApr, rewardTokens }) => {
+export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ totalApr, rewardTokens }) => {
   return (
     <FlexCol className="w-56 items-center gap-4">
       <FlexCol className="gap-2 w-full">
@@ -28,7 +28,13 @@ export const IncentivesDetailCard: React.FC<IncentivesDetailCardProps> = ({ asse
                 {rewardToken.apr && (
                   <DisplayPercentage viewValue={rewardToken.apr.viewValue} symbol={`${rewardToken.apr.symbol}`} />
                 )}
-                {rewardToken.points && <DisplayValue viewValue={rewardToken.points.viewValue} symbol={rewardToken.points.symbol} symbolPosition="after" />}
+                {rewardToken.points && (
+                  <DisplayValue
+                    viewValue={rewardToken.points.viewValue}
+                    symbol={rewardToken.points.symbol}
+                    symbolPosition="after"
+                  />
+                )}
               </FlexRow>
             </FlexRow>
           );
