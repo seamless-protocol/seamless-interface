@@ -24,15 +24,15 @@ export const AllTimeComponent: React.FC<{
   return (
     <FlexRow className="justify-center max-w-max">
       <Icon
-        src={getSvgBasedOnSign(userProfit.unrealizedCollateral.value)}
+        src={getSvgBasedOnSign(userProfit.unrealizedUsd.value)}
         alt="polygon"
         width={16}
         height={16}
-        hidden={!userProfit.unrealizedCollateral.value}
+        hidden={!userProfit.unrealizedUsd.value}
       />
       <DisplayText
-        viewValue={getProfitText(userProfit.unrealizedCollateral, userProfit.unrealizedPercent.viewValue)}
-        className={getColorBasedOnSign(userProfit.unrealizedCollateral.value)}
+        viewValue={getProfitText(userProfit.unrealizedUsd, userProfit.unrealizedPercent.viewValue)}
+        className={getColorBasedOnSign(userProfit.unrealizedUsd.value)}
         typography="bold2"
       />
     </FlexRow>
