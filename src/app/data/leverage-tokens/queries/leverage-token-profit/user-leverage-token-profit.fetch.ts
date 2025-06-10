@@ -3,7 +3,7 @@ import {
   UserLeverageTokenProfitQuery,
   UserLeverageTokenProfitQueryVariables,
 } from "../../../../../generated-graphql/leverage-token-index";
-import { getLeverageApolloClient } from "../../../../config/apollo-clients";
+import { getLeverageTokenApolloClient } from "../../../../config/apollo-clients";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../../statev3/settings/queryConfig";
 import { checkGraphQlResponse } from "../../../../v3/utils/utils";
@@ -11,7 +11,7 @@ import { checkGraphQlResponse } from "../../../../v3/utils/utils";
 export const fetchUserLeverageTokenProfitQueryOptions = (variables: { userId: string; leverageTokenId: string }) => ({
   queryKey: ["fetchUserLeverageTokenProfit", variables.userId, variables.leverageTokenId],
   queryFn: async () => {
-    const client = getLeverageApolloClient();
+    const client = getLeverageTokenApolloClient();
     const result = await client.query<UserLeverageTokenProfitQuery, UserLeverageTokenProfitQueryVariables>({
       query: UserLeverageTokenProfitDocument,
       variables: {
