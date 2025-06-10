@@ -71,10 +71,8 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
         isFetched: collateralAssetPriceRest.isFetched && collateralTokenRest.isFetched,
       }}
       walletBalance={{
-        ...balance,
-        data: {
-          ...balance?.data.balance,
-        },
+        ...maxUserDepositRest,
+        data: maxUserDepositData,
       }}
       protocolMaxValue={{
         ...maxUserDepositRest,
