@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, walletBalanceDecimalsOptions } from "../../../../meta";
-import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../shared";
+import { fetchToken, formatFetchBigIntToViewBigInt, fUsdValueStructured, ViewBigInt, ViewBigIntWithUsdValue } from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
@@ -9,6 +9,8 @@ import { Exchange } from "../common/enums";
 import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
 import { fetchPreviewRedeem, PreviewRedeemData } from "./useFetchPreviewRedeem";
 import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFetchUniswapRoute";
+import { cValueInUsd } from "@app/statev3/common/math/cValueInUsd";
+import { fetchAssetPriceInBlock } from "@app/statev3/queries/AssetPrice.hook";
 
 export interface FetchBestSwapInput {
   tokenInAddress: Address;
@@ -62,7 +64,7 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
 };
 
 export interface PreviewRedeemWithSwap {
-  equityAfterSwapCost: ViewBigInt;
+  equityAfterSwapCost: ViewBigIntWithUsdValue;
   swapCost: ViewBigInt;
   previewRedeemData: PreviewRedeemData;
   swapContext: SwapContext | undefined;
@@ -78,7 +80,11 @@ export const fetchPreviewRedeemWithSwap = async ({
   const collateralAsset = await fetchCollateralAsset({ leverageToken });
   const debtAsset = await fetchDebtAsset({ leverageToken });
 
-  const previewRedeemData = await fetchPreviewRedeem({ leverageToken, amount });
+  const [previewRedeemData, collateralAssetData, collateralAssetPriceData] = await Promise.all([
+    fetchPreviewRedeem({ leverageToken, amount }),
+    fetchToken(collateralAsset),
+    fetchAssetPriceInBlock(collateralAsset),
+  ]);
 
   if (
     !previewRedeemData.debt.tokenAmount.bigIntValue ||
@@ -109,14 +115,31 @@ export const fetchPreviewRedeemWithSwap = async ({
 
   const parsedAmount = parseUnits(amount, 18);
 
+  const equityAfterSwapCost = swapCost ? parsedAmount - swapCost : undefined;
+
   return {
-    equityAfterSwapCost: formatFetchBigIntToViewBigInt(
-      {
-        ...previewRedeemData.equity.tokenAmount,
-        bigIntValue: swapCost ? parsedAmount - swapCost : undefined,
-      },
-      walletBalanceDecimalsOptions
-    ),
+    equityAfterSwapCost: {
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...previewRedeemData.equity.tokenAmount,
+          bigIntValue: equityAfterSwapCost,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...previewRedeemData.equity.tokenAmount,
+          ...fUsdValueStructured(
+            cValueInUsd(
+              equityAfterSwapCost,
+              collateralAssetPriceData?.bigIntValue,
+              collateralAssetData.decimals
+            )
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
+    },
     swapCost: formatFetchBigIntToViewBigInt(
       {
         ...previewRedeemData.collateral.tokenAmount,

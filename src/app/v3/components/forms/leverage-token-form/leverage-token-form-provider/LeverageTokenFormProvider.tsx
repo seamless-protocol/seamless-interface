@@ -286,7 +286,7 @@ export function LeverageTokenFormProvider({
     } else if (mode === "withdraw") {
       await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
-        equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.bigIntValue,
+        equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.tokenAmount.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
         maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
