@@ -44,6 +44,8 @@ export const gitbookStakingUrl = "https://docs.seamlessprotocol.com/overview/sea
 
 export const ilmv1DuneUrl = "https://dune.com/seamlessprotocol/ilm-viewer";
 
+export const discordUrl = "https://discord.com/invite/seamlessprotocol";
+
 const baseScan = "https://basescan.org";
 
 export const RouterConfig = {

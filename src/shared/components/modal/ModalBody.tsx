@@ -13,6 +13,7 @@ interface ModalBodyProps {
   onClose?: () => void;
   className?: string;
   size?: "small" | "normal" | "big" | "biger";
+  showCloseButton?: boolean;
 }
 
 const sizeMapper = {
@@ -29,11 +30,12 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   headerComponent,
   setModalOpen,
   onClose,
+  showCloseButton = true,
   size = "small",
   className = "",
 }) => {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (event.target === event.currentTarget) {
+    if (event.target === event.currentTarget && showCloseButton) {
       setModalOpen(false);
       if (onClose) onClose();
       event.stopPropagation();
@@ -56,16 +58,18 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
       >
         <div className="flex flex-row items-start justify-between mb-6">
           {headerComponent || <Typography type="bold4">{header}</Typography>}
-          <button
-            className="hover:bg-action-focus relative z-50 rounded-full p-2"
-            type="button"
-            onClick={() => {
-              setModalOpen(false);
-              if (onClose) onClose?.();
-            }}
-          >
-            <Icon data-cy="close-modal" src={xButton} alt="Close" width={20} height={20} />
-          </button>
+          {showCloseButton && (
+            <button
+              className="hover:bg-action-focus relative z-50 rounded-full p-2"
+              type="button"
+              onClick={() => {
+                setModalOpen(false);
+                if (onClose) onClose?.();
+              }}
+            >
+              <Icon data-cy="close-modal" src={xButton} alt="Close" width={20} height={20} />
+            </button>
+          )}
         </div>
 
         {children}

@@ -1,3 +1,5 @@
+import { discordUrl } from "@router";
+
 export const navigation: {
   label: string;
   to: string;
@@ -37,7 +39,7 @@ export const FOOTER_NAVIGATION_ICONS = [
     ),
   },
   {
-    url: "https://discord.com/invite/seamlessprotocol",
+    url: discordUrl,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
