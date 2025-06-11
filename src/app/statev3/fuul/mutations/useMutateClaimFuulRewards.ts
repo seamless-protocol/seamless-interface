@@ -10,7 +10,6 @@ import {
   fetchUserBalances,
   fetchUserBalancesQueryOptions,
 } from "../queries/fetch-user-balances/FetchUserBalances.fetch";
-import { IS_DEV_MODE } from "../../../../globals";
 import { FuulManagerAbi } from "../../../../../abis/FuulManager";
 
 export const useMutateClaimFuulRewards = (settings?: SeamlessWriteAsyncParams) => {
@@ -38,8 +37,10 @@ export const useMutateClaimFuulRewards = (settings?: SeamlessWriteAsyncParams) =
       // 1. fetch real-time availableToClaim balances from subgraph
       const { data: balances } = await fetchUserBalances({
         where: {
-          owner: IS_DEV_MODE ? "0x0019de95fa9953074432f7e66a8c5e8f043c8218" : address,
-          //   project: "seamless", todo: not working?
+          owner_: {
+            address: address.toLowerCase(),
+          },
+          project_: { deployedAddress: import.meta.env.VITE_FUUL_DEPLOYED_ADDRESS },
         },
       });
       if (!balances?.userBalances?.length) {

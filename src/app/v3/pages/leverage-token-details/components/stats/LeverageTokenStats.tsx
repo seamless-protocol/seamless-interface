@@ -3,8 +3,8 @@ import React from "react";
 import { Displayable, DisplayMoney, DisplayText, Typography } from "@shared";
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFetchLeverageRatios } from "../../../../../data/leverage-tokens/queries/collateral-ratios/leverage-ratios.hook";
-import { useFetchLeverageTokenCollateral } from "../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 
 const skeletonLoaderSettings = { width: "120px", height: "30px" };
 
@@ -15,7 +15,7 @@ export interface LeverageTokenStatsProps {
 export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverageToken }) => {
   const { data: leverageRatios, ...restLeverageRatios } = useFetchLeverageRatios(leverageToken?.data?.address);
 
-  const { data: leverageTokenCollateral, ...restLeverageTokenCollateral } = useFetchLeverageTokenCollateral(
+  const { data: leverageTokenData, ...restLeverageTokenData } = useFetchLeverageTokenByAddress(
     leverageToken?.data?.address
   );
 
@@ -39,15 +39,15 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           </Typography>
           <div className="flex flex-col gap-1">
             <DisplayMoney
-              {...leverageTokenCollateral?.dollarAmount}
-              {...restLeverageTokenCollateral}
+              {...leverageTokenData?.tvl?.dollarAmount}
+              {...restLeverageTokenData}
               typography="bold5"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}
             />
             <DisplayMoney
-              {...leverageTokenCollateral?.tokenAmount}
-              {...restLeverageTokenCollateral}
+              {...leverageTokenData?.tvl?.tokenAmount}
+              {...restLeverageTokenData}
               typography="bold2"
               className="text-primary-1000"
               loaderSkeletonSettings={skeletonLoaderSettings}

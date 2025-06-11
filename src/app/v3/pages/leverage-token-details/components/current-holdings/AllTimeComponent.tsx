@@ -1,11 +1,11 @@
-import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
+import { DisplayText, FlexRow, Icon, ViewBigInt, ViewNumber } from "@shared";
 import { Address } from "viem";
 import { useFetchUserUnrealized } from "../../../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
 import React from "react";
 import { getSvgBasedOnSign, getColorBasedOnSign } from "../../../../utils/uiUtils";
 
-function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage?: string): string | undefined {
-  return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage}) All time`;
+function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewNumber): string | undefined {
+  return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol}) All time`;
 }
 
 export const AllTimeComponent: React.FC<{
@@ -31,7 +31,7 @@ export const AllTimeComponent: React.FC<{
         hidden={!userProfit.unrealizedUsd.value}
       />
       <DisplayText
-        viewValue={getProfitText(userProfit.unrealizedUsd, userProfit.unrealizedPercent.viewValue)}
+        viewValue={getProfitText(userProfit.unrealizedUsd, userProfit.unrealizedPercent)}
         className={getColorBasedOnSign(userProfit.unrealizedUsd.value)}
         typography="bold2"
       />

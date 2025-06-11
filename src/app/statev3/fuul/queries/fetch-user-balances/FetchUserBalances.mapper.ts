@@ -28,7 +28,7 @@ export async function fetchExtendedUserBalances(
       });
 
       const tokenPrice = await fetchAssetPriceInBlock(getConfig(), userBalance.currency);
-      const dollarValueBigInt = cValueInUsd(userBalance.availableToClaim, tokenPrice, currencyToken.decimals);
+      const dollarValueBigInt = cValueInUsd(BigInt(userBalance.availableToClaim), tokenPrice, currencyToken.decimals);
 
       return {
         ...userBalance,

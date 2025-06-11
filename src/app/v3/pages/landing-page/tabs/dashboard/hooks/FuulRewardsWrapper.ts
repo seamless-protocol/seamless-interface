@@ -19,7 +19,10 @@ export const useFuulRewardsWrapper = ({ settings }: { settings: SeamlessWriteAsy
   const { claimFuulRewardsAsync, isClaiming } = useMutateClaimFuulRewards({ ...settings });
   const { data, ...rest } = useFetchUserBalances({
     where: {
-      owner: address,
+      owner_: {
+        address: address?.toLowerCase(),
+      },
+      project_: { deployedAddress: import.meta.env.VITE_FUUL_DEPLOYED_ADDRESS },
     },
   });
 
