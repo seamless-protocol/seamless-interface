@@ -21,7 +21,12 @@ const payouts_user_addres = "0x2151C90C93F52bE82186f162c86DaEABc8911188";
 export const TestFuulComponent = () => {
   // Subgraph user balances (rewardtokens)
   const { data: userBalances } = useFetchUserBalances({
-    where: { owner: sbgraph_user_address },
+    where: {
+      owner_: {
+        address: sbgraph_user_address.toLowerCase(),
+      },
+      project_: { deployedAddress: import.meta.env.VITE_FUUL_DEPLOYED_ADDRESS },
+    },
   });
 
   const { data: payoutsLeaderboardData } = usePayoutsLeaderboard({

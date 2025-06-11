@@ -42,7 +42,7 @@ export const RewardItemRow: React.FC<Props> = ({ item, showCheckbox = false, che
 
       {(item?.data?.rewards?.length || 0) > 0 && (
         <div className="w-full bg-neutral-100 py-4 px-6 flex flex-row gap-2 rounded-[16px] mb-6">
-          <Typography type="bold1">Accruing: {dollarAmount.viewValue} $</Typography>
+          <Typography type="bold1">Accruing: ${dollarAmount.viewValue}</Typography>
           <ImageGroup
             images={item?.data?.rewards?.map((reward) => reward.logo) || []}
             imageStyle="w-4 h-4 rounded-full"
