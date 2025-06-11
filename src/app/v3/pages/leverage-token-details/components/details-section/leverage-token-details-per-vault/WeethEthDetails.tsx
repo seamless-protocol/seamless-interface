@@ -84,7 +84,7 @@ export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }
             that tell it when and how to adjust the position. For example, it might rebalance when leverage drifts too far from target, when
             it&apos;s close to liquidation, or through timed auctions. Everything happens automatically - no manual steps are needed by the user.
             <br /> <br />
-            Seamless contributors have employed the following 3 rebalance adapters for this Leverage Token:
+            This Leverage Token has been configured with the following rebalance adapters:
             </Typography>
             <ul className="list-disc list-inside mt-2 space-y-0">
               <li>
