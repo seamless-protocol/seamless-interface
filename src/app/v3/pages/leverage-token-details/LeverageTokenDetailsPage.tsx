@@ -2,7 +2,6 @@ import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { RouterConfig } from "@router";
 import { useAccount } from "wagmi";
 import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
 import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";

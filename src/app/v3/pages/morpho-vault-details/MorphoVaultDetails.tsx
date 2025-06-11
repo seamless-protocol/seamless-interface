@@ -1,8 +1,6 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { RouterConfig } from "@router";
-
 import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
 import { Address } from "viem";
