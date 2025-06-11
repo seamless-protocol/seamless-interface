@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
 import { LendingAdapterAbi } from "../../../../../../abis/LendingAdapter";
-import { fetchToken, formatFetchBigIntToViewBigInt } from "../../../../../shared";
+import { formatFetchBigIntToViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { platformDataQueryConfig } from "../../../../statev3/settings/queryConfig";
-import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
+import { fetchLeverageTokenAssetsTokenData } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { getLeverageTokenConfigQueryOptions } from "../leverage-token-config/leverage-token-config.fetch";
 
 export const getLendingAdapterEquityInCollateralAssetQueryOptions = (lendingAdapterAddress: Address) => ({
@@ -27,8 +27,14 @@ export const getLendingAdapterEquityInDebtAssetQueryOptions = (lendingAdapterAdd
 });
 
 export const fetchLeverageTokenEquity = async (leverageToken: Address) => {
-  const [{ debtAsset }, leverageTokenConfig] = await Promise.all([
-    fetchLeverageTokenAssets(leverageToken),
+  const [
+    {
+      collateralAssetTokenData: { decimals: collateralAssetDecimals, symbol: collateralAssetSymbol },
+      debtAssetTokenData: { decimals: debtAssetDecimals, symbol: debtAssetSymbol },
+    },
+    leverageTokenConfig,
+  ] = await Promise.all([
+    fetchLeverageTokenAssetsTokenData(leverageToken),
     getQueryClient().fetchQuery({
       ...getLeverageTokenConfigQueryOptions(leverageToken),
     }),
@@ -43,13 +49,11 @@ export const fetchLeverageTokenEquity = async (leverageToken: Address) => {
     }),
   ]);
 
-  const { decimals: debtAssetDecimals, symbol: debtAssetSymbol } = await fetchToken(debtAsset);
-
   return {
     equityInCollateralAsset: formatFetchBigIntToViewBigInt({
       bigIntValue: equityInCollateralAsset,
-      decimals: debtAssetDecimals,
-      symbol: debtAssetSymbol,
+      decimals: collateralAssetDecimals,
+      symbol: collateralAssetSymbol,
     }),
     equityInDebtAsset: formatFetchBigIntToViewBigInt({
       bigIntValue: equityInDebtAsset,
