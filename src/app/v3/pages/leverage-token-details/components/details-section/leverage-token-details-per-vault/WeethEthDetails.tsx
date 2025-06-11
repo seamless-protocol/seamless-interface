@@ -22,9 +22,7 @@ export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }
           <div className="collapse-content">
             <Typography type="regular3">
               When you mint the weETH / WETH 17x Leverage Token, your weETH is used as collateral to borrow WETH, using the
-              Seamless WETH Vault on Base via Morpho. <br />
-              <br /> This automated process continues until a target leverage of ~17× is reached, giving you amplified
-              exposure to the weETH / ETH staking-yield spread.
+              Seamless WETH Vault on Base via Morpho, giving you amplified exposure to the weETH / ETH staking-yield spread.
             </Typography>
           </div>
         </LocalCollapseArrow>
@@ -86,7 +84,7 @@ export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }
             that tell it when and how to adjust the position. For example, it might rebalance when leverage drifts too far from target, when
             it&apos;s close to liquidation, or through timed auctions. Everything happens automatically - no manual steps are needed by the user.
             <br /> <br />
-            Seamless contributors have created 3 types of rebalance adapters as a starting point:
+            Seamless contributors have employed the following 3 rebalance adapters for this Leverage Token:
             </Typography>
             <ul className="list-disc list-inside mt-2 space-y-0">
               <li>
