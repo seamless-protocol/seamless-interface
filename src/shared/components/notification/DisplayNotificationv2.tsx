@@ -16,16 +16,16 @@ interface Props extends TNotificationProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalOpen }: Props) => {
+export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalOpen, showCloseButton = true, headerText }: Props) => {
   return (
-    <ModalBody setModalOpen={setModalOpen}>
+    <ModalBody setModalOpen={setModalOpen} showCloseButton={showCloseButton}>
       <FlexCol className="items-center gap-2">
         <FlexCol className="items-center gap-6">
           <div className={`${status ? ENUM_COLORS[status] : ""} p-3 rounded-full`}>
             {icon || (status ? ENUM_STATUSES[status] : null)}
           </div>
 
-          <Typography type="bold5">{status ? ENUM_MESSAGES[status] : "Invalid status."}</Typography>
+          <Typography type="bold5">{headerText || (status ? ENUM_MESSAGES[status] : "Invalid status.")}</Typography>
         </FlexCol>
 
         <div className="max-w-[420px] p-2">{content}</div>
@@ -42,9 +42,11 @@ export const DisplayNotificationv2 = ({ content, status, icon, txHash, setModalO
               </Link>
             </FlexRow>
           )}
-          <Buttonv2 size="small" fullWidth onClick={() => setModalOpen(false)} className="text-bold3">
-            Ok, Close
-          </Buttonv2>
+          {showCloseButton && (
+            <Buttonv2 size="small" fullWidth onClick={() => setModalOpen(false)} className="text-bold3">
+              Ok, Close
+            </Buttonv2>
+          )}
         </FlexCol>
       </FlexCol>
     </ModalBody>

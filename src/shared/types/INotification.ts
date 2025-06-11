@@ -13,6 +13,8 @@ export type TNotificationProps = {
   icon?: React.ReactNode;
   position?: TPositions;
   txHash?: string;
+  showCloseButton?: boolean;
+  headerText?: string;
 };
 
 export type NotificationOptions = {
