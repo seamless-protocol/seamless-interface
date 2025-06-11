@@ -6,6 +6,7 @@ import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook
 import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
 import { disableCacheQueryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
+import { USD_VALUE_DECIMALS } from "@meta";
 
 export const fetchUserEquity = async (user: Address, leverageToken: Address): Promise<ViewBigIntWithUsdValue> => {
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
@@ -33,8 +34,8 @@ export const fetchUserEquity = async (user: Address, leverageToken: Address): Pr
     }),
     dollarAmount: formatFetchBigIntToViewBigInt({
       bigIntValue: userEquityUsd,
-      decimals: sharePrice.decimals,
-      symbol: leverageTokenData.symbol,
+      decimals: USD_VALUE_DECIMALS,
+      symbol: "$",
     }),
   };
 };
