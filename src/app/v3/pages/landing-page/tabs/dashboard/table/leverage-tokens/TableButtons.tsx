@@ -16,13 +16,13 @@ export const TableButtons: React.FC<{
   return (
     <FlexRow className="gap-2 text-start cursor-default">
       <Modal
-        header="Deposit to Vault"
+        header="Mint Leverage Token"
         ref={addModal}
         size="normal"
         onOpen={() => setMode("deposit")}
         buttonProps={{
           "data-cy": `deposit-button-${address}`,
-          children: "Deposit",
+          children: "Mint",
           className: "text-bold3 bg-metalic text-neutral-0 rounded-lg p-2 px-4 items-center",
         }}
       >
@@ -31,13 +31,13 @@ export const TableButtons: React.FC<{
         </div>
       </Modal>
       <Modal
-        header="Withdraw from Strategy"
+        header="Redeem Leverage Token"
         ref={removeModal}
         onOpen={() => setMode("withdraw")}
         size="normal"
         buttonProps={{
           "data-cy": `withdraw-button-${address}`,
-          children: "Withdraw",
+          children: "Redeem",
           className:
             "text-bold3 border bg-transparent hover:bg-gray-100 text-metalic border border-black rounded-lg p-2 px-4 items-center",
         }}

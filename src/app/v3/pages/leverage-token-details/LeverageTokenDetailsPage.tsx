@@ -27,7 +27,7 @@ export const LeverageTokenDetailsPage = () => {
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
-          <button onClick={() => navigate(RouterConfig.Routes.dashboardTab)}>
+          <button onClick={() => navigate(-1)}>
             <ArrowLeftIcon width={40} height={40} />
           </button>
         </FlexRow>
