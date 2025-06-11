@@ -7,7 +7,7 @@ import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.h
 import { disableCacheQueryConfig } from "../../../../statev3/settings/queryConfig";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchLeverageTokenEquity } from "../leverage-token-equity/leverage-token-equity.fetch";
-import { fetchTotalSupply } from "../../../../statev3/queries/TotalSupply.hook";
+import { fetchAssetTotalSupplyInBlock } from "../../../../statev3/queries/AssetTotalSupply.hook";
 
 
 export const fetchUserEquity = async (user: Address, leverageToken: Address): Promise<ViewBigIntWithUsdValue> => {
@@ -18,7 +18,7 @@ export const fetchUserEquity = async (user: Address, leverageToken: Address): Pr
     fetchAssetPriceInBlock(collateralAsset),
     fetchToken(collateralAsset),
     fetchLeverageTokenEquity(leverageToken),
-    fetchTotalSupply({ asset: leverageToken }),
+    fetchAssetTotalSupplyInBlock({ asset: leverageToken, blockNumber: undefined }),
   ]);
 
   const userEquityInCollateral = balance.bigIntValue && equity.equityInCollateralAsset.bigIntValue && totalSupply.bigIntValue
