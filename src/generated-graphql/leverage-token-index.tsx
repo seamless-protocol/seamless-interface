@@ -775,6 +775,10 @@ export type LeverageTokenBalanceChange = {
   amountDelta: Scalars['BigInt']['output'];
   /**  The block number of this data point  */
   blockNumber: Scalars['BigInt']['output'];
+  /**  The amount the user deposited for the shares in the collateral asset  */
+  equityDepositedInCollateral: Scalars['BigInt']['output'];
+  /**  The amount the user deposited for the shares in the debt asset  */
+  equityDepositedInDebt: Scalars['BigInt']['output'];
   /**  The equity value of the balance added / removed in collateral asset  */
   equityInCollateral: Scalars['BigInt']['output'];
   /**  The equity value of the balance added / removed in debt asset  */
@@ -825,6 +829,22 @@ export type LeverageTokenBalanceChange_Filter = {
   blockNumber_lte?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  equityDepositedInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  equityDepositedInCollateral_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_not?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInCollateral_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  equityDepositedInDebt?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  equityDepositedInDebt_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_not?: InputMaybe<Scalars['BigInt']['input']>;
+  equityDepositedInDebt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   equityInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
   equityInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
   equityInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -910,6 +930,8 @@ export enum LeverageTokenBalanceChange_OrderBy {
   Amount = 'amount',
   AmountDelta = 'amountDelta',
   BlockNumber = 'blockNumber',
+  EquityDepositedInCollateral = 'equityDepositedInCollateral',
+  EquityDepositedInDebt = 'equityDepositedInDebt',
   EquityInCollateral = 'equityInCollateral',
   EquityInDebt = 'equityInDebt',
   Id = 'id',
@@ -930,8 +952,6 @@ export enum LeverageTokenBalanceChange_OrderBy {
   Position = 'position',
   PositionBalance = 'position__balance',
   PositionId = 'position__id',
-  PositionRealizedPnlInCollateral = 'position__realizedPnlInCollateral',
-  PositionRealizedPnlInDebt = 'position__realizedPnlInDebt',
   PositionTotalEquityDepositedInCollateral = 'position__totalEquityDepositedInCollateral',
   PositionTotalEquityDepositedInDebt = 'position__totalEquityDepositedInDebt',
   Timestamp = 'timestamp',
@@ -1753,12 +1773,6 @@ export type Position = {
   id: Scalars['ID']['output'];
   /**  Address of the LeverageToken  */
   leverageToken: LeverageToken;
-  /**  Historical realized pnl data points  */
-  realizedPnlHistory: Array<ProfitAndLoss>;
-  /**  Total realized pnl by the user in the position, in the collateral asset of the position  */
-  realizedPnlInCollateral: Scalars['BigInt']['output'];
-  /**  Total realized pnl by the user in the position, in the debt asset of the position  */
-  realizedPnlInDebt: Scalars['BigInt']['output'];
   /**  Equity deposited by the user in collateral asset of the position for the balance (i.e. the amount without any pnl)  */
   totalEquityDepositedInCollateral: Scalars['BigInt']['output'];
   /**  Equity deposited by the user in debt asset of the position for the balance (i.e. the amount without any pnl)  */
@@ -1774,15 +1788,6 @@ export type PositionBalanceChangeHistoryArgs = {
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<LeverageTokenBalanceChange_Filter>;
-};
-
-
-export type PositionRealizedPnlHistoryArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ProfitAndLoss_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<ProfitAndLoss_Filter>;
 };
 
 export type Position_Filter = {
@@ -1828,23 +1833,6 @@ export type Position_Filter = {
   leverageToken_starts_with?: InputMaybe<Scalars['String']['input']>;
   leverageToken_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   or?: InputMaybe<Array<InputMaybe<Position_Filter>>>;
-  realizedPnlHistory_?: InputMaybe<ProfitAndLoss_Filter>;
-  realizedPnlInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedPnlInCollateral_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_not?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInCollateral_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedPnlInDebt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedPnlInDebt_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_not?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedPnlInDebt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   totalEquityDepositedInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
   totalEquityDepositedInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
   totalEquityDepositedInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -1902,156 +1890,10 @@ export enum Position_OrderBy {
   LeverageTokenTotalRedeemTokenActionFees = 'leverageToken__totalRedeemTokenActionFees',
   LeverageTokenTotalRedeemTreasuryFees = 'leverageToken__totalRedeemTreasuryFees',
   LeverageTokenTotalSupply = 'leverageToken__totalSupply',
-  RealizedPnlHistory = 'realizedPnlHistory',
-  RealizedPnlInCollateral = 'realizedPnlInCollateral',
-  RealizedPnlInDebt = 'realizedPnlInDebt',
   TotalEquityDepositedInCollateral = 'totalEquityDepositedInCollateral',
   TotalEquityDepositedInDebt = 'totalEquityDepositedInDebt',
   User = 'user',
   UserId = 'user__id'
-}
-
-export type ProfitAndLoss = {
-  __typename?: 'ProfitAndLoss';
-  /**  The block number of this data point  */
-  blockNumber: Scalars['BigInt']['output'];
-  /**  The equity deposited for the shares at the time the user received them, in the collateral asset of the position  */
-  equityDepositedInCollateral: Scalars['BigInt']['output'];
-  /**  The equity deposited for the shares at the time the user received them, in the debt asset of the position  */
-  equityDepositedInDebt: Scalars['BigInt']['output'];
-  /**  The equity value of the shares that incurred the realized pnl, in the collateral asset of the position  */
-  equityReceivedInCollateral: Scalars['BigInt']['output'];
-  /**  The equity value of the shares that incurred the realized pnl, in the debt asset of the position  */
-  equityReceivedInDebt: Scalars['BigInt']['output'];
-  /**  Auto-incremented timeseries data point ID  */
-  id: Scalars['Int8']['output'];
-  /**  The position that the pnl data point is for  */
-  position: Position;
-  /**  The realized pnl in the collateral asset of the position  */
-  realizedInCollateral: Scalars['BigInt']['output'];
-  /**  The realized pnl in the debt asset of the position  */
-  realizedInDebt: Scalars['BigInt']['output'];
-  /**  The timestamp of this data point  */
-  timestamp: Scalars['Timestamp']['output'];
-};
-
-export type ProfitAndLoss_Filter = {
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<ProfitAndLoss_Filter>>>;
-  blockNumber?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  blockNumber_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
-  blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityDepositedInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityDepositedInCollateral_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_not?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInCollateral_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityDepositedInDebt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityDepositedInDebt_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_not?: InputMaybe<Scalars['BigInt']['input']>;
-  equityDepositedInDebt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityReceivedInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityReceivedInCollateral_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_not?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInCollateral_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityReceivedInDebt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  equityReceivedInDebt_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_not?: InputMaybe<Scalars['BigInt']['input']>;
-  equityReceivedInDebt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  id?: InputMaybe<Scalars['Int8']['input']>;
-  id_gt?: InputMaybe<Scalars['Int8']['input']>;
-  id_gte?: InputMaybe<Scalars['Int8']['input']>;
-  id_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
-  id_lt?: InputMaybe<Scalars['Int8']['input']>;
-  id_lte?: InputMaybe<Scalars['Int8']['input']>;
-  id_not?: InputMaybe<Scalars['Int8']['input']>;
-  id_not_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
-  or?: InputMaybe<Array<InputMaybe<ProfitAndLoss_Filter>>>;
-  position?: InputMaybe<Scalars['String']['input']>;
-  position_?: InputMaybe<Position_Filter>;
-  position_contains?: InputMaybe<Scalars['String']['input']>;
-  position_contains_nocase?: InputMaybe<Scalars['String']['input']>;
-  position_ends_with?: InputMaybe<Scalars['String']['input']>;
-  position_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  position_gt?: InputMaybe<Scalars['String']['input']>;
-  position_gte?: InputMaybe<Scalars['String']['input']>;
-  position_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  position_lt?: InputMaybe<Scalars['String']['input']>;
-  position_lte?: InputMaybe<Scalars['String']['input']>;
-  position_not?: InputMaybe<Scalars['String']['input']>;
-  position_not_contains?: InputMaybe<Scalars['String']['input']>;
-  position_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
-  position_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  position_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  position_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  position_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  position_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  position_starts_with?: InputMaybe<Scalars['String']['input']>;
-  position_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  realizedInCollateral?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedInCollateral_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_not?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInCollateral_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedInDebt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  realizedInDebt_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_not?: InputMaybe<Scalars['BigInt']['input']>;
-  realizedInDebt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  timestamp?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_gt?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_gte?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
-  timestamp_lt?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_lte?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_not?: InputMaybe<Scalars['Timestamp']['input']>;
-  timestamp_not_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
-};
-
-export enum ProfitAndLoss_OrderBy {
-  BlockNumber = 'blockNumber',
-  EquityDepositedInCollateral = 'equityDepositedInCollateral',
-  EquityDepositedInDebt = 'equityDepositedInDebt',
-  EquityReceivedInCollateral = 'equityReceivedInCollateral',
-  EquityReceivedInDebt = 'equityReceivedInDebt',
-  Id = 'id',
-  Position = 'position',
-  PositionBalance = 'position__balance',
-  PositionId = 'position__id',
-  PositionRealizedPnlInCollateral = 'position__realizedPnlInCollateral',
-  PositionRealizedPnlInDebt = 'position__realizedPnlInDebt',
-  PositionTotalEquityDepositedInCollateral = 'position__totalEquityDepositedInCollateral',
-  PositionTotalEquityDepositedInDebt = 'position__totalEquityDepositedInDebt',
-  RealizedInCollateral = 'realizedInCollateral',
-  RealizedInDebt = 'realizedInDebt',
-  Timestamp = 'timestamp'
 }
 
 export type Query = {
@@ -2086,8 +1928,6 @@ export type Query = {
   oracles: Array<Oracle>;
   position?: Maybe<Position>;
   positions: Array<Position>;
-  profitAndLoss?: Maybe<ProfitAndLoss>;
-  profitAndLosses: Array<ProfitAndLoss>;
   rebalance?: Maybe<Rebalance>;
   rebalanceAction?: Maybe<RebalanceAction>;
   rebalanceActions: Array<RebalanceAction>;
@@ -2353,24 +2193,6 @@ export type QueryPositionsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Position_Filter>;
-};
-
-
-export type QueryProfitAndLossArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QueryProfitAndLossesArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ProfitAndLoss_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<ProfitAndLoss_Filter>;
 };
 
 
@@ -2876,7 +2698,7 @@ export type UserLeverageTokenProfitQueryVariables = Exact<{
 }>;
 
 
-export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __typename?: 'User', positions: Array<{ __typename?: 'Position', id: string, totalEquityDepositedInCollateral: any, realizedPnlInCollateral: any, leverageToken: { __typename?: 'LeverageToken', id: any } }> } | null };
+export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __typename?: 'User', positions: Array<{ __typename?: 'Position', id: string, totalEquityDepositedInCollateral: any, leverageToken: { __typename?: 'LeverageToken', id: any } }> } | null };
 
 export type LeverageTokenValueHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
@@ -2908,7 +2730,6 @@ export const UserLeverageTokenProfitDocument = gql`
     positions(where: {leverageToken: $leverageTokenId}) {
       id
       totalEquityDepositedInCollateral
-      realizedPnlInCollateral
       leverageToken {
         id
       }
