@@ -12,8 +12,8 @@ import {
 const config = {
   id: "2",
   icon: morphoIcon,
-  name: "Vault rewards",
-  description: "Vault rewards",
+  name: "Vaults Rewards",
+  description: "",
 };
 
 export const useMorphoRewardsWrapper = ({

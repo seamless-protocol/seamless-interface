@@ -1,8 +1,6 @@
 import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { RouterConfig } from "@router";
-
 import { MorphoVaultStats } from "./components/MorphoVaultStats";
 import { TotalAssetsGraphComponent } from "./components/graph/TotalAssetsGraphComponent";
 import { Address } from "viem";
@@ -24,7 +22,7 @@ export const MorphoVaultDetails = () => {
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
-          <button onClick={() => navigate(`${RouterConfig.Routes.landingPage}/?tab=Vaults`)}>
+          <button onClick={() => navigate(-1)}>
             <ArrowLeftIcon width={24} height={24} />
           </button>
           <VaultPickerButton vault={address as Address} />

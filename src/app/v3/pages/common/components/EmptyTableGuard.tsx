@@ -8,13 +8,13 @@ export const NoPositionsDefaultTableBody: React.FC = () => {
     <FlexCol className="gap-2 justify-center items-center">
       <Typography type="bold5">You have no positions.</Typography>
       <Typography type="medium3">
-        Go back to{" "}
-        <Link className="underline" to={RouterConfig.Routes.landingPage}>
-          ILM tab
+        Go to{" "}
+        <Link className="underline" to={RouterConfig.Routes.leverageTokenTab}>
+          Leverage Tokens tab
         </Link>{" "}
         or{" "}
         <Link className="underline" to={RouterConfig.Routes.morphoVaultsTab}>
-          Vault tab
+          Vaults tab
         </Link>{" "}
         to create a new position!
       </Typography>
