@@ -13,7 +13,7 @@ export interface WeethEthDetailsProps {
 export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }) => {
   return (
     <FlexCol className="w-full gap-8">
-      <Typography type="bold5">Leverage Token details</Typography>
+      <Typography type="bold5">Leverage Token FAQ</Typography>
 
       <FlexCol className="w-full gap-4">
         {/* 1 */}
