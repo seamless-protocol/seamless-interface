@@ -13,12 +13,10 @@ import { fetchTotalSupply } from "../../../../statev3/queries/TotalSupply.hook";
 export const fetchUserEquity = async (user: Address, leverageToken: Address): Promise<ViewBigIntWithUsdValue> => {
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
 
-  const [balance, sharePrice, collateralPrice, collateralTokenData, leverageTokenData, equity, totalSupply] = await Promise.all([
+  const [balance, collateralPrice, collateralTokenData, equity, totalSupply] = await Promise.all([
     fetchAssetBalance({ account: user, asset: leverageToken }),
-    fetchAssetPriceInBlock(leverageToken),
     fetchAssetPriceInBlock(collateralAsset),
     fetchToken(collateralAsset),
-    fetchToken(leverageToken),
     fetchLeverageTokenEquity(leverageToken),
     fetchTotalSupply({ asset: leverageToken }),
   ]);
