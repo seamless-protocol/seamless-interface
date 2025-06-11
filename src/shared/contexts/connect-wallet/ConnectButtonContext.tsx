@@ -5,6 +5,8 @@ import { useDropdown } from "../../hooks/ui-hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/wallet-hooks/useUserAvatar";
 import { useFetchIsAddressSanctioned } from "../../state/queries/useFetchIsAddressSanctioned";
+import { useFetchIsUserRestricted } from "../../../app/statev3/common/queries/is-user-restricted/IsUserRestricted.hook";
+import { useNotificationContext } from "../notification/useNotificationContext";
 
 interface ConnectButtonContextType {
   isConnected: boolean;
@@ -38,11 +40,13 @@ export const ConnectButtonContext = createContext<ConnectButtonContextType>(defa
 export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { isConnected, address } = useAccount();
   const { isSanctioned } = useFetchIsAddressSanctioned(address);
+  const { data: isUserRestricted } = useFetchIsUserRestricted();
   const { avatar } = useUserAvatar();
   const { disconnect } = useDisconnect();
   const { openConnectModal } = useConnectModal();
   const [ensAvatar, setEnsAvatar] = useState<string | undefined>();
   const [attemptingToSwitch, setAttemptingToSwitch] = useState(false);
+  const { showNotification } = useNotificationContext();
   const dropdown = useDropdown();
 
   useEffect(() => {
@@ -55,6 +59,15 @@ export const ConnectButtonProvider: React.FC<PropsWithChildren> = ({ children })
       handleDisconnect();
     }
   }, [isConnected, isSanctioned, attemptingToSwitch, openConnectModal]);
+
+  useEffect(() => {
+    if (isUserRestricted) {
+      showNotification({
+        status: "error",
+        content: "You are restricted from using this wallet.",
+      });
+    }
+  }, [isUserRestricted, showNotification]);
 
   const handleDisconnect = async () => {
     disconnect();
