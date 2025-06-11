@@ -11,7 +11,7 @@ export const LeverageTokensBanner = () => {
             <p className="text-bold3">
               🔮 Leverage Tokens are live! The first LT: A weETH/ETH 17x Yield Loop. Check it out{" "}
               <Link className="text-bold3 underline" to={RouterConfig.Routes.leverageTokenTab}>
-                here.
+                here
               </Link>
               . 🔮
             </p>
