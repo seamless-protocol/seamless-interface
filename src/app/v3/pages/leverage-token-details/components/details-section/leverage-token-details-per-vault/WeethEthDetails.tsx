@@ -136,13 +136,31 @@ export const WeethEthDetails: React.FC<WeethEthDetailsProps> = ({ tokenAddress }
             Here are some key risks to be aware of/consider:
             </Typography>
             <ul className="list-disc list-inside mt-2 space-y-0">
-              <li><b>Smart Contract Risk (Seamless, Morpho, Ether.Fi)</b>: The strategy depends on multiple smart contracts that could contain bugs or be exploited.</li>
-              <li><b>Lending Market Risk (Morpho)</b>: Includes volatility in borrow rates, liquidation risk, and integration dependencies with Chainlink oracles.</li>
-              <li><b>Oracle Risk</b>: The weETH/ETH exchange rate is sourced from a Chainlink oracle. If this feed is delayed, incorrect, or manipulated, it could lead to mispriced rebalances or liquidation.</li>
-              <li><b>Borrow Rate Risk</b>: If the ETH borrow rate exceeds the yield earned by weETH (e.g., borrowing at 10% APY while earning 2.3% APY), the position becomes unprofitable. At 17x leverage, liquidation could occur within ~19 days under these conditions.</li>
-              <li><b>Immutability</b>: Leverage Token parameters are fixed. If market conditions shift unfavorably, the token will continue executing its programmed logic. Users must actively monitor and exit if the strategy no longer serves their goals.</li>
-              <li><b>Exit Risk</b>: Exiting a position may require converting weETH to ETH, which can involve DEX slippage or protocol withdrawal costs.</li>
-              <li><b>Inherent Leverage Risk</b>: Gains and losses are magnified. Leverage amplifies outcomes - both positive and negative - so careful position sizing and monitoring are essential.</li>
+              <li>
+                <b>Smart Contract Risk (Seamless, Morpho, Ether.Fi)</b>: The strategy depends on multiple smart contracts that could contain bugs or be exploited.
+              </li>
+              <li>
+                <b>Lending Market Risk (Morpho)</b>: Includes volatility in borrow rates, liquidation risk, and integration dependencies with Chainlink oracles.
+              </li>
+              <li>
+                <b>Oracle Risk</b>: The weETH/ETH exchange rate is sourced from a Chainlink oracle. If this feed is delayed, incorrect, or manipulated, it could
+                lead to mispriced rebalances or liquidation.
+              </li>
+              <li>
+                <b>Borrow Rate Risk</b>: If the ETH borrow rate exceeds the yield earned by weETH (e.g., borrowing at 10% APY while earning 2.3% APY), the position
+                becomes unprofitable. At 17x leverage, liquidation could occur within ~19 days under these conditions.
+              </li>
+              <li>
+                <b>Immutability</b>: Leverage Token parameters are fixed. If market conditions shift unfavorably, the token will continue executing its programmed logic.
+                Users must actively monitor and exit if the strategy no longer serves their goals.
+              </li>
+              <li>
+                <b>Exit Risk</b>: Exiting a position may require converting weETH to ETH, which can involve DEX slippage or protocol withdrawal costs.
+              </li>
+              <li>
+                <b>Inherent Leverage Risk</b>: Gains and losses are magnified. Leverage amplifies outcomes - both positive and negative - so careful position sizing
+                and monitoring are essential.
+              </li>
             </ul>
           </div>
         </LocalCollapseArrow>
