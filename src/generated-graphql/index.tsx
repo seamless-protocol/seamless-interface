@@ -3598,14 +3598,6 @@ export enum WarningLevel {
   Yellow = 'YELLOW'
 }
 
-export type MarketDataByMarketIdQueryVariables = Exact<{
-  uniqueKey: Scalars['String']['input'];
-  chainId?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type MarketDataByMarketIdQuery = { __typename?: 'Query', marketByUniqueKey: { __typename?: 'Market', id: string, uniqueKey: any, targetBorrowUtilization: any, state?: { __typename?: 'MarketState', borrowApy: number, utilization: number } | null } };
-
 export type FullVaultInfoQueryVariables = Exact<{
   address: Scalars['String']['input'];
   chainId: Scalars['Int']['input'];
@@ -3613,6 +3605,14 @@ export type FullVaultInfoQueryVariables = Exact<{
 
 
 export type FullVaultInfoQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', address: any, name: string, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssets: any, totalAssetsUsd?: number | null, netApy?: number | null, allTimeApy?: number | null, dailyApy?: number | null, fee: number, timelock: any, curator: any, rewards?: Array<{ __typename?: 'VaultStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null, allocation?: Array<{ __typename?: 'VaultAllocation', supplyCap: any, supplyAssets: any, supplyAssetsUsd?: number | null, market: { __typename?: 'Market', id: string, uniqueKey: any, irmAddress: any, oracleAddress: any, lltv: any, state?: { __typename?: 'MarketState', rewards?: Array<{ __typename?: 'MarketStateReward', amountPerSuppliedToken: any, supplyApr?: number | null, asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string, address: any } }> | null } | null, loanAsset: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null }, collateralAsset?: { __typename?: 'Asset', name: string, symbol: string, logoURI?: string | null } | null } }> | null } | null } };
+
+export type MarketDataByMarketIdQueryVariables = Exact<{
+  uniqueKey: Scalars['String']['input'];
+  chainId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type MarketDataByMarketIdQuery = { __typename?: 'Query', marketByUniqueKey: { __typename?: 'Market', id: string, uniqueKey: any, targetBorrowUtilization: any, state?: { __typename?: 'MarketState', borrowApy: number, utilization: number } | null } };
 
 export type NetApyHistoricalQueryVariables = Exact<{
   address: Scalars['String']['input'];
@@ -3633,20 +3633,6 @@ export type TotalAssetsHistoricalQueryVariables = Exact<{
 export type TotalAssetsHistoricalQuery = { __typename?: 'Query', vaultByAddress: { __typename?: 'Vault', asset: { __typename?: 'Asset', name: string, decimals: number, logoURI?: string | null, symbol: string }, state?: { __typename?: 'VaultState', totalSupply: any, totalAssetsUsd?: number | null, totalAssets: any } | null, historicalState: { __typename?: 'VaultHistory', totalAssetsUsd?: Array<{ __typename?: 'FloatDataPoint', y?: number | null, x: number }> | null, totalAssets?: Array<{ __typename?: 'BigIntDataPoint', y?: any | null, x: number }> | null } } };
 
 
-export const MarketDataByMarketIdDocument = gql`
-    query MarketDataByMarketId($uniqueKey: String!, $chainId: Int) {
-  marketByUniqueKey(uniqueKey: $uniqueKey, chainId: $chainId) {
-    id
-    uniqueKey
-    state {
-      borrowApy
-      utilization
-    }
-    targetBorrowUtilization
-  }
-}
-    `;
-export type MarketDataByMarketIdQueryResult = Apollo.QueryResult<MarketDataByMarketIdQuery, MarketDataByMarketIdQueryVariables>;
 export const FullVaultInfoDocument = gql`
     query FullVaultInfo($address: String!, $chainId: Int!) {
   vaultByAddress(address: $address, chainId: $chainId) {
@@ -3720,6 +3706,20 @@ export const FullVaultInfoDocument = gql`
 }
     `;
 export type FullVaultInfoQueryResult = Apollo.QueryResult<FullVaultInfoQuery, FullVaultInfoQueryVariables>;
+export const MarketDataByMarketIdDocument = gql`
+    query MarketDataByMarketId($uniqueKey: String!, $chainId: Int) {
+  marketByUniqueKey(uniqueKey: $uniqueKey, chainId: $chainId) {
+    id
+    uniqueKey
+    state {
+      borrowApy
+      utilization
+    }
+    targetBorrowUtilization
+  }
+}
+    `;
+export type MarketDataByMarketIdQueryResult = Apollo.QueryResult<MarketDataByMarketIdQuery, MarketDataByMarketIdQueryVariables>;
 export const NetApyHistoricalDocument = gql`
     query NetApyHistorical($address: String!, $chainId: Int, $options: TimeseriesOptions) {
   vaultByAddress(address: $address, chainId: $chainId) {

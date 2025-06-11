@@ -2,7 +2,6 @@ import { FlexCol, FlexRow, PageContainer } from "@shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { Address } from "viem";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { RouterConfig } from "@router";
 import { useAccount } from "wagmi";
 import { CurrentHoldings } from "../../components/current-holdings/CurrentHoldings";
 import { useFetchLeverageTokenByAddress } from "../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
@@ -14,6 +13,7 @@ import { FormContainer } from "./components/form/FormContainer";
 import { CollateralVsValueGraphComponent } from "./components/graphs/CollateralPriceTokenValueGraphComponents";
 import { LeverageTokenStatsAdditional } from "./components/stats-additional/LeverageTokenStatsAdditional";
 import { LinksAdditional } from "./components/links-additional/LinksAdditional";
+import { AllTimeComponent } from "./components/current-holdings/AllTimeComponent";
 
 export const LeverageTokenDetailsPage = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const LeverageTokenDetailsPage = () => {
     <PageContainer className="flex justify-center py-6 pb-12 px-4 md:px-0">
       <FlexCol className="gap-1 w-full md:max-w-page-content">
         <FlexRow className="py-6 items-center gap-4">
-          <button onClick={() => navigate(RouterConfig.Routes.dashboardTab)}>
+          <button onClick={() => navigate(-1)}>
             <ArrowLeftIcon width={40} height={40} />
           </button>
         </FlexRow>
@@ -48,7 +48,12 @@ export const LeverageTokenDetailsPage = () => {
           </div>
 
           <div className="flex flex-col gap-10 order-2 md:order-1">
-            {isConnected && <CurrentHoldings address={address as Address} />}
+            {isConnected && (
+              <CurrentHoldings
+                address={address as Address}
+                userProfitComponent={<AllTimeComponent address={lvrgToken?.address} />}
+              />
+            )}
 
             <LeverageTokenStats leverageToken={{ data: lvrgToken, ...rest }} />
 

@@ -33,6 +33,7 @@ import {
   LimitStatus,
   useLeverageTokenLimitStatuses,
 } from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
+import { useFetchUserEquity } from "../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -123,7 +124,7 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
   /*   Local State        */
   /* -------------------- */
-  const { isConnected } = useAccount();
+  const { isConnected, address: userAddress } = useAccount();
   const [mode, _setMode] = useState<Mode>(defaultMode);
   const reactHookFormMethods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
@@ -144,6 +145,7 @@ export function LeverageTokenFormProvider({
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
   const balance = useFetchViewAssetBalance(collateralAsset);
   const lpBalance = useFetchViewAssetBalance(selectedLeverageTokenAddress);
+  const { data: userEquityData } = useFetchUserEquity(userAddress, selectedLeverageToken.data?.address);
 
   /* -------------------- */
   /*   Calculations       */
@@ -160,7 +162,7 @@ export function LeverageTokenFormProvider({
   useClearIfExceedsBalanceAfterWalletConnect({
     getValue: () => reactHookFormMethods.getValues("withdrawAmount"),
     setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
-    balance: { bigIntValue: lpBalance.data?.balance?.bigIntValue, decimals: lpBalance.data?.balance?.decimals },
+    balance: { bigIntValue: userEquityData?.tokenAmount?.bigIntValue, decimals: userEquityData?.tokenAmount?.decimals },
     isConnected,
   });
 

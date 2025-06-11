@@ -9,8 +9,8 @@ import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config
 const config = {
   id: "1",
   icon: seamIcon,
-  name: "stSEAM rewards",
-  description: "stSEAM rewards",
+  name: "stkSEAM Rewards",
+  description: "",
 };
 
 export const useStkSeamRewardsWrapper = ({

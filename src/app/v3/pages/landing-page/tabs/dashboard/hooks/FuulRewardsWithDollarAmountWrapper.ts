@@ -3,10 +3,13 @@ import { useFetchUserBalances } from "../../../../../../statev3/fuul/queries/fet
 import type { RewardsInfo } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { useSumRewardDollarAmounts } from "./SumRewardDollarAmounts";
 
-export const useFuulRewardsWithDollarAmount = (address: Address) => {
+export const useFuulRewardsWithDollarAmount = (address?: Address) => {
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchUserBalances({
     where: {
-      owner: address,
+      owner_: {
+        address: address?.toLowerCase(),
+      },
+      project_: { deployedAddress: import.meta.env.VITE_FUUL_DEPLOYED_ADDRESS },
     },
   });
   const rewards: RewardsInfo[] =

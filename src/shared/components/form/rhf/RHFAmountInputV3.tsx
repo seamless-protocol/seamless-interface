@@ -57,8 +57,12 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
         console.warn("Token data coulnd't be loaded.");
         return;
       }
+      const finalMax =
+        (walletBalance?.data?.bigIntValue || 0n) > (protocolMaxValue?.data?.bigIntValue || 0n)
+          ? protocolMaxValue?.data?.value
+          : walletBalance?.data?.value;
 
-      setValue(name as string, max);
+      setValue(name as string, finalMax);
     };
 
     useEffect(() => {

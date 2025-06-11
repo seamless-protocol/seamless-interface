@@ -116,7 +116,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  const items: FetchData<RewardItem>[] = [stkSeamReward, morphoReward, fuulReward, esSeamReward];
+  const items: FetchData<RewardItem>[] = [fuulReward, morphoReward, stkSeamReward];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -162,7 +162,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     <RewardsContext.Provider
       value={{
         items: {
-          ...mergeQueryStates([stkSeamReward, morphoReward, fuulReward, esSeamReward]),
+          ...mergeQueryStates([stkSeamReward, morphoReward, fuulReward]),
           data: items,
         },
         selected,
