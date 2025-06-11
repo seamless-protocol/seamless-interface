@@ -5,6 +5,8 @@ import { Typography } from "../../components/text/Typography/Typography";
 import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
 import { useFetchIsUserRestricted } from "@app/statev3/common/queries/is-user-restricted/IsUserRestricted.hook";
 import { useFetchIsAddressSanctioned } from "../../state/queries/useFetchIsAddressSanctioned";
+import { discordUrl } from "@router";
+import { Link } from "react-router-dom";
 
 const WrongNetworkMessage = () => {
   return (
@@ -19,7 +21,10 @@ const WrongNetworkMessage = () => {
 const RestrictedWalletMessage = () => {
   return (
     <div className="flex flex-col items-center w-full text-center">
-      <Typography type="regular3">Sorry, you are unable to use this application because your current location is not supported due to country restrictions. If you believe this is an error or have questions, please contact support.</Typography>
+      <Typography type="regular3">
+        Sorry, it seems like you are trying to access this application from a restricted country. If you believe this is an error, try refreshing the page or open a support ticket in the Seamless Community{" "}
+        <Link to={discordUrl} className="text-bold3 underline" target="_blank" rel="noreferrer">Discord</Link>
+      </Typography>
     </div>
   );
 };
@@ -45,7 +50,7 @@ export const NetworkCheck: React.FC = () => {
   }, [isConnected, chainId, showNotification, closeNotification]);
 
   useEffect(() => {
-    if (isUserRestricted) {
+    if (isUserRestricted || true) {
       showNotification({
         content: <RestrictedWalletMessage />,
         status: "error",
