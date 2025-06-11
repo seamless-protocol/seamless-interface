@@ -50,7 +50,7 @@ export const NetworkCheck: React.FC = () => {
   }, [isConnected, chainId, showNotification, closeNotification]);
 
   useEffect(() => {
-    if (isUserRestricted || true) {
+    if (isUserRestricted) {
       showNotification({
         content: <RestrictedWalletMessage />,
         status: "error",
