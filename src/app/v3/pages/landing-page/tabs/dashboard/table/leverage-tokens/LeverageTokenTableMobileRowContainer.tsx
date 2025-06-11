@@ -11,14 +11,16 @@ import { useFetchLeverageTokenByAddress } from "../../../../../../../data/levera
 import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
 import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { useFetchUserUnrealized } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
+import { useAccount } from "wagmi";
 
 export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }> = ({ address }) => {
+  const { address: userAddress } = useAccount();
   const { data: leverageToken, ...leverageTokenRest } = useFetchLeverageTokenByAddress(address);
 
   const {
     data: { rewards, dollarAmount },
     ...allUserRewardsRest
-  } = useFuulRewardsWithDollarAmount(address);
+  } = useFuulRewardsWithDollarAmount(userAddress);
 
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,

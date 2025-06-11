@@ -1,4 +1,4 @@
-import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigIntWithUsdValue } from "@shared";
+import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigIntWithUsdValue, fUsdValueStructured } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
@@ -8,6 +8,7 @@ import { disableCacheQueryConfig } from "../../../../statev3/settings/queryConfi
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchLeverageTokenEquity } from "../leverage-token-equity/leverage-token-equity.fetch";
 import { fetchTotalSupply } from "../../../../statev3/queries/TotalSupply.hook";
+
 
 export const fetchUserEquity = async (user: Address, leverageToken: Address): Promise<ViewBigIntWithUsdValue> => {
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
@@ -34,11 +35,7 @@ export const fetchUserEquity = async (user: Address, leverageToken: Address): Pr
       decimals: collateralTokenData.decimals,
       symbol: collateralTokenData.symbol,
     }),
-    dollarAmount: formatFetchBigIntToViewBigInt({
-      bigIntValue: userEquityUsd,
-      decimals: sharePrice.decimals,
-      symbol: leverageTokenData.symbol,
-    }),
+    dollarAmount: formatFetchBigIntToViewBigInt(fUsdValueStructured(userEquityUsd)),
   };
 };
 

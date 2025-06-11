@@ -8,6 +8,10 @@ const morphoApolloClient = new ApolloClient({
 
 export const getMorphoApolloClient = () => morphoApolloClient;
 
+// Base
+// https://subgraph.satsuma-prod.com/64a0e71a7397/fuul-team--611570/base/api
+// Base Sepolia
+// https://subgraph.satsuma-prod.com/64a0e71a7397/fuul-team--611570/base-sepolia/api
 const fuulApolloClient = new ApolloClient({
   uri: "https://subgraph.satsuma-prod.com/64a0e71a7397/fuul-team--611570/base/api",
   cache: new InMemoryCache(),
