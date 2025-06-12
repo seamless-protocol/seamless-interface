@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, formatUnits } from "viem";
 
 import { useAccount } from "wagmi";
-import { IS_DEV_MODE } from "../../../../../globals";
 import { ONE_ETHER } from "../../../../../meta";
 import {
   fetchToken,
