@@ -29,11 +29,12 @@ const decimalsOptions = {
 };
 
 export async function fetchLeverageTokenYields(address: Address): Promise<LeverageTokenYields> {
-  const [leverageRatios, etherfiData, borrowAPY, fuulAprData] = await Promise.all([
+  const [leverageRatios, etherfiData, borrowAPY] = await Promise.all([
     fetchLeverageRatios(address),
     fetchEtherFiApr(),
     fetchBorrowApy(address),
-    fetchConversionByTokenAddress(address),
+    // Disabled Fuul APR for now
+    // fetchConversionByTokenAddress(address),
   ]);
 
   const targetLeverage =
@@ -52,7 +53,13 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
     value: borrowAPY && targetLeverage ? borrowAPY * -100 * (targetLeverage - 1) : undefined,
     symbol: "%",
   });
-  const fuulAPR = fuulAprData?.fuulApr;
+  
+  // Disabled Fuul APR for now
+  // const fuulAPR = fuulAprData?.fuulApr;
+  const fuulAPR = formatFetchNumberToViewNumber({
+    value: 3,
+    symbol: "%",
+  });
 
   const estimateNetYield =
     stakingYield.value != null &&

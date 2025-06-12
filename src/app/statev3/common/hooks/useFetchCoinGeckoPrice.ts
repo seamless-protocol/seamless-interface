@@ -17,7 +17,7 @@ interface FetchCoinGeckoAssetPriceByAddressParams {
 }
 
 const coinGeckoApiUrl = import.meta.env.VITE_COIN_GECKO_API_URL;
-const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6"];
+const IGNORE_ADDRESSES = ["0x5607718c64334eb5174CB2226af891a6ED82c7C6", "0x2d1519305D2aAA04ef09333B464A4fD53491b5f4"];
 
 const _fetchCoinGeckoAssetPriceByAddress = async ({ address, precision }: FetchCoinGeckoAssetPriceByAddressParams) => {
   if (!address) {
