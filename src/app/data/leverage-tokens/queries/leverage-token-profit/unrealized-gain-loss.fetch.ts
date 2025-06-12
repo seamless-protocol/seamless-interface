@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, formatUnits } from "viem";
 
 import { useAccount } from "wagmi";
-import { IS_DEV_MODE } from "../../../../../globals";
 import { ONE_ETHER } from "../../../../../meta";
 import {
   fetchToken,
@@ -30,7 +29,24 @@ export async function fetchUserUnrealized(user: Address, leverageToken: Address)
     leverageTokenId: leverageToken.toLowerCase(),
   });
   const position = profitData.user?.positions?.[0];
-  if (!position && !IS_DEV_MODE) throw new Error("No position found");
+  if (!position) {
+    return {
+      unrealizedCollateral: formatFetchBigIntToViewBigInt({
+        bigIntValue: 0n,
+        decimals: 0,
+        symbol: "",
+      }),
+      unrealizedUsd: formatFetchBigIntToViewBigInt({
+        bigIntValue: 0n,
+        decimals: 0,
+        symbol: "$",
+      }),
+      unrealizedPercent: formatFetchNumberToViewNumber({
+        value: 0,
+        symbol: "%",
+      })
+    };
+  }
 
   const totalDepositedInCollateralBigInt = BigInt(position?.totalEquityDepositedInCollateral || 0n);
 
