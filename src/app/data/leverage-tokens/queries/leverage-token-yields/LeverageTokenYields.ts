@@ -8,7 +8,8 @@ import kingIcon from "@assets/tokens/king.svg";
 import weETHIcon from "@assets/tokens/weeth.svg";
 import seamIcon from "@assets/tokens/seam.svg";
 import { fetchLeverageRatios } from "../collateral-ratios/leverage-ratios.fetch";
-import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
+// Disabled Fuul APR for now
+// import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
 import { ViewRewardToken } from "../../../../v3/components/tooltip/IncentivesDetailCard";
 
 export interface LeverageTokenYields {
