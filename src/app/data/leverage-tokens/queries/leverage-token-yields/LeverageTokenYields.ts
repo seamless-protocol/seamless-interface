@@ -74,14 +74,15 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
   ];
 
   const pointsPrograms: ViewRewardToken[] = [
-    {
-      symbol: "KING points",
-      points: formatFetchNumberToViewNumber(
-        { value: targetLeverage ? 1 * targetLeverage : undefined, symbol: "x" },
-        decimalsOptions
-      ),
-      logo: kingIcon,
-    },
+    // King points are not available for now
+    // {
+    //   symbol: "KING points",
+    //   points: formatFetchNumberToViewNumber(
+    //     { value: targetLeverage ? 1 * targetLeverage : undefined, symbol: "x" },
+    //     decimalsOptions
+    //   ),
+    //   logo: kingIcon,
+    // },
     {
       symbol: "Etherfi points",
       points: formatFetchNumberToViewNumber(
