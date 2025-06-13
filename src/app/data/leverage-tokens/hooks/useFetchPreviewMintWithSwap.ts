@@ -117,10 +117,10 @@ const fetchPreviewMintWithSwap = async (
     amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
   });
 
-  // Set share slippage to 0.5%
+  // Set share slippage to 0.05%
   if (previewMintAfterCostDeduction?.shares?.tokenAmount?.bigIntValue && previewMintAfterCostDeduction?.shares?.dollarAmount?.bigIntValue) {
-    previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue = previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue * BigInt(10000 - 50) / BigInt(10000);
-    previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue = previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue * BigInt(10000 - 50) / BigInt(10000);
+    previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue = previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue * BigInt(10000 - 5) / BigInt(10000);
+    previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue = previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue * BigInt(10000 - 5) / BigInt(10000);
   }
 
   const collateralTokenPrice = await fetchAssetPriceInBlock(collateralAsset);
