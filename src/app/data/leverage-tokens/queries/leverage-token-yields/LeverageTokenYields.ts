@@ -8,8 +8,7 @@ import kingIcon from "@assets/tokens/king.svg";
 import weETHIcon from "@assets/tokens/weeth.svg";
 import seamIcon from "@assets/tokens/seam.svg";
 import { fetchLeverageRatios } from "../collateral-ratios/leverage-ratios.fetch";
-// Disabled Fuul APR for now
-// import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
+import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
 import { ViewRewardToken } from "../../../../v3/components/tooltip/IncentivesDetailCard";
 
 export interface LeverageTokenYields {
@@ -30,12 +29,11 @@ const decimalsOptions = {
 };
 
 export async function fetchLeverageTokenYields(address: Address): Promise<LeverageTokenYields> {
-  const [leverageRatios, etherfiData, borrowAPY] = await Promise.all([
+  const [leverageRatios, etherfiData, borrowAPY, fuulAprData] = await Promise.all([
     fetchLeverageRatios(address),
     fetchEtherFiApr(),
     fetchBorrowApy(address),
-    // Disabled Fuul APR for now
-    // fetchConversionByTokenAddress(address),
+    fetchConversionByTokenAddress(address),
   ]);
 
   const targetLeverage =
@@ -55,12 +53,7 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
     symbol: "%",
   });
   
-  // Disabled Fuul APR for now
-  // const fuulAPR = fuulAprData?.fuulApr;
-  const fuulAPR = formatFetchNumberToViewNumber({
-    value: 3,
-    symbol: "%",
-  });
+  const fuulAPR = fuulAprData?.fuulApr;
 
   const estimateNetYield =
     stakingYield.value != null &&

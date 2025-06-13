@@ -3,8 +3,7 @@ import { useEsSeamRewardsWrapper } from "../hooks/esSeamRewardsWrapper";
 import { Hash } from "viem";
 import { useMorphoRewardsWrapper } from "../hooks/MorphoRewardsWrapper";
 import { useStkSeamRewardsWrapper } from "../hooks/stkSeamRewardsWrapper";
-// Disabled Fuul rewards for now
-// import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
+import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
 import { FetchData, mergeQueryStates, ViewBigInt } from "@shared";
 
 export interface Reward {
@@ -83,23 +82,22 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
       },
     },
   });
-  // Disabled Fuul rewards for now
   // Fuul HOOK
-  // const fuulReward = useFuulRewardsWrapper({
-  //   settings: {
-  //     onSuccess: (tx) => {
-  //       const { id } = fuulReward.data;
-  //       setStatuses((prev) => ({ ...prev, [id]: "success" }));
-  //       setTxHashes((prev) => ({ ...prev, [id]: tx }));
-  //       setCurrentStep((prev) => prev + 1);
-  //     },
-  //     onError: () => {
-  //       const { id } = fuulReward.data;
-  //       setStatuses((prev) => ({ ...prev, [id]: "failed" }));
-  //       setCurrentStep((prev) => prev + 1);
-  //     },
-  //   },
-  // });
+  const fuulReward = useFuulRewardsWrapper({
+    settings: {
+      onSuccess: (tx) => {
+        const { id } = fuulReward.data;
+        setStatuses((prev) => ({ ...prev, [id]: "success" }));
+        setTxHashes((prev) => ({ ...prev, [id]: tx }));
+        setCurrentStep((prev) => prev + 1);
+      },
+      onError: () => {
+        const { id } = fuulReward.data;
+        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
+        setCurrentStep((prev) => prev + 1);
+      },
+    },
+  });
 
   // esSEAM HOOK
   const esSeamReward = useEsSeamRewardsWrapper({
@@ -118,8 +116,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  // Disabled Fuul rewards for now
-  const items: FetchData<RewardItem>[] = [morphoReward, stkSeamReward];
+  const items: FetchData<RewardItem>[] = [fuulReward, morphoReward, stkSeamReward];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -165,8 +162,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     <RewardsContext.Provider
       value={{
         items: {
-          // Disabled Fuul rewards for now
-          ...mergeQueryStates([stkSeamReward, morphoReward]),
+          ...mergeQueryStates([stkSeamReward, morphoReward, fuulReward]),
           data: items,
         },
         selected,
