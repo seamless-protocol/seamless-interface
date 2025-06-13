@@ -107,7 +107,7 @@ const fetchPreviewMintWithSwap = async (
       swapCost = 0n;
     }
 
-    swapCost += 1n; // Add 1 wei to the swap cost for rounding errors
+    swapCost += 1000n; // Add 1 wei to the swap cost for rounding errors
   }
 
   if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) throw new Error("Preview mint with swap failed");
