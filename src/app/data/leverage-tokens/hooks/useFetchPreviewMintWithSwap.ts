@@ -117,13 +117,45 @@ const fetchPreviewMintWithSwap = async (
     amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
   });
 
-  // Set share slippage to 0.05%
-  if (previewMintAfterCostDeduction?.shares?.tokenAmount?.bigIntValue && previewMintAfterCostDeduction?.shares?.dollarAmount?.bigIntValue && previewMintAfterCostDeduction?.equity?.dollarAmount?.bigIntValue) {
-    previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue = previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue * BigInt(10000 - 5) / BigInt(10000);
-    previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue = previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue * BigInt(10000 - 5) / BigInt(10000);
+  // Set share slippage to 0.001%. This is required as between oracle updates its possible for the exchange rate to decrease continuously due to borrow interest
+  if (
+    previewMintAfterCostDeduction?.shares?.tokenAmount?.bigIntValue &&
+    previewMintAfterCostDeduction?.shares?.dollarAmount?.bigIntValue &&
+    previewMintAfterCostDeduction?.equity?.dollarAmount?.bigIntValue
+  ) {
+    const shareAmountWithSlippage =
+      (previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
+    previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue = shareAmountWithSlippage;
+    previewMintAfterCostDeduction.shares.tokenAmount.viewValue = formatFetchBigIntToViewBigInt(
+      {
+        ...previewMintAfterCostDeduction.shares.tokenAmount,
+        bigIntValue: shareAmountWithSlippage,
+      },
+      walletBalanceDecimalsOptions
+    ).viewValue;
 
-    // We only update the dollar amount because its shown to the user, whereas the tokenAmount is not and is used for the tx params
-    previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue = previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue * BigInt(10000 - 5) / BigInt(10000);
+    const shareDollarAmountWithSlippage =
+      (previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
+    previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue = shareDollarAmountWithSlippage;
+    previewMintAfterCostDeduction.shares.dollarAmount.viewValue = formatFetchBigIntToViewBigInt(
+      {
+        ...previewMintAfterCostDeduction.shares.dollarAmount,
+        bigIntValue: shareDollarAmountWithSlippage,
+      },
+      walletBalanceDecimalsOptions
+    ).viewValue;
+
+    // We only update the equity dollar amount because its shown to the user, whereas the tokenAmount is not and is used for the tx params
+    const equityDollarAmountWithSlippage =
+      (previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
+    previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue = equityDollarAmountWithSlippage;
+    previewMintAfterCostDeduction.equity.dollarAmount.viewValue = formatFetchBigIntToViewBigInt(
+      {
+        ...previewMintAfterCostDeduction.equity.dollarAmount,
+        bigIntValue: equityDollarAmountWithSlippage,
+      },
+      walletBalanceDecimalsOptions
+    ).viewValue;
   }
 
   const collateralTokenPrice = await fetchAssetPriceInBlock(collateralAsset);
@@ -150,7 +182,11 @@ const fetchPreviewMintWithSwap = async (
   };
 };
 
-export const useFetchPreviewMintWithSwap = (leverageToken?: Address, amount?: string, queryOptions?: { refetchInterval?: number }) => {
+export const useFetchPreviewMintWithSwap = (
+  leverageToken?: Address,
+  amount?: string,
+  queryOptions?: { refetchInterval?: number }
+) => {
   return useQuery({
     queryKey: ["previewMintWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewMintWithSwap(leverageToken!, amount!),
