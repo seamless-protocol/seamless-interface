@@ -1,6 +1,6 @@
 import { Fuul } from "@fuul/sdk";
 
-const apiKey = import.meta.env.VITE_FULL_API_KEY;
+const apiKey = import.meta.env.VITE_FUUL_API_KEY;
 
 Fuul.init({ apiKey });
 
