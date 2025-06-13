@@ -238,6 +238,7 @@ export function LeverageTokenFormProvider({
       });
     },
     onError: (error) => {
+      console.error("Failed to mint", error);
       showNotification({
         status: "error",
         content: `Failed to mint: ${getParsedError(error)}`,
@@ -261,6 +262,7 @@ export function LeverageTokenFormProvider({
       });
     },
     onError: (error) => {
+      console.error("Failed to redeem", error);
       showNotification({
         status: "error",
         content: `Failed to mint: ${getParsedError(error)}`,
