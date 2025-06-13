@@ -134,11 +134,12 @@ const fetchPreviewMintWithSwap = async (
   };
 };
 
-export const useFetchPreviewMintWithSwap = (leverageToken?: Address, amount?: string) => {
+export const useFetchPreviewMintWithSwap = (leverageToken?: Address, amount?: string, queryOptions?: { refetchInterval?: number }) => {
   return useQuery({
     queryKey: ["previewMintWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewMintWithSwap(leverageToken!, amount!),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
+    ...queryOptions,
   });
 };

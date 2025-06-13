@@ -184,13 +184,27 @@ export function LeverageTokenFormProvider({
   /*   Deposit Logic      */
   /* -------------------- */
 
-  const previewMintData = useFetchPreviewMintWithSwap(selectedLeverageToken.data?.address, debouncedDepositAmount);
+  const previewMintData = useFetchPreviewMintWithSwap(
+    selectedLeverageToken.data?.address,
+    debouncedDepositAmount,
+    // Enable polling every 10 seconds when there's an amount to deposit
+    debouncedDepositAmount && parseFloat(debouncedDepositAmount) > 0
+      ? { refetchInterval: 10000 }
+      : undefined
+  );
 
   /* -------------------- */
   /*   Withdraw Logic     */
   /* -------------------- */
 
-  const previewRedeemData = useFetchPreviewRedeemWithSwap(selectedLeverageToken.data?.address, debouncedWithdrawAmount);
+  const previewRedeemData = useFetchPreviewRedeemWithSwap(
+    selectedLeverageToken.data?.address,
+    debouncedWithdrawAmount,
+    // Enable polling every 10 seconds when there's an amount to withdraw
+    debouncedWithdrawAmount && parseFloat(debouncedWithdrawAmount) > 0
+      ? { refetchInterval: 10000 }
+      : undefined
+  );
 
   const {
     isApproved: isRedeemApproved,

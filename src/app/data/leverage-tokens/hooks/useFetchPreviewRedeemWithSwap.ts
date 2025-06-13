@@ -152,11 +152,12 @@ export const fetchPreviewRedeemWithSwap = async ({
   };
 };
 
-export const useFetchPreviewRedeemWithSwap = (leverageToken?: Address, amount?: string) => {
+export const useFetchPreviewRedeemWithSwap = (leverageToken?: Address, amount?: string, queryOptions?: { refetchInterval?: number }) => {
   return useQuery({
     queryKey: ["fetchPreviewRedeemWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewRedeemWithSwap({ leverageToken: leverageToken!, amount: amount! }),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
+    ...queryOptions,
   });
 };
