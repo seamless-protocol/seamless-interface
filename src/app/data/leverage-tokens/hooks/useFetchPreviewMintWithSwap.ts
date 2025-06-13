@@ -107,10 +107,10 @@ const fetchPreviewMintWithSwap = async (
       swapCost = 0n;
     }
 
-    swapCost = swapCost + 1n; // Add 1 wei to the swap cost for rounding errors
+    swapCost += 1n; // Add 1 wei to the swap cost for rounding errors
   }
 
-  if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) return undefined;
+  if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) throw new Error("Preview mint with swap failed");
 
   const previewMintAfterCostDeduction = await fetchPreviewMint({
     leverageToken,
