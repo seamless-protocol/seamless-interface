@@ -146,14 +146,13 @@ const fetchPreviewMintWithSwap = async (
 
 export const useFetchPreviewMintWithSwap = (
   leverageToken?: Address,
-  amount?: string,
-  queryOptions?: { refetchInterval?: number }
+  amount?: string
 ) => {
   return useQuery({
     queryKey: ["previewMintWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewMintWithSwap(leverageToken!, amount!),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
-    ...queryOptions,
+    refetchInterval: 10000, // Poll every 10 seconds
   });
 };

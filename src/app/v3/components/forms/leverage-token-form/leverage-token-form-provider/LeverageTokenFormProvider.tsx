@@ -186,8 +186,7 @@ export function LeverageTokenFormProvider({
 
   const previewMintData = useFetchPreviewMintWithSwap(
     selectedLeverageToken.data?.address,
-    debouncedDepositAmount,
-    { refetchInterval: 10000 } // Poll every 10 seconds
+    debouncedDepositAmount
   );
 
   /* -------------------- */
@@ -196,8 +195,7 @@ export function LeverageTokenFormProvider({
 
   const previewRedeemData = useFetchPreviewRedeemWithSwap(
     selectedLeverageToken.data?.address,
-    debouncedWithdrawAmount,
-    { refetchInterval: 10000 } // Poll every 10 seconds
+    debouncedWithdrawAmount
   );
 
   const {
