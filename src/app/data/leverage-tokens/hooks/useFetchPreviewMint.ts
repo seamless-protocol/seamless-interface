@@ -66,7 +66,7 @@ export const fetchPreviewMint = async ({ leverageToken, amount, minSharesSlippag
   let minShares = previewMintData.shares;
   let minEquity = previewMintData.equity;
 
-  if (minSharesSlippage && minShares) {
+  if (minSharesSlippage) {
     minShares = cValueWithSlippage(previewMintData.shares, minSharesSlippage);
     minEquity = cValueWithSlippage(previewMintData.equity, minSharesSlippage);
   }
