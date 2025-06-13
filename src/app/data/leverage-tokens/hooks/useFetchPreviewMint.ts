@@ -14,10 +14,12 @@ import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
+import { cValueWithSlippage } from "@app/statev3/math/utils";
 
 interface FetchPreviewMintInput {
   leverageToken: Address;
   amount: string;
+  minSharesSlippage?: number;
 }
 
 export interface PreviewMintData {
@@ -25,11 +27,13 @@ export interface PreviewMintData {
   debt: ViewBigIntWithUsdValue;
   equity: ViewBigIntWithUsdValue;
   shares: ViewBigIntWithUsdValue;
+  minShares: ViewBigIntWithUsdValue;
+  minEquity: ViewBigIntWithUsdValue;
   tokenFee: ViewBigIntWithUsdValue;
   treasuryFee: ViewBigIntWithUsdValue;
 }
 
-export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMintInput): Promise<PreviewMintData> => {
+export const fetchPreviewMint = async ({ leverageToken, amount, minSharesSlippage }: FetchPreviewMintInput): Promise<PreviewMintData> => {
   const leverageTokenAssets = await fetchLeverageTokenAssets(leverageToken);
 
   const [
@@ -58,6 +62,14 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
       args: [leverageToken, amountBigInt],
     }),
   });
+
+  let minShares = previewMintData.shares;
+  let minEquity = previewMintData.equity;
+
+  if (minSharesSlippage && minShares) {
+    minShares = cValueWithSlippage(previewMintData.shares, minSharesSlippage);
+    minEquity = cValueWithSlippage(previewMintData.equity, minSharesSlippage);
+  }
 
   return {
     collateral: {
@@ -127,6 +139,42 @@ export const fetchPreviewMint = async ({ leverageToken, amount }: FetchPreviewMi
           ...leverageTokenPriceData,
           ...fUsdValueStructured(
             cValueInUsd(previewMintData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
+    },
+    minShares: {
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenData,
+          bigIntValue: minShares,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...leverageTokenPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(minShares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
+    },
+    minEquity: {
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetData,
+          bigIntValue: minEquity,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...collateralAssetPriceData,
+          ...fUsdValueStructured(
+            cValueInUsd(minEquity, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
           ),
         },
         walletBalanceDecimalsOptions

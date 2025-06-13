@@ -293,7 +293,7 @@ export function LeverageTokenFormProvider({
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
-        minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
+        minShares: previewMintData.data?.previewMint.minShares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });

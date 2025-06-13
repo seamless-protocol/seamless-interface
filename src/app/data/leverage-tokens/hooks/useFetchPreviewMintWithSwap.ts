@@ -115,48 +115,10 @@ const fetchPreviewMintWithSwap = async (
   const previewMintAfterCostDeduction = await fetchPreviewMint({
     leverageToken,
     amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
+    // The slippage on minShares is 0.001%. This is required as between oracle updates its possible for the exchange rate
+    // to decrease continuously due to borrow interest
+    minSharesSlippage: 1,
   });
-
-  // Set share slippage to 0.001%. This is required as between oracle updates its possible for the exchange rate to decrease continuously due to borrow interest
-  if (
-    previewMintAfterCostDeduction?.shares?.tokenAmount?.bigIntValue &&
-    previewMintAfterCostDeduction?.shares?.dollarAmount?.bigIntValue &&
-    previewMintAfterCostDeduction?.equity?.dollarAmount?.bigIntValue
-  ) {
-    const shareAmountWithSlippage =
-      (previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
-    previewMintAfterCostDeduction.shares.tokenAmount.bigIntValue = shareAmountWithSlippage;
-    previewMintAfterCostDeduction.shares.tokenAmount.viewValue = formatFetchBigIntToViewBigInt(
-      {
-        ...previewMintAfterCostDeduction.shares.tokenAmount,
-        bigIntValue: shareAmountWithSlippage,
-      },
-      walletBalanceDecimalsOptions
-    ).viewValue;
-
-    const shareDollarAmountWithSlippage =
-      (previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
-    previewMintAfterCostDeduction.shares.dollarAmount.bigIntValue = shareDollarAmountWithSlippage;
-    previewMintAfterCostDeduction.shares.dollarAmount.viewValue = formatFetchBigIntToViewBigInt(
-      {
-        ...previewMintAfterCostDeduction.shares.dollarAmount,
-        bigIntValue: shareDollarAmountWithSlippage,
-      },
-      walletBalanceDecimalsOptions
-    ).viewValue;
-
-    // We only update the equity dollar amount because its shown to the user, whereas the tokenAmount is not and is used for the tx params
-    const equityDollarAmountWithSlippage =
-      (previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue * BigInt(100000 - 1)) / BigInt(100000);
-    previewMintAfterCostDeduction.equity.dollarAmount.bigIntValue = equityDollarAmountWithSlippage;
-    previewMintAfterCostDeduction.equity.dollarAmount.viewValue = formatFetchBigIntToViewBigInt(
-      {
-        ...previewMintAfterCostDeduction.equity.dollarAmount,
-        bigIntValue: equityDollarAmountWithSlippage,
-      },
-      walletBalanceDecimalsOptions
-    ).viewValue;
-  }
 
   const collateralTokenPrice = await fetchAssetPriceInBlock(collateralAsset);
 
