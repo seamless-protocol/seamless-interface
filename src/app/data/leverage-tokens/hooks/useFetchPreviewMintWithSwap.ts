@@ -98,9 +98,16 @@ const fetchPreviewMintWithSwap = async (
   const weethAmountOut = await getWeethAmountOut(previewMint.debt.tokenAmount.bigIntValue);
   const parsedAmountIn = parseUnits(amount, previewMint.collateral.tokenAmount.decimals || 18);
 
-  let swapCost;
+  let swapCost: bigint | undefined;
   if (previewMint.collateral.dollarAmount && previewMint.collateral.tokenAmount.bigIntValue && weethAmountOut) {
     swapCost = previewMint.collateral.tokenAmount.bigIntValue - BigInt(parsedAmountIn) - weethAmountOut;
+    
+    // If the swap cost is negative, set it to 0
+    if (swapCost < 0) {
+      swapCost = 0n;
+    }
+
+    swapCost = swapCost + 1n; // Add 1 wei to the swap cost for rounding errors
   }
 
   if (!previewMint.collateral.tokenAmount.bigIntValue || !swapCost) return undefined;
