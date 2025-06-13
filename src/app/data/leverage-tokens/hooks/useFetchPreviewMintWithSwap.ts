@@ -101,7 +101,7 @@ const fetchPreviewMintWithSwap = async (
   let swapCost: bigint | undefined;
   if (previewMint.collateral.dollarAmount && previewMint.collateral.tokenAmount.bigIntValue && weethAmountOut) {
     swapCost = previewMint.collateral.tokenAmount.bigIntValue - BigInt(parsedAmountIn) - weethAmountOut;
-    
+
     // If the swap cost is negative, set it to 0
     if (swapCost < 0) {
       swapCost = 0n;
@@ -115,6 +115,9 @@ const fetchPreviewMintWithSwap = async (
   const previewMintAfterCostDeduction = await fetchPreviewMint({
     leverageToken,
     amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
+    // The slippage on minShares is 0.001%. This is required as between oracle updates its possible for the exchange rate
+    // to decrease continuously due to borrow interest
+    minSharesSlippage: 1,
   });
 
   const collateralTokenPrice = await fetchAssetPriceInBlock(collateralAsset);
@@ -141,11 +144,15 @@ const fetchPreviewMintWithSwap = async (
   };
 };
 
-export const useFetchPreviewMintWithSwap = (leverageToken?: Address, amount?: string) => {
+export const useFetchPreviewMintWithSwap = (
+  leverageToken?: Address,
+  amount?: string
+) => {
   return useQuery({
     queryKey: ["previewMintWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewMintWithSwap(leverageToken!, amount!),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
+    refetchInterval: 10000, // Poll every 10 seconds
   });
 };

@@ -158,5 +158,6 @@ export const useFetchPreviewRedeemWithSwap = (leverageToken?: Address, amount?: 
     queryFn: () => fetchPreviewRedeemWithSwap({ leverageToken: leverageToken!, amount: amount! }),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
+    refetchInterval: 10000, // Poll every 10 seconds
   });
 };
