@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, isAddressEqual } from "viem";
 import type { Conversion } from "@fuul/sdk/dist/types/api";
 import { ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
@@ -67,10 +67,10 @@ export const fetchConversionByTokenAddressQueryOptions = (address: Address) => (
   queryFn: async (): Promise<FuulSingleApr> => {
     const raw: Conversion[] = await fetchAllConversions({});
 
-    const finalAddress = IS_DEV_MODE ? "0x616a4E1db48e22028f6bbf20444Cd3b8e3273738" : address;
-
     const found = raw.find((item) =>
-      item.triggers.some((trigger) => trigger.contracts?.some((contract) => contract.address === finalAddress))
+      item.triggers.some((trigger) =>
+        trigger.contracts?.some((contract) => isAddressEqual(contract.address as Address, address))
+      )
     ) as FuulConversionWithMetrics;
 
     if (!found || !found.metrics) {

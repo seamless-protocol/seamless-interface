@@ -184,13 +184,19 @@ export function LeverageTokenFormProvider({
   /*   Deposit Logic      */
   /* -------------------- */
 
-  const previewMintData = useFetchPreviewMintWithSwap(selectedLeverageToken.data?.address, debouncedDepositAmount);
+  const previewMintData = useFetchPreviewMintWithSwap(
+    selectedLeverageToken.data?.address,
+    debouncedDepositAmount
+  );
 
   /* -------------------- */
   /*   Withdraw Logic     */
   /* -------------------- */
 
-  const previewRedeemData = useFetchPreviewRedeemWithSwap(selectedLeverageToken.data?.address, debouncedWithdrawAmount);
+  const previewRedeemData = useFetchPreviewRedeemWithSwap(
+    selectedLeverageToken.data?.address,
+    debouncedWithdrawAmount
+  );
 
   const {
     isApproved: isRedeemApproved,
@@ -281,7 +287,7 @@ export function LeverageTokenFormProvider({
       await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
-        minShares: previewMintData.data?.previewMint.shares.tokenAmount.bigIntValue,
+        minShares: previewMintData.data?.previewMint.minShares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });

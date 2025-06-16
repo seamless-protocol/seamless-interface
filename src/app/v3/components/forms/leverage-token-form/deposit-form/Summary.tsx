@@ -31,7 +31,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
-          {...previewMintData.data?.previewMint.equity.dollarAmount}
+          {...previewMintData.data?.previewMint.minEquity.dollarAmount}
           symbolPosition="before"
           {...checkAuthentication(isConnected)}
         />

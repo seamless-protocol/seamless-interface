@@ -18,6 +18,7 @@ const MOCK_VALUES = {
   price: "200",
   maxDeposit: "50",
   depositShares: "5",
+  minShares: "4",
   withdrawAssets: "3",
   leverageToken: {
     address: "0xTOK",
@@ -101,6 +102,7 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewMintWithSwap",
       previewMint: {
         equity: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.depositShares) } },
         shares: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.depositShares) } },
+        minShares: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.minShares) } },
       },
       swapCost: { tokenAmount: { bigIntValue: 0n } },
       swapContext: null,
@@ -279,7 +281,7 @@ describe("LeverageTokenFormProvider", () => {
     expect(mockMintAsync).toHaveBeenCalledWith({
       leverageToken: MOCK_VALUES.leverageToken.address,
       amount: BigInt(MOCK_VALUES.depositShares),
-      minShares: BigInt(MOCK_VALUES.depositShares),
+      minShares: BigInt(MOCK_VALUES.minShares),
       maxSwapCostInCollateral: 0n,
       swapContext: null,
     });
