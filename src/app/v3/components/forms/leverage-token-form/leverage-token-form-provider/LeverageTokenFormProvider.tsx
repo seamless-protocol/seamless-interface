@@ -184,19 +184,13 @@ export function LeverageTokenFormProvider({
   /*   Deposit Logic      */
   /* -------------------- */
 
-  const previewMintData = useFetchPreviewMintWithSwap(
-    selectedLeverageToken.data?.address,
-    debouncedDepositAmount
-  );
+  const previewMintData = useFetchPreviewMintWithSwap(selectedLeverageToken.data?.address, debouncedDepositAmount);
 
   /* -------------------- */
   /*   Withdraw Logic     */
   /* -------------------- */
 
-  const previewRedeemData = useFetchPreviewRedeemWithSwap(
-    selectedLeverageToken.data?.address,
-    debouncedWithdrawAmount
-  );
+  const previewRedeemData = useFetchPreviewRedeemWithSwap(selectedLeverageToken.data?.address, debouncedWithdrawAmount);
 
   const {
     isApproved: isRedeemApproved,
@@ -300,8 +294,8 @@ export function LeverageTokenFormProvider({
     }
   };
 
-  const isMintLoading = isMintPending || isApproving || previewMintData.isLoading;
-  const isRedeemLoading = isRedeemPending || isRedeemApproving || previewRedeemData.isLoading;
+  const isMintLoading = isMintPending || previewMintData.isLoading;
+  const isRedeemLoading = isRedeemPending || previewRedeemData.isLoading;
 
   const isMintDisabled = limitStatuses.data.some((status) => status === "mintLimitExceeded") || previewMintData.isError;
   const isRedeemDisabled = previewRedeemData.isError;
