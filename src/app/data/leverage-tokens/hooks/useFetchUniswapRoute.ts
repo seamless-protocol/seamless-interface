@@ -46,6 +46,7 @@ export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Prom
     if (error instanceof ContractFunctionExecutionError) {
       if (error.message.includes("ds-math-sub-underflow")) {
         // Math subtraction underflow occurred when fetching UniswapV2 quote - due to insufficient liquidity
+        // eslint-disable-next-line no-console
         console.warn("UniswapV2 quote failed: Insufficient liquidity for the swap pair");
         return undefined;
       }
