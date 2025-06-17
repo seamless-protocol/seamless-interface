@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { zeroAddress } from "viem";
+import { ContractFunctionExecutionError, zeroAddress } from "viem";
 import { simulateContract } from "wagmi/actions";
 import { readContractQueryOptions } from "wagmi/query";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, UNISWAP_FEES } from "../../../../meta";
@@ -15,32 +15,43 @@ import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";
-import type { FetchBestSwapInput } from "./useFetchPreviewRedeemWithSwap";
+import type { FetchBestSwapInput, SwapData } from "./useFetchPreviewRedeemWithSwap";
 
-export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput) => {
+export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Promise<SwapData | undefined> => {
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
 
-  const amountsIn = await queryContract({
-    ...readContractQueryOptions(getConfig(), {
-      address: uniswapV2Router02Address,
-      abi: uniswapV2Router02Abi,
-      functionName: "getAmountsIn",
-      args: [amountOut, [tokenInAddress, tokenOutAddress]],
-    }),
-  });
+  try {
+    const amountsIn = await queryContract({
+      ...readContractQueryOptions(getConfig(), {
+        address: uniswapV2Router02Address,
+        abi: uniswapV2Router02Abi,
+        functionName: "getAmountsIn",
+        args: [amountOut, [tokenInAddress, tokenOutAddress]],
+      }),
+    });
 
-  return {
-    quote: amountsIn[0],
-    swapContext: {
-      path: [tokenInAddress, tokenOutAddress],
-      encodedPath: "0x",
-      additionalData: "0x",
-      fees: [],
-      tickSpacing: [],
-      exchange: Exchange.UNISWAP_V2,
-      exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
-    } as SwapContext,
-  };
+    return {
+      quote: amountsIn[0],
+      swapContext: {
+        path: [tokenInAddress, tokenOutAddress],
+        encodedPath: "0x",
+        additionalData: "0x",
+        fees: [],
+        tickSpacing: [],
+        exchange: Exchange.UNISWAP_V2,
+        exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+      } as SwapContext,
+    };
+  } catch (error) {
+    if (error instanceof ContractFunctionExecutionError) {
+      if (error.message.includes("ds-math-sub-underflow")) {
+        // Math subtraction underflow occurred when fetching UniswapV2 quote. Probably insufficient liquidity
+        return undefined;
+      }
+    }
+
+    throw error;
+  }
 };
 
 export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
