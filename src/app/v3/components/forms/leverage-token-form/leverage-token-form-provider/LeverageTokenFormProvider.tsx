@@ -10,6 +10,7 @@ import {
   Typography,
   useERC20Approve,
   useNotificationContext,
+  useToken,
   ViewBigInt,
 } from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
@@ -62,8 +63,6 @@ interface LeverageTokenFormContextValue {
   balance: Displayable<{ balance: ViewBigInt }>;
   lpBalance: Displayable<{ balance: ViewBigInt }>;
   lpAssetPrice: Displayable<ViewBigInt>;
-
-  maxUserDepositData: Displayable<ViewBigInt>;
 
   previewMintData: Displayable<PreviewMintWithSwapData | undefined>;
 
@@ -139,6 +138,7 @@ export function LeverageTokenFormProvider({
   );
 
   const { data: collateralAsset } = useFetchCollateralAsset(selectedLeverageTokenAddress);
+  const { data: collateralAssetData } = useToken(collateralAsset);
 
   /*   Query Hooks        */
   /* -------------------- */
@@ -177,7 +177,7 @@ export function LeverageTokenFormProvider({
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     collateralAsset,
     leverageRouterAddress,
-    parseUnits(depositAmount || "0", 18)
+    parseUnits(depositAmount || "0", collateralAssetData?.decimals || 18)
   );
 
   /* -------------------- */
@@ -325,15 +325,6 @@ export function LeverageTokenFormProvider({
         },
         onTransaction: _onTransaction,
         setOnTransaction,
-        maxUserDepositData: {
-          data: {
-            bigIntValue: 10000000000000000000000000n,
-            decimals: 18,
-            symbol: "shares",
-          },
-          isLoading: false,
-          isFetched: true,
-        },
         previewRedeemData: {
           data: previewRedeemData.data,
           isLoading: previewRedeemData.isLoading,

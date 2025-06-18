@@ -44,7 +44,7 @@ export const fetchLeverageTokenProfits = async (account: Address) => {
           symbol: unrealizedProfit.unrealizedUsd.symbol || "",
         },
         unrealizedProfitPercentage: {
-          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value?.toString() || "0"),
+          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value?.toFixed(18) || "0"),
           decimals: 18,
           symbol: "%",
         },
