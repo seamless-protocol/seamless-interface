@@ -24,7 +24,7 @@ export const leverageTokensConfig: LeverageToken[] = [
     },
     limitsConfig: {
       maxBorrowApy: 2.9,
-      maxDeposit: 76,
+      maxDeposit: 35,
     },
   },
 ];
