@@ -177,7 +177,7 @@ export function LeverageTokenFormProvider({
   const { isApproved, isApproving, justApproved, approveAsync } = useERC20Approve(
     collateralAsset,
     leverageRouterAddress,
-    parseUnits(depositAmount || "0", collateralAssetData?.decimals || 18)
+    collateralAssetData?.decimals ? parseUnits(depositAmount || "0", collateralAssetData?.decimals) : undefined
   );
 
   /* -------------------- */

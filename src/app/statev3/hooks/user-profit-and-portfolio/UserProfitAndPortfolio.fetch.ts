@@ -19,6 +19,10 @@ export const fetchLeverageTokenProfits = async (account: Address) => {
       const unrealizedProfit = await fetchUserUnrealized(account, token.address);
       const equity = await fetchUserEquity(account, token.address);
 
+      if (!unrealizedProfit.unrealizedPercent.value) {
+        return;
+      }
+
       leverageTokensProfits.push({
         strategyBalance: {
           tokenAmount: {
@@ -44,7 +48,7 @@ export const fetchLeverageTokenProfits = async (account: Address) => {
           symbol: unrealizedProfit.unrealizedUsd.symbol || "",
         },
         unrealizedProfitPercentage: {
-          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value?.toFixed(18) || "0"),
+          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value.toFixed(18)),
           decimals: 18,
           symbol: "%",
         },
