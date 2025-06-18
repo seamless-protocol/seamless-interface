@@ -1,12 +1,8 @@
 import { FlexCol, Typography, FlexRow, DisplayTokenAmount } from "@shared";
-import { useAccount } from "wagmi";
-import { checkAuthentication } from "../../../../../utils/authenticationUtils";
 import { DataRow } from "../../DataRow";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 
 export const Summary = () => {
-  const { isConnected } = useAccount();
-
   const { previewRedeemData } = useLeverageTokenFormContext();
 
   return (
@@ -18,7 +14,6 @@ export const Summary = () => {
           <DisplayTokenAmount
             {...previewRedeemData.data?.previewRedeemData?.tokenFee?.dollarAmount}
             symbolPosition="before"
-            {...checkAuthentication(isConnected)}
           />
         </DataRow>
 
@@ -27,7 +22,6 @@ export const Summary = () => {
             typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.treasuryFee?.dollarAmount}
             symbolPosition="before"
-            {...checkAuthentication(isConnected)}
           />
         </DataRow>
 
@@ -36,7 +30,6 @@ export const Summary = () => {
             typography="bold2"
             {...previewRedeemData.data?.equityAfterSwapCost?.dollarAmount}
             symbolPosition="before"
-            {...checkAuthentication(isConnected)}
           />
         </DataRow>
         <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
@@ -44,7 +37,6 @@ export const Summary = () => {
             typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.debt?.tokenAmount}
             symbolPosition="before"
-            {...checkAuthentication(isConnected)}
           />
         </DataRow>
 
@@ -53,17 +45,11 @@ export const Summary = () => {
             typography="bold2"
             {...previewRedeemData.data?.previewRedeemData?.collateral?.tokenAmount}
             symbolPosition="before"
-            {...checkAuthentication(isConnected)}
           />
         </DataRow>
 
         <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
-          <DisplayTokenAmount
-            typography="bold2"
-            {...previewRedeemData.data?.swapCost}
-            symbolPosition="before"
-            {...checkAuthentication(isConnected)}
-          />
+          <DisplayTokenAmount typography="bold2" {...previewRedeemData.data?.swapCost} symbolPosition="before" />
         </DataRow>
       </FlexCol>
     </FlexCol>
