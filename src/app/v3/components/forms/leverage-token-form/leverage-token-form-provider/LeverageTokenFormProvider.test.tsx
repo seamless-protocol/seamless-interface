@@ -38,7 +38,7 @@ vi.mock("@shared", () => ({
     approveAsync: async () => {},
   }),
   useToken: () => ({
-    data: { decimals: 18 }, // or whatever shape your code expects
+    data: { decimals: 18 },
     isLoading: false,
     isFetched: true,
   }),
