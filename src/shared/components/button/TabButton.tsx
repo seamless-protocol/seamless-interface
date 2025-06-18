@@ -50,9 +50,9 @@ export const TabButton = <T extends string>({ tab, children, ...rest }: TabButto
     <button
       {...rest}
       onClick={() => setActiveTab(tab)}
-      className={`min-w-24 md:min-w-32 relative py-4 text-bold3 ${
+      className={`relative py-4 text-bold3 ${
         activeTab === tab ? "border-b-navy-1000 z-20 mb-[-0.5px] border-b-thin" : "text-navy-400"
-      }`}
+      } ${rest.className || ""}`}
     >
       {children}
     </button>
