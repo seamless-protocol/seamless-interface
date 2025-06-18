@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { useAccount } from "wagmi";
 import { parseUnits, type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
 import {
@@ -16,7 +15,6 @@ import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-l
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useClearIfExceedsBalanceAfterWalletConnect } from "../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
 import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
 import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
@@ -33,7 +31,6 @@ import {
   LimitStatus,
   useLeverageTokenLimitStatuses,
 } from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
-import { useFetchUserEquity } from "../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
 
 /* -------------------- */
 /*   Types & Context    */
@@ -124,7 +121,6 @@ export function LeverageTokenFormProvider({
   /* -------------------- */
   /*   Local State        */
   /* -------------------- */
-  const { isConnected, address: userAddress } = useAccount();
   const [mode, _setMode] = useState<Mode>(defaultMode);
   const reactHookFormMethods = useForm<LeverageTokenFormData>({
     defaultValues: { depositAmount: "", withdrawAmount: "" },
@@ -145,26 +141,12 @@ export function LeverageTokenFormProvider({
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
   const balance = useFetchViewAssetBalance(collateralAsset);
   const lpBalance = useFetchViewAssetBalance(selectedLeverageTokenAddress);
-  const { data: userEquityData } = useFetchUserEquity(userAddress, selectedLeverageToken.data?.address);
 
   /* -------------------- */
   /*   Calculations       */
   /* -------------------- */
   const { debouncedAmount: debouncedDepositAmount } = useWrappedDebounce(depositAmount);
   const { debouncedAmount: debouncedWithdrawAmount } = useWrappedDebounce(withdrawAmount);
-
-  useClearIfExceedsBalanceAfterWalletConnect({
-    getValue: () => reactHookFormMethods.getValues("depositAmount"),
-    setValue: (value) => reactHookFormMethods.setValue("depositAmount", value),
-    balance: { bigIntValue: balance.data?.balance?.bigIntValue, decimals: balance.data?.balance?.decimals },
-    isConnected,
-  });
-  useClearIfExceedsBalanceAfterWalletConnect({
-    getValue: () => reactHookFormMethods.getValues("withdrawAmount"),
-    setValue: (value) => reactHookFormMethods.setValue("withdrawAmount", value),
-    balance: { bigIntValue: userEquityData?.tokenAmount?.bigIntValue, decimals: userEquityData?.tokenAmount?.decimals },
-    isConnected,
-  });
 
   const limitStatuses = useLeverageTokenLimitStatuses({
     debouncedDepositAmount,

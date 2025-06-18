@@ -210,7 +210,6 @@ vi.mock("../../../../../data/leverage-tokens/queries/user-equity/user-equity.fet
 }));
 
 describe("LeverageTokenFormProvider", () => {
-  // We wrap with a defaultLeverageTokenAddress so that `selectedLeverageTokenAddress` is never undefined
   const wrapper = ({ children }: { children?: React.ReactNode }) => (
     <LeverageTokenFormProvider defaultLeverageTokenAddress={MOCK_VALUES.leverageToken.address as Address}>
       {children}
@@ -220,7 +219,6 @@ describe("LeverageTokenFormProvider", () => {
   beforeEach(() => {
     mockMintAsync.mockClear();
     mockRedeemAsync.mockClear();
-    // Reset useAccount to the “logged-in” state by default
     (useAccount as Mock).mockReturnValue({
       address: MOCK_VALUES.userAddress,
       isConnected: true,
@@ -247,7 +245,6 @@ describe("LeverageTokenFormProvider", () => {
     act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
     expect(result.current.depositAmount).toBe("10");
 
-    // Switch to “withdraw” → both fields should clear
     act(() => result.current.setMode("withdraw"));
     expect(result.current.depositAmount).toBe("");
     expect(result.current.withdrawAmount).toBe("");
@@ -256,14 +253,8 @@ describe("LeverageTokenFormProvider", () => {
   it("resets fields when selecting new token", () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    // Set depositAmount to “10”
     act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
     act(() => result.current.setSelectedLeverageTokenAddress("0xNEW"));
-
-    // Even though we forced a new address, useFetchLeverageTokenByAddress always returns the same mock object
-    expect(result.current.selectedLeverageToken.data?.address).toBe(MOCK_VALUES.leverageToken.address);
-
-    // Both fields cleared
     expect(result.current.depositAmount).toBe("");
     expect(result.current.withdrawAmount).toBe("");
   });
@@ -271,10 +262,7 @@ describe("LeverageTokenFormProvider", () => {
   it("calls mintAsync with correct values on deposit submit", async () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    // Fill in depositAmount
     act(() => result.current.reactHookFormMethods.setValue("depositAmount", "10"));
-
-    // Run formOnSubmitAsync
     await act(async () => result.current.formOnSubmitAsync({}));
 
     expect(mockMintAsync).toHaveBeenCalledTimes(1);
@@ -290,80 +278,17 @@ describe("LeverageTokenFormProvider", () => {
   it("calls redeemAsync with correct values on withdraw submit", async () => {
     const { result } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
 
-    // Switch to “withdraw” mode
     act(() => result.current.setMode("withdraw"));
-
-    // Fill in withdrawAmount
     act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "4"));
-
-    // Run formOnSubmitAsync
     await act(async () => result.current.formOnSubmitAsync({}));
 
     expect(mockRedeemAsync).toHaveBeenCalledTimes(1);
     expect(mockRedeemAsync).toHaveBeenCalledWith({
       leverageToken: MOCK_VALUES.leverageToken.address,
-      equityInCollateral: BigInt(0),
+      equityInCollateral: 0n,
       maxShares: BigInt(MOCK_VALUES.withdrawAssets),
       maxSwapCostInCollateral: 0n,
       swapContext: null,
     });
-  });
-
-  it("preserves or clears depositAmount based on login and balance", () => {
-    const mockUseAccount = vi.mocked(useAccount) as Mock;
-
-    // 1) Start “logged out”
-    mockUseAccount.mockReturnValue({ address: undefined, isConnected: false });
-
-    const { result, rerender } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
-
-    // before login: can set arbitrarily
-    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "200"));
-    expect(result.current.depositAmount).toBe("200");
-
-    // login: balance = 100, so 200 > 100 -> clears
-    mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
-    rerender();
-    expect(result.current.depositAmount).toBe("");
-
-    // before login again
-    mockUseAccount.mockReturnValue({ address: undefined, isConnected: false });
-    rerender();
-    act(() => result.current.reactHookFormMethods.setValue("depositAmount", "50"));
-    expect(result.current.depositAmount).toBe("50");
-
-    // login: 50 <= 100 → stays
-    mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
-    rerender();
-    expect(result.current.depositAmount).toBe("50");
-  });
-
-  it("preserves or clears withdrawAmount based on login and lpBalance", () => {
-    const mockUseAccount = vi.mocked(useAccount) as Mock;
-
-    // before login
-    mockUseAccount.mockReturnValue({ address: undefined, isConnected: false });
-
-    const { result, rerender } = renderHook(() => useLeverageTokenFormContext(), { wrapper });
-
-    // login: lpBalance = 100, so 200 > 100 → clears
-    act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "200"));
-    expect(result.current.withdrawAmount).toBe("200");
-
-    // login: lpBalance = 100 → clears 200 > 100
-    mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
-    rerender();
-    expect(result.current.withdrawAmount).toBe("");
-
-    // before login again
-    mockUseAccount.mockReturnValue({ address: undefined, isConnected: false });
-    rerender();
-    act(() => result.current.reactHookFormMethods.setValue("withdrawAmount", "50"));
-    expect(result.current.withdrawAmount).toBe("50");
-
-    // login: 50 <= 100 → stays
-    mockUseAccount.mockReturnValue({ address: MOCK_VALUES.userAddress, isConnected: true });
-    rerender();
-    expect(result.current.withdrawAmount).toBe("50");
   });
 });
