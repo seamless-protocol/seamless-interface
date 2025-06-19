@@ -28,6 +28,7 @@ export interface IRHFAmountInputPropsV3 extends RHFInputFieldProps {
     decimals?: number;
     logo?: string;
   }>;
+  allowOverMax?: boolean;
 }
 
 export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInputPropsV3>(
@@ -41,6 +42,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
       assetButton,
       tokenData,
       focusOnAssetChange = false,
+      allowOverMax = false,
       hideMaxButton,
       ...other
     },
@@ -94,7 +96,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
             <RHFInputField
               name={name}
               min={0}
-              max={isConnected ? max || "0" : String(MAX_NUMBER)}
+              max={isConnected && !allowOverMax ? max || "0" : String(MAX_NUMBER)}
               placeholder="0.00"
               {...other}
               disabled={other.disabled || !assetAddress}

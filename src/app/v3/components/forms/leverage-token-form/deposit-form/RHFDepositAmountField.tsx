@@ -79,6 +79,7 @@ export function RHFDepositAmountField<T>({ ...other }: IProps<T>) {
         data: maxUserDepositData,
       }}
       tokenData={{ ...collateralTokenRest, data: collateralTokenData || {} }}
+      allowOverMax
     />
   );
 }
