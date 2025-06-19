@@ -133,7 +133,11 @@ export const fetchPreviewRedeem = async ({
         {
           ...leverageTokenData,
           ...fUsdValueStructured(
-            cValueInUsd(previewRedeemData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+            cValueInUsd(
+              previewRedeemData.equity + previewRedeemData.tokenFee,
+              collateralAssetPriceData?.bigIntValue,
+              collateralAssetData.decimals
+            )
           ),
         },
         walletBalanceDecimalsOptions

@@ -1,3 +1,4 @@
+import { cValueWithSlippage } from "@app/statev3/math/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
@@ -14,7 +15,6 @@ import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
-import { cValueWithSlippage } from "@app/statev3/math/utils";
 
 interface FetchPreviewMintInput {
   leverageToken: Address;
@@ -33,7 +33,11 @@ export interface PreviewMintData {
   treasuryFee: ViewBigIntWithUsdValue;
 }
 
-export const fetchPreviewMint = async ({ leverageToken, amount, minSharesSlippage }: FetchPreviewMintInput): Promise<PreviewMintData> => {
+export const fetchPreviewMint = async ({
+  leverageToken,
+  amount,
+  minSharesSlippage,
+}: FetchPreviewMintInput): Promise<PreviewMintData> => {
   const leverageTokenAssets = await fetchLeverageTokenAssets(leverageToken);
 
   const [
@@ -136,9 +140,13 @@ export const fetchPreviewMint = async ({ leverageToken, amount, minSharesSlippag
       ),
       dollarAmount: formatFetchBigIntToViewBigInt(
         {
-          ...leverageTokenPriceData,
+          ...collateralAssetPriceData,
           ...fUsdValueStructured(
-            cValueInUsd(previewMintData.shares, leverageTokenPriceData?.bigIntValue, leverageTokenData.decimals)
+            cValueInUsd(
+              previewMintData.equity - previewMintData.tokenFee,
+              collateralAssetPriceData.bigIntValue,
+              collateralAssetData.decimals
+            )
           ),
         },
         walletBalanceDecimalsOptions
