@@ -9,6 +9,8 @@ export const Summary = () => {
 
   const { previewRedeemData } = useLeverageTokenFormContext();
 
+  console.log(previewRedeemData.data);
+
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3">
@@ -60,7 +62,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
-            {...previewRedeemData.data?.swapCost}
+            {...previewRedeemData.data?.swapCost?.dollarAmount}
             symbolPosition="before"
             {...checkAuthentication(isConnected)}
           />

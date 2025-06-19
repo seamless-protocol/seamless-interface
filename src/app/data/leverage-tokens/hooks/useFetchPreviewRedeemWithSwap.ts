@@ -1,7 +1,14 @@
+import { cValueInUsd } from "@app/statev3/common/math/cValueInUsd";
+import { fetchAssetPriceInBlock } from "@app/statev3/queries/AssetPrice.hook";
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, walletBalanceDecimalsOptions } from "../../../../meta";
-import { fetchToken, formatFetchBigIntToViewBigInt, fUsdValueStructured, ViewBigInt, ViewBigIntWithUsdValue } from "../../../../shared";
+import {
+  fetchToken,
+  formatFetchBigIntToViewBigInt,
+  fUsdValueStructured,
+  ViewBigIntWithUsdValue,
+} from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
 import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
@@ -9,8 +16,6 @@ import { Exchange } from "../common/enums";
 import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
 import { fetchPreviewRedeem, PreviewRedeemData } from "./useFetchPreviewRedeem";
 import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFetchUniswapRoute";
-import { cValueInUsd } from "@app/statev3/common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "@app/statev3/queries/AssetPrice.hook";
 
 export interface FetchBestSwapInput {
   tokenInAddress: Address;
@@ -65,7 +70,7 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
 
 export interface PreviewRedeemWithSwap {
   equityAfterSwapCost: ViewBigIntWithUsdValue;
-  swapCost: ViewBigInt;
+  swapCost: ViewBigIntWithUsdValue;
   previewRedeemData: PreviewRedeemData;
   swapContext: SwapContext | undefined;
 }
@@ -110,7 +115,7 @@ export const fetchPreviewRedeemWithSwap = async ({
       swapCost = 0n;
     }
 
-    swapCost = swapCost * 10500n / 10000n; // Add 5% slippage buffer to the swap cost
+    swapCost = (swapCost * 10500n) / 10000n; // Add 5% slippage buffer to the swap cost
   }
 
   const parsedAmount = parseUnits(amount, 18);
@@ -130,23 +135,30 @@ export const fetchPreviewRedeemWithSwap = async ({
         {
           ...previewRedeemData.equity.tokenAmount,
           ...fUsdValueStructured(
-            cValueInUsd(
-              equityAfterSwapCost,
-              collateralAssetPriceData?.bigIntValue,
-              collateralAssetData.decimals
-            )
+            cValueInUsd(equityAfterSwapCost, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
           ),
         },
         walletBalanceDecimalsOptions
       ),
     },
-    swapCost: formatFetchBigIntToViewBigInt(
-      {
-        ...previewRedeemData.collateral.tokenAmount,
-        bigIntValue: swapCost,
-      },
-      walletBalanceDecimalsOptions
-    ),
+    swapCost: {
+      tokenAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...previewRedeemData.collateral.tokenAmount,
+          bigIntValue: swapCost,
+        },
+        walletBalanceDecimalsOptions
+      ),
+      dollarAmount: formatFetchBigIntToViewBigInt(
+        {
+          ...previewRedeemData.collateral.tokenAmount,
+          ...fUsdValueStructured(
+            cValueInUsd(swapCost, collateralAssetPriceData?.bigIntValue, collateralAssetData.decimals)
+          ),
+        },
+        walletBalanceDecimalsOptions
+      ),
+    },
     previewRedeemData,
     swapContext: swapData?.swapContext,
   };

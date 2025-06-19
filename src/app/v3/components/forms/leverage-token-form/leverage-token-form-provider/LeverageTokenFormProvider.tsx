@@ -288,7 +288,7 @@ export function LeverageTokenFormProvider({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.tokenAmount.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
-        maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.bigIntValue,
+        maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
       });
     }
