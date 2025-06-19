@@ -1,10 +1,12 @@
-import { leverageRouterAddress } from "@generated";
+import { leverageRouterAbi, leverageRouterAddress } from "@generated";
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
+import { simulateContract } from "wagmi/actions";
 import { useAccount } from "wagmi";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
 import { targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
+import { getConfig } from "@app/utils/queryContractUtils";
 
 export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
@@ -40,6 +42,15 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
       if (!maxSwapCostInCollateral)
         throw new Error("Max swap cost in collateral is not defined. Something went wrong. Contact support.");
       if (!leverageToken) throw new Error("Leverage token is not defined.");
+
+      // Simulate the redeem first, which will throw an error including any revert strings in the error message
+      // and notification
+      await simulateContract(getConfig(), {
+        address: leverageRouterAddress,
+        abi: leverageRouterAbi,
+        functionName: "redeem",
+        args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
+      });
 
       await writeContractAsync({
         chainId: targetChain.id,

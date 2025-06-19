@@ -1,9 +1,11 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
+import { simulateContract } from "wagmi/actions";
 import { targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 import { leverageRouterAbi, leverageRouterAddress } from "../../../generated";
+import { getConfig } from "../../../utils/queryContractUtils";
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
@@ -39,6 +41,15 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
       if (!leverageToken) throw new Error("Leverage token is not defined.");
 
       const amountAfterSwapCost = amount - maxSwapCostInCollateral;
+
+      // Simulate the mint first, which will throw an error including any revert strings in the error message
+      // and notification
+      await simulateContract(getConfig(), {
+        address: leverageRouterAddress,
+        abi: leverageRouterAbi,
+        functionName: "mint",
+        args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
+      });
 
       await writeContractAsync({
         chainId: targetChain.id,
