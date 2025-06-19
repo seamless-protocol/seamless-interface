@@ -124,7 +124,7 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap
       previewRedeemData: {
         shares: { tokenAmount: { bigIntValue: BigInt(MOCK_VALUES.withdrawAssets) } },
       },
-      swapCost: { bigIntValue: 0n },
+      swapCost: { tokenAmount: { bigIntValue: 0n } },
       equityAfterSwapCost: { tokenAmount: { bigIntValue: 0n }, dollarAmount: { bigIntValue: 0n } },
       swapContext: null,
     },
