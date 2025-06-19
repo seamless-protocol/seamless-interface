@@ -19,21 +19,35 @@ export const fetchLeverageTokenProfits = async (account: Address) => {
       const unrealizedProfit = await fetchUserUnrealized(account, token.address);
       const equity = await fetchUserEquity(account, token.address);
 
-      if (!unrealizedProfit.unrealizedPercent.value) {
+      const isEquityInvalid =
+        !equity.tokenAmount.bigIntValue ||
+        !equity.dollarAmount.bigIntValue ||
+        !equity.tokenAmount.decimals ||
+        !equity.dollarAmount.decimals ||
+        !equity.tokenAmount.symbol ||
+        !equity.dollarAmount.symbol;
+
+      const isUnrealizedProfitInvalid =
+        !unrealizedProfit.unrealizedUsd.bigIntValue ||
+        !unrealizedProfit.unrealizedUsd.decimals ||
+        !unrealizedProfit.unrealizedUsd.symbol ||
+        !unrealizedProfit.unrealizedPercent.value;
+
+      if (isEquityInvalid || isUnrealizedProfitInvalid) {
         return;
       }
 
       leverageTokensProfits.push({
         strategyBalance: {
           tokenAmount: {
-            bigIntValue: equity.tokenAmount.bigIntValue || 0n,
-            decimals: equity.tokenAmount.decimals || 0,
-            symbol: equity.tokenAmount.symbol || "",
+            bigIntValue: equity.tokenAmount.bigIntValue!,
+            decimals: equity.tokenAmount.decimals!,
+            symbol: equity.tokenAmount.symbol!,
           },
           dollarAmount: {
-            bigIntValue: equity.dollarAmount.bigIntValue || 0n,
-            decimals: equity.dollarAmount.decimals || 0,
-            symbol: equity.dollarAmount.symbol || "",
+            bigIntValue: equity.dollarAmount.bigIntValue!,
+            decimals: equity.dollarAmount.decimals!,
+            symbol: equity.dollarAmount.symbol!,
           },
         },
         // TODO: replace this with the realized profit from subgraph because this field is not used currently
@@ -43,12 +57,12 @@ export const fetchLeverageTokenProfits = async (account: Address) => {
           symbol: "$",
         },
         unrealizedProfit: {
-          bigIntValue: unrealizedProfit.unrealizedUsd.bigIntValue || 0n,
-          decimals: unrealizedProfit.unrealizedUsd.decimals || 0,
-          symbol: unrealizedProfit.unrealizedUsd.symbol || "",
+          bigIntValue: unrealizedProfit.unrealizedUsd.bigIntValue!,
+          decimals: unrealizedProfit.unrealizedUsd.decimals!,
+          symbol: unrealizedProfit.unrealizedUsd.symbol!,
         },
         unrealizedProfitPercentage: {
-          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value.toFixed(18)),
+          bigIntValue: parseEther(unrealizedProfit.unrealizedPercent.value!.toFixed(18)),
           decimals: 18,
           symbol: "%",
         },
