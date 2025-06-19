@@ -9,8 +9,6 @@ export const Summary = () => {
 
   const { previewRedeemData } = useLeverageTokenFormContext();
 
-  console.log(previewRedeemData.data);
-
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3">
