@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { parseUnits, type Address } from "viem";
+import { formatUnits, parseUnits, type Address } from "viem";
 import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Displayable,
@@ -136,6 +136,8 @@ export function LeverageTokenFormProvider({
   const { data: collateralAsset } = useFetchCollateralAsset(selectedLeverageTokenAddress);
   const { data: collateralAssetData } = useToken(collateralAsset);
 
+  const { data: leverageTokenData } = useToken(selectedLeverageTokenAddress);
+
   /*   Query Hooks        */
   /* -------------------- */
   const selectedLeverageToken = useFetchLeverageTokenByAddress(selectedLeverageTokenAddress);
@@ -209,16 +211,6 @@ export function LeverageTokenFormProvider({
   );
 
   const { mintAsync, isMintPending } = useMintLeverageToken({
-    onSuccess: (txHash) => {
-      showNotification({
-        txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            <Typography>You minted {debouncedDepositAmount}</Typography>
-          </FlexCol>
-        ),
-      });
-    },
     onError: (error) => {
       showNotification({
         status: "error",
@@ -232,16 +224,6 @@ export function LeverageTokenFormProvider({
   });
 
   const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
-    onSuccess: (txHash) => {
-      showNotification({
-        txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            You redeemed {debouncedWithdrawAmount}
-          </FlexCol>
-        ),
-      });
-    },
     onError: (error) => {
       showNotification({
         status: "error",
@@ -258,20 +240,43 @@ export function LeverageTokenFormProvider({
 
   const formOnSubmitAsync = async () => {
     if (mode === "deposit") {
-      await mintAsync({
+      const mintTxData = await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.minShares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
+
+      if (!mintTxData || !mintTxData.shares || !leverageTokenData?.decimals) return;
+
+      showNotification({
+        txHash: mintTxData.txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            You minted {formatUnits(BigInt(mintTxData.shares), leverageTokenData?.decimals)} {leverageTokenData?.symbol}
+          </FlexCol>
+        ),
+      });
     } else if (mode === "withdraw") {
-      await redeemAsync({
+      const redeemTxData = await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.tokenAmount.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
         maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
+      });
+
+      if (!redeemTxData || !redeemTxData.shares || !leverageTokenData?.decimals) return;
+
+      showNotification({
+        txHash: redeemTxData.txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            You redeemed {formatUnits(BigInt(redeemTxData.shares), leverageTokenData?.decimals)}{" "}
+            {leverageTokenData?.symbol}
+          </FlexCol>
+        ),
       });
     }
   };
@@ -350,4 +355,7 @@ export function useLeverageTokenFormContext() {
   const ctx = useContext(LeverageTokenFormContext);
   if (!ctx) throw new Error("useLeverageTokenFormContext must be used within LeverageTokenFormProvider");
   return ctx;
+}
+function setValue(arg0: string, bigIntValue: bigint | undefined) {
+  throw new Error("Function not implemented.");
 }

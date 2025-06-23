@@ -1,11 +1,33 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { Address } from "viem";
+import { Address, decodeEventLog } from "viem";
 import { useAccount } from "wagmi";
-import { simulateContract } from "wagmi/actions";
-import { targetChain } from "../../../config/rainbow.config";
+import { getPublicClient, simulateContract } from "wagmi/actions";
+import { MintEventAbi } from "../../../../../abis/MintEvent";
+import { config, targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 import { leverageRouterAbi, leverageRouterAddress } from "../../../generated";
 import { getConfig } from "../../../utils/queryContractUtils";
+
+export const getMintedShares = async (txHash: `0x${string}`) => {
+  const client = getPublicClient(config);
+  const receipt = await client.getTransactionReceipt({ hash: txHash });
+  const logs = receipt.logs;
+
+  for (const log of logs) {
+    try {
+      const decodedLog = decodeEventLog({
+        abi: MintEventAbi,
+        data: log.data,
+        topics: log.topics,
+      });
+
+      if (!decodedLog?.args) continue;
+
+      const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
+      return args.actionData.shares;
+    } catch (error) {}
+  }
+};
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
@@ -51,13 +73,18 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
       });
 
-      await writeContractAsync({
+      const mintTx = await writeContractAsync({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: leverageRouterAbi,
         functionName: "mint",
         args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
       });
+
+      return {
+        txHash: mintTx,
+        shares: await getMintedShares(mintTx),
+      };
     } catch (error) {
       console.error("Failed to mint", error);
       showNotification({

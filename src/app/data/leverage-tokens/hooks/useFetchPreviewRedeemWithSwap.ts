@@ -84,6 +84,7 @@ export const fetchPreviewRedeemWithSwap = async ({
 }): Promise<PreviewRedeemWithSwap | undefined> => {
   const collateralAsset = await fetchCollateralAsset({ leverageToken });
   const debtAsset = await fetchDebtAsset({ leverageToken });
+  const { decimals: collateralDecimals } = await fetchToken(collateralAsset);
 
   const [previewRedeemData, collateralAssetData, collateralAssetPriceData] = await Promise.all([
     fetchPreviewRedeem({ leverageToken, amount }),
@@ -118,7 +119,7 @@ export const fetchPreviewRedeemWithSwap = async ({
     swapCost = (swapCost * 10500n) / 10000n; // Add 5% slippage buffer to the swap cost
   }
 
-  const parsedAmount = parseUnits(amount, 18);
+  const parsedAmount = parseUnits(amount, collateralDecimals);
 
   const equityAfterSwapCost = swapCost ? parsedAmount - swapCost : undefined;
 

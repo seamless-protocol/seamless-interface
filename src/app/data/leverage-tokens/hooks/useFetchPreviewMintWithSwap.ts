@@ -10,7 +10,12 @@ import {
   walletBalanceDecimalsOptions,
   WEETH_ADDRESS,
 } from "../../../../meta";
-import { formatFetchBigIntToViewBigInt, fUsdValueStructured, ViewBigIntWithUsdValue } from "../../../../shared";
+import {
+  fetchToken,
+  formatFetchBigIntToViewBigInt,
+  fUsdValueStructured,
+  ViewBigIntWithUsdValue,
+} from "../../../../shared";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { etherfiL2ModeSyncPoolAddress } from "../../../generated";
 import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
@@ -92,11 +97,15 @@ const fetchPreviewMintWithSwap = async (
   amount: string
 ): Promise<PreviewMintWithSwapData | undefined> => {
   const { collateralAsset } = await fetchLeverageTokenAssets(leverageToken);
+  const { decimals: collateralDecimals } = await fetchToken(collateralAsset);
+
   const previewMint = await fetchPreviewMint({ leverageToken, amount });
   const swapContext = getSwapContext();
 
   const weethAmountOut = await getWeethAmountOut(previewMint.debt.tokenAmount.bigIntValue);
-  const parsedAmountIn = parseUnits(amount, previewMint.collateral.tokenAmount.decimals || 18);
+
+  if (!previewMint.collateral.tokenAmount.decimals) return;
+  const parsedAmountIn = parseUnits(amount, previewMint.collateral.tokenAmount.decimals);
 
   let swapCost: bigint | undefined;
   if (previewMint.collateral.dollarAmount && previewMint.collateral.tokenAmount.bigIntValue && weethAmountOut) {
@@ -114,7 +123,7 @@ const fetchPreviewMintWithSwap = async (
 
   const previewMintAfterCostDeduction = await fetchPreviewMint({
     leverageToken,
-    amount: formatUnits(parseUnits(amount, 18) - swapCost, 18),
+    amount: formatUnits(parseUnits(amount, collateralDecimals) - swapCost, collateralDecimals),
     // The slippage on minShares is 0.001%. This is required as between oracle updates its possible for the exchange rate
     // to decrease continuously due to borrow interest
     minSharesSlippage: 1,
@@ -144,10 +153,7 @@ const fetchPreviewMintWithSwap = async (
   };
 };
 
-export const useFetchPreviewMintWithSwap = (
-  leverageToken?: Address,
-  amount?: string
-) => {
+export const useFetchPreviewMintWithSwap = (leverageToken?: Address, amount?: string) => {
   return useQuery({
     queryKey: ["previewMintWithSwap", leverageToken, amount],
     queryFn: () => fetchPreviewMintWithSwap(leverageToken!, amount!),

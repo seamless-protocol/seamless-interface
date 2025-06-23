@@ -1,12 +1,35 @@
+import { getConfig } from "@app/utils/queryContractUtils";
 import { leverageRouterAbi, leverageRouterAddress } from "@generated";
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { Address } from "viem";
-import { simulateContract } from "wagmi/actions";
+import { Address, decodeEventLog } from "viem";
 import { useAccount } from "wagmi";
+import { getPublicClient, simulateContract } from "wagmi/actions";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
-import { targetChain } from "../../../config/rainbow.config";
+import { RedeemEventAbi } from "../../../../../abis/RedeemEvent";
+import { config, targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
-import { getConfig } from "@app/utils/queryContractUtils";
+
+export const getRedeemedShares = async (txHash: `0x${string}`) => {
+  const client = getPublicClient(config);
+  const receipt = await client.getTransactionReceipt({ hash: txHash });
+
+  const logs = receipt.logs;
+
+  for (const log of logs) {
+    try {
+      const decodedLog = decodeEventLog({
+        abi: RedeemEventAbi,
+        data: log.data,
+        topics: log.topics,
+      });
+
+      if (!decodedLog?.args) continue;
+
+      const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
+      return args.actionData.shares;
+    } catch (error) {}
+  }
+};
 
 export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
   /* ------------- */
@@ -52,13 +75,18 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
 
-      await writeContractAsync({
+      const tx = await writeContractAsync({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: LeverageRouterAbi,
         functionName: "redeem",
         args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
+
+      return {
+        txHash: tx,
+        shares: await getRedeemedShares(tx),
+      };
     } catch (error) {
       console.error("Failed to redeem", error);
       showNotification({
