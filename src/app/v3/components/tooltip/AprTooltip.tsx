@@ -1,7 +1,7 @@
 import { DisplayPercentage, FlexRow, Tooltip, Icon, ViewNumber, useToken, FlexCol, Typography } from "@shared";
 import { IncentivesDetailCard, ViewRewardToken } from "./IncentivesDetailCard";
 import { Address } from "viem";
-import { useFetchViewSupplyIncentives } from "../../../data/landing-deprecated/hooks/useFetchViewSupplyIncentives";
+import { useFetchViewSupplyIncentives } from "../../../data/lending-deprecated/hooks/useFetchViewSupplyIncentives";
 import { useFetchStrategyIncentives } from "../../../data/ilmv1-deprecated/queries/useFetchViewStrategyIncentives.all";
 import { useFetchStrategyAssets } from "../../../data/ilmv1-deprecated/metadata/useFetchStrategyAssets";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";

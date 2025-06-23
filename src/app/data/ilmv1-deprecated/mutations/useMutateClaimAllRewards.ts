@@ -1,8 +1,8 @@
 import { SeamlessWriteAsyncParams, useSeamlessContractWrite } from "@shared";
 import { rewardsControllerConfig } from "@generated";
-import { useFetchViewAllUserRewards } from "../../landing-deprecated/hooks/useFetchViewAllRewards";
+import { useFetchViewAllUserRewards } from "../../lending-deprecated/hooks/useFetchViewAllRewards";
 import { BRETT_ADDRESS } from "../../../../meta";
-import { ViewAllUserRewards } from "../../landing-deprecated/types/ViewAllUserRewards";
+import { ViewAllUserRewards } from "../../lending-deprecated/types/ViewAllUserRewards";
 import { useFetchAllRewardsAccruingAssets } from "../../common/hooks/useFetchAllRewardsAccruingAssets";
 import { targetChain } from "../../../config/rainbow.config";
 
