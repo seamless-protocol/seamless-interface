@@ -5,6 +5,7 @@ import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-to
 import { useFetchLeverageRatios } from "../../../../../data/leverage-tokens/queries/collateral-ratios/leverage-ratios.hook";
 import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
+import { useFetchLeverageTokenCollateral } from "../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 
 const skeletonLoaderSettings = { width: "120px", height: "30px" };
 
@@ -23,11 +24,13 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
     leverageToken?.data?.address
   );
 
+  const { data: collateral, ...restCollateral } = useFetchLeverageTokenCollateral(leverageToken?.data?.address);
+
   return (
     <div className="w-full rounded-card bg-neutral-0 overflow-hidden py-3">
       <div
         className="
-          grid grid-cols-1 md:grid-cols-3
+          grid grid-cols-1 md:grid-cols-4
           divide-y divide-neutral-200
           md:divide-y-0 md:divide-x
         "
@@ -56,7 +59,31 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           </div>
         </div>
 
-        {/* 2. Price */}
+        {/* 2. TVL */}
+        <div className="p-6 flex flex-col justify-between min-h-[80px]">
+          <Typography type="medium3" className="text-primary-600">
+            Leverage Token Collateral
+          </Typography>
+          <div className="flex flex-col gap-1">
+            <DisplayMoney
+              {...collateral?.dollarAmount}
+              {...restCollateral}
+              typography="bold5"
+              className="text-primary-1000"
+              loaderSkeletonSettings={skeletonLoaderSettings}
+            />
+            <DisplayMoney
+              {...collateral?.tokenAmount}
+              {...restCollateral}
+              typography="bold2"
+              className="text-primary-1000"
+              loaderSkeletonSettings={skeletonLoaderSettings}
+              symbolPosition="after"
+            />
+          </div>
+        </div>
+
+        {/* 3. Price */}
         <div className="p-6 flex flex-col justify-between min-h-[80px]">
           <Typography type="medium3" className="text-primary-600">
             Leverage Token Price
@@ -70,7 +97,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           />
         </div>
 
-        {/* 3. Target Leverage */}
+        {/* 4. Target Leverage */}
         <div className="p-6 flex flex-col justify-between min-h-[80px]">
           <Typography type="medium3" className="text-primary-600">
             Target leverage

@@ -1,4 +1,5 @@
-export const MintEventAbi = [
+// Mint event from the LeverageManager contract
+export const MintEventLeverageManagerAbi = [
   {
     type: "event",
     name: "Mint",

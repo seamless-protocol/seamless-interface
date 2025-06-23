@@ -16,7 +16,6 @@ import { useFullTokenData } from "../../../../../../statev3/common/meta-data-que
 import { IncentivesButton } from "../../../../../components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "../../../../../components/tooltip/IncentivesDetailCard";
 import { useFetchLeverageTokenYields } from "../../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
-import { useFetchLeverageTokenCollateral } from "../../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 
 export const LeverageTokenDesktopTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -37,15 +36,13 @@ export const LeverageTokenDesktopTableRow: React.FC<{
 
   const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken.data.address);
 
-  const { data: collateral, ...collateralRest } = useFetchLeverageTokenCollateral(leverageToken.data.address);
-
   return (
     <div
       className={`hidden cursor-pointer md:grid items-center border-solid min-h-[148px] ${
         hideBorder ? "" : "border-b border-b-navy-100"
       } ${selected ? "bg-neutral-100" : ""}`}
     >
-      <TableRow className="md:grid grid-cols-5 relative">
+      <TableRow className="md:grid grid-cols-4 relative">
         <TableCell alignItems="items-start col-span-2 pr-6">
           <FlexRow className="gap-4 items-center">
             <Icon width={64} src={logo} alt="logo" isLoading={rest.isLoading} isFetched={rest.isFetched} />
@@ -62,17 +59,6 @@ export const LeverageTokenDesktopTableRow: React.FC<{
           <DisplayTokenAmount typography="bold3" {...tvl?.tokenAmount} {...rest} />
 
           <DisplayMoney typography="medium1" {...tvl?.dollarAmount} {...rest} className="text-primary-600" />
-        </TableCell>
-
-        <TableCell className="col-span-1">
-          <DisplayTokenAmount typography="bold3" {...collateral?.tokenAmount} {...collateralRest} />
-
-          <DisplayMoney
-            typography="medium1"
-            {...collateral?.dollarAmount}
-            {...collateralRest}
-            className="text-primary-600"
-          />
         </TableCell>
 
         <TableCell className="col-span-1">

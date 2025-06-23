@@ -5,7 +5,7 @@ import { Address, decodeEventLog } from "viem";
 import { useAccount } from "wagmi";
 import { getPublicClient, simulateContract } from "wagmi/actions";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
-import { RedeemEventAbi } from "../../../../../abis/RedeemEvent";
+import { RedeemEventLeverageManagerAbi } from "../../../../../abis/RedeemEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 
@@ -16,7 +16,7 @@ export const getRedeemedShares = async (txHash: `0x${string}`) => {
   for (const log of logs) {
     try {
       const decodedLog = decodeEventLog({
-        abi: RedeemEventAbi,
+        abi: RedeemEventLeverageManagerAbi,
         data: log.data,
         topics: log.topics,
       });

@@ -8,7 +8,6 @@ import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetai
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
 import { useFetchLeverageTokenYields } from "../../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
-import { useFetchLeverageTokenCollateral } from "../../../../../../data/leverage-tokens/queries/collateral/collateral.hook";
 
 export const LeverageTokenMobileTableRow: React.FC<{
   leverageToken: Displayable<LeverageToken>;
@@ -28,8 +27,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
   } = useFullTokenData(leverageToken.data?.address);
 
   const { data: yields, ...yieldsRest } = useFetchLeverageTokenYields(leverageToken.data.address);
-
-  const { data: collateral, ...collateralRest } = useFetchLeverageTokenCollateral(leverageToken.data.address);
 
   return (
     <div
@@ -55,11 +52,6 @@ export const LeverageTokenMobileTableRow: React.FC<{
         <FlexRow className="justify-between items-center">
           <DisplayText typography="regular1" viewValue="TVL:" {...rest} />
           <DisplayMoney typography="bold3" {...tvl?.dollarAmount} {...rest} />
-        </FlexRow>
-
-        <FlexRow className="justify-between items-center">
-          <DisplayText typography="regular1" viewValue="Collateral:" {...rest} />
-          <DisplayMoney typography="bold3" {...collateral?.dollarAmount} {...collateralRest} />
         </FlexRow>
 
         <FlexRow className="justify-between items-center">

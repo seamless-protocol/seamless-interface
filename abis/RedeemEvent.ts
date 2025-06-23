@@ -1,4 +1,5 @@
-export const RedeemEventAbi = [
+// Redeem event from the LeverageManager contract
+export const RedeemEventLeverageManagerAbi = [
   {
     type: "event",
     name: "Redeem",
