@@ -6,7 +6,7 @@ import { useFetchViewAssetBalance } from "../../../../data/common/queries/useFet
 import { cValueInUsd } from "../../../../data/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { useFetchFullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {

@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { rewardsControllerAddress, rewardsControllerAbi } from "@generated";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { cTotalRewards } from "./UserRewardsByStrategy.math";
-import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../../data/common/queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, fetchToken, formatFetchBigInt, formatUsdValue } from "@shared";
 import { cValueInUsd } from "../../../data/common/math/utils";
 import { heavyDataQueryConfig } from "../../../data/settings/queryConfig";

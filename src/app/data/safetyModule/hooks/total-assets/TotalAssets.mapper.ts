@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { fetchToken, formatFetchBigIntToViewBigInt, fUsdValueStructured } from "@shared";
 import { cValueInUsd } from "../../../common/math/utils";
-import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../../common/queries/AssetPrice.hook";
 import { fetchTotalAssets } from "./TotalAssets.fetch";
 
 export const fetchFormattedTotalAssetsUSDValue = async (assetAddress: Address, underlyingAssetAddress: Address) => {

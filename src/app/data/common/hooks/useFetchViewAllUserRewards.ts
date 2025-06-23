@@ -15,7 +15,7 @@ import {
 import { cValueInUsd } from "../math/cValueInUsd";
 import { safetyModuleRewardController } from "@meta";
 import { ViewAllUserRewards } from "../../../state/lending-borrowing/types/ViewAllUserRewards";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../queries/AssetPrice.hook";
 import { getConfig } from "../../../utils/queryContractUtils";
 
 export interface AllRewards {

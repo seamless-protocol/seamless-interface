@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { loopStrategyAbi } from "../../generated";
+import { loopStrategyAbi } from "../../../generated";
 import {
   Displayable,
   FetchTokenAmountWithUsdValueStrict,
@@ -8,10 +8,10 @@ import {
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
-} from "../../../shared";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
+} from "../../../../shared";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../../data/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchEquityInBlockInput {

@@ -10,7 +10,7 @@ import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../../data/common/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { cValueInUsd } from "../../../../../data/common/math/cValueInUsd";
 import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/full-vault-info/FullVaultInfo.hook";

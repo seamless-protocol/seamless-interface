@@ -14,7 +14,7 @@ import { formatFetchBigIntToViewBigInt, fUsdValueStructured, ViewBigIntWithUsdVa
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { etherfiL2ModeSyncPoolAddress } from "../../../generated";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";

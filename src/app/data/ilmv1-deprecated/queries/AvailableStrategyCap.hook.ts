@@ -1,5 +1,5 @@
 import { Address, zeroAddress } from "viem";
-import { loopStrategyAbi } from "../../generated";
+import { loopStrategyAbi } from "../../../generated";
 import {
   Displayable,
   FetchTokenAmountWithUsdValueStrict,
@@ -8,14 +8,14 @@ import {
   formatFetchBigInt,
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
-} from "../../../shared";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
-import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
-import { cValueInUsd } from "../../data/common/math/utils";
+} from "../../../../shared";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
+import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
+import { cValueInUsd } from "../../common/math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
-import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../meta";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
+import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../../meta";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchMaxDeposit(strategy: Address): Promise<bigint> {

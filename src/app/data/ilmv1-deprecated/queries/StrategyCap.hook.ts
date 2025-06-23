@@ -8,13 +8,13 @@ import {
   formatFetchBigIntToViewBigInt,
   formatUsdValue,
 } from "@shared";
-import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
-import { loopStrategyAbi } from "../../generated";
-import { cValueInUsd } from "../../data/common/math/utils";
+import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
+import { loopStrategyAbi } from "../../../generated";
+import { cValueInUsd } from "../../common/math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchStrategyCap(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {

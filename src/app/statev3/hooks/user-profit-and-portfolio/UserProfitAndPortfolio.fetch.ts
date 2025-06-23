@@ -3,7 +3,7 @@ import { leverageTokensConfig } from "../../../data/leverage-tokens/queries/all-
 import { fetchUserUnrealized } from "../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
 import { fetchUserEquity } from "../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
 import { fetchUserVaultPositions } from "../../../data/morpho/user-vault-positions/UserVaultPositions.fetch";
-import { fetchStrategies } from "../../queries/Strategies.hook";
+import { fetchStrategies } from "../../../data/ilmv1-deprecated/queries/Strategies.hook";
 import {
   fetchUserStrategyProfit,
   FetchUserStrategyProfitOutput,

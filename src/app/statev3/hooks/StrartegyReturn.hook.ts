@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { getBlock } from "wagmi/actions";
 import { getConfig } from "../../utils/queryContractUtils";
-import { fetchAssetPriceInBlock } from "../queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../data/common/queries/AssetPrice.hook";
 import { APY_BLOCK_FRAME, PERCENTAGE_VALUE_DECIMALS, USD_VALUE_DECIMALS } from "@meta";
 import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
 import {

@@ -8,9 +8,9 @@ import {
 } from "../../../shared";
 import { STRATEGY_MULTIPLE_DECIMALS } from "../../../meta";
 import { useQuery } from "@tanstack/react-query";
-import { fetchEquityInBlock } from "../queries/Equity.hook";
+import { fetchEquityInBlock } from "../../data/ilmv1-deprecated/queries/Equity.hook";
 import { disableCacheQueryConfig } from "../../data/settings/queryConfig";
-import { fetchCollateral } from "../queries/Collateral.fetch";
+import { fetchCollateral } from "../../data/ilmv1-deprecated/queries/Collateral.fetch";
 
 function cCurrentMultiple(collateral: bigint, equity: bigint): bigint {
   if (equity === 0n) return parseUnits("1", STRATEGY_MULTIPLE_DECIMALS);

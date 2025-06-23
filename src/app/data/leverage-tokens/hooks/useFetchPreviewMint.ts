@@ -11,7 +11,7 @@ import {
 } from "../../../../shared";
 import { leverageManagerAbi, leverageManagerAddress } from "../../../generated";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
 import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";

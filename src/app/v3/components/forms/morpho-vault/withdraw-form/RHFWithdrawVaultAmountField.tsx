@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
 import { cValueInUsd } from "../../../../../data/common/math/cValueInUsd";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../../data/common/queries/AssetPrice.hook";
 
 type IProps<T> = Omit<
   IRHFAmountInputProps,

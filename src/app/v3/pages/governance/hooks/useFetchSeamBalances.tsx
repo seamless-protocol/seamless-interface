@@ -3,7 +3,7 @@ import { FetchBigIntStrict, formatFetchBigIntToViewBigInt } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
-import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
+import { fetchAssetBalance } from "../../../../data/common/queries/AssetBalance.hook";
 
 /**
  * Sums up an array of balance objects, each with token and dollar amounts.

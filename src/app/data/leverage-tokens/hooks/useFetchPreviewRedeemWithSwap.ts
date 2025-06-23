@@ -1,5 +1,5 @@
 import { cValueInUsd } from "@app/data/common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "@app/statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "@app/data/common/queries/AssetPrice.hook";
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, walletBalanceDecimalsOptions } from "../../../../meta";
@@ -9,8 +9,8 @@ import {
   fUsdValueStructured,
   ViewBigIntWithUsdValue,
 } from "../../../../shared";
-import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
-import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
+import { fetchCollateralAsset } from "../queries/CollateralAsset.all";
+import { fetchDebtAsset } from "../queries/DebtAsset.all";
 import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { Exchange } from "../common/enums";
 import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";

@@ -7,7 +7,7 @@ import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens.all";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { getConfig } from "../../../utils/queryContractUtils";
 import { queryConfig } from "../../../data/settings/queryConfig";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../../data/common/queries/AssetPrice.hook";
 import { fetchToken } from "../../../../shared";
 
 interface FetchAssetRewardsData {

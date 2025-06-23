@@ -16,7 +16,7 @@ import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-l
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useWrappedDebounce } from "../../../../../data/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
-import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
+import { useFetchCollateralAsset } from "../../../../../data/leverage-tokens/queries/CollateralAsset.all";
 import { useMintLeverageToken } from "../../../../../data/leverage-tokens/mutations/useMintLeverageToken";
 import { useRedeemLeverageToken } from "../../../../../data/leverage-tokens/mutations/useRedeemLeverageToken";
 import {

@@ -1,10 +1,10 @@
 import { Address } from "viem";
-import { ILMRegistryAbi } from "../../../../abis/ILMRegistry";
-import { metadataQueryConfig } from "../../../shared/state/settings/config";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { disableCacheQueryConfig } from "../../data/settings/queryConfig";
+import { ILMRegistryAbi } from "../../../../../abis/ILMRegistry";
+import { metadataQueryConfig } from "../../../../shared/state/settings/config";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
-import { ilmRegistryAddress } from "../../generated";
+import { ilmRegistryAddress } from "../../../generated";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchStrategies(): Promise<Address[]> {

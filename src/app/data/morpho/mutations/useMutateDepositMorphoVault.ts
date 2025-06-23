@@ -14,8 +14,8 @@ import { useFetchRawFullVaultInfo } from "../full-vault-info/FullVaultInfo.hook"
 import { fetchSimulationState } from "../simulation/fetchSimulationState";
 import { getHookFetchUserVaultPositionsQueryKey } from "../user-vault-positions/UserVaultPositions.hook";
 import { useState } from "react";
-import { getFormattedAssetBalanceUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
-import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { getFormattedAssetBalanceUsdValueQueryKey } from "../../common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { getHookFetchFormattedAssetBalanceWithUsdValueQueryKey } from "../../common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { InputBundlerOperation } from "@morpho-org/bundler-sdk-viem";
 import { targetChain } from "../../../config/rainbow.config";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";

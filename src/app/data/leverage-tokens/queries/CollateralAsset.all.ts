@@ -1,9 +1,9 @@
 import { Address } from "viem";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
 import { fetchLendingAdapter } from "./LendingAdapter.hook";
-import { LendingAdapterAbi } from "../../../../abis/LendingAdapter";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
+import { LendingAdapterAbi } from "../../../../../abis/LendingAdapter";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 
 export async function fetchCollateralAsset({ leverageToken }: { leverageToken: Address }): Promise<Address> {

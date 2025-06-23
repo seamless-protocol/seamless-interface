@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { fetchToken, formatFetchBigIntToViewBigInt } from "../../../../../shared";
-import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
+import { fetchAssetBalance } from "../../../common/queries/AssetBalance.hook";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchLeverageTokenByAddress } from "../leverage-token-by-address/FetchLeverageTokenByAddress";
 

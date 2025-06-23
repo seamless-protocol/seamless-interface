@@ -3,7 +3,7 @@ import { getPublicClient } from "wagmi/actions";
 import { getExtensiveOperationsConfig } from "../../../utils/queryContractUtils";
 import { TransfersWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyProfit.math";
 import { FetchBigIntStrict, fetchToken, formatFetchBigInt, formatUsdValue } from "../../../../shared";
-import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../../data/common/queries/AssetPrice.hook";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { heavyDataQueryConfig } from "../../../data/settings/queryConfig";
 

@@ -8,7 +8,7 @@ import { readContract } from "wagmi/actions";
 import { Address, erc20Abi } from "viem";
 import { vaultConfig } from "../../settings/config";
 import { getConfig } from "../../../utils/queryContractUtils";
-import { fetchAssetBalanceUsdValue } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
+import { fetchAssetBalanceUsdValue } from "../../common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.fetch";
 
 interface VaultPositionAddress {
   vault: Address;

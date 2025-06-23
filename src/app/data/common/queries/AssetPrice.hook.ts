@@ -11,19 +11,19 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Address, erc4626Abi, isAddressEqual, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
-import { leverageTokensConfig } from "../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
+import { leverageTokensConfig } from "../../leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 /* eslint-disable import/no-cycle */
-import { fetchLeverageTokenCollateral } from "../../data/leverage-tokens/queries/collateral/collateral.fetch";
-import { fetchLeverageTokenDebt } from "../../data/leverage-tokens/queries/debt/debt.fetch";
-import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
-import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { checkIfContractExists } from "../../utils/wagmiUtils";
-import { fetchCoinGeckoAssetPriceByAddress } from "../../data/common/hooks/useFetchCoinGeckoPrice";
-import { configuredVaultAddresses, strategyConfig } from "../../data/settings/config";
-import { assetsConfig } from "../../data/settings/landingMarketConfig";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../../data/settings/queryConfig";
+import { fetchLeverageTokenCollateral } from "../../leverage-tokens/queries/collateral/collateral.fetch";
+import { fetchLeverageTokenDebt } from "../../leverage-tokens/queries/debt/debt.fetch";
+import { aaveOracleAbi, aaveOracleAddress } from "../../../generated";
+import { getConfig, queryContract } from "../../../utils/queryContractUtils";
+import { checkIfContractExists } from "../../../utils/wagmiUtils";
+import { fetchCoinGeckoAssetPriceByAddress } from "../hooks/useFetchCoinGeckoPrice";
+import { configuredVaultAddresses, strategyConfig } from "../../settings/config";
+import { assetsConfig } from "../../settings/landingMarketConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../../settings/queryConfig";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
-import { fetchEquityInBlock } from "./Equity.hook";
+import { fetchEquityInBlock } from "../../ilmv1-deprecated/queries/Equity.hook";
 
 export const fetchAssetPriceInBlock = async (asset: Address, blockNumber?: bigint): Promise<FetchBigIntStrict> => {
   if (asset === OG_POINTS_ADDRESS) {

@@ -1,7 +1,7 @@
 // fetchFormattedAssetBalanceUsdValue.ts
 import { Address } from "viem";
 import { formatUsdValue } from "@shared";
-import { cValueInUsd } from "../../../data/common/math/utils";
+import { cValueInUsd } from "../../math/utils";
 import { fetchAssetBalance } from "../AssetBalance.hook";
 import { fetchAssetPriceInBlock } from "../AssetPrice.hook";
 

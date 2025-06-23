@@ -4,7 +4,7 @@ import { fetchToken } from "@shared";
 import { fetchAssetRewardsData } from "../../../../state/lending-borrowing/hooks/useFetchAssetRewardsData.all";
 import { parseRewardsTokenInformation } from "../../../../../shared/utils/aaveIncentivesHelpers";
 import { fetchTotalAssets } from "../total-assets/TotalAssets.fetch";
-import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
+import { fetchAssetPriceInBlock } from "../../../common/queries/AssetPrice.hook";
 import { cValueInUsd } from "../../../common/math/cValueInUsd";
 import { fetchGetRewardsList } from "../useFetchGetRewardsList.all";
 

@@ -1,6 +1,6 @@
-import { fetchStrategies } from "./Strategies.hook";
+import { fetchStrategies } from "../../ilmv1-deprecated/queries/Strategies.hook";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../../data/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { fetchToken, Token } from "@shared";
 
 export async function fetchAllStrategyTokenData(): Promise<Token[]> {

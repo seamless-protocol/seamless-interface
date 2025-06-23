@@ -23,7 +23,7 @@ import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
 import { FullStrategyData, useFetchFullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../data/common/meta-data-queries/useFullTokenData";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";
 
 export const DepositForm = () => {
