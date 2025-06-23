@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable, FlexRow } from "@shared";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
-import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
+// import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
@@ -10,6 +10,7 @@ import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useAccount } from "wagmi";
 import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
@@ -54,10 +55,8 @@ export const VaultTableMobileRowContainer: React.FC<{
         </SignIndicatingElement>
       }
       holdingTokenAmount={
-        <DisplayTokenAmount
-          viewValue={vaultData?.data.vaultPosition?.shares.viewValue}
-          {...vaultData}
-        />}
+        <DisplayTokenAmount viewValue={vaultData?.data.vaultPosition?.shares.viewValue} {...vaultData} />
+      }
       holdingDollarAmount={
         <DisplayMoney
           typography="medium1"

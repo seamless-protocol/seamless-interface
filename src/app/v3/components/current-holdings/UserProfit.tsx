@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { DisplayText, FlexRow, Icon, ViewBigInt } from "@shared";
 import { Address } from "viem";
-import { useFetchFormattedUserStrategyProfit } from "../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getSvgBasedOnSign, getColorBasedOnSign } from "../../utils/uiUtils";
+import { useFetchFormattedUserStrategyProfit } from "../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 function getProfitText(unrealizedGain: ViewBigInt, unrealizedGainPercentage: ViewBigInt): string | undefined {
   return `${unrealizedGain.symbol}${unrealizedGain.viewValue} (${unrealizedGainPercentage.viewValue}${unrealizedGainPercentage.symbol}) All time`;
