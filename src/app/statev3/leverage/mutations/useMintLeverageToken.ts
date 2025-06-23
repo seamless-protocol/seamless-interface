@@ -1,7 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { Address, decodeEventLog } from "viem";
+import { Address, decodeEventLog, parseEventLogs } from "viem";
 import { useAccount } from "wagmi";
 import { getPublicClient, simulateContract } from "wagmi/actions";
+import { LeverageManagerAbi } from "../../../../../abis/LeverageManager";
 import { MintEventLeverageManagerAbi } from "../../../../../abis/MintEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
 import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
@@ -12,24 +13,20 @@ export const getMintedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);
   const { logs } = await client.getTransactionReceipt({ hash: txHash });
 
-  for (const log of logs) {
-    try {
-      const decodedLog = decodeEventLog({
-        abi: MintEventLeverageManagerAbi,
-        data: log.data,
-        topics: log.topics,
-      });
+  const parsedLogs = parseEventLogs({
+    abi: LeverageManagerAbi,
+    eventName: "Mint",
+    logs,
+  });
 
-      if (!decodedLog?.args) continue;
+  const decodedLog = decodeEventLog({
+    abi: MintEventLeverageManagerAbi,
+    data: parsedLogs[0]?.data,
+    topics: parsedLogs[0]?.topics,
+  });
 
-      const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
-      return args.actionData.shares;
-    } catch (error) {
-      console.log("Failed to parse event argument");
-    }
-  }
-
-  throw new Error("Failed to get minted shares");
+  const args = decodedLog?.args as unknown as { actionData: { shares: bigint } };
+  return args.actionData.shares;
 };
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {

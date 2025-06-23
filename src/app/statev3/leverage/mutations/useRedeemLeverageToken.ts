@@ -1,9 +1,10 @@
 import { getConfig } from "@app/utils/queryContractUtils";
 import { leverageRouterAbi, leverageRouterAddress } from "@generated";
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { Address, decodeEventLog } from "viem";
+import { Address, decodeEventLog, parseEventLogs } from "viem";
 import { useAccount } from "wagmi";
 import { getPublicClient, simulateContract } from "wagmi/actions";
+import { LeverageManagerAbi } from "../../../../../abis/LeverageManager";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
 import { RedeemEventLeverageManagerAbi } from "../../../../../abis/RedeemEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
@@ -13,24 +14,20 @@ export const getRedeemedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);
   const { logs } = await client.getTransactionReceipt({ hash: txHash });
 
-  for (const log of logs) {
-    try {
-      const decodedLog = decodeEventLog({
-        abi: RedeemEventLeverageManagerAbi,
-        data: log.data,
-        topics: log.topics,
-      });
+  const parsedLogs = parseEventLogs({
+    abi: LeverageManagerAbi,
+    eventName: "Redeem",
+    logs,
+  });
 
-      if (!decodedLog?.args) continue;
+  const decodedLog = decodeEventLog({
+    abi: RedeemEventLeverageManagerAbi,
+    data: parsedLogs[0]?.data,
+    topics: parsedLogs[0]?.topics,
+  });
 
-      const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
-      return args.actionData.shares;
-    } catch (error) {
-      console.log("Failed to parse event argument");
-    }
-  }
-
-  throw new Error("Failed to get redeemed shares");
+  const args = decodedLog?.args as unknown as { actionData: { shares: bigint } };
+  return args.actionData.shares;
 };
 
 export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
