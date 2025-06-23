@@ -3,7 +3,7 @@ import { useFetchUserDepositStrategies } from "../../../../../../state/loop-stra
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { EmptyTableGuard } from "../../../../common/components/EmptyTableGuard";
-import { useFetchUserVaultPositions } from "../../../../../../statev3/morpho/user-vault-positions/UserVaultPositions.hook";
+import { useFetchUserVaultPositions } from "../../../../../../data/morpho/user-vault-positions/UserVaultPositions.hook";
 import { StrategyTableDesktopRowContainer } from "./ilms/StrategyTableDesktopRowContainer";
 import { VaultTableDesktopRowContainer } from "./morpho-vaults/VaultTableDesktopRowContainer";
 import { StrategyTableMobileRowContainer } from "./ilms/StrategyTableMobileRowContainer";

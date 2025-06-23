@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Address, zeroAddress } from "viem";
 import { simulateContract } from "wagmi/actions";
 import { readContractQueryOptions } from "wagmi/query";
-import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 
 interface GetQuoteInput {

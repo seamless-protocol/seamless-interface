@@ -9,7 +9,7 @@ import { mergeQueryStates } from "@shared";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { StrategyAsset } from "../../metadataQueries/useFetchStrategiesAssets";
 import { config } from "../../../../config/rainbow.config";
-import { fetchAssetPriceInBlock } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { fetchAssetPriceInBlock } from "../../../../data/common/queries/useFetchViewAssetPrice";
 import { calculateApy } from "./cStrategyApy.math";
 
 interface StrategyApy {

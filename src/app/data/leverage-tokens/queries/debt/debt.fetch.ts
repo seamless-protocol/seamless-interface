@@ -6,7 +6,7 @@ import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 /* eslint-disable import/no-cycle */
 import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
-import { platformDataQueryConfig } from "../../../../statev3/settings/queryConfig";
+import { platformDataQueryConfig } from "../../../settings/queryConfig";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchLeverageTokenConfig } from "../leverage-token-config/leverage-token-config.fetch";
 

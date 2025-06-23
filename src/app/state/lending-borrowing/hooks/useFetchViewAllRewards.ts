@@ -11,11 +11,11 @@ import {
   fUsdValueStructured,
   formatFetchBigIntToViewBigInt,
 } from "../../../../shared";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
 import { assetLogos } from "../../../../meta";
 import { ViewAllUserRewards } from "../types/ViewAllUserRewards";
-import { fetchAssetPriceInBlock } from "../../../statev3/common/queries/useFetchViewAssetPrice";
-import { fetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
+import { fetchAssetPriceInBlock } from "../../../data/common/queries/useFetchViewAssetPrice";
+import { fetchAllRewardsAccruingAssets } from "../../../data/common/hooks/useFetchAllRewardsAccruingAssets";
 
 export interface AllRewards {
   totalRewardsUsd: FetchBigInt | undefined;

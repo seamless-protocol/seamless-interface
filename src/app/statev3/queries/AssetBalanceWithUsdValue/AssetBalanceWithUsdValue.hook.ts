@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
-import { queryConfig } from "../../settings/queryConfig";
+import { queryConfig } from "../../../data/settings/queryConfig";
 import { useAccount } from "wagmi";
 import { fetchAssetBalanceUsdValue, getFormattedAssetBalanceUsdValueQueryKey } from "./AssetBalanceWithUsdValue.fetch";
 import {

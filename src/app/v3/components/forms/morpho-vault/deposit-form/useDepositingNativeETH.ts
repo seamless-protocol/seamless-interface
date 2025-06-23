@@ -1,4 +1,4 @@
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/full-vault-info/FullVaultInfo.hook";
 import { isWETH } from "../../../../utils/utils";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
 import { useFormContext } from "react-hook-form";

@@ -15,7 +15,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { useQuery } from "@tanstack/react-query";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { getConfig } from "../../../utils/queryContractUtils";
-import { queryConfig } from "../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../data/settings/queryConfig";
 
 interface StrategyEquity {
   equity: FetchBigInt | undefined;

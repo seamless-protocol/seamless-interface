@@ -1,8 +1,8 @@
 import { DisplayMoney, DisplayPercentage, DisplayTokenAmount, FlexCol, FlexRow, Typography } from "@shared";
 import border from "@assets/common/border.svg";
 import { SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "@meta";
-import { useFetchViewAssetsRewardsData } from "../../../../../../statev3/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
-import { useFormattedTotalAssetsUSDValue } from "../../../../../../statev3/safetyModule/hooks/total-assets/TotalAssets.hook";
+import { useFetchViewAssetsRewardsData } from "../../../../../../data/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
+import { useFormattedTotalAssetsUSDValue } from "../../../../../../data/safetyModule/hooks/total-assets/TotalAssets.hook";
 
 const skeletonLoaderSettings = {
   width: "120px",

@@ -4,7 +4,7 @@ import { LendingAdapterAbi } from "../../../../../../abis/LendingAdapter";
 import { formatFetchBigIntToViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
-import { platformDataQueryConfig } from "../../../../statev3/settings/queryConfig";
+import { platformDataQueryConfig } from "../../../settings/queryConfig";
 import { fetchLeverageTokenAssetsTokenData } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { getLeverageTokenConfigQueryOptions } from "../leverage-token-config/leverage-token-config.fetch";
 

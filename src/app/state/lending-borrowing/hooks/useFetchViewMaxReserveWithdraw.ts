@@ -13,7 +13,7 @@ import {
   FetchData,
   FetchBigInt,
 } from "@shared";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 const safeHealthFactor = parseEther("1.01");
 

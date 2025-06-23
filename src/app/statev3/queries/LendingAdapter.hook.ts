@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { getConfig } from "../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
 import { LeverageManagerAbi } from "../../../../abis/LeverageManager";
-import { infiniteCacheQueryConfig } from "../settings/queryConfig";
+import { infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
 import { leverageManagerAddress } from "../../generated";
 import { getQueryClient } from "../../contexts/CustomQueryClientProvider";
 

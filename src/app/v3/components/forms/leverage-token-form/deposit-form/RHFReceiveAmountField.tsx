@@ -1,6 +1,6 @@
 import { IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
-import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../../../data/common/meta-data-queries/useFullTokenData";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

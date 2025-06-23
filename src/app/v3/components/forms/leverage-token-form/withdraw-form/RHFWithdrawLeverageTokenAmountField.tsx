@@ -1,11 +1,11 @@
 import { formatFetchBigIntToViewBigInt, fUsdValueStructured, IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 import { useMemo } from "react";
-import { cValueInUsd } from "../../../../../statev3/math/utils";
+import { cValueInUsd } from "../../../../../data/common/math/utils";
 import { parseUnits } from "viem";
-import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../../../data/common/meta-data-queries/useFullTokenData";
 import { useFetchLeverageTokenAssets } from "../../../../../data/leverage-tokens/queries/leverage-token-assets/leverage-token-assets.hook";
-import { useFetchAssetPriceInBlock } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPriceInBlock } from "../../../../../data/common/queries/useFetchViewAssetPrice";
 import { useFetchUserEquity } from "../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
 import { useAccount } from "wagmi";
 

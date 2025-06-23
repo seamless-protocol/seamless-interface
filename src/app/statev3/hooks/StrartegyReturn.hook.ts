@@ -3,7 +3,7 @@ import { getBlock } from "wagmi/actions";
 import { getConfig } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "../queries/AssetPrice.hook";
 import { APY_BLOCK_FRAME, PERCENTAGE_VALUE_DECIMALS, USD_VALUE_DECIMALS } from "@meta";
-import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
+import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
 import {
   Displayable,
   FetchBigIntStrict,
@@ -12,8 +12,8 @@ import {
   formatFetchBigIntToViewBigInt,
 } from "../../../shared";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig } from "../settings/queryConfig";
-import { cValueFromUsd } from "../math/utils";
+import { disableCacheQueryConfig } from "../../data/settings/queryConfig";
+import { cValueFromUsd } from "../../data/common/math/utils";
 
 interface cStrategyReturnInput {
   currStrategyPrice: bigint;

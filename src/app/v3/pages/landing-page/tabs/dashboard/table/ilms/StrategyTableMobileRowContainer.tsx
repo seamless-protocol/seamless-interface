@@ -8,7 +8,7 @@ import {
   DisplayPercentage,
 } from "../../../../../../../../shared";
 import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
-import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { TableButtons } from "./TableButtons";

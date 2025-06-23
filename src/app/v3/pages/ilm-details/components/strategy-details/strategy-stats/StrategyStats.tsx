@@ -2,7 +2,7 @@ import { DisplayMoney, DisplayText, FlexCol, FlexRow, Typography, ViewBigInt } f
 import border from "@assets/common/border.svg";
 import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
 import { useFetchFormattedStrategyCap } from "../../../../../../statev3/queries/StrategyCap.hook";
-import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../statev3/metadata/StrategyTargetMultiples.hook";
+import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../data/ilmv1-deprecated/metadata/StrategyTargetMultiples.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
 import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.all";

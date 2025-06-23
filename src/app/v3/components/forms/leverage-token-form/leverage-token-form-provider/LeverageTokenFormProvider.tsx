@@ -14,11 +14,11 @@ import {
 } from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
-import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useWrappedDebounce } from "../../../../../data/common/hooks/useWrappedDebounce";
+import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
-import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
+import { useMintLeverageToken } from "../../../../../data/leverage-tokens/mutations/useMintLeverageToken";
+import { useRedeemLeverageToken } from "../../../../../data/leverage-tokens/mutations/useRedeemLeverageToken";
 import {
   PreviewRedeemWithSwap,
   useFetchPreviewRedeemWithSwap,

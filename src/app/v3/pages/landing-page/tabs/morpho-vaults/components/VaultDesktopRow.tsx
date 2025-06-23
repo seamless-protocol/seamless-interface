@@ -11,9 +11,9 @@ import {
   Icon,
   ViewBigInt,
 } from "@shared";
-import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
-import { Curator } from "../../../../../../statev3/morpho/types/Curator";
-import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+import { MorphoAsset } from "../../../../../../data/morpho/types/MorphoAsset";
+import { Curator } from "../../../../../../data/morpho/types/Curator";
+import { NetApyData } from "../../../../../../data/morpho/types/UserReward";
 
 import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 import { Address } from "viem";
@@ -45,9 +45,8 @@ export const VaultDesktopRow: React.FC<VaultProps> = ({
 }) => {
   return (
     <TableRow
-      className={`hidden md:grid grid-cols-6 cursor-pointer items-center border-solid min-h-[148px] ${
-        hideBorder ? "" : "border-b border-b-navy-100"
-      } ${selected ? "bg-neutral-100" : ""}`}
+      className={`hidden md:grid grid-cols-6 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
+        } ${selected ? "bg-neutral-100" : ""}`}
     >
       <TableCell alignItems="items-start col-span-2 pr-6">
         <FlexRow className="gap-4 items-center max-w-full">

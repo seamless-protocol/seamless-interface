@@ -5,10 +5,10 @@ import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
+import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
 import { MorphoTableButtons } from "./MorphoTableButtons";
 import { useAccount } from "wagmi";
-import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
 
 export const VaultTableMobileRowContainer: React.FC<{

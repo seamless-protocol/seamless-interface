@@ -3,7 +3,7 @@ import { FetchData } from "../../types/Fetch";
 import { getConfig } from "../../../app/utils/queryContractUtils";
 import { getQueryClient } from "../../../app/contexts/CustomQueryClientProvider";
 import { readContractQueryOptions } from "wagmi/query";
-import { queryConfig } from "../../../app/statev3/settings/queryConfig";
+import { queryConfig } from "../../../app/data/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTokenLogoFromCoinGecko } from "./fetchTokenLogoFromCoinGecko";
 import { addressIconMap } from "../../../meta";

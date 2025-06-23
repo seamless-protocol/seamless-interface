@@ -6,7 +6,7 @@ import { IncentivesButton } from "@app/v3/components/tooltip/AprTooltip";
 import { IncentivesDetailCard } from "@app/v3/components/tooltip/IncentivesDetailCard";
 
 import { LeverageToken } from "@app/data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
-import { useFullTokenData } from "../../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../../../../data/common/meta-data-queries/useFullTokenData";
 import { useFetchLeverageTokenYields } from "../../../../../../data/leverage-tokens/queries/leverage-token-yields/LeverageTokenYields.hook";
 
 export const LeverageTokenMobileTableRow: React.FC<{

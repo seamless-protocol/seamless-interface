@@ -1,9 +1,9 @@
 import { Address } from "viem";
 import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.fetch";
-import { queryConfig } from "../../../../../../statev3/settings/queryConfig";
-import { mapVaultData } from "../../../../../../statev3/morpho/mappers/mapVaultData";
+import { fetchFullVaultInfo } from "../../../../../../data/morpho/full-vault-info/FullVaultInfo.fetch";
+import { queryConfig } from "../../../../../../data/settings/queryConfig";
+import { mapVaultData } from "../../../../../../data/morpho/mappers/mapVaultData";
 
 const useFullVaultsInfo = (addresses: Address[], chainId = base.id) => {
   return useQuery({

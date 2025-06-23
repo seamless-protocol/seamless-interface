@@ -6,7 +6,7 @@ import { Displayable, fFetchBigIntStructured, fUsdValueStructured, mergeQuerySta
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useFetchDepositSharesToReceive } from "./useFetchDepositSharesToReceive";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 export const cSharesToReceive = (sharesValue?: bigint) => {
   if (sharesValue == null) return undefined;

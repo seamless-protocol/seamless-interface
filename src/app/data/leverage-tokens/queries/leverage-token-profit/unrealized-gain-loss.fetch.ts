@@ -10,8 +10,8 @@ import {
   ViewBigInt,
   ViewNumber,
 } from "../../../../../shared";
-import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../common/math/cValueInUsd";
+import { fetchAssetPriceInBlock } from "../../../common/queries/useFetchViewAssetPrice";
 import { getConfig } from "../../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchUserEquity } from "../user-equity/user-equity.fetch";

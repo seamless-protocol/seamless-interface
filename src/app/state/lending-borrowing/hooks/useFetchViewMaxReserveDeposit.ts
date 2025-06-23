@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { Displayable, ViewBigInt, formatFetchBigIntToViewBigInt, fFetchBigIntStructured, mergeQueryStates, useToken } from "../../../../shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { useFetchDetailRemainingCap } from "./useFetchDetailRemainingCap";
-import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../../data/common/queries/useFetchViewAssetBalance";
 
 export const cMaxUserReserveDeposit = (
   remainingCapValue?: bigint,

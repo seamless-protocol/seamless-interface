@@ -1,7 +1,7 @@
 import React from "react";
-import { useMutateClaimAllRewards } from "../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
-import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
+import { useMutateClaimAllRewards } from "../../../../../../data/safetyModule/mutations/useMutateClaimAllRewards";
+import { rewardsAccruingAssets } from "../../../../../../data/settings/config";
+import { useFetchViewAllUserRewards } from "../../../../../../data/common/hooks/useFetchViewAllUserRewards";
 import { UnclaimedRewardsBox } from "../../../../common/components/UnclaimedRewardsBox";
 
 export const UnclaimedRewardsBoxWrapper: React.FC = () => {

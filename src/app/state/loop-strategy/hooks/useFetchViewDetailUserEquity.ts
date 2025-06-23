@@ -11,8 +11,8 @@ import {
 } from "@shared";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { ViewDetailUserEquity } from "../types/ViewDetailUserEquity";
-import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useFetchViewAssetTotalSupply } from "../../../statev3/common/queries/useFetchViewAssetTotalSupply";
+import { useFetchAssetBalance } from "../../../data/common/queries/useFetchViewAssetBalance";
+import { useFetchViewAssetTotalSupply } from "../../../data/common/queries/useFetchViewAssetTotalSupply";
 import { useFetchDetailEquity } from "../queries/useFetchViewEquity.all";
 
 export const cUserEquity = (equityValue?: bigint, strategyBalanceValue?: bigint, strategyTotalSupplyValue?: bigint) => {

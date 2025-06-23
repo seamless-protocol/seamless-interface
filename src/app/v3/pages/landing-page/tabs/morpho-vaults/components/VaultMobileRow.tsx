@@ -1,7 +1,7 @@
 import { Typography, DisplayMoney, ImageGroup, DisplayTokenAmount, FlexCol, FlexRow, Icon, ViewBigInt } from "@shared";
-import { MorphoAsset } from "../../../../../../statev3/morpho/types/MorphoAsset";
-import { Curator } from "../../../../../../statev3/morpho/types/Curator";
-import { NetApyData } from "../../../../../../statev3/morpho/types/UserReward";
+import { MorphoAsset } from "../../../../../../data/morpho/types/MorphoAsset";
+import { Curator } from "../../../../../../data/morpho/types/Curator";
+import { NetApyData } from "../../../../../../data/morpho/types/UserReward";
 import { MorphoAprTooltip } from "../../../../../components/tooltip/MorphoAprTooltip";
 import { Address } from "viem";
 

@@ -1,6 +1,6 @@
 import { ViewNumber, formatFetchNumberToViewNumber } from "@shared";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 import { IS_DEV_MODE } from "../../../../../globals";
 
 /**

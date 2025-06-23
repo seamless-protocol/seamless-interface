@@ -4,8 +4,8 @@ import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { cTotalRewards } from "./UserRewardsByStrategy.math";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { FetchBigInt, FetchBigIntStrict, fetchToken, formatFetchBigInt, formatUsdValue } from "@shared";
-import { cValueInUsd } from "../../math/utils";
-import { heavyDataQueryConfig } from "../../settings/queryConfig";
+import { cValueInUsd } from "../../../data/common/math/utils";
+import { heavyDataQueryConfig } from "../../../data/settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export interface FetchRewardsByStrategy {

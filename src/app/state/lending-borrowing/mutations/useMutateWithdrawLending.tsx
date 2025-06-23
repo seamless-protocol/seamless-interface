@@ -2,7 +2,7 @@ import { SeamlessWriteAsyncParams, useSeamlessContractWrite, useToken } from "@s
 import { lendingPoolConfig } from "@generated";
 import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
-import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../../data/common/queries/useFetchViewAssetBalance";
 import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateWithdrawLending = (asset?: Address) => {

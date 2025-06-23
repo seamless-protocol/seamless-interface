@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@shared";
 import { delegateUrl, RouterConfig } from "@router";
-import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { Link } from "react-router-dom";
 import { DelegateModal } from "./DelegateModal";
+import { useFetchDelegates } from "../../../../data/governance/queries/delegates/FetchDelegates.hook";
 
 export const DelegatedPowerCard = () => {
   return (

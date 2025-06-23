@@ -10,7 +10,7 @@ import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
-import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 

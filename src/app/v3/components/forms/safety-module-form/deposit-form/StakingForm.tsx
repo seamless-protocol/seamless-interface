@@ -4,9 +4,9 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { RHFStakingAmountField } from "./RHFStakingAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
-import { useStakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useStakeSafetyModule";
-import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { StakedSeam as TokenData } from "../../../../../data/safetyModule/types/StakedSeam";
+import { useStakeSafetyModule } from "../../../../../data/safetyModule/mutations/useStakeSafetyModule";
+import { useFetchStakedSeamTokenData } from "../../../../../data/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 
 export const StakingForm = () => {

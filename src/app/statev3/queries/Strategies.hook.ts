@@ -2,7 +2,7 @@ import { Address } from "viem";
 import { ILMRegistryAbi } from "../../../../abis/ILMRegistry";
 import { metadataQueryConfig } from "../../../shared/state/settings/config";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
-import { disableCacheQueryConfig } from "../settings/queryConfig";
+import { disableCacheQueryConfig } from "../../data/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 import { ilmRegistryAddress } from "../../generated";
 import { readContractQueryOptions } from "wagmi/query";

@@ -1,11 +1,11 @@
 import { Address } from "viem";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { loopStrategyAbi } from "../../generated";
-import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
+import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
 import { fetchToken, FetchTokenAmountWithUsdValueStrict, formatFetchBigInt, formatUsdValue } from "@shared";
-import { cValueFromUsd } from "../math/utils";
-import { platformDataQueryConfig } from "../settings/queryConfig";
+import { cValueFromUsd } from "../../data/common/math/utils";
+import { platformDataQueryConfig } from "../../data/settings/queryConfig";
 import { readContractQueryOptions } from "wagmi/query";
 
 export async function fetchCollateral(strategy: Address): Promise<FetchTokenAmountWithUsdValueStrict> {

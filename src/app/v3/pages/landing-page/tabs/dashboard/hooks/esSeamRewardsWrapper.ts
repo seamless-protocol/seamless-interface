@@ -3,9 +3,9 @@ import { type RewardItem } from "../contexts/RewardsProvider";
 
 // todo vestedSeam icon? is icon correct on figma actually?
 import vestedSeamIcon from "@assets/tokens/vestedSeam.svg";
-import { useMutateClaimVestedEsSEAM } from "../../../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
-import { useFetchVestedSeamWithDollarAmount } from "../../../../../../statev3/governance/queries/vested-seam/FetchVestedSeam.hook";
-import { ESSEAM_ADDRESS } from "../../../../../../../meta";
+import { ESSEAM_ADDRESS } from "@meta";
+import { useMutateClaimVestedEsSEAM } from "../../../../../../data/governance/mutations/useMutateClaimVestedEsSEAM";
+import { useFetchVestedSeamWithDollarAmount } from "../../../../../../data/governance/queries/vested-seam/FetchVestedSeam.hook";
 
 const config = {
   id: "4",
@@ -31,13 +31,13 @@ export const useEsSeamRewardsWrapper = ({
       rewards:
         (vestedSeam?.tokenAmount?.bigIntValue || 0n) > 0n
           ? [
-              {
-                dollarAmount: vestedSeam?.dollarAmount,
-                tokenAmount: vestedSeam?.tokenAmount,
-                logo: vestedSeamIcon,
-                address: ESSEAM_ADDRESS,
-              },
-            ]
+            {
+              dollarAmount: vestedSeam?.dollarAmount,
+              tokenAmount: vestedSeam?.tokenAmount,
+              logo: vestedSeamIcon,
+              address: ESSEAM_ADDRESS,
+            },
+          ]
           : [],
     },
   };

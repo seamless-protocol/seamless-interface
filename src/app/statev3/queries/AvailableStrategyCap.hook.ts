@@ -11,10 +11,10 @@ import {
 } from "../../../shared";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { fetchAssetPriceInBlock } from "./AssetPrice.hook";
-import { fetchStrategyAssets } from "../metadata/StrategyAssets.fetch";
-import { cValueInUsd } from "../math/utils";
+import { fetchStrategyAssets } from "../../data/ilmv1-deprecated/metadata/StrategyAssets.fetch";
+import { cValueInUsd } from "../../data/common/math/utils";
 import { useQuery } from "@tanstack/react-query";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
 import { OVERFLOW_UNDERFLOW_REASON_MESSAGE } from "../../../meta";
 import { readContractQueryOptions } from "wagmi/query";
 

@@ -4,8 +4,8 @@ import { DecimalsOptions, formatFetchBigIntToViewBigInt } from "../../../../shar
 import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { ViewDetailUserReserveData } from "../types/ViewDetailUserReserveData";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 export interface DetailUserReserveData {
   aTokenBalance?: FetchBigInt;

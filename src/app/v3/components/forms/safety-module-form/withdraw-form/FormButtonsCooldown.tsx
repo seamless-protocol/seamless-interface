@@ -1,9 +1,9 @@
 import { FlexCol, AuthGuardv2, Buttonv2, Typography } from "@shared";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { StakedSeam as TokenData } from "../../../../../data/safetyModule/types/StakedSeam";
 import { walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
 
 export const FormButtons: React.FC<{
   vaultData: TokenData;

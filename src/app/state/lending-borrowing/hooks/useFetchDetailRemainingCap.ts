@@ -10,8 +10,8 @@ import {
   fFetchBigIntStructured,
   fUsdValueStructured,
 } from "../../../../shared";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 const cRemainingCap = (totalSuppliedValue?: bigint, supplyCapValue?: bigint) => {
   if (supplyCapValue == null || totalSuppliedValue == null) return undefined;

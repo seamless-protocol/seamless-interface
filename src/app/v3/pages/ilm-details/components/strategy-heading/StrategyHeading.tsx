@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
 import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";

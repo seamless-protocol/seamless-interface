@@ -4,7 +4,7 @@ import { formatIncentiveAprToViewNumber } from "../../../../shared";
 import { fetchAssetRewardsDataByAsset } from "../../lending-borrowing/hooks/useFetchAssetRewardsData.all";
 import { fetchEquityData } from "../queries/useFetchViewEquity.all";
 import { useQuery } from "@tanstack/react-query";
-import { queryConfig } from "../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../data/settings/queryConfig";
 
 export const fetchStrategyIncentives = async (asset?: Address): Promise<IncentiveApr | undefined> => {
   if (!asset) {

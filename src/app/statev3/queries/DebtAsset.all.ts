@@ -3,7 +3,7 @@ import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { readContractQueryOptions } from "wagmi/query";
 import { fetchLendingAdapter } from "./LendingAdapter.hook";
 import { LendingAdapterAbi } from "../../../../abis/LendingAdapter";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../settings/queryConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../data/settings/queryConfig";
 import { useQuery } from "@tanstack/react-query";
 
 export async function fetchDebtAsset({ leverageToken }: { leverageToken: Address }): Promise<Address> {

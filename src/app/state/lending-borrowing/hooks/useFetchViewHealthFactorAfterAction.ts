@@ -4,8 +4,8 @@ import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData"
 import { MAX_LIQUIDATION_THRESHOLD, ONE_ETHER } from "@meta";
 import { useFetchAssetConfiguration } from "../queries/useFetchViewAssetConfiguration";
 import { useFetchUserReserveData } from "../queries/useFetchViewUserReserveData";
-import { useFullTokenData } from "../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFullTokenData } from "../../../data/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 export enum Action {
   // eslint-disable-next-line no-unused-vars

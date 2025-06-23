@@ -2,7 +2,7 @@ import { fetchToken, formatFetchBigIntToViewBigInt } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address, isAddressEqual } from "viem";
 import { USD_VALUE_DECIMALS } from "../../../../../meta";
-import { cValueFromUsd } from "../../../../statev3/common/math/cValueInUsd";
+import { cValueFromUsd } from "../../../common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
 import { LeverageToken, leverageTokensConfig } from "../all-leverage-tokens/leverageTokens";
 import { fetchLeverageTokenCollateral } from "../collateral/collateral.fetch";

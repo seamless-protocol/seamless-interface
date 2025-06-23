@@ -3,7 +3,7 @@ import { rewardsControllerConfig } from "@generated";
 import { useFetchViewAllUserRewards } from "../../lending-borrowing/hooks/useFetchViewAllRewards";
 import { BRETT_ADDRESS } from "../../../../meta";
 import { ViewAllUserRewards } from "../../lending-borrowing/types/ViewAllUserRewards";
-import { useFetchAllRewardsAccruingAssets } from "../../../statev3/common/hooks/useFetchAllRewardsAccruingAssets";
+import { useFetchAllRewardsAccruingAssets } from "../../../data/common/hooks/useFetchAllRewardsAccruingAssets";
 import { targetChain } from "../../../config/rainbow.config";
 
 // TODO: Remove this dirty function once esSEAM is upgraded and works properly

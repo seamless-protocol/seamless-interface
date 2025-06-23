@@ -7,8 +7,8 @@ import { Displayable, ViewBigInt } from "../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../shared/utils/helpers";
 import { useMemo } from "react";
-import { useFetchCoinGeckoPricesByAddress } from "../../statev3/common/hooks/useFetchCoinGeckoPrice";
-import { assetsConfigAsCoingGeckoPriceParams, assetsConfig } from "../../statev3/settings/landingMarketConfig";
+import { useFetchCoinGeckoPricesByAddress } from "../../data/common/hooks/useFetchCoinGeckoPrice";
+import { assetsConfigAsCoingGeckoPriceParams, assetsConfig } from "../../data/settings/landingMarketConfig";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd?: FetchBigInt;

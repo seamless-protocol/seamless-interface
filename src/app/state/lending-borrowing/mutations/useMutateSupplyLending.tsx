@@ -4,7 +4,7 @@ import { Address, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchAssetAllowance } from "../../../../shared/state/queries/useFetchAssetAllowance";
 import { useFetchUserAccountData } from "../queries/useFetchViewUserAccountData";
-import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../../data/common/queries/useFetchViewAssetBalance";
 import { targetChain } from "../../../config/rainbow.config";
 
 export const useMutateSupplyLending = (asset?: Address) => {

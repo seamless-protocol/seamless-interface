@@ -2,10 +2,10 @@ import { FetchData, SeamlessWriteAsyncParams } from "@shared";
 import type { Reward, RewardItem } from "../contexts/RewardsProvider";
 
 import seamlessIcon from "@assets/logos/logo-seamless.svg";
-import { useMutateClaimFuulRewards } from "../../../../../../statev3/fuul/mutations/useMutateClaimFuulRewards";
-import { useFetchUserBalances } from "../../../../../../statev3/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
+import { useMutateClaimFuulRewards } from "../../../../../../data/fuul/mutations/useMutateClaimFuulRewards";
 import { useAccount } from "wagmi";
 import { Address } from "viem";
+import { useFetchUserBalances } from "../../../../../../data/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
 
 const config = {
   id: "3",

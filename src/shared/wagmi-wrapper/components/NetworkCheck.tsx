@@ -3,10 +3,10 @@ import { base } from "viem/chains";
 import { useAccount, useDisconnect } from "wagmi";
 import { Typography } from "../../components/text/Typography/Typography";
 import { useNotificationContext } from "../../contexts/notification/useNotificationContext";
-import { useFetchIsUserRestricted } from "@app/statev3/common/queries/is-user-restricted/IsUserRestricted.hook";
 import { useFetchIsAddressSanctioned } from "../../state/queries/useFetchIsAddressSanctioned";
 import { discordUrl } from "@router";
 import { Link } from "react-router-dom";
+import { useFetchIsUserRestricted } from "../../../app/data/common/queries/is-user-restricted/IsUserRestricted.hook";
 
 const WrongNetworkMessage = () => {
   return (

@@ -4,7 +4,7 @@ import { fetchToken } from "../meta-data-queries/useToken";
 import { readContract } from "wagmi/actions";
 import { getConfig } from "../../../app/utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import { queryConfig } from "../../../app/statev3/settings/queryConfig";
+import { queryConfig } from "../../../app/data/settings/queryConfig";
 
 export const fetchAllowance = async (asset: Address, spender: Address, userAddress: Address) => {
   const config = getConfig();

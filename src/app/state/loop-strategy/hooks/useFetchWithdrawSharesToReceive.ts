@@ -13,7 +13,7 @@ import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useAccount } from "wagmi";
 import { useFetchSimulateWithdraw } from "../queries/useFetchSimulateWithdraw";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 const cAssetsToReceive = (assetsValue?: bigint) => {
   if (assetsValue == null) return undefined;

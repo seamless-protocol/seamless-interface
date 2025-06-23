@@ -10,7 +10,7 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { FullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
+import { FullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 
 export const FormButtons: React.FC<{
   strategy: FullStrategyData;

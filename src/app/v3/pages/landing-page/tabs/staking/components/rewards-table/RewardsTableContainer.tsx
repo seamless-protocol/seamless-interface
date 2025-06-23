@@ -1,7 +1,7 @@
 import { TableRow, TableCell, Typography } from "@shared";
 import { EmptyTableGuard, NoRewardsDefaultTableBody } from "../../../../../common/components/EmptyTableGuard";
 import { RewardRowDesktop } from "./RewardRow";
-import { useFetchAssetRewardsData } from "../../../../../../../statev3/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
+import { useFetchAssetRewardsData } from "../../../../../../../data/safetyModule/hooks/asset-rewards-data/FetchAssetRewardsData.hook";
 
 export const RewardsTableContainer = () => {
   const { data, ...rest } = useFetchAssetRewardsData();

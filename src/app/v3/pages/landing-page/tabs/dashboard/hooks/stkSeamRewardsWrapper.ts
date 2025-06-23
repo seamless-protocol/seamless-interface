@@ -2,9 +2,9 @@ import { FetchData, SeamlessWriteAsyncParams } from "@shared";
 import { type RewardItem } from "../contexts/RewardsProvider";
 
 import seamIcon from "@assets/tokens/seam.svg";
-import { useMutateClaimAllRewards } from "../../../../../../statev3/safetyModule/mutations/useMutateClaimAllRewards";
-import { useFetchViewAllUserRewards } from "../../../../../../statev3/common/hooks/useFetchViewAllUserRewards";
-import { rewardsAccruingAssets } from "../../../../../../statev3/settings/config";
+import { useMutateClaimAllRewards } from "../../../../../../data/safetyModule/mutations/useMutateClaimAllRewards";
+import { useFetchViewAllUserRewards } from "../../../../../../data/common/hooks/useFetchViewAllUserRewards";
+import { rewardsAccruingAssets } from "../../../../../../data/settings/config";
 
 const config = {
   id: "1",

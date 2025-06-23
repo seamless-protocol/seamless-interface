@@ -2,7 +2,7 @@ import { Address, parseEther } from "viem";
 import { leverageTokensConfig } from "../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { fetchUserUnrealized } from "../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
 import { fetchUserEquity } from "../../../data/leverage-tokens/queries/user-equity/user-equity.fetch";
-import { fetchUserVaultPositions } from "../../morpho/user-vault-positions/UserVaultPositions.fetch";
+import { fetchUserVaultPositions } from "../../../data/morpho/user-vault-positions/UserVaultPositions.fetch";
 import { fetchStrategies } from "../../queries/Strategies.hook";
 import {
   fetchUserStrategyProfit,

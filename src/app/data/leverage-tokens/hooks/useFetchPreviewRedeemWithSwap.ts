@@ -1,4 +1,4 @@
-import { cValueInUsd } from "@app/statev3/common/math/cValueInUsd";
+import { cValueInUsd } from "@app/data/common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "@app/statev3/queries/AssetPrice.hook";
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
@@ -11,7 +11,7 @@ import {
 } from "../../../../shared";
 import { fetchCollateralAsset } from "../../../statev3/queries/CollateralAsset.all";
 import { fetchDebtAsset } from "../../../statev3/queries/DebtAsset.all";
-import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { Exchange } from "../common/enums";
 import { getQuoteAndParamsAerodromeSlipstream } from "./useFetchAerodromeRoute";
 import { fetchPreviewRedeem, PreviewRedeemData } from "./useFetchPreviewRedeem";

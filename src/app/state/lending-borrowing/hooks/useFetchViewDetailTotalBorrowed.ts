@@ -4,8 +4,8 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { Displayable, fUsdValueStructured, mergeQueryStates } from "../../../../shared";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { ViewDetailTotalBorrowed } from "../types/ViewDetailTotalBorrowed";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 
 interface TotalBorrowed {

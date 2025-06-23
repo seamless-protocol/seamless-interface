@@ -1,10 +1,10 @@
 import React from "react";
 import { IncentivesButton } from "./AprTooltip";
 import { IncentivesDetailCard } from "./IncentivesDetailCard";
-import { NetApyData } from "../../../statev3/morpho/types/UserReward";
+import { NetApyData } from "../../../data/morpho/types/UserReward";
 import { Address } from "viem";
 import { FlexCol, FlexRow, Icon, DisplayText } from "@shared";
-import { getViewFormattedApyAndPoints } from "../../../statev3/morpho/mappers/getViewFormattedApyAndPoints";
+import { getViewFormattedApyAndPoints } from "../../../data/morpho/mappers/getViewFormattedApyAndPoints";
 
 export const MorphoAprTooltip: React.FC<{
   netApyData?: NetApyData;

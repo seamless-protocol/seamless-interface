@@ -18,10 +18,10 @@ import { fetchLeverageTokenDebt } from "../../data/leverage-tokens/queries/debt/
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated";
 import { getConfig, queryContract } from "../../utils/queryContractUtils";
 import { checkIfContractExists } from "../../utils/wagmiUtils";
-import { fetchCoinGeckoAssetPriceByAddress } from "../common/hooks/useFetchCoinGeckoPrice";
-import { configuredVaultAddresses, strategyConfig } from "../settings/config";
-import { assetsConfig } from "../settings/landingMarketConfig";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../settings/queryConfig";
+import { fetchCoinGeckoAssetPriceByAddress } from "../../data/common/hooks/useFetchCoinGeckoPrice";
+import { configuredVaultAddresses, strategyConfig } from "../../data/settings/config";
+import { assetsConfig } from "../../data/settings/landingMarketConfig";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig, platformDataQueryConfig } from "../../data/settings/queryConfig";
 import { fetchAssetTotalSupplyInBlock } from "./AssetTotalSupply.hook";
 import { fetchEquityInBlock } from "./Equity.hook";
 

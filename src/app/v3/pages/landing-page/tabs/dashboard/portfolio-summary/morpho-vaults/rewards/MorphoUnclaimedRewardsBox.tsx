@@ -2,7 +2,7 @@ import { DisplayMoney, FlexCol, FlexRow, ImageGroup, StandardTooltip, Typography
 import {
   MorphoUserRewardsData,
   useMorphoExtendedUserRewards,
-} from "../../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+} from "../../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
 import { ClaimModal } from "./ClaimModal";
 import { useAccount } from "wagmi";
 import { RewardsWarningTooltip } from "../../../components/common/RewardsWarningTooltip";

@@ -9,7 +9,7 @@ import {
 } from "@shared";
 import { Address } from "viem";
 import { useFetchStrategyAssetsCap } from "./useFetchStrategyAssetsCap";
-import { useFullTokenData } from "../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../data/common/meta-data-queries/useFullTokenData";
 import { useFetchDetailEquity } from "./useFetchViewEquity.all";
 
 const cRemainingCapPercentage = (assetCap?: bigint, equity?: bigint, decimals?: number): bigint | undefined => {
@@ -67,18 +67,18 @@ export const useFetchViewStrategyRemainingCap = (strategy?: Address): Displayabl
 
   const formattedRemainingCap = remainingCap
     ? formatFetchBigIntToViewBigInt(
-        remainingCap.bigIntValue !== undefined && remainingCap.bigIntValue < 0n
-          ? { ...remainingCap, bigIntValue: 0n }
-          : remainingCap
-      )
+      remainingCap.bigIntValue !== undefined && remainingCap.bigIntValue < 0n
+        ? { ...remainingCap, bigIntValue: 0n }
+        : remainingCap
+    )
     : undefined;
 
   const formattedRemainingCapPercentage = remainingCapPercentage
     ? formatFetchBigIntToViewBigInt(
-        remainingCapPercentage.bigIntValue !== undefined && remainingCapPercentage.bigIntValue < 0n
-          ? { ...remainingCapPercentage, bigIntValue: 0n }
-          : remainingCapPercentage
-      )
+      remainingCapPercentage.bigIntValue !== undefined && remainingCapPercentage.bigIntValue < 0n
+        ? { ...remainingCapPercentage, bigIntValue: 0n }
+        : remainingCapPercentage
+    )
     : undefined;
 
   return {

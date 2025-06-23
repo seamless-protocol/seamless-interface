@@ -5,7 +5,7 @@ import { TransfersWithStrategyPrice, cUserStrategyProfit } from "./UserStrategyP
 import { FetchBigIntStrict, fetchToken, formatFetchBigInt, formatUsdValue } from "../../../../shared";
 import { fetchAssetPriceInBlock } from "../../queries/AssetPrice.hook";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
-import { heavyDataQueryConfig } from "../../settings/queryConfig";
+import { heavyDataQueryConfig } from "../../../data/settings/queryConfig";
 
 /// TYPES
 interface Log {

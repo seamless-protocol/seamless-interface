@@ -8,8 +8,8 @@ import kingIcon from "@assets/tokens/king.svg";
 import weETHIcon from "@assets/tokens/weeth.svg";
 import seamIcon from "@assets/tokens/seam.svg";
 import { fetchLeverageRatios } from "../collateral-ratios/leverage-ratios.fetch";
-import { fetchConversionByTokenAddress } from "../../../../statev3/fuul/queries/fetch-conversions/ConversionsApy.mapper";
 import { ViewRewardToken } from "../../../../v3/components/tooltip/IncentivesDetailCard";
+import { fetchConversionByTokenAddress } from "../../../fuul/queries/fetch-conversions/ConversionsApy.mapper";
 
 export interface LeverageTokenYields {
   estimateNetYield: ViewNumber;
@@ -52,19 +52,19 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
     value: borrowAPY && targetLeverage ? borrowAPY * -100 * (targetLeverage - 1) : undefined,
     symbol: "%",
   });
-  
+
   const fuulAPR = fuulAprData?.fuulApr;
 
   const estimateNetYield =
     stakingYield.value != null &&
-    fuulAPR?.value != null &&
-    borrowAPYFormatted.value != null &&
-    targetLeverage != null &&
-    restakingYield.value != null
+      fuulAPR?.value != null &&
+      borrowAPYFormatted.value != null &&
+      targetLeverage != null &&
+      restakingYield.value != null
       ? formatFetchNumberToViewNumber({
-          value: stakingYield.value + restakingYield.value + fuulAPR.value + borrowAPYFormatted.value,
-          symbol: "%",
-        })
+        value: stakingYield.value + restakingYield.value + fuulAPR.value + borrowAPYFormatted.value,
+        symbol: "%",
+      })
       : formatFetchNumberToViewNumber({ value: undefined, symbol: "%" });
 
   const yieldBreakdown: ViewRewardToken[] = [

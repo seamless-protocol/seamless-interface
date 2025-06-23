@@ -4,8 +4,8 @@ import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ViewDetailReserveCaps } from "../types/ViewDetailReserveCaps";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 interface DetailReserveCaps {
   supplyCap?: FetchBigInt;

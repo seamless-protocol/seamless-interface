@@ -7,11 +7,11 @@ import { Address, formatUnits } from "viem";
 import { TimeFilterButton } from "../../../../components/graph/TimeFilterButton";
 import { GraphSpinner } from "../../../../components/graph/GraphSpinner";
 import { TimeseriesOptions } from "../../../../../../generated-graphql";
-import { fetchTotalAssetsHistorical } from "../../../../../statev3/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
+import { fetchTotalAssetsHistorical } from "../../../../../data/morpho/total-supply-historical/TotalAssetsHistorical.fetch";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { GraphButton } from "../../../../components/graph/GraphButton";
-import { ExtendedTotalAssetsHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedTotalAssetsHistoricalQuery";
+import { ExtendedTotalAssetsHistoricalQuery } from "../../../../../data/morpho/types/ExtendedTotalAssetsHistoricalQuery";
 
 export type FilterOption = "1w" | "1m" | "3m" | "1y";
 

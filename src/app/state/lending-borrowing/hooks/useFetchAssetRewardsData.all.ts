@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchRewardTokens } from "../queries/useFetchViewRewardTokens.all";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { getConfig } from "../../../utils/queryContractUtils";
-import { queryConfig } from "../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../data/settings/queryConfig";
 import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
 import { fetchToken } from "../../../../shared";
 

@@ -6,8 +6,8 @@ import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers"
 import { ViewDetailTotalSupplied } from "../types/ViewDetailTotalSupplied";
 import { useFetchReserveCaps } from "../queries/useFetchViewReserveCaps";
 import { ONE_ETHER } from "../../../../meta";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 const cCapacityPercentage = (totalSuppliedValue?: bigint, supplyCapValue?: bigint): bigint | undefined => {
   if (totalSuppliedValue == null || supplyCapValue == null) return undefined;

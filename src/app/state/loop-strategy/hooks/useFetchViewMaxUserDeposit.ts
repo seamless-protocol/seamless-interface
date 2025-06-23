@@ -3,7 +3,7 @@ import { Displayable, fFetchBigIntStructured, mergeQueryStates, useToken, ViewBi
 import { Address } from "viem";
 import { FetchBigInt, FetchData } from "../../../../shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../../shared/utils/helpers";
-import { useFetchAssetBalance } from "../../../statev3/common/queries/useFetchViewAssetBalance";
+import { useFetchAssetBalance } from "../../../data/common/queries/useFetchViewAssetBalance";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useFetchMaxDeposit } from "../queries/useFetchViewMaxDeposit";
 

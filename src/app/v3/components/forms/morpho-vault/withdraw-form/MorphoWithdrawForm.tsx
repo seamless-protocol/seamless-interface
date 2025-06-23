@@ -3,10 +3,10 @@ import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/full-vault-info/FullVaultInfo.hook";
+import { MappedVaultData } from "../../../../../data/morpho/types/MappedFullVaultData";
 import { RHFWithdrawVaultAmountField } from "./RHFWithdrawVaultAmountField";
-import { useMutateWithdrawMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateWithdrawMorphoVault";
+import { useMutateWithdrawMorphoVault } from "../../../../../data/morpho/mutations/useMutateWithdrawMorphoVault";
 
 export const MorphoWithdrawForm = () => {
   const { strategy: vault } = useFormSettingsContext();

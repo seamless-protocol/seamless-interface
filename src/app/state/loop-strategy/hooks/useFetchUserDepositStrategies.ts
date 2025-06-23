@@ -3,7 +3,7 @@ import { readContract } from "wagmi/actions";
 import { Address } from "viem";
 import { loopStrategyAbi } from "../../../generated";
 import { useQuery } from "@tanstack/react-query";
-import { strategyConfig } from "../../../statev3/settings/config";
+import { strategyConfig } from "../../../data/settings/config";
 
 interface Strategy {
   asset: Address;

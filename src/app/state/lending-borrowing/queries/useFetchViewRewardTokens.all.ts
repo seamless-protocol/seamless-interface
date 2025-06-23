@@ -4,7 +4,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { getConfig } from "../../../utils/queryContractUtils";
 import { useQuery } from "@tanstack/react-query";
-import { queryConfig } from "../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../data/settings/queryConfig";
 
 export async function fetchRewardTokens(asset: Address) {
   const queryClient = getQueryClient();

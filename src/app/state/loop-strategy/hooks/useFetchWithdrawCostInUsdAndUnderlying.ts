@@ -12,7 +12,7 @@ import {
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
 import { useFetchWithdrawSharesToReceive } from "./useFetchWithdrawSharesToReceive";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 const cCostInUsd = (sharePriceValue?: bigint, amount?: string, assetsToReceiveInUsd?: bigint) => {
   if (amount == null || assetsToReceiveInUsd == null || sharePriceValue == null) return undefined;

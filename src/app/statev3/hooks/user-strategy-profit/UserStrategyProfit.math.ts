@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { cValueInUsd } from "../../math/utils";
+import { cValueInUsd } from "../../../data/common/math/utils";
 
 /// TYPES
 
@@ -68,7 +68,7 @@ function cAvgSharePrice(input: cAvgSharePriceInput): bigint {
 
   return strategyBalanceChange > 0n
     ? (strategyBalance * avgSharePrice + strategyBalanceChangeUsd * strategyBase) /
-        (strategyBalance + strategyBalanceChange)
+    (strategyBalance + strategyBalanceChange)
     : avgSharePrice;
 }
 

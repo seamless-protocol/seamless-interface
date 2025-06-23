@@ -14,8 +14,8 @@ import {
 } from "@shared";
 import { walletBalanceDecimalsOptions } from "@meta";
 import { useFetchStrategyAsset } from "../metadataQueries/useFetchStrategyAsset";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { useFetchAssetPrice } from "../../../statev3/common/queries/useFetchViewAssetPrice";
+import { cValueInUsd } from "../../../data/common/math/cValueInUsd";
+import { useFetchAssetPrice } from "../../../data/common/queries/useFetchViewAssetPrice";
 
 export interface SharesToReceiveData {
   sharesToReceive?: FetchBigInt;
