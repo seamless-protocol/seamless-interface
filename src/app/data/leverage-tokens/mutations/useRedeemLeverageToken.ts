@@ -8,7 +8,7 @@ import { LeverageManagerAbi } from "../../../../../abis/LeverageManager";
 import { LeverageRouterAbi } from "../../../../../abis/LeverageRouter";
 import { RedeemEventLeverageManagerAbi } from "../../../../../abis/RedeemEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
-import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
+import { SwapContext } from "../hooks/useFetchAerodromeRoute";
 
 export const getRedeemedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);

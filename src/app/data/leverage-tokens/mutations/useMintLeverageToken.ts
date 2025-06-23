@@ -5,9 +5,9 @@ import { getPublicClient, simulateContract } from "wagmi/actions";
 import { LeverageManagerAbi } from "../../../../../abis/LeverageManager";
 import { MintEventLeverageManagerAbi } from "../../../../../abis/MintEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
-import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodromeRoute";
 import { leverageRouterAbi, leverageRouterAddress } from "../../../generated";
 import { getConfig } from "../../../utils/queryContractUtils";
+import { SwapContext } from "../hooks/useFetchAerodromeRoute";
 
 export const getMintedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);
