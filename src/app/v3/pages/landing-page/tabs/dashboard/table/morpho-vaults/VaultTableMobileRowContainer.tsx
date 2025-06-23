@@ -2,7 +2,6 @@ import { Address } from "viem";
 import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable, FlexRow } from "@shared";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
-// import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
