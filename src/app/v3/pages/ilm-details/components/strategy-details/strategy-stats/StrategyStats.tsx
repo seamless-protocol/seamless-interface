@@ -5,7 +5,7 @@ import { useFetchFormattedStrategyCap } from "../../../../../../data/ilmv1-depre
 import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../data/ilmv1-deprecated/metadata/StrategyTargetMultiples.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.all";
+import { useFetchFormattedStrategyMultiple } from "../../../../../../data/ilmv1-deprecated/hooks/StrategyMultiple.all";
 
 function getMinMaxLeverageText(min: ViewBigInt | undefined, max: ViewBigInt | undefined): string | undefined {
   return `${min?.viewValue}${min?.symbol} - ${max?.viewValue}${max?.symbol}`;

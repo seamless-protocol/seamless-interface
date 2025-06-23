@@ -12,7 +12,7 @@ import { FullStrategyData } from "../metadata/FullStrategyData.all";
 import { QueryKey } from "@tanstack/react-query";
 import { useFetchAssetBalance } from "../../common/queries/useFetchViewAssetBalance";
 import { targetChain } from "../../../config/rainbow.config";
-import { SharesToReceiveData } from "../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { SharesToReceiveData } from "../queries/useFetchDepositSharesToReceive";
 
 export const useMutateDepositStrategy = (strategy?: FullStrategyData) => {
   /* ------------- */

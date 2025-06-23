@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Typography } from "@shared";
-import { useFetchUserDepositStrategies } from "../../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
+import { useFetchUserDepositStrategies } from "../../../../../../data/ilmv1-deprecated/queries/useFetchUserDepositStrategies";
 import { Link } from "react-router-dom";
 import { RouterConfig } from "@router";
 import { EmptyTableGuard } from "../../../../common/components/EmptyTableGuard";

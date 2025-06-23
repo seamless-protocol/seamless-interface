@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { STAKED_SEAM_ADDRESS, safetyModuleRewardController } from "@meta";
 import { fetchToken } from "@shared";
-import { fetchAssetRewardsData } from "../../../../state/lending-borrowing/hooks/useFetchAssetRewardsData.all";
+import { fetchAssetRewardsData } from "../../../landing-deprecated/hooks/useFetchAssetRewardsData.all";
 import { parseRewardsTokenInformation } from "../../../../../shared/utils/aaveIncentivesHelpers";
 import { fetchTotalAssets } from "../total-assets/TotalAssets.fetch";
 import { fetchAssetPriceInBlock } from "../../../common/queries/AssetPrice.hook";

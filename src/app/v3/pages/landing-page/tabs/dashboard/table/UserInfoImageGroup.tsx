@@ -1,5 +1,5 @@
 import React from "react";
-import { RewardsInfo } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+import { RewardsInfo } from "../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { ImageGroup } from "../../../../../../../shared";
 
 export const UserInfoImageGroup: React.FC<{

@@ -2,7 +2,7 @@ import { FlexCol } from "@shared";
 import { TableContainer } from "./table/TableContainer";
 import { NotConnectedWalletGuard } from "../../../common/components/NotConnectedWalletGuard";
 import { LegacyPlatformDeprecationBanner } from "../../../../components/banner/LegacyPlatformDeprecationBanner";
-import { useFetchUserDepositStrategies } from "../../../../../state/loop-strategy/hooks/useFetchUserDepositStrategies";
+import { useFetchUserDepositStrategies } from "../../../../../data/ilmv1-deprecated/queries/useFetchUserDepositStrategies";
 import { PortfolioSummaryV2 } from "./portfolio-summary/PortfolioSummaryV2";
 import { PortfolioSummary } from "./portfolio-summary/Summary";
 

@@ -7,7 +7,7 @@ import {
   useNotificationContext,
   useSeamlessContractWrite,
 } from "@shared";
-import { PreviewWithdraw } from "../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { PreviewWithdraw } from "../queries/useFetchWithdrawSharesToReceive";
 import { targetChain } from "../../../config/rainbow.config";
 
 export const useWriteStrategyWithdraw = (strategy?: Address) => {

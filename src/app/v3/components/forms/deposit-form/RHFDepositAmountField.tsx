@@ -5,7 +5,7 @@ import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
 import { useFetchViewAssetBalance } from "../../../../data/common/queries/useFetchViewAssetBalance";
 import { cValueInUsd } from "../../../../data/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { useFetchViewMaxUserDeposit } from "../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
+import { useFetchViewMaxUserDeposit } from "../../../../data/ilmv1-deprecated/queries/useFetchViewMaxUserDeposit";
 import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { useFetchFullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 

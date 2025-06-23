@@ -16,12 +16,15 @@ import {
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
-import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchDepositSharesToReceive } from "../../../../data/ilmv1-deprecated/queries/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
 import { useMutateDepositStrategy } from "../../../../data/ilmv1-deprecated/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
+import {
+  FullStrategyData,
+  useFetchFullStrategyData,
+} from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { useFullTokenData } from "../../../../data/common/meta-data-queries/useFullTokenData";
 import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";

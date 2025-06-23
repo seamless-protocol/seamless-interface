@@ -1,5 +1,5 @@
 import { DisplayText } from "@shared";
-import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
+import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../data/ilmv1-deprecated/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { SignIndicatingElement } from "../../../../../components/other/SignIndicatingElement";
 
 export const Profit = () => {

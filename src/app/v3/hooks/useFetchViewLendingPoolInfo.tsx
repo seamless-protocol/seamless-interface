@@ -1,7 +1,7 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { fUsdValueStructured, mergeQueryStates } from "@shared";
-import { useFetchRawReservesData } from "../../state/lending-borrowing/queries/useFetchRawReservesData";
+import { useFetchRawReservesData } from "../../data/landing-deprecated/queries/useFetchRawReservesData";
 import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";

@@ -2,7 +2,7 @@ import { FlexRow, Typography, FlexCol, DisplayTokenAmount, StandardTooltip } fro
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { DataRow } from "../DataRow";
 import { useAccount } from "wagmi";
-import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchDepositCostInUsdAndUnderlying";
+import { useFetchPreviewDepositCostInUsdAndUnderlying } from "../../../../data/ilmv1-deprecated/queries/useFetchDepositCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 
 export const Summary: React.FC<{
