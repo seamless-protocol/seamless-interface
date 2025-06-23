@@ -69,7 +69,7 @@ vi.mock("../../../../../data/leverage-tokens/queries/leverage-token-by-address/F
 }));
 
 // 4) Stub on-chain balance fetch (collateral + LP balance)
-vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => ({
+vi.mock("../../../../data/common/queries/useFetchViewAssetBalance", () => ({
   useFetchViewAssetBalance: vi.fn(() => ({
     data: {
       balance: {
@@ -83,7 +83,7 @@ vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => 
 }));
 
 // 5) Stub collateral-asset lookup
-vi.mock("../../../../../statev3/queries/CollateralAsset.all", () => ({
+vi.mock("../../../../data/leverage-tokens/queries/CollateralAsset.all", () => ({
   useFetchCollateralAsset: vi.fn(() => ({
     data: {
       address: MOCK_VALUES.leverageToken.underlyingAssetAddress,
@@ -96,7 +96,7 @@ vi.mock("../../../../../statev3/queries/CollateralAsset.all", () => ({
 }));
 
 // 6) Stub debounce hook
-vi.mock("../../../../../statev3/common/hooks/useWrappedDebounce", () => ({
+vi.mock("../../../../data/common/hooks/useWrappedDebounce", () => ({
   useWrappedDebounce: vi.fn((val: string) => ({ debouncedAmount: val })),
 }));
 
@@ -135,7 +135,7 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap
 
 // 9) Stub useMintLeverageToken
 const mockMintAsync = vi.fn();
-vi.mock("../../../../../statev3/leverage/mutations/useMintLeverageToken", () => ({
+vi.mock("../../../../data/leverage-tokens/mutations/useMintLeverageToken", () => ({
   useMintLeverageToken: () => ({
     mintAsync: mockMintAsync,
     isMintPending: false,
@@ -144,7 +144,7 @@ vi.mock("../../../../../statev3/leverage/mutations/useMintLeverageToken", () => 
 
 // 10) Stub useRedeemLeverageToken
 const mockRedeemAsync = vi.fn();
-vi.mock("../../../../../statev3/leverage/mutations/useRedeemLeverageToken", () => ({
+vi.mock("../../../../data/leverage-tokens/mutations/useRedeemLeverageToken", () => ({
   useRedeemLeverageToken: () => ({
     redeemAsync: mockRedeemAsync,
   }),
