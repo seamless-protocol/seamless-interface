@@ -14,10 +14,10 @@ import {
 } from "@shared";
 import { useForm } from "react-hook-form";
 import { ESSEAM_ADDRESS, SEAM_ADDRESS, STAKED_SEAM_ADDRESS } from "../../../../../meta";
-import { useMutateDelegate } from "../../../../statev3/governance/mutations/useMutateDelegate";
 import { Address } from "viem";
-import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
+import { useMutateDelegate } from "../../../../data/governance/mutations/useMutateDelegate";
+import { useFetchDelegates } from "../../../../data/governance/queries/delegates/FetchDelegates.hook";
 
 const useDelegateModalData = () => {
   const { data: { seamBalance, esSeamBalance, stkSeamBalance } = {}, ...rest } = useFetchSEAMAssetBalances();

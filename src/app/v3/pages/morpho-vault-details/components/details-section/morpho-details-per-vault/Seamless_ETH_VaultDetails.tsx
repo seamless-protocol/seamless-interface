@@ -6,7 +6,7 @@ import { getVaultSeamlessprotocolDiscourseGroupUrl } from "@router";
 import { LearnMore } from "../LearnMore";
 import { LocalCollapseArrow } from "../../../../../components/details-section/DetailsCollapseArrow";
 import { LocalCollapseTitle } from "../../../../../components/details-section/DetailsCollapseTitle";
-import { useFetchFormattedFullVaultInfo } from "../../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
+import { useFetchFormattedFullVaultInfo } from "../../../../../../data/morpho/full-vault-info/FullVaultInfo.hook";
 import { DisplayTextLocal } from "../common/DisplayTextLocal";
 
 export const Seamless_ETH_VaultDetails: React.FC<{

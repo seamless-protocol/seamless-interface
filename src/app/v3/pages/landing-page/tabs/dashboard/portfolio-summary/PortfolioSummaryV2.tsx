@@ -1,5 +1,5 @@
 import { DisplayMoney, FlexCol, Typography } from "@shared";
-import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../statev3/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
+import { useFetchFormattedUserProfitAndPortfolio } from "../../../../../../data/ilmv1-deprecated/hooks/user-profit-and-portfolio/UserProfitAndPortfolio.hook";
 import { Profit } from "./Profit";
 import { RewardsSelector } from "../components/claiming-rewards/RewardsSelector";
 import { RewardsProvider } from "../contexts/RewardsProvider";

@@ -1,7 +1,7 @@
 import { Typography } from "@shared";
 
 import React from "react";
-import { TagType } from "../../../statev3/common/types/StateTypes";
+import { TagType } from "../../../data/common/types/StateTypes";
 
 // eslint-disable-next-line no-unused-vars
 const ColorByTypeDict: { [key in TagType]: string } = {

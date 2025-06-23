@@ -3,10 +3,10 @@ import { FormButtons } from "./FormButtons";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { useFetchStakedSeamTokenData } from "../../../../../data/safetyModule/hooks/useFetchStakedSeamTokenData";
 import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
-import { useUnstakeSafetyModule } from "../../../../../statev3/safetyModule/mutations/useUnstakeSafetyModule";
-import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { useUnstakeSafetyModule } from "../../../../../data/safetyModule/mutations/useUnstakeSafetyModule";
+import { StakedSeam as TokenData } from "../../../../../data/safetyModule/types/StakedSeam";
 import { intervalToDuration, formatDuration, format } from "date-fns";
 import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 

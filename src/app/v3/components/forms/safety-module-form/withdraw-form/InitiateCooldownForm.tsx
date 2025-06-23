@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import { FormButtons } from "./FormButtonsCooldown";
 import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyFormProvider, FlexRow } from "@shared";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { useFetchStakedSeamTokenData } from "../../../../../data/safetyModule/hooks/useFetchStakedSeamTokenData";
 
-import { useInitiateCooldown } from "../../../../../statev3/safetyModule/mutations/useInitiateCooldown";
-import { StakedSeam as TokenData } from "../../../../../statev3/safetyModule/types/StakedSeam";
+import { useInitiateCooldown } from "../../../../../data/safetyModule/mutations/useInitiateCooldown";
+import { StakedSeam as TokenData } from "../../../../../data/safetyModule/types/StakedSeam";
 import { RHFUnstakeAmountField } from "./RHFUnstakeAmountField";
 import { StakeInfoTooltip } from "../components/StakeInfoTooltip";
 

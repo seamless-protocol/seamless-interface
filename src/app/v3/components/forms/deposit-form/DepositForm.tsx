@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { WETH_ADDRESS } from "@meta";
-import { useWrappedDebounce } from "../../../../statev3/common/hooks/useWrappedDebounce";
+import { useWrappedDebounce } from "../../../../data/common/hooks/useWrappedDebounce";
 import { FormButtons } from "./FormButtons";
 import {
   useNotificationContext,
@@ -16,14 +16,17 @@ import {
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { RouterConfig } from "@router";
-import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchDepositSharesToReceive } from "../../../../data/ilmv1-deprecated/queries/useFetchDepositSharesToReceive";
 import { parseUnits } from "viem";
-import { useMutateDepositStrategy } from "../../../../statev3/loop-strategy/mutations/useMutateDepositStrategy";
+import { useMutateDepositStrategy } from "../../../../data/ilmv1-deprecated/mutations/useMutateDepositStrategy";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
 import { Summary } from "./Summary";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
-import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import {
+  FullStrategyData,
+  useFetchFullStrategyData,
+} from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
+import { useFullTokenData } from "../../../../data/common/meta-data-queries/useFullTokenData";
+import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { LegacyPlatformDeprecationBanner } from "../../banner/LegacyPlatformDeprecationBanner";
 
 export const DepositForm = () => {

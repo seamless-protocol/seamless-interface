@@ -18,9 +18,9 @@ import {
 } from "../../../../shared";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { etherfiL2ModeSyncPoolAddress } from "../../../generated";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
-import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
+import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";

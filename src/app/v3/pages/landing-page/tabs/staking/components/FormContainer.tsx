@@ -3,13 +3,13 @@ import { FlexCol, FlexRow, mergeQueryStates, Typography } from "@shared";
 import { FormSettingsProvider } from "../../../../../components/forms/contexts/FormSettingsContext";
 import { UnstakeForm } from "../../../../../components/forms/safety-module-form/withdraw-form/UnstakeForm";
 import { InitiateCooldownForm } from "../../../../../components/forms/safety-module-form/withdraw-form/InitiateCooldownForm";
-import { useFetchStakerCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchStakerCooldown";
-import { useFetchCooldown } from "../../../../../../statev3/safetyModule/hooks/useFetchCooldown";
-import { useFetchUnstakeWindow } from "../../../../../../statev3/safetyModule/hooks/useFetchUnstakeWindow";
+import { useFetchStakerCooldown } from "../../../../../../data/safetyModule/hooks/useFetchStakerCooldown";
+import { useFetchCooldown } from "../../../../../../data/safetyModule/hooks/useFetchCooldown";
+import { useFetchUnstakeWindow } from "../../../../../../data/safetyModule/hooks/useFetchUnstakeWindow";
 import { STAKED_SEAM_ADDRESS } from "@meta";
 import { useBlock } from "wagmi";
 import { IS_DEV_MODE } from "../../../../../../../globals";
-import { FIVE_MINUTE_IN_MS } from "../../../../../../statev3/settings/queryConfig";
+import { FIVE_MINUTE_IN_MS } from "../../../../../../data/settings/queryConfig";
 import { StakingForm } from "../../../../../components/forms/safety-module-form/deposit-form/StakingForm";
 
 const getDeadlines = (startTime: bigint, cooldown: bigint, unstakeWindow: bigint) => {

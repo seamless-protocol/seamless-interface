@@ -5,7 +5,7 @@ import {
 } from "../../../../../generated-graphql/leverage-token-index";
 import { getLeverageTokenApolloClient } from "../../../../config/apollo-clients";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 import { checkGraphQlResponse } from "../../../../v3/utils/utils";
 
 export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { address: string }) => ({

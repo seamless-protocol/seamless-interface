@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
+import { MappedVaultData } from "../../../../../data/morpho/types/MappedFullVaultData";
 
 export const FormButtons: React.FC<{
   vaultData: MappedVaultData;

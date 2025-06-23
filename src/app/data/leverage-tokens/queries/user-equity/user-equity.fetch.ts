@@ -1,13 +1,13 @@
 import { fetchToken, formatFetchBigIntToViewBigInt, ViewBigIntWithUsdValue, fUsdValueStructured } from "@shared";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
-import { fetchAssetBalance } from "../../../../statev3/queries/AssetBalance.hook";
-import { fetchAssetPriceInBlock } from "../../../../statev3/queries/AssetPrice.hook";
-import { disableCacheQueryConfig } from "../../../../statev3/settings/queryConfig";
+import { cValueInUsd } from "../../../common/math/cValueInUsd";
+import { fetchAssetBalance } from "../../../common/queries/AssetBalance.hook";
+import { fetchAssetPriceInBlock } from "../../../common/queries/AssetPrice.hook";
+import { disableCacheQueryConfig } from "../../../settings/queryConfig";
 import { fetchLeverageTokenAssets } from "../leverage-token-assets/leverage-token-assets.fetch";
 import { fetchLeverageTokenEquity } from "../leverage-token-equity/leverage-token-equity.fetch";
-import { fetchAssetTotalSupplyInBlock } from "../../../../statev3/queries/AssetTotalSupply.hook";
+import { fetchAssetTotalSupplyInBlock } from "../../../common/queries/AssetTotalSupply.hook";
 
 
 export const fetchUserEquity = async (user: Address, leverageToken: Address): Promise<ViewBigIntWithUsdValue> => {

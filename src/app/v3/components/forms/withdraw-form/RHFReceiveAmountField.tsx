@@ -1,7 +1,7 @@
 import { IRHFAmountInputProps, RHFAmountInputV3, useToken } from "@shared";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { useFetchViewWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
-import { useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchViewWithdrawSharesToReceive } from "../../../../data/ilmv1-deprecated/queries/useFetchWithdrawSharesToReceive";
+import { useFetchFullStrategyData } from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

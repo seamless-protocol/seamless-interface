@@ -4,9 +4,9 @@ import { useNotificationContext, FlexCol, Typography, WatchAssetComponentv2, MyF
 import { RHFDepositAmountField } from "./RHFDepositAmountField";
 import { parseUnits } from "viem";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { useFetchFormattedFullVaultInfo } from "../../../../../statev3/morpho/full-vault-info/FullVaultInfo.hook";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
-import { useMutateDepositMorphoVault } from "../../../../../statev3/morpho/mutations/useMutateDepositMorphoVault";
+import { useFetchFormattedFullVaultInfo } from "../../../../../data/morpho/full-vault-info/FullVaultInfo.hook";
+import { MappedVaultData } from "../../../../../data/morpho/types/MappedFullVaultData";
+import { useMutateDepositMorphoVault } from "../../../../../data/morpho/mutations/useMutateDepositMorphoVault";
 import { DEPOSIT_NATIVE_ETH } from "./useDepositingNativeETH";
 
 export const MorphoDepositForm = () => {

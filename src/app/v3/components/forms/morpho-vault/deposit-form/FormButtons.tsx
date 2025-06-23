@@ -2,7 +2,7 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState } from
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { MappedVaultData } from "../../../../../statev3/morpho/types/MappedFullVaultData";
+import { MappedVaultData } from "../../../../../data/morpho/types/MappedFullVaultData";
 import { ChainId, getChainAddresses as getMorphoChainAddresses } from "@morpho-org/blue-sdk";
 import { useDepositingNativeETH } from "./useDepositingNativeETH";
 

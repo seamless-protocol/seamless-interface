@@ -11,7 +11,7 @@ import {
   uniswapV3FactoryAbi,
   uniswapV3FactoryAddress,
 } from "../../../generated";
-import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";

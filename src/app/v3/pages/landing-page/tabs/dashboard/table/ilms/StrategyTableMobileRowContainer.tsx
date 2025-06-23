@@ -7,16 +7,16 @@ import {
   FlexCol,
   DisplayPercentage,
 } from "../../../../../../../../shared";
-import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
-import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { TableButtons } from "./TableButtons";
-import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const StrategyTableMobileRowContainer: React.FC<{ strategy: Address }> = ({ strategy }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);

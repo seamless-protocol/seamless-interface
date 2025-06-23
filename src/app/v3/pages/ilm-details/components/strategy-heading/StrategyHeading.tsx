@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { DisplayNumber, DisplayText, FlexCol, FlexRow } from "@shared";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
+import { useFetchFormattedStrategyHistoricReturn } from "../../../../../data/ilmv1-deprecated/hooks/StrartegyReturn.hook";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 import { StrategyIncentivesButton } from "../../../../components/tooltip/AprTooltip";
 
@@ -38,7 +38,9 @@ export const StrategyHeading = () => {
           )}
         </FlexRow>
       </div>
-      {strategyData?.description && <DisplayText {...strategyDataRest} typography="regular5" text={strategyData?.description} />}
+      {strategyData?.description && (
+        <DisplayText {...strategyDataRest} typography="regular5" text={strategyData?.description} />
+      )}
     </FlexCol>
   );
 };

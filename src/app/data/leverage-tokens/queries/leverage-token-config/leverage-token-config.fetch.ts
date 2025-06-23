@@ -4,7 +4,7 @@ import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { leverageManagerAbi, leverageManagerAddress } from "../../../../generated";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 
 export const getLeverageTokenConfigQueryOptions = (leverageToken: Address) => ({
   ...readContractQueryOptions(config, {

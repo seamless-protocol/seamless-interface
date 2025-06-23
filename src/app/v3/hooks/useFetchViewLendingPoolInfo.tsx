@@ -1,14 +1,14 @@
 import { aaveOracleAbi, aaveOracleAddress } from "../../generated/generated";
 import { useReadContracts } from "wagmi";
 import { fUsdValueStructured, mergeQueryStates } from "@shared";
-import { useFetchRawReservesData } from "../../state/lending-borrowing/queries/useFetchRawReservesData";
+import { useFetchRawReservesData } from "../../data/lending-deprecated/queries/useFetchRawReservesData";
 import { erc20Abi } from "viem";
 import { Displayable, ViewBigInt } from "../../../shared/types/Displayable";
 import { FetchBigInt, FetchData } from "src/shared/types/Fetch";
 import { formatFetchBigIntToViewBigInt } from "../../../shared/utils/helpers";
 import { useMemo } from "react";
-import { useFetchCoinGeckoPricesByAddress } from "../../statev3/common/hooks/useFetchCoinGeckoPrice";
-import { assetsConfigAsCoingGeckoPriceParams, assetsConfig } from "../../statev3/settings/landingMarketConfig";
+import { useFetchCoinGeckoPricesByAddress } from "../../data/common/hooks/useFetchCoinGeckoPrice";
+import { assetsConfigAsCoingGeckoPriceParams, assetsConfig } from "../../data/settings/landingMarketConfig";
 
 interface LendingPoolInfo {
   totalMarketSizeUsd?: FetchBigInt;

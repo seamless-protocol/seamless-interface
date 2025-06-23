@@ -1,14 +1,11 @@
 import { useEffect } from "react";
-import { usePayoutsLeaderboard } from "../../../statev3/fuul/queries/fetch-payouts-leaderboard/PayoutsLeaderboard.hook";
-import {
-  useFetchPointsLeaderboard,
-  useFetchPointsUserPosition,
-} from "../../../statev3/fuul/queries/fetch-points-leaderboard/FetchPointsLeaderboard.hook";
-import { useFetchUserBalances } from "../../../statev3/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
-import { useFetchTotalNumberOfUsers } from "../../../statev3/fuul/queries/fetch-volume-leaderboard/VolumeLeaderboard.hook";
 import { getFuulClient } from "../../../config/fuul-client";
-import { useMutateClaimFuulRewards } from "../../../statev3/fuul/mutations/useMutateClaimFuulRewards";
+import { useMutateClaimFuulRewards } from "../../../data/fuul/mutations/useMutateClaimFuulRewards";
 import { Buttonv2 } from "../../../../shared";
+import { usePayoutsLeaderboard } from "../../../data/fuul/queries/fetch-payouts-leaderboard/PayoutsLeaderboard.hook";
+import { useFetchPointsLeaderboard, useFetchPointsUserPosition } from "../../../data/fuul/queries/fetch-points-leaderboard/FetchPointsLeaderboard.hook";
+import { useFetchUserBalances } from "../../../data/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
+import { useFetchTotalNumberOfUsers } from "../../../data/fuul/queries/fetch-volume-leaderboard/VolumeLeaderboard.hook";
 
 const user_address = "0x559458Aac63528fB18893d797FF223dF4D5fa3C9";
 const sbgraph_user_address = "0x0019de95fa9953074432f7e66a8c5e8f043c8218";

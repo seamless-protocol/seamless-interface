@@ -6,7 +6,7 @@ import { TableButtons } from "./TableButtons";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
 import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
 import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";

@@ -5,8 +5,8 @@ import { useDropdown } from "../../hooks/ui-hooks/useDropdown";
 import { RouterConfig } from "../../../app/router";
 import { useUserAvatar } from "../../hooks/wallet-hooks/useUserAvatar";
 import { useFetchIsAddressSanctioned } from "../../state/queries/useFetchIsAddressSanctioned";
-import { useFetchIsUserRestricted } from "../../../app/statev3/common/queries/is-user-restricted/IsUserRestricted.hook";
 import { useNotificationContext } from "../notification/useNotificationContext";
+import { useFetchIsUserRestricted } from "../../../app/data/common/queries/is-user-restricted/IsUserRestricted.hook";
 
 interface ConnectButtonContextType {
   isConnected: boolean;

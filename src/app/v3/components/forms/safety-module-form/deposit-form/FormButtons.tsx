@@ -2,7 +2,7 @@ import { FlexCol, AuthGuardv2, Buttonv2, useERC20Approve, getApproveState, Typog
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { parseUnits } from "viem";
-import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { useFetchStakedSeamTokenData } from "../../../../../data/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 export const FormButtons: React.FC<{
   isLoading?: boolean;

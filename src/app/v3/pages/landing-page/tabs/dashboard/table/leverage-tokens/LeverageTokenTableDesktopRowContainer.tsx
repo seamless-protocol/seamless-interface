@@ -4,7 +4,7 @@ import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText 
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";

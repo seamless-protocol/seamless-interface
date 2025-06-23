@@ -5,7 +5,7 @@ import { COLLATERAL_RATIO_DECIMALS } from "../../../../../meta";
 import { formatFetchBigIntToViewBigInt, ViewBigInt } from "../../../../../shared";
 import { config } from "../../../../config/rainbow.config";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 import { fetchLeverageTokenConfig } from "../leverage-token-config/leverage-token-config.fetch";
 
 interface CollateralRatios {

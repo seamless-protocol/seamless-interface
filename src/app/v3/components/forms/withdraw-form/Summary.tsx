@@ -1,7 +1,7 @@
 import React from "react";
 import { FlexCol, Typography, DisplayMoney, StandardTooltip, FlexRow } from "@shared";
 import { useAccount } from "wagmi";
-import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../state/loop-strategy/hooks/useFetchWithdrawCostInUsdAndUnderlying";
+import { useFetchViewWithdrawCostInUsdAndUnderlying } from "../../../../data/ilmv1-deprecated/queries/useFetchWithdrawCostInUsdAndUnderlying";
 import { checkAuthentication } from "../../../../utils/authenticationUtils";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 

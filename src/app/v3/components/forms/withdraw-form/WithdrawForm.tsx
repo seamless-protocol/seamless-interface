@@ -17,17 +17,20 @@ import {
 } from "@shared";
 import { WETH_ADDRESS } from "@meta";
 import { RouterConfig } from "../../../../router";
-import { useWrappedDebounce } from "../../../../statev3/common/hooks/useWrappedDebounce";
-import { useFullTokenData } from "../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPrice } from "../../../../statev3/common/queries/useFetchViewAssetPrice";
-import { useFetchWithdrawSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchWithdrawSharesToReceive";
+import { useWrappedDebounce } from "../../../../data/common/hooks/useWrappedDebounce";
+import { useFullTokenData } from "../../../../data/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPrice } from "../../../../data/common/queries/useFetchViewAssetPrice";
+import { useFetchWithdrawSharesToReceive } from "../../../../data/ilmv1-deprecated/queries/useFetchWithdrawSharesToReceive";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
 import { FormButtons } from "./FormButtons";
 import { RHFWithdrawStrategyAmountField } from "./RHFWithdrawStrategyAmountField";
 import { Summary } from "./Summary";
 import { RHFReceiveAmountField } from "./RHFReceiveAmountField";
-import { FullStrategyData, useFetchFullStrategyData } from "../../../../statev3/metadata/FullStrategyData.all";
-import { useWriteStrategyWithdraw } from "../../../../statev3/loop-strategy/mutations/useWriteStrategyWithdraw";
+import {
+  FullStrategyData,
+  useFetchFullStrategyData,
+} from "../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
+import { useWriteStrategyWithdraw } from "../../../../data/ilmv1-deprecated/mutations/useWriteStrategyWithdraw";
 
 export const WithdrawForm: React.FC = () => {
   const { strategy } = useFormSettingsContext();

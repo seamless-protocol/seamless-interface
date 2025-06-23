@@ -1,6 +1,6 @@
 import { ExternalLink } from "@shared";
 import { Address } from "viem";
-import { useFullTokenData } from "../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../data/common/meta-data-queries/useFullTokenData";
 
 export const VaultsLink: React.FC<{
   asset?: Address;

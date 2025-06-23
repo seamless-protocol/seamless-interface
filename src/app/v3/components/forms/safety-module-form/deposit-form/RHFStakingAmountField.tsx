@@ -2,12 +2,12 @@ import { IRHFAmountInputProps, RHFAmountInputV3, Token, fParseUnits, formatFetch
 import { useFormContext } from "react-hook-form";
 import { useMemo } from "react";
 import { USD_VALUE_DECIMALS, walletBalanceDecimalsOptions } from "@meta";
-import { useFetchViewMaxUserDeposit } from "../../../../../state/loop-strategy/hooks/useFetchViewMaxUserDeposit";
-import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchViewMaxUserDeposit } from "../../../../../data/ilmv1-deprecated/queries/useFetchViewMaxUserDeposit";
+import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
+import { useFetchFormattedAssetPrice } from "../../../../../data/common/queries/AssetPrice.hook";
 import { useFormSettingsContext } from "../../contexts/useFormSettingsContext";
-import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
-import { useFetchStakedSeamTokenData } from "../../../../../statev3/safetyModule/hooks/useFetchStakedSeamTokenData";
+import { cValueInUsd } from "../../../../../data/common/math/cValueInUsd";
+import { useFetchStakedSeamTokenData } from "../../../../../data/safetyModule/hooks/useFetchStakedSeamTokenData";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {
   name: keyof T;

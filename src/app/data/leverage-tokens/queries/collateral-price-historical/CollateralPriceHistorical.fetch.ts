@@ -6,7 +6,7 @@ import {
 } from "../../../../../generated-graphql/leverage-token-index";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { checkGraphQlResponse } from "../../../../v3/utils/utils";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 
 export const fetchCollateralPriceHistoricalQueryOptions = (variables: { address: string }) => ({
   queryKey: ["fetchCollateralPriceHistorical", variables.address],

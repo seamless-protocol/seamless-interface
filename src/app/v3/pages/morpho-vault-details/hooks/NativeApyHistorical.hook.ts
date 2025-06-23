@@ -2,9 +2,9 @@ import { Address } from "viem";
 import { base } from "@wagmi/core/chains";
 import { useQuery } from "@tanstack/react-query";
 import { TimeseriesOptions } from "../../../../../generated-graphql";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
-import { fetchNetApyHistorical } from "../../../../statev3/morpho/net-apy-historical/NetApyHistorical.fetch";
-import { mapNativeApyData } from "../../../../statev3/morpho/mappers/mapNativeApyData";
+import { queryConfig } from "../../../../data/settings/queryConfig";
+import { fetchNetApyHistorical } from "../../../../data/morpho/net-apy-historical/NetApyHistorical.fetch";
+import { mapNativeApyData } from "../../../../data/morpho/mappers/mapNativeApyData";
 
 export const useFetchNativeApyHistorical = (
   address?: Address,

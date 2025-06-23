@@ -1,7 +1,7 @@
 import { DisplayMoney, DisplayTokenAmount, FlexCol, FlexRow, Icon, Typography, useToken } from "@shared";
 import { UserProfit } from "./UserProfit";
 import { Address } from "viem";
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 
 export const CurrentHoldings: React.FC<{
   address?: Address;

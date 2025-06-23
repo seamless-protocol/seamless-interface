@@ -2,7 +2,7 @@ import { readContractQueryOptions } from "wagmi/query";
 import { getConfig, queryContract } from "../../../../utils/queryContractUtils";
 import { Address } from "viem";
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
-import { queryConfig } from "../../../../statev3/settings/queryConfig";
+import { queryConfig } from "../../../settings/queryConfig";
 import { LendingAdapterAbi } from "../../../../../../abis/LendingAdapter";
 
 export const fetchMorphoMarketIdQueryOptions = (variables: { adapterAddress: Address }) => ({

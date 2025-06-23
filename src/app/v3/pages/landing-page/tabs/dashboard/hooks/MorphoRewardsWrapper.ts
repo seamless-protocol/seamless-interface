@@ -2,12 +2,12 @@ import { FetchData, SeamlessWriteAsyncParams } from "@shared";
 import { type RewardItem } from "../contexts/RewardsProvider";
 
 import morphoIcon from "@assets/tokens/morpho.svg";
-import { useMutateClaimAllMorphoRewards } from "../../../../../../statev3/morpho/user-distributions/useMutateClaimAllMorphoRewards";
+import { useMutateClaimAllMorphoRewards } from "../../../../../../data/morpho/user-distributions/useMutateClaimAllMorphoRewards";
 import { useAccount } from "wagmi";
 import {
   useMorphoExtendedUserRewards,
   MorphoUserRewardsData,
-} from "../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+} from "../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
 
 const config = {
   id: "2",

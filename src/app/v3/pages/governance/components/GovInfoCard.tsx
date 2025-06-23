@@ -12,10 +12,10 @@ import {
 } from "@shared";
 import { GovInfoCardDataPoint } from "./GovInfoCardDataPoint";
 import { useFetchSEAMAssetBalances } from "../hooks/useFetchSeamBalances";
-import { useFetchDelegates } from "../../../../statev3/governance/queries/delegates/FetchDelegates.hook";
-import { useFetchVestedSeam } from "../../../../statev3/governance/queries/vested-seam/FetchVestedSeam.hook";
-import { useMutateClaimVestedEsSEAM } from "../../../../statev3/governance/mutations/useMutateClaimVestedEsSEAM";
 import { SEAM_ADDRESS } from "@meta";
+import { useMutateClaimVestedEsSEAM } from "../../../../data/governance/mutations/useMutateClaimVestedEsSEAM";
+import { useFetchDelegates } from "../../../../data/governance/queries/delegates/FetchDelegates.hook";
+import { useFetchVestedSeam } from "../../../../data/governance/queries/vested-seam/FetchVestedSeam.hook";
 
 export const GovInfoCard = () => {
   /* -------- */

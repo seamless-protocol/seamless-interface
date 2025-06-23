@@ -13,14 +13,6 @@ import {
 } from "@shared";
 import { LeverageToken } from "../../../../../data/leverage-tokens/queries/all-leverage-tokens/leverageTokens";
 import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
-import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
-import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { getMintedShares, useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
-import {
-  getRedeemedShares,
-  useRedeemLeverageToken,
-} from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import {
   PreviewRedeemWithSwap,
   useFetchPreviewRedeemWithSwap,
@@ -34,6 +26,17 @@ import {
   LimitStatus,
   useLeverageTokenLimitStatuses,
 } from "../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses";
+import { useFetchCollateralAsset } from "../../../../../data/leverage-tokens/queries/CollateralAsset.all";
+import { useFetchViewAssetBalance } from "../../../../../data/common/queries/useFetchViewAssetBalance";
+import { useWrappedDebounce } from "../../../../../data/common/hooks/useWrappedDebounce";
+import {
+  getMintedShares,
+  useMintLeverageToken,
+} from "../../../../../data/leverage-tokens/mutations/useMintLeverageToken";
+import {
+  getRedeemedShares,
+  useRedeemLeverageToken,
+} from "../../../../../data/leverage-tokens/mutations/useRedeemLeverageToken";
 
 /* -------------------- */
 /*   Types & Context    */

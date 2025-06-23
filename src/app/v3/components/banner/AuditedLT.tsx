@@ -2,7 +2,7 @@ import { DisplayMoney, ExternalLink, Icon, Typography } from "@shared";
 import { cantinaLTAuditReportLink, sherlockLTAuditReportLink } from "@router";
 import cantinaIcon from "@assets/logos/cantina.svg";
 import sherlockIcon from "@assets/logos/sherlock.svg";
-import { useFetchPlatformTVL } from "../../../statev3/common/hooks/useFetchPlatformTVL";
+import { useFetchPlatformTVL } from "../../../data/common/hooks/useFetchPlatformTVL";
 
 export const AuditedLT = () => {
   const { TVL, ...restTVL } = useFetchPlatformTVL();

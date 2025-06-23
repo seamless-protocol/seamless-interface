@@ -4,7 +4,7 @@ import { FlexRow, Icon, Modal, ModalHandles, Typography } from "@shared";
 import polygonIcon from "@assets/common/polygon-black-down.svg";
 import { LeverageTokensTableContainer } from "../../../landing-page/tabs/ilms/table/IlmTableContainer";
 import { useRef, useEffect } from "react";
-import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
+import { useFullTokenData } from "../../../../../data/common/meta-data-queries/useFullTokenData";
 
 export const StrategyPickerButton: React.FC<{
   strategy?: Address;

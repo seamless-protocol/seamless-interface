@@ -9,8 +9,8 @@ import { TimeseriesOptions } from "../../../../../../generated-graphql";
 import { useTimeseriesOptions } from "../../hooks/useTimeseriesOptions";
 import { Heading } from "./Heading";
 import { formatDate } from "../../utils/formatDateForGraph";
-import { fetchNetApyHistorical } from "../../../../../statev3/morpho/net-apy-historical/NetApyHistorical.fetch";
-import { ExtendedNetAPYHistoricalQuery } from "../../../../../statev3/morpho/types/ExtendedNetAPYHistoricalQuery";
+import { fetchNetApyHistorical } from "../../../../../data/morpho/net-apy-historical/NetApyHistorical.fetch";
+import { ExtendedNetAPYHistoricalQuery } from "../../../../../data/morpho/types/ExtendedNetAPYHistoricalQuery";
 
 export type FilterOption = "1w" | "1m" | "3m" | "1y";
 

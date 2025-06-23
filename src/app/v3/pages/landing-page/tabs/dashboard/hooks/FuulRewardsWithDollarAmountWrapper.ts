@@ -1,7 +1,7 @@
 import { Address } from "viem";
-import { useFetchUserBalances } from "../../../../../../statev3/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
-import type { RewardsInfo } from "../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+import type { RewardsInfo } from "../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { useSumRewardDollarAmounts } from "./SumRewardDollarAmounts";
+import { useFetchUserBalances } from "../../../../../../data/fuul/queries/fetch-user-balances/FetchUserBalances.hook";
 
 export const useFuulRewardsWithDollarAmount = (address?: Address) => {
   const { data: allUserRewards, ...allUserRewardsRest } = useFetchUserBalances({

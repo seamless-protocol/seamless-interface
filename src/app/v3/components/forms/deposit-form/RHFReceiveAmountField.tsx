@@ -7,11 +7,11 @@ import {
   useToken,
 } from "@shared";
 import { useMemo } from "react";
-import { cValueInUsd } from "../../../../statev3/common/math/cValueInUsd";
+import { cValueInUsd } from "../../../../data/common/math/cValueInUsd";
 import { useFormSettingsContext } from "../contexts/useFormSettingsContext";
-import { useFetchDepositSharesToReceive } from "../../../../state/loop-strategy/hooks/useFetchDepositSharesToReceive";
+import { useFetchDepositSharesToReceive } from "../../../../data/ilmv1-deprecated/queries/useFetchDepositSharesToReceive";
 import { formatUnits } from "viem";
-import { useFetchFormattedAssetPrice } from "../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../data/common/queries/AssetPrice.hook";
 import { USD_VALUE_DECIMALS } from "../../../../../meta";
 
 type IProps<T> = Omit<IRHFAmountInputProps, "assetPrice" | "walletBalance" | "assetAddress" | "assetButton"> & {

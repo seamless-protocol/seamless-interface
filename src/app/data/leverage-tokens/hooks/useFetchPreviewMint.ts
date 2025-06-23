@@ -1,4 +1,4 @@
-import { cValueWithSlippage } from "@app/statev3/math/utils";
+import { cValueWithSlippage } from "@app/data/common/math/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Address, parseUnits } from "viem";
 import { readContractQueryOptions } from "wagmi/query";
@@ -10,9 +10,9 @@ import {
   ViewBigIntWithUsdValue,
 } from "../../../../shared";
 import { leverageManagerAbi, leverageManagerAddress } from "../../../generated";
-import { cValueInUsd } from "../../../statev3/common/math/cValueInUsd";
-import { fetchAssetPriceInBlock } from "../../../statev3/queries/AssetPrice.hook";
-import { disableCacheQueryConfig } from "../../../statev3/settings/queryConfig";
+import { cValueInUsd } from "../../common/math/cValueInUsd";
+import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
+import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
 

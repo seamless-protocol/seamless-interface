@@ -42,9 +42,11 @@ vi.mock("@shared", () => ({
     isLoading: false,
     isFetched: true,
   }),
-  Displayable: {},
-  FetchData: {},
-  ViewBigInt: {},
+  Displayable: {}, // stubbed as plain object, no class
+  FlexCol: ({ children }: any) => <div>{children}</div>,
+  Typography: (props: any) => <div {...props} />,
+  getParsedError: (e: any) => e.message,
+  ViewBigInt: {}, // stubbed as plain object, no class
   SeamlessWriteAsyncParams: {},
   useNotificationContext: () => ({
     showNotification: vi.fn(),
@@ -69,7 +71,7 @@ vi.mock("../../../../../data/leverage-tokens/queries/leverage-token-by-address/F
 }));
 
 // 4) Stub on-chain balance fetch (collateral + LP balance)
-vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => ({
+vi.mock("../../../../../data/common/queries/useFetchViewAssetBalance", () => ({
   useFetchViewAssetBalance: vi.fn(() => ({
     data: {
       balance: {
@@ -83,7 +85,7 @@ vi.mock("../../../../../statev3/common/queries/useFetchViewAssetBalance", () => 
 }));
 
 // 5) Stub collateral-asset lookup
-vi.mock("../../../../../statev3/queries/CollateralAsset.all", () => ({
+vi.mock("../../../../../data/leverage-tokens/queries/CollateralAsset.all", () => ({
   useFetchCollateralAsset: vi.fn(() => ({
     data: {
       address: MOCK_VALUES.leverageToken.underlyingAssetAddress,
@@ -96,7 +98,7 @@ vi.mock("../../../../../statev3/queries/CollateralAsset.all", () => ({
 }));
 
 // 6) Stub debounce hook
-vi.mock("../../../../../statev3/common/hooks/useWrappedDebounce", () => ({
+vi.mock("../../../../../data/common/hooks/useWrappedDebounce", () => ({
   useWrappedDebounce: vi.fn((val: string) => ({ debouncedAmount: val })),
 }));
 
@@ -133,85 +135,33 @@ vi.mock("../../../../../data/leverage-tokens/hooks/useFetchPreviewRedeemWithSwap
   })),
 }));
 
-// 9) Stub useMintLeverageToken
+// 9) Stub limit-statuses hook
+vi.mock("../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses", () => ({
+  useLeverageTokenLimitStatuses: vi.fn(() => ({
+    data: [],
+    isLoading: false,
+    isFetched: true,
+    isError: false,
+    error: undefined,
+  })),
+}));
+
+// 10) Stub useMintLeverageToken
 const mockMintAsync = vi.fn();
-vi.mock("../../../../../statev3/leverage/mutations/useMintLeverageToken", () => ({
+vi.mock("../../../../../data/leverage-tokens/mutations/useMintLeverageToken", () => ({
   useMintLeverageToken: () => ({
     mintAsync: mockMintAsync,
     isMintPending: false,
   }),
 }));
 
-// 10) Stub useRedeemLeverageToken
+// 11) Stub useRedeemLeverageToken
 const mockRedeemAsync = vi.fn();
-vi.mock("../../../../../statev3/leverage/mutations/useRedeemLeverageToken", () => ({
+vi.mock("../../../../../data/leverage-tokens/mutations/useRedeemLeverageToken", () => ({
   useRedeemLeverageToken: () => ({
     redeemAsync: mockRedeemAsync,
+    isRedeemPending: false,
   }),
-}));
-
-// 11) Stub the wallet-connect clearing hook
-vi.mock("../../../../../../shared/hooks/wallet-hooks/useClearIfExceedsBalance", () => ({
-  useClearIfExceedsBalanceAfterWalletConnect: ({
-    getValue,
-    setValue,
-    balance: { bigIntValue, decimals },
-    isConnected,
-  }: {
-    getValue: () => string;
-    setValue: (val: string) => void;
-    balance: { bigIntValue: bigint; decimals: number };
-    isConnected: boolean;
-  }) => {
-    if (isConnected) {
-      const current = getValue();
-      const numeric = parseFloat(current) || 0;
-      const max = Number(bigIntValue) / 10 ** decimals;
-      if (numeric > max) setValue("");
-    }
-  },
-}));
-
-// 12) Stub useFetchViewAssetPrice
-vi.mock("../../../../../statev3/common/queries/useFetchViewAssetPrice", () => ({
-  useFetchViewAssetPrice: vi.fn(() => ({
-    data: MOCK_VALUES.price,
-    isLoading: false,
-    isFetched: true,
-  })),
-}));
-
-// 13) Stub useLeverageTokenLimitStatuses
-vi.mock("../../../../../data/leverage-tokens/hooks/useLeverageTokenFormStatuses", () => ({
-  useLeverageTokenLimitStatuses: vi.fn(() => ({
-    data: [], // no warnings by default
-    isLoading: false,
-    isFetched: true,
-    isError: false,
-    error: undefined,
-  })),
-}));
-
-// 14) Stub useFetchUserEquity
-vi.mock("../../../../../data/leverage-tokens/queries/user-equity/user-equity.fetch.ts", () => ({
-  useFetchUserEquity: vi.fn(() => ({
-    data: {
-      tokenAmount: {
-        bigIntValue: parseUnits(MOCK_VALUES.lpBalance, MOCK_VALUES.leverageToken.underlyingAsset.decimals),
-        decimals: MOCK_VALUES.leverageToken.underlyingAsset.decimals,
-        symbol: "MOCK",
-      },
-      dollarAmount: {
-        bigIntValue: 0n,
-        decimals: MOCK_VALUES.leverageToken.tokenData.decimals,
-        symbol: "MOCK",
-      },
-    },
-    isLoading: false,
-    isFetched: true,
-    isError: false,
-    error: undefined,
-  })),
 }));
 
 describe("LeverageTokenFormProvider", () => {

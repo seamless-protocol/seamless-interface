@@ -4,15 +4,15 @@ import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText 
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
-import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../statev3/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
+import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 
-import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../statev3/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
-import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
+import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { UserInfoImageGroup } from "../UserInfoImageGroup";
-import { useFetchFullStrategyData } from "../../../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const StrategyTableDesktopRowContainer: React.FC<{
   strategy: Address;

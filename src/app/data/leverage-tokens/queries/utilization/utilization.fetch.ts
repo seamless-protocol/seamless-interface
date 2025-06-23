@@ -1,6 +1,6 @@
 import { Address, formatUnits } from "viem";
 import { fetchLeverageTokenConfig } from "../leverage-token-config/leverage-token-config.fetch";
-import { fetchMarketDataByMarketId } from "../../../../statev3/morpho/market-data-by-market-id/MarketDataByMarketId.fetch";
+import { fetchMarketDataByMarketId } from "../../../morpho/market-data-by-market-id/MarketDataByMarketId.fetch";
 import { fetchMorphoMarketId } from "../market-id/market-id.fetch";
 import { useQuery } from "@tanstack/react-query";
 

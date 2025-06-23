@@ -1,11 +1,11 @@
 import { DisplayMoney, DisplayText, FlexCol, FlexRow, Typography, ViewBigInt } from "@shared";
 import border from "@assets/common/border.svg";
-import { useFetchFormattedEquity } from "../../../../../../statev3/queries/Equity.hook";
-import { useFetchFormattedStrategyCap } from "../../../../../../statev3/queries/StrategyCap.hook";
-import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../statev3/metadata/StrategyTargetMultiples.hook";
+import { useFetchFormattedEquity } from "../../../../../../data/ilmv1-deprecated/queries/Equity.hook";
+import { useFetchFormattedStrategyCap } from "../../../../../../data/ilmv1-deprecated/queries/StrategyCap.hook";
+import { useFetchFormattedStrategyTargetMultiples } from "../../../../../../data/ilmv1-deprecated/metadata/StrategyTargetMultiples.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedStrategyMultiple } from "../../../../../../statev3/hooks/StrategyMultiple.all";
+import { useFetchFormattedStrategyMultiple } from "../../../../../../data/ilmv1-deprecated/hooks/StrategyMultiple.all";
 
 function getMinMaxLeverageText(min: ViewBigInt | undefined, max: ViewBigInt | undefined): string | undefined {
   return `${min?.viewValue}${min?.symbol} - ${max?.viewValue}${max?.symbol}`;

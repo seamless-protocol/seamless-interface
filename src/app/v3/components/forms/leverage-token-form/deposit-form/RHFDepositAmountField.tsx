@@ -1,10 +1,10 @@
 import { formatFetchBigIntToViewBigInt, fUsdValueStructured, IRHFAmountInputProps, RHFAmountInputV3 } from "@shared";
 import { useLeverageTokenFormContext } from "../leverage-token-form-provider/LeverageTokenFormProvider";
 import { useFetchLeverageTokenAssets } from "../../../../../data/leverage-tokens/queries/leverage-token-assets/leverage-token-assets.hook";
-import { useFullTokenData } from "../../../../../statev3/common/meta-data-queries/useFullTokenData";
-import { useFetchAssetPriceInBlock } from "../../../../../statev3/common/queries/useFetchViewAssetPrice";
+import { useFullTokenData } from "../../../../../data/common/meta-data-queries/useFullTokenData";
+import { useFetchAssetPriceInBlock } from "../../../../../data/common/queries/useFetchViewAssetPrice";
 import { useMemo } from "react";
-import { cValueInUsd } from "../../../../../statev3/common/math/cValueInUsd";
+import { cValueInUsd } from "../../../../../data/common/math/cValueInUsd";
 import { parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { useFetchMaxLeverageTokenDeposit } from "../../../../../data/leverage-tokens/queries/max-leverage-token-deposit/max-leverage-token-deposit.fetch";

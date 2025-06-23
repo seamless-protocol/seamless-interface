@@ -7,7 +7,7 @@ import { VaultMobileRow } from "./VaultMobileRow";
 import { VaultsTableHeader } from "./VaultsTableHeader";
 import { useFormattedVaultsInfo } from "../hooks/useFetchAllVaults";
 import { RouterConfig } from "@router";
-import { configuredVaultAddresses } from "../../../../../../statev3/settings/config";
+import { configuredVaultAddresses } from "../../../../../../data/settings/config";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">

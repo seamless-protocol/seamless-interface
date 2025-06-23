@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutateClaimAllRewards } from "../../../../../../state/loop-strategy/mutations/useMutateClaimAllRewards";
+import { useMutateClaimAllRewards } from "../../../../../../data/ilmv1-deprecated/mutations/useMutateClaimAllRewards";
 import { UnclaimedRewardsBox, UnclaimedRewardsBoxProps } from "../../../../common/components/UnclaimedRewardsBox";
 
 interface Props extends Omit<UnclaimedRewardsBoxProps, "claimAllAsync" | "isPending"> {}

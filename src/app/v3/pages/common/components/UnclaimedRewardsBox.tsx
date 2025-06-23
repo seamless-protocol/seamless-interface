@@ -1,6 +1,6 @@
 import { Displayable, DisplayMoney, FlexCol, FlexRow, ImageGroup, SeamlessWriteAsyncParams, Typography } from "@shared";
 import { ClaimModal } from "./ClaimModal";
-import { ViewAllUserRewards } from "../../../../state/lending-borrowing/types/ViewAllUserRewards";
+import { ViewAllUserRewards } from "../../../../data/lending-deprecated/types/ViewAllUserRewards";
 import { Hash } from "viem";
 
 export interface UnclaimedRewardsBoxProps extends Displayable<ViewAllUserRewards> {

@@ -1,8 +1,8 @@
 import { DisplayMoney, DisplayPercentage, FlexCol, FlexRow, Typography } from "@shared";
-import { useFetchFormattedAssetPrice } from "../../../../../statev3/queries/AssetPrice.hook";
+import { useFetchFormattedAssetPrice } from "../../../../../data/common/queries/AssetPrice.hook";
 import { useParams } from "react-router-dom";
 import { Address } from "viem";
-import { useFetchFormattedStrategyHistoricReturn } from "../../../../../statev3/hooks/StrartegyReturn.hook";
+import { useFetchFormattedStrategyHistoricReturn } from "../../../../../data/ilmv1-deprecated/hooks/StrartegyReturn.hook";
 import { SignIndicatingElement } from "../../../../components/other/SignIndicatingElement";
 
 export const Heading = () => {

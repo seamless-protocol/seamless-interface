@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useFetchFullStrategyData } from "../../../../../statev3/metadata/FullStrategyData.all";
+import { useFetchFullStrategyData } from "../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { Image } from "../../../../../../shared";
 
 export const HowStrategyWorks: React.FC<{

@@ -5,14 +5,14 @@ import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
-import { ExtendedVaultPosition } from "../../../../../../../statev3/morpho/types/ExtendedVaultPosition";
-import { useFetchFormattedUserStrategyProfit } from "../../../../../../../statev3/hooks/user-strategy-profit/UserStrategyProfit.hook";
+import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useMorphoExtendedUserRewards } from "../../../../../../../statev3/morpho/user-rewards/MorphoUserRewards.hook";
+import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
 import { useAccount } from "wagmi";
 import { RewardsImageGroup } from "./RewardsImageGroup";
 import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
+import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
@@ -92,7 +92,9 @@ export const VaultTableDesktopRowContainer: React.FC<{
       }
       imageInfoGroup={
         <RewardsImageGroup
-          icons={[...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || [])]}
+          icons={[
+            ...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || []),
+          ]}
         />
       }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}
