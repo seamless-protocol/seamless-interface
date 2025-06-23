@@ -8,8 +8,11 @@ import { useInvalidateQueries } from "./useInvalidateQueries";
 
 export type SeamlessWriteAsyncParams = {
   onSuccess?: (txHash: Address) => void;
+  onSuccessAsync?: (txHash: Address) => Promise<void>;
   onError?: (e: any) => void;
+  onErrorAsync?: (e: any) => Promise<void>;
   onSettled?: () => void;
+  onSettledAsync?: () => Promise<void>;
   queriesToInvalidate?: (QueryKey | undefined)[];
 };
 
@@ -48,6 +51,7 @@ export function useHandleTransactionMutation({ settings }: { settings?: Seamless
 
       // 4. call onSuccess callback
       settings?.onSuccess?.(txHash!);
+      if (settings?.onSuccessAsync) await settings?.onSuccessAsync?.(txHash!);
 
       // 5. log result
       // eslint-disable-next-line no-console
@@ -70,10 +74,12 @@ export function useHandleTransactionMutation({ settings }: { settings?: Seamless
 
       // 3. call callback
       settings?.onError?.(error);
+      if (settings?.onErrorAsync) await settings?.onErrorAsync?.(error);
     } finally {
       setIsPending(false);
       // 1. call callback
       settings?.onSettled?.();
+      if (settings?.onSettledAsync) await settings?.onSettledAsync?.();
     }
     return undefined;
   };

@@ -10,6 +10,9 @@ import { SeamlessWriteAsyncParams, useHandleTransactionMutation } from "./useHan
  * @param {Function} [settings.onSuccess] - Callback function to be called on successful transaction.
  * @param {Function} [settings.onError] - Callback function to be called on transaction error.
  * @param {Function} [settings.onSettled] - Callback function to be called after the transaction settles (whether success or failure).
+ * @param {Function} [settings.onErrorAsync] - Async callback fired on transaction error; receives the error.
+ * @param {Function} [settings.onSettled] - Synchronous callback fired once the transaction fully settles (regardless of success or failure).
+ * @param {Function} [settings.onSettledAsync] - Async callback fired once the transaction fully settles (regardless of success or failure).
  * @param {QueryKey[]} [settings.queriesToInvalidate] - Array of query keys to invalidate after the transaction settles.
  * @returns {Object} Object containing the following properties:
  * - {boolean} isPending - Indicates whether the transaction is pending.
