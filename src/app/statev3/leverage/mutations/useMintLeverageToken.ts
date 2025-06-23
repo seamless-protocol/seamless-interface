@@ -10,8 +10,7 @@ import { getConfig } from "../../../utils/queryContractUtils";
 
 export const getMintedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);
-  const receipt = await client.getTransactionReceipt({ hash: txHash });
-  const logs = receipt.logs;
+  const { logs } = await client.getTransactionReceipt({ hash: txHash });
 
   for (const log of logs) {
     try {
@@ -25,8 +24,12 @@ export const getMintedShares = async (txHash: `0x${string}`) => {
 
       const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
       return args.actionData.shares;
-    } catch (error) {}
+    } catch (error) {
+      console.log("Failed to parse event argument");
+    }
   }
+
+  throw new Error("Failed to get minted shares");
 };
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
@@ -53,6 +56,7 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     minShares?: bigint;
     maxSwapCostInCollateral?: bigint;
     swapContext?: SwapContext;
+    // eslint-disable-next-line consistent-return
   }) => {
     try {
       const { leverageToken, amount, minShares, maxSwapCostInCollateral, swapContext } = args;

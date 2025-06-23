@@ -6,7 +6,6 @@ import {
   FlexCol,
   getParsedError,
   SeamlessWriteAsyncParams,
-  Typography,
   useERC20Approve,
   useNotificationContext,
   useToken,
@@ -355,7 +354,4 @@ export function useLeverageTokenFormContext() {
   const ctx = useContext(LeverageTokenFormContext);
   if (!ctx) throw new Error("useLeverageTokenFormContext must be used within LeverageTokenFormProvider");
   return ctx;
-}
-function setValue(arg0: string, bigIntValue: bigint | undefined) {
-  throw new Error("Function not implemented.");
 }

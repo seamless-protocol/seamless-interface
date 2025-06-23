@@ -104,7 +104,8 @@ const fetchPreviewMintWithSwap = async (
 
   const weethAmountOut = await getWeethAmountOut(previewMint.debt.tokenAmount.bigIntValue);
 
-  if (!previewMint.collateral.tokenAmount.decimals) return;
+  if (!previewMint.collateral.tokenAmount.decimals) throw new Error("Preview mint with swap failed");
+
   const parsedAmountIn = parseUnits(amount, previewMint.collateral.tokenAmount.decimals);
 
   let swapCost: bigint | undefined;

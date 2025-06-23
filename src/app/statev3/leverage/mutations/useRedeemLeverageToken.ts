@@ -11,9 +11,7 @@ import { SwapContext } from "../../../data/leverage-tokens/hooks/useFetchAerodro
 
 export const getRedeemedShares = async (txHash: `0x${string}`) => {
   const client = getPublicClient(config);
-  const receipt = await client.getTransactionReceipt({ hash: txHash });
-
-  const logs = receipt.logs;
+  const { logs } = await client.getTransactionReceipt({ hash: txHash });
 
   for (const log of logs) {
     try {
@@ -27,8 +25,12 @@ export const getRedeemedShares = async (txHash: `0x${string}`) => {
 
       const args = decodedLog.args as unknown as { actionData: { shares: bigint } };
       return args.actionData.shares;
-    } catch (error) {}
+    } catch (error) {
+      console.log("Failed to parse event argument");
+    }
   }
+
+  throw new Error("Failed to get redeemed shares");
 };
 
 export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
@@ -55,6 +57,7 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     maxShares?: bigint;
     maxSwapCostInCollateral?: bigint;
     swapContext?: SwapContext;
+    // eslint-disable-next-line consistent-return
   }) => {
     try {
       const { leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext } = args;
