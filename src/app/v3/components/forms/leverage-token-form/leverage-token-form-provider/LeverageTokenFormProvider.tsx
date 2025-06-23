@@ -16,8 +16,11 @@ import { useFetchLeverageTokenByAddress } from "../../../../../data/leverage-tok
 import { useWrappedDebounce } from "../../../../../statev3/common/hooks/useWrappedDebounce";
 import { useFetchViewAssetBalance } from "../../../../../statev3/common/queries/useFetchViewAssetBalance";
 import { useFetchCollateralAsset } from "../../../../../statev3/queries/CollateralAsset.all";
-import { useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
-import { useRedeemLeverageToken } from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
+import { getMintedShares, useMintLeverageToken } from "../../../../../statev3/leverage/mutations/useMintLeverageToken";
+import {
+  getRedeemedShares,
+  useRedeemLeverageToken,
+} from "../../../../../statev3/leverage/mutations/useRedeemLeverageToken";
 import {
   PreviewRedeemWithSwap,
   useFetchPreviewRedeemWithSwap,
@@ -210,6 +213,24 @@ export function LeverageTokenFormProvider({
   );
 
   const { mintAsync, isMintPending } = useMintLeverageToken({
+    onSuccessAsync: async (txHash) => {
+      const shares = await getMintedShares(txHash);
+
+      let mintedShares;
+      if (leverageTokenData?.decimals) {
+        mintedShares = formatUnits(shares, leverageTokenData?.decimals);
+      }
+
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            You minted {mintedShares} {leverageTokenData?.symbol}
+          </FlexCol>
+        ),
+      });
+    },
+
     onError: (error) => {
       showNotification({
         status: "error",
@@ -223,6 +244,23 @@ export function LeverageTokenFormProvider({
   });
 
   const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
+    onSuccessAsync: async (txHash) => {
+      const shares = await getRedeemedShares(txHash);
+
+      let redeemedShares;
+      if (leverageTokenData?.decimals) {
+        redeemedShares = formatUnits(shares, leverageTokenData?.decimals);
+      }
+
+      showNotification({
+        txHash,
+        content: (
+          <FlexCol className="w-full items-center text-center justify-center">
+            You redeemed {redeemedShares} {leverageTokenData?.symbol}
+          </FlexCol>
+        ),
+      });
+    },
     onError: (error) => {
       showNotification({
         status: "error",
@@ -239,43 +277,20 @@ export function LeverageTokenFormProvider({
 
   const formOnSubmitAsync = async () => {
     if (mode === "deposit") {
-      const mintTxData = await mintAsync({
+      await mintAsync({
         leverageToken: selectedLeverageTokenAddress!,
         amount: previewMintData.data?.previewMint.equity.tokenAmount.bigIntValue,
         minShares: previewMintData.data?.previewMint.minShares.tokenAmount.bigIntValue,
         maxSwapCostInCollateral: previewMintData.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewMintData.data?.swapContext,
       });
-
-      if (!mintTxData || !mintTxData.shares || !leverageTokenData?.decimals) return;
-
-      showNotification({
-        txHash: mintTxData.txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            You minted {formatUnits(BigInt(mintTxData.shares), leverageTokenData?.decimals)} {leverageTokenData?.symbol}
-          </FlexCol>
-        ),
-      });
     } else if (mode === "withdraw") {
-      const redeemTxData = await redeemAsync({
+      await redeemAsync({
         leverageToken: selectedLeverageTokenAddress,
         equityInCollateral: previewRedeemData?.data?.equityAfterSwapCost.tokenAmount.bigIntValue,
         maxShares: previewRedeemData?.data?.previewRedeemData?.shares?.tokenAmount?.bigIntValue,
         maxSwapCostInCollateral: previewRedeemData?.data?.swapCost.tokenAmount.bigIntValue,
         swapContext: previewRedeemData?.data?.swapContext,
-      });
-
-      if (!redeemTxData || !redeemTxData.shares || !leverageTokenData?.decimals) return;
-
-      showNotification({
-        txHash: redeemTxData.txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            You redeemed {formatUnits(BigInt(redeemTxData.shares), leverageTokenData?.decimals)}{" "}
-            {leverageTokenData?.symbol}
-          </FlexCol>
-        ),
       });
     }
   };

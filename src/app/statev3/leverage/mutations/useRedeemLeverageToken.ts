@@ -54,7 +54,6 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     maxShares?: bigint;
     maxSwapCostInCollateral?: bigint;
     swapContext?: SwapContext;
-    // eslint-disable-next-line consistent-return
   }) => {
     try {
       const { leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext } = args;
@@ -75,18 +74,13 @@ export const useRedeemLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
 
-      const tx = await writeContractAsync({
+      await writeContractAsync({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: LeverageRouterAbi,
         functionName: "redeem",
         args: [leverageToken, equityInCollateral, maxShares, maxSwapCostInCollateral, swapContext as never],
       });
-
-      return {
-        txHash: tx,
-        shares: await getRedeemedShares(tx),
-      };
     } catch (error) {
       console.error("Failed to redeem", error);
       showNotification({

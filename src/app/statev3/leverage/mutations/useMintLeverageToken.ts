@@ -53,7 +53,6 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
     minShares?: bigint;
     maxSwapCostInCollateral?: bigint;
     swapContext?: SwapContext;
-    // eslint-disable-next-line consistent-return
   }) => {
     try {
       const { leverageToken, amount, minShares, maxSwapCostInCollateral, swapContext } = args;
@@ -74,18 +73,13 @@ export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
         args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
       });
 
-      const mintTx = await writeContractAsync({
+      await writeContractAsync({
         chainId: targetChain.id,
         address: leverageRouterAddress,
         abi: leverageRouterAbi,
         functionName: "mint",
         args: [leverageToken, amountAfterSwapCost, minShares, maxSwapCostInCollateral, swapContext as never],
       });
-
-      return {
-        txHash: mintTx,
-        shares: await getMintedShares(mintTx),
-      };
     } catch (error) {
       console.error("Failed to mint", error);
       showNotification({
