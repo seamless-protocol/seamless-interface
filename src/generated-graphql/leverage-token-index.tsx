@@ -2702,6 +2702,8 @@ export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __ty
 
 export type LeverageTokenValueHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
+  first: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
 }>;
 
 
@@ -2739,9 +2741,9 @@ export const UserLeverageTokenProfitDocument = gql`
     `;
 export type UserLeverageTokenProfitQueryResult = Apollo.QueryResult<UserLeverageTokenProfitQuery, UserLeverageTokenProfitQueryVariables>;
 export const LeverageTokenValueHistoricalDocument = gql`
-    query LeverageTokenValueHistorical($address: ID!) {
+    query LeverageTokenValueHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
-    stateHistory {
+    stateHistory(first: $first, skip: $skip) {
       equityPerTokenInDebt
       timestamp
     }
