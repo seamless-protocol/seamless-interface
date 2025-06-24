@@ -210,8 +210,8 @@ export function formatFetchBigIntToHealthFactor(
 /**
  * % APR formatting
  */
-export function formatIncentiveAprToViewNumber(apr?: number): ViewNumber {
-  const val = apr || 0;
+export function formatIncentiveAprToViewNumber(apr: number = 0): ViewNumber {
+  const val = apr;
   return {
     viewValue: formatToDisplayableOrPlaceholder(val, ""),
     symbol: val > 0 ? "%" : "",
