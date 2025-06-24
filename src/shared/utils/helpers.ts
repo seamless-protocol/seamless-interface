@@ -1,5 +1,5 @@
+// file: format-utils.ts
 import { Address, formatUnits } from "viem";
-import { format as d3Format } from "d3-format";
 import { INFINITE_HEALTH_FACTOR_BORDER, ONE_USD, SECONDS_PER_YEAR } from "../../meta/constants";
 import { ViewBigInt, ViewNumber } from "../types/Displayable";
 import { FetchBigInt, FetchBigIntStrict, FetchNumber } from "../types/Fetch";
@@ -8,6 +8,9 @@ import { FetchBigInt, FetchBigIntStrict, FetchNumber } from "../types/Fetch";
 export const UNDEFINED_VIEW_VALUE = "/";
 export const UNDEFINED_VIEW_SYMBOL = "/";
 
+/**
+ * Configuration for decimal precision based on value magnitude
+ */
 export interface DecimalsOptions {
   /** Values < 1 (e.g. 0.123456) */
   lessThanOneNumberDecimals: number;
@@ -29,91 +32,103 @@ const defaultDecimalsOptions: DecimalsOptions = {
   fourDigitNumberDecimals: 3,
 };
 
+/**
+ * Options to tweak formatting behavior
+ */
 export interface FormattingOptions {
-  disableCompact?: boolean;
-  /** Round down (floor) instead of default half-up */
-  roundDown?: boolean;
+  disableCompact?: boolean; // force standard notation
+  roundDown?: boolean; // floor rounding on compact
 }
 
 /**
- * Convert a raw bigint (or string) to a JS number using viem.formatUnits
+ * Convert raw bigint/string to JS number via viem.formatUnits
  */
 export function formatUnitsToNumber(value: string | bigint | undefined, decimals: number): number {
   return Number(formatUnits((value ?? 0) as bigint, decimals));
 }
 
 /**
- * Core formatter: uses d3-format for compact (SI) or full notation.
+ * Internal: format a JS number with Intl.NumberFormat
  */
-function formatValue(value: number, decimals: number, compact: boolean): string {
-  // compact: .{decimals}~s e.g. 1.23k (but disabled for small values)
-  // full:    ,.{decimals}~f e.g. 1,234.56 or 0.000123
-  const specifier = compact ? `.${decimals}~s` : `,.${decimals}~f`;
-  return d3Format(specifier)(value);
+function formatValue(value: number, minDecimals: number, maxDecimals: number, compact: boolean): string {
+  const formatter = new Intl.NumberFormat("en", {
+    notation: compact ? "compact" : "standard",
+    minimumFractionDigits: minDecimals,
+    maximumFractionDigits: maxDecimals,
+    useGrouping: !compact,
+  });
+  return formatter.format(value);
 }
 
 /**
- * Choose number of decimals based on magnitude and format with half-up rounding on compact
+ * Primary entry point: formats a number into compact or standard display,
+ * always showing at least 2 decimals and trimming trailing zeros beyond that.
  */
 export function formatToDisplayable(
   value: number | undefined,
   decimalsOptions?: Partial<DecimalsOptions>,
   options?: FormattingOptions
 ): string {
-  // undefined or NaN => show zero compact
   if (value === undefined || Number.isNaN(value)) {
-    return formatValue(0, 2, true);
+    // fallback: show 0.00
+    return formatValue(0, 2, 2, false);
+  }
+  // explicitly show "0.00" for zero
+  if (value === 0) {
+    return formatValue(0, 2, 2, false);
   }
 
   const opts = { ...defaultDecimalsOptions, ...decimalsOptions };
-  let decimals: number;
+  let baseDecimals: number;
 
   if (value < 1) {
-    decimals = opts.lessThanOneNumberDecimals;
+    baseDecimals = opts.lessThanOneNumberDecimals;
   } else if (value < 10) {
-    decimals = opts.singleDigitNumberDecimals;
+    baseDecimals = opts.singleDigitNumberDecimals;
   } else if (value < 100) {
-    decimals = opts.doubleDigitNumberDecimals;
+    baseDecimals = opts.doubleDigitNumberDecimals;
   } else if (value < 1000) {
-    decimals = opts.threeDigitNumberDecimals;
+    baseDecimals = opts.threeDigitNumberDecimals;
   } else {
-    decimals = opts.fourDigitNumberDecimals;
+    baseDecimals = opts.fourDigitNumberDecimals;
   }
 
-  // small values (<1) always full format
+  const isInteger = value % 1 === 0;
+  const minDecimals = 2;
+  const maxDecimals = isInteger ? minDecimals : baseDecimals;
+
   const isSmall = value < 1;
   const compact = !options?.disableCompact && !isSmall;
 
-  // apply rounding strategy on compact only
   let toFormat = value;
-  if (compact) {
-    const factor = 10 ** decimals;
-    toFormat = options?.roundDown ? Math.floor(value * factor) / factor : Math.round(value * factor) / factor;
+  if (compact && options?.roundDown) {
+    const factor = 10 ** maxDecimals;
+    toFormat = Math.floor(value * factor) / factor;
   }
 
-  return formatValue(toFormat, decimals, compact);
+  return formatValue(toFormat, minDecimals, maxDecimals, compact);
 }
 
 /**
- * Format number or show placeholder if zero/undefined
+ * Fallback placeholder wrapper
  */
 export function formatToDisplayableOrPlaceholder(
   value: number | undefined,
   placeholder: string,
   decimalsOptions?: Partial<DecimalsOptions>
 ): string {
-  return value && value !== 0 ? formatToDisplayable(value, decimalsOptions) : placeholder;
+  return value !== undefined && value !== 0 ? formatToDisplayable(value, decimalsOptions) : placeholder;
 }
 
 /**
- * Format on-chain bigint values into ViewBigInt
+ * Format on-chain BigInt to ViewBigInt
  */
 export function formatFetchBigIntToViewBigInt(
   data?: FetchBigInt | FetchBigIntStrict,
   decimalsOptions?: Partial<DecimalsOptions>,
   options?: FormattingOptions
 ): ViewBigInt {
-  if (data === undefined) {
+  if (!data) {
     return {
       value: undefined,
       viewValue: UNDEFINED_VIEW_VALUE,
@@ -123,12 +138,10 @@ export function formatFetchBigIntToViewBigInt(
   }
 
   const { bigIntValue, decimals, symbol } = data;
-  const opts = { ...defaultDecimalsOptions, ...decimalsOptions };
   const numeric = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
-
   return {
     value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
-    viewValue: formatToDisplayable(numeric, opts, options),
+    viewValue: formatToDisplayable(numeric, decimalsOptions, options),
     bigIntValue,
     symbol,
     decimals,
@@ -136,55 +149,47 @@ export function formatFetchBigIntToViewBigInt(
 }
 
 /**
- * Temporary variant that can return undefined
+ * Temporary variant returning undefined
  */
-export function formatFetchBigIntToViewBigIntTemp(
-  data: FetchBigInt | undefined,
-  decimalsOptions?: Partial<DecimalsOptions>
-): ViewBigInt | undefined {
+export function formatFetchBigIntToViewBigIntTemp(data: FetchBigInt | undefined): ViewBigInt | undefined {
   if (!data) return undefined;
 
   const { bigIntValue, decimals, symbol = "" } = data;
-  const opts = { ...defaultDecimalsOptions, ...decimalsOptions };
   const numeric = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
-
   return {
     value: bigIntValue && decimals ? formatUnits(bigIntValue, decimals) : undefined,
-    viewValue: formatToDisplayable(numeric, opts),
+    viewValue: formatToDisplayable(numeric, defaultDecimalsOptions),
     bigIntValue,
     symbol,
   };
 }
 
 /**
- * Format simple FetchNumber to ViewNumber
+ * Format FetchNumber to ViewNumber
  */
 export function formatFetchNumberToViewNumber(
   fetchNumber?: FetchNumber,
   decimalsOptions?: Partial<DecimalsOptions>
 ): ViewNumber {
   if (!fetchNumber) {
-    return { value: undefined, viewValue: UNDEFINED_VIEW_VALUE, symbol: UNDEFINED_VIEW_SYMBOL };
+    return {
+      value: undefined,
+      viewValue: UNDEFINED_VIEW_VALUE,
+      symbol: UNDEFINED_VIEW_SYMBOL,
+    };
   }
-
-  const opts = { ...defaultDecimalsOptions, ...decimalsOptions };
   return {
     value: fetchNumber.value,
-    viewValue: formatToDisplayable(fetchNumber.value, opts),
+    viewValue: formatToDisplayable(fetchNumber.value, decimalsOptions),
     symbol: fetchNumber.symbol,
   };
 }
 
 /**
- * Health factor gets special "∞" when above border
+ * Health factor formatting
  */
-export function formatFetchBigIntToHealthFactor(
-  data: FetchBigInt,
-  decimalsOptions?: Partial<DecimalsOptions>
-): ViewBigInt {
+export function formatFetchBigIntToHealthFactor(data: FetchBigInt): ViewBigInt {
   const { bigIntValue, decimals, symbol = "" } = data;
-  const opts = { ...defaultDecimalsOptions, ...decimalsOptions };
-
   if (bigIntValue === undefined) {
     return {
       value: undefined,
@@ -196,8 +201,7 @@ export function formatFetchBigIntToHealthFactor(
 
   const raw = decimals ? formatUnitsToNumber(bigIntValue, decimals) : undefined;
   const numeric = raw !== undefined ? Math.floor(raw * 100) / 100 : undefined;
-
-  const viewValue = bigIntValue < INFINITE_HEALTH_FACTOR_BORDER ? formatToDisplayable(numeric, opts) : "∞";
+  const viewValue = bigIntValue < INFINITE_HEALTH_FACTOR_BORDER ? formatToDisplayable(numeric) : "∞";
 
   return {
     value: decimals ? formatUnits(bigIntValue, decimals) : undefined,
@@ -208,16 +212,18 @@ export function formatFetchBigIntToHealthFactor(
 }
 
 /**
- * % APR formatting
+ * Incentive APR formatting
  */
 export function formatIncentiveAprToViewNumber(apr: number = 0): ViewNumber {
-  const val = apr;
   return {
-    viewValue: formatToDisplayableOrPlaceholder(val, ""),
-    symbol: val > 0 ? "%" : "",
+    viewValue: formatToDisplayableOrPlaceholder(apr, ""),
+    symbol: apr > 0 ? "%" : "",
   };
 }
 
+/**
+ * Additional utilities
+ */
 export function convertRatioToMultiple(ratio: bigint | undefined = 0n): bigint {
   return (ratio * ONE_USD) / (ratio - ONE_USD);
 }
