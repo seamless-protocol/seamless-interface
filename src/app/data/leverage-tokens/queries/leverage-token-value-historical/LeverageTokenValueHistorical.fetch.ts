@@ -7,6 +7,7 @@ import { getLeverageTokenApolloClient } from "../../../../config/apollo-clients"
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { queryConfig } from "../../../settings/queryConfig";
 import { checkGraphQlResponse } from "../../../../v3/utils/utils";
+import { MAX_HISTORICAL_DATA_POINTS } from "../../../../../meta/constants";
 
 export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { address: string }) => ({
   queryKey: ["fetchLeverageTokenValueHistorical", variables.address],
@@ -18,7 +19,7 @@ export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { addre
     let response;
     let skip = 0;
 
-    while (skip < 15000) {
+    while (skip < MAX_HISTORICAL_DATA_POINTS) {
       const result = await client.query<LeverageTokenValueHistoricalQuery, LeverageTokenValueHistoricalQueryVariables>({
         query: LeverageTokenValueHistoricalDocument,
         variables: { address: variables.address, first: 1000, skip },

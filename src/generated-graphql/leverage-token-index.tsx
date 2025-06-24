@@ -2718,7 +2718,7 @@ export const CollateralPriceHistoricalDocument = gql`
     lendingAdapter {
       oracle {
         decimals
-        priceUpdates(first: $first, skip: $skip) {
+        priceUpdates(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
           price
           timestamp
         }
@@ -2745,7 +2745,7 @@ export type UserLeverageTokenProfitQueryResult = Apollo.QueryResult<UserLeverage
 export const LeverageTokenValueHistoricalDocument = gql`
     query LeverageTokenValueHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
-    stateHistory(first: $first, skip: $skip) {
+    stateHistory(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
       equityPerTokenInDebt
       timestamp
     }

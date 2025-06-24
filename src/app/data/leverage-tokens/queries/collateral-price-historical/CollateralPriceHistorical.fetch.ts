@@ -7,6 +7,7 @@ import {
 import { getQueryClient } from "../../../../contexts/CustomQueryClientProvider";
 import { checkGraphQlResponse } from "../../../../v3/utils/utils";
 import { queryConfig } from "../../../settings/queryConfig";
+import { MAX_HISTORICAL_DATA_POINTS } from "../../../../../meta/constants";
 
 export const fetchCollateralPriceHistoricalQueryOptions = (variables: { address: string }) => ({
   queryKey: ["fetchCollateralPriceHistorical", variables.address],
@@ -18,7 +19,7 @@ export const fetchCollateralPriceHistoricalQueryOptions = (variables: { address:
     let response;
     let skip = 0;
 
-    while (skip < 15000) {
+    while (skip < MAX_HISTORICAL_DATA_POINTS) {
       const result = await client.query<CollateralPriceHistoricalQuery, CollateralPriceHistoricalQueryVariables>({
         query: CollateralPriceHistoricalDocument,
         variables: { address: variables.address, first: 1000, skip },

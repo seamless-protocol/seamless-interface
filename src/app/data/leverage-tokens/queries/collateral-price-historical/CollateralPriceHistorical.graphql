@@ -3,7 +3,7 @@ query CollateralPriceHistorical($address: ID!, $first: Int, $skip: Int) {
     lendingAdapter {
       oracle {
         decimals
-        priceUpdates(first: $first, skip: $skip) {
+        priceUpdates(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
           price
           timestamp
         }
