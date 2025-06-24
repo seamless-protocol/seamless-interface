@@ -1,9 +1,9 @@
-query CollateralPriceHistorical($address: ID!) {
+query CollateralPriceHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
     lendingAdapter {
       oracle {
         decimals
-        priceUpdates {
+        priceUpdates(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
           price
           timestamp
         }

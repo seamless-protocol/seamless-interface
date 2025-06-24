@@ -2308,7 +2308,7 @@ export type RebalanceAction = {
   __typename?: 'RebalanceAction';
   /**  The amount of collateral or debt added or removed, depending on the action type  */
   amount: Scalars['BigInt']['output'];
-  /**  {Rebalance address}-{Action Index in Rebalance event}  */
+  /**  {LeverageToken address}-{Rebalance index}-{Action index in Rebalance event}  */
   id: Scalars['ID']['output'];
   /**  The rebalance that the action is for  */
   rebalance: Rebalance;
@@ -2687,6 +2687,8 @@ export enum _SubgraphErrorPolicy_ {
 
 export type CollateralPriceHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -2702,6 +2704,8 @@ export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __ty
 
 export type LeverageTokenValueHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -2709,12 +2713,12 @@ export type LeverageTokenValueHistoricalQuery = { __typename?: 'Query', leverage
 
 
 export const CollateralPriceHistoricalDocument = gql`
-    query CollateralPriceHistorical($address: ID!) {
+    query CollateralPriceHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
     lendingAdapter {
       oracle {
         decimals
-        priceUpdates {
+        priceUpdates(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
           price
           timestamp
         }
@@ -2739,9 +2743,9 @@ export const UserLeverageTokenProfitDocument = gql`
     `;
 export type UserLeverageTokenProfitQueryResult = Apollo.QueryResult<UserLeverageTokenProfitQuery, UserLeverageTokenProfitQueryVariables>;
 export const LeverageTokenValueHistoricalDocument = gql`
-    query LeverageTokenValueHistorical($address: ID!) {
+    query LeverageTokenValueHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
-    stateHistory {
+    stateHistory(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
       equityPerTokenInDebt
       timestamp
     }

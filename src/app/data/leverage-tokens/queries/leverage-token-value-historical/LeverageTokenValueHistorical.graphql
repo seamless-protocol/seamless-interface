@@ -1,6 +1,6 @@
-query LeverageTokenValueHistorical($address: ID!) {
+query LeverageTokenValueHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
-    stateHistory {
+    stateHistory(orderBy: timestamp, orderDirection: desc, first: $first, skip: $skip) {
       equityPerTokenInDebt
       timestamp
     }
