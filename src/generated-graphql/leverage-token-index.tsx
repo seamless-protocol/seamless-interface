@@ -2308,7 +2308,7 @@ export type RebalanceAction = {
   __typename?: 'RebalanceAction';
   /**  The amount of collateral or debt added or removed, depending on the action type  */
   amount: Scalars['BigInt']['output'];
-  /**  {Rebalance address}-{Action Index in Rebalance event}  */
+  /**  {LeverageToken address}-{Rebalance index}-{Action index in Rebalance event}  */
   id: Scalars['ID']['output'];
   /**  The rebalance that the action is for  */
   rebalance: Rebalance;
@@ -2687,8 +2687,8 @@ export enum _SubgraphErrorPolicy_ {
 
 export type CollateralPriceHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
-  first: Scalars['Int']['input'];
-  skip: Scalars['Int']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -2704,8 +2704,8 @@ export type UserLeverageTokenProfitQuery = { __typename?: 'Query', user?: { __ty
 
 export type LeverageTokenValueHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
-  first: Scalars['Int']['input'];
-  skip: Scalars['Int']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
