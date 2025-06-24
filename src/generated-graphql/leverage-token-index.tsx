@@ -2687,6 +2687,8 @@ export enum _SubgraphErrorPolicy_ {
 
 export type CollateralPriceHistoricalQueryVariables = Exact<{
   address: Scalars['ID']['input'];
+  first: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
 }>;
 
 
@@ -2711,12 +2713,12 @@ export type LeverageTokenValueHistoricalQuery = { __typename?: 'Query', leverage
 
 
 export const CollateralPriceHistoricalDocument = gql`
-    query CollateralPriceHistorical($address: ID!) {
+    query CollateralPriceHistorical($address: ID!, $first: Int, $skip: Int) {
   leverageToken(id: $address) {
     lendingAdapter {
       oracle {
         decimals
-        priceUpdates {
+        priceUpdates(first: $first, skip: $skip) {
           price
           timestamp
         }

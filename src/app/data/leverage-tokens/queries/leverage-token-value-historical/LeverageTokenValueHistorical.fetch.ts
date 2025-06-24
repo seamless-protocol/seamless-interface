@@ -30,7 +30,7 @@ export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { addre
 
       if (skip === 0) {
         response = result.data;
-      } else if (response && response.leverageToken && result.data.leverageToken?.stateHistory) {
+      } else if (response?.leverageToken && result.data.leverageToken?.stateHistory) {
         response.leverageToken.stateHistory.push(...result.data.leverageToken.stateHistory);
       }
 
