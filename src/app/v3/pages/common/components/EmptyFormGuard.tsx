@@ -27,7 +27,7 @@ export function EmptyFormGuard<T>({
     );
   }
 
-  if (!data.data && !data.isLoading) {
+  if (!data.data && !data.isLoading && data.isFetched) {
     console.error(`FormGuard missing data, Error happend in ${errorSource}`);
 
     return (

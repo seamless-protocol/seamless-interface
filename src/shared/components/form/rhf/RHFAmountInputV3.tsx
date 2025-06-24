@@ -94,6 +94,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
         <FlexCol className="items-center w-full gap-1">
           <FlexRow className="justify-between w-full gap-1 text-medium4">
             <RHFInputField
+              className="w-[45%]"
               name={name}
               min={0}
               max={isConnected && !allowOverMax ? max || "0" : String(MAX_NUMBER)}
@@ -113,7 +114,7 @@ export const RHFAmountInputV3 = React.forwardRef<HTMLInputElement, IRHFAmountInp
                 />
                 <Tooltip tooltip={tokenData?.data?.symbol} size="small">
                   <DisplayText
-                    className="max-w-28 md:max-w-40 text-start"
+                    className="max-w-28 md:max-w-[240px] text-start"
                     typography="medium4"
                     truncate
                     text={tokenData?.data?.symbol}

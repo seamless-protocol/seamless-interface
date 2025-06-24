@@ -1,4 +1,4 @@
-import { Address, formatUnits } from "viem";
+import { Address } from "viem";
 import { fetchLeverageTokenConfig } from "../leverage-token-config/leverage-token-config.fetch";
 import { fetchMarketDataByMarketId } from "../../../morpho/market-data-by-market-id/MarketDataByMarketId.fetch";
 import { fetchMorphoMarketId } from "../market-id/market-id.fetch";
@@ -14,7 +14,8 @@ export async function fetchUtilization(leverageToken: Address) {
   return {
     currentUtilization: data?.marketByUniqueKey?.state?.utilization,
     optimalUtilization: data?.marketByUniqueKey
-      ? Number(formatUnits(data?.marketByUniqueKey?.targetBorrowUtilization, 18))
+      ? // ? Number(formatUnits(data?.marketByUniqueKey?.targetBorrowUtilization, 18))
+        Number(90)
       : undefined,
   };
 }
