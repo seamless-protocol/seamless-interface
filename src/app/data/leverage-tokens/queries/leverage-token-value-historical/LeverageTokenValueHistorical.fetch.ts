@@ -18,8 +18,7 @@ export const fetchLeverageTokenValueHistoricalQueryOptions = (variables: { addre
     let response;
     let skip = 0;
 
-    // eslint-disable-next-line no-constant-condition
-    while(true) {
+    while (skip < 15000) {
       const result = await client.query<LeverageTokenValueHistoricalQuery, LeverageTokenValueHistoricalQueryVariables>({
         query: LeverageTokenValueHistoricalDocument,
         variables: { address: variables.address, first: 1000, skip },
