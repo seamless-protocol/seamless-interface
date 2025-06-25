@@ -18,10 +18,10 @@ import {
 } from "../../../../shared";
 import { getQueryClient } from "../../../contexts/CustomQueryClientProvider";
 import { etherfiL2ModeSyncPoolAddress } from "../../../generated";
+import { getConfig } from "../../../utils/queryContractUtils";
 import { cValueInUsd } from "../../common/math/cValueInUsd";
 import { fetchAssetPriceInBlock } from "../../common/queries/AssetPrice.hook";
 import { disableCacheQueryConfig, infiniteCacheQueryConfig } from "../../settings/queryConfig";
-import { getConfig } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { fetchLeverageTokenAssets } from "../queries/leverage-token-assets/leverage-token-assets.fetch";
 import { SwapContext } from "./useFetchAerodromeRoute";
@@ -104,9 +104,7 @@ const fetchPreviewMintWithSwap = async (
 
   const weethAmountOut = await getWeethAmountOut(previewMint.debt.tokenAmount.bigIntValue);
 
-  if (!previewMint.collateral.tokenAmount.decimals) throw new Error("Preview mint with swap failed");
-
-  const parsedAmountIn = parseUnits(amount, previewMint.collateral.tokenAmount.decimals);
+  const parsedAmountIn = parseUnits(amount, collateralDecimals);
 
   let swapCost: bigint | undefined;
   if (previewMint.collateral.dollarAmount && previewMint.collateral.tokenAmount.bigIntValue && weethAmountOut) {
