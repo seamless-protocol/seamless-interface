@@ -59,7 +59,7 @@ export const LeverageTokenStats: React.FC<LeverageTokenStatsProps> = ({ leverage
           </div>
         </div>
 
-        {/* 2. TVL */}
+        {/* 2. Collateral */}
         <div className="p-6 flex flex-col justify-between min-h-[80px]">
           <Typography type="medium3" className="text-primary-600">
             Leverage Token Collateral

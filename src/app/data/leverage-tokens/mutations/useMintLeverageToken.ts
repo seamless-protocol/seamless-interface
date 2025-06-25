@@ -1,9 +1,8 @@
 import { getParsedError, SeamlessWriteAsyncParams, useNotificationContext, useSeamlessContractWrite } from "@shared";
-import { Address, decodeEventLog, parseEventLogs } from "viem";
+import { Address, parseEventLogs } from "viem";
 import { useAccount } from "wagmi";
 import { getPublicClient, simulateContract } from "wagmi/actions";
 import { LeverageManagerAbi } from "../../../../../abis/LeverageManager";
-import { MintEventLeverageManagerAbi } from "../../../../../abis/MintEvent";
 import { config, targetChain } from "../../../config/rainbow.config";
 import { leverageRouterAbi, leverageRouterAddress } from "../../../generated";
 import { getConfig } from "../../../utils/queryContractUtils";
@@ -19,14 +18,7 @@ export const getMintedShares = async (txHash: `0x${string}`) => {
     logs,
   });
 
-  const decodedLog = decodeEventLog({
-    abi: MintEventLeverageManagerAbi,
-    data: parsedLogs[0]?.data,
-    topics: parsedLogs[0]?.topics,
-  });
-
-  const args = decodedLog?.args as unknown as { actionData: { shares: bigint } };
-  return args.actionData.shares;
+  return parsedLogs[0].args.actionData.shares;
 };
 
 export const useMintLeverageToken = (settings?: SeamlessWriteAsyncParams) => {
