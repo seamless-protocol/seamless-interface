@@ -14,8 +14,7 @@ export async function fetchUtilization(leverageToken: Address) {
   return {
     currentUtilization: data?.marketByUniqueKey?.state?.utilization,
     optimalUtilization: data?.marketByUniqueKey
-      ? // ? Number(formatUnits(data?.marketByUniqueKey?.targetBorrowUtilization, 18))
-        // all current Morpho markets are expected to target 90% utilization according to docs
+      ? // all current Morpho markets are expected to target 90% utilization according to docs
         Number(90)
       : undefined,
   };
