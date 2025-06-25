@@ -25,12 +25,13 @@
   },
   "dependencies": {
     "@apollo/client": "^3.12.3",
+    "@bigmi/react": "^0.3.1",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@fuul/sdk": "^4.12.2",
     "@heroicons/react": "^2.1.1",
-    "@lifi/widget": "3.12.1",
+    "@lifi/widget": "^3.23.3",
     "@morpho-org/blue-api-sdk": "2.5.0",
     "@morpho-org/blue-sdk": "^2.3.2",
     "@morpho-org/bundler-sdk-viem": "^2.2.3",
@@ -39,7 +40,7 @@
     "@rainbow-me/rainbowkit": "^2.1.0",
     "@sentry/react": "^7.106.0",
     "@tailwindcss/typography": "^0.5.10",
-    "@tanstack/react-query": "^5.17.1",
+    "@tanstack/react-query": "^5.81.2",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@uidotdev/usehooks": "^2.4.1",
@@ -62,7 +63,7 @@
     "tailwind-scrollbar": "^3.1.0",
     "use-query-params": "^2.2.1",
     "viem": "^2.21.45",
-    "wagmi": "^2.14.11"
+    "wagmi": "^2.15.6"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.2.0",
@@ -70,7 +71,6 @@
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-operations": "^4.4.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
-    "@lifi/sdk": "^3.7.3",
     "@sentry/vite-plugin": "^2.14.3",
     "@tanstack/react-query-devtools": "^5.74.4",
     "@testing-library/jest-dom": "^6.6.3",
