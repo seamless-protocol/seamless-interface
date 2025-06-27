@@ -217,21 +217,30 @@ export function LeverageTokenFormProvider({
 
   const { mintAsync, isMintPending } = useMintLeverageToken({
     onSuccessAsync: async (txHash) => {
-      const shares = await getMintedShares(txHash);
+      try {
+        const shares = await getMintedShares(txHash);
 
-      let mintedShares;
-      if (leverageTokenData?.decimals) {
-        mintedShares = formatUnits(shares, leverageTokenData?.decimals);
+        let mintedShares;
+        if (leverageTokenData?.decimals) {
+          mintedShares = formatUnits(shares, leverageTokenData?.decimals);
+        }
+
+        showNotification({
+          txHash,
+          content: (
+            <FlexCol className="w-full items-center text-center justify-center">
+              You minted {mintedShares} {leverageTokenData?.symbol}
+            </FlexCol>
+          ),
+        });
+      } catch (error) {
+        console.error("Error fetching minted shares:", error);
+
+        showNotification({
+          txHash,
+          content: <FlexCol className="w-full items-center text-center justify-center">Mint was successful</FlexCol>,
+        });
       }
-
-      showNotification({
-        txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            You minted {mintedShares} {leverageTokenData?.symbol}
-          </FlexCol>
-        ),
-      });
     },
 
     onError: (error) => {
@@ -248,21 +257,30 @@ export function LeverageTokenFormProvider({
 
   const { redeemAsync, isRedeemPending } = useRedeemLeverageToken({
     onSuccessAsync: async (txHash) => {
-      const shares = await getRedeemedShares(txHash);
+      try {
+        const shares = await getRedeemedShares(txHash);
 
-      let redeemedShares;
-      if (leverageTokenData?.decimals) {
-        redeemedShares = formatUnits(shares, leverageTokenData?.decimals);
+        let redeemedShares;
+        if (leverageTokenData?.decimals) {
+          redeemedShares = formatUnits(shares, leverageTokenData?.decimals);
+        }
+
+        showNotification({
+          txHash,
+          content: (
+            <FlexCol className="w-full items-center text-center justify-center">
+              You redeemed {redeemedShares} {leverageTokenData?.symbol}
+            </FlexCol>
+          ),
+        });
+      } catch (error) {
+        console.error("Error fetching redeemed shares:", error);
+
+        showNotification({
+          txHash,
+          content: <FlexCol className="w-full items-center text-center justify-center">Redeem was successful</FlexCol>,
+        });
       }
-
-      showNotification({
-        txHash,
-        content: (
-          <FlexCol className="w-full items-center text-center justify-center">
-            You redeemed {redeemedShares} {leverageTokenData?.symbol}
-          </FlexCol>
-        ),
-      });
     },
     onError: (error) => {
       showNotification({
