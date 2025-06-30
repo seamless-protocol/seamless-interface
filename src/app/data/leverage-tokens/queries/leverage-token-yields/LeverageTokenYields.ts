@@ -40,7 +40,7 @@ export async function fetchLeverageTokenYields(address: Address): Promise<Levera
     leverageRatios.targetLeverage?.value != null ? Number(leverageRatios.targetLeverage?.value) : null;
 
   const stakingYield = formatFetchNumberToViewNumber({
-    value: etherfiData.aprView?.value && targetLeverage ? etherfiData.aprView.value * targetLeverage : undefined,
+    value: etherfiData.stakingAPR?.value && targetLeverage ? etherfiData.stakingAPR.value * targetLeverage : undefined,
     symbol: "%",
   });
   const restakingYield = formatFetchNumberToViewNumber({

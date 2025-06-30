@@ -28,7 +28,8 @@ export interface EtherFiAprData {
   sevenDayRestakingApr: number;
   tvl: number;
   bufferEth: number;
-  aprView: ViewNumber;
+  totalAPR: ViewNumber;
+  stakingAPR: ViewNumber;
   restakingAPR: ViewNumber;
 }
 
@@ -55,15 +56,19 @@ export async function fetchEtherFiApr(): Promise<EtherFiAprData> {
       const sevenDayRestakingApr = raw["7_day_restaking_apr"];
       const { tvl, buffer_eth: bufferEth } = raw;
 
-      const apr = sevenDayApr + sevenDayRestakingApr;
+      const totalAPR = sevenDayApr + sevenDayRestakingApr;
 
       return {
         sevenDayApr,
         sevenDayRestakingApr,
         tvl,
         bufferEth,
-        aprView: formatFetchNumberToViewNumber({
-          value: apr,
+        totalAPR: formatFetchNumberToViewNumber({
+          value: totalAPR,
+          symbol: "%",
+        }),
+        stakingAPR: formatFetchNumberToViewNumber({
+          value: sevenDayApr,
           symbol: "%",
         }),
         restakingAPR: formatFetchNumberToViewNumber({
