@@ -5,6 +5,10 @@ import { useLeverageTokenFormContext } from "../leverage-token-form-provider/Lev
 export const Summary = () => {
   const { previewRedeemData } = useLeverageTokenFormContext();
 
+  if (!previewRedeemData.isFetched && !previewRedeemData.isError && !previewRedeemData.isLoading) {
+    return null;
+  }
+
   return (
     <FlexCol>
       <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3">

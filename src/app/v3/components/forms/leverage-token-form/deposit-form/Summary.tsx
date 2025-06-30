@@ -5,6 +5,10 @@ import { useLeverageTokenFormContext } from "../leverage-token-form-provider/Lev
 export const Summary: React.FC = () => {
   const { previewMintData } = useLeverageTokenFormContext();
 
+  if (!previewMintData.isFetched && !previewMintData.isError && !previewMintData.isLoading) {
+    return null;
+  }
+
   return (
     <FlexCol className="rounded-card bg-neutral-100 p-6 gap-3 cursor-default">
       <Typography type="bold3">Summary</Typography>
@@ -12,6 +16,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Mint token fee</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.previewMint.tokenFee.dollarAmount}
           symbolPosition="before"
         />
@@ -19,6 +24,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">DAO treasury fee</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.previewMint.treasuryFee.dollarAmount}
           symbolPosition="before"
         />
@@ -26,6 +32,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Deposited equity</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.previewMint.minEquity.dollarAmount}
           symbolPosition="before"
         />
@@ -33,6 +40,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.previewMint.debt.tokenAmount}
           symbolPosition="before"
         />
@@ -40,6 +48,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.previewMint.collateral.tokenAmount}
           symbolPosition="before"
         />
@@ -47,6 +56,7 @@ export const Summary: React.FC = () => {
       <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
         <DisplayTokenAmount
           typography="bold2"
+          {...previewMintData}
           {...previewMintData.data?.swapCost.dollarAmount}
           symbolPosition="before"
         />
