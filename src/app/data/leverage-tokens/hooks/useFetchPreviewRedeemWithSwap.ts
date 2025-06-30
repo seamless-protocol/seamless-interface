@@ -173,6 +173,8 @@ export const useFetchPreviewRedeemWithSwap = (leverageToken?: Address, amount?: 
     queryFn: () => fetchPreviewRedeemWithSwap({ leverageToken: leverageToken!, amount: amount! }),
     enabled: !!leverageToken && !!amount,
     ...disableCacheQueryConfig,
-    refetchInterval: 10000, // Poll every 10 seconds
+
+    // Poll every 60 seconds. If we refetch too often the approve amount may not be sufficient anymore for the redeem
+    refetchInterval: 60000, 
   });
 };
