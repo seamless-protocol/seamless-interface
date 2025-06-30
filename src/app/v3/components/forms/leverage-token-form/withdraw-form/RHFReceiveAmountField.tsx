@@ -17,6 +17,7 @@ export function RHFReceiveAmountField<T>({ name, ...other }: IProps<T>) {
       name={name as string}
       assetAddress={selectedLeverageToken?.data?.address}
       dollarValue={{
+        ...previewRedeemData,
         data: previewRedeemData?.data?.previewRedeemData?.shares?.dollarAmount,
         isLoading: previewRedeemData?.isLoading,
         isFetched: true,

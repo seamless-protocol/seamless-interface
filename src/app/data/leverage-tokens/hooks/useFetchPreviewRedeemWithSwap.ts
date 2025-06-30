@@ -59,10 +59,13 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
 
   if (
     aerodromeSlipstreamQuote?.quote &&
-    bestQuoteSwapData?.quote &&
-    aerodromeSlipstreamQuote.quote < bestQuoteSwapData.quote
+    (!bestQuoteSwapData?.quote || aerodromeSlipstreamQuote.quote < bestQuoteSwapData.quote)
   ) {
     bestQuoteSwapData = aerodromeSlipstreamQuote;
+  }
+
+  if (bestQuoteSwapData == null) {
+    throw new Error("No best quote swap data");
   }
 
   return bestQuoteSwapData;

@@ -64,7 +64,6 @@ interface LeverageTokenFormContextValue {
 
   balance: Displayable<{ balance: ViewBigInt }>;
   lpBalance: Displayable<{ balance: ViewBigInt }>;
-  lpAssetPrice: Displayable<ViewBigInt>;
 
   previewMintData: Displayable<PreviewMintWithSwapData | undefined>;
 
@@ -340,18 +339,10 @@ export function LeverageTokenFormProvider({
         balance,
         lpBalance,
         formOnSubmitAsync,
-        previewMintData: {
-          data: previewMintData.data,
-          isLoading: previewMintData.isLoading,
-          isFetched: previewMintData.isFetched,
-        },
+        previewMintData,
         onTransaction: _onTransaction,
         setOnTransaction,
-        previewRedeemData: {
-          data: previewRedeemData.data,
-          isLoading: previewRedeemData.isLoading,
-          isFetched: previewRedeemData.isFetched,
-        },
+        previewRedeemData,
         isMintLoading,
         isRedeemLoading,
         isMintDisabled,
@@ -367,16 +358,6 @@ export function LeverageTokenFormProvider({
           isApproving: isRedeemApproving,
           justApproved: isRedeemJustApproved,
           approveAsync: redeemApproveAsync,
-        },
-        lpAssetPrice: {
-          isLoading: false,
-          isFetched: true,
-          data: {
-            value: "0",
-            decimals: 8,
-            symbol: "$",
-            viewValue: "0",
-          },
         },
         limitStatuses,
       }}

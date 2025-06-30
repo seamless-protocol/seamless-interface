@@ -12,6 +12,7 @@ export const Summary = () => {
 
         <DataRow label={<FlexRow className="md:gap-1 items-center">Redeem token fee</FlexRow>}>
           <DisplayTokenAmount
+            {...previewRedeemData}
             {...previewRedeemData.data?.previewRedeemData?.tokenFee?.dollarAmount}
             symbolPosition="before"
           />
@@ -20,6 +21,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">DAO treasury fee</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
+            {...previewRedeemData}
             {...previewRedeemData.data?.previewRedeemData?.treasuryFee?.dollarAmount}
             symbolPosition="before"
           />
@@ -28,6 +30,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">Received equity</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
+            {...previewRedeemData}
             {...previewRedeemData.data?.equityAfterSwapCost?.dollarAmount}
             symbolPosition="before"
           />
@@ -35,6 +38,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">Total debt</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
+            {...previewRedeemData}
             {...previewRedeemData.data?.previewRedeemData?.debt?.tokenAmount}
             symbolPosition="before"
           />
@@ -43,6 +47,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">Total collateral </FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
+            {...previewRedeemData}
             {...previewRedeemData.data?.previewRedeemData?.collateral?.tokenAmount}
             symbolPosition="before"
           />
@@ -51,6 +56,7 @@ export const Summary = () => {
         <DataRow label={<FlexRow className="md:gap-1 items-center">DEX cost</FlexRow>}>
           <DisplayTokenAmount
             typography="bold2"
+            {...previewRedeemData}
             {...previewRedeemData.data?.swapCost?.dollarAmount}
             symbolPosition="before"
           />
