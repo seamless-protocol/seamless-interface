@@ -26,7 +26,7 @@ export function useLeverageTokenLimitStatuses({
       utilization?.optimalUtilization &&
       utilization.currentUtilization > utilization.optimalUtilization
     ) {
-      statuses.push("highUtilization");
+      // statuses.push("highUtilization");
     }
 
     if (
