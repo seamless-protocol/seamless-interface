@@ -4,6 +4,9 @@ import { fetchMarketDataByMarketId } from "../../../morpho/market-data-by-market
 import { fetchMorphoMarketId } from "../market-id/market-id.fetch";
 import { useQuery } from "@tanstack/react-query";
 
+// all current Morpho markets are expected to target 90% utilization according to docs
+const optimalUtilization = 0.9;
+
 export async function fetchUtilization(leverageToken: Address) {
   const { lendingAdapter } = await fetchLeverageTokenConfig(leverageToken);
   const marketId = await fetchMorphoMarketId({ adapterAddress: lendingAdapter });
@@ -13,10 +16,7 @@ export async function fetchUtilization(leverageToken: Address) {
 
   return {
     currentUtilization: data?.marketByUniqueKey?.state?.utilization,
-    optimalUtilization: data?.marketByUniqueKey
-      ? // all current Morpho markets are expected to target 90% utilization according to docs
-        Number(90)
-      : undefined,
+    optimalUtilization: data?.marketByUniqueKey ? optimalUtilization : undefined,
   };
 }
 
