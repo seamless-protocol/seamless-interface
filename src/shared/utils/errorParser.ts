@@ -30,5 +30,6 @@ export const errorMapping: Record<string, string> = {
   SharesReceivedBelowMinimum: "Action exceeded safe slippage parameters, please try again later",
   "0xea8d7f02": "Action exceeded safe slippage parameters, please try again later",
   MaxSlippageExceeded: "Action exceeded safe slippage parameters, please try again later",
-  "51": "Supply cap exceeded"
+  "51": "Supply cap exceeded",
+  "insufficient liquidity": "The underlying Morpho market does not have enough liquidity to mint this amount of Leverage Tokens, please try again later"
 };
