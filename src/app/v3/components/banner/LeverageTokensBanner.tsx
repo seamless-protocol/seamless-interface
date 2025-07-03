@@ -13,7 +13,7 @@ export const LeverageTokensBanner = () => {
         <div className="flex flex-col justify-center text-center w-full md:flex-row py-4 px-8 bg-[#4F68F7] rounded-2xl md:rounded-[100px] text-white">
           <FlexRow className="md:gap-1 gap-4 items-center justify-center w-full">
             <p className="text-bold3 flex flex-col md:flex-row items-center justify-center gap-2">
-              {(leverageToken?.tvl?.tokenAmount.bigIntValue || 0) > (leverageToken?.limitsConfig.maxDeposit || 0) && <span
+              {(leverageToken?.tvl?.tokenAmount.bigIntValue || 0n) > (BigInt(leverageToken?.limitsConfig.maxDeposit || 0)) && <span
                 className="inline-block bg-yellow-400 text-[#1A237E] text-bold2 px-3 py-1 rounded-full ml-0 md:ml-4 mt-2 md:mt-0 tracking-wide uppercase"
                 style={{ letterSpacing: "0.05em" }}
               >
