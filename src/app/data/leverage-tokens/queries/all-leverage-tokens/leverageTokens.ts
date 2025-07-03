@@ -23,7 +23,7 @@ export const leverageTokensConfig: LeverageToken[] = [
       description: "Ether.Fi weETH Yield Loop",
     },
     limitsConfig: {
-      maxBorrowApy: 2.6,
+      maxBorrowApy: 2.8,
       maxDeposit: 125,
     },
   },
