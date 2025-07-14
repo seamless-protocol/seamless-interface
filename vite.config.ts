@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
         "@meta": path.resolve(__dirname, "src/meta/index"),
         "@generated-graphql": path.resolve(__dirname, "src/generated-graphql/index"),
         "@app": path.resolve(__dirname, "src/app/"),
+        "jsbi": path.resolve(__dirname, "node_modules/jsbi/dist/jsbi-cjs.js"),
       },
     },
 

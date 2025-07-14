@@ -19,7 +19,9 @@ import { getQuoteAndParamsUniswapV2, getQuoteAndParamsUniswapV3 } from "./useFet
 
 export interface FetchBestSwapInput {
   tokenInAddress: Address;
+  tokenInDecimals: number;
   tokenOutAddress: Address;
+  tokenOutDecimals: number;
   amountOut: bigint;
 }
 
@@ -49,7 +51,7 @@ export const fetchBestSwap = async (input: FetchBestSwapInput): Promise<SwapData
   const aerodromeSlipstreamQuote =
     aerodromeSlipstreamQuoteResp.status === "fulfilled" ? aerodromeSlipstreamQuoteResp.value : undefined;
 
-  // Best route is the one with the lowest quote
+  // Best route is the one with the lowest quote (since the quote is the amountIn)
 
   let bestQuoteSwapData = uniswapV3Quote;
 
@@ -88,10 +90,11 @@ export const fetchPreviewRedeemWithSwap = async ({
   const collateralAsset = await fetchCollateralAsset({ leverageToken });
   const debtAsset = await fetchDebtAsset({ leverageToken });
 
-  const [previewRedeemData, collateralAssetData, collateralAssetPriceData] = await Promise.all([
+  const [previewRedeemData, collateralAssetData, collateralAssetPriceData, debtAssetData] = await Promise.all([
     fetchPreviewRedeem({ leverageToken, amount }),
     fetchToken(collateralAsset),
     fetchAssetPriceInBlock(collateralAsset),
+    fetchToken(debtAsset),
   ]);
 
   if (
@@ -104,7 +107,9 @@ export const fetchPreviewRedeemWithSwap = async ({
 
   const swapData = await fetchBestSwap({
     tokenInAddress: collateralAsset,
+    tokenInDecimals: collateralAssetData.decimals,
     tokenOutAddress: debtAsset,
+    tokenOutDecimals: debtAssetData.decimals,
     amountOut: previewRedeemData.debt.tokenAmount.bigIntValue,
   });
 

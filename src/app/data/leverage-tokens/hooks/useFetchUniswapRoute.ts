@@ -1,22 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { ContractFunctionExecutionError, zeroAddress } from "viem";
-import { getPublicClient } from "wagmi/actions";
+import { ContractFunctionExecutionError, parseUnits } from "viem";
+import { getEthersProvider } from "../../../utils/ethersProvider";
 import { readContractQueryOptions } from "wagmi/query";
-import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, UNISWAP_FEES } from "../../../../meta";
+import { AlphaRouter, SwapOptions, SwapType, V3Route } from "@uniswap/smart-order-router";
+import { ChainId, CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
+import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "../../../../meta";
 import {
-  uniswapQuoterAbi,
-  uniswapQuoterAddress,
   uniswapV2Router02Abi,
   uniswapV2Router02Address,
-  uniswapV3FactoryAbi,
-  uniswapV3FactoryAddress,
+  leverageRouterAddress,
 } from "../../../generated";
 import { disableCacheQueryConfig } from "../../settings/queryConfig";
 import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";
 import type { FetchBestSwapInput, SwapData } from "./useFetchPreviewRedeemWithSwap";
-import { config } from "../../../config/rainbow.config";
+import { encodeRouteToPath } from "@uniswap/v3-sdk";
+import { Protocol } from "@uniswap/router-sdk";
 
 export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Promise<SwapData | undefined> => {
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
@@ -58,64 +58,78 @@ export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Prom
 };
 
 export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
-  const client = getPublicClient(config);
-  const { tokenInAddress, tokenOutAddress, amountOut } = args;
+  try {
+    const { tokenInAddress, tokenOutAddress, amountOut, tokenInDecimals, tokenOutDecimals } = args;
 
-  const pools = await Promise.all(
-    UNISWAP_FEES.map((fee: number) =>
-      queryContract({
-        ...readContractQueryOptions(getConfig(), {
-          address: uniswapV3FactoryAddress,
-          abi: uniswapV3FactoryAbi,
-          functionName: "getPool",
-          args: [tokenInAddress, tokenOutAddress, fee],
-        }),
-      })
-    )
-  );
+    const tokenIn = new Token(ChainId.BASE, tokenInAddress, tokenInDecimals);
+    const tokenOut = new Token(ChainId.BASE, tokenOutAddress, tokenOutDecimals);
 
-  const existingFees = UNISWAP_FEES.filter((_: number, index: number) => pools[index] !== zeroAddress);
+    const ethersProvider = getEthersProvider(getConfig(), { chainId: ChainId.BASE });
 
-  const quotesRaw = await Promise.allSettled(
-    existingFees.map(async (fee: number) =>
-      client.simulateContract({
-        abi: uniswapQuoterAbi,
-        address: uniswapQuoterAddress,
-        functionName: "quoteExactOutputSingle",
-        args: [
-          {
-            tokenIn: tokenInAddress,
-            tokenOut: tokenOutAddress,
-            amount: amountOut,
-            fee,
-            sqrtPriceLimitX96: 0n,
-          },
-        ],
-      })
-    )
-  );
+    const router = new AlphaRouter({
+      chainId: ChainId.BASE,
+      // Fallback ethers provider is not supported by AlphaRouter (it calls provider.send which is not supported by ethers FallbackProvider)
+      provider: ethersProvider,
+      v2Supported: [],
+      v4Supported: [],
+      mixedSupported: [],
+    });
 
-  const quotes = quotesRaw.filter((quote) => quote.status === "fulfilled").map((quote) => quote.value);
+    const amountOutCurrency = CurrencyAmount.fromRawAmount(tokenOut, amountOut.toString());
 
-  let bestQuoteIndex = 0;
-  for (let i = 0; i < quotes.length; i++) {
-    if (quotes[i].result[0] < quotes[bestQuoteIndex].result[0]) {
-      bestQuoteIndex = i;
+    const options: SwapOptions = {
+      recipient: leverageRouterAddress,
+      slippageTolerance: new Percent(50, 10_000),
+      deadline: Math.floor(Date.now() / 1000 + 1800), // 30 minutes from the current Unix time
+      type: SwapType.SWAP_ROUTER_02,
+    };
+
+    const route = await router.route(amountOutCurrency, tokenIn, TradeType.EXACT_OUTPUT, options);
+
+    const v3Route = route?.route.find((route) => route.protocol === Protocol.V3);
+
+    if (!v3Route) {
+      console.log(
+        `Uniswap V3: No route found for swap ${tokenInAddress} -> ${tokenOutAddress} with amount out ${amountOut}`
+      );
+      return null;
     }
+
+    console.log(`Uniswap V3 Exact Output Quote:
+    From: ${tokenInAddress}
+    To: ${tokenOutAddress}
+    Amount Out: ${v3Route.quote.toExact()}
+  `);
+
+    return {
+      quote: parseUnits(v3Route.quote.toExact(), tokenInDecimals),  // returns amountIn
+      swapContext: {
+        path: [tokenInAddress, tokenOutAddress],
+        encodedPath: v3Route?.route ? (encodeRouteToPath(v3Route.route as V3Route, true) as `0x${string}`) : "0x",
+        additionalData: "0x",
+        fees: [],
+        tickSpacing: [],
+        exchange: Exchange.UNISWAP_V3,
+        exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+      } as SwapContext,
+    };
+  } catch (error) {
+    console.log("error", error);
+    throw error;
   }
 
-  return {
-    quote: quotes[bestQuoteIndex].result[0],
-    swapContext: {
-      path: [tokenInAddress, tokenOutAddress],
-      encodedPath: "0x",
-      additionalData: "0x",
-      fees: [UNISWAP_FEES[bestQuoteIndex]],
-      tickSpacing: [],
-      exchange: Exchange.UNISWAP_V3,
-      exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
-    } as SwapContext,
-  };
+  // return {
+  //   quote: quotes[bestQuoteIndex].result[0],
+  //   swapContext: {
+  //     path: [tokenInAddress, tokenOutAddress],
+  //     encodedPath: "0x",
+  //     additionalData: "0x",
+  //     fees: [UNISWAP_FEES[bestQuoteIndex]],
+  //     tickSpacing: [],
+  //     exchange: Exchange.UNISWAP_V3,
+  //     exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
+  //   } as SwapContext,
+  // };
 };
 
 export const useFetchUniswapRoute = (args: FetchBestSwapInput) => {
