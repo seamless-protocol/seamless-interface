@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ContractFunctionExecutionError, parseUnits } from "viem";
 import { getEthersProvider } from "../../../utils/ethersProvider";
 import { readContractQueryOptions } from "wagmi/query";
-import { AlphaRouter, SwapOptions, SwapType, V3Route } from "@uniswap/smart-order-router";
+import { AlphaRouter, SwapOptions, SwapType } from "@uniswap/smart-order-router";
 import { ChainId, CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES } from "../../../../meta";
 import {
