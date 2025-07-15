@@ -88,24 +88,18 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
 
     const v3Route = route?.route.find((route) => route.protocol === Protocol.V3);
 
-    if (!v3Route) {
+    if (!v3Route || !v3Route.quote || !v3Route.route) {
       console.log(
         `Uniswap V3: No route found for swap ${tokenInAddress} -> ${tokenOutAddress} with amount out ${amountOut}`
       );
       return null;
     }
 
-    console.log(`Uniswap V3 Exact Output Quote:
-    From: ${tokenInAddress}
-    To: ${tokenOutAddress}
-    Amount Out: ${v3Route.quote.toExact()}
-  `);
-
     return {
       quote: parseUnits(v3Route.quote.toExact(), tokenInDecimals),  // returns amountIn
       swapContext: {
         path: [tokenInAddress, tokenOutAddress],
-        encodedPath: v3Route?.route ? (encodeRouteToPath(v3Route.route as V3Route, true) as `0x${string}`) : "0x",
+        encodedPath: encodeRouteToPath(v3Route.route, true) as `0x${string}`,
         additionalData: "0x",
         fees: [],
         tickSpacing: [],
@@ -114,22 +108,9 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
       } as SwapContext,
     };
   } catch (error) {
-    console.log("error", error);
+    console.log("getQuoteAndParamsUniswapV3 error: ", error);
     throw error;
   }
-
-  // return {
-  //   quote: quotes[bestQuoteIndex].result[0],
-  //   swapContext: {
-  //     path: [tokenInAddress, tokenOutAddress],
-  //     encodedPath: "0x",
-  //     additionalData: "0x",
-  //     fees: [UNISWAP_FEES[bestQuoteIndex]],
-  //     tickSpacing: [],
-  //     exchange: Exchange.UNISWAP_V3,
-  //     exchangeAddresses: SWAP_ADAPTER_EXCHANGE_ADDRESSES,
-  //   } as SwapContext,
-  // };
 };
 
 export const useFetchUniswapRoute = (args: FetchBestSwapInput) => {
