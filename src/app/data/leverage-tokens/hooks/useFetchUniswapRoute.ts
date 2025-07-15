@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ContractFunctionExecutionError, zeroAddress } from "viem";
-import { simulateContract } from "wagmi/actions";
+import { getPublicClient } from "wagmi/actions";
 import { readContractQueryOptions } from "wagmi/query";
 import { SWAP_ADAPTER_EXCHANGE_ADDRESSES, UNISWAP_FEES } from "../../../../meta";
 import {
@@ -16,6 +16,7 @@ import { getConfig, queryContract } from "../../../utils/queryContractUtils";
 import { Exchange } from "../common/enums";
 import { SwapContext } from "./useFetchAerodromeRoute";
 import type { FetchBestSwapInput, SwapData } from "./useFetchPreviewRedeemWithSwap";
+import { config } from "../../../config/rainbow.config";
 
 export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Promise<SwapData | undefined> => {
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
@@ -57,6 +58,7 @@ export const getQuoteAndParamsUniswapV2 = async (args: FetchBestSwapInput): Prom
 };
 
 export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
+  const client = getPublicClient(config);
   const { tokenInAddress, tokenOutAddress, amountOut } = args;
 
   const pools = await Promise.all(
@@ -74,9 +76,9 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
 
   const existingFees = UNISWAP_FEES.filter((_: number, index: number) => pools[index] !== zeroAddress);
 
-  const quotes = await Promise.all(
-    existingFees.map((fee: number) =>
-      simulateContract(getConfig(), {
+  const quotesRaw = await Promise.allSettled(
+    existingFees.map(async (fee: number) =>
+      client.simulateContract({
         abi: uniswapQuoterAbi,
         address: uniswapQuoterAddress,
         functionName: "quoteExactOutputSingle",
@@ -92,6 +94,8 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
       })
     )
   );
+
+  const quotes = quotesRaw.filter((quote) => quote.status === "fulfilled").map((quote) => quote.value);
 
   let bestQuoteIndex = 0;
   for (let i = 0; i < quotes.length; i++) {
