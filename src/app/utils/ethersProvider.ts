@@ -2,7 +2,7 @@ import type { Client, Chain, Transport } from "viem";
 import { type Config, getClient } from "@wagmi/core";
 import { providers } from "ethers";
 
-export function clientToProvider(client: Client<Transport, Chain>) {
+export function clientToProvider(client: Client<Transport, Chain>, allowFallback: boolean = true) {
   const { chain, transport } = client;
 
   const network = {
@@ -12,11 +12,15 @@ export function clientToProvider(client: Client<Transport, Chain>) {
   };
 
   if (transport.type === "fallback") {
-    return new providers.FallbackProvider(
-      (transport.transports as ReturnType<Transport>[]).map(
-        ({ value }) => new providers.JsonRpcProvider(value?.url, network),
-      ),
-    );
+    if (allowFallback) {
+      return new providers.FallbackProvider(
+        (transport.transports as ReturnType<Transport>[]).map(
+          ({ value }) => new providers.JsonRpcProvider(value?.url, network),
+        ),
+      );
+    }
+
+    return new providers.JsonRpcProvider(transport.transports[0].value?.url, network);
   }
 
   return new providers.JsonRpcProvider(transport.url, network);
@@ -25,7 +29,7 @@ export function clientToProvider(client: Client<Transport, Chain>) {
 /** Action to convert a viem Public Client to an ethers.js Provider. */
 export function getEthersProvider(
   config: Config,
-  { chainId }: { chainId?: number } = {},
+  { chainId, allowFallback }: { chainId?: number, allowFallback?: boolean } = { allowFallback: true },
 ) {
   const client = getClient(config, { chainId })
 
@@ -33,5 +37,5 @@ export function getEthersProvider(
     throw new Error("Client not found");
   }
 
-  return clientToProvider(client)
+  return clientToProvider(client, allowFallback)
 }

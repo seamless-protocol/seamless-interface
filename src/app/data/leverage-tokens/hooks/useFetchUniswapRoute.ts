@@ -64,11 +64,11 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
     const tokenIn = new Token(ChainId.BASE, tokenInAddress, tokenInDecimals);
     const tokenOut = new Token(ChainId.BASE, tokenOutAddress, tokenOutDecimals);
 
-    const ethersProvider = getEthersProvider(getConfig(), { chainId: ChainId.BASE });
+    // Fallback ethers provider is not supported by AlphaRouter (it calls provider.send which is not supported by ethers FallbackProvider)
+    const ethersProvider = getEthersProvider(getConfig(), { chainId: ChainId.BASE, allowFallback: false });
 
     const router = new AlphaRouter({
       chainId: ChainId.BASE,
-      // Fallback ethers provider is not supported by AlphaRouter (it calls provider.send which is not supported by ethers FallbackProvider)
       provider: ethersProvider,
       v2Supported: [],
       v4Supported: [],
