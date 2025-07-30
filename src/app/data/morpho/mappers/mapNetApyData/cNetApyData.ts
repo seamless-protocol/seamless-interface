@@ -23,15 +23,14 @@ export function cNetApyData(vaultState: FullVaultInfoQuery["vaultByAddress"]["st
       const key = reward.asset.address;
       const apr = reward.supplyApr;
       if (apr == null) {
-        console.error("reward.supplyApr is null", reward);
-        throw new Error("reward.supplyApr is null");
+        console.error(`reward.supplyApr is null for ${reward.asset.symbol}`);
+      } else {
+        rewardsMap.set(key, {
+          asset: reward.asset,
+          totalApr: apr,
+        });
+        totalRewards += apr;
       }
-
-      rewardsMap.set(key, {
-        asset: reward.asset,
-        totalApr: apr,
-      });
-      totalRewards += apr;
     }
   }
 
