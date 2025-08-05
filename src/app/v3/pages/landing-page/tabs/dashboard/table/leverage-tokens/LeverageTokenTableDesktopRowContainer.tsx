@@ -6,26 +6,17 @@ import { Tag } from "../../../../../../components/strategy-data/Tag";
 
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
-import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
 import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { useFetchUserUnrealized } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
-import { useAccount } from "wagmi";
 
 export const LeverageTokenTableDesktopRowContainer: React.FC<{
   address: Address;
   hideBorder?: boolean;
 }> = ({ address, hideBorder }) => {
   const { data: leverageToken, ...rest } = useFetchLeverageTokenByAddress(address);
-
-  const { address: userAddress } = useAccount();
-  const {
-    data: { rewards, dollarAmount },
-    ...allUserRewardsRest
-  } = useFuulRewardsWithDollarAmount(userAddress);
 
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
@@ -88,8 +79,6 @@ export const LeverageTokenTableDesktopRowContainer: React.FC<{
           {...leverageTokenProfitRest}
         />
       }
-      rewards={<DisplayMoney typography="bold3" viewValue={dollarAmount.viewValue} {...allUserRewardsRest} />}
-      imageInfoGroup={<UserInfoImageGroup info={rewards} />}
       tableButtons={
         <LeverageTokenFormProvider defaultLeverageTokenAddress={address}>
           <TableButtons address={address} />

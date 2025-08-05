@@ -15,8 +15,6 @@ export const TableDesktopRowComponent: React.FC<{
   dollarAmount: React.ReactNode;
   profitPercentage: React.ReactNode;
   profitValue: React.ReactNode;
-  rewards: React.ReactNode;
-  imageInfoGroup: React.ReactNode;
   tableButtons: React.ReactNode;
 }> = ({
   hideBorder,
@@ -28,8 +26,6 @@ export const TableDesktopRowComponent: React.FC<{
   dollarAmount,
   profitPercentage,
   profitValue,
-  rewards,
-  imageInfoGroup,
   tableButtons,
 }) => {
     return (
@@ -37,7 +33,7 @@ export const TableDesktopRowComponent: React.FC<{
         className={`hidden md:grid grid-cols-20 cursor-pointer items-center border-solid min-h-[148px] ${hideBorder ? "" : "border-b border-b-navy-100"
           }`}
       >
-        <TableCell alignItems="items-start col-span-6 pr-6">
+        <TableCell alignItems="items-start col-span-8 pr-8">
           <FlexRow className="gap-4 items-center max-w-full">
             {logo}
             <FlexCol className="gap-2 text-start max-w-full">
@@ -60,12 +56,6 @@ export const TableDesktopRowComponent: React.FC<{
           <FlexCol>
             {profitPercentage}
             {profitValue}
-          </FlexCol>
-        </TableCell>
-        <TableCell className="col-span-2">
-          <FlexCol>
-            {rewards}
-            {imageInfoGroup}
           </FlexCol>
         </TableCell>
         <TableCell className="col-span-4 flex justify-evenly items-center cursor-default">
