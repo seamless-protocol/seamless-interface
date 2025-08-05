@@ -4,16 +4,13 @@ import {
   DisplayMoney,
   DisplayTokenAmount,
   Typography,
-  FlexCol,
   DisplayPercentage,
 } from "../../../../../../../../shared";
-import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
 import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { TableButtons } from "./TableButtons";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
-import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
@@ -21,7 +18,6 @@ import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/i
 export const StrategyTableMobileRowContainer: React.FC<{ strategy: Address }> = ({ strategy }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
-  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
   const { data: balanceUsdPair, ...otherBalanceUsdPair } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
   });
@@ -35,12 +31,6 @@ export const StrategyTableMobileRowContainer: React.FC<{ strategy: Address }> = 
       logo={<Icon width={30} src={strategyData?.logo} alt="Strategy Logo" />}
       name={<Typography type="bold3">{strategyData?.name}</Typography>}
       description={<Typography type="regular1">{strategyData?.description}</Typography>}
-      rewards={
-        <FlexCol>
-          <DisplayMoney viewValue={allUserRewards.totalRewardsUsd.viewValue} {...allUserRewardsRest} />
-          <UserInfoImageGroup info={allUserRewards.info} />
-        </FlexCol>
-      }
       profit={
         <SignIndicatingElement
           noBackground
