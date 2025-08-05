@@ -1,4 +1,4 @@
-import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, Displayable, FlexRow } from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, Displayable } from "@shared";
 
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 

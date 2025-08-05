@@ -99,7 +99,7 @@ export const Tooltip: React.FC<{
         id={tooltipId}
         place={place}
         openOnClick={openOnClick}
-        clickable={true}
+        clickable
       >
         {tooltip}
       </ReactTooltip>
