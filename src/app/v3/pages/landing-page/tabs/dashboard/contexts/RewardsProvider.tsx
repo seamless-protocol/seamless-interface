@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useEsSeamRewardsWrapper } from "../hooks/esSeamRewardsWrapper";
 import { Hash } from "viem";
-import { useMorphoRewardsWrapper } from "../hooks/MorphoRewardsWrapper";
 import { useStkSeamRewardsWrapper } from "../hooks/stkSeamRewardsWrapper";
 import { useFuulRewardsWrapper } from "../hooks/FuulRewardsWrapper";
 import { FetchData, mergeQueryStates, ViewBigInt } from "@shared";
@@ -66,22 +65,6 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
       },
     },
   });
-  // MORPHO HOOK
-  const morphoReward = useMorphoRewardsWrapper({
-    settings: {
-      onSuccess: (tx) => {
-        const { id } = morphoReward.data;
-        setStatuses((prev) => ({ ...prev, [id]: "success" }));
-        setTxHashes((prev) => ({ ...prev, [id]: tx }));
-        setCurrentStep((prev) => prev + 1);
-      },
-      onError: () => {
-        const { id } = morphoReward.data;
-        setStatuses((prev) => ({ ...prev, [id]: "failed" }));
-        setCurrentStep((prev) => prev + 1);
-      },
-    },
-  });
   // Fuul HOOK
   const fuulReward = useFuulRewardsWrapper({
     settings: {
@@ -116,7 +99,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  const items: FetchData<RewardItem>[] = [fuulReward, morphoReward, stkSeamReward];
+  const items: FetchData<RewardItem>[] = [fuulReward, stkSeamReward];
 
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -162,7 +145,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }) => {
     <RewardsContext.Provider
       value={{
         items: {
-          ...mergeQueryStates([stkSeamReward, morphoReward, fuulReward]),
+          ...mergeQueryStates([stkSeamReward, fuulReward]),
           data: items,
         },
         selected,

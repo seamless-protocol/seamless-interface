@@ -1,26 +1,17 @@
 import { Address } from "viem";
-import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText, FlexCol } from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText } from "@shared";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { TableButtons } from "./TableButtons";
-import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { useFetchLeverageTokenByAddress } from "../../../../../../../data/leverage-tokens/queries/leverage-token-by-address/FetchLeverageTokenByAddress";
-import { useFuulRewardsWithDollarAmount } from "../../hooks/FuulRewardsWithDollarAmountWrapper";
 import { LeverageTokenFormProvider } from "../../../../../../components/forms/leverage-token-form/leverage-token-form-provider/LeverageTokenFormProvider";
 import { useFetchUserUnrealized } from "../../../../../../../data/leverage-tokens/queries/leverage-token-profit/unrealized-gain-loss.fetch";
-import { useAccount } from "wagmi";
 
 export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }> = ({ address }) => {
-  const { address: userAddress } = useAccount();
   const { data: leverageToken, ...leverageTokenRest } = useFetchLeverageTokenByAddress(address);
-
-  const {
-    data: { rewards, dollarAmount },
-    ...allUserRewardsRest
-  } = useFuulRewardsWithDollarAmount(userAddress);
 
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: address,
@@ -52,12 +43,6 @@ export const LeverageTokenTableMobileRowContainer: React.FC<{ address: Address }
           viewValue={leverageToken?.additionalData?.description}
           {...leverageTokenRest}
         />
-      }
-      rewards={
-        <FlexCol>
-          <DisplayMoney typography="medium1" viewValue={dollarAmount.viewValue} {...allUserRewardsRest} />
-          <UserInfoImageGroup info={rewards} />
-        </FlexCol>
       }
       profit={
         <SignIndicatingElement

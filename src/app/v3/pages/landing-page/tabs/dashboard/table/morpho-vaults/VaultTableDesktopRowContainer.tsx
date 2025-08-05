@@ -8,25 +8,17 @@ import { SignIndicatingElement } from "../../../../../../components/other/SignIn
 import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
 import { Address } from "viem";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
-import { useAccount } from "wagmi";
-import { RewardsImageGroup } from "./RewardsImageGroup";
-import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const VaultTableDesktopRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
   hideBorder?: boolean;
 }> = ({ vaultData, hideBorder }) => {
-  const { address } = useAccount();
-
   const { data: vault, ...vaultDataRest } = vaultData;
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });
-
-  const { data: rewardData, ...restRewardData } = useMorphoExtendedUserRewards(address);
 
   return (
     <TableDesktopRowComponent
@@ -82,19 +74,6 @@ export const VaultTableDesktopRowContainer: React.FC<{
           viewValue={strategyProfit?.unrealizedProfit.viewValue}
           isApproximate
           {...strategyProfitRest}
-        />
-      }
-      rewards={
-        <FlexRow className="gap-1">
-          <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="bold3" />
-          <RewardsWarningTooltip />
-        </FlexRow>
-      }
-      imageInfoGroup={
-        <RewardsImageGroup
-          icons={[
-            ...new Set(vault.mappedVaultDetails.rewards?.map((reward) => reward.asset.logoURI || undefined) || []),
-          ]}
         />
       }
       tableButtons={<MorphoTableButtons vault={vault.mappedVaultDetails.vaultAddress} />}

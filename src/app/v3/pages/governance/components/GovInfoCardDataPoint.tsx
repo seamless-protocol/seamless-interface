@@ -10,7 +10,7 @@ interface Props extends DisplayValueProps {
 export const GovInfoCardDataPoint: React.FC<Props> = ({ viewValue: tokenViewValue, label, tooltip, ...rest }) => {
   return (
     <FlexCol>
-      <FlexRow className="itemms-center gap-1">
+      <FlexRow className="items-center gap-1">
         <Typography type="medium3">{label || rest.symbol}</Typography>
         {tooltip && <StandardTooltip openOnClick={false}>{tooltip}</StandardTooltip>}
       </FlexRow>

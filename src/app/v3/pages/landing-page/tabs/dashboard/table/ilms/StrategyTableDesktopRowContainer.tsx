@@ -4,11 +4,8 @@ import { Icon, DisplayMoney, DisplayTokenAmount, DisplayPercentage, DisplayText 
 import { TableButtons } from "./TableButtons";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 
-import { useFetchFormattedAllUserRewardsByStrategy } from "../../../../../../../data/ilmv1-deprecated/hooks/user-rewards-by-strategy/UserRewardsByStrategy.hook";
-
 import { useFetchFormattedAssetBalanceWithUsdValue } from "../../../../../../../data/common/queries/AssetBalanceWithUsdValue/AssetBalanceWithUsdValue.hook";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
-import { UserInfoImageGroup } from "../UserInfoImageGroup";
 import { useFetchFullStrategyData } from "../../../../../../../data/ilmv1-deprecated/metadata/FullStrategyData.all";
 import { TableDesktopRowComponent } from "../TableDesktopRowComponent";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
@@ -20,7 +17,6 @@ export const StrategyTableDesktopRowContainer: React.FC<{
 }> = ({ strategy, hideBorder }) => {
   const { data: strategyData, ...strategyDataRest } = useFetchFullStrategyData(strategy);
 
-  const { data: allUserRewards, ...allUserRewardsRest } = useFetchFormattedAllUserRewardsByStrategy(strategy);
   const { data: balanceUsdPair, ...balanceUsdPairRest } = useFetchFormattedAssetBalanceWithUsdValue({
     asset: strategy,
   });
@@ -84,14 +80,6 @@ export const StrategyTableDesktopRowContainer: React.FC<{
           {...strategyProfitRest}
         />
       }
-      rewards={
-        <DisplayMoney
-          typography="bold3"
-          viewValue={allUserRewards?.totalRewardsUsd.viewValue}
-          {...allUserRewardsRest}
-        />
-      }
-      imageInfoGroup={<UserInfoImageGroup info={allUserRewards?.info} />}
       tableButtons={<TableButtons strategy={strategy} />}
     />
   );

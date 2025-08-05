@@ -1,28 +1,21 @@
 import { Address } from "viem";
-import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable, FlexRow } from "@shared";
+import { Icon, DisplayMoney, DisplayTokenAmount, Typography, DisplayPercentage, Displayable } from "@shared";
 import { Tag } from "../../../../../../components/strategy-data/Tag";
 import { TableMobileRowComponent } from "../TableMobileRowComponent";
 import { getColorBasedOnSign } from "../../../../../../utils/uiUtils";
 import { SignIndicatingElement } from "../../../../../../components/other/SignIndicatingElement";
 import { ExtendedVaultPosition } from "../../../../../../../data/morpho/types/ExtendedVaultPosition";
 import { MorphoTableButtons } from "./MorphoTableButtons";
-import { useAccount } from "wagmi";
-import { useMorphoExtendedUserRewards } from "../../../../../../../data/morpho/user-rewards/MorphoUserRewards.hook";
-import { RewardsWarningTooltip } from "../../components/common/RewardsWarningTooltip";
 import { useFetchFormattedUserStrategyProfit } from "../../../../../../../data/ilmv1-deprecated/hooks/user-strategy-profit/UserStrategyProfit.hook";
 
 export const VaultTableMobileRowContainer: React.FC<{
   vaultData: Displayable<ExtendedVaultPosition>;
 }> = ({ vaultData }) => {
-  const { address } = useAccount();
-
   const { data: vault, ...vaultDataRest } = vaultData;
 
   const { data: strategyProfit, ...strategyProfitRest } = useFetchFormattedUserStrategyProfit({
     address: vault.mappedVaultDetails.vaultAddress as Address,
   });
-
-  const { data: rewardData, ...restRewardData } = useMorphoExtendedUserRewards(address);
 
   return (
     <TableMobileRowComponent
@@ -30,12 +23,6 @@ export const VaultTableMobileRowContainer: React.FC<{
       logo={<Icon width={30} src={vault?.mappedVaultDetails.asset.logoURI || ""} alt="Vault Logo" />}
       name={<Typography type="bold3">{vault?.mappedVaultDetails?.name}</Typography>}
       description={<Typography type="regular1">{vault?.mappedVaultDetails?.asset.name}</Typography>}
-      rewards={
-        <FlexRow className="gap-1">
-          <DisplayMoney {...rewardData?.combinedClaimableNowViewValue} {...restRewardData} typography="bold3" />
-          <RewardsWarningTooltip />
-        </FlexRow>
-      }
       profit={
         <SignIndicatingElement
           noBackground
