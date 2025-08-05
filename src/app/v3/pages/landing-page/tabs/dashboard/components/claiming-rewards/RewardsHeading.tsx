@@ -4,6 +4,7 @@ import { useSumRewardDollarAmounts } from "../../hooks/SumRewardDollarAmounts";
 import { useAccount } from "wagmi";
 
 const morphoRewardsDocsUrl = "https://docs.morpho.org/rewards/getting-started#merkl-integration";
+const morphoAppUrl = "https://app.morpho.org/";
 
 export const RewardsHeading: React.FC<{
   items: FetchData<FetchData<RewardItem | undefined>[]>;
@@ -27,7 +28,7 @@ export const RewardsHeading: React.FC<{
             <Typography type="regular2">
               Morpho is now using Merkl platform to distribute rewards for Morpho Vaults. To claim rewards earned before Morpho's migration to Merkl, go to the{" "}
             </Typography>
-            <ExternalLink url={merklUserUrl} className="text-primary-500">Morpho App</ExternalLink>
+            <ExternalLink url={morphoAppUrl} className="text-primary-500">Morpho App</ExternalLink>
             <Typography type="regular2">. See Morpho docs for more details{" "}</Typography>
             <ExternalLink url={morphoRewardsDocsUrl} className="text-primary-500">here</ExternalLink>
           </FlexRow>
