@@ -98,7 +98,7 @@ export const getQuoteAndParamsUniswapV3 = async (args: FetchBestSwapInput) => {
     return {
       quote: parseUnits(v3Route.quote.toExact(), tokenInDecimals),  // returns amountIn
       swapContext: {
-        path: v3Route.tokenPath.map((token) => token.address),
+        path: [tokenIn.address],
         encodedPath: encodeRouteToPath(v3Route.route, true) as `0x${string}`,
         additionalData: "0x",
         fees: [],
