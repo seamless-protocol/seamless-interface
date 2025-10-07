@@ -19,6 +19,7 @@ import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDeta
 import { GovernancePage } from "./pages/governance/GovernancePage";
 import { LeverageTokenDetailsPage } from "./pages/leverage-token-details/LeverageTokenDetailsPage";
 import { AuditedLT } from "./components/banner/AuditedLT";
+import { NewUIBanner } from "./components/banner/NewUIBanner";
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -31,6 +32,7 @@ export function App() {
           <div className="flex flex-col gap-4">
             {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <LeverageTokensBanner />}
             {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && <AuditedLT />}
+            <NewUIBanner />
           </div>
 
           <FlexCol className="min-h-screen">
