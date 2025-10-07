@@ -48,6 +48,10 @@ jobs:
           echo VITE_LEVERAGE_TOKENS_SUBGRAPH=${{ vars.VITE_LEVERAGE_TOKENS_SUBGRAPH }} >> .env.production
           echo VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY=${{ vars.VITE_LEVERAGE_TOKENS_SUBGRAPH_API_KEY }} >> .env.production
           echo VITE_FUUL_DEPLOYED_ADDRESS=${{ vars.VITE_FUUL_DEPLOYED_ADDRESS }} >> .env.production
+          echo VITE_PORTFOLIO_FEATURE=${{ vars.VITE_PORTFOLIO_FEATURE }} >> .env.production
+          echo VITE_LIFI_FEATURE=${{ vars.VITE_LIFI_FEATURE }} >> .env.production
+          echo VITE_ILMS_FEATURE=${{ vars.VITE_ILMS_FEATURE }} >> .env.production
+          echo VITE_MORPHO_VAULTS_FEATURE=${{ vars.VITE_MORPHO_VAULTS_FEATURE }} >> .env.production
           cat .env.production
 
       - run: npm ci
