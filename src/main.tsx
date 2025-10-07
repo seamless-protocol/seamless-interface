@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <RainbowKitProvider theme={myRainbowkitThemeConfigV2}>
             <LifiWidgetProvider>
               <AppV3 />
-              <LiFiWidgetWrapper />
+              {import.meta.env.VITE_LIFI_FEATURE === "true" && <LiFiWidgetWrapper />}
             </LifiWidgetProvider>
           </RainbowKitProvider>
         </CustomWagmiProvider>

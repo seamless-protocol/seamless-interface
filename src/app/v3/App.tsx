@@ -17,7 +17,6 @@ import { NavigationBar } from "./components/navigation-bar/NavigationBar";
 import { LeverageTokensBanner } from "./components/banner/LeverageTokensBanner";
 import { MorphoVaultDetails } from "./pages/morpho-vault-details/MorphoVaultDetails";
 import { GovernancePage } from "./pages/governance/GovernancePage";
-import { FuulPage } from "./pages/fuul/FuulPage";
 import { LeverageTokenDetailsPage } from "./pages/leverage-token-details/LeverageTokenDetailsPage";
 import { AuditedLT } from "./components/banner/AuditedLT";
 
@@ -39,14 +38,21 @@ export function App() {
               <NetworkCheck />
               <SentryRoutes>
                 <Route path={RouterConfig.Routes.landingPage} element={<LandingPage />} />
-                <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                {/* ILMs */}
+                {import.meta.env.VITE_ILMS_FEATURE === "true" && (
+                  <Route path={RouterConfig.Routes.ilmDetailsv3} element={<ILMDetails />} />
+                )}
+                {/* Leverage Tokens */}
                 {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
                   <Route path={RouterConfig.Routes.leverageToken} element={<LeverageTokenDetailsPage />} />
                 )}
-                <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
-                <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
-                {import.meta.env.VITE_FUUL_ENABLE === "true" && (
-                  <Route path={RouterConfig.Routes.pointLeaderboard} element={<FuulPage />} />
+                {/* Morpho Vaults */}
+                {import.meta.env.VITE_MORPHO_VAULTS_FEATURE === "true" && (
+                  <Route path={RouterConfig.Routes.morphoVaultDetailsv3} element={<MorphoVaultDetails />} />
+                )}
+                {/* Governance */}
+                {import.meta.env.VITE_STAKING_FEATURE === "true" && (
+                  <Route path={RouterConfig.Routes.governance} element={<GovernancePage />} />
                 )}
                 <Route path="*" element={<PageNotFound />} />
               </SentryRoutes>

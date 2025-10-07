@@ -13,9 +13,11 @@ export const LandingPage = () => {
         {/* todo: responsive */}
         <FlexCol className="gap-1 w-full md:max-w-page-content">
           <FlexRow className="w-full gap-1 border-b-navy-100 border-b-thin overflow-x-auto md:overflow-x-hidden overflow-y-hidden whitespace-nowrap">
-            <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults" className="min-w-20 md:min-w-32">
-              Vaults
-            </TabButton>
+            {import.meta.env.VITE_MORPHO_VAULTS_FEATURE === "true" && (
+              <TabButton<Tabs> data-cy="tab-vaults" tab="Vaults" className="min-w-20 md:min-w-32">
+                Vaults
+              </TabButton>
+            )}
             {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
               <TabButton<Tabs> data-cy="tab-leverage-tokens" tab="LeverageTokens" className="min-w-[114px] md:min-w-32">
                 Leverage Tokens
@@ -31,11 +33,13 @@ export const LandingPage = () => {
             </TabButton>
           </FlexRow>
 
-          <TabContent<Tabs> tab="Vaults">
-            <div className="mt-8">
-              <MorphoVaultsTab />
-            </div>
-          </TabContent>
+          {import.meta.env.VITE_MORPHO_VAULTS_FEATURE === "true" && (
+            <TabContent<Tabs> tab="Vaults">
+              <div className="mt-8">
+                <MorphoVaultsTab />
+              </div>
+            </TabContent>
+          )}
           {import.meta.env.VITE_LEVERAGE_TOKENS_FEATURE === "true" && (
             <TabContent<Tabs> tab="LeverageTokens">
               <div className="mt-8">
