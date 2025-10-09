@@ -13,7 +13,7 @@ export const Dashboard = () => {
       <NotConnectedWalletGuard>
         <PortfolioSummaryV2 />
         {strategies && strategies.length > 0 ? <LegacyPlatformDeprecationBanner /> : null}
-        <TableContainer />
+        {import.meta.env.VITE_PORTFOLIO_FEATURE === "true" ? <TableContainer /> : null}
       </NotConnectedWalletGuard>
     </FlexCol>
   );
