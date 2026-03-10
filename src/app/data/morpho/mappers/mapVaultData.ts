@@ -25,7 +25,7 @@ export function mapVaultData(vault: FullVaultInfoQuery["vaultByAddress"], vaultT
   });
   const totalAssetsUsd = formatToDisplayable(state?.totalAssetsUsd ?? 0);
   const netApy = formatToDisplayable((state?.netApy ?? 0) * 100);
-  const curator = config?.curator; // state?.curator; TODO morpho: how to get name of curetor from adress?
+  const curator = config?.curator; // state?.curator; TODO morpho: how to get name of curator from address?
   const feePercentage = formatToDisplayable((state?.fee ?? 0) * 100);
   const allocation = state?.allocation ?? [];
   const collateralLogos = allocation
