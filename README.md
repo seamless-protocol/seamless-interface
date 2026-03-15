@@ -53,7 +53,7 @@ https://icon-sets.iconify.design/
 - start your tests
 
 btw you don't have to kill anvil, it will be killed by next npm run anvil
-if you want to to kill anvil run:
+if you want to kill anvil run:
 
 - `pkill -f anvil`
 
