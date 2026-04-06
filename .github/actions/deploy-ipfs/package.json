@@ -1,0 +1,11 @@
+{
+    "name": "deploy-ipfs-action",
+    "version": "1.0.0",
+    "description": "GitHub Action to deploy to IPFS via Pinata",
+    "main": "index.js",
+    "dependencies": {
+      "@actions/core": "^1.10.1",
+      "pinata": "^2.1.0"
+    }
+}
+  
