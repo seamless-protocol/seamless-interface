@@ -2,6 +2,16 @@ name: Production IPFS Deployment
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build and deploy'
+        required: true
+        default: 'main'
+        type: string
+      pin-name:
+        description: 'Custom name for the IPFS pin (optional)'
+        required: false
+        type: string
 
 jobs:
   deploy:
@@ -13,13 +23,10 @@ jobs:
         node-version: [22.16.0]
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id "${{ secrets.FILEBASE_ACCESS_KEY }}"
-          aws configure set aws_secret_access_key "${{ secrets.FILEBASE_SECRET_KEY }}"
-          aws configure set default.region us-east-1
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -57,21 +64,14 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
 
-      - name: Rename dist folder
+      - name: Install action dependencies
         run: |
-          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
-          mv dist "${TIMESTAMP}_${GITHUB_SHA}"
-          echo "APP_BUILD_NAME=${TIMESTAMP}_${GITHUB_SHA}" >> "$GITHUB_ENV"
+          cd .github/actions/deploy-ipfs
+          npm install
 
-      - name: Create IPFS .car
-        run: |
-          npm i -g ipfs-car@1.2.0
-          ipfs-car pack ${APP_BUILD_NAME} --output ${APP_BUILD_NAME}.car
-          ipfs-car ls ${APP_BUILD_NAME}.car
-
-      - name: Upload to IPFS
-        env:
-          FILEBASE_ACCESS_KEY: "${{ secrets.FILEBASE_ACCESS_KEY }}"
-          FILEBASE_SECRET_KEY: "${{ secrets.FILEBASE_SECRET_KEY }}"
-        run: |
-          aws --endpoint https://s3.filebase.com/ s3 cp ${APP_BUILD_NAME}.car s3://seamless-interface/prod/${APP_BUILD_NAME} --debug --metadata 'import=car'
+      - name: Deploy to IPFS
+        uses: ./.github/actions/deploy-ipfs
+        with:
+          pinata-jwt: ${{ secrets.PINATA_JWT }}
+          source-dir: './dist'
+          pin-name: ${{ inputs.pin-name || format('Seamless Interface - {0} - {1}', inputs.branch, github.sha) }}
