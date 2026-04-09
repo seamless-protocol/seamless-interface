@@ -49,6 +49,27 @@ export const StakingDetails: React.FC = () => {
 
         {/* QUESTION 3 */}
         <LocalCollapseArrow>
+          <LocalCollapseTitle>How can I claim staking rewards?</LocalCollapseTitle>
+          <div className="collapse-content">
+            <div>
+              <Typography type="regular3">
+                When you earn staking rewards, they will appear as smUSDC, smWETH, or smcbBTC. You can claim them
+                directly from the Staking tab.
+                <br />
+                <br />
+                After claiming, go to the Dashboard tab, where you'll see these rewards as active positions in their
+                respective Seamless Vaults (e.g., smUSDC = Seamless USDC Vault). From the Dashboard, you can withdraw
+                any portion of your rewards at any time.
+                <br />
+                <br />
+                Note: Rewards continue to earn yield until you withdraw them.
+              </Typography>
+            </div>
+          </div>
+        </LocalCollapseArrow>
+
+        {/* QUESTION 4 */}
+        <LocalCollapseArrow>
           <LocalCollapseTitle>How often can I claim staking rewards?</LocalCollapseTitle>
           <div className="collapse-content">
             <div>
@@ -60,7 +81,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 4 */}
+        {/* QUESTION 5 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>How do I unstake SEAM?</LocalCollapseTitle>
           <div className="collapse-content">
@@ -77,7 +98,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 5 */}
+        {/* QUESTION 6 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>What happens after the 7-day cooldown expires?</LocalCollapseTitle>
           <div className="collapse-content">
@@ -92,7 +113,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 6 */}
+        {/* QUESTION 7 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>
             Do I continue to earn staking rewards during the unstake cooldown period?
@@ -104,7 +125,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 7 */}
+        {/* QUESTION 8 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>Why is there a cooldown period and unstaking windows?</LocalCollapseTitle>
           <div className="collapse-content">
@@ -119,7 +140,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 8 */}
+        {/* QUESTION 9 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>What does it mean to be “slashed”?</LocalCollapseTitle>
           <div className="collapse-content">
@@ -135,7 +156,7 @@ export const StakingDetails: React.FC = () => {
           </div>
         </LocalCollapseArrow>
 
-        {/* QUESTION 9 */}
+        {/* QUESTION 10 */}
         <LocalCollapseArrow>
           <LocalCollapseTitle>Where can I learn more?</LocalCollapseTitle>
           <div className="collapse-content">
